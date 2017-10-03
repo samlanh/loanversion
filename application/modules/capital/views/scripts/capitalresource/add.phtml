@@ -1,0 +1,396 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$frm = $this->frm;
+?>
+<style>	
+.fullside {
+	width: 100%;
+	height: 30px;
+}
+.td{width:128px !important;} 
+.tds{width:114px !important;}
+</style>
+<form id='frm_add' action="<?php echo $this->url(array('module'=>'capital','controller'=>'capitalresource','action'=>'add')); ?>" 
+				dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				branch_id = dijit.byId('brance').get('value');
+				if(branch_id==0){alert("សូមជ្រើសរើសសាខា");dijit.byId('brance').focus();return false;}
+				return true;
+			}else {
+				return false;
+			}
+</script>
+<table cellspacing="10" class='fullside'>
+	<tr>
+		<td>
+				<fieldset>
+					<legend><strong>Form Add Capital</strong></legend>
+					<table cellspacing="10"  width="100%">
+						<tr><td colspan="8" bgcolor="#dbe7ff">ដើមទុនក្នុងដៃ</td></tr>
+						<tr>
+							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $frm->getElement('brance')?></td>
+							<td class="tds">ប្រាក់ដុល្លា បច្ចុប្បន្ន</td>
+							<td><?php echo $frm->getElement('dollar_current')?></td>
+							<td class="tds">ប្រាក់រៀល បច្ចុប្បន្ន</td>
+							<td><?php echo $frm->getElement('reil_current')?></td>
+							<td class="tds">ប្រាក់បាត បច្ចុប្បន្ន</td>	
+							<td><?php echo $frm->getElement('bath_current')?></td>
+						</tr>
+						<tr>
+							<td>Date</td>	
+							<td><?php echo $frm->getElement('date')?></td>
+							<td>ប្រាក់ដុល្លា បន្ថែម</td>
+							<td><?php echo $frm->getElement('usa')?></td>
+							<td>ប្រាក់រៀល បន្ថែម</td>
+							<td><?php echo $frm->getElement('reil')?></td>
+							<td>ប្រាក់បាត បន្ថែម</td>	
+							<td><?php echo $frm->getElement('bath')?></td>
+						</tr>
+						<tr><td colspan="8" bgcolor="#dbe7ff">ដើមទុនក្នុងធនាគា</td></tr>
+						<tr>
+							<td><?php echo $tr->translate("Stutas")?></td>
+							<td><?php echo $frm->getElement('status')?></td>
+							<td>ប្រាក់ដុល្លា បច្ចុប្បន្ន</td>
+							<td><?php echo $frm->getElement('dollarbank_current')?></td>
+							<td>ប្រាក់រៀល បច្ចុប្បន្ន</td>
+							<td><?php echo $frm->getElement('reilbank_current')?></td>
+							<td>ប្រាក់បាត បច្ចុប្បន្ន</td>	
+							<td><?php echo $frm->getElement('bathbank_current')?></td>
+						</tr>
+						
+						<tr>
+							<td><?php //echo $tr->translate("Stutas")?></td>
+							<td><?php //echo $frm->getElement('status')?></td>
+							<td>ប្រាក់ដុល្លា បន្ថែម</td>
+							<td><?php echo $frm->getElement('usabank')?></td>
+							<td>ប្រាក់រៀល បន្ថែម</td>
+							<td><?php echo $frm->getElement('reilbank')?></td>
+							<td>ប្រាក់បាត បន្ថែម</td>	
+							<td><?php echo $frm->getElement('bathbank')?></td>
+						</tr>
+						<tr>
+						<td colspan="2"></td>
+						<td>សម្គាល់</td>
+						<td colspan="5"><?php echo $frm->getElement('note');?></td>
+						</tr>
+					</table>
+				</fieldset>
+		</td>
+	</tr>		
+	<tr>
+		<td align="center">
+			<input type="submit" value="បោះបង់" label="បោះបង់" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
+			<input type="submit" value="បិទ" label="រក្សាទុកបិទ" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" value="រក្សាទុកថ្មី" label="រក្សាទុកថ្មី" name="save" id="save" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+		</td>
+	</tr>	
+	<tr>
+		<td>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			<?php $r1=0; $r2=0;$d1=0;$d2=0;$b1=0;$b2=0;
+				$disburse_dollar = 0;$disburse_reil = 0;$disburse_bath = 0;
+				$saving_amountr = 0;$saving_amountd = 0;$saving_amountb = 0;
+            ?>
+            <?php if(!empty($this->LoanFee_list)){?>
+                <?php if(!empty($this->LoanFee_list)) foreach ($this->LoanFee_list as $key => $row){ ?>
+                <?php 
+                if($row['curr_type']==1){
+		               		$r1 = $r1+$row['admin_fee'];
+		               		$r2 = $r2+$row['other_fee'];
+		               		$disburse_reil=$disburse_reil+$row['total_capital'];
+		               }elseif($row['curr_type']==2){
+							$d1 = $d1+$row['admin_fee'];
+							$d2 = $d2+$row['other_fee'];
+							$disburse_dollar=$disburse_dollar+$row['total_capital'];
+		               }else{
+		               		$b1 = $b1+$row['admin_fee'];
+							$b2 = $b2+$row['other_fee'];
+							$disburse_bath=$disburse_bath+$row['total_capital'];
+		               }
+		         ?>
+               
+                <?php }?>
+           
+            <?php }?>
+           
+                <?php $amt_r1 = 0; $amn_r2 = 0; $amn_r3 = 0;$amt_r4 = 0;$amn_r5 = 0;
+                	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;
+                	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;
+                	 $i=1;$oldloan_number='';
+                	 $total_d=0;$total_b=0;$total_r=0;
+                ?>
+                <?php $is_set =0; if(!empty($this->loantotalcollect_list)) foreach ($this->loantotalcollect_list as $index => $rs){ ?>
+                
+               <?php 
+               $interest=0;
+               	if($rs["payment_option"]==4){
+						$principle= $rs["principle_amount"];
+						$total_pay = $rs["payment"];
+						$interest= $rs["interest"];
+						$recieve = $rs["amount_recieve"]-$rs["return_amount"];
+						$penelize = $rs["penelize"];
+						$service_charge =$rs["service"];
+						$is_set=1;
+// 					}
+				}else{
+					if($rs["payment_option"]==1){
+						$pay = $rs["amount_recieve"]-$rs["return_amount"];
+						$recieve = $pay;
+					}else{
+						
+						$pay = $rs["amount_recieve"]-$rs["return_amount"];
+						$recieve = $pay-$rs["penalize_amount"]+$rs["penelize"];
+					}
+						$is_set=0;
+	               		$service_charge = $rs["service_charge"];
+	               		$interest = $rs["total_interest"];
+	               		$principle = $rs["total_principal_permonth"];
+	               		$penelize = $rs["penelize"];
+	               		$total_pay = $rs["total_payment"];
+               		}
+					if($recieve<=$rs['saving_amount']){
+						$recieve = $recieve-$rs['saving_amount'];
+					}
+               		$oldloan_number = $rs['loan_number'];
+               		$new_service = $recieve-$service_charge;
+               		if($new_service>=0){
+						$service = $service_charge;
+						$new_penelize = $new_service - $penelize;
+						if($new_penelize>=0){
+							$penelize_amount =  $penelize;
+							$new_interest = $new_penelize - $interest;
+							if($new_interest>=0){
+								$interest_amount = $interest;
+								
+								$new_printciple = $new_interest - $principle;
+								if($new_printciple>=0){
+									$principle_amount = $principle;
+								}else{
+									$principle_amount = abs($new_interest);
+								}
+							}else{
+								$interest_amount = abs($new_penelize);
+								$principle_amount=0;
+							}
+						}else{
+							$penelize_amount = abs($new_service);
+							$interest =0;
+							$principle_amount=0;
+						}
+					}else{
+						$service = abs($recieve);
+						$penelize_amount = 0;
+						$interest =0;
+						$principle_amount=0;
+					}
+               ?>
+               <?php 
+		               if($rs['currency_type']==1){
+		               		$amt_r1 = $amt_r1+$principle_amount;
+		               		$amn_r2 = $amn_r2+$interest_amount;
+		               		$amn_r3 = $amn_r3+$penelize_amount;
+		               		$amn_r5 = $amn_r5+$service;
+		               		$total_r=$amt_r1+$amn_r2+$amn_r3+$amn_r5;
+		               		$saving_amountr=$saving_amountr+$rs['saving_amount'];
+		               }elseif($rs['currency_type']==2){
+							$amt_d1 = $amt_d1+$principle_amount;
+							$amt_d2 = $amt_d2+$interest_amount;
+							$amt_d3 = $amt_d3+$penelize_amount;
+							$amt_d5 = $amt_d5+$service;
+							$total_d=$amt_d1+$amt_d2+$amt_d3+$amt_d5;
+							$saving_amountd=$saving_amountd+$rs['saving_amount'];
+		               }else{
+		               		$amn_b1 = $amn_b1+$principle_amount;
+							$amn_b2 = $amn_b2+$interest_amount;
+							$amn_b3 = $amn_b3+$penelize_amount;
+							$amn_b5 = $amn_b5+$service;
+							$total_b=$amn_b1+$amn_b2+$amn_b3+$amn_b5;
+							$saving_amountb=$saving_amountb+$rs['saving_amount'];
+		               }
+               ?>
+              
+                <?php }?>
+
+            
+                <?php $amt_d = 0;$amt_b3 = 0;
+                $total_rr=0;$total_dd=0;$total_bb=0;
+                ?>
+                <?php if(!empty($this->rsincome)) foreach ($this->rsincome as $key => $rs){ ?>
+                <?php 
+	                if($rs['curr_type']==1){
+	                	$total_rr = $total_rr+$rs["total_amount"];
+	                }elseif($rs['curr_type']==2){
+	                	$total_dd = $total_dd+$rs["total_amount"];
+	                }else{
+	                	$total_bb = $total_bb+$rs["total_amount"];
+	                }
+               ?>
+               
+                <?php }?>
+           
+                <?php $amt_r = 0;$amt_d = 0;$amt_b3 = 0;
+                ?>
+                <?php if(!empty($this->rsexpense)) foreach ($this->rsexpense as $key => $rs){ ?>
+                <?php 
+	                if($rs['curr_type']==1){
+	                	$amt_r = $amt_r+$rs["total_amount"];
+	                }elseif($rs['curr_type']==2){
+	                	$amt_d = $amt_d+$rs["total_amount"];
+	                }else{
+	                	$amt_b3 = $amt_b3+$rs["total_amount"];
+	                }
+               ?>
+               
+                <?php }?>
+   
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+				  <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
+                 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
+                    <td rowspan="2"><?php echo $tr->translate("CURRENT_TYPE");?></td>
+                    <?php 
+                        $colspan=3;$level=1;
+	                    if($level==1){$colspan=4;}?>
+                    <td colspan="<?php echo $colspan;?>"><?php echo $tr->translate("ចំណូលពីការប្រមូលសរុប");?></td>
+                    <th colspan="2"><?php echo $tr->translate("INCOME_FROMLOAN_DISBURSE");?></th>
+                    <td rowspan="2"><?php echo $tr->translate("ចំណូល-ចំណាយ");?></td>
+                    <td rowspan="2"><?php echo $tr->translate("TOTAL");?></td>
+                </tr>
+                 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
+                    <td><?php echo $tr->translate("ប្រាក់ដើម");?></td>
+                    <?php if($level==1){?>
+                    <td><?php echo $tr->translate("ប្រាក់ការសរុប");?></td>
+                    <?php }?>
+                    <td><?php echo $tr->translate("ប្រាក់ពិន័យសរុប");?></td>
+                    <td align="center"><?php echo $tr->translate("ប្រាក់សន្សំ");?></td>	
+                    <th><?php echo $tr->translate("AMIN_FEE");?></th>
+                    <th><?php echo $tr->translate("OTHER_FEE");?></th>
+                </tr>
+                 <tr class="style" style=" line-height: 24px; font-size:9px; font-family: 'Khmer OS Content';">
+                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1,2);?>&nbsp;</td>
+                    <?php if($level==1){?>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
+                    <?php }?>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($saving_amountd,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($d1,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($d2,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($total_dd-$amt_d,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($saving_amountd+$d1+$d2+$total_d+$total_dd-$amt_d-$disburse_dollar,2);?>&nbsp;</td>
+                </tr>
+                 <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
+                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r1,2);?>&nbsp;</td>
+                    <?php if($level==1){?>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amn_r2,2);?>&nbsp;</td>
+                    <?php }?>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amn_r3,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($saving_amountr,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($r1,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($r2,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($total_rr-$amt_r,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($saving_amountr+$r1+$r2+$total_r+$total_rr-$amt_r-$disburse_reil,2);?>&nbsp;</td>
+                </tr>
+                 <tr class="style" style="line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
+                   <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b1,2);?>&nbsp;</td>
+                   <?php if($level==1){?>
+                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
+                   <?php }?>
+                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($saving_amountb,2);?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($b1,2);?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($b2,2);?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($total_bb-$amt_b3,2);?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($saving_amountb+$b1+$b2+$total_b+$total_bb-$amt_b3-$disburse_bath,2);?>&nbsp;</td>
+                </tr>
+              </table>
+		</td>
+	</tr>
+</table>
+</form>
+<script type="text/javascript">
+dojo.require("dijit.form.Textarea");
+dojo.require("dijit.form.NumberTextBox");
+dojo.require("dijit.form.DateTextBox");
+
+dojo.ready(function(){
+	dijit.byId('dollar_current').set('readOnly',true);
+	dijit.byId('bath_current').set('readOnly',true);
+	dijit.byId('reil_current').set('readOnly',true);
+});
+
+var getAmount ='<?php echo $this->url(array('module'=>'capital','controller'=>'capitaltransfer','action'=>'getamountbybranceid'));?>'; 
+function getAmounts(){
+	var brance_id = dijit.byId('brance').get('value');
+	dojo.xhrPost({
+	    url: getAmount,	
+	    content : { 
+		    'brance_id':dijit.byId('brance').get('value'),
+		},	
+		handleAs:"json",
+		load: function(respone) {
+			for(i=0;i<respone.length;i++){
+				if(respone[i].account_id==1){
+					dijit.byId('dollar_current').attr('value',respone[i].amount_dollar);
+					dijit.byId('bath_current').attr('value',respone[i].amount_bath);
+					dijit.byId('reil_current').attr('value',respone[i].amount_riel);
+				}else{
+					dijit.byId('dollarbank_current').attr('value',respone[i].amount_dollar);
+					dijit.byId('bathbank_current').attr('value',respone[i].amount_bath);
+					dijit.byId('reilbank_current').attr('value',respone[i].amount_riel);
+					}
+		   }
+		},
+		error: function(err) {
+			alert(err);
+		alert("Your message could not be sent, please try again!.");	        
+		}
+	});
+}
+
+function statusCheck(){
+	var status = dijit.byId('status').get('value');
+	if(status == -1){
+		alert("សូមមេត្តាជ្រើសរើសស្ថានភាពយ៉ាងហោចមួយ!!");
+	}
+}
+
+</script>

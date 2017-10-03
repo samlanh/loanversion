@@ -1,0 +1,134 @@
+<?php
+	$this->headTitle('Loan Management System | Sale Card'); 
+	echo $this->headTitle();
+	$base_url = Application_Form_FrmMessage::getUrl("/");
+?>	
+<script src="<?php echo $base_url;?>js/help.js"  type="text/javascript"></script>
+<script type="text/javascript">
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require('dijit.form.FilteringSelect');	
+	dojo.require('dijit.form.NumberTextBox');
+	dojo.require('dojox.form.BusyButton');
+	dojo.ready(function(){		
+		var txtamount = dojo.byId("amount");
+			dojo.connect(txtamount, "onkeyup", function(evt){
+			tt=0;
+			gv=0;
+			amount = dijit.byId('amount').get('value');
+			type_money = dijit.byId('type_money').get('value');
+			//dollar
+			commission = amount*0.04;
+			 dijit.byId('commission').attr('value',commission);
+	    });	
+	});   
+</script>
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'salecard','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				if(dijit.byId('total').get('value') < 0 || dijit.byId('total').get('commission') ){
+					alert('សូម​ពិនិត្រ ទឹកប្រាក់​​ដែល​​ទទួល​បាន​ម្តង ​ទៀត..');
+					dijit.byId('recieve_money').focus();
+					return false;
+				}
+				return true;
+			} else {
+				return false;
+			}
+	</script>	 
+	<table cellspacing="20" width="100%"  >
+		<tr>
+			<td width="48%">
+				<fieldset style="height: 300px;">
+					<legend><strong>ព៌ត័មាន នៃការលក់</strong></legend>
+					<table style="margin: 0 auto; width: 90%;" cellspacing="10">
+						<tr>
+							<td>ចំណង់ជើង</td>
+							<td>
+								<input type="text" name="title" id="title" placeholder="ចំណង់ជើង" class='fullside'
+								dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->rs['title'];?>" required="true" missingMessage="អ្នក​ភ្លេច​បំពេញ​  ចំណង់ជើង" />
+							</td>
+						</tr>
+						<tr>
+							<td>សម្គាល់</td>
+							<td>
+								<input type="text" id="note"
+								 data-dojo-Type="dijit.form.TextBox"   
+								 data-dojo-props="class:'fullside',
+								 value:'<?php echo $this->rs['note'];?>',
+												 name:'note'"/>
+							  <input type="hidden" id="id"
+								 data-dojo-Type="dijit.form.TextBox"   
+								 data-dojo-props="class:'fullside',
+								 value:'<?php echo $this->rs['id'];?>',
+												 name:'id'"/>
+							</td>
+						</tr>
+						<tr>
+							<td>កាល​បរិច្ឆេទលក់</td>							
+							<td>
+								<?php									
+								    $newdate = date('Y-m-d',strtotime($this->rs['sale_date']));
+								?>
+								<input type="text" name="date" id="date" value="<?php echo $newdate ?>" 
+								dojoType="dijit.form.DateTextBox" required="true" missingMessage="អ្នក​ភ្លេច​បំពេញ​ កាល​បរិច្ឆេទ វេ!" 
+								 rangeMessage='កាល​បរិច្ឆេទ  វេ មិន​អាច​តូច​ជាង កាល​បរិច្ឆេទ ផុតកំណត់​ ' class='fullside' />
+							</td>
+						</tr>
+					</table>	
+				</fieldset>			
+			</td>
+			<td width="49%">	
+				<fieldset style="height: 300px;">
+					<legend><strong>ព៌ត័មាន ទាក់​ទង នឹង​ ទឹកប្រាក់</strong></legend>			
+					<table style="margin: 0 auto; width: 98%;" cellspacing='10'>
+					 <tr>
+							<td>ប្រភេទ​លុយ</td>
+							<td>
+								<select name="type_money" id="type_money" class='fullside' dojoType="dijit.form.FilteringSelect" missingMessage="អ្នក​ភ្លេច​បំពេញ​  ប្រភេទ​លុយ!" required="true"> 
+									<?php foreach ($this->currency as $key => $cur) : ?>
+										<option value="<?php echo $cur['id'];?>"><?php echo $cur['name'];?></option>
+									<?php endforeach;?> 
+								</select> 
+							</td>
+						</tr>									
+						<tr>
+							<td>ចំនួន​ទឹក​ប្រាក់លក់បាន</td>
+							<td>
+								<input type="text" name="amount" id="amount"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="required:true,																		
+									name:'amount',
+									value:'<?php echo $this->rs['amount_sale'];?>',
+									class:'fullside',
+									constraints:{pattern:'#,###.##'},
+									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
+									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
+							</td>
+						</tr>
+						<tr>
+							<td valign="top">កម្រៃសេវាជាទទួលបាន</td>
+							<td>
+								<input type="text" name='commission' id="commission"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="required:true,
+									name:'commission',
+									value:'<?php echo $this->rs['commission'];?>',
+									class:'fullside',
+									constraints:{pattern:'#,###.###'},
+									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ថ្លៃសេវា!',
+									invalidMessage:'ថ្លៃសេវា​ មិន​ត្រឹម​ត្រូវ!'">								
+							</td>
+						</tr>
+					</table>	
+				</fieldset>		
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<input type="submit" value="រក្សាទុក" label="រក្សាទុក និង បិទ" name='saveclose' id="submitButton" dojoType="dijit.form.Button" 
+				 iconClass="dijitEditorIcon dijitEditorIconSave" />
+				 <input type="submit" value="រក្សាទុក" label="រក្សាទុក និងបន្ថែមថ្មី" name='savenew' dojoType="dijit.form.Button" 
+				 iconClass="dijitEditorIcon dijitEditorIconSave" />
+			</td>
+		</tr>
+	</table>
+</form>

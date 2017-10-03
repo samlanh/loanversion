@@ -1,0 +1,97 @@
+<?php
+    $tr = Application_Form_FrmLanguages::getCurrentlanguage();	
+    echo $this->headTitle($tr->translate('TRANSFER_CLIENT_CO')); 
+	$frm = $this->frm_transfer;
+	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+?>
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'transfercoclient','action'=>'edit')); ?>" 
+				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+   if(this.validate()) {
+    if(dijit.byId('branch_name').get('value')==''){
+     alert('Please Select Branch');
+     dijit.byId('branch_name').focus();
+     return false;
+   	}
+    if(dijit.byId('name_client').get('value')==''){
+     alert('Please Select Client');
+     dijit.byId('name_client').focus();
+     return false;
+   	}
+	if(dijit.byId('co_code').get('value')==''){
+     alert('Please Select to CO ');
+     dijit.byId('co_code').focus();
+     return false;
+   	}
+    return true;
+   }else {
+    return false;
+   }
+</script>
+<script>
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.NumberTextBox");
+</script>
+<table cellspacing="10" class='fullside'>
+	<tr>
+		<td>
+				<fieldset>
+					<legend><strong><?php echo $tr->translate('TRANSFER_CLIENT_CO');?></strong></legend>
+					<table cellspacing="10">
+						<tr>	
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+							<td><?php  echo $frm->getElement('branch_name');?> </td>
+							<td><?php echo $tr->translate("DATE")?></td>
+							<td><?php  echo $frm->getElement('Date');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+							<td><?php  echo $frm->getElement('member');?></td>
+							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+							<td><?php  echo $frm->getElement('customer_code');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("TO_CO")?></td>
+							<td><?php  echo $frm->getElement('name_co');?></td>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php  echo $frm->getElement('status');?></td>
+						</tr>						
+					    <tr>  
+					      
+							<td><?php echo $tr->translate("NOTE")?></td>
+							<td><?php  echo $frm->getElement('Note');?></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+				</fieldset>
+		   </td>
+		</tr>
+		<tr>
+		<td align="center">
+			<input type="submit" value="រក្សាទុក" name="btn_save" label="<?php echo $tr->translate('GO_EDIT');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
+		</td>
+	</tr>	
+</table>
+</form>
+<script type="text/javascript">
+dojo.require("dijit.form.Textarea");
+	function getClientInfo(type){
+		if(type==1){						
+			id = dijit.byId("member").get('value');
+			dijit.byId("customer_code").attr('value',id);
+		}else if(type==2){
+			id = dijit.byId("customer_code").get('value');
+			dijit.byId("member").attr('value',id);
+		}
+		else if(type==3){		
+			to = dijit.byId("name_client").get('value');		
+			dijit.byId("code_client").attr('value',to);
+			dijit.byId("name_client").attr('value',to);
+		}else if(type==4){
+			to = dijit.byId("code_client").get('value');
+			dijit.byId("code_client").attr('value',to);
+			dijit.byId("name_client").attr('value',to);
+		}
+	}
+</script>

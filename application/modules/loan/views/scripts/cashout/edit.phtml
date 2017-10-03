@@ -1,0 +1,242 @@
+<?php
+	$this->headTitle('Add Customer Receipt No'); 
+	echo $this->headTitle();
+	$frm = $this->frm_ilpayment;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	$base_url = Application_Form_FrmMessage::getUrl("/");
+?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
+   <script>
+		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox"]);
+	    dojo.require("dojo.data.ItemFileWriteStore"); 
+		dojo.require("dojo.data.ObjectStore");
+   </script>
+<style>	
+	.dojoxGridSortNode{
+		text-align: center;	
+		height: 30px;		
+	}
+</style>
+<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'loan','controller'=>'cashout','action'=>'add')); ?>" 
+				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">
+			if(this.validate()) {
+			client = dijit.byId('client_id').get('value');
+           	branch_id = dijit.byId('branch_id').get('value');
+		    if (branch_id=='' || branch_id==-1){
+		  	   alert('Please Select Branch Name!');
+			   dijit.byId('branch_id').focus();
+			   return false;
+		    }
+	       receipt_no = dijit.byId('receipt_no').get('value');
+		    if (receipt_no=='' || receipt_no==-1){
+		  	   alert('Receipt Required !');
+			   dijit.byId('receipt_no').focus();
+			   return false;
+		    }
+		}else {
+			return false;
+		}
+</script>
+
+<div class="overlay">
+	<div class="overlay-load">
+		<div class="overlay-msg">
+	    </div>
+	</div>
+</div>	
+<style>
+.center tr{text-align:left;}
+</style>
+<table width="100%" >
+	<tr>
+		<td>
+				<fieldset style="margin-top:-10px">
+					<legend><strong>ព៌ត័មាន បញ្ចូលលេខបង្កាន់បង់ប្រាក់របស់អតិថិជន</strong></legend>
+					<table class="center" cellspacing="10" >
+						<tr>
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+							<td><?php echo $frm->getElement('branch_id');?></td>
+							<td><?php echo $tr->translate("LOAN_NO")?></td>
+							<td><?php //echo $frm->getElement('loan_number');?><input id="loan_number" /> </td>
+							<td><?php echo $tr->translate("LOAN_DATE")?></td>
+							<td><?php echo $frm->getElement('release_date');echo $frm->getElement('old_release_date');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+							<td><?php //echo $frm->getElement('client_code');?><input id="client_id"></td>
+							<td><?php echo $tr->translate("CLIENT_NUM")?></td>
+							<td><?php //echo $frm->getElement('client_code');?> <input id="client_code"></td>
+							<td><?php echo $tr->translate("CO")?></td>
+							<td><?php echo $frm->getElement('co_id');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
+							<td><?php echo $frm->getElement('total_amount_loan');?></td>
+							<td><?php echo $tr->translate("INTEREST_RATE")?></td>
+							<td><?php  echo $frm->getElement('interest_rate');?></td>
+							<td><?php echo $tr->translate("Receipt No.")?></td>
+							<td><input type="text" name="receipt_no"  id="receipt_no" value="" dojoType="dijit.form.ValidationTextBox" required="true" class="fullside" /></td>
+						</tr>
+					</table>
+				</fieldset>
+		   </td>
+		</tr>
+		<tr>
+			<td align="center">
+			  <input type="submit" value="រក្សាទុក & បិទ" label="<?php echo $tr->translate('SAVECLOSE');?>" id="submit_close" name="submit_close" dojoType="dijit.form.Button"
+			   iconClass="dijitEditorIcon dijitEditorIconSave" />
+			    <input type="submit" value="រក្សាទុក" label="<?php echo $tr->translate('SAVENEW');?>" id="submitButton" dojoType="dijit.form.Button"
+			   iconClass="dijitEditorIcon dijitEditorIconSave" />
+			</td>
+		</tr>
+</table>
+</form>
+<?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
+<script type="text/javascript">
+dojo.ready(function(){	
+		var loan_data = new dojo.store.Memory({
+		    data: <?php print_r(Zend_Json::encode($this->loan_number));?>
+		});
+		new dijit.form.FilteringSelect({
+			store: dojo.data.ObjectStore({objectStore: loan_data}),
+			autoComplete: true,
+			query: {
+				branch_id: "<?php echo $this->ilPaymentById["branch_id"];?>"
+			},            
+			required: false,	
+			value:"<?php echo $this->ilPaymentById["branch_id"];?>",	           
+			name: "loan_number",
+			id: "loan_number",
+			searchAttr: "name",
+			class: 'fullside',
+			onChange: function() {
+				getLaonPayment(1);
+			}
+		}, "loan_number");
+		//dijit.byId("branch_id").attr('value',1);
+		dijit.byId("branch_id").attr('value',<?php echo $this->ilPaymentById["branch_id"];?>);
+		
+		
+	var client_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->client));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: client_data}),
+	autoComplete: true,
+	query: {
+		branch_id: "<?php echo $this->ilPaymentById["branch_id"];?>"
+	},            
+	required: false,		           
+	name: "client_id",
+	id: "client_id",
+	searchAttr: "name",
+	class: 'fullside',
+	onChange: function() {
+		if(not_submit==0){
+	   }
+}
+	}, "client_id");
+
+	var clientCode_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->clientCode));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: clientCode_data}),
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: false,		           
+	name: "client_code",
+	id: "client_code",
+	searchAttr: "name",
+	class: 'fullside',
+	onChange: function() {
+		if(not_submit==0){
+		}
+	}
+	}, "client_code");
+
+    not_submit = 0;
+	document = dojo.byId("loan_number");
+	dojo.connect(document, "onkeyup", function(event) {
+		key_number = (event.keyCode);
+		if(key_number==13){
+			not_submit = 1;
+			getLaonPayment(1);
+		}
+	});	
+});
+
+function filterLoanNumber(){
+	 dijit.byId('loan_number').query.branch_id = dijit.byId('branch_id').get('value');
+	 
+}
+is_change=0;
+function filterClient(){
+	
+	branch_id = dijit.byId('branch_id').get('value');
+	dijit.byId('client_id').query.branch_id = branch_id;
+	dijit.byId('client_code').query.branch_id = branch_id;
+	if(is_change==0){
+		dijit.byId('client_id').reset();
+		dijit.byId('client_code').reset();
+	}
+	
+}
+    var tran_store  = getDataStorefromJSON('','name',null);
+	var tran_status = {};
+</script>
+<script type="text/javascript">
+var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'ilpayment','action'=>'get-il-loan-Detail')); ?>';
+function getLaonPayment(type){
+	try{
+	tem='';	is_set=0;
+	if(type==1){
+		var loan_number = dijit.byId('loan_number').get('value');
+	}else if(type==2){
+		var loan_number = dijit.byId('client_code').get('value');
+	}else if(type==3){
+		var loan_number = dijit.byId('client_id').get('value');
+	}
+		dojo.xhrPost({
+		    url: url_submit,
+		    content : { 
+			    'loan_number':loan_number,
+			    'type':type,
+			},	
+			handleAs:"json",
+			load: function(respone) {
+				if(respone!=""){
+					num=0;
+					for(i=0;i<respone.length;i++){
+						inx = i+1;
+						num++;
+						if(i==0){
+							dijit.byId('old_release_date').attr('value',respone[i].release_date);
+							client_id= respone[i].co_id;
+							dijit.byId('client_id').attr('value',client_id);
+							dijit.byId('client_id').set('readOnly',true);
+							dijit.byId('client_code').attr('value',client_id);
+							dijit.byId('client_code').set('readOnly',true);
+							dijit.byId('co_id').attr('value',respone[i].co_id);
+							dijit.byId('co_id').set('readOnly',true);
+							dijit.byId('total_amount_loan').attr('value',respone[i].total_capital);
+							dijit.byId('total_amount_loan').set('readOnly',true);
+							dijit.byId('interest_rate').attr('value',respone[i].interest_rate);
+							dijit.byId('interest_rate').set('readOnly',true);
+						}
+				}
+			  }
+			},
+			error: function(e) {
+				alert(e);
+			}
+		});
+	}catch(err){
+		alert(err);
+	}	
+}
+</script>

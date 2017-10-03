@@ -1,0 +1,964 @@
+<?php
+    $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('INFO_LOANGROUP')); 
+	echo $this->headTitle();
+	$frm = $this->frm_loan;
+	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
+   <script>
+		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog"]);
+		dojo.require("dojo.data.ItemFileWriteStore"); 
+		dojo.require("dojo.NodeList-manipulate");
+		dojo.require("dojo.html");
+   </script>
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'groupdisburse','action'=>'add')); ?>" 
+				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+			zone = dijit.byId('zone').get('value');
+			co_id = dijit.byId('co_id').get('value');
+			client = dijit.byId('group_code').get('value');
+			record_row = dijit.byId('record_row').get('value');
+
+			if (client=='' || client==-1){
+				alert('Please Select Client Name !');
+				dijit.byId('group_code').focus();
+				return false;
+			}else if(co_id=='' || co_id==-1){
+				alert('Please Select CO Name !');
+				dijit.byId('co_id').focus();
+				return false;
+			}else if(zone=='' || zone==-1){
+				alert('Please Select Zone !');
+				dijit.byId('zone').focus();
+				return false;
+			}else if(record_row==''){
+				alert('Group Disburse Must Have Record !');
+				return false;
+			}
+			rs = checkValidateDate();
+			if(rs==false){
+              return false;			
+            }
+				return true;
+			}else {
+				return false;
+			}
+</script>
+<div class="overlay">
+	<div class="overlay-load">
+		<div class="overlay-msg">
+	    </div>
+	</div>
+</div>				                
+<table width="100%"  style="margin-top:-10px;">
+	<tr>
+		<td>
+				<fieldset>
+					<legend><strong><?php echo $tr->translate("INFO_LOANGROUP")?></strong></legend>
+					<table cellspacing="10"  width="100%" style="margin-top: -10px;">
+						<tr>
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+							<td><?php echo $frm->getElement('branch_id');?></td>
+							<td><?php echo $tr->translate('LOAN_NO')?></td>
+							<td><?php echo $frm->getElement('loan_codes');?></td>
+							<td><?php echo $tr->translate("GROUP_CODE")?></td>
+							<td><?php echo $frm->getElement('group_code');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("GROUP_NAME")?></td>
+							<td><?php echo $frm->getElement('group_id');?></td>
+							<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
+							<td><?php echo $frm->getElement('level');?></td>
+							<td><?php echo $tr->translate("CO_NAME")?></td>
+							<td><?php echo $frm->getElement('co_id');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("ZONE_NAME")?></td>
+							<td><?php  echo $frm->getElement('zone');?></td>
+							<td><?php echo $tr->translate("LOAN_TYPE")?></td>
+							<td><?php echo $frm->getElement('loan_type');?></td>
+							<td><?php echo $tr->translate("OTHER_FEE")?></td>
+							<td><?php echo $frm->getElement('other_fee');?></td>
+						</tr>
+						<tr>
+							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
+							<td><?php echo $frm->getElement('total_amount');?></td>
+						    <td><?php echo $tr->translate("CURRENCY")?></td>
+							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
+							<td><?php echo $tr->translate("AMIN_FEE")?></td>
+							<td><?php echo $frm->getElement('loan_fee');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("INTEREST_RATE")?></td>
+							<td><?php echo $frm->getElement('interest_rate');?></td>
+							<td><?php echo $tr->translate("TERM_INSTALL")?></td>
+							<td><?php echo $frm->getElement('pay_every');?></td>
+							<td><?php echo $tr->translate("TERM_BORROW")?></td>
+							<td><?php echo $frm->getElement('period');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
+							<td><?php echo $frm->getElement('release_date');?></td>
+							<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
+							<td><?php echo $frm->getElement('first_payment');?></td>
+							<td><?php echo $tr->translate("LIFE_LOAN")?></td>
+							<td><?php echo $frm->getElement('date_line');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
+							<td><?php echo $frm->getElement('repayment_method');?></td>
+							<td><label style="font-size:10px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label >(<label style="font-size:10px;" id="graice_type"></label>)</td>
+							<td><?php echo $frm->getElement('graice_pariod');?></td>
+							<td><label id="lbl_payment"><?php echo $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?></label></td>
+							<td><?php echo $frm->getElement('amount_collect_pricipal');?></td>
+						</tr>
+						<tr>
+							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("INFO_FUND")?></strong></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("TIME_COLLECION")?></td>
+							<td><?php echo $frm->getElement('time');?></td>
+							<td><?php echo $tr->translate("TERM_FUND")?></td>
+							<td><?php echo $frm->getElement('collect_termtype');?></td>
+							<td><?php echo $tr->translate("AMOUNT_TERM_FUND")?></td>
+							<td><?php echo $frm->getElement('amount_collect');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("HOLIDAY_STATUS")?></td>
+							<td><?php  echo $frm->getElement('every_payamount');?></td>
+							<td><?php echo $tr->translate("PENAL_AMOUNT")?></td>
+							<td><?php echo $frm->getElement('pay_late');?></td>
+							<td><?php //echo $tr->translate("FUND_BEFORDATE")?></td>
+							<td><?php //echo $frm->getElement('pay_before');?></td>
+						</tr>
+					</table>
+				</fieldset>
+		</td>
+	</tr>		
+	<tr>
+		<td align="center">
+				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
+				<div id="group_disbuse"></div>
+		</td>
+	<tr>
+		<td align="center">
+			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
+				 iconClass="dijitIconClear"/>
+			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE")?>" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
+				 />
+			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+				 iconClass="dijitIconNewTask"/>
+			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+				 iconClass="dijitIconNewTask"/>
+		</td>
+	</tr>	
+</table>
+</form>
+<div class="dijitHidden">
+<style>
+.print tr td{
+	padding:5px 2px; 
+}
+</style>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'កាលវិភាគត្រូវបង់ប្រាក់', onCancel:hideDialog" id="preview_rpt" style="width:1000px">
+	<div id="rpt_print" class="print">
+	<div id="t_previewrpt" name="t_previewrpt"></div>
+	</div>
+</div>
+</div>
+<?php 
+	echo $this->frmPopupZone;
+	echo $this->frmpupoploantype;
+?>
+<script type="text/javascript">
+	var client_store  = getDataStorefromJSON('id','name', [] );
+	require(["dojo/ready"], function(ready){
+		 ready(function(){	
+			setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
+			changeCollectType();
+			dijit.byId('total_amount').set("readOnly",true);
+			dijit.byId('loan_fee').set("readOnly",true);
+		 });
+   });		
+		
+	function calCulateEndDate(){
+	}
+	function checkSelectOption(){
+	}
+	function filterClient(){
+		branch_id = dijit.byId('branch_id').get('value');
+		if(branch_id==''){
+			alert('Please Select Branch');
+			dijit.byId('branch_id').focus();
+			return false;
+		}else{
+			getLoanNumberByBranch(branch_id);
+			getAllGroupClientByBranch(branch_id);
+			getGroupCodeByBranch(branch_id);
+		}
+	}
+	var url_getloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloannumber')); ?>';
+	function getLoanNumberByBranch(branch_id){
+			if(branch_id==''){
+				alert('Please Select Branch');
+				dijit.byId('branch_id').focus();
+				return false;
+			}
+			dojo.xhrPost({
+				url:url_getloan,	
+				content:{ 
+				    'branch_id':branch_id,
+				    'is_group':1
+				},		    
+				handleAs:"json",
+				load: function(data) {
+					dijit.byId('loan_codes').attr('value',data);
+				},
+				error: function(err) {
+					alert(err);
+				}
+		   });
+	}
+	var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'get-groupclientbybranch')); ?>';
+	function getAllGroupClientByBranch(branch_id){
+		dojo.xhrPost({
+			url:url_getclient,	
+			content:{ 
+			    'branch_id':branch_id
+			},		    
+			handleAs:"json",
+			load: function(data) {
+				client_store  = getDataStorefromJSON('id','name', data);		
+			    dijit.byId('group_id').set('store', client_store);
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});
+	}
+	var url_getclientcode = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'get-goup-codebybranch')); ?>';
+	function getGroupCodeByBranch(branch_id){
+		dojo.xhrPost({
+			url:url_getclientcode,	
+			content:{ 
+			    'branch_id':branch_id
+			},		    
+			handleAs:"json",
+			load: function(data) {
+				client_store  = getDataStorefromJSON('id','name', data);		
+			    dijit.byId('group_code').set('store', client_store);
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});
+		
+	}
+</script>
+<script type="text/javascript">	
+function deleteRecord(index){
+	var ids =dijit.byId('record_row').value;
+	if(ids.length=='' || ids.length==null){
+		dijit.byId('record_row').attr('value','');
+		dojo.query("#row_capital"+ids).remove();
+		
+	}else{
+		var arrays = ids.split(',');
+		for(var i=0;i<arrays.length;i++) {
+			if(arrays[i] == index) arrays.splice(i,1);
+		}
+		var strings = arrays.join(',');
+		dijit.byId('record_row').attr('value',strings);
+		dojo.query("#row_capital"+index).remove();
+	}
+}
+member_option = '<?php echo $this->member_option;;?>';
+code_option = '<?php echo $this->code_option;;?>';
+temp='';
+r = 0;
+fund_title=0;
+function addAmountTypeMoney(){
+		r++;
+		temp='<td style="width:30px !important;"><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+		temp+='<td><select readonly="true" style=" width:90%;background:#fff; padding-left:5px;" id="from_type'+r+'" name="from_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+code_option+'</select></td>';
+		temp+='<td><select readonly="true" style=" width:90%; background:#fff; padding-left:5px;" id="member_id'+r+'" name="member_id'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(2,'+r+')">'+member_option+'</select></td>';
+		temp+='<td><input style=" width:90%;" type="text" required="true" onkeyup="calCulateAminFee('+r+')" name="debt_amount'+r+'" id="debt_amount'+r+'" dojoType="dijit.form.NumberTextBox"/></td>';
+		temp+='<td><input type="text" name="admin_fee'+r+'" onkeyup="sumAdminFee();" id="admin_fee'+r+'" dojoType="dijit.form.NumberTextBox" value="0"/></td>';
+		temp+='<td><input style=" width:90%;" type="text" required="true" readonly="true" value="0" onkeyup="sumFixedPayment();" name="fixed_payment'+r+'" id="fixed_payment'+r+'" dojoType="dijit.form.NumberTextBox"/></td>';
+		temp+='<td><input type="text" name="note'+r+'" id="note'+r+'" dojoType="dijit.form.TextBox" s/></td>';
+		tmp='<tr style="border:1px solid #ccc;" id="row_capital'+r+'">'
+		tmp+="</tr>";
+			dojo.query("#t_amountmoneytype").append(tmp);
+			dojo.html.set(dojo.byId("row_capital"+r),temp, {
+		    parseContent: true,
+		     
+		});
+		if(dijit.byId("record_row").get('value')!="") {
+			var ids = dijit.byId("record_row").value;
+			dijit.byId("record_row").attr('value',ids+','+r);
+		} else { dijit.byId("record_row").attr('value',r);}
+}	
+sub_title=0;
+s=0;
+function calCulateAminFee(index){
+	l_amount = dijit.byId('debt_amount'+index).get('value');
+	adminfee = l_amount*<?php echo $this->setting['adminfee']; ?>/100;
+	dijit.byId('admin_fee'+index).attr('value',adminfee);
+	payment_method = dijit.byId('repayment_method').get('value');
+	if(payment_method==4){
+		calCulateFixedPayment(index);
+	}
+	
+	
+	calCulateDebtTotalAmount();
+}
+function calCulateFixedPayment(index){
+	amount_principal = dijit.byId('debt_amount'+index).get('value');
+	debt_term = dijit.byId('pay_every').get('value');
+	debt_amount = dijit.byId('period').get('value');
+	if(debt_term==1){
+		debt_term=1;
+	}else if(debt_term==2){
+		debt_term=7;
+	}
+	else{
+		debt_term=30;
+	}
+	
+	collect_term = dijit.byId('collect_termtype').get('value');
+	collect_amount = dijit.byId('amount_collect').get('value');
+	if(collect_term==1){
+		collect_term=1;
+	}else if(collect_term==2){
+		collect_term=7;
+	}
+	else{
+		collect_term=30;
+	}
+	
+	term = (debt_term*debt_amount)/(collect_term*collect_amount);
+
+	interest_rate=dijit.byId('interest_rate').get('value')/100;
+
+	top_pow = Math.pow((1+interest_rate),term);
+	bellow = Math.pow((1+interest_rate),(term))-1;
+	amount_payment = (amount_principal*interest_rate*top_pow)/(bellow);
+	dijit.byId('fixed_payment'+index).attr('value',amount_payment);
+}
+function sumFixedPayment(){
+	var total_fixed_payment=0;
+	var rowId = $('#record_row').val();
+	var rowIDArray = rowId.split(',');
+	payment_method = dijit.byId('repayment_method').get('value');
+	for(var n = 0; n < rowIDArray.length; n++) {
+		if(payment_method==4){
+			fixed_payment = (dijit.byId('fixed_payment'+rowIDArray[n]).get('value'));
+			if(isNaN(fixed_payment)){
+				fixed_payment=0;
+			}
+			total_fixed_payment += fixed_payment;
+		}	
+	}
+	if(payment_method==4){
+		dijit.byId('amount_collect_pricipal').attr('value',total_fixed_payment);
+	}
+}
+function disableFixedPaymentByMethod(status){
+	var rowId = $('#record_row').val();
+	var rowIDArray = rowId.split(',');
+	//payment_method = dijit.byId('repayment_method').get('value');
+	for(var n = 0; n < rowIDArray.length; n++) {
+		    if(status==1){
+		    	dijit.byId('fixed_payment'+rowIDArray[n]).set('readOnly',false);
+			 }else{
+				 dijit.byId('fixed_payment'+rowIDArray[n]).attr('value',0);
+				 dijit.byId('fixed_payment'+rowIDArray[n]).set('readOnly',true);
+			 }
+	}
+}
+function calCulateDebtTotalAmount(){
+	var netTotal_d=0;
+	var netTotal_fee=0;
+	var total_fixed_payment=0;
+	var rowId = $('#record_row').val();
+	var rowIDArray = rowId.split(',');
+	payment_method = dijit.byId('repayment_method').get('value');
+	for(var n = 0; n < rowIDArray.length; n++) {
+		debt_amount = (dijit.byId('debt_amount'+rowIDArray[n]).get('value'));
+		admin_fee = (dijit.byId('admin_fee'+rowIDArray[n]).get('value'));
+		if(isNaN(debt_amount)){
+			debt_amount = 0;
+			admin_fee=0;
+		}
+		netTotal_d += debt_amount;
+		netTotal_fee+=admin_fee;
+
+		if(payment_method==4){
+			fixed_payment = (dijit.byId('fixed_payment'+rowIDArray[n]).get('value'));
+			if(isNaN(fixed_payment)){
+				fixed_payment=0;
+			}
+			total_fixed_payment += fixed_payment;
+		}
+	}
+	dijit.byId('total_amount').attr('value',netTotal_d);
+	dijit.byId('loan_fee').attr('value',netTotal_fee);
+	if(payment_method==4){
+		dijit.byId('amount_collect_pricipal').attr('value',total_fixed_payment);
+	}
+}
+function sumAdminFee(){
+	var rowId = $('#record_row').val();
+	var rowIDArray = rowId.split(',');
+	admin_fee=0;
+	netTotal_fee=0;
+	payment_method = dijit.byId('repayment_method').get('value');
+	for(var n = 0; n < rowIDArray.length; n++) {
+		admin_fee=dijit.byId('admin_fee'+rowIDArray[n]).get('value');
+		netTotal_fee+=admin_fee;
+	}
+	dijit.byId('loan_fee').attr('value',netTotal_fee);
+}
+
+function checkValidateDate(){
+    	debt_term = dijit.byId('pay_every').get('value');
+		if(debt_term==1){
+			term_d =1; 
+		}else if(debt_term==2){
+			term_d =7; 
+		}else{
+			term_d =30; 
+		}
+		
+		collect_term = dijit.byId('collect_termtype').get('value');
+		if(collect_term==1){
+			term_c =1; 
+		}else if(collect_term==2){
+			term_c =7; 
+		}else{
+			term_c =30; 
+		}
+		debt_amount = dijit.byId('period').get('value');
+		collect_amount = dijit.byId('amount_collect').get('value');
+		if((collect_amount*term_c)>(debt_amount*term_d)){
+			alert('រយៈពេលសង់ប្រាក់មិនអាចធំជាង រយៈពេលខ្ចីប្រាក់បានទេ !');
+			dijit.byId('collect_termtype').focus();
+			return false;
+		}
+		return true;
+     }
+	function hideDialog() {		
+		dijit.byId("preview_rpt").hide();
+	}
+	// Force them to provide an answer
+	function doPrint() {
+		window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
+	    window.frames["print_frame"].window.focus();
+	    window.frames["print_frame"].window.print();
+	    hideDialog();
+	}
+	
+</script>
+<script type="text/javascript">
+    var tran_store  = getDataStorefromJSON('','name',null);
+	var url_submit = '<?php echo $this->url(array('module'=>'transfer','controller'=>'index','action'=>'add')); ?>';
+	var tran_status = {};
+	var baseurl = '<?php echo $baseurl;?>';
+</script>
+<script type="text/javascript">
+function chechPaymentMethod(){
+	method_id = dijit.byId('repayment_method').get('value');
+	dojo.byId('lbl_payment').innerHTML="<?php echo $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?>";
+	dijit.byId('amount_collect_pricipal').attr('value',0);
+
+	dijit.byId("amount_collect").set('readOnly',false);
+	dijit.byId("collect_termtype").set('readOnly',false);
+	disableFixedPaymentByMethod(0);
+	if(method_id==5){
+		dijit.byId('amount_collect_pricipal').set('readOnly',false);
+		dijit.byId('amount_collect_pricipal').focus();
+		dijit.byId("amount_collect").set('readOnly',true);
+		dijit.byId("collect_termtype").set('readOnly',true);
+		dijit.byId('amount_collect_pricipal').attr('value',2);
+	}else if(method_id==4){
+		//dijit.byId('amount_collect_pricipal').set('readOnly',false);
+		disableFixedPaymentByMethod(1);
+		dojo.byId('lbl_payment').innerHTML="<?php echo $tr->translate("AMOUNT_GRAICE_PARIOD")?>";
+		dijit.byId('amount_collect_pricipal').attr('value','');
+		//sumFixedPayment();
+	}
+	else{
+		dijit.byId('amount_collect_pricipal').set('readOnly',true);
+	}
+	if(method_id==1){
+		dijit.byId('graice_pariod').set('readOnly',false);
+	}else{
+		dijit.byId('graice_pariod').attr('value',0);
+		dijit.byId('graice_pariod').set('readOnly',true);
+	}
+}
+function submitData(){
+	var json_data_t = itemToJSON(dijit.byId('tran_list'));
+	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'addloan')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("frm_add_tran"),		    
+			load: function(data) {	
+				alert('ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
+			},
+			error: function(e) {
+				alert("Your message could not be sent, please try again!.");
+			}
+		});
+}
+
+function changeCollectType(){
+	get_id = dijit.byId('pay_every').get('value');
+	dijit.byId('collect_termtype').attr('value',get_id);
+	changeGraicePeroid();
+	CalculateDate();
+}
+function changeGraicePeroid(){
+	disp_value = dijit.byId('collect_termtype').attr('displayedValue');
+	dojo.byId('graice_type').innerHTML=disp_value;
+	calCulateFirstPayment();
+	
+}
+function clearTextBox(){
+	dijit.byId('member').set('value','');
+	dijit.byId('total_amount').set('value',0);
+}
+var url_getmember = '<?php echo $this->url(array('module'=>'loan','controller'=>'groupdisburse','action'=>'getclientgroup')); ?>';
+function popupCheckClient(){
+	if(dijit.byId('group_id').get('value')==-1){
+		 dijit.byId('frm_client').show();
+	}else{
+		group_id=dijit.byId('group_id').get('value');
+		//getAllMemberByGroup(group_id);
+		dijit.byId('group_code').attr('value',group_id);
+		getLoanLevel(group_id);
+	}
+}
+var getloan_level = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-loanlevel')); ?>';
+function getLoanLevel(client_id){
+		dojo.xhrPost({
+	    url: getloan_level,	
+	    content : { 
+	    	'client_id': client_id,
+	    	'type':1
+		},	    
+		handleAs:"json", 
+		load: function(data) {	
+			dijit.byId('level').attr('value',data);
+		},
+		error: function(err) {
+		}
+	});
+}
+function getmemberIdGroup(){
+	group_id=dijit.byId('group_code').get('value');
+	
+	if(group_id!="" && group_id!=-1){
+		getAllMemberByGroup(group_id);
+	}else{
+		dojo.query("#group_disbuse").append('');
+	}
+	
+	dijit.byId('group_id').attr('value',group_id);
+}
+function getAllMemberByGroup(group_id){
+	dojo.query("#group_disbuse").append('');
+	if(group_id==""){
+		return false;
+		}
+	dojo.xhrPost({
+	    url: url_getmember,	
+	    content: { 
+			'group_id':group_id,
+		},		    
+		handleAs:"json", 
+		load: function(data) {
+			fund_title=0;
+			tmp='<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">';
+			tmp+='<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>';
+			tmp+='</table>';
+			dojo.query("#group_disbuse").append(tmp);
+			thead='<th><?php echo $tr->translate("DEL");?></th>';
+			thead+='<th><?php echo $tr->translate("CUSTOMER_CODE");?></th>';
+			thead+='<th><?php echo $tr->translate("CUSTOMER_NAME");?></th>';
+			thead+='<th><?php echo $tr->translate("LOAN_AMOUNT");?></th>';
+			thead+='<th><?php echo $tr->translate("AMIN_FEE");?></th>';
+			thead+='<th><?php echo $tr->translate("AMOUNT_GRAICE_PARIOD");?></th>';
+			thead+='<th><?php echo $tr->translate("NOTE");?> </th>';
+			fund_title=1;
+			dojo.query("#head_title").append(thead);
+			dijit.byId('record_row').attr('value','');
+			for(i=0;i<data.length;i++){
+				addAmountTypeMoney();
+				dijit.byId('member_id'+r).attr('value',data[i].client_id);
+				dijit.byId('from_type'+r).attr('value',data[i].client_id);
+				
+			}
+		},
+		error: function(err){
+		}
+	});
+}
+function popupCheckCO(){
+	if(dijit.byId('co_id').get('value')==-1){
+		 dijit.byId('frm_co').show();
+	}
+}
+function popupCheckZone(){
+	if(dijit.byId('zone').get('value')==-1){
+		 dijit.byId('frm_zone').show();
+	}
+}
+function popupCheckDistrict(){
+	if(dijit.byId('district').get('value')==-1){
+		 dijit.byId('frm_district').show();
+	}
+}
+function popupCheckCommune(){
+	if(dijit.byId('commune').get('value')==-1){
+		 dijit.byId('frm_commune').show();
+	}
+}
+function popupCheckVillage(){
+	if(dijit.byId('village').get('value')==-1){
+		 dijit.byId('frm_village').show();
+	}
+}
+
+var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'client','action'=>'add-newclient')); ?>';
+function addNewClient(){
+		dojo.xhrPost({
+	    url: url_submit,	
+		form: dojo.byId("form_client"),		    
+		handleAs:"json", 
+		load: function(data) {	
+			dijit.byId('frm_client').reset(); 
+			dijit.byId('frm_client').hide();
+		},
+		error: function() {
+		alert("Your message could not be sent, please try again!.");
+				        
+		}
+	});
+}
+var url_submitco = '<?php echo $this->url(array('module'=>'other','controller'=>'co','action'=>'add-newco')); ?>';
+function AddNewCo(){
+		dojo.xhrPost({
+	    url: url_submitco,	
+		form: dojo.byId("form_co"),		    
+		handleAs:"json",
+		load: function(data) {	
+			dojo.byId('form_co').reset(); 
+			dijit.byId('frm_co').hide();
+		},
+		error: function(err) {
+		alert("Your message could not be sent, please try again!.");
+				        
+		}
+	});
+}
+var url_submitzone = '<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add-newzone')); ?>';
+function addNewZone(){
+		dojo.xhrPost({
+	    url: url_submitzone,	
+		form: dojo.byId("form_zone"),		    
+		handleAs:"json",
+		load: function(data) {	
+			dojo.byId('form_zone').reset(); 
+			dijit.byId('frm_zone').hide();
+		},
+		error: function(err) {
+		alert("Your message could not be sent, please try again!.");
+				        
+		}
+	});
+}
+var url_submitdistrict = '<?php echo $this->url(array('module'=>'other','controller'=>'district','action'=>'add-newdistrict')); ?>';
+function addNewDistrict(){
+		dojo.xhrPost({
+	    url: url_submitdistrict,	
+		form: dojo.byId("form_district"),		    
+		handleAs:"json",
+		load: function(data) {	
+			alert(data);
+			dojo.byId('form_district').reset(); 
+			dijit.byId('frm_district').hide();
+		},
+		error: function(err) {
+		alert("Your message could not be sent, please try again!.");
+				        
+		}
+	});
+}
+var url_submitcommune = '<?php echo $this->url(array('module'=>'other','controller'=>'commune','action'=>'add-newcommune')); ?>';
+function addNewCommune(){
+		dojo.xhrPost({
+	    url: url_submitcommune,	
+		form: dojo.byId("form_commune"),		    
+		handleAs:"json",
+		load: function(data) {	
+			alert(data);
+			dojo.byId('form_commune').reset(); 
+			dijit.byId('frm_commune').hide();
+		},
+		error: function(err) {
+		alert("Your message could not be sent, please try again!.");
+		}
+	});
+}
+var url_submitvillage = '<?php echo $this->url(array('module'=>'other','controller'=>'village','action'=>'add-newvillage')); ?>';
+function addNewVillage(){
+		dojo.xhrPost({
+	    url: url_submitvillage,	
+		form: dojo.byId("form_village"),		    
+		handleAs:"json",
+		load: function(data) {	
+			alert(data);
+			dojo.byId('form_village').reset(); 
+			dijit.byId('frm_village').hide();
+		},
+		error: function(err) {
+		alert("Your message could not be sent, please try again!.");
+				        
+		}
+	});
+}
+</script>
+<script>
+function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
+	//alert('date release'+date_release);
+	var a = new Date(release_date);
+	if(pay_term==3){//month
+		mm = a.getMonth()+amount_date+1;
+	}else if(pay_term==2){//week
+		a.setDate(a.getDate() + (amount_date*7)); 
+		var mm = a.getMonth() + 1;
+	}else if(pay_term==1){
+		a.setDate(a.getDate() + (amount_date)); 
+		var mm = a.getMonth() + 1;
+	}
+	var dd = a.getDate();
+	 if(dd<10){
+		 dd = "0"+dd;
+	}
+	 if(mm<10){
+		 mm = "0"+mm;
+	}
+	var y = a.getFullYear();
+	var epx_date = y + '-'+ mm + '-'+dd ;
+	dijit.byId('date_line').attr('value',epx_date);
+	calCulateFirstPayment();
+}
+function CalculateDate(){
+	pay_term = dijit.byId('pay_every').get('value');
+	amount_date = dijit.byId('period').get('value');
+	release_date = dijit.byId("release_date").get('value');
+	
+	if(isNaN(amount_date)){
+	}else{
+		setFirstPaymentAndDateLine(pay_term,release_date,amount_date);		
+    }
+}
+function checkReleaseDate(){
+	CalculateDate();
+}
+function calCulatePeriod(){
+	CalculateDate();
+}
+function getFirstPayment(){
+	calCulateFirstPayment();
+}
+function calCulateFirstPayment(){
+	pay_term = dijit.byId('collect_termtype').get('value');
+	amount_date = dijit.byId('amount_collect').get('value');
+	release_date = dijit.byId("release_date").get('value');
+	var a = new Date(release_date);
+	if(pay_term==3){//month
+		mm = a.getMonth()+amount_date+1;
+	}else if(pay_term==2){//week
+		a.setDate(a.getDate() + (amount_date*7)); 
+		var mm = a.getMonth() + 1;
+	}else if(pay_term==1){
+		a.setDate(a.getDate() + (amount_date)); 
+		var mm = a.getMonth() + 1;
+	}
+	var dd = a.getDate();
+	 if(dd<10){
+		 dd = "0"+dd;
+	}
+	 if(mm<10){
+		 mm = "0"+mm;
+	}
+	var y = a.getFullYear();
+	var epx_date = y + '-'+ mm + '-'+dd ;
+	dijit.byId('first_payment').attr('value',epx_date);
+}
+function loantype(){
+	var data=dijit.byId("loan_type").get('value');
+	if(data==-1){
+		dijit.byId("frm_loantype").show();
+		}
+}
+function zone(){
+	
+	dijit.byId("frm_zone").show();
+
+}
+var url_loantype = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add-newloantype')); ?>';
+function addNewloanType(){
+	dojo.xhrPost({
+		url:url_loantype,	
+		content:{ 
+		    'title_en':dijit.byId('title_en').get('value'),
+		    'title_kh':dijit.byId('title_kh').get('value'),
+		    'type':24,
+		    
+		},
+		handleAs:"json",
+		load: function(data) {
+			//alert(data);
+			labelen = dijit.byId('title_en').get('value');
+			labelkh = dijit.byId('title_kh').get('value');
+			$('#loan_type').val(labelkh+'-'+labelen);
+			 	
+			dijit.byId('frm_loantype').reset();
+			dijit.byId('frm_loantype').hide();
+	
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
+}
+var url_zone = '<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add-newzone')); ?>';
+function addNewZone(){
+	dojo.xhrPost({
+		url:url_zone,	
+		content:{ 
+		    'zone_name':dijit.byId('zone_name').get('value'),
+		    'zone_number':dijit.byId('zone_number').get('value'),
+		    'status':1,
+		},
+		handleAs:"json",
+		load: function(data) {
+			//alert(data);
+			labelen = dijit.byId('zone_name').get('value');
+			labelkh = dijit.byId('zone_number').get('value');
+			$('#zone').val(labelkh+'-'+labelen);
+			 //$('input[name="loan_type"]').val(data);
+			 	
+			dijit.byId('frm_zone').reset();
+			dijit.byId('frm_zone').hide();
+	
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
+}
+////add preview loan
+var url_previewloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'groupDisburse','action'=>'veiwloangroup')); ?>';
+function addPreviewLoan(){
+	r=0;
+	if(dijit.byId('frm_add_tran').validate()) {
+		zone = dijit.byId('zone').get('value');
+		co_id = dijit.byId('co_id').get('value');
+		client = dijit.byId('group_code').get('value');
+		record_row = dijit.byId('record_row').get('value');
+
+		if (client=='' || client==-1){
+			alert('Please Select Client Name !');
+			dijit.byId('group_code').focus();
+			return false;
+		}else if(co_id=='' || co_id==-1){
+			alert('Please Select CO Name !');
+			dijit.byId('co_id').focus();
+			return false;
+		}else if(zone=='' || zone==-1){
+			alert('Please Select Zone !');
+			dijit.byId('zone').focus();
+			return false;
+		}else if(record_row==''){
+			alert('Group Disburse Must Have Record !');
+			return false;
+		}
+		rs = checkValidateDate();
+		if(rs==false){
+          return false;			
+		}
+		loading();
+		dojo.xhrPost({
+		    url: url_previewloan,	
+			form: dojo.byId("frm_add_tran"),		    
+			handleAs:"json", 
+			load: function(data) {
+				document.getElementsByClassName("overlay")[0].style.display="none";
+				temp='';	fund_title=0;thead='';fund_title=0;
+				 		temp='<table class="collape tablesorter" style="font-size:13px;" id="table" width="100%">'
+						temp+='<tr style="background:#ccc;"><th><?php echo $tr->translate("NUM");?></th>';
+						temp+='<th><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់");?></th>';
+						temp+='<th><?php echo $tr->translate("ប្រាក់ដើមគ្រា");?></th>';
+						temp+='<th><?php echo $tr->translate("ប្រាក់ដើម");?></th>';
+						temp+='<th><?php echo $tr->translate("ប្រាក់ការ");?></th>';
+						temp+='<th><?php echo $tr->translate("សរុប");?></th>';
+						temp+='<th><?php echo $tr->translate("ប្រាក់ដើមនៅសល់");?></th>';
+						temp+='<th><?php echo $tr->translate("ចំនួនថ្ងៃ");?></th></tr>';
+				for(i=0;i<data.length;i++){
+			        r++;
+					    temp+='<tr><td align="center">'+r+'</td>';
+					    
+						d = new Date(data[i].date_name);
+						temp+='<td>'+getDayName(d.getDay())+'-'+data[i].date_payments+'</td>';
+					    
+						//temp+='<td>'+data[i].date_payments+'</td>';
+						temp+='<td>'+dojo.number.format(data[i].total_principal,2)+'</td>';
+						temp+='<td>'+dojo.number.format(data[i].principal_permonth,2)+'</td>';
+						temp+='<td>'+dojo.number.format(data[i].total_interest,2)+'</td>';
+						temp+='<td><b>'+dojo.number.format(data[i].total_payment,2)+'<b></td>';
+						temp+='<td><b>'+dojo.number.format((data[i].total_principal-data[i].principal_permonth),2)+'<b></td>';
+						temp+='<td>'+data[i].amount_day+'</td></tr>';
+				 }
+				temp+='</table>';
+				dojo.byId('t_previewrpt').innerHTML = temp;
+				dijit.byId("preview_rpt").show();
+			},
+			error: function(err) {
+			alert("You can not preview this loan number!");
+			}
+	   });
+	}
+}
+function getDayName(day){
+	 var weekday = new Array(7);
+	    weekday[0] = "អាទិត្យ";
+	    weekday[1] = "ច័ន្ទ";
+	    weekday[2] = "អង្គារ";
+	    weekday[3] = "ពុធ";
+	    weekday[4] = "ព្រហ";
+	    weekday[5] = "សុក្រ";
+	    weekday[6] = "សៅរ៍";
+	    return weekday[day];
+}
+function loading(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
+</script>
+<style>
+.overlay {display: none;position: absolute;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}
+.overlay-load {width: 350px;height: 100px;margin: auto;top: 0px;bottom: 0px;position: absolute;left: 0px;right: 0px;
+           border: solid 1px #060522;text-align: center;
+           background: #fff url("<?php echo $this->baseUrl()?>/images/loading.gif") 50% 25%;
+           background-repeat: no-repeat;          
+}
+.overlay-msg{margin-bottom: 10px;bottom: 0px;position: absolute;font-style: italic;color: rgb(19, 19, 19);} 
+</style>

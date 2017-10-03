@@ -1,0 +1,65 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$frm = $this->Form_client_blacklist;
+?>
+<script>
+dojo.require("dijit.form.DateTextBox");
+</script>
+<title> <?php echo $tr->translate("CLIENT_BLACK_LIST")?></title>
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'group','controller'=>'clientblacklist','action'=>'add')); ?>" 
+				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+                if(dijit.byId('client_name').get('value')==''){
+                   alert('Please Select Client Name');
+                   dijit.byId('client_name').focus();
+                   return false;
+               }
+				return true;
+			}else {
+				return false;
+			}
+</script>
+<table cellspacing="10" class='fullside'>
+	<tr>
+		<td>
+				<fieldset>
+					<legend><strong><?php echo $tr->translate("CLIENT_BLACK_LIST")?></strong></legend>
+					<table cellspacing="10"  width="100%">
+						<tr>
+							<td><?php echo $tr->translate("BRANCH_NAME");echo $frm->getElement('id');?></td>
+							<td><?php echo $frm->getElement('branch')?></td>	
+							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+							<td><?php echo $frm->getElement('client_code')?></td>								
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+							<td><?php echo $frm->getElement('client_name')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("REASON")?></td>
+							<td><?php echo $frm->getElement('problem')?></td>
+							<td><?php echo $tr->translate("DATE")?></td>
+							<td><?php echo $frm->getElement('date')?></td>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php echo $frm->getElement('status')?></td>
+					   </tr>
+					</table>
+					</fieldset>
+		</td>
+	</tr>		
+	<tr>
+		<td align="center">
+			<input type="submit" value="រក្សាទុក" name="btn_save" label="<?php echo $tr->translate('GO_EDIT');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
+		</td>
+	</tr>	
+</table>
+</form>
+<script type="text/javascript">
+function getmemberIdGroup(){
+	client_code= dijit.byId('client_code').get('value');
+	dijit.byId('client_name').attr('value',client_code);
+}
+function checkMember(){
+	client_name= dijit.byId('client_name').get('value');
+	dijit.byId('client_code').attr('value',client_name);
+}
+</script>

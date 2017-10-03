@@ -1,0 +1,319 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$frm = $this->frm_callteral;
+echo $this->headTitle($tr->translate("CLIENT_COLLTERAL"));
+$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+$row=$this->row;
+
+?>
+<script>
+dojo.require("dijit.form.DateTextBox");
+</script>
+<style>	
+.fullside {
+	width: 100%;
+	height: 30px;
+}
+</style>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'group','controller'=>'callteral','action'=>'add')); ?>" 
+dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				 if(dijit.byId('branch_id').get('value')==''){
+				     alert('Please Select Branch Name!');
+                         dijit.byId('branch_id').focus();
+                         return false;
+                 }
+
+				if(dijit.byId('co_name').get('value')==''){
+				         alert('Please Select Staff Name!');
+                         dijit.byId('co_name').focus();
+                         return false;
+                 }
+                 if(dijit.byId('client_name').get('value')==''){
+				         alert('Please Select Client Name!');
+                         dijit.byId('client_name').focus();
+                         return false;
+                 }
+                  if(dijit.byId('record_row').get('value')==''){
+				         alert('Please Select collateral must be record!');
+                       //  addCollecteral();
+                         return false;
+                 }
+
+
+
+				return true;
+			}else {
+				return false;
+			}
+</script>
+<table cellspacing="10" class='fullside'>
+	<tr>
+		<td>
+				<fieldset>
+					<legend><strong><?php echo $tr->translate("CLIENT_COLLTERAL");?></strong></legend>
+					<table cellspacing="10"  width="100%">
+						<tr>
+							<td width="16%"><?php echo $tr->translate("BRANCH_NAME")?></td>
+							<td><?php echo $frm->getElement('branch_id');?></td>
+							<td><?php echo $tr->translate("COLLTERAL_CODE")?></td>
+							<td><?php echo $frm->getElement('cod_cal');?></td>
+							<td width="16%"><?php echo $tr->translate("STAFF_NAME")?></td>
+							<td><?php echo $frm->getElement('co_name');?></td>
+						</tr>
+						<tr>
+							<td width="16%"><?php echo $tr->translate("CLIENT_NO")?></td>
+							<td><input id="client_code" /><?php //echo $frm->getElement('client_code');?></td>
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+						    <td><input id="client_name" /><?php //echo $frm->getElement('client_name')?></td>
+							<td><?php echo $tr->translate("AND_NAME")?></td>
+							<td><?php echo $frm->getElement('name')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
+							<td><?php echo $frm->getElement('names')?></td>
+							<td><?php echo $tr->translate("SPOUSE_NAME")?></td>
+							<td><?php echo $frm->getElement('owner')?></td>
+							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
+							<td><?php echo $frm->getElement('and_name')?></td>
+						</tr>
+						<tr>
+								<td><?php echo $tr->translate("NOTE")?></td>
+								<td><?php echo $frm->getElement('note')?></td>
+								<td><?php echo $tr->translate("DATE")?></td>
+								<td><?php echo $frm->getElement('date_estate')?></td>
+								<td><?php echo $tr->translate("STATUS")?></td>
+								<td><?php echo $frm->getElement('Stutas')?></td>
+						</tr>
+					</table>
+				</fieldset>
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
+				<div  id="test"></div>
+				<input iconClass="dijitIconClear" type="button" onClick="addCollecteral();" label="<?php echo $tr->translate('ADD');?>" dojoType="dijit.form.Button"/></td>
+		</td>
+	<tr>	
+	<tr>
+		<td align="center">
+									<input iconClass="dijitIconClear" type="reset" value="សំអាត" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button"/>
+									<input type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
+										iconClass="dijitEditorIcon dijitEditorIconSave" />
+									<input type="submit" value="save_new" name="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
+										iconClass="dijitEditorIcon dijitEditorIconSave" />
+		</td>
+	</tr>
+	<tr>
+	</tr>	
+</table>
+</form>
+<?php 
+echo $this->frmpupopclient;
+echo $this->frmPopupCO;
+?>
+<script type="text/javascript">
+dojo.require("dojo.data.ObjectStore");
+dojo.require("dojo.NodeList-manipulate");
+dojo.require("dojo.html");
+
+require(["dojo/ready"], function(ready){
+	ready(function(){
+	 var client_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: client_data}),
+	autoComplete: true,
+	query: {
+		branch_id: "<?php echo $row['branch_id'];?>"
+	},            
+	required: true,		           
+	name: "client_name",
+	id: "client_name",
+	searchAttr: "name",
+	value:'<?php echo $row['client_id'];?>',
+	class: 'fullside',
+	onChange: function() {
+		getClientInfo(2);
+}
+	}, "client_name");
+	
+	 var client_number = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->allclient_number));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: client_number}),
+	autoComplete: true,
+	query: {
+		branch_id: "<?php echo $row['branch_id'];?>"
+	},            		           
+	name: "client_code",
+	id: "client_code",
+	searchAttr: "name",
+	class: 'fullside',
+	value:'<?php echo $row['client_id'];?>',
+	onChange: function() {
+		getClientInfo(1);	
+		}
+	
+	}, "client_code");
+	getClientInfo(1);
+	//dijit.byId('co_id').attr('value','co_name');
+	});
+});
+
+
+
+function filterClient(){
+	branch_id = dijit.byId('branch_id').get('value');
+	dijit.byId('client_name').query.branch_id = branch_id;
+	dijit.byId('client_code').query.branch_id = branch_id;
+	//dijit.byId('client_code').reset();
+}
+function getClientInfo(type){
+	if(type==1){
+		//alert(1);
+		customer_code= dijit.byId('client_code').get('value');
+		dijit.byId('client_name').attr('value',customer_code);
+		dojo.query("#test").append('');
+		tmp='<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">';
+		tmp+='<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>';
+		tmp+='</table>';
+		dojo.query("#test").append(tmp);
+		thead='<th><?php echo $tr->translate("DEL");?></th>';
+		thead+='<th><?php echo $tr->translate("COLETERAL_TYPE");?></th>';
+		thead+='<th><?php echo $tr->translate("OWNER_TYPE");?></th>';
+		thead+='<th><?php echo $tr->translate("OWNER_NAME");?></th>';
+		thead+='<th><?php echo $tr->translate("NUMBER_COLLTERAL");?></th>';
+		thead+='<th><?php echo $tr->translate("SIGN_DATE");?></th>';
+		thead+='<th><?php echo $tr->translate("ISSUE_BY");?> </th>';
+		fund_title=1;
+		
+		dojo.query("#head_title").append(thead);	
+		dijit.byId('record_row').attr('value','');
+		addCollecteral();
+	}else{
+		customer_code= dijit.byId('client_name').get('value');
+		dijit.byId('client_code').attr('value',customer_code);
+	}
+	getClientInfomation(customer_code);
+	
+}
+
+var url_submitco = '<?php echo $this->url(array('module'=>'other','controller'=>'co','action'=>'add-newco')); ?>';
+function AddNewCo(){
+		dojo.xhrPost({
+	    url: url_submitco,	
+		form: dojo.byId("form_co"),		    
+		handleAs:"json",
+		load: function(data) {	
+			dojo.byId('form_co').reset(); 
+			dijit.byId('frm_co').hide();
+		},
+		error: function(err) {
+			alert(err);
+		alert("Your message could not be sent, please try again!.");
+				        
+		}
+	});
+}
+
+var url_clientinfo = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientinfo')); ?>';
+function getClientInfomation(){
+		dojo.xhrPost({
+	    url: url_clientinfo,	
+		content:{ 
+			'client_id':dijit.byId('client_name').get('value')
+			},		    
+		handleAs:"json",
+		load: function(data) {	
+			dijit.byId('name').attr('value',data.join_with);
+			dijit.byId('names').attr('value',data.relate_with);
+			dijit.byId('owner').attr('value',data.spouse_name);
+			dijit.byId('and_name').attr('value',data.guarantor_with);
+		},
+		error: function(err) {
+			alert(err);
+				        
+		}
+	});
+}
+
+function popupCheckCO(){
+	if(dijit.byId('co_name').get('value')==-1){
+		 dijit.byId('frm_co').show();
+	}
+}
+
+function checkClientCode(){
+	client_name= dijit.byId('client_name').get('value');
+	dijit.byId('client_code').attr('value',client_name);
+}
+
+function getClient(){
+	client_name= dijit.byId('client_code').get('value');
+	dijit.byId('client_name').attr('value',client_name);
+}
+
+temp='';
+fund_title=0;
+r = 0;
+collect_option = '<?php echo $this->collect_option;?>';
+owner_option = '<?php echo $this->owner_type;?>';
+function addCollecteral(){
+		r++;
+		tmp='<tr style="border:1px solid #ccc; font-size:12px;" id="row_capital'+r+'">'
+		tmp+="</tr>";
+			dojo.query("#t_amountmoneytype").append(tmp);
+			
+		temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+		temp+='<td width="200px"><select style=" width:98%;background:#fff; padding-left:5px;" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+collect_option+'</select></td>';
+	    temp+='<td><select style=" width:90%; background:#fff; padding-left:5px;" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
+		temp+='<td width="200px"><input style=" width:98%;" type="text" required="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+		temp+='<td><input style=" width:90%;" type="text" required="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+		temp+='<td><input constraints='+'{datePattern:"dd/MM/yyyy"}'+' style=" width:90%;" type="text"  name="issue_date'+r+'" id="issue_date'+r+'" dojoType="dijit.form.DateTextBox"/></td>';
+		temp+='<td><input type="text" name="note'+r+'" id="note'+r+'" dojoType="dijit.form.TextBox" /></td>';
+		
+			dojo.html.set(dojo.byId("row_capital"+r),temp, {
+		    parseContent: true,
+		     
+		});
+		if(dijit.byId("record_row").get('value')!="") {
+			var ids = dijit.byId("record_row").value;
+			dijit.byId("record_row").attr('value',ids+','+r);
+		} else { dijit.byId("record_row").attr('value',r);}
+		//setOwnerNameCollecteralById(r);
+		label = dijit.byId('client_name').attr('displayedValue');
+		dijit.byId('owner_name'+r).attr('value',label);
+}
+function deleteRecord(index){
+	var ids =dijit.byId('record_row').value;
+	if(ids.length=='' || ids.length==null){
+		dijit.byId('record_row').attr('value','');
+		dojo.query("#row_capital"+ids).remove();
+	}else{
+		var arrays = ids.split(',');
+		for(var i=0;i<arrays.length;i++) {
+			if(arrays[i] == index) arrays.splice(i,1);
+		}
+		var strings = arrays.join(',');
+		dijit.byId('record_row').attr('value',strings);
+		dojo.query("#row_capital"+index).remove();
+	}
+}
+function setOwnerNameCollecteralById(index){
+	label='';
+	owner_type = dijit.byId('owner_type'+index).get('value');
+	if(owner_type==1){
+		label = dijit.byId('client_name').attr('displayedValue');
+	}else{
+		label = dijit.byId('owner').get('value');
+	}
+	dijit.byId('owner_name'+index).attr('value',label);
+}
+
+</script>

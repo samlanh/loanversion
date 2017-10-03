@@ -1,0 +1,125 @@
+<?php 
+	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+	$rows=$this->calleteral_list;
+?>
+<meta charset="utf-8">
+<script>
+	dojo.require("dijit.form.DateTextBox");
+</script>
+<title><?php echo $tr->translate("បង្កាន់ដៃតម្កល់ទ្រព្យដាក់ធានា");?></title>
+<form method="post">
+</form>
+<div style=" width:25cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+<div id="divPrint" style="width: 100%;">
+<style>
+.style{
+	line-height: 20px;font-size: 11px !important;
+	font-family: 'Khmer OS Battambang';
+}
+p{ line-height: 10px;}
+th{padding: 5px;}
+strong{ line-height: 10px;}
+ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold; list-style-type: none;}
+td ul li{list-style: none; }
+</style>
+<table style="font-family: 'Khmer OS Content'; width:100%;">
+	<tr>
+    	<td align="center">
+        	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="70px"></td>
+                	<td width="60%" valign="top">
+                	    <ul>
+                			<li style="list-style:none; text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ព្រះរាជាណាចក្រកម្ពុជា
+                					");?></li>
+                			<li style="list-style:none;text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("ជាតិ  សាសនា  ព្រះមហាក្សត្រ");?></li>
+                			<li style="list-style:none;text-align:center; font-size:14px;"></li>
+                			<li style="list-style:none;text-align:center; font-size:14px; font-family:'Khmer MEF2'">កិច្ចសន្យាខ្ចីប្រាក់</li>
+                			<li style="list-style:none;text-align:center; font-size:14px; font-family:'Khmer os'">រវាង</li>
+                			<li style="list-style:none;text-align:center; font-size:14px; font-family:'Khmer MEF2'">អេហ្វ ខេអេច ផន សប</li>
+                		</ul>
+                	</td>
+                    <td width="20%"></td>
+                </tr> 
+            </table>
+        </td>
+    </tr>
+    <tr>
+    	<td>
+            <table id="exportExcel" style="font-size:9px;margin-top: -15px;" width="100%" cellspacing="0">
+                <?php //if(empty($this->calleteral_list)){?>
+                 <tr align="center" style="font-weight:bold; line-height: 20px; font-size:9px; padding:5px 0px; ">
+                    <td colspan="2" style="font-family:'Khmer MEF2';text-align: left; border:1px solid #fff; border-bottom: 1px solid #000;" valign="top">
+					     <p style="font:12px 'Khmer OS Content';line-height: 15px;">១- ភាគីឱ្យខ្ចីប្រាក់ : <strong style="font-family:'Khmer MEF2';">អេហ្វ ខេអេច ផន សប</strong> តំណាងពេញច្បាប់ដោយ<strong style="font-family:'Khmer MEF2';"> លោក ពេជ កែវវាសនា</strong> តួនាទីជា <strong style="font-family:'Khmer MEF2';">  ប្រធានគ្រប់គ្រង ទូទៅ  </strong>ជាម្ចាស់បំណុល  តទៅនេះហៅកាត់ថា ភាគី<strong style="font-weight: bold;font:12px 'Khmer MEF2'">“ក”។</p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 15px; text-align: center;"><strong style="font-family:'Khmer MEF2';">និង</strong></p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">២- ភាគីសុំខ្ចីប្រាក់ ឈ្មោះ........<strong style="font-weight: bold;font:12px 'Khmer MEF2'"><?php //ech//echo $rowsws[0]['name_kh']?></strong>.....ភេទ......<strong style="font-weight: bold;font:12px 'Khmer MEF2'"><?php //echo $rows[0]['join_with'];?></strong>.ថ្ងៃខែឆ្នាំកំណើត...............សញ្ជាតិ.............អត្ដសញ្ញាណប័ណ្ណ  ឬ សៀវភៅគ្រួសារលេខ...... ..... ចុះថ្ងៃទី........ ខែ........... ឆ្នាំ...... ..... 
+						 ចេញដោយ...... ........ ......និងឈ្មោះ... ........ភេទ.............ថ្ងៃខែឆ្នាំកំណើត............ត្រូវជា... ..........តទៅហៅថាភាគី <strong style="font-family:'Khmer MEF2';">“ខ”</strong>។</p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">អាស័យដ្ឋានបច្ចុប្បន្ន : ផ្ទះលេខ.......ផ្លូវលេខ....​....ក្រុមទី.......ភូមិ.......ឃុំ,សង្កាត់........ ស្រុក,ខណ្ឌ,ក្រុង..........ខេត្ដ,រាជធានី....  .......។  </p>
+						 
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">ខ្ញុំបាទ,នាងខ្ញុំ យល់ព្រមទទួលបន្ទុកចំណាយលើការរត់ការសំណុំឯកសារបញ្ជាក់ពីអាជ្ញាធរមានសមត្ថកិច្ចក្នុងនោះ : រត់ការដោយខ្លួនឯង </p>
+						 
+						 <p style="font:12px 'Khmer MEF2';line-height: 17px;text-align: center;">សូមលោក,លោកស្រី  មេត្ដាទទួលនូវការគោរពដ៏ខ្ពង់ខ្ពស់អំពីខ្ញុំបាទ,នាងខ្ញុំ ។</p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">ភាគី “ក” និងភាគី “ខ” បានព្រមព្រៀងចុះកិច្ចសន្យាខ្ចីប្រាក់  ដោយអនុវត្ដតាមរាល់ប្រការដូចខាងក្រោម :</p> 
+						 <p style="font:12px 'Khmer MEF2';line-height: 15px;">ប្រការ១  :អំពីលក្ខខណ្ឌរួម </p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">លើមូលដ្ឋាននៃការស្នើសុំខ្ចីប្រាក់  សេចក្ដីណែនាំស្ដីពីគោលការណ៍  និងលក្ខខណ្ឌរួមនៃការអោយខ្ចីប្រាក់ ភាគី “ក”  យល់ព្រមអោយភាគី “ខ” ខ្ចីប្រាក់ ហើយភាគី “ខ” ក៏ព្រមទទួល  និងសន្យាសងមកភាគី “ក” វិញជាដាច់ខាតនូវប្រាក់ខ្ចីនេះតាមចំនួន និងរាល់លក្ខខណ្ឌដែលបានព្រមព្រៀងគ្នាដូចតទៅនេះ :</p> 
+						 <p style="font:12px 'Khmer MEF2';line-height: 17px;">១.១- ប្រាក់កម្ចី </p> 
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">- <strong style="font-family:'Khmer MEF2';">ភាគី “ខ”</strong> បានទទួលប្រាក់កម្ចីចំនួន : ជាលេខ......................................ជាអក្សរ.............. .ត្រូវបានបើកជាសាច់ប្រាក់ផ្ទាល់។</p> 
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">- <strong style="font-family:'Khmer MEF2';">រយៈពេលខ្ចីប្រាក់</strong> : ..................... ថ្ងៃ      សបា្ដហ៍       ខែ និង ថ្លៃចំណាយរដ្ឋបាលចំនួន.......................គិតចាប់ពីថ្ងៃទទួលប្រាក់តទៅ ។</p> 
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">- <strong style="font-family:'Khmer MEF2';">អត្រាការប្រាក់</strong>  : .............................. ភាគរយ ក្នុង	  ១ថ្ងៃ 		 ១សបា្ដហ៍	  ២សបា្ដហ៍    ១   ខែ ។ 	</p> 
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;"><strong style="font:12px 'Khmer MEF2';line-height: 17px;">១.២- លក្ខខណ្ឌបើកប្រាក់ : ភាគី “ខ”</strong>បានយល់ព្រម និងតម្រូវអោយភាគី “ក”  បើកប្រាក់អោយតាមលក្ខណៈ  ម្នាក់ក្នុងចំណោមភាគី “ខ”   ទាំងអស់គ្នានៃភាគី “ខ” មានតែឈ្មោះ .............................។</p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">ភាគី “ខ”  ត្រូវប្រើប្រាស់ប្រាក់កម្ចីអោយសមស្របដូចតាមគោលបំណងប្រើប្រាស់ក្នុងពាក្យសុំខ្ចីប្រាក់  ពុំនោះសោតទេ ភាគី “ខ” ត្រូវបង្វែរសង ភាគី “ក”  វិញនូវប្រាក់ដើម  និងការប្រាក់  មិនឱ្យហួសពីរយៈពេលពីរថ្ងៃ  បន្ទាប់ពីបានទទួលការជូនដំណឹងពីភាគី “ក” ។</p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;"><strong style="font:12px 'Khmer MEF2';">១.៣- ទីកន្លែងបង់ប្រាក់ និងឧបសម្ព័ន្ធៈ</strong></p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;"><strong style="font:12px 'Khmer MEF2';">១.២- លក្ខខណ្ឌបើកប្រាក់ : ភាគី “ខ”</strong>បានយល់ព្រម និងតម្រូវអោយភាគី “ក”  បើកប្រាក់អោយតាមលក្ខណៈ  ម្នាក់ក្នុងចំណោមភាគី “ខ”   ទាំងអស់គ្នានៃភាគី “ខ” មានតែឈ្មោះ .............................។</p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">ភាគី “ខ”  ត្រូវប្រើប្រាស់ប្រាក់កម្ចីអោយសមស្របដូចតាមគោលបំណងប្រើប្រាស់ក្នុងពាក្យសុំខ្ចីប្រាក់  ពុំនោះសោតទេ ភាគី “ខ” ត្រូវបង្វែរសង ភាគី “ក”  វិញនូវប្រាក់ដើម  និងការប្រាក់  មិនឱ្យហួសពីរយៈពេលពីរថ្ងៃ  បន្ទាប់ពីបានទទួលការជូនដំណឹងពីភាគី “ក” ។ </p>
+						 <p style="font:12px 'Khmer MEF2';line-height: 17px;">១.៣- ទីកន្លែងបង់ប្រាក់ និងឧបសម្ព័ន្ធៈ</p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 10px;">- ទៅយកដល់ផ្ទះ ភាគី “ខ” ឬមកបង់ដល់ការិយាល័យ </p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 10px;">- សងតាមកាលវិភាគសងប្រាក់នៃកិច្ចសន្យា  និងកិច្ចសន្យាដាក់ធានាជាឧបសម្ព័ន្ធនៃកិច្ចសន្យានេះ</p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;"><strong style="font:12px 'Khmer MEF2';">១.៤- ទ្រព្យដាក់តម្កល់</strong> </p>
+						 <p style="font:12px 'Khmer MEF2';line-height: 17px;">ប្រការ ២ អំពីលក្ខខណ្ឌពិសេស</p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;"><strong style="font:12px 'Khmer MEF2';"> ២-១	ក្នុងករណីដែលភាគី “ខ”</strong>មិនបានអនុវត្ដតាមការសន្យាសងប្រាក់ដើម និងការប្រាក់តាមកាលកំណត់នៅចំណុច ១.១-១.២ និង១.៣ នៃប្រការ១ ខាងលើនេះទេ ភាគី <strong style="font:12px 'Khmer MEF2';">“ខ”</strong>យល់ព្រមអោយភាគី <strong style="font:12px 'Khmer MEF2';">“ក”</strong> អនុវត្ដវិធានការរបស់ប្រាក់កម្ចី ដូចតទៅនេះ : <strong style="font:12px 'Khmer MEF2';">អត្រាពិន័យត្រូវបានគិតតាមថ្ងៃដែលយឺត ដោយសំរាប់ទៅនឹងចំនួន ថ្ងៃខកខានសងគិតចាប់ពី ០១ថ្ងៃ  ឡើងទៅ នូវចំនួន ១០០០រៀល   ក្នុង ០១ ថ្ងៃ    ហើយយល់ព្រមបង់ដោយផ្ទាល់ ។</strong></p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;"><strong style="font:12px 'Khmer MEF2';">២-២	ក្នុងករណីដែលខកខានសងបំណុលតាមការកំណត់</strong> តាមចំណុច ១.១ កន្លងផុតរយៈពេល ៣០ថ្ងៃ ភាគី “ខ”  សុខចិត្ដលក់ទ្រព្យសម្បតិ្ដរបស់ខ្លួន ដើម្បីទូទាត់បំណុល ឬឱ្យអ្នកធានាបំណុលរបស់ខ្លួន ដែលបានសងជំនួស ឬភាគី “ក”    កាត់កង ឬប្ដឹងទៅតុលាការ ដើម្បីរឹបអូសទ្រព្យសម្បត្ដិ ជាចលនទ្រព្យ អចលនទ្រព្យ ដែលដាក់ធានា ឬទ្រព្យ សម្បត្ដិផេ្សងទៀតដូចជា សន្និធិ ទំនិញ ចលនទ្រព្យ ឬអចលនទ្រព្យ ដែលមានក្រៅ ពីទ្រព្យ ដាក់ ធានា លក់ឡាយឡុង ដើម្បីកាត់យកមកទូទាត់ ប្រាក់សំណងដែលបានសងជួស ឬទូទាត់បំណុលដែលនៅជំពាក់ ភាគី “ខ” ត្រូវមានកាតព្វកិច្ច សង បំណុល ដែលនៅសល់បន្ថែមទៀតរហូតទាល់តែ គ្រប់ចំនួន ។ </p>
+						 <p style="font:12px 'Khmer MEF2';line-height: 17px;">ប្រការ ៣    អំពីលក្ខខណ្ឌអ្នកធានាបំណុល</p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">៣-១	ឈ្មោះ…………………………………ភេទ ………… សញ្ញាតិ …………… ថ្ងៃខែឆ្នាំកំណើត………………… ឯកសារអត្តសញ្ញាណ ………………………………លេខ …………………ចុះថ្ងៃទី ……………………ចេញដោយ ……………………និងឈ្មោះ ………………………ភេទ…… សញ្ញាតិ …………… ថ្ងៃខែឆ្នាំកំណើត …………………ឯកសារអត្តសញ្ញាណ …………………………… លេខ ……………… ចុះថ្ងៃទី……………………ចេញដោយ ……………………………។ តូ្រវជា …………………… ដែលមានអាស័្រយដ្ឋានបច្ចុប្បន្នផ្ទះលេខ ………………… កុ្រមទី ………………។ ផ្លូវ …………… ភូមិ …………………… ឃុំ-សង្កាត់ ……………………… កុ្រង-សុ្រក-ខណ្ឌ ……………… ខេត្ត-រាជធានី ………………………… ។</p>
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;"><strong style="font:12px 'Khmer MEF2';">៣-២</strong>	ក្នុងករណីភាគី “ខ” គ្មានលទ្ធភាពសងបា្រក់ជំពាក់ជូនមកភាគី “ខ” នោះអ្នកធានានៃកិច្ចសន្យានេះ នឹងមានកាតព្វកិច្ចសងបា្រក់ ជំពាក់ទាំងអស់ដែលមានទាន់សងជំនួសភាគី “ខ”  ជូនដល់ភាគី “ក” អោយគ្រប់ចំនួនទាំងបា្រក់ដើម ការបា្រក់ និងបា្រក់ពិន័យ ។</p>
+						 <p style="font:12px 'Khmer MEF2';line-height: 15px;">ប្រការ ៤  អំពីលក្ខខណ្ឌអវសាន </p> 
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;"> ភាគី “ក”   និងភាគី “ខ”សន្យាគោរពយ៉ាងម៉ឹងម៉ាត់តាមរាល់ប្រការនៃខសន្យានានាខាងលើ ។  ក្នុងករណីមានការអនុវត្ដផ្ទុយ  ឬដោយរំលោភលើ លក្ខខណ្ឌណាមួយនៃកិច្ចសន្យានេះ ភាគីដែលល្មើសត្រូវទទួលខុសត្រូវចំពោះមុខច្បាប់ជាធរមាន ។  រាល់សោហ៊ុយចំណាយទាក់ទងក្នុងការដោះស្រាយ លើវិវាទ  ជាបន្ទុករបស់ភាគីដែលរំលោភបំពានលើកិច្ចសន្យា ។ 
+							កិច្ចសន្យានេះត្រូវបានធ្វើឡើង ដោយមានការព្រមព្រៀងពិតប្រាកដ និងដោយសេរី គ្មានការបង្ខិតបង្ខំពីភាគីណាមួយឡើយ ហើយប្រសិទ្ធភាព ចាប់ពីថ្ងៃទី ......................ខែ......................ឆ្នាំ.......................។</p> 
+						
+						 <p style="font:12px 'Khmer OS Content';line-height: 17px;">កិច្ចសន្យានេះត្រូវបានធ្វើឡើងជាពីរច្បាប់ដើម ជាភាសាខ្មែរ ដើម្បីតម្កល់ទុកនៅ</p>
+						 <p style="line-height: 17px;">- ភាគី  “ក”   ...........................០១ (ច្បាប់ដើម)</p>
+						 <p style="line-height: 17px;">- ភាគី “ខ”   ............................០១ (ច្បាប់ដើម)</p>
+						 	<table width="100%" cellpadding="0" cellspacing="0">
+						 		<tr><td align="center" colspan="3">ស្នាមមេដៃស្ដាំភាគីកូនបំណុល ភាគី “ខ”</td><td></td></tr>
+						 		<tr>
+						 			<td width="20%" align="center">សាក្សី/ អ្នកធានា      </td>
+						 			<td align="center">អ្នករួមខ្ចី</td>
+						 			<td width="20%" align="center">អ្នកសុំខ្ចី   </td>
+						 			<td width="33%" align="center">តំណាងភាគីម្ចាស់បំណុល ភាគី “ក”</td>
+						 		</tr>
+						 		<tr height="70">
+						 			<td width="18%" valign="bottom"><p style="border-bottom:2px dotted #000;padding:0px 10px; width: 90%;"></p></td>
+						 			<td align="center" valign="bottom"><p style="border-bottom:2px dotted #000;padding:0px 10px; width: 70%;"></p></td>
+						 			<td width="18%" align="center" valign="bottom"><p style="border-bottom:2px dotted #000;padding:0px 10px; width: 90%;"></p></td>
+						 			<td width="30%" align="right" valign="bottom"><p style="border-bottom:2px dotted #000;padding:0px 10px; width: 80%;"></p></td>
+						 		</tr>
+						 		<tr>
+						 			<td colspan="2"></td>
+						 			<td colspan="2"><p style="line-height: 17px; text-align: center;padding-top: 20px;" >សេចក្តីបញ្ជាក់របស់មេភូមិ</p>
+											<p style="font:12px 'Khmer OS Content';line-height: 17px;">បានឃើញ និងបញ្ជាក់ថា ឈ្មោះ…… ………………… និងឈ្មោះ…………… ………………
+											តូ្រវជា………… …………… ……ពិតបា្រកដមែន ។ 
+											ទ្រព្យសម្បត្តិដែល បានរៀបរាប់ខាងលើ ពិតជាកម្មសិទ្ធិផ្ទាល់ខ្លួន ដោយពុំមានបញ្ហាទំនាស់ឡើយ ហើយភាគី “ខ” យល់ព្រមដាក់បញ្ចាំ។
+											<p style="font:12px 'Khmer OS Content';line-height: 17px;">ធ្វើនៅភ្នំពេញ ថ្ងៃទី ……………ខែ…… ឆ្នាំ……………។</p>
+											<p style="font:12px 'Khmer OS Content';line-height: 17px;text-align: center;">មេភូមិ……………………</p>
+											<p style="font:12px 'Khmer OS Content';line-height: 17px;text-align: center;padding-top:20px;">ហត្ថលេខា</p>
+											<p style="font:12px 'Khmer OS Content';line-height: 17px;text-align: center;padding-top:20px;">ឈ្មោះ…………………………</p>
+						 			</td>
+						 		</tr>
+						 	</table>
+                    </td>
+                </tr>
+              </table>
+    	</td>
+    </tr>
+</table>
+</div>
+</div>

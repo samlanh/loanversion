@@ -1,0 +1,63 @@
+<?php 
+$data = '';
+if(!empty($this->result))foreach($this->result as $rs){
+	$data.=$rs['total_capital'].",";
+}
+echo $data;
+?>
+
+<script>
+require([
+"dojox/charting/Chart",
+"dojox/charting/themes/Claro",
+// Charting plugins:
+//  We want to plot a Pie chart
+"dojox/charting/plot2d/Pie",
+// Retrieve the Legend, Tooltip, and MoveSlice classes
+"dojox/charting/action2d/Tooltip",
+"dojox/charting/action2d/MoveSlice",
+//  We want to use Markers
+"dojox/charting/plot2d/Markers",
+//  We'll use default x/y axes
+"dojox/charting/axis2d/Default",
+// Wait until the DOM is ready
+"dojo/domReady!"
+], function(Chart, theme, Pie, Tooltip, MoveSlice) {
+// Define the data
+//var chartData = [90000,9200,11811,12000,7662,13887,14200,12222,12000,10009,11288,12099,];
+var chartData = [<?php echo $data;?>];
+ 
+// Create the chart within it's "holding" node
+var chart = new Chart("chartdisburse");
+ 
+// Set the theme
+chart.setTheme(theme);
+ 
+// Add the only/default plot
+chart.addPlot("default", {
+type: Pie,
+markers: true,
+radius:170
+});
+ 
+// Add axes
+chart.addAxis("x");
+chart.addAxis("y", { min: 5000, max: 30000, vertical: true, fixLower: "major", fixUpper: "major" });
+ 
+// Add the series of data
+chart.addSeries("Monthly Sales - 2010",chartData);
+ 
+// Create the tooltip
+var tip = new Tooltip(chart,"default");
+ 
+// Create the slice mover
+var mag = new MoveSlice(chart,"default");
+ 
+// Render the chart!
+chart.render();
+ 
+});
+</script>
+ 
+<div id="chartdisburse" style="width:550px;;height:400px;"></div>
+<div id="chartNode" style="width:50%px;height:400px;"></div>

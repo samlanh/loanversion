@@ -1,0 +1,88 @@
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate('UPDATE_STAFF_PERMISSION '));
+	$this->headTitle('UPDATE_STAFF_PERMISSION'); 
+	echo $this->headTitle();
+	$frm = $this->frm_permistion;
+?>
+<script type="text/javascript">	
+	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.NumberTextBox");
+	dojo.require("dijit.form.SimpleTextarea");
+	dojo.require('dijit.form.Form');
+	dojo.require('dijit.form.FilteringSelect');	
+	dojo.require('dijit.form.Button');
+</script>
+
+<form action="<?php echo $this->url(array('module'=>'payroll','controller'=>'permission','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">				
+			if(this.validate()) {
+				return true;
+			}
+			return false;
+	</script>
+		
+	<table cellspacing="10" width="95%">
+		<tr>
+			<td>
+				<fieldset>
+					<legend><strong><?php echo $tr->translate("PERMISSION_LETTER");?></strong></legend>
+					<table cellspacing="10">
+						<tr>
+							<td><?php echo $tr->translate("BRANCH")?></td>
+							<td><?php  echo $frm->getElement('branch_id');?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php  echo $frm->getElement('');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("STAFF")?></td>
+							<td><?php  echo $frm->getElement('employee'); echo $frm->getElement('id');?></td>
+							<td><?php echo $tr->translate("APPROVE_BY")?></td>
+							<td><?php  echo $frm->getElement('approve_by');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("REQUEST_DATE")?></td>
+							<td><?php  echo $frm->getElement('request_date');?></td>
+							<td><?php echo $tr->translate("TYPE")?></td>
+							<td><?php  echo $frm->getElement('type');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("FROM_DATE")?></td>
+							<td><?php  echo $frm->getElement('from_date');?></td>
+							<td><?php echo $tr->translate("TO_DATE")?></td>
+							<td><?php  echo $frm->getElement('to_date');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("TIME")?></td>
+							<td><?php  echo $frm->getElement('time');?></td>
+							<td colspan="6">
+								<table>
+									<tr>
+										<td><?php  echo $frm->getElement('all_day');?></td>
+										<td><?php echo $tr->translate("ALL_DAY")?></td>
+										<td><?php  echo $frm->getElement('paid_leave');?></td>
+										<td><?php echo $tr->translate("PAID_LIVES")?></td>
+										<td><?php  echo $frm->getElement('every_day');?></td>
+										<td><?php echo $tr->translate("EVERY_DAY")?></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("REASON")?></td>
+							<td><?php  echo $frm->getElement('reason');?></td>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php  echo $frm->getElement('status');?></td>
+						</tr>
+					</table>
+				</fieldset>
+			</td>			
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<input type="submit" value="រក្សាទុក" label="រក្សាទុក" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+			</td>
+		</tr>
+	</table>		
+</form>

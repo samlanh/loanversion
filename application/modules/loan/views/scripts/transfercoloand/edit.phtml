@@ -1,0 +1,108 @@
+<?php
+    $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('TRANSFER_CO')); 
+	echo $this->headTitle();
+	$frm = $this->frm_transfer;
+
+?>
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'transfercoloand','action'=>'add')); ?>" 
+				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+  if(this.validate()) {
+    if(dijit.byId('branch_name').get('value')==''){
+     alert('Please Select Branch');
+     dijit.byId('branch_name').focus();
+     return false;
+   	}
+   if(dijit.byId('loan_number').get('value')==''){
+     alert('Please Select Loan Number');
+     dijit.byId('loan_number').focus();
+     return false;
+   	}
+    if(dijit.byId('loan_client').get('value')==''){
+     alert('Please Select Client');
+     dijit.byId('loan_client').focus();
+     return false;
+   	}
+	if(dijit.byId('name_co').get('value')==''){
+     alert('Please Select ');
+     dijit.byId('co_code').focus();
+     return false;
+   	}
+    return true;
+   }else {
+    return false;
+   }
+</script>
+<script>
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.NumberTextBox");
+</script>
+<table cellspacing="10" class='fullside'>
+	<tr>
+		<td>
+				<fieldset>
+					<legend><strong><?php echo $tr->translate("TRANSFER_CO")?></strong></legend>
+					<table cellspacing="10">
+						<tr>	
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+							<td><?php  echo $frm->getElement('branch_name');?></td>
+							<td><?php echo $tr->translate("DATE")?></td>
+							<td><?php  echo $frm->getElement('Date');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("LOAN_NO")?></td>
+							<td><?php  echo $frm->getElement('loan_number');?></td>
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+							<td><?php  echo $frm->getElement('loan_client');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("CO_CODE")?></td>
+							<td><?php  echo $frm->getElement('co_code');?></td>
+							<td><?php echo $tr->translate("CO_NAME")?></td>
+							<td><?php  echo $frm->getElement('name_co');?></td>
+						</tr>						
+					    <tr>  
+					        <td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php  echo $frm->getElement('status');?></td>
+							<td><?php echo $tr->translate("NOTE")?></td>
+							<td><?php  echo $frm->getElement('Note');?></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+				</fieldset>
+		   </td>
+		</tr>
+		<tr>
+		<td align="center">
+			<input type="submit" value="រក្សាទុក" name="btn_save" label="<?php echo $tr->translate('SAVENEW');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" value="រក្សាទុក & ចាកចេញ" name="btn_save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" id="submitButton_Save" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
+		</td>
+	</tr>	
+</table>
+</form>
+<script type="text/javascript">
+dojo.require("dijit.form.Textarea");
+	function getClientInfo(type){
+		if(type==1){						
+			id = dijit.byId("co_code").get('value');
+			dijit.byId("name_co").attr('value',id);
+			dijit.byId("co_code").attr('value',id);
+			
+		}else if(type==2){
+			id = dijit.byId("name_co").get('value');
+			dijit.byId("name_co").attr('value',id);
+			dijit.byId("co_code").attr('value',id);
+		}
+		else if(type==3){		
+			to = dijit.byId("loan_client").get('value');		
+			dijit.byId("loan_number").attr('value',to);
+			dijit.byId("loan_client").attr('value',to);
+		}else if(type==5){
+			to = dijit.byId("loan_number").get('value');
+			dijit.byId("loan_number").attr('value',to);
+			dijit.byId("loan_client").attr('value',to);
+		}
+	}
+</script>

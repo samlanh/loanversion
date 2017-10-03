@@ -1,0 +1,185 @@
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate("ADD_SALARY_STAFF")); 
+	echo $this->headTitle();
+	$form = $this->frm;
+?>
+<?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
+
+<form action="<?php echo $this->url(array('module'=>'payroll','controller'=>'salary','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">				
+			if(this.validate()) {
+				return true;
+			}
+			return false;
+	</script>
+		
+	<table cellspacing="10" width="100%">
+		<tr>
+			<td>
+				<fieldset>
+					<legend><strong><?php echo $tr->translate("OPEN_SALARY_INFO");?></strong></legend>
+					<table width="100%" cellspacing="10">
+						<tr>
+							<td><?php echo $tr->translate("STAFF_CODE")?></td>
+							<td><?php echo $form->getElement('staff_code');?></td>
+							<td><?php echo $tr->translate("STAFF_NAME")?></td>
+							<td><?php echo $form->getElement('staff_name');?></td>
+							<td><?php echo $tr->translate("POSITION")?></td>
+							<td><?php echo $form->getElement('position');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("BRANCH")?></td>
+							<td><?php echo $form->getElement('branch_id');?></td>
+							<td><?php echo $tr->translate("BASIC_SALARY")?></td>
+							<td><?php echo $form->getElement('basic_salary');?></td>
+							<td><?php echo $tr->translate("DATE_START_WORK")?></td>
+							<td><?php echo $form->getElement('date_start');?></td>
+						</tr>
+						
+						<tr>
+							<td><?php echo $tr->translate("DATE_OPEN_SALARY")?></td>
+							<td><?php echo $form->getElement('date_get_salary');?></td>
+							<td><?php echo $tr->translate("DATE_END_CONTRACT")?></td>
+							<td><?php echo $form->getElement('date_end_contract');?></td>
+							<td><?php echo $tr->translate("FOR_MONTH")?></td>
+							<td><?php echo $form->getElement('for_month');?></td>
+						</tr>
+						
+						<tr>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php echo $form->getElement('status');?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php echo $form->getElement('');?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php echo $form->getElement('');?></td>
+						</tr>
+						<tr>
+							<td colspan="6">
+								<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
+									 <table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
+											<tr id="head_title" class="head-title" align="center"></tr>
+									</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="6">
+								<input id="add-append"  label="បន្ថែម" dojoType="dijit.form.Button" iconClass="dijitIconApplication" Onclick="addAmountBonus();" />
+							</td>
+						</tr>
+
+					</table>
+						<div style="text-align: center; margin: 10px 0px;"> 
+							<input type="hidden" name="exchangefrom" value="2" />
+							<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
+							<input type="submit" value="save_close" name="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
+								iconClass="dijitEditorIcon dijitEditorIconSave" />
+							<input type="submit" value="save_new" name="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 
+								iconClass="dijitEditorIcon dijitEditorIconSave" />
+						</div>
+				</fieldset>
+			</td>			
+		</tr>
+	</table>		
+</form>
+<script type="text/javascript">
+dojo.require("dojo.NodeList-manipulate");
+dojo.require("dojo.html");
+dojo.ready(function(){
+	addAmountBonus();
+		dijit.byId('staff_code').focus();
+		staff_code = dojo.byId("staff_code");
+		dojo.connect(staff_code,"onkeyup", function(events) {
+			key_num = (events.keyCode);
+			if(key_num==13){
+				popupCheckStaff(0);
+			}
+		});		
+});  
+    
+function deleteRecord(index){
+	var ids =dijit.byId('record_row').value;
+	if(ids.length=='' || ids.length==null){
+		dijit.byId('record_row').attr('value','');
+		dojo.query("#row_capital"+ids).remove();
+		
+	}else{
+		var arrays = ids.split(',');
+		for(var i=0;i<arrays.length;i++) {
+			if(arrays[i] == index) arrays.splice(i,1);
+		}
+		var strings = arrays.join(',');
+		dijit.byId('record_row').attr('value',strings);
+		dojo.query("#row_capital"+index).remove();
+	}
+	
+}
+	option= '<?php echo $this->salary_option;?>';
+	
+	temp='';
+	r = 0;
+	fund_title=0;
+	function addAmountBonus(){
+			r++;
+			if(fund_title!=1){
+				thead='<th>លុប</th>';
+				thead+='<th>ប្រភេទ</th>';
+				thead+='<th>ចំនួន</th>';
+				thead+='<th>សម្គាល់ </th>';
+				fund_title=1;
+				dojo.query("#head_title").append(thead);
+	        }
+			temp='<td style="width:30px !important;"><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+			temp+='<td><select style=" width:70%;" id="bonus_type_'+r+'" name="bonus_type_'+r+'" dojoType="dijit.form.FilteringSelect"  >'+option+'</select></td>';
+			temp+='<td><input type="text" style=" width:70%;" required="true" name="amount_'+r+'" id="amount_'+r+'" value="" dojoType="dijit.form.NumberTextBox"/></td>';
+			temp+='<td><input type="text" style=" width:70%;" name="note_'+r+'" id="note_'+r+'" value="" dojoType="dijit.form.TextBox"/></td>';
+			tmp='<tr style="border:1px solid #ccc;" id="row_capital'+r+'">'
+			tmp+="</tr>";
+			
+				dojo.query("#t_amountmoneytype").append(tmp);
+				dojo.html.set(dojo.byId("row_capital"+r),temp, {
+			    parseContent: true,
+			     
+			});
+			if(dijit.byId("record_row").value!="") {
+				var ids = dijit.byId("record_row").value;
+				dijit.byId("record_row").attr('value',ids+','+r);
+			} else { dijit.byId("record_row").attr('value',r);}
+	}	
+	
+	//sub money
+	sub_title=0;
+	s=0;
+	//select data show on control
+	var url_submiinfo = '<?php echo $this->url(array('module'=>'payroll','controller'=>'salary','action'=>'get-staffinfo')); ?>';
+	function popupCheckStaff(type=1){
+		if(type==1){
+			values = dijit.byId('staff_name').get('value');
+		}else{
+			values = dijit.byId('staff_code').get('value')
+		}
+		dojo.xhrPost({
+		    url: url_submiinfo,	
+		    content : { 
+			    'stff_id':values,
+			    'type':type,
+			},	
+			handleAs:"json",
+			load: function(data) {
+				dijit.byId('basic_salary').attr('value',data.basic_salary);
+				dijit.byId('branch_id').attr('value',data.branch_id);
+				dijit.byId('staff_code').attr('value',data.co_code);
+				dijit.byId('date_start').attr('value',data.start_date);
+				dijit.byId('date_end_contract').attr('value',data.end_date);
+				dijit.byId('position').attr('value',data.position_id);	
+			},
+			error: function(err) {
+				alert(err);
+			alert("Your message could not be sent, please try again!.");
+					        
+			}
+		});
+		
+	}
+</script>

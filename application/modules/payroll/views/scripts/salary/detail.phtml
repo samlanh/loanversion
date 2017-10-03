@@ -1,0 +1,102 @@
+<head>
+	<style type="text/css">
+			.tble{
+				white-space: nowrap !important;
+				font-size: 16px !important; font-family: 'khmer os battambang' !important;
+			}
+	</style>
+</head>
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle('SALARY_DETAIL'); 
+	echo $this->headTitle();
+	$rs = $this->Report_salary;
+?>
+<?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
+<input type="button" value="បោះពុម្ត" label="បោះពុម្ត" onclick="doPrint();" dojoType="dijit.form.Button"  iconClass="dijitIconPrint"/>						
+<div style="float: right;"><input type="button" value="Update" label="Update" onclick="window.location = '<?php echo $this->url(array('module'=>'payroll','controller'=>'salary','action'=>'edit')); ?>';" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/></div> 		
+	<table cellspacing="10" width="100%" style="font-family: 'khmer os battambang'">
+		<tr>
+			<td>
+				<fieldset>
+					<legend><strong><?php echo $tr->translate("OPEN_SALARY_INFO");?></strong></legend>
+					<div id="divPrint">
+					<style type="text/css">
+						.tb{
+							border:1px solid #ccc;
+							white-space: nowrap !important;
+							padding-left:5px;
+						}
+					</style>
+					<table  class="tble" width="100%" cellspacing="10" style="font-size: 12px; font-family: 'khmer os battambang'" >
+						<tr>
+							<td><?php echo $tr->translate("STAFF_CODE")?></td>
+							<td class="tb"><?php echo $rs['co_code']; ?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("STAFF_NAME")?></td>
+							<td class="tb"><?php echo $rs['co_kh']; ?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("POSITION")?></td>
+							<td class="tb"><?php echo $rs['position_name'];?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("BRANCH")?></td>
+							<td class="tb"><?php echo $rs['branch_namekh'];?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("BASIC_SALARY")?></td>
+							<td class="tb"><?php echo $rs['basic_salary'];?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("DATE_START_WORK")?></td>
+							<td class="tb"><?php echo $rs['date_start'];?></td>
+						</tr>
+						
+						<tr>
+							<td><?php echo $tr->translate("DATE_OPEN_SALARY")?></td>
+							<td class="tb"><?php echo $rs['date_get_salary'];?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("DATE_END_CONTRACT")?></td>
+							<td class="tb"><?php echo $rs['end_contract'];?></td>
+							<td style="white-space: nowrap;"><?php echo $tr->translate("FOR_MONTH")?></td>
+							<td class="tb"><?php echo $rs['for_month'];?></td>
+						</tr>
+						
+						<tr>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td class="tb"><?php echo $rs['status'];?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php ?></td>
+							<td><?php echo $tr->translate("")?></td>
+							<td><?php ;?></td>
+						</tr>
+					</table>
+					<table class="tble" style="font-family: 'khmer os battambang'; font-size: 12px;">
+						<tr>
+							<td><?php echo $tr->translate("N")?></td>
+							<td><?php echo $tr->translate("BONUS")?></td>
+							<td><?php echo $tr->translate("AMOUNT_BONUS")?></td>
+							<td  style="padding-left: 15px;"><?php echo $tr->translate("NOTE")?></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<?php foreach($this->salary_detail as $key =>$row){?>
+						<tr>
+							<td><?php echo $key+1;?></td>
+							<td style="font-size: 13px; border-bottom: 1px dashed #000; padding-left: 15px;white-space: nowrap; width:40%;"><?php echo $row['bonus_name']?></td>
+							<td style="white-space: nowrap;font-weight: bold !important; padding-left:10px;"><strong><?php echo $row['amount']?></strong></td>
+							<td style="white-space: nowrap;padding-left: 15px;white-space: nowrap; width:40%;"><?php echo $row['note']?></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<?php }?>
+					</table>
+					</div>
+				</fieldset>
+			</td>			
+		</tr>
+	</table>		
+
+<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
+<script type="text/javascript">
+function doPrint() {
+	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
+    window.frames["print_frame"].window.focus();
+    window.frames["print_frame"].window.print();
+    hideDialog();
+}
+</script>

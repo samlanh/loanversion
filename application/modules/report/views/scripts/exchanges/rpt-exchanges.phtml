@@ -1,0 +1,77 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate("LIST_LOAN_INCOME"));
+$frm = $this->frm_search;
+//print_r($this->rs);
+?>
+<script>
+dojo.require("dijit.form.DateTextBox");
+</script>
+<script>
+	dojo.require("dijit.form.DateTextBox");
+</script>
+<form id="list" name="list" action="<?php echo $this->url(array('module'=>'report','controller'=>'exchanges','action'=>'rpt-exchanges')); ?>" dojoType="dijit.form.Form" method="post">
+  <table style=" width:5.5cm;margin:0 auto; padding:0px">
+   <tr>  
+        <td><?php //echo $frm->getElement("adv_search");?></td>
+        
+   </tr>
+   
+</table>
+</form>
+
+<div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+<div id="divPrint" style="width: 100%;">
+<style>
+.style{
+	line-height: 20px;font-size: 10px !important;
+	font-family: 'Khmer OS Battambang';
+}
+.styleover:hover{ background: #ccc; }
+table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
+ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
+th{padding: 5px;}
+</style>
+<table style="font-family: 'Khmer OS Content'; width:100%;">
+	<tr>
+    	<td align="center">
+        	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+            	<tr>
+                	<td width="60%" valign="top">
+                		<ul>
+                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DAILYWORK");?></li>
+                			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("INFORMATION_ABOUT_RESULT");?></li>
+                		</ul>
+                </td>
+                </tr> 
+                 
+            </table>
+        </td>
+    </tr>
+    <tr id="exportExcel">
+    	<td>
+            <table  border="1" style="border-collapse:collapse;border:1px solid #000; font-size:10px; white-space: nowrap;" width="100%" cellspacing="0">
+                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; border:1px solid #000; line-height: 20px; font-size:10px; padding:5px 0px; ">
+                 	<td style="padding:5px 0px;"><?php echo $tr->translate("ID");?></td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("Name");?></td>
+                    <td style="padding:5px 0px;"><?php echo $tr->translate("Email");?></td>
+					<td style="padding:5px 0px;"><?php echo $tr->translate("Result");?></td>
+                </tr>
+                <?php if(!empty($this->rs)) foreach ($this->rs as $key => $rs){ ?>
+                <tr class="styleover">
+               		<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+               		<td >&nbsp;&nbsp;<?php echo $rs["name"];?></td>
+					<td >&nbsp;&nbsp;<?php echo $rs["email"];?></td>
+					<td >&nbsp;&nbsp;<?php echo $rs["result"];?></td>
+                </tr>
+                <?php }?>
+            </table>
+            <br />
+    	</td>
+    </tr>
+</table>
+<br />
+</div>
+</div>
+</div>
+  

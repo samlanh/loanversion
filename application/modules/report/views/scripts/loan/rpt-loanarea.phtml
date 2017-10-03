@@ -1,0 +1,443 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate('PAR Loan Report'));
+$frm = $this->frm_loan;
+$rate_pri = "";
+?>
+<script>
+dojo.require("dijit.form.DateTextBox");
+</script>
+<form method="post">
+<table style="width:29.2cm; margin:0 auto; padding:0px" >
+	<tr>
+			<td><?php echo $frm->getElement('adv_search');?></td>
+			<td><?php echo $frm->getElement('branch_id');?></td>
+			<td><?php echo $frm->getElement('co_id');?></td>
+			<td><?php echo $frm->getElement('currency_type');?></td>
+	</tr>
+	<tr>
+			<td><?php echo $frm->getElement('start_date');?></td>
+			<td><?php echo $frm->getElement('end_date');?></td>
+			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+			<td><?php //echo $frm->getElement('Term');?></td>
+	</tr>
+</table>
+</form>
+<div style="width:100%; margin:0 auto;">
+<div style=" width:28.5cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.25cm">
+<div id="divPrint">
+<style>
+.style{
+	line-height: 20px;font-size: 9px !important;
+	font-family: 'Khmer OS Battambang';
+}
+.hover:hover{ background: #ccc;}
+table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
+th{padding: 5px;}
+</style>
+<table width="100%" >
+	<tr>
+    	<td align="center">
+        	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+                	<td width="60%" valign="top">
+                	    <ul>
+                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+                			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_AREA");?></li>
+                			<li style="text-align:center; font-size:13px;"><?php echo date("D-d-m-Y",strtotime($this->search['start_date']));?> To <?php echo date("d-m-Y",strtotime($this->search['end_date']));?></li>
+                		</ul> 
+                	</td>
+                    <td width="20%"></td>
+                </tr> 
+                <tr>
+                	<td colspan="3">
+                		<table width="100%">
+                			<tr class='style'>
+                				<td class="style" style="font-size: 10px;">
+                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
+									<br /><?php echo $tr->translate("TEL_COMPANY");?>
+                				</td>
+                				<td width="65%"></td>
+                			</tr>
+		                </table>
+		              </td>
+		           </tr>   
+            </table>
+        </td>
+    </tr>
+    <tr>
+    	<td id="exportExcel">
+            <table width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; white-space: nowrap;" cellspacing="0">
+                <?php
+                 	$tdollarout = 0; $tdollar_late = $trielout = 0; $trielout_late =0;
+                 	$tbathout =0; $tbath_late=0;
+                	$outstadningriel=0;$outstadningdollar=0;$outstadningbath=0;
+                	$late_dollar = 0;$late_riel = 0;$late_bath=0;
+                	$co_id='';$total_interest_rate=0;
+                	$total_collectinterest=0;
+                	$total_collecttotal_penelize=0;
+                	$old_currnecy = '';$total_collectprince=0;
+                	$db  = new Report_Model_DbTable_DbLoan();
+                ?>
+                <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:10px; padding:5px 0px;">
+	                <td style="padding:5px 0px;" rowspan="2">&nbsp;​<?php echo $tr->translate("NUM");?>&nbsp;</td>
+	                <td style="padding:5px 0px;" rowspan="2">&nbsp;​<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
+	                <td style="padding:5px 0px;" rowspan="2">&nbsp;​<?php echo $tr->translate("CO_NAME");?>&nbsp;</td>
+	                <td style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("ឥណទានបានបញ្ចេញក្នុងគ្រា");?>&nbsp;</td>
+	                <td style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("សមតុល្យឥណទានគិតដល់ចុងគ្រា");?>&nbsp;</td>
+	                <td style="padding:5px 0px;" colspan=3">&nbsp;<?php echo $tr->translate("ចំណូលឥណទានក្នុងគ្រា");?>&nbsp;</td>
+	            	<td style="padding:5px 0px;" colspan="3">&nbsp;<?php echo $tr->translate("ហានិភ័យឥណទានដល់ចុងគ្រា");?>&nbsp;</td>
+	            </tr>
+	             <tr class="style" style="font-weight:bold; line-height: 24px;">
+                    <td>&nbsp;ចំនួន&nbsp;</td>
+                    <td>&nbsp;ទំហំឥណទាន&nbsp;</td>
+                    <td>&nbsp;ទំហំឥណទានជាមធ្យម&nbsp;</td>
+                    <td>&nbsp;អាត្រាការជាមធ្យម&nbsp;</td>
+                    <td>&nbsp;ចំនួន&nbsp;</td>
+                    <td>&nbsp;សមតុល្យ&nbsp;</td>
+                    <td>&nbsp;សមតុល្យមធ្យម&nbsp;</td>
+                    <td>&nbsp;អាត្រាការជាមធ្យម&nbsp;</td>
+                    <td>&nbsp;ប្រាក់ដើម&nbsp;</td>
+                    <td>&nbsp;ការប្រាក់&nbsp;</td>
+                    <td>&nbsp;ប្រាក់ពិន័យ&nbsp;</td>
+                    <td>&nbsp;ចំនួន&nbsp;</td>
+                    <td>&nbsp;សមតុល្យ&nbsp;</td>
+                    <td>&nbsp;ភាគរយ&nbsp;</td>
+                </tr>
+                <?php  $loan_new = 0;
+                $total_capital = 0;
+                $str='';
+                $newloan_dollar=0;$newloan_reil=0;$newloan_bath=0;
+                $newloan_drelease=0; $newloan_rrelease=0;$newloan_brelease=0;
+                $newloan_dtotalintertest = 0;$newloan_rtotalintertest=0;$newloan_btotalintertest=0;
+                $total_dcollectprince = 0; $total_rcollectprince = 0;$total_bcollectprince = 0;
+                $total_collectprince=0;
+                $total_collectinterest=0;
+                $total_collectpenal=0;
+                
+                $newloan_doutstanding = 0;$newloan_routstanding = 0;$newloan_boutstanding = 0;
+                $all_doutstanding =0;$all_routstanding =0;$all_boutstanding =0;
+                $total_dcollectinterest=0;$total_rcollectinterest=0;$total_bcollectinterest=0;
+                $total_dcollectpenelty = 0;$total_rcollectpenelty = 0;$total_bcollectpenelty = 0;
+                
+                $total_dinterest_rate =0;$total_rinterest_rate =0;$total_binterest_rate =0;
+                $total_lateamount=0;
+                
+                $amount_cust_late=0;
+                $total_dcustomer_late=0;$total_rcustomer_late=0;$total_bcustomer_late=0;
+                $all_amount_customerlate=0;
+                
+                if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){ ?>
+                <?php if($co_id!=$rs['co_id'] OR $old_currnecy!=$rs['curr_type']){
+                	$num=1;
+                	$dbc = new Report_Model_DbTable_DbloanCollect();
+                ?>
+                <?php if($key>0){?>
+                <?php 
+                	//$rs_release = $dbc->getReleaseloanByCO($co_id,$rs['curr_type'],$this->search);
+                	$rs_release = $dbc->getReleaseloanByCO($co_id,$old_currnecy,$this->search);
+                	if($old_currnecy==1){
+                		$newloan_reil = $newloan_reil+$rs_release['new_loan'];
+                		$newloan_rrelease = $newloan_rrelease+$rs_release['total_release'];
+                		$newloan_rtotalintertest = $newloan_rtotalintertest+$rs_release['total_interest_rate'];
+                		
+//                 		$newloan_routstanding = $newloan_routstanding+$loan_new;
+//                 		$all_routstanding = $all_routstanding+$total_capital;
+                	}else if($old_currnecy==2){
+                		$newloan_dollar = $newloan_dollar+$rs_release['new_loan'];
+                		$newloan_drelease = $newloan_drelease+$rs_release['total_release'];
+                		$newloan_dtotalintertest = $newloan_dtotalintertest+$rs_release['total_interest_rate'];
+                		
+//                 		$newloan_doutstanding = $newloan_doutstanding+$loan_new;
+//                 		$all_doutstanding = $all_doutstanding+$total_capital;
+                	}else{
+                		$newloan_bath = $newloan_bath+$rs_release['new_loan'];
+                		$newloan_brelease = $newloan_brelease+$rs_release['total_release'];
+                		$newloan_btotalintertest = $newloan_btotalintertest+$rs_release['total_interest_rate'];
+                		
+//                 		$newloan_boutstanding = $newloan_boutstanding+$loan_new;
+//                 		$all_boutstanding = $all_boutstanding+$total_capital;
+                	}
+                			
+                	
+                ?>
+                <tr class="style hover" style="font-weight:bold; line-height: 24px;">
+                    <td >&nbsp;<?php ?>&nbsp;</td>
+                    <td >&nbsp;<?php echo $rs["branch_name"];//$late_dollar?>&nbsp;</td>
+                    <td >&nbsp;<?php echo $old_co_name;?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format(empty($rs_release['new_loan'])?0:$rs_release['new_loan']); ?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format(empty($rs_release['total_release'])?0:$rs_release['total_release'],2);?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format(empty($rs_release['total_release'])?0:($rs_release['total_release']/$rs_release['new_loan']),2); ?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format(empty($rs_release['total_interest_rate'])?0 : $rs_release['total_interest_rate']/$rs_release['new_loan'],2);?>&nbsp;</td>
+                    
+                    <td >&nbsp;<?php echo $loan_new?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_capital,2); ?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_capital/$loan_new,2);?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_interest_rate/$loan_new,2);?>&nbsp;</td>
+                    
+                    <td >&nbsp;<?php echo number_format($total_collectprince,2); ?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_collectinterest,2)?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_collecttotal_penelize,2);?>&nbsp;</td>
+                   
+                    <td >&nbsp;<?php echo $amount_cust_late;?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_lateamount,2);?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format(empty($total_lateamount)?0:($total_lateamount/$total_capital),2); ?>&nbsp;</td>
+                </tr>
+                <?php
+//                 $newloan_rtotalintertest=0;$newloan_dtotalintertest=0;$newloan_btotalintertest=0;
+//                 $newloan_rrelease=0;$newloan_drelease=0;$newloan_brelease=0;
+//                 $newloan_reil=0;$newloan_dollar=0; $newloan_bath=0;$loan_new=0;
+                
+                $total_capital=0; $total_interest_rate=0;//$old_currnecy='';
+                $total_collectinterest=0;$total_collecttotal_penelize=0;$total_collectprince=0;$str='';
+                $amount_cust_late=0;$loan_new=0;
+                ?>
+                <?php }?>
+              <?php 
+	              $outstadningriel=0;$outstadningdollar=0;$outstadningbath=0;
+	             $total_lateamount=0;
+                }
+                 if($old_currnecy!=$rs['curr_type']){?>
+                       <tr>
+                         <td colspan="18" style="font-family: 'Khmer OS Content'">&nbsp;ប្រភេទប្រាក់ <?php echo $rs["currency_type"];?></td>
+                       </tr>
+                  <?php }
+	                $co_id=$rs['co_id'];
+	                $loan_new = $loan_new+1;
+	                $old_co_name = $rs['co_name'];
+	                $old_currnecy =$rs['curr_type'];
+                ?>
+             	<?php  
+                        $total_interest_rate =  $total_interest_rate+$rs['interest_rate'];          
+               		    
+                        $resultcollect = $db->getReceiveByLoanNumber($rs['loan_number'],$this->search);
+               		    $total_receive = $resultcollect['total_collectprinciple'];
+	               		$search = array(
+	               				'adv_search'=>	"",
+	               				'client_name'=>$this->list_end_date['client_name'],
+	               				'end_date' => date('Y-m-d'),
+	               				'currency_type' => $this->list_end_date['currency_type'],
+	               				'loan_number'=>$rs["loan_number"],
+	               				'branch_id'		=>	0,
+	               		);
+	               		
+	               		$total_capital = $total_capital+($rs["total_capital"]-$total_receive);
+	               		$resultperiod = $db->getReceiveByLoanNumberPeriod($rs['loan_number'],$this->search);
+	               		$total_collectprince = $total_collectprince+$resultperiod['total_collectprinciple'];
+	               		$total_collectinterest = $total_collectinterest+$resultperiod['total_interest'];
+	               		$total_collecttotal_penelize = $total_collecttotal_penelize+$resultperiod['total_penelize'];
+	               		
+	               		$result =$dbc->getLoanlateByLoan($rs['loan_number'],$search);//late by loan
+	               		if(!empty($result)){
+		               		$total_lateamount = $total_lateamount+$result['principle_after']+$result['total_interest_after'];//total late by co
+		               		$amount_cust_late = $amount_cust_late+1;
+	               		}
+	               		if($rs['curr_type']==1){//riel
+	               			$late_riel = $late_riel+$result['principle_after']+$result['total_interest_after'];
+	               			$trielout = $trielout + $total_receive;
+	               			
+	               			$outstadningriel = $outstadningriel + $total_receive;
+	               			
+	               		
+	               			$all_routstanding = $all_routstanding+($rs["total_capital"]-$total_receive);
+	               			$newloan_routstanding = $newloan_routstanding+1;
+	               			
+	               			$total_rinterest_rate = $total_rinterest_rate+$rs['interest_rate'];
+	               			
+	               			$total_rcollectprince = $total_rcollectprince+$resultperiod['total_collectprinciple'];
+	               			$total_rcollectinterest = $total_rcollectinterest+$resultperiod['total_interest'];
+	               			$total_rcollectpenelty = $total_rcollectpenelty+$resultperiod['total_penelize'];
+	               			if(!empty($result)){
+	               			$total_rcustomer_late = $total_rcustomer_late+1;
+	               			}
+	               		}elseif($rs['curr_type']==2){
+	               			$late_dollar = $late_dollar+$result['principle_after']+$result['total_interest_after'];
+	               			$tdollarout = $tdollarout + $total_receive;
+	               			$outstadningdollar = $outstadningdollar + $total_receive;
+	               			
+	               			
+	               			$all_doutstanding = $all_doutstanding+($rs["total_capital"]-$total_receive);
+	               			$newloan_doutstanding = $newloan_doutstanding+1;
+	               			$total_dinterest_rate = $total_dinterest_rate+$rs['interest_rate'];
+	               			
+	               			$total_dcollectprince = $total_dcollectprince+$resultperiod['total_collectprinciple'];
+	               			$total_dcollectinterest = $total_dcollectinterest+$resultperiod['total_interest'];
+	               			$total_dcollectpenelty = $total_dcollectpenelty+$resultperiod['total_penelize'];
+	               			if(!empty($result)){
+	               				$total_dcustomer_late = $total_dcustomer_late+1;
+	               			}
+	               		}else{
+	               			$late_bath = $late_bath+$result['principle_after']+$result['total_interest_after'];
+	               			$tbathout = $tbathout + $total_receive;
+	               			$outstadningbath = $outstadningbath + $total_receive;
+	               			
+	               			
+	               			$all_boutstanding = $all_boutstanding+($rs["total_capital"]-$total_receive);
+	               			$newloan_boutstanding = $newloan_boutstanding+1;
+	               			
+	               			$total_binterest_rate = $total_binterest_rate+$rs['interest_rate'];
+	               			
+	               			$total_bcollectprince = $total_bcollectprince+$resultperiod['total_collectprinciple'];
+	               			$total_bcollectinterest = $total_bcollectinterest+$resultperiod['total_interest'];
+	               			$total_bcollectpenelty = $total_bcollectpenelty+$resultperiod['total_penelize'];
+	               			if(!empty($result)){
+	               				$total_bcustomer_late = $total_bcustomer_late+1;
+	               			}
+	               		}
+	               		$old_currnecy =$rs['curr_type'];
+               		?>
+               		<!-- 
+               		    <tr>
+               			<td colspan="13"><?php //echo $rs['loan_number'];//."ប្រាក់ដើមខ្ចី ".$rs["total_capital"];?></td>
+               			<td>ប្រាក់ដើមបានបង់<?php //echo $total_receive;?></td>
+               			<td>ប្រាក់ការបានបង់ <?php //echo $total_collectinterest;?></td>
+               			<td>ប្រាក់ពិន័យបានបង់ <?php //echo $total_collecttotal_penelize;?></td>
+               			<td>ប្រាក់ដើមនៅសល់មិនទាន់បានបង់ <?php //echo "Remain P ".$total_capital;?></td>
+               			<td>Late P<?php //echo $result['principle_after'];?></td>
+               			<td> Late I <?php //echo $result['total_interest_after'];?></td>
+               		</tr>    -->
+                <?php }
+               ?>
+               <?php 
+                $rs_release = $dbc->getReleaseloanByCO($co_id,$rs['curr_type'],$this->search);
+                if($rs['curr_type']==1){
+                	$newloan_reil = $newloan_reil+$rs_release['new_loan'];
+                	$newloan_rrelease = $newloan_rrelease+$rs_release['total_release'];
+                	$newloan_rtotalintertest = $newloan_rtotalintertest+$rs_release['total_interest_rate'];
+                
+                }else if($rs['curr_type']==2){
+                	$newloan_dollar = $newloan_dollar+$rs_release['new_loan'];
+                	$newloan_drelease = $newloan_drelease+$rs_release['total_release'];
+                	$newloan_dtotalintertest = $newloan_dtotalintertest+$rs_release['total_interest_rate'];
+                
+                }else{
+                	$newloan_bath = $newloan_bath+$rs_release['new_loan'];
+                	$newloan_brelease = $newloan_brelease+$rs_release['total_release'];
+                	$newloan_btotalintertest = $newloan_btotalintertest+$rs_release['total_interest_rate'];
+                
+                }
+                
+                ?>
+               <tr class="style hover" style="font-weight:bold; line-height: 24px;">
+                   <td >&nbsp;<?php ?>&nbsp;</td>
+                    <td >&nbsp;<?php echo $rs["branch_name"];//$late_dollar?>&nbsp;</td>
+                    <td >&nbsp;<?php echo $old_co_name;?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format(empty($rs_release['new_loan'])?0:$rs_release['new_loan']); ?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format(empty($rs_release['total_release'])?0:$rs_release['total_release'],2);?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format(empty($rs_release['total_release'])?0:($rs_release['total_release']/$rs_release['new_loan']),2); ?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format(empty($rs_release['total_interest_rate'])?0 : $rs_release['total_interest_rate']/$rs_release['new_loan'],2);?>&nbsp;</td>
+                    
+                    <td >&nbsp;<?php echo $loan_new?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_capital,2); ?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_capital/$loan_new,2);?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_interest_rate/$loan_new,2);?>&nbsp;</td>
+                    
+                    <td >&nbsp;<?php echo number_format($total_collectprince,2); ?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_collectinterest,2)?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_collecttotal_penelize,2);?>&nbsp;</td>
+                   
+                    <td >&nbsp;<?php echo $amount_cust_late;?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format($total_lateamount,2);?>&nbsp;</td>
+                    <td >&nbsp;<?php echo number_format(empty($total_lateamount)?0:($total_lateamount/$total_capital),2); ?>&nbsp;</td>
+                 </tr>
+                </table>
+            <br />
+           <div style="border: 1px solid #000; margin-bottom: 10px;"></div>
+             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;text-align: center;" width="100%" cellspacing="0">
+                 
+                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:10px; padding:5px 0px;">
+	                <td rowspan="2"><?php echo $tr->translate("CURRENT_TYPE");?></td> 
+	                <td style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("ឥណទានបានបញ្ចេញក្នុងគ្រា");?>&nbsp;</td>
+	                <td style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("សមតុល្យឥណទានគិតដល់ចុងគ្រា");?>&nbsp;</td>
+	                <td style="padding:5px 0px;" colspan="3">&nbsp;<?php echo $tr->translate("ចំណូលឥណទានក្នុងគ្រា");?>&nbsp;</td>
+	            	<td style="padding:5px 0px;" colspan="3">&nbsp;<?php echo $tr->translate("ហានិភ័យឥណទានដល់ចុងគ្រា");?>&nbsp;</td>
+	            </tr>
+	             <tr class="style" style="font-weight:bold; line-height: 24px;">
+                    <td>&nbsp;ចំនួន&nbsp;</td>
+                    <td>&nbsp;ទំហំឥណទាន&nbsp;</td>
+                    <td>&nbsp;ទំហំឥណទានជាមធ្យម&nbsp;</td>
+                    <td>&nbsp;អាត្រាការជាមធ្យម&nbsp;</td>
+                    <td>&nbsp;ចំនួន&nbsp;</td>
+                    <td>&nbsp;សមតុល្យ&nbsp;</td>
+                    <td>&nbsp;សមតុល្យមធ្យម&nbsp;</td>
+                    <td>&nbsp;អាត្រាការជាមធ្យម&nbsp;</td>
+                    <td>&nbsp;ប្រាក់ដើម&nbsp;</td>
+                    <td>&nbsp;ការប្រាក់&nbsp;</td>
+                    <td>&nbsp;ប្រាក់ពិន័យ&nbsp;</td>
+                    <td>&nbsp;ចំនួន&nbsp;</td>
+                    <td>&nbsp;សមតុល្យ&nbsp;</td>
+                    <td>&nbsp;ភាគរយ&nbsp;</td>
+                </tr>
+                
+                <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
+                    <td><?php echo number_format($newloan_reil ,2);?></td>
+                    <td><?php echo number_format($newloan_rrelease ,2);?></td>
+                    <td><?php echo number_format(empty($newloan_rrelease)?0:($newloan_rrelease/$newloan_reil),2);?></td>
+                    <td>&nbsp;<?php echo number_format(empty($newloan_rtotalintertest)?0:($newloan_rtotalintertest/$newloan_reil),2);?></td>
+                    
+                    <td><?php echo number_format($newloan_routstanding ,2);?></td>
+                    <td><?php echo number_format($all_routstanding ,2);?></td>
+                    <td><?php echo number_format(empty($all_routstanding)?0:($all_routstanding/$newloan_routstanding),2);?></td>
+                    <td>&nbsp;<?php echo number_format(empty($total_rinterest_rate)?0:($total_rinterest_rate/$newloan_routstanding),2);?></td>
+                    
+                    <td><?php echo number_format($total_rcollectprince ,2);?></td>
+                    <td><?php echo number_format($total_rcollectinterest ,2);?></td>
+                    <td><?php echo number_format($total_rcollectpenelty,2);?></td>
+                    <td><?php echo number_format($total_rcustomer_late ,2);?></td>
+                    <td><?php echo number_format($late_riel ,2);?></td>
+                    <td><?php echo number_format(empty($late_riel)?0:($late_riel/$all_routstanding),2);?></td>
+                </tr>
+                 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+                    <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
+                    <td><?php echo number_format($newloan_dollar ,2);?></td>
+                    <td><?php echo number_format($newloan_drelease ,2);?></td>
+                    <td><?php echo number_format(empty($newloan_drelease)?0:($newloan_drelease/$newloan_dollar),2);?></td>
+                    <td>&nbsp;<?php echo number_format(empty($newloan_dtotalintertest)?0:($newloan_dtotalintertest/$newloan_dollar),2);?></td>
+                    
+                    <td><?php echo number_format($newloan_doutstanding ,2);?></td>
+                    <td><?php echo number_format($all_doutstanding ,2);?></td>
+                    <td><?php echo number_format(empty($all_doutstanding)?0:($all_doutstanding/$newloan_doutstanding),2);?></td>
+                    <td>&nbsp;<?php echo number_format(empty($total_dinterest_rate)?0:($total_dinterest_rate/$newloan_doutstanding),2);?></td>
+                    
+                    <td><?php echo number_format($total_dcollectprince ,2);?></td>
+                    <td><?php echo number_format($total_dcollectinterest ,2);?></td>
+                    <td><?php echo number_format($total_dcollectpenelty,2);?></td>
+                    <td><?php echo number_format($total_dcustomer_late ,2);?></td>
+                    <td><?php echo number_format($late_dollar ,2);?></td>
+                    <td><?php echo number_format(empty($late_dollar)?0:($late_dollar/$all_doutstanding),2);?></td>
+                </tr>
+                 <tr class="style" style="line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+                    <td>&nbsp;<?php echo $tr->translate("BATH");?></td>
+                    <td><?php echo number_format($newloan_bath ,2);?></td>
+                    <td><?php echo number_format($newloan_brelease ,2);?></td>
+                    <td><?php echo number_format(empty($newloan_brelease)?0:($newloan_brelease/$newloan_bath),2);?></td>
+                    <td>&nbsp;<?php echo number_format(empty($newloan_btotalintertest)?0:($newloan_btotalintertest/$newloan_bath),2);?></td>
+                    
+                    <td><?php echo number_format($newloan_boutstanding ,2);?></td>
+                    <td><?php echo number_format($all_boutstanding ,2);?></td>
+                    <td><?php echo number_format(empty($all_boutstanding)?0:$all_boutstanding/$newloan_boutstanding,2);?></td>
+                    <td>&nbsp;<?php echo number_format(empty($total_binterest_rate)?0:($total_binterest_rate/$newloan_boutstanding),2);?></td>
+                    
+                    <td><?php echo number_format($total_bcollectprince ,2);?></td>
+                    <td><?php echo number_format($total_bcollectinterest ,2);?></td>
+                    <td><?php echo number_format($total_bcollectpenelty,2);?></td>
+                    <td><?php echo number_format($total_bcustomer_late ,2);?></td>
+                    <td><?php echo number_format($late_bath ,2);?></td>
+                    <td><?php echo number_format(empty($late_bath)?0:$late_bath/$all_boutstanding,2);?></td>
+                </tr>
+              </table>
+<br />
+ </table>
+ <table align="center" width="100%">
+	<tr style="font-size: 12px;">
+		<th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
+		<th></th>
+		<th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
+		<th></th>
+		<th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
+	</tr>
+ </table>
+</div>
+</div>

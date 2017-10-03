@@ -1,0 +1,31 @@
+<?php
+	$this->headTitle('Loand Management System| Transfer'); 
+	echo $this->headTitle();
+	$frm = $this->frm_search;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>	
+
+<script>
+	dojo.require('dijit.form.Button');
+	dojo.require("dijit.form.DateTextBox");
+</script>
+
+
+<form name="frmlist_mt" action="<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'transfer','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
+<table>
+   <tr>  
+        <td><?php echo $frm->getElement("adv_search");?></td>
+        <td><?php echo $frm->getElement('status');?></td>
+   		<td><?php echo $frm->getElement('currency_type');?></td>
+   </tr>
+   <tr>
+   		<td><?php echo $frm->getElement('start_date');?></td>
+   		<td><?php echo $frm->getElement('end_date');?></td>
+   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+   </tr>
+</table>
+</form>
+<?php 
+echo $this->list;
+?>
+

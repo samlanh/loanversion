@@ -1,0 +1,135 @@
+<?php 
+	$filter = $this->frm_search;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$url = $this->url(array('module'=>'report','controller'=>'accounting','action'=>'rpt-jurnal'));
+?>
+<meta charset="utf-8">
+<script>
+	dojo.require("dijit.form.DateTextBox");
+</script>
+<form method="post">
+	<table style="width:28.7cm; margin: 0 auto;">
+		<tr>
+			<td><?php echo $filter->getElement('adv_search');?></td>
+			<td><?php echo $filter->getElement('branch_id');?></td>
+			<td><?php echo $filter->getElement('currency_type');?></td>
+		</tr>
+		<tr>
+			<td><?php echo $filter->getElement('start_date');?></td>
+			<td><?php echo $filter->getElement('end_date');?></td>
+			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+		</tr>
+	</table>
+</form>
+<title><?php echo $tr->translate("LOAN_DISBURSE");?></title>
+<div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+<div id="divPrint" style="width: 100%;">
+<style type="text/css">
+	.style{
+		line-height: 20px;font-size: 10px !important;
+		font-family: 'Khmer OS Battambang';
+	}
+th{padding: 5px;}
+</style>
+<table style="font-family: 'Khmer OS Content'; width:100%;">
+	<tr>
+    	<td align="center">
+        	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+            	<tr>
+                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+                	<td width="60%" valign="top">
+                	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label></label></h2>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RPT_TRIALBALANCE");?></h2>
+                	<h2 style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></h2>
+                	</td>
+                    <td width="20%"></td>
+                </tr> 
+                <tr>
+                	<td colspan="3">
+                		<table width="100%">
+                			<tr >
+                				<td  style="font-size: 11px;">
+                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
+									<br /><?php echo $tr->translate("TEL_COMPANY");?>
+                				</td>
+                				<td width="65%"></td>
+                				
+                			</tr>
+		                </table>
+		              </td>
+		         </tr>   
+            </table>
+        </td>
+    </tr>
+    <tr>
+    	<td>
+            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
+                 <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:14px; padding:5px 0px; ">
+                    <th>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
+                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
+                    <th><?php echo $tr->translate("Account Name");?></th>
+                    <th><?php echo $tr->translate("Debit");?></th>
+                    <th><?php echo $tr->translate("Credit");?></th>
+                 </tr>
+                <tr>
+                	<td colspan="5"  style="border:1px solid #000;">&nbsp;<?php echo $tr->translate("CURRENCY");?></td>
+                </tr>
+               <?php 
+               $num=0;
+               $jurnal_id=0;$total_debit=0;$total_credit=0;$dtotal_riel=0;$ctotal_riel=0;$dtotal_dollar = 0;$ctotal_dollar = 0;$dtotal_bath=0;$ctotal_bath=0;
+              	if(!empty($this->jurnal_list))foreach ($this->jurnal_list as $key =>$row){
+               ?>
+               <?php 
+               if($row['currency_type']==1){
+               	  if($row['debit']!=0){
+               		$dtotal_riel=$dtotal_riel+$row['debit'];
+               	  }else{
+               	  	$ctotal_riel=$ctotal_riel+$row['credit'];
+               	  }
+               }elseif($row['currency_type']==2){
+	               	if($row['debit']!=0){
+	               		$dtotal_dollar=$dtotal_dollar+$row['debit'];
+	               	}else{
+	               		$ctotal_dollar=$ctotal_dollar+$row['credit'];
+	               	}
+               }else{
+	               	if($row['debit']!=0){
+	               		$dtotal_bath=$dtotal_bath+$row['debit'];
+	               	}else{
+	               		$ctotal_bath=$ctotal_bath+$row['credit'];
+	               	}
+               }
+               
+               if($jurnal_id==$row['id']) {
+               	
+               }
+	              $total_debit= $total_debit+ $row['debit'];
+	              $total_credit= $total_credit+ $row['credit'];
+               ?>
+				<tr style="line-height: 18px;">
+				    <?php $debit = intval($row['debit']); $credit = intval($row['credit']);?>
+					<td <?php if($jurnal_id==$row['jur_id']){echo "style='border-top: 1px solid #fff !important;'";} ?>>&nbsp;<?php if($jurnal_id!=$row['jur_id']) { echo $num+1; $num++;}?>&nbsp;</td>
+					<td <?php if($jurnal_id==$row['jur_id']){echo "style='border-top: 1px solid #fff !important;'";} ?>>&nbsp;<?php if($jurnal_id!=$row['jur_id']) { echo $row['branch_name']; } ?>&nbsp;</td>
+					<td <?php if($jurnal_id==$row['jur_id']){echo "style='border-top: 1px solid #fff !important;'";} ?>><span <?php if(!empty($credit)){echo"style='padding-left:25px;';";}?>></span>&nbsp;<?php echo $row['accountname'];?>&nbsp;</td>
+					<td <?php if($jurnal_id==$row['jur_id']){echo "style='border-top: 1px solid #fff !important;'";} ?> align="right"><span style="line-height:15px;">&nbsp;<?php echo empty($debit)?'':number_format($row['debit'],2); ?></span>&nbsp;</td>	
+					<td <?php if($jurnal_id==$row['jur_id']){echo "style='border-top: 1px solid #fff !important;'";} ?>>&nbsp;<?php echo empty($credit)?'':number_format($row['credit'],2); //$row['currency_type']; ?>&nbsp;</td>
+				</tr>
+				
+				<?php $jurnal_id = $row['jur_id']; }?>
+				
+            </table>
+              <table align="center" width="100%">
+				   <tr style="font-size: 11px;">
+				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>
+				        <th></th>
+				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
+				   </tr>
+			</table>	
+    	</td>
+    </tr>
+</table>
+</div>
+</div>

@@ -1,0 +1,129 @@
+<?php
+	$this->headTitle('Currency Smart | Transfer view page'); 
+	echo $this->headTitle();
+?>	
+<script type="text/javascript">
+	dojo.require('dijit.form.Button');
+	dojo.ready(function(){
+		selected_id = <?php echo $this->traninfo['id'];?>;
+	});	
+</script>
+<div id="view-content">	
+	<table width="100%" cellspacing="20">
+		<tr>
+			<td width="48%">
+				<fieldset style="height: 330px;">
+					<legend><strong>Contact Info</strong></legend>
+					<table style="margin-left: 20px;" cellspacing="10">
+						<tr>
+							<td>ខេត្ត/ក្រុង</td>
+							<td><?php echo $this->traninfo['pro_name'];?></td>
+						</tr>
+						<tr>
+							<td>សាខាមេ</td>
+							<td><?php echo $this->traninfo['agent_name'];?></td>
+						</tr>
+						<tr>
+							<td>ឈ្មោះ​អ្នក​ផ្ញើរ</td>
+							<td><?php echo $this->traninfo['sender_name'];?></td>
+						</tr>
+						<tr>
+							<td>ឈ្មោះ​អ្នក​ទទួល</td>
+							<td><?php echo $this->traninfo['reciever_name'];?></td>
+						</tr>
+						<tr>
+							<td>លេខ​ទូស័ព្ទ​​អ្នក​ទទួល</td>
+							<td><?php echo $this->traninfo['reciever_tel'];?></td>
+						</tr>
+						<tr>
+							<td>កាល​បរិច្ឆេទ វេ</td>							
+							<td><?php 
+								$send_date = date_create($this->traninfo['send_date']);	
+								echo date_format($send_date, 'd-m-Y');
+							?></td>
+						</tr>
+						<?php if($this->traninfo['status'] >= 1) :?>
+							<tr>
+								<?php									
+									$lbl = "បើកប្រាក់";
+									if($this->traninfo['status'] == 2){
+										$lbl = 'លុបចោល';										
+									}									
+								?>
+								<td>កាល​បរិច្ឆេទ <?php echo $lbl;?> </td>							
+								<td><?php 
+									$recieved_date = date_create($this->traninfo['recieved_date']);	
+									echo date_format($recieved_date, 'd-m-Y');
+								?></td>
+							</tr>
+						<?php endif;?>
+						<tr>
+							<td>ផុតកំណត់​ត្រឹម​ថ្ងៃ</td>
+							<td><?php 
+								$expire_date = date_create($this->traninfo['expire_date']);	
+								echo date_format($expire_date, 'd-m-Y');
+							?></td>
+						</tr>
+					</table>
+				</fieldset>
+			</td>
+			<td width="48%">
+				<fieldset style="height: 330px;">
+					<legend><strong>Money Info</strong></legend>
+					<table style="margin-left: 20px;" cellspacing="10">
+						<?php $cur_type = $this->traninfo['cur_type'];?>	
+						<?php if ($this->traninfo['status_loan'] == 1) :?>
+						<tr>
+							<td colspan="2">
+								<label style="color: red"><?php echo "មិន​ទាន់​បង់ ប្រាក់ នៅ​ឡើយ​ទេ!";?></label>
+							</td>
+						</tr>					
+						<?php endif;?>
+						<tr>
+							<td>ប្រភេទ​លុយ</td>
+							<td align="center">
+								
+								<?php echo $cur_type;?>
+							</td>
+						</tr>
+						<tr>
+							<td><?php echo $cur_type;?></td>
+							<td ><?php echo $this->traninfo['symbol'].'  '.$this->traninfo['amount'];?></td>
+						</tr>
+						<tr>
+							<td>ថ្លៃសេវាជា<?php echo $cur_type;?></td>
+							<td > 
+								<?php 
+									$com_per = ($this->traninfo['commission_percent'] == 0)? '' : $this->traninfo['commission_percent']."% = ";
+								?>
+								<?php echo $com_per.$this->traninfo['symbol'].'  '.$this->traninfo['commission'];?>
+							</td>
+						</tr>
+						<tr>
+							<td>ប្រាក់​ត្រូវបើកជា<?php echo $cur_type;?></td>
+							<td ><?php									
+								echo $this->traninfo['symbol'].'  '.$this->traninfo['transfer_money'];
+							?></td>
+						</tr>
+						<tr>
+							<td>ប្រាក់​សរុប​ជា<?php echo $cur_type;?></td>
+							<td ><?php									
+								echo $this->traninfo['symbol'].'  '.$this->traninfo['total_money'];								
+							?></td>
+						</tr>
+						<tr>
+							<td>ប្រាក់​ទទួល​បាន​ជា<?php echo $cur_type;?></td>
+							<td ><?php echo $this->traninfo['symbol'].'  '.$this->traninfo['recieved'];?></td>
+						</tr>
+						<tr>
+							<td>ប្រាក់​អាប់ជា<?php echo $cur_type;?></td>
+							<td ><?php
+								echo $this->traninfo['symbol'].'  '.$this->traninfo['return_money'];
+							?></td>
+						</tr>						
+					</table>
+				</fieldset>
+			</td>
+		</tr>
+	</table>
+</div>

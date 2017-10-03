@@ -1,0 +1,60 @@
+<?php
+	$this->headTitle('Currency Smart | Agent add page'); 
+	echo $this->headTitle();
+	$form = $this->frm;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<script type="text/javascript">	
+	dojo.require("dijit.form.ValidationTextBox");
+	
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.NumberTextBox");
+	dojo.require("dijit.form.SimpleTextarea");
+	dojo.require('dijit.form.Form');
+	dojo.require('dijit.form.FilteringSelect');	
+	dojo.require('dijit.form.Button');
+</script>
+<form action="<?php echo $this->url(array('module'=>'agent','controller'=>'index','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">				
+			if(this.validate()) {
+				return true;
+			}
+			return false;
+	</script>
+		
+	<table cellspacing="10" width="100%">
+		<tr>
+			<td>
+				<fieldset>
+					<legend><strong><?php echo $tr->translate("SALARY_INFO");?></strong></legend>
+					<table width="100%" cellspacing="10">
+						<tr>
+							<td><?php echo $tr->translate("STAFF_NAME");?></td>
+							<td><?php echo $form->getElement('staff_name');?></td>
+							<td><?php echo $tr->translate("SEX");?></td>
+							<td><?php echo $form->getElement('Sex');?></td>
+							<td><?php echo $tr->translate("POSITION");?></td>
+							<td><?php echo $form->getElement('position');?></td>
+						</tr>
+						
+						<tr>
+							<td><?php echo $tr->translate("BASIC_SALARY");?></td>
+							<td><?php echo $form->getElement('Basic_salary');?></td>
+							<td><?php echo $tr->translate("FOR_MONTH")?></td>
+							<td><?php echo $form->getElement('for_manth');?></td>
+							<td><?php echo $tr->translate("START_DAY")?></td>
+							<td><?php echo $form->getElement('Start_day');?></td>
+						</tr>
+					</table>
+				</fieldset>
+			</td>			
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+			</td>
+		</tr>
+	</table>		
+</form>
+
+

@@ -1,0 +1,26 @@
+<?php 
+	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate("CHANGE_COLLTERAL_INFO"));
+	$frm=$this->frm_changeCollteral;
+?>
+<script>
+dojo.require("dijit.form.DateTextBox");
+</script>
+<form id="list" name="list" action="<?php echo $this->url(array('module'=>'group','controller'=>'changecollteral','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
+	<table>
+		<tr>
+			<td><?php echo $frm->getElement('adv_search');?></td>
+			<td><?php echo $frm->getElement('branch_id');?></td>
+			<td><?php echo $frm->getElement('client_code');?></td>
+			<td><?php echo $frm->getElement('client_name');?></td>
+			<td><?php echo $frm->getElement('status_search');?></td>
+		</tr>
+		<tr>
+			
+			<td><?php echo $frm->getElement('start_date');?></td>
+			<td><?php echo $frm->getElement('end_date');?></td>
+			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+		</tr>
+	</table>
+	<?php echo $this->list;?>
+</form>

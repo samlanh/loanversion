@@ -1,0 +1,56 @@
+
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+echo $this->headTitle($tr->translate("TRANSFER_CO"));
+$frm = $this->frm_transfer;
+
+?>
+<script>
+	dojo.require("dijit.form.DateTextBox");
+</script>
+<form id="list" name="list" action="<?php echo $this->url(array('module'=>'loan','controller'=>'transfercoloand','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
+  <table>
+  	<tr>
+  	    <td><?php  echo $frm->getElement('note');?></td>
+  		<td><?php  echo $frm->getElement('branch_name');?></td>
+  		<td><?php  echo $frm->getElement('loan_number');?></td>
+  		<td><?php  echo $frm->getElement('loan_client');?></td>
+  		<td><?php  echo $frm->getElement('co_code');?></td>	
+  		
+  	</tr>
+  	<tr>
+  	    <td><?php  echo $frm->getElement('name_co');?></td>
+  	    <td><?php echo $frm->getElement('status');?></td>
+  		<td><?php echo $frm->getElement('start_date');?></td>
+  		<td><?php echo $frm->getElement('end_date');?></td>
+  		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+  	</tr>
+  </table>
+</form>
+ <?php echo $this->list;?>
+<script type="text/javascript">
+require(["dojo/ready"], function(ready){
+	 ready(function(){
+		dijit.byId('status').attr('value',-1);
+	  });
+});
+	function getClientInfo(type){
+		//alert(type);
+		if(type==1){						
+			
+			
+		}else if(type==2){
+		
+		}
+		else if(type==3){		
+			to = dijit.byId("loan_client").get('value');		
+			dijit.byId("loan_number").attr('value',to);
+			dijit.byId("loan_client").attr('value',to);
+		}else if(type==5){
+			to = dijit.byId("loan_number").get('value');
+			dijit.byId("loan_number").attr('value',to);
+			dijit.byId("loan_client").attr('value',to);
+		}
+	}
+</script>
+

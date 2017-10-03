@@ -1,0 +1,58 @@
+ <?php $tr = Application_Form_FrmLanguages::getCurrentlanguage();?>
+ 
+   <?php $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+  // report
+  $rpt_loanrelease=$this->url(array('module'=>'report','controller'=>'accounting','action'=>'rpt-fixed-asset'), null, true);
+  $rpt_jurnal=$this->url(array('module'=>'report','controller'=>'accounting','action'=>'rpt-jurnal'), null, true);
+  $rpt_leger=$this->url(array('module'=>'report','controller'=>'accounting','action'=>'rpt-leger'), null, true);
+  $rpt_balanesheet=$this->url(array('module'=>'report','controller'=>'accounting','action'=>'rpt-balance-sheet'), null, true);
+  $rpt_income=$this->url(array('module'=>'report','controller'=>'accounting','action'=>'rpt-income-statement'), null, true);
+  $rpt_ownerequity=$this->url(array('module'=>'report','controller'=>'accounting','action'=>'rpt-ower-equity'), null, true);
+  $rpt_cashflow=$this->url(array('module'=>'report','controller'=>'accounting','action'=>'rpt-cashflow'), null, true);
+  $rpt_closing=$this->url(array('module'=>'report','controller'=>'accounting','action'=>'rpt-closing'), null, true);
+  $rpt_writoff=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-writoff'), null, true);
+  $rpt_saleasset=$this->url(array('module'=>'report','controller'=>'accounting','action'=>'rpt-sale-fixed-asset'), null, true);
+  $rpt_balance=$this->url(array('module'=>'report','controller'=>'accounting','action'=>'rpt-trialbalance'), null, true);
+  
+  
+  
+  ?>
+  <style>
+  ul.link-rpt li a {
+	color: #3A3939;
+    height: 50px;
+  	width:180px;
+    display: block;
+    padding: 10px;
+    background: #D6D6D6;
+  	font-family: 'Kh Battambang','Khmer Battambang' !important;
+  	text-align: center;
+  	word-wrap: break-word;
+  } 
+    ul.link-rpt li {
+	float:left; margin:10px;
+    list-style: none;
+    border:1px solid #B1B0AF;
+    word-wrap: break-word;
+    
+  } 
+  .dijitReset, .dijitInline  ,.dijitButton {
+	width: 200px !important;
+  }
+  </style>
+  <div style="background:#ccc; width: 100%;">
+  	<ul class="link-rpt">
+  		<li><a href="<?php echo "";?>"><?php echo $tr->translate('LIST_ACCOUNT_NAME');?></a></li>
+  		<li><a href="<?php echo $rpt_jurnal;?>"><?php echo $tr->translate('LIST_JURNAL');?></a></li>
+  		<li><a href="<?php echo $rpt_leger;?>"><?php echo $tr->translate('LIST_LEGER');?></a></li>
+  		<li><a href="<?php echo $rpt_balance;?>"><?php echo $tr->translate('RPT_TRIALBALANCE');?></a></li>
+  		<li><a href="<?php echo $rpt_balanesheet;?>"><?php echo $tr->translate('LIST_BALANCE_SHEET');?></a></li>
+  		<li><a href="<?php echo $rpt_income;?>"><?php echo $tr->translate('LIST_INCOME_STATEMENT');?></a></li>
+  		<li><a href="<?php echo $rpt_ownerequity;?>"><?php echo $tr->translate('LIST_OWNER_EQUITY');?></a></li>
+  		<li><a href="<?php echo $rpt_cashflow;?>"><?php echo $tr->translate('LIST_CASHFLOW');?></a></li>
+  		<li><a href="<?php echo $rpt_closing;?>"><?php echo $tr->translate('LIST_CLOSING');?></a></li>
+  		<li><a href="<?php echo $rpt_loanrelease;?>"><?php echo $tr->translate('LIST_LOAN_FIXED_ASSET');?></a></li>
+  		<li><a href="<?php echo $rpt_saleasset;?>"><?php echo $tr->translate('LIST_LOAN_SALE_FIXED_ASSET');?></a></li>
+  	</ul>
+  </div>
+  <div style="clear: both;"></div>

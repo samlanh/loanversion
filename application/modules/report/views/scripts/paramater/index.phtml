@@ -1,0 +1,15 @@
+ <?php 
+ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+ ?>
+ <input type="button" label=" <?php echo $tr->translate("LIST_HOLIDAY");?>"  dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'Paramater','action'=>'rpt-holiday')); ?>';"/>
+  
+   <input type="button" label=" <?php echo $tr->translate("LIST_ZONE");?>" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'Paramater','action'=>'rpt-zone')); ?>';"/>
+  
+  <input type="button" label=" <?php echo $tr->translate("LIST_STAFF");?>" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'Paramater','action'=>'rpt-staff')); ?>';"/>
+  <input type="button" label=" <?php echo $tr->translate("LIST_VILLAGE");?>" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'Paramater','action'=>'rpt-village')); ?>';"/>
+  <input type="button" label=" <?php echo $tr->translate("LIST_BRANCH");?>" dojoType="dijit.form.Button" 
+  onclick="window.location = '<?php echo $this->url(array('module'=>'report','controller'=>'Paramater','action'=>'rpt-branch')); ?>';"/>
