@@ -15,72 +15,98 @@
 	dojo.require("dijit.form.DateTextBox");
 	dojo.require("dijit.form.NumberTextBox");
 </script>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'transferco','action'=>'add')); ?>" 
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'loan','controller'=>'transferco','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
   if(this.validate()) {
     if(dijit.byId('branch_name').get('value')==''){
-     alert('Please Select Branch');
-     dijit.byId('branch_name').focus();
-     return false;
-   	}
-    if(dijit.byId('formc_co').get('value')==''){
-     alert('Please Select From CO');
-     dijit.byId('formc_co').focus();
-     return false;
-   	}
-	if(dijit.byId('to_co_code').get('value')==''){
-     alert('Please Select To CO ');
-     dijit.byId('to_co_code').focus();
-     return false;
-   	}
+		     alert('Please Select Branch');
+		     dijit.byId('branch_name').focus();
+		     return false;
+		   	}
+		    if(dijit.byId('co_code').get('value')==''){
+		     alert('Please Select CO Code');
+		     dijit.byId('co_code').focus();
+		     return false;
+		   	}
+			if(dijit.byId('formc_co').get('value')==''){
+		     alert('Please Select CO Name');
+		     dijit.byId('formc_co').focus();
+		     return false;
+		   	}
+			if(dijit.byId('to_co_code').get('value')==''){
+		     alert('Please Select To CO Code');
+		     dijit.byId('to_co_code').focus();
+		     return false;
+		   	}
+			if(dijit.byId('to_co').get('value')==''){
+		     alert('Please Select To CO Name');
+		     dijit.byId('to_co').focus();
+		     return false;
+		   	}
     return true;
    }else {
     return false;
    }
 </script>
+<fieldset>
 <table cellspacing="10" class='fullside'>
+	<legend><strong><?php echo $tr->translate('TRANSFER_CO_CO');?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong><?php echo $tr->translate('TRANSFER_CO_CO');?></strong></legend>
-					<table cellspacing="10">
-						<tr>	
-							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
-							<td><?php  echo $frm->getElement('branch_name');?></td>
-							<td><?php echo $tr->translate("DATE")?></td>
-							<td><?php  echo $frm->getElement('Date');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("FROM_CO")?></td>
-							<td><?php  echo $frm->getElement('co_code');?></td>
-							<td><?php echo $tr->translate("FROM_CO")?></td>
-							<td><?php  echo $frm->getElement('formc_co');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("TO_CO")?></td>
-							<td><?php  echo $frm->getElement('to_co');?></td>
-							<td><?php echo $tr->translate("TO_CO")?></td>
-							<td><?php  echo $frm->getElement('to_co_code');?></td>
-						</tr>
-					    <tr>  
-					        <td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php  echo $frm->getElement('status');?></td>
-							<td><?php echo $tr->translate("NOTE")?></td>
-							<td><?php  echo $frm->getElement('Note');?></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</table>
-				</fieldset>
-		   </td>
-		</tr>
-		<tr>
-		<td align="center">
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
+			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+			    <tr>
+					<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+					<td><?php  echo $frm->getElement('branch_name');?></td>
+			    </tr>
+			    <tr>
+			    	<td><?php echo $tr->translate("FROM_CO")?></td>
+					<td><?php  echo $frm->getElement('co_code');?></td>
+			    </tr>
+			    <tr>
+			  		<td><?php echo $tr->translate("FROM_CO")?></td>
+					<td><?php  echo $frm->getElement('formc_co');?></td>
+			    </tr>
+			    <tr>
+			    	<td><?php echo $tr->translate("NOTE")?></td>
+					<td><?php  echo $frm->getElement('Note');?></td>
+			    </tr>
+			</table>
+		</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('CO_INFO');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+			 	<tr>
+					<td><?php echo $tr->translate("TO_CO")?></td>
+					<td><?php  echo $frm->getElement('to_co_code');?></td>
+				</tr>
+			 	<tr >
+					<td><?php echo $tr->translate("TO_CO")?></td>
+					<td><?php  echo $frm->getElement('to_co');?></td>
+				</tr>
+			    <tr>	
+					<td><?php echo $tr->translate("DATE")?></td>
+					<td><?php  echo $frm->getElement('Date');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("STATUS")?></td>
+					<td><?php  echo $frm->getElement('status');?></td>
+				</tr>
+			</table>
+		</fieldset>
+		</td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2">
 			<input type="submit" value="រក្សាទុក" name="btn_save" label="<?php echo $tr->translate('GO_EDIT');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
 		</td>
 	</tr>	
 </table>
+</fieldset>
 </form>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");

@@ -8,7 +8,7 @@
 	
 	$session_user=new Zend_Session_Namespace('auth');
 	$username = $session_user->first_name;
-	$them_style =  $session_user->theme_style;
+	$them_style ='soria';//  $session_user->theme_style;
 	$level =  $session_user->level;
 	if($level!=1 AND $action=='edit'){
 		if($module=='group' AND $action=='edit'){

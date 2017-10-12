@@ -60,7 +60,8 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
     	$_branch_id->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
     			'required' =>'true',
-    			'onchange'=>'filterClient();'
+    			'onchange'=>'filterClient();',
+    			'class'=>'fullside'
     	));
     	$rows = $db->getAllBranchName();
     	$options=array(''=>"---Select Branch Name---");
@@ -86,6 +87,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$Date->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
+				'class'	=>'fullside',
 				));
 		
 		$number_code = new Zend_Dojo_Form_Element_NumberTextBox('number_code');
@@ -124,7 +126,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				));
 		$opt= $db->getCollteralType(1);
-		$opt=array(''=>'------Select------',1=>'ផ្ទាល់ខ្លួន',2=>'អ្នកធានាជំនួស');
+		$opt=array(''=>'------Select------',1=>'áž•áŸ’áž‘áž¶áž›áŸ‹áž�áŸ’áž›áž½áž“',2=>'áž¢áŸ’áž“áž€áž’áž¶áž“áž¶áž‡áŸ†áž“áž½ážŸ');
 		$collteral_type->setMultiOptions($opt);
 		$collteral_type->setValue($request->getParam('collteral_type'));
 		
@@ -132,11 +134,13 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$note=new Zend_Dojo_Form_Element_TextBox('note');
 		$note->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside'
 		));
 		
 		$_note=new Zend_Dojo_Form_Element_TextBox('_note');
 		$_note->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
+				'class'	=>'fullside',
 		));
 		$_note->setValue('return back to client');
 		
@@ -144,13 +148,15 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$Date->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
+				'class'		=> "fullside"
 		));
 		$Date->setValue(date('Y-m-d'));
 		$stutas = new Zend_Dojo_Form_Element_FilteringSelect('Stutas');
 		$stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside'
 				));
-		$options= array(1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
+		$options= array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DACTIVE"));
 		$stutas->setMultiOptions($options);
 		
 		$cod_cal = new Zend_Dojo_Form_Element_TextBox('cod_cal');
@@ -184,12 +190,14 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$receiver_name=new Zend_Dojo_Form_Element_ValidationTextBox('receiver_name');
 		$receiver_name->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
+				'class'	=>'fullside',
 				'required'=>true
 				));
 		
 		$giver_name=new Zend_Dojo_Form_Element_ValidationTextBox('giver_name');
 		$giver_name->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
+				'class'	=>'fullside',
 				'required'=>true
 		));
 		

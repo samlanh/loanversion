@@ -19,10 +19,10 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		));
 		
 		$clienttype_nameen= new Zend_Dojo_Form_Element_DateTextBox('clienttype_nameen');
-		$clienttype_nameen->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside'
+		$clienttype_nameen->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox','class'=>'fullside','required' =>'true'
 		));
 		$clienttype_namekh= new Zend_Dojo_Form_Element_DateTextBox('clienttype_namekh');
-		$clienttype_namekh->setAttribs(array('dojoType'=>'dijit.form.TextBox',
+		$clienttype_namekh->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox','required' =>'true',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",'class'=>'fullside'
 		));
 		$dob_join_acc= new Zend_Dojo_Form_Element_DateTextBox('dob_join_acc');
@@ -100,6 +100,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getClientByType(1);
+		//print_r($rows);exit();
 		$options=array(''=>"---Select Group Name---");
 		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
 		$_member->setMultiOptions($options);
@@ -318,7 +319,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_id = new Zend_Form_Element_Hidden("id");
 		$_desc = new Zend_Dojo_Form_Element_TextBox('desc');
 		$_desc->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside',
-				'style'=>'width:96%;min-height:50px;'));
+				'style'=>'width:98%;min-height:50px;'));
 		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));

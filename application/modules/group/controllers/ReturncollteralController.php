@@ -45,10 +45,10 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 			$db = new Group_Model_DbTable_DbReturnCollteral();
 			try {
 				 $db->addReturnCollteral($data);
-				if(!empty($data['save_new'])){
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
-				}else{
+				if(!empty($data['save_close'])){
 					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/returncollteral/index');
+				}else{
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/returncollteral/add');
 				}
 			} catch (Exception $e) { 
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';

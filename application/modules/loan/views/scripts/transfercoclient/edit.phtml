@@ -13,14 +13,19 @@
      dijit.byId('branch_name').focus();
      return false;
    	}
-    if(dijit.byId('name_client').get('value')==''){
-     alert('Please Select Client');
-     dijit.byId('name_client').focus();
+    if(dijit.byId('name_co').get('value')==''){
+     alert('Please Select Name Co');
+     dijit.byId('name_co').focus();
      return false;
    	}
-	if(dijit.byId('co_code').get('value')==''){
-     alert('Please Select to CO ');
-     dijit.byId('co_code').focus();
+	if(dijit.byId('customer_code').get('value')==''){
+     alert('Please Select Customer Code');
+     dijit.byId('customer_code').focus();
+     return false;
+   	}
+	if(dijit.byId('member').get('value')==''){
+     alert('Please Select Customer Name');
+     dijit.byId('member').focus();
      return false;
    	}
     return true;
@@ -32,47 +37,60 @@
 	dojo.require("dijit.form.DateTextBox");
 	dojo.require("dijit.form.NumberTextBox");
 </script>
+<fieldset>
 <table cellspacing="10" class='fullside'>
+	<legend><strong><?php echo $tr->translate('TRANSFER_CLIENT_CO');?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong><?php echo $tr->translate('TRANSFER_CLIENT_CO');?></strong></legend>
-					<table cellspacing="10">
-						<tr>	
-							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
-							<td><?php  echo $frm->getElement('branch_name');?> </td>
-							<td><?php echo $tr->translate("DATE")?></td>
-							<td><?php  echo $frm->getElement('Date');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-							<td><?php  echo $frm->getElement('member');?></td>
-							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-							<td><?php  echo $frm->getElement('customer_code');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("TO_CO")?></td>
-							<td><?php  echo $frm->getElement('name_co');?></td>
-							<td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php  echo $frm->getElement('status');?></td>
-						</tr>						
-					    <tr>  
-					      
-							<td><?php echo $tr->translate("NOTE")?></td>
-							<td><?php  echo $frm->getElement('Note');?></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</table>
-				</fieldset>
-		   </td>
-		</tr>
+		<td width="33%;" valign="top">
+		 <fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
+			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			    <tr>
+					<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+					<td><?php  echo $frm->getElement('branch_name');?></td>
+			    </tr>
+			    <tr>
+			  		<td><?php echo $tr->translate("TO_CO")?></td>
+					<td><?php  echo $frm->getElement('name_co');?></td>
+			    </tr>
+			    <tr>
+			    	 <td><?php echo $tr->translate("NOTE")?></td>
+					 <td><?php  echo $frm->getElement('Note');?></td>
+			    </tr>
+			</table>	
+		  </fieldset>
+		</td>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('CUSTOMER_INFO');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			 	<tr >
+					<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+					<td><?php  echo $frm->getElement('customer_code');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+					<td><?php  echo $frm->getElement('member');?></td>
+				</tr>
+			    <tr>
+					 <td><?php echo $tr->translate("DATE")?></td>
+					 <td><?php  echo $frm->getElement('Date');?></td>
+			    </tr>
+			    <tr>
+			    	<td><?php echo $tr->translate("STATUS")?></td>
+					<td><?php  echo $frm->getElement('status');?></td>
+			    </tr>
+			</table>
+		 </fieldset>
+		</td>
+	</tr>
 		<tr>
-		<td align="center">
+		<td align="center" colspan="2">
 			<input type="submit" value="រក្សាទុក" name="btn_save" label="<?php echo $tr->translate('GO_EDIT');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
 		</td>
 	</tr>	
 </table>
+</fieldset>
 </form>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");

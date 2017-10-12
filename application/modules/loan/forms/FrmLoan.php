@@ -470,21 +470,21 @@ public function init()
 		
 		$_interest = new Zend_Dojo_Form_Element_TextBox("interest");
 		$_interest->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
 				'required' =>'true'
 		));
 		
 		$penalize = new Zend_Dojo_Form_Element_TextBox("penalize");
 		$penalize->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
 				'required' =>'true'
 		));
 		
 		$_service_charge = new Zend_Dojo_Form_Element_TextBox("service_charge");
 		$_service_charge->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
 				'required' =>'true'
 		));

@@ -49,11 +49,11 @@ class Loan_TransfercoloandController extends Zend_Controller_Action {
  			try {		
  				$db = new Loan_Model_DbTable_DbTransferCoClient(); 
  				$db->insertTransferloan($_data);
- 				if(isset($_data['btn_save'])){				 				
-	 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transfercoloand/add");
+ 				if(isset($_data['btn_save_close'])){				 				
+	 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transfercoloand/");
  				}
- 				elseif (isset($_data['btn_save_close'])){
- 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transfercoloand/");
+ 				else{
+ 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transfercoloand/add");
  				}
  			}catch (Exception $e) {
  				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -74,7 +74,7 @@ class Loan_TransfercoloandController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$post = $this->getRequest()->getPost();
 			//print_r($post);exit(); 			
-			if(isset($post['btn_save'])){
+			if(isset($post['btn_save_close'])){
 				$db->updatTransferloan($post, $id);
 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transfercoloand/");
 			}

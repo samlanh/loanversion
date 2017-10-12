@@ -30,51 +30,76 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
                     alert('Can not submit without record !');
                     return false;
                 }
+             	dijit.byId('save_new').set('disabled',true);
+			    dijit.byId('save_close').set('disabled',true);
 				return true;
 			}else {
 				return false;
 			}
 </script>
+<fieldset>
 <table cellspacing="10" class='fullside'>
+<legend><strong><?php echo $tr->translate("RETURN_COLLTERAL_INFO");?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong><?php echo $tr->translate("RETURN_COLLTERAL_INFO");?></strong></legend>
-					<table cellspacing="10"  width="100%"> 
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("BRANCH_INFO")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
 							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td ><?php echo $tr->translate("OWNER_NAME")?></td>
-							<td><input id="client_name" /><?php //echo $frm->getElement('client_name');?></td>
+						</tr>
+						<tr>
+						    <td><?php echo $tr->translate("GIVER_NAME")?></td>
+							<td><?php echo $frm->getElement('receiver_name')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("NOTE")?></td>
+							<td><?php echo $frm->getElement('_note')?></td>
+						</tr>
+				</table>
+			</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
 							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
 							<td><input id="client_code" /><?php //echo $frm->getElement('client_code');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("GIVER_NAME")?></td>
-							<td><?php echo $frm->getElement('receiver_name')?></td>
+							<td ><?php echo $tr->translate("OWNER_NAME")?></td>
+							<td><input id="client_name" /><?php //echo $frm->getElement('client_name');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("RECEIVER_NAME")?></td>
 							<td><?php echo $frm->getElement('giver_name');?></td>
-							<td><?php echo $tr->translate("NOTE")?></td>
-							<td><?php echo $frm->getElement('_note')?></td>
 						</tr>
-						<tr>
-								<td><?php echo $tr->translate("DATE")?></td>
-								<td><?php echo $frm->getElement('date')?></td>
-								<td><?php echo $tr->translate("STATUS")?></td>
-								<td><?php echo $frm->getElement('Stutas')?></td>
-								<td><?php //echo $tr->translate("NOTE")?></td>
-								<td><?php //echo $frm->getElement('note')?></td>
-						</tr>
-						<tr>
-							<td colspan="6"><strong><?php echo $tr->translate("RETURN_COLLTERAL_INFO")?></strong></td>
-						</tr>
-						
-					</table>
-				</fieldset>
+				</table>
+			</fieldset>	
 		</td>
-	</tr>	
+		<td width="33%;" valign="top">
+			<fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("DATE")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
+							<td><?php echo $tr->translate("DATE")?></td>
+							<td><?php echo $frm->getElement('date')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php echo $frm->getElement('Stutas')?></td>
+						</tr>
+				</table>
+			</fieldset>	
+		</td>
+	</tr>
 	<tr>
-		<td align="center">
+		<td colspan="3" style="border-bottom:1px solid #ccc;    background: none repeat scroll 0 0 #dcdcff;"><strong><?php echo $tr->translate("RETURN_COLLTERAL_INFO")?></strong></td>
+	</tr>
+	<tr>
+		<td align="center" colspan="3">
 				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
 				<!--<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
 							<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
@@ -84,11 +109,11 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 		</td>
 	<tr>		
 	<tr>
-		<td align="center">
+		<td align="center" colspan="3">
 				<input type="reset" value="សំអាត" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"/>
-	            <input type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate("SAVECLOSE")?>" dojoType="dijit.form.Button" 
+	            <input type="button" onclick="submitDataClose();" value="save_close" name="save_close" id="save_close" label="<?php echo $tr->translate("SAVECLOSE")?>" dojoType="dijit.form.Button" 
 					iconClass="dijitEditorIcon dijitEditorIconSave" />
-				<input type="submit" value="save_new" name="save_new" label="<?php echo $tr->translate("SAVENEW")?>" dojoType="dijit.form.Button" 
+				<input type="submit" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate("SAVENEW")?>" dojoType="dijit.form.Button" 
 					iconClass="dijitEditorIcon dijitEditorIconSave" />
 		</td>
 	</tr>	
@@ -113,6 +138,7 @@ require(["dojo/ready"], function(ready){
 	required: true,		           
 	name: "client_name",
 	id: "client_name",
+	class:"fullside",
 	searchAttr: "name",
 	onChange: function() {
 		getClientInfo(2);
@@ -130,6 +156,7 @@ require(["dojo/ready"], function(ready){
 	},            		           
 	name: "client_code",
 	id: "client_code",
+	class:"fullside",
 	searchAttr: "name",
 	onChange: function() {
 		getClientInfo(1);
@@ -281,4 +308,35 @@ function getClientCollateral(){
 	});
 }
 
+function submitDataClose(){
+	if(dijit.byId('branch_id').get('value')==''){
+        alert('Please Select Branch !');
+        dijit.byId('branch_id').focus();
+        return false;
+    }
+    if(dijit.byId('client_name').get('value')==''){
+        alert('Please Select Client Name !');
+        dijit.byId('client_name').focus();
+        return false;
+    }
+   if(dijit.byId('record_row').get('value')==''){
+        alert('Can not submit without record !');
+        return false;
+    }
+	if(dijit.byId('frm_add_tran').validate()) {
+		dijit.byId('save_close').set('disabled',true);
+		dijit.byId('save_new').set('disabled',true);
+		var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'returncollteral','action'=>'add')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("frm_add_tran"),		    
+			load: function(data) {
+				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+				window.location.href ="<?php echo $this->baseUrl();?>/group/returncollteral";
+			},
+			error: function(e) {
+			}
+		});
+	}
+}
 </script>

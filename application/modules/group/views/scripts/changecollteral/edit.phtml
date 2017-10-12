@@ -38,51 +38,94 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 			}
 </script>
 <table width="100%" style="margin-top:-8px;">
+
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong><?php echo $tr->translate("CHANGE_COLLTERAL_INFO");?></strong></legend>
-					<table cellspacing="10"  width="100%"> 
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("BRANCH_INFO")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
 							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');echo $frm->getElement('id');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+							<td><input id="client_code" /><?php //echo $frm->getElement('client_code');?></td>
+						</tr>
+						<tr>
 							<td ><?php echo $tr->translate("OWNER_NAME")?></td>
 							<td><input id="client_name" /><?php //echo $frm->getElement('client_name');?>
 								<input dojoType="dijit.form.TextBox"  id="owner" name="owner" value="" type="hidden">
 							    <input dojoType="dijit.form.TextBox"  id="client_coll" name="client_coll" value="" type="hidden">
 							</td>
-							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-							<td><input id="client_code" /><?php //echo $frm->getElement('client_code');?></td>
-							
+						</tr>
+				</table>
+			</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
+						    
+							<td valign="top" rowspan="3" colspan="2"  style="border: 1px solid #ccc;width:100%;height:100px;font:12px;padding: 2px 5px;"><span id="display_info">&nbsp;</span></td>
+						</tr>
+				</table>
+			</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+			<fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("DATE")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
+							<td><?php echo $tr->translate("NOTE")?></td>
+							<td ><?php echo $frm->getElement('note')?></td>
 						</tr>
 						<tr>
-							<td valign="top" colspan="6"  style="border: 1px solid #ccc;width:65%;height:40px;font:12px;padding: 2px 5px;"><span id="display_info">&nbsp;</span></td>
+						    <td><?php echo $tr->translate("DATE")?></td>
+							<td><?php echo $frm->getElement('date')?></td>
 						</tr>
 						<tr>
-								<td><?php echo $tr->translate("DATE")?></td>
-								<td><?php echo $frm->getElement('date')?></td>
-								<td><?php echo $tr->translate("NOTE")?></td>
-								<td><?php echo $frm->getElement('note')?></td>
-								<td><?php echo $tr->translate("STATUS")?></td>
-								<td><?php echo $frm->getElement('Stutas')?></td>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php echo $frm->getElement('Stutas')?></td>
 						</tr>
-						<tr>
-							<td colspan="6"><strong><?php echo $tr->translate("RETURN_COLLTERAL_INFO")?></strong></td>
-						</tr>
+				</table>
+			</fieldset>	
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" style="border-bottom:1px solid #ccc;    background: none repeat scroll 0 0 #dcdcff;"><strong><?php echo $tr->translate("RETURN_COLLTERAL_INFO")?></strong></td>
+	</tr>
+	<tr>
+		<td width="33%;" valign="top">
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
 							<td><?php echo $tr->translate("RECEIVER_NAME")?></td>
 							<td><?php echo $frm->getElement('giver_name');?></td>
+						</tr>
+						
+				</table>
+		</td>
+		<td width="33%;" valign="top">
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
 							<td><?php echo $tr->translate("GIVER_NAME")?></td>
 							<td><?php echo $frm->getElement('receiver_name')?></td>
+						</tr>
+				</table>
+		</td>
+		<td width="33%;" valign="top">
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
 							<td><?php echo $tr->translate("NOTE")?></td>
 							<td><?php echo $frm->getElement('_note')?></td>
 						</tr>
-					</table>
-				</fieldset>
+						
+				</table>
 		</td>
-	</tr>	
+	</tr>
 	<tr>
-		<td align="center">
+		<td align="center" colspan="3">
 				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
 				<table id="t_amountmoneytype" width="100%" style="border-collapse: collapse; border:1px solid #ccc !important;">
 							<tr style="background:#eee; font-size: 12px; height: 30px;margin-bottom: 10px;" id="head_title" class="head-title" align="center"></tr>
@@ -90,7 +133,7 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 		</td>
 	<tr>		
 	<tr>
-		<td align="center">
+		<td align="center" colspan="3">
 				<input type="submit" value="save_new" name="save_new" label="<?php echo $tr->translate("GO_EDIT")?>" dojoType="dijit.form.Button" 
 					iconClass="dijitEditorIcon dijitEditorIconSave" />
 		</td>

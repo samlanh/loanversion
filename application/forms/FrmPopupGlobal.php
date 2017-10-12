@@ -245,15 +245,15 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 				<form id="form_district" >';
 		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 					<tr>
-						<td>District Name English</td>
+						<td>'.$tr->translate("DISTRICT_NAME_EN").'</td>
 						<td>'.$frm->getElement('pop_district_name').'</td>
 					</tr>
 								<tr>
-						<td>Province Name English</td>
+						<td>'.$tr->translate("PROVINCE_NAME_EN").'</td>
 						<td>'.$frm->getElement('pop_district_namekh').'</td>
 					</tr>
 					<tr>
-						<td>District Name Khmer</td>
+						<td>'.$tr->translate("DISTRICT_NAME_KH").'</td>
 						<td>'.$frm->getElement('province_names').'</td>
 					</tr>
 					
@@ -334,7 +334,7 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 						</tr>
 						<tr>
 							<td colspan="2" align="center">
-											<input type="reset" value="សំអាត" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
+											<input type="reset" value="ážŸáŸ†áž¢áž¶áž�" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
 											<input type="button" value="save_close" name="save_close" label="'. $tr->translate('SAVE').'" dojoType="dijit.form.Button" 
 												iconClass="dijitEditorIcon dijitEditorIconSave" Onclick="addVillage();"  />
 							</td>
@@ -355,11 +355,11 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 					<form id="form_clienttype" >';
 		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 					<tr>
-						<td>Document Type EN</td>
+						<td>'.$tr->translate("DOCUMENT_TYPE_EN").'</td>
 						<td>'.$frm->getElement('clienttype_nameen').'</td>
 					</tr>
 					<tr>
-						<td>Document Type KH</td>
+						<td>'.$tr->translate("DOCUMENT_TYPE_KH").'</td>
 						<td>'.$frm->getElement('clienttype_namekh').'</td>
 					</tr>
 					
@@ -411,7 +411,7 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		</tr>
 		<tr>
 		<td colspan="2" align="center">
-		<input type="reset" value="សំអាត" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
+		<input type="reset" value="ážŸáŸ†áž¢áž¶áž�" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
 		<input type="button" value="save_close" name="save_close" label="'. $tr->translate('SAVE').'" dojoType="dijit.form.Button"
 		iconClass="dijitEditorIcon dijitEditorIconSave" Onclick="addNewloanType();"  />
 		</td>

@@ -9,6 +9,13 @@ $row=$this->row;
 <script>
 dojo.require("dijit.form.DateTextBox");
 </script>
+<script>
+dojo.require("dojo.data.ItemFileWriteStore");  
+//dojo.require("dojo.data.ObjectStore");
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.Dialog");
+</script>
 <style>	
 .fullside {
 	width: 100%;
@@ -42,74 +49,107 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
                          return false;
                  }
 
-
-
+                dijit.byId('save_new').set('disabled',true);
+			    dijit.byId('save_close').set('disabled',true);
 				return true;
 			}else {
 				return false;
 			}
 </script>
+<fieldset>
 <table cellspacing="10" class='fullside'>
+ <legend><strong><?php echo $tr->translate("ADD_CLIENT");?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong><?php echo $tr->translate("CLIENT_COLLTERAL");?></strong></legend>
-					<table cellspacing="10"  width="100%">
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("BRANCH_INFO")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
-							<td width="16%"><?php echo $tr->translate("BRANCH_NAME")?></td>
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("COLLTERAL_CODE")?></td>
 							<td><?php echo $frm->getElement('cod_cal');?></td>
-							<td width="16%"><?php echo $tr->translate("STAFF_NAME")?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("STAFF_NAME")?></td>
 							<td><?php echo $frm->getElement('co_name');?></td>
 						</tr>
 						<tr>
-							<td width="16%"><?php echo $tr->translate("CLIENT_NO")?></td>
+							<td><?php echo $tr->translate("NOTE")?></td>
+							<td><?php echo $frm->getElement('note')?></td>
+						</tr>
+				</table>
+			</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
+							<td ><?php echo $tr->translate("CLIENT_NO")?></td>
 							<td><input id="client_code" /><?php //echo $frm->getElement('client_code');?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 						    <td><input id="client_name" /><?php //echo $frm->getElement('client_name')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("DATE")?></td>
+							<td><?php echo $frm->getElement('date_estate')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php echo $frm->getElement('Stutas')?></td>
+						</tr>
+				</table>
+			</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+			<fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("GUARANTOR_INFO")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
 							<td><?php echo $tr->translate("AND_NAME")?></td>
 							<td><?php echo $frm->getElement('name')?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
 							<td><?php echo $frm->getElement('names')?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("SPOUSE_NAME")?></td>
 							<td><?php echo $frm->getElement('owner')?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
 							<td><?php echo $frm->getElement('and_name')?></td>
 						</tr>
-						<tr>
-								<td><?php echo $tr->translate("NOTE")?></td>
-								<td><?php echo $frm->getElement('note')?></td>
-								<td><?php echo $tr->translate("DATE")?></td>
-								<td><?php echo $frm->getElement('date_estate')?></td>
-								<td><?php echo $tr->translate("STATUS")?></td>
-								<td><?php echo $frm->getElement('Stutas')?></td>
-						</tr>
-					</table>
-				</fieldset>
+				</table>
+			</fieldset>	
 		</td>
 	</tr>
+
+ 
 	<tr>
-		<td align="center">
+		<td align="center" colspan="3">
 				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
 				<div  id="test"></div>
 				<input iconClass="dijitIconClear" type="button" onClick="addCollecteral();" label="<?php echo $tr->translate('ADD');?>" dojoType="dijit.form.Button"/></td>
 		</td>
 	<tr>	
 	<tr>
-		<td align="center">
-									<input iconClass="dijitIconClear" type="reset" value="សំអាត" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button"/>
-									<input type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
-										iconClass="dijitEditorIcon dijitEditorIconSave" />
-									<input type="submit" value="save_new" name="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
-										iconClass="dijitEditorIcon dijitEditorIconSave" />
+		<td align="center" colspan="3">
+				<input iconClass="dijitIconClear" type="reset" value="សំអាត" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button"/>
+				<input type="button" onclick="submitDataClose()" value="save_close" name="save_close"  id="save_close"  label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
+					iconClass="dijitEditorIcon dijitEditorIconSave" />
+				<input type="submit" value="save_new" name="save_new"​ id="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
+					iconClass="dijitEditorIcon dijitEditorIconSave" />
 		</td>
 	</tr>
-	<tr>
-	</tr>	
 </table>
+</fieldset>
 </form>
 <?php 
 echo $this->frmpupopclient;
@@ -272,11 +312,11 @@ function addCollecteral(){
 			
 		temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
 		temp+='<td width="200px"><select style=" width:98%;background:#fff; padding-left:5px;" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+collect_option+'</select></td>';
-	    temp+='<td><select style=" width:90%; background:#fff; padding-left:5px;" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
-		temp+='<td width="200px"><input style=" width:98%;" type="text" required="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
-		temp+='<td><input style=" width:90%;" type="text" required="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
-		temp+='<td><input constraints='+'{datePattern:"dd/MM/yyyy"}'+' style=" width:90%;" type="text"  name="issue_date'+r+'" id="issue_date'+r+'" dojoType="dijit.form.DateTextBox"/></td>';
-		temp+='<td><input type="text" name="note'+r+'" id="note'+r+'" dojoType="dijit.form.TextBox" /></td>';
+	    temp+='<td><select style=" width:90%; background:#fff; padding-left:5px;" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')" class="fullside">'+owner_option+'</select></td>';
+		temp+='<td width="200px"><input style=" width:98%;" type="text" required="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox" class="fullside"/></td>';
+		temp+='<td><input style=" width:90%;" type="text" required="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox" class="fullside"/></td>';
+		temp+='<td><input constraints='+'{datePattern:"dd/MM/yyyy"}'+' style=" width:90%;" type="text"  name="issue_date'+r+'" value="<?php echo date('Y-m-d'); ?>" id="issue_date'+r+'" dojoType="dijit.form.DateTextBox" class="fullside"/></td>';
+		temp+='<td><input type="text" name="note'+r+'" id="note'+r+'" dojoType="dijit.form.TextBox" class="fullside"/></td>';
 		
 			dojo.html.set(dojo.byId("row_capital"+r),temp, {
 		    parseContent: true,
@@ -314,6 +354,47 @@ function setOwnerNameCollecteralById(index){
 		label = dijit.byId('owner').get('value');
 	}
 	dijit.byId('owner_name'+index).attr('value',label);
+}
+
+function submitDataClose(){
+	 if(dijit.byId('branch_id').get('value')==''){
+	     alert('Please Select Branch Name!');
+             dijit.byId('branch_id').focus();
+             return false;
+     }
+
+	if(dijit.byId('co_name').get('value')==''){
+	         alert('Please Select Staff Name!');
+             dijit.byId('co_name').focus();
+             return false;
+     }
+     if(dijit.byId('client_name').get('value')==''){
+	         alert('Please Select Client Name!');
+             dijit.byId('client_name').focus();
+             return false;
+     }
+      if(dijit.byId('record_row').get('value')==''){
+	         alert('Please Select collateral must be record!');
+             return false;
+     }
+
+    
+    
+	if(dijit.byId('frm_add_tran').validate()) {
+		dijit.byId('save_close').set('disabled',true);
+		dijit.byId('save_new').set('disabled',true);
+		var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'callteral','action'=>'add')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("frm_add_tran"),		    
+			load: function(data) {
+				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+				window.location.href ="<?php echo $this->baseUrl();?>/group/callteral";
+			},
+			error: function(e) {
+			}
+		});
+	}
 }
 
 </script>

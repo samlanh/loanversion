@@ -22,97 +22,156 @@ $frm = $this->frm_loan;
      		dijit.byId('branch').focus();
      		return false;
    		}
-		if(dijit.byId('client_nameadd').get('value')==''){
-     		alert('Please Select Client Name');
+		if(dijit.byId('client_codeadd').get('value')==0 || dijit.byId('client_codeadd').get('value')==''){
+     		alert('Please Select Client Code');
      		dijit.byId('client_codeadd').focus();
      		return false;
    		}
-		
+		if(dijit.byId('client_nameadd').get('value')==0 || dijit.byId('client_nameadd').get('value')==''){
+     		alert('Please Select Client Name');
+     		dijit.byId('client_nameadd').focus();
+     		return false;
+   		}
+		dijit.byId("save").set("disabled",true);
+		dijit.byId("save_close").set("disabled",true);
     	return true;
    		}else {
     	return false;
    	}
 	</script>
+<fieldset>
 <table cellspacing="10" class='fullside' >
+	<legend><strong><?php echo $tr->translate('BAD_LOAN');?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong><?php echo $tr->translate('BAD_LOAN');?></strong></legend>
-					<table cellspacing="10"  width="100%">
-					   <tr>
-							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
-							<td><?php echo $frm->getElement('branch');?></td>
-							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-							<td><?php echo $frm->getElement('client_nameadd')?></td>
-							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-							<td><?php echo $frm->getElement('client_codeadd');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("LOAN_NO")?></td>
-							<td><?php echo $frm->getElement('loannumber');?></td>
-							<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
-							<td><?php  echo $frm->getElement('load_level');?></td>	
-							<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
-							<td><?php echo $frm->getElement('total_amount_loan')?></td>						
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("INTEREST")?></td>
-							<td><?php echo $frm->getElement('interest_rate');?></td>
-							<td><?php echo $tr->translate("TERM_BORROW")?></td>
-							<td><?php  echo $frm->getElement('loan_period');?></td>	
-							<td><?php echo $tr->translate("TERM_INSTALL")?></td>
-							<td><?php echo $frm->getElement('payment_term')?></td>						
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("RELEASE_DATE")?></td>
-							<td><?php echo $frm->getElement('release_date');?></td>
-							<td><?php echo $tr->translate("LIFE_LOAN")?></td>
-							<td><?php  echo $frm->getElement('end_date');?></td>	
-							<td><?php //echo $tr->translate("other")?></td>
-							<td><?php //echo $frm->getElement('other')?></td>						
-						</tr>
-						<tr>
-							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong>ព៌ត័មាន កម្ចីខូច</strong></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("OS")?></td>
-							<td><?php echo $frm->getElement('Total_amount');?></td>
-							<td><?php echo $tr->translate("TOTAL_INTEREST")?></td>
-							<td><?php echo $frm->getElement('Interest_amount');?></td>
-							<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td><?php  echo $frm->getElement('cash_type');?></td>	
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("LOSS_DATE")?></td>
-							<td><?php echo $frm->getElement('date_loss')?></td>									
-							<td><?php echo $tr->translate("TERM")?></td>
-							<td><?php  echo $frm->getElement('Term');?></td>
-							<td><?php echo $tr->translate("NOTE")?></td>
-							<td><?php  echo $frm->getElement('Note');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("DATE")?></td>
-							<td><?php echo $frm->getElement('Date');?></td>
-							<td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php echo $frm->getElement('status');?></td>
-						</tr>
-						<tr>
-							<td align="center" colspan="6">
-								<input type="submit" name="save" value="រក្សាទុក  + បន្ថែមថ្មី​​ " label="<?php echo $tr->translate('SAVENEW')?>" id="submitButton" dojoType="dijit.form.Button"
-				 					iconClass="dijitEditorIcon dijitEditorIconSave"/>
-				 				<input type="submit" name="save_close"​​ value="រក្សាទុក​  + ចាកចេញ" label="<?php echo $tr->translate('SAVECLOSE')?>" id="submitBtn" dojoType="dijit.form.Button"
-				 					iconClass="dijitEditorIcon dijitEditorIconSave"/>
-				 					
-				 					
-							</td>
-						</tr>
-					</table>
-				</fieldset>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
+			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			    <tr>
+					<td style="width: 30%;"><?php echo $tr->translate("BRANCH_NAME")?></td>
+					<td><?php echo $frm->getElement('branch');?></td>
+			    </tr>
+			    <tr>
+					<td><?php echo $tr->translate("LOAN_NO")?></td>
+					<td><?php echo $frm->getElement('loannumber');?></td>
+				</tr>
+				<tr >
+					<td><?php echo $tr->translate("INTEREST")?></td>
+					<td><?php echo $frm->getElement('interest_rate');?></td>
+				</tr>
+			</table>
+		</fieldset>	
 		</td>
-	</tr>		
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('CUSTOMER_INFO');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			 	<tr>
+					<td style="width: 41%;"><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+					<td><?php echo $frm->getElement('client_codeadd');?></td>
+				</tr>
+			 	<tr>
+					<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+					<td><?php echo $frm->getElement('client_nameadd')?></td>
+				</tr>
+			 	<tr >
+					<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
+					<td><?php  echo $frm->getElement('load_level');?></td>	
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
+					<td><?php echo $frm->getElement('total_amount_loan')?></td>
+				</tr>
+				
+				
+			</table>
+		</fieldset>
+		</td>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('TERM_INSTALL');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				<tr>
+					<td style="width: 34%;"><?php echo $tr->translate("TERM_INSTALL")?></td>
+					<td><?php echo $frm->getElement('payment_term')?></td>						
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("TERM_BORROW")?></td>
+					<td><?php  echo $frm->getElement('loan_period');?></td>	
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("RELEASE_DATE")?></td>
+					<td><?php echo $frm->getElement('release_date');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("LIFE_LOAN")?></td>
+					<td><?php  echo $frm->getElement('end_date');?></td>	
+				</tr>
+				
+			</table>
+		</fieldset>
+		</td>
+	</tr>
 	<tr>
-	</tr>	
+		<td colspan="6" style="border-bottom:1px solid #ccc;"><strong>ព៌ត័មាន កម្ចីខូច</strong></td>
+	</tr>
+	<tr>
+		<td width="33%;" valign="top">
+			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			    <tr>
+					<td style="width: 30%;"><?php echo $tr->translate("OS")?></td>
+					<td><?php echo $frm->getElement('Total_amount');?></td>
+			    </tr>
+			    <tr>
+					<td><?php echo $tr->translate("TOTAL_INTEREST")?></td>
+					<td><?php echo $frm->getElement('Interest_amount');?></td>
+				</tr>
+			    <tr>
+					<td><?php echo $tr->translate("CURRENCY")?></td>
+					<td><?php  echo $frm->getElement('cash_type');?></td>
+				</tr>
+			
+			</table>
+		</td>
+		<td width="33%;" valign="top">
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			 	<tr>
+					<td style="width: 41%;"><?php echo $tr->translate("TERM")?></td>
+					<td><?php  echo $frm->getElement('Term');?></td>
+				</tr>
+			 	<tr >
+					<td><?php echo $tr->translate("LOSS_DATE")?></td>
+					<td><?php echo $frm->getElement('date_loss')?></td>									
+				</tr>
+				<tr >
+					<td><?php echo $tr->translate("DATE")?></td>
+					<td><?php echo $frm->getElement('Date');?></td>
+				</tr>
+			</table>
+		</td>
+		<td width="33%;" valign="top">
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				<tr>
+					<td style="width: 34%;"><?php echo $tr->translate("NOTE")?></td>
+					<td><?php  echo $frm->getElement('Note');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("STATUS")?></td>
+					<td><?php echo $frm->getElement('status');?></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td align="center" colspan="3">
+			<input type="button" onclick="submitDataClose()" name="save_close"​​ id="save_close"​​ value="រក្សាទុក​  + ចាកចេញ" label="<?php echo $tr->translate('SAVECLOSE')?>" id="submitBtn" dojoType="dijit.form.Button"
+ 					iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" name="save"  id="save" value="រក្សាទុក  + បន្ថែមថ្មី​​ " label="<?php echo $tr->translate('SAVENEW')?>" id="submitButton" dojoType="dijit.form.Button"
+ 					iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			</td>
+	</tr>		
 </table>
+</fieldset>
 </form>
 		
 <script type="text/javascript">
@@ -164,5 +223,39 @@ function getClientInfo(type){
 		}
 	});
 	
+}
+
+function submitDataClose(){
+	if(dijit.byId('branch').get('value')==''){
+ 		alert('Please Select Branch');
+ 		dijit.byId('branch').focus();
+ 		return false;
+		}
+	if(dijit.byId('client_codeadd').get('value')==0 || dijit.byId('client_codeadd').get('value')==''){
+ 		alert('Please Select Client Code');
+ 		dijit.byId('client_codeadd').focus();
+ 		return false;
+		}
+	if(dijit.byId('client_nameadd').get('value')==0 || dijit.byId('client_nameadd').get('value')==''){
+ 		alert('Please Select Client Name');
+ 		dijit.byId('client_nameadd').focus();
+ 		return false;
+		}
+	
+	if(dijit.byId('add_province').validate()) {
+		dijit.byId("save").set("disabled",true);
+		dijit.byId("save_close").set("disabled",true);
+		var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'badloan','action'=>'add')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("add_province"),		    
+			load: function(data) {
+				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+				window.location.href ="<?php echo $this->baseUrl();?>/loan/badloan";
+			},
+			error: function(e) {
+			}
+		});
+	}
 }
 </script>

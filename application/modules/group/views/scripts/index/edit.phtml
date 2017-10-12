@@ -35,134 +35,227 @@ dojo.require("dijit.Dialog");
 				return false;
 			}
 </script>
-<table width="100%" style="margin-top: -7px;">
-	<tr>
-		<td>
-		<fieldset>
-					<legend><strong><?php echo $tr->translate("ADD_CLIENT");?></strong></legend>
-					<table style="margin: 0 auto; width:100%;" cellspacing="10">
-						<tr>
-							<?php echo $frm->getElement('id');?>
-							<td><?php echo $tr->translate("BRANCH_NAME");?>*</td>
-							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("IS_GROUP")?></td>
-							<td><?php echo $frm->getElement('is_group');?></td>		
-							<td><?php echo $tr->translate("GROUP_CODE")?></td>
-						   <td><?php echo $frm->getElement('group_code');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("GROUP_NAME")?></td>
-							<td><?php echo $frm->getElement('group_id');?></td>
-							<td><?php echo $tr->translate("CLIENT_NO")?></td>
-							<td><?php echo $frm->getElement('client_no');?></td>
-							<td><?php echo $tr->translate("NAME_KHMER")?>*</td>
-							<td><?php  echo $frm->getElement('name_kh');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("NAME_ENG")?>*</td>
-							<td><?php  echo $frm->getElement('name_en');?></td>
-							<td><?php echo $tr->translate("SEX")?></td>
-							<td><?php  echo $frm->getElement('sex');?></td>
-							<td><?php echo $tr->translate("SITU_STATUS")?>*</td>
-							<td><?php  echo $frm->getElement('situ_status');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
-							<td><input id="client_d_type" required="true"/><?php  //echo $frm->getElement('client_d_type');?></td>
-							<td>No</td>
-							<td><?php  echo $frm->getElement('national_id');?></td>
-							<td><?php echo $tr->translate("JOB_TYPE")?></td>
-							<td><?php echo $frm->getElement('job');?></td>
-							
-						</tr>
-						<tr>
-						    <td><?php echo $tr->translate("PHONE")?></td>
-							<td><?php  echo $frm->getElement('phone');?></td>
-							<td><?php echo $tr->translate("DOB")?></td>
-							<td><?php  echo $frm->getElement('dob_client');?></td>
-							<td><?php echo $tr->translate("PROVINCE")?>*</td>
-							<td><?php echo $frm->getElement('province');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("DISTRICT")?></td>
-							<td><input id="district" required="true" ><?php //echo $frm->getElement('district');?></td>
-							<td><?php echo $tr->translate("COMMUNE")?></td>
-							<td><input id="commune" ><?php //echo $frm->getElement('commune');?></td>
-							<td><?php echo $tr->translate("VILLAGE")?></td>
-							<td><input id="village" ><?php  //echo $frm->getElement('village');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("STREET")?></td>
-							<td><?php  echo $frm->getElement('street');?></td>
-							<td><?php echo $tr->translate("HOUSE")?></td>
-							<td><?php  echo $frm->getElement('house');?></td>							
-							<td><?php echo $tr->translate("PHOTO")?></td>
-							<td><?php echo $frm->getElement('photo');?></td>
-						</tr>
-						<tr>
-							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong>Join Account Info</strong></td>
-						</tr>
-						<tr>
-						    <td><?php echo $tr->translate("JOIN_WITH")?></td>
-							<td><?php  echo $frm->getElement('join_with');?></td>
-							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
-							<td><input id="join_d_type" /><?php  //echo $frm->getElement('join_d_type');?></td>
-							<td>No</td>
-							<td><?php  echo $frm->getElement('join_nation_id');?></td>
-						</tr>
-						<tr>
-						<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
-							<td><?php  echo $frm->getElement('relate_with');?></td>
-							<td><?php echo $tr->translate("TEL")?></td>
-							<td><?php  echo $frm->getElement('relate_tel');?></td>	
-							<td><?php echo $tr->translate("DOB")?></td>
-							<td><?php  echo $frm->getElement('dob_join_acc');?></td>	
-						</tr>
-						<tr>
-							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong>Guarantor Info</strong></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("SPOUSE_NAME")?></td>
-							<td><?php echo $frm->getElement('spouse');?></td>
-							<td><?php echo $tr->translate("NATIONAL_ID")?></td>
-							<td><input id="guarantor_d_type" /><?php //echo $frm->getElement('guarantor_d_type');?></td>
-							<td></td>
-							<td><?php echo $frm->getElement('spouse_nationid');?></td>						
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
-							<td><?php  echo $frm->getElement('guarantor_with');?></td>
-							<td><?php echo $tr->translate("TEL")?></td>
-							<td><?php  echo $frm->getElement('guarantor_tel');?></td>
-							<td><?php echo $tr->translate("DOB")?></td>
-							<td><?php  echo $frm->getElement('dob_guarantor');?></td>
-							
-						</tr>
-						<tr>
-							<td valign="top"><?php echo $tr->translate("ADDRESS")?></td>
-							<td valign="top"><?php  echo $frm->getElement('guarantor_address');?></td>
-							<td valign="top"><?php echo $tr->translate("STATUS")?></td>
-							<td valign="top"><?php  echo $frm->getElement('status');?></td>
-							<td valign="top"><?php echo $tr->translate("NOTE")?></td>
-							<td><?php  echo $frm->getElement('desc');?></td>
-						</tr>
-						<tr>
-							<td valign="top"><?php echo $tr->translate("AUTO_COLLATERAL")?></td>
-							<td valign="top"><?php  echo $frm->getElement('chackcall');?></td>	
-							<td colspan="4"></td>
-						
-						</tr>
-						<tr>
-							<td colspan="6" align="center">
-						    <input type="submit" value="SAVE_CLOSE" label="<?php echo $tr->translate('GO_EDIT');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
-								 iconClass="dijitEditorIcon dijitEditorIconSave" /> 
-							</td>
-						</tr>
+	<fieldset>
+	<table  width="100%" style="margin-top:-5px;" >
+			 <legend><strong><?php echo $tr->translate("ADD_CLIENT");?></strong></legend>
+		<tr>
+			<td width="33%;" valign="top">
+				<fieldset>
+					<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO")?></strong></legend>
+					<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+					<?php echo $frm->getElement('id');?>
+							<tr>
+								<td><?php echo $tr->translate("BRANCH_NAME");?></td>
+								<td> <?php echo $frm->getElement('branch_id');?></td> 
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("IS_GROUP")?></td>
+								<td> <?php echo $frm->getElement('is_group');?></td>
+							</tr>
+							<tr>
+							    <td><?php echo $tr->translate("GROUP_CODE")?></td>
+								<td><?php echo $frm->getElement('group_code');?></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("GROUP_NAME")?></td>
+								<td><?php echo $frm->getElement('group_id');?> </td>
+						    </tr>
+						    <tr>
+								<td><?php echo $tr->translate("CLIENT_NO")?></td>
+								<td> <?php echo $frm->getElement('client_no');?> </td>
+						    </tr>
+						    <tr>
+						        <td><?php echo $tr->translate("NAME_KHMER")?>*</td>
+						        <td> <?php  echo $frm->getElement('name_kh');?> </td>
+						    </tr>
+						    <tr>
+						        <td><?php echo $tr->translate("NAME_ENG")?>*</td>
+								<td><?php  echo $frm->getElement('name_en');?></td>
+						    </tr>
 					</table>	
-		</fieldset>		
-		</td>
-	</tr>
-</table>	
+				</fieldset>	
+			</td>
+			<td width="33%;" valign="top">
+				<fieldset>
+					<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_DOCUMENT")?></strong></legend>
+					 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+							<tr>
+								<td><?php echo $tr->translate("SEX")?></td>
+								<td><?php  echo $frm->getElement('sex');?></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("PHONE")?></td>
+								<td><?php  echo $frm->getElement('phone');?></td>
+							</tr>
+							<tr>
+							    <td><?php echo $tr->translate("NATIONAL_ID")?></td>
+								<td><input id="client_d_type" required="true"/><?php  //echo $frm->getElement('client_d_type');?></td>
+							</tr>
+							<tr>
+								<td>No</td>
+								<td><?php  echo $frm->getElement('national_id');?></td>
+						    </tr>
+						    <tr>
+								<td><?php echo $tr->translate("DOB")?></td>
+								<td><?php  echo $frm->getElement('dob_client');?></td>
+						    </tr>
+						    <tr>
+						        <td><?php echo $tr->translate("JOB_TYPE")?></td>
+								<td><?php echo $frm->getElement('job');?></td>
+						    </tr>
+						    <tr>
+						        <td><?php echo $tr->translate("PHOTO")?></td>
+								<td><?php echo $frm->getElement('photo');?></td>
+						    </tr>
+					</table>
+				</fieldset>	
+			</td>
+			<td width="33%;" valign="top">
+				<fieldset>
+					<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_ADDRESS")?></strong></legend>
+					 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+							<tr>
+								<td><?php echo $tr->translate("HOUSE")?></td>
+								<td><?php  echo $frm->getElement('house');?></td> 
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("STREET")?></td>
+								<td><?php  echo $frm->getElement('street');?></td>
+							</tr>
+							<tr>
+							    <td><?php echo $tr->translate("PROVINCE")?>*</td>
+								<td><?php echo $frm->getElement('province');?></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("DISTRICT")?></td>
+								<td><input id="district" required="true" ><?php //echo $frm->getElement('district');?></td>
+						    </tr>
+						    <tr>
+								<td><?php echo $tr->translate("COMMUNE")?></td>
+								<td><input id="commune" ><?php //echo $frm->getElement('commune');?></td>
+						    </tr>
+						    <tr>
+						        <td><?php echo $tr->translate("VILLAGE")?></td>
+								<td><input id="village" ><?php  //echo $frm->getElement('village');?></td>
+						    </tr>
+						    <tr>
+						        <td><?php echo $tr->translate("SITU_STATUS")?>*</td>
+								<td><?php  echo $frm->getElement('situ_status');?></td>
+						    </tr>
+					</table>
+				</fieldset>	
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("JOIN_ACCOUNT_INFO")?></strong></td>
+		</tr>
+		<tr>
+			<td width="33%;" valign="top">
+				<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				    <tr>
+				       <td><?php echo $tr->translate("JOIN_WITH")?></td>
+						<td><?php  echo $frm->getElement('join_with');?></td>
+				    </tr>
+				    <tr>
+				    	<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
+						<td><?php  echo $frm->getElement('relate_with');?></td>	
+				    </tr>
+				</table>	
+			</td>
+			<td width="33%;" valign="top">
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+					<tr >
+						<td><?php echo $tr->translate("NATIONAL_ID")?></td>
+						<td><input id="join_d_type" /><?php  //echo $frm->getElement('join_d_type');?></td>
+					</tr>
+					<tr>
+						<td style="width:30%;">No</td>
+						<td><?php echo $frm->getElement('join_nation_id');?></td>					
+					</tr>
+				</table>
+			</td>
+			<td width="33%;" valign="top">
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				    <tr>
+				  		<td ><?php echo $tr->translate("TEL")?></td>
+						<td><?php  echo $frm->getElement('relate_tel');?></td>	
+				    </tr>
+					<tr>
+						<td><?php echo $tr->translate("DOB")?></td>
+						<td><?php  echo $frm->getElement('dob_join_acc');?></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("GUARANTOR_INFO")?></strong></td>
+		</tr>
+		<tr>
+			<td width="33%;" valign="top">
+				<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				    <tr>
+				        <td><?php echo $tr->translate("SPOUSE_NAME")?></td>
+						<td><?php echo $frm->getElement('spouse');?></td>
+				    </tr>
+				    <tr>
+				        <td valign="top"><?php echo $tr->translate("NATIONAL_ID")?></td>
+						<td valign="top"><input id="guarantor_d_type" /><?php //echo $frm->getElement('guarantor_d_type');?></td>
+				    </tr>
+				    <tr>
+				        <td valign="top">No</td>
+						 <td valign="top"><?php echo $frm->getElement('spouse_nationid');?></td>
+				    </tr>
+				    
+				</table>	
+			</td>
+			<td width="33%;" valign="top">
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				 	<tr>
+						<td valign="top" style="width: 30%;"><?php echo $tr->translate("DOB")?></td>
+						<td valign="top"><?php  echo $frm->getElement('dob_guarantor');?></td>						
+					</tr>
+					<tr>
+						<td valign="top"><?php echo $tr->translate("TEL")?></td>
+						<td valign="top"><?php  echo $frm->getElement('guarantor_tel');?></td>
+					</tr>
+				    <tr>
+						<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
+						<td><?php  echo $frm->getElement('guarantor_with');?></td>
+					</tr>
+				</table>
+			</td>
+			<td width="33%;" valign="top">
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+					<tr>
+				  		 <td valign="top"><?php echo $tr->translate("ADDRESS")?></td>
+						<td valign="top"><?php  echo $frm->getElement('guarantor_address');?></td>
+						
+				    </tr>
+					<tr>
+						<td valign="top"><?php echo $tr->translate("NOTE")?></td>
+						<td><?php  echo $frm->getElement('desc');?></td>						
+					</tr>
+					<tr>
+					   <td valign="top"><?php echo $tr->translate("STATUS")?></td>
+						<td valign="top"><?php  echo $frm->getElement('status');?></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+	    	<td valign="top"><?php echo $tr->translate("AUTO_COLLATERAL")?>&nbsp;&nbsp;&nbsp;&nbsp;
+	    		<?php  echo $frm->getElement('chackcall');?>
+	    	</td>
+	    </tr>
+			<tr>
+				<td colspan="6" align="center">
+			    <input type="submit" value="SAVE_CLOSE" label="<?php echo $tr->translate('GO_EDIT');?>" id="save_close" dojoType="dijit.form.Button" name="save_close"
+						 iconClass="dijitEditorIcon dijitEditorIconSave" /> 
+					</td>
+				</tr>
+			</table>	
+</fieldset>		
+		 
 </form>
 <table>
 <tr>
@@ -202,10 +295,12 @@ function popupJobOption(){
 }
 url_job = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'addjob'));?>';
 function addjob(type){
+	if(dijit.byId("frm_jobtype").validate()){
 		labeljob = dijit.byId('job_name').get('value');
 		$('#job').val(labeljob);
 		$('input[name="job"]').val(labeljob);				
 		dijit.byId('frm_jobtype').hide();
+	}
 }
 dojo.require("dojo.data.ItemFileWriteStore");  
 dojo.require("dojo.data.ObjectStore");
@@ -225,7 +320,6 @@ dojo.ready(function(){
 	searchAttr: "name",
 	value: "<?php echo $this->row['dis_id'];?>",
 	class: 'fullside',
-	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះ ស្រុក/ខ័ណ្ឌ!",	
 		onChange: function() {
 			district = dijit.byId('district').get('value');
 			if(district==-1){
@@ -245,7 +339,7 @@ dojo.ready(function(){
 	searchAttr: "name",
 	value: "<?php echo $this->row['com_id'];?>",
 	class: 'fullside',
-	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឃុំ/សង្កាត់",	
+	missingMessage:"áž¢áŸ’áž“áž€â€‹áž—áŸ’áž›áŸ�áž…â€‹áž”áŸ†áž–áŸ�áž‰â€‹ ážƒáž»áŸ†/ážŸáž„áŸ’áž€áž¶áž�áŸ‹",	
 		onChange: function() {
 			commune = dijit.byId('commune').get('value');
 			if(commune==-1){
@@ -267,7 +361,7 @@ dojo.ready(function(){
 	searchAttr: "name",
 	class: 'fullside',
 	value: "<?php echo $this->row['village_id'];?>",
-	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះសាខា​កូន!",	
+	missingMessage:"áž¢áŸ’áž“áž€â€‹áž—áŸ’áž›áŸ�áž…â€‹áž”áŸ†áž–áŸ�áž‰â€‹ ážˆáŸ’áž˜áŸ„áŸ‡ážŸáž¶áž�áž¶â€‹áž€áž¼áž“!",	
 		onChange: function() {
 			vill = dijit.byId('village').get('value');
 			if(vill==-1){
@@ -285,7 +379,7 @@ dojo.ready(function(){
 		searchAttr: "name",
 		class: 'fullside',
 		value: "<?php echo $this->row['client_d_type'];?>",
-		missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះភូមិ!",	
+		missingMessage:"áž¢áŸ’áž“áž€â€‹áž—áŸ’áž›áŸ�áž…â€‹áž”áŸ†áž–áŸ�áž‰â€‹ ážˆáŸ’áž˜áŸ„áŸ‡áž—áž¼áž˜áž·!",	
 			onChange: function() {
 				client_d_type = dijit.byId('client_d_type').get('value');
 				if(client_d_type==-1){
@@ -566,6 +660,7 @@ function addNewCommune(){
 }
 var document_type_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'insert-document-type'));?>';
 function addNewDocumentType(){
+	if(dijit.byId('frm_clienttype').validate()){
 	dojo.xhrPost({
 		url:document_type_url,	
 		content:{ 
@@ -599,6 +694,7 @@ function addNewDocumentType(){
 			alert(err);
 		}
 	});	
+	}
 }
 function showPopupclientdtype(){
 	dijit.byId('frm_clienttype').show();

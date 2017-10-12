@@ -22,84 +22,137 @@ $frm = $this->frm_loan;
     	return false;
    	}
 	</script>
+<fieldset>
 <table cellspacing="10" class='fullside' >
-	<tr>
-		<td>
-				<fieldset>
-					<legend><strong><?php echo $tr->translate('BAD_LOAN');?></strong></legend>
-					<table cellspacing="10"  width="100%">
-					   <tr>
-					   		<?php echo $frm->getElement('idclient');?>
-					         <?php echo $frm->getElement('id');?>
-							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
-							<td><?php echo $frm->getElement('branch');?></td>
-							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-							<td><?php echo $frm->getElement('client_name')?></td>
-							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-							<td><?php echo $frm->getElement('client_code');?></td>
-							
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("LOAN_NO")?></td>
-							<td><?php echo $frm->getElement('loannumber');?></td>
-							<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
-							<td><?php  echo $frm->getElement('load_level');?></td>	
-							<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
-							<td><?php echo $frm->getElement('total_amount_loan')?></td>						
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("INTEREST")?></td>
-							<td><?php echo $frm->getElement('interest_rate');?></td>
-							<td><?php echo $tr->translate("TERM_BORROW")?></td>
-							<td><?php  echo $frm->getElement('loan_period');?></td>	
-							<td><?php echo $tr->translate("TERM_INSTALL")?></td>
-							<td><?php echo $frm->getElement('payment_term')?></td>						
-						</tr>
-						
-						<tr>
-							<td><?php echo $tr->translate("RELEASE_DATE")?></td>
-							<td><?php echo $frm->getElement('release_date');?></td>
-							<td><?php echo $tr->translate("LIFE_LOAN")?></td>
-							<td><?php  echo $frm->getElement('end_date');?></td>	
-							<td><?php //echo $tr->translate("other")?></td>
-							<td><?php //echo $frm->getElement('other')?></td>						
-						</tr>
-						<tr>
-							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong>ព៌ត័មាន កម្ចីខូច</strong></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("OS")?></td>
-							<td><?php echo $frm->getElement('Total_amount');?></td>
-							<td><?php echo $tr->translate("TOTAL_INTEREST")?></td>
-							<td><?php echo $frm->getElement('Interest_amount');?></td>
-							<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td><?php  echo $frm->getElement('cash_type');?></td>	
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("LOSS_DATE")?></td>
-							<td><?php echo $frm->getElement('date_loss')?></td>									
-							<td><?php echo $tr->translate("TERM")?></td>
-							<td><?php  echo $frm->getElement('Term');?></td>
-							<td><?php echo $tr->translate("NOTE")?></td>
-							<td><?php  echo $frm->getElement('Note');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("DATE")?></td>
-							<td><?php echo $frm->getElement('Date');?></td>
-							<td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php echo $frm->getElement('status');?></td>
-						</tr>
-					</table>
-				</fieldset>
+<legend><strong><?php echo $tr->translate('BAD_LOAN');?></strong></legend>
+<tr>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
+			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			    <tr>
+					<?php echo $frm->getElement('idclient');?>
+					<?php echo $frm->getElement('id');?>
+					<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+					<td><?php echo $frm->getElement('branch');?></td>
+			    </tr>
+			    <tr>
+					<td><?php echo $tr->translate("LOAN_NO")?></td>
+					<td><?php echo $frm->getElement('loannumber');?></td>
+				</tr>
+				<tr >
+					<td><?php echo $tr->translate("INTEREST")?></td>
+					<td><?php echo $frm->getElement('interest_rate');?></td>
+				</tr>
+			</table>
+		</fieldset>	
 		</td>
-	</tr>		
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('CUSTOMER_INFO');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			 	<tr>
+					<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+					<td><?php echo $frm->getElement('client_code');?></td>
+				</tr>
+			 	<tr>
+					<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+					<td><?php echo $frm->getElement('client_name')?></td>
+				</tr>
+			 	<tr >
+					<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
+					<td><?php  echo $frm->getElement('load_level');?></td>	
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
+					<td><?php echo $frm->getElement('total_amount_loan')?></td>
+				</tr>
+			</table>
+		</fieldset>
+		</td>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('TERM_INSTALL');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				<tr>
+					<td><?php echo $tr->translate("TERM_INSTALL")?></td>
+					<td><?php echo $frm->getElement('payment_term')?></td>			
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("TERM_BORROW")?></td>
+					<td><?php  echo $frm->getElement('loan_period');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("RELEASE_DATE")?></td>
+					<td><?php echo $frm->getElement('release_date');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("LIFE_LOAN")?></td>
+					<td><?php  echo $frm->getElement('end_date');?></td>
+				</tr>
+				
+			</table>
+		</fieldset>
+		</td>
+	</tr>
 	<tr>
-		<td align="center">
+		<td colspan="6" style="border-bottom:1px solid #ccc;"><strong>ព៌ត័មាន កម្ចីខូច</strong></td>
+	</tr>
+	<tr>
+		<td width="33%;" valign="top">
+			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			    <tr>
+					<td><?php echo $tr->translate("OS")?></td>
+					<td><?php echo $frm->getElement('Total_amount');?></td>
+			    </tr>
+			    <tr>
+					<td><?php echo $tr->translate("TOTAL_INTEREST")?></td>
+					<td><?php echo $frm->getElement('Interest_amount');?></td>
+				</tr>
+			    <tr>
+					<td><?php echo $tr->translate("CURRENCY")?></td>
+					<td><?php  echo $frm->getElement('cash_type');?></td>
+				</tr>
+			
+			</table>
+		</td>
+		<td width="33%;" valign="top">
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			 	<tr>
+					<td><?php echo $tr->translate("TERM")?></td>
+					<td><?php  echo $frm->getElement('Term');?></td>
+				</tr>
+			 	<tr >
+					<td><?php echo $tr->translate("LOSS_DATE")?></td>
+					<td><?php echo $frm->getElement('date_loss')?></td>								
+				</tr>
+				<tr >
+					<td><?php echo $tr->translate("DATE")?></td>
+					<td><?php echo $frm->getElement('Date');?></td>
+				</tr>
+			</table>
+		</td>
+		<td width="33%;" valign="top">
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				<tr>
+					<td><?php echo $tr->translate("NOTE")?></td>
+					<td><?php  echo $frm->getElement('Note');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("STATUS")?></td>
+					<td><?php echo $frm->getElement('status');?></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td align="center" colspan="3">
 			<input type="submit" name="save_close"​​ value="កែប្រែ  + ចាកចេញ" label="<?php echo $tr->translate('GO_EDIT');?>" id="submitBtn" dojoType="dijit.form.Button"
 			iconClass="dijitIconEdit"/>
 		</td>
 	</tr>	
 </table>
+</fieldset>
 </form>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");

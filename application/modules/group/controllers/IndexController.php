@@ -68,57 +68,48 @@ class Group_indexController extends Zend_Controller_Action {
 		
 		$this->view->result=$search;	
 	}
+	
 	public function addAction(){
 		if($this->getRequest()->isPost()){
 				$data = $this->getRequest()->getPost();
-				//print_r($data);exit();
 				$db = new Group_Model_DbTable_DbClient();
 				try{
-				 if(isset($data['save_new'])){
+					//print_r($data);exit();
 					$id= $db->addClient($data);
-					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
 					if($data['chackcall']==1){
 						Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
 						Application_Form_FrmMessage::redirectUrl("/group/callteral/add/id/".$id);
-					}
-				}
-				else if (isset($data['save_close'])){
-					$id= $db->addClient($data);
-					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
-					if($data['chackcall']==1){
-						Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
-						Application_Form_FrmMessage::redirectUrl("/group/callteral/add/id/".$id);
-					}
+					}else if (isset($data['save_close'])){
 					Application_Form_FrmMessage::redirectUrl("/group/index");
+					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
+					if($data['chackcall']==1){
+						Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
+						Application_Form_FrmMessage::redirectUrl("/group/callteral/add/id/".$id);
+					}
 				}
-				
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("Application Error");
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 		}
 		$db = new Application_Model_DbTable_DbGlobal();
-		
 		$client_type = $db->getclientdtype();
 		array_unshift($client_type,array(
 		'id' => -1,
 		'name' => '---Add New ---',
 		 ) );
 		$this->view->clienttype = $client_type;
-		
 		$fm = new Group_Form_FrmClient();
-		
 		$frm = $fm->FrmAddClient();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_client = $frm;
-		
 		$dbpop = new Application_Form_FrmPopupGlobal();
 		$this->view->frm_popup_village = $dbpop->frmPopupVillage();
 		$this->view->frm_popup_comm = $dbpop->frmPopupCommune();
 		$this->view->frm_popup_district = $dbpop->frmPopupDistrict();
 		$this->view->frm_popup_clienttype = $dbpop->frmPopupclienttype();
-		
 	}
+	
 	public function editAction(){
 		$db = new Group_Model_DbTable_DbClient();
 		if($this->getRequest()->isPost()){
@@ -163,6 +154,7 @@ class Group_indexController extends Zend_Controller_Action {
 		) );
 		$this->view->clienttype = $client_type;
 	}
+	
 	function viewAction(){
 		$id = $this->getRequest()->getParam("id");
 		$db = new Group_Model_DbTable_DbClient();

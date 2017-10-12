@@ -52,12 +52,11 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try {		
 				$_dbmodel = new Loan_Model_DbTable_DbBadloan();
+				$_dbmodel->addbadloan($_data);
 				if(isset($_data['save'])){
-					$_dbmodel->addbadloan($_data);
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/badloan/add");
 				}elseif(isset($_data['save_close'])){
-					$_dbmodel->addbadloan($_data);
-					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/badloan");
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/badloan/");
 				}				
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");

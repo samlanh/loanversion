@@ -193,7 +193,7 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 			$guarantor->setValue($data['guarantor']);
 			$relative_guarantor->setValue($data['guarantor_relative']);
 			$note->setValue($data['note']);
-// 			$Date_estate->setValue($data['date_registration']);
+		//	$Date_estate->setValue($data['date_registration']);
 			$stutas->setValue($data['status']);
 			$id->setValue($data['id']);
 			

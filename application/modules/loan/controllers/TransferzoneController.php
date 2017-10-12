@@ -46,13 +46,12 @@ class Loan_TransferzoneController extends Zend_Controller_Action {
  			$_data = $this->getRequest()->getPost();
  			try {		
  				$db = new Loan_Model_DbTable_DbTransferZone(); 
- 				if(isset($_data['btn_save'])){				 				
-	 				$db->insertTransferZone($_data);				
-	 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferzone/add");
+ 				$db->insertTransferZone($_data);
+ 				if(isset($_data['btn_save_close'])){				 				
+	 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferzone/");
  				}
- 				elseif (isset($_data['btn_save_close'])){
- 					$db->insertTransferZone($_data);
- 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferzone/");
+ 				else{
+ 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferzone/add");
  				}
  			}catch (Exception $e) {
  				Application_Form_FrmMessage::message("INSERT_FAIL");

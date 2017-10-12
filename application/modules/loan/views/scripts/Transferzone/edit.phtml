@@ -34,46 +34,61 @@
     return false;
    }
 </script>
+<fieldset>
 <table cellspacing="10" class='fullside'>
+	<legend><strong><?php echo $tr->translate('TRANSFER_CO_CO');?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong><?php echo $tr->translate('TRANSFER_CO_CO');?></strong></legend>
-					<table cellspacing="10">
-						<tr>	
-							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
-							<td><?php  echo $frm->getElement('branch_name');?></td>
-							<td><?php echo $tr->translate("DATE")?></td>
-							<td><?php  echo $frm->getElement('Date');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("ZONE_NAME")?></td>
-							<td><?php  echo $frm->getElement('zone_name');?></td>
-							<td><?php echo $tr->translate("NOTE")?></td>
-							<td><?php  echo $frm->getElement('Note');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("TO_CO")?></td>
-							<td><?php  echo $frm->getElement('to_co');?></td>
-							<td><?php echo $tr->translate("TO_CO")?></td>
-							<td><?php  echo $frm->getElement('to_co_code');?></td>
-						</tr>
-					    <tr>  
-					        <td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php  echo $frm->getElement('status');?></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</table>
-				</fieldset>
-		   </td>
-		</tr>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
+			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			    <tr>
+					<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+					<td><?php  echo $frm->getElement('branch_name');?></td>
+			    </tr>
+			    <tr>
+			    	<td><?php echo $tr->translate("DATE")?></td>
+					<td><?php  echo $frm->getElement('Date');?></td>
+			    </tr>
+			    <tr>
+			  		 <td><?php echo $tr->translate("ZONE_NAME")?></td>
+					 <td><?php echo $frm->getElement('zone_name');?></td>
+			    </tr>
+			</table>
+		</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('CO_INFO');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			 	<tr >
+					<td><?php 	echo $tr->translate("TO_CO")?></td>
+					<td><?php 	echo $frm->getElement('to_co');?></td>
+				</tr>
+				<tr>
+					<td><?php 	echo $tr->translate("TO_CO")?></td>
+					<td><?php  echo $frm->getElement('to_co_code');?></td>
+				</tr>
+			    <tr>
+			    	  <td><?php echo $tr->translate("NOTE")?></td>
+					  <td><?php  echo $frm->getElement('Note');?></td>
+			    </tr>
+			    <tr>
+			    	  <td><?php echo $tr->translate("STATUS")?></td>
+					  <td><?php  echo $frm->getElement('status');?></td>
+			    </tr>
+			</table>
+		</fieldset>
+		</td>
+	</tr>
+					 
 		<tr>
-		<td align="center">
+		<td align="center" colspan="2">
 			<input type="submit" value="រក្សាទុក" name="btn_save" label="<?php echo $tr->translate('GO_EDIT');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
 		</td>
 	</tr>	
 </table>
+</fieldset>
 </form>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");

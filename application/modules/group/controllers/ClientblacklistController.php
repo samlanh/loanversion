@@ -16,15 +16,13 @@ public function init()
 			$data=$this->getRequest()->getPost();
 			$db = new Group_Model_DbTable_DbClientBlackList();
 			try {
-				
-				if(isset($data['save_new'])){
-					$db->updatBlackList($data);
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
-				}
+				$db->updatBlackList($data);
 				if(isset($data['save_close'])){
-					$db->updatBlackList($data);
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 					Application_Form_FrmMessage::redirectUrl('/group/clientblacklist');
+				}
+				else{
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::redirectUrl('/group/clientblacklist/add');
 				}
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -53,6 +51,7 @@ public function init()
 						'end_date'=>date('Y-m-d'));
     		}
     		$rs_row= $db->getAllBlackListInList($search);//call frome model
+    		
     					$glClass = new Application_Model_GlobalClass();
     					$rs_rows = $glClass->getImgActive($rs_row, BASE_URL, true);
     		$list = new Application_Form_Frmtable();

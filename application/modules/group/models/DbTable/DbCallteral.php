@@ -46,6 +46,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
     		$db->rollBack();
     	}
 	}
+	
 	function updatecallteral($format){
 		$db = $this->getAdapter();
 		$db->beginTransaction();

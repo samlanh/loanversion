@@ -61,11 +61,11 @@ class Group_CallteralController extends Zend_Controller_Action {
 			$db_call = new Group_Model_DbTable_DbCallteral();
 			try {
 				$db = $db_call->addcallteral($calldata);
-				if(!empty($calldata['save_new'])){
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				if(!empty($calldata['save_close'])){
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/callteral/index');
 					
 				}else{
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/callteral/index');
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/callteral/add');
 				}
 			} catch (Exception $e) { 
 				Application_Form_FrmMessage::message("Application Error");
@@ -84,9 +84,8 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$db = new Application_Model_GlobalClass();
 		$this->view->collect_option = $db->getCollecteralOption();
 		$this->view->owner_type = $db->getCollecteralTypeOption();
-		
-		
 	}
+	
 	public function editAction()
 	{
 		if($this->getRequest()->isPost()){

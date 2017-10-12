@@ -24,9 +24,9 @@
      dijit.byId('branch_name').focus();
      return false;
    	}
-    if(dijit.byId('formc_co').get('value')==''){
+    if(dijit.byId('to_co').get('value')==''){
      alert('Please Select From CO');
-     dijit.byId('formc_co').focus();
+     dijit.byId('to_co').focus();
      return false;
    	}
 	if(dijit.byId('to_co_code').get('value')==''){
@@ -34,54 +34,73 @@
      dijit.byId('to_co_code').focus();
      return false;
    	}
+	if(dijit.byId('zone_name').get('value')==''){
+		alert('Please Select Zone Name');
+        dijit.byId('zone_name').focus();
+        return false;
+	}
+	dijit.byId('btn_save').set('disabled',true);
+	dijit.byId('btn_save_close').set('disabled',true);
     return true;
    }else {
     return false;
    }
 </script>
+<fieldset>
 <table cellspacing="10" class='fullside'>
+	<legend><strong><?php echo $tr->translate('TRANSFER_ZONE_CO');?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong><?php echo $tr->translate('TRANSFER_ZONE_CO');?></strong></legend>
-					<table cellspacing="10">
-						<tr>	
-							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
-							<td><?php  echo $frm->getElement('branch_name');?></td>
-							<td><?php echo $tr->translate("DATE")?></td>
-							<td><?php  echo $frm->getElement('Date');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("ZONE_NAME")?></td>
-							<td><?php echo $frm->getElement('zone_name');?></td>
-							<td><?php echo $tr->translate("NOTE")?></td>
-							<td><?php  echo $frm->getElement('Note');?></td>
-						</tr>
-						<tr>
-							<td><?php 	echo $tr->translate("TO_CO")?></td>
-							<td><?php 	echo $frm->getElement('to_co');?></td>
-							<td><?php 	echo $tr->translate("TO_CO")?></td>
-							<td><?php   echo $frm->getElement('to_co_code');?></td>
-						</tr>
-					    <tr>  
-					        <td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php  echo $frm->getElement('status');?></td>
-							<td><?php //echo $tr->translate("FROM_CO")?></td>
-							<td><?php  //echo $frm->getElement('formc_co');?></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</table>
-				</fieldset>
-		   </td>
-		</tr>
-		<tr>
-		<td align="center">
-			<input type="submit" value="រក្សាទុក" name="btn_save" label="<?php echo $tr->translate('SAVENEW');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
-			<input type="submit" value="រក្សាទុក & ចាកចេញ" name="btn_save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" id="submitButton_Save" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
+			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			    <tr>
+					<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+					<td><?php  echo $frm->getElement('branch_name');?></td>
+			    </tr>
+			    <tr>
+			    	<td><?php echo $tr->translate("DATE")?></td>
+					<td><?php  echo $frm->getElement('Date');?></td>
+			    </tr>
+			    <tr>
+			  		 <td><?php echo $tr->translate("ZONE_NAME")?></td>
+					 <td><?php echo $frm->getElement('zone_name');?></td>
+			    </tr>
+			</table>
+		</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('CO_INFO');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			 	<tr >
+					<td><?php 	echo $tr->translate("TO_CO")?></td>
+					<td><?php 	echo $frm->getElement('to_co');?></td>
+				</tr>
+				<tr>
+					<td><?php 	echo $tr->translate("TO_CO")?></td>
+					<td><?php  echo $frm->getElement('to_co_code');?></td>
+				</tr>
+			    <tr>
+			    	  <td><?php echo $tr->translate("NOTE")?></td>
+					  <td><?php  echo $frm->getElement('Note');?></td>
+			    </tr>
+			    <tr>
+			    	  <td><?php echo $tr->translate("STATUS")?></td>
+					  <td><?php  echo $frm->getElement('status');?></td>
+			    </tr>
+			</table>
+		</fieldset>
+		</td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2">
+			<input type="button" onclick="submitDataClose()" value="រក្សាទុក" name="btn_save" id="btn_save" label="<?php echo $tr->translate('SAVENEW');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" value="រក្សាទុក & ចាកចេញ" name="btn_save_close"  id="btn_save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" id="submitButton_Save" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
 		</td>
 	</tr>	
 </table>
+</fieldset>
 </form>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
@@ -106,4 +125,43 @@ dojo.require("dijit.form.Textarea");
 			dijit.byId("to_co").attr('value',to);
 		}
 	}
+
+	function submitDataClose(){
+		if(dijit.byId('branch_name').get('value')==''){
+		     alert('Please Select Branch');
+		     dijit.byId('branch_name').focus();
+		     return false;
+		   	}
+		    if(dijit.byId('to_co').get('value')==''){
+		     alert('Please Select From CO');
+		     dijit.byId('to_co').focus();
+		     return false;
+		   	}
+			if(dijit.byId('to_co_code').get('value')==''){
+		     alert('Please Select To CO ');
+		     dijit.byId('to_co_code').focus();
+		     return false;
+		   	}
+			if(dijit.byId('zone_name').get('value')==''){
+				alert('Please Select Zone Name');
+		        dijit.byId('zone_name').focus();
+		        return false;
+			}
+		if(dijit.byId('frm_add_tran').validate()) {
+			dijit.byId('btn_save').set('disabled',true);
+			dijit.byId('btn_save_close').set('disabled',true);
+			var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'transferzone','action'=>'add')); ?>';
+			dojo.xhrPost({
+			    url: url_submit,	
+				form: dojo.byId("frm_add_tran"),		    
+				load: function(data) {
+					alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+					window.location.href ="<?php echo $this->baseUrl();?>/loan/transferzone";
+				},
+				error: function(e) {
+				}
+			});
+		}
+	}
+	
 </script>
