@@ -50,7 +50,7 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
 					$db = $db_acc->addCapitalResource($data);
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capitalresource');
 				}else {
-					Application_Form_FrmMessage::redirectUrl("/capital/capital");
+					Application_Form_FrmMessage::redirectUrl("/capital/capitalresource");
 				}
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");

@@ -16,6 +16,9 @@ $frm = $this->frm;
 			if(this.validate()) {
 				branch_id = dijit.byId('brance').get('value');
 				if(branch_id==0){alert("សូមជ្រើសរើសសាខា");dijit.byId('brance').focus();return false;}
+
+				dijit.byId("save_close").set("disabled",true);
+				dijit.byId("save_new").set("disabled",true);
 				return true;
 			}else {
 				return false;
@@ -83,20 +86,11 @@ $frm = $this->frm;
 		<td align="center">
 			<input type="submit" value="បោះបង់" label="បោះបង់" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
 			<input type="submit" value="បិទ" label="រក្សាទុកបិទ" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
-			<input type="submit" value="រក្សាទុកថ្មី" label="រក្សាទុកថ្មី" name="save" id="save" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" value="រក្សាទុកថ្មី" label="រក្សាទុកថ្មី" name="save_new" id="save_new" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
 		</td>
 	</tr>	
 	<tr>
 		<td>
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 			<?php $r1=0; $r2=0;$d1=0;$d2=0;$b1=0;$b2=0;
 				$disburse_dollar = 0;$disburse_reil = 0;$disburse_bath = 0;
@@ -254,33 +248,6 @@ $frm = $this->frm;
                
                 <?php }?>
    
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 				  <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
                  <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:9px;font-family: 'Khmer OS Content';">
                     <td rowspan="2"><?php echo $tr->translate("CURRENT_TYPE");?></td>
@@ -393,4 +360,26 @@ function statusCheck(){
 	}
 }
 
+function submitDataClose(){
+	if(dijit.byId("brance").get('value')==''){
+		alert("Please Select Branch Name");
+		dijit.byId("brance").focus();
+		return false;
+	}
+	if(dijit.byId('frm_add').validate()) {
+		dijit.byId("save_close").set("disabled",true);
+		dijit.byId("save_new").set("disabled",true);
+		var url_submit = '<?php echo $this->url(array('module'=>'capital','controller'=>'capital','action'=>'add')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("frm_add"),		    
+			load: function(data) {
+				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+				window.location.href ="<?php echo $this->baseUrl();?>/capital/capital";
+			},
+			error: function(e) {
+			}
+		});
+	}
+}
 </script>

@@ -20,42 +20,69 @@ $frm = $this->frm_expense;
 				return false;
 			}
 </script>
+<fieldset>
 <table cellspacing="10" class='fullside' >
+<legend><strong><?php echo $tr->translate('OTHER_INCOME');?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong>ចំណូលផ្សេងៗ</strong></legend>
-					<table cellspacing="10"  width="100%">
-						<tr>
-						     <?php echo $frm->getElement('id');?>
-						    <td><?php echo $tr->translate("សាខា")?></td>
-							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("Expense Name")?></td>
-							<td><?php echo $frm->getElement('account_id');?></td>
-							<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td><?php echo $frm->getElement('currency_type');//echo $frm->getElement('for_date');?></td>
-						</tr>
-						<tr>
-						   <td><?php echo $tr->translate("Invoice")?></td>
-							<td><?php echo $frm->getElement('invoice');?></td>
-							<td><?php echo $tr->translate("Total amount")?></td>
-							<td><?php echo $frm->getElement('total_amount');?></td>
-						    <td><?php echo $tr->translate("Description")?></td>
-							<td><?php echo $frm->getElement('Description');?></td>
-							
-						</tr>
-						<tr>
-						    <td><?php echo $tr->translate("Date")?></td>
-							<td><?php echo $frm->getElement('Date');?></td>
-							<td><?php echo $tr->translate("Stutas")?></td>
-							<td><?php echo $frm->getElement('Stutas');?></td>
-						</tr>
-					</table>
-				</fieldset>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
+			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			    <tr>
+			    <?php echo $frm->getElement('id');?>
+					<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+					<td><?php echo $frm->getElement('branch_id');?></td>
+			    </tr>
+			    <tr >
+					 <td><?php echo $tr->translate("CURRENCY")?></td>
+					 <td><?php echo $frm->getElement('currency_type');//echo $frm->getElement('for_date');?></td>
+				</tr>
+			    <tr>
+			  		 <td><?php echo $tr->translate("Date")?></td>
+					<td><?php echo $frm->getElement('Date');?></td>
+			    </tr>
+			</table>
+		</fieldset>	
 		</td>
-	</tr>		
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('TITLE_INFO');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			 	<tr >
+					 <td><?php echo $tr->translate("Invoice")?></td>
+					 <td><?php echo $frm->getElement('invoice');?></td>
+							
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("TITLE")?></td>
+					 <td><?php echo $frm->getElement('account_id');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("Total amount")?></td>
+					<td><?php echo $frm->getElement('total_amount');?></td>
+				</tr>
+				
+			</table>
+		</fieldset>
+		</td>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('DESCIPTION');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				<tr>
+					 <td><?php echo $tr->translate("Description")?></td>
+					 <td><?php echo $frm->getElement('Description');?></td>
+				</tr>
+				<tr>
+					 <td><?php echo $tr->translate("Stutas")?></td>
+					 <td><?php echo $frm->getElement('Stutas');?></td>
+				</tr>
+			</table>
+		</fieldset>
+		</td>
+	</tr>	
 	<tr>
-		<td align="center">
+		<td align="center" colspan="3">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
 			<input type="submit" label="<?php echo $tr->translate("GO_EDIT");?>" id="submitButton" dojoType="dijit.form.Button"
@@ -63,6 +90,7 @@ $frm = $this->frm_expense;
 		</td>
 	</tr>	
 </table>
+</fieldset>
 </form>
 
 <script type="text/javascript">

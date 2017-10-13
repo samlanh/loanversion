@@ -53,7 +53,7 @@ class Tellerandexchange_IncomeController extends Zend_Controller_Action
 			try {
 				$db = $db->addexpense($data);
 				if(!empty($data['saveclose'])){
-					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/tellerandexchange/expense");
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/tellerandexchange/income");
 				}else{
 					Application_Form_FrmMessage::message("INSERT_SUCCESS");
 				}				
@@ -75,7 +75,7 @@ class Tellerandexchange_IncomeController extends Zend_Controller_Action
 			$db = new Accounting_Model_DbTable_DbTransactionIncome();				
 			try {
 				$db = $db->updatExpense($data);				
-				Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);		
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/tellerandexchange/income");	
 			} catch (Exception $e) {
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 			}

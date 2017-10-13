@@ -48,13 +48,12 @@ class Other_ProvinceController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try {
-				$_dbmodel = new Other_Model_DbTable_DbProvince();				
-				if(!empty($_data['save_new'])){
-					$_dbmodel->addNewProvince($_data);
-					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL."/province/add");
+				$_dbmodel = new Other_Model_DbTable_DbProvince();
+				$_dbmodel->addNewProvince($_data);
+				if(!empty($_data['save_close'])){
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL."/province/");
 				}else{
-					$_dbmodel->addNewProvince($_data);
-					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL."/province/index");
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL."/province/add");
 				}
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message($this->tr->translate("INSERT_FAIL"));

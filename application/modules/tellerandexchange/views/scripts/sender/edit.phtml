@@ -15,47 +15,79 @@ $frm = $this->frm_expense;
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
+				if(dijit.byId('branch_id').get("value")==''){
+					alert("Please Select Branch !!!");
+					dijit.byId("branch_id").focus();
+					return false;
+				}
+                dijit.byId("saveclose").set("disabled",true);
+                dijit.byId("savenew").set("disabled",true);
 				return true;
 			}else {
 				return false;
 			}
 </script>
+<fieldset>
 <table cellspacing="10" class='fullside' >
+<legend><strong><?php echo $tr->translate('MONEY_SENT');?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong>ចំណូលផ្សេងៗ</strong></legend>
-					<table cellspacing="10"  width="100%">
-						<tr>
-						    <td><?php echo $tr->translate("BRANCH_NAME")?></td>
-							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-							<td><?php echo $frm->getElement('customer');?></td>
-							<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td><?php echo $frm->getElement('currency_type');?>
-							<?php echo $frm->getElement('id');?></td>
-						</tr>
-						<tr>
-						   <td><?php echo $tr->translate("RECEIPT")?></td>
-							<td><?php echo $frm->getElement('invoice');?></td>
-							<td><?php echo $tr->translate("TOTAL_KEEP")?></td>
-							<td><?php echo $frm->getElement('total_amount');?></td>
-						    <td><?php echo $tr->translate("NOTE")?></td>
-							<td><?php echo $frm->getElement('Description');?></td>
-							
-						</tr>
-						<tr>
-						    <td><?php echo $tr->translate("DATE")?></td>
-							<td><?php echo $frm->getElement('Date');?></td>
-							<td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php echo $frm->getElement('Stutas');?></td>
-						</tr>
-					</table>
-				</fieldset>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
+			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			    <tr>
+			    <?php echo $frm->getElement('id');?>
+					<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+					<td><?php echo $frm->getElement('branch_id');?></td>
+			    </tr>
+			    <tr>
+			  		 <td><?php echo $tr->translate("CURRENCY")?></td>
+					<td><?php echo $frm->getElement('currency_type');//echo $frm->getElement('for_date');?></td>
+			    </tr>
+			    <tr >
+					<td><?php echo $tr->translate("DATE")?></td>
+					<td><?php echo $frm->getElement('Date');?></td>
+				</tr>
+			</table>
+		</fieldset>	
 		</td>
-	</tr>		
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('CUSTOMER_INFO');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			 	<tr >
+					<td><?php echo $tr->translate("RECEIPT")?></td>
+					<td><?php echo $frm->getElement('invoice');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+					<td><?php echo $frm->getElement('customer');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("TOTAL_KEEP")?></td>
+					<td><?php echo $frm->getElement('total_amount');?></td>
+				</tr>
+			</table>
+		</fieldset>
+		</td>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('DESCIPTION');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				<tr>
+					<td><?php echo $tr->translate("STATUS")?></td>
+					<td><?php echo $frm->getElement('Stutas');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("NOTE")?></td>
+					<td><?php echo $frm->getElement('Description');?></td>
+				</tr>
+			</table>
+		</fieldset>
+		</td>
+	</tr>	
 	<tr>
-		<td align="center">
+		<td align="center" colspan="3">
 		<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
@@ -65,6 +97,7 @@ $frm = $this->frm_expense;
 		</td>
 	</tr>	
 </table>
+</fieldset>
 </form>
 
 <script type="text/javascript">

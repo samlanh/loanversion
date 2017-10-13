@@ -42,10 +42,11 @@ class Other_DistrictController extends Zend_Controller_Action {
 			try{
 				$db_district = new Other_Model_DbTable_DbDistrict();
 				$db_district->addDistrict($_data);
-				if(!empty($_data['save_new'])){
+				if(!empty($_data['save_close'])){
 					Application_Form_FrmMessage::message($this->tr->translate('INSERT_SUCCESS'));
-				}else{
 					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL .'/district/index');
+				}else{
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL .'/district/add');
 				}
 			}catch(Exception $e){
 				Application_Form_FrmMessage::message($this->tr->translate("INSERT_FAIL"));

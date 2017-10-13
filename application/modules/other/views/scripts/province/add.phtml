@@ -6,6 +6,9 @@
 <form id="add_province" action="<?php echo $this->url(array('module'=>'other','controller'=>'province','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
+
+                dijit.byId("save_new").set("disabled",true);
+				dijit.byId("save_close").set("disabled",true);
 				return true;
 			} else {
 				return false;
@@ -42,9 +45,9 @@
 									<tr>
 										<td colspan="2" align="center">
 											<input type="reset" value="សំអាត" label="<?php echo $tr->translate('CLEAR');?>"dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
-											<input type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
+											<input type="button" onclick="submitDataClose();" value="save_close" name="save_close" id="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
 												iconClass="dijitEditorIcon dijitEditorIconSave" />
-											<input type="submit" value="save_new" name="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
+											<input type="submit" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
 												iconClass="dijitEditorIcon dijitEditorIconSave" />
 										</td>
 									</tr>					
@@ -57,3 +60,23 @@
 		</tr>
 	</table>	
 </form>
+
+<script>
+function submitDataClose(){
+	if(dijit.byId('add_province').validate()) {
+		dijit.byId('save_close').set('disabled',true);
+		dijit.byId('save_new').set('disabled',true);
+		var url_submit = '<?php echo $this->url(array('module'=>'other','controller'=>'province','action'=>'add')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("add_province"),		    
+			load: function(data) {
+				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+				window.location.href ="<?php echo $this->baseUrl();?>/other/province";
+			},
+			error: function(e) {
+			}
+		});
+	}
+}
+</script>

@@ -43,14 +43,13 @@ class Capital_InterestController extends Zend_Controller_Action {
 			$data=$this->getRequest()->getPost();
 			$db_acc = new Capital_Model_DbTable_DbInterestResource();
 			try {
-				if(isset($data["save"])){
-					$db = $db_acc->add($data);
-					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/interest/add');
+				$db = $db_acc->add($data);
+				if(isset($data["save_close"])){
+					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/interest/');
 				}elseif (isset($data["save_close"])){
-					$db = $db_acc->add($data);
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/interest/index');
 				}else {
-					Application_Form_FrmMessage::redirectUrl("/capital/interest/index");
+					Application_Form_FrmMessage::redirectUrl("/capital/interest/index/add");
 				}
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");

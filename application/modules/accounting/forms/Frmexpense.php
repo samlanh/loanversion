@@ -108,7 +108,7 @@ Class Accounting_Form_Frmexpense extends Zend_Dojo_Form {
 		if($data!=null){
 			
 			$_branch_id->setValue($data['branch_id']);
-			//$account_id->setValue($data['account_id']);
+			$account_id->setValue($data['account_id']);
 			//$customer->setValue($data['customer']);
 			$total_amount->setValue($data['total_amount']);
 			$for_date->setValue($data['fordate']);

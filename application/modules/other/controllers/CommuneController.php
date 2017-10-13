@@ -40,12 +40,12 @@ class Other_CommuneController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try{
 				$db_district = new Other_Model_DbTable_DbCommune();				
-				if(!empty($_data['save_new'])){
-					$db_district->addCommune($_data);
-					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . '/commune/add');
-				}else{
+				if(!empty($_data['save_close'])){
 					$db_district->addCommune($_data);
 					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . '/commune/index');
+				}else{
+					$db_district->addCommune($_data);
+					Application_Form_FrmMessage::Sucessfull($this->tr->translate("INSERT_SUCCESS"),self::REDIRECT_URL . '/commune/add');
 				}
 			}catch(Exception $e){
 				Application_Form_FrmMessage::message($this->tr->translate("INSERT_FAIL"));

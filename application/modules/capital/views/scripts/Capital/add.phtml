@@ -12,6 +12,13 @@ $frm = $this->frm;
 				dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
+				if(dijit.byId("brance").get('value')==''){
+					alert("Please Select Branch Name");
+					dijit.byId("branch_id").focus();
+					return false;
+					}
+                dijit.byId("save_close").set("disabled",true);
+				dijit.byId("save_new").set("disabled",true);
 				return true;
 			}else {
 				return false;
@@ -25,11 +32,11 @@ $frm = $this->frm;
 					<table cellspacing="10"  width="100%">
 						
 						<tr>
-							<td><?php echo $tr->translate("សាខា")?></td>
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('brance')?></td>
-							<td>Date</td>	
+							<td><?php echo $tr->translate("DATE")?></td>	
 							<td><?php echo $frm->getElement('date')?></td>
-							<td><?php echo $tr->translate("Stutas")?></td>
+							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php echo $frm->getElement('status')?></td>
 						</tr>
 						<tr>
@@ -69,9 +76,11 @@ $frm = $this->frm;
 		</td>
 	</tr>		
 	<tr>
-			<td align="center"><input type="submit" value="រក្សាទុកថ្មី" label="រក្សាទុកថ្មី" name="save" id="save" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
-			<input type="submit" value="បិទ" label="រក្សាទុកបិទ" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
-			<input type="submit" value="បោះបង់" label="បោះបង់" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/></td>
+			<td align="center">
+				<input type="submit" value="បោះបង់" label="បោះបង់" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
+				<input type="button" onclick="submitDataClose()" value="បិទ" label="រក្សាទុកបិទ" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+				<input type="submit" value="រក្សាទុកថ្មី" label="រក្សាទុកថ្មី" name="save_new" id="save_new" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			</td>
 	</tr>	
 </table>
 </form>
@@ -81,4 +90,27 @@ dojo.require("dijit.form.NumberTextBox");
 dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.FilteringSelect");
 dojo.require("dijit.form.DateTextBox");
+
+function submitDataClose(){
+	if(dijit.byId("brance").get('value')==''){
+		alert("Please Select Branch Name");
+		dijit.byId("brance").focus();
+		return false;
+	}
+	if(dijit.byId('frm_add').validate()) {
+		dijit.byId("save_close").set("disabled",true);
+		dijit.byId("save_new").set("disabled",true);
+		var url_submit = '<?php echo $this->url(array('module'=>'capital','controller'=>'capital','action'=>'add')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("frm_add"),		    
+			load: function(data) {
+				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+				window.location.href ="<?php echo $this->baseUrl();?>/capital/capital";
+			},
+			error: function(e) {
+			}
+		});
+	}
+}
 </script>

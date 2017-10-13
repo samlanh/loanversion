@@ -46,14 +46,13 @@ class Capital_CapitalController extends Zend_Controller_Action {
 		   
 			$db_acc = new Capital_Model_DbTable_DbCapital();
 			try {
+				$db = $db_acc->addCapital($accdata);
 				if(isset($accdata["save_close"])){
-					$db = $db_acc->addCapital($accdata);
-					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital/add');
+					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital/');
 				}elseif (isset($accdata["save_close"])){
-					$db = $db_acc->addCapital($accdata);
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital');
 				}else {
-					Application_Form_FrmMessage::redirectUrl("/capital/capital");
+					Application_Form_FrmMessage::redirectUrl("/capital/capital/add");
 				}
 				
 			} catch (Exception $e) {
