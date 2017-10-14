@@ -23,27 +23,26 @@
       $arr_module = $session_user->arr_module;
       $icon = array(
       		'home'=>'<i class="fa fa-home" aria-hidden="true"></i>',
-      		'registrar'=>'<i class="fa fa-graduation-cap" aria-hidden="true"></i>',
-      		'global'=>'<i class="fa fa-users" aria-hidden="true"></i>',
-      		'foundation'=>'<i class="fa fa-university" aria-hidden="true"></i>',
-      		'loan'=>'<i class="fa fa-money" aria-hidden="true"></i>',
-      		'user'=>'<i class="fa fa-book" aria-hidden="true"></i>',
-      		'reports'=>'<i class="fa  fa-file-text" aria-hidden="true"></i>',
-      		'rsvAcl'=>'<i class="fa  fa-cog" aria-hidden="true"></i>',
+      		'other'=>'<i class="fa fa-bookmark" aria-hidden="true"></i>',
+      		'capital'=>'<i class="fa fa-usd" aria-hidden="true"></i>',
+      		'tellerandexchange'=>'<i class="fa fa-desktop" aria-hidden="true"></i>',
+      		'report'=>'<i class="fa  fa-file-text" aria-hidden="true"></i>',
+      		'rsvacl'=>'<i class="fa  fa-cog" aria-hidden="true"></i>',
       		'setting'=>'<i class="fa  fa-cogs" aria-hidden="true"></i>',
-      		
-      		'subagent'=>'<i class="fa  fa-cog" aria-hidden="true"></i>',
-      		'agent'=>'<i class="fa  fa-cogs" aria-hidden="true"></i>',
+      		'group'=>'<i class="fa fa-users" aria-hidden="true"></i>',
+      		'loan'=>'<i class="fa fa-money" aria-hidden="true"></i>',      		
+      		'user'=>'<i class="fa fa-book" aria-hidden="true"></i>',
       		'transfer'=>'<i class="fa  fa-cog" aria-hidden="true"></i>',
-      		'exchange'=>'<i class="fa  fa-cogs" aria-hidden="true"></i>',
       );
       $menuleft=array();
       $class='link';
       if(!empty($arr_module)){
+//       	print_r($arr_module);exit();
       	foreach ($arr_module as $rs){
+      		
       		if($rs==$module){$class='current';}else{$class='link';}
       		$url =$this->url(array('module'=>$rs,'controller'=>'index','action'=>'index'), null, true); ;
-      		$menuleft[$rs]="<li class='$class'><a href='$url'><span class='icon_menu'><i class='fa fa-users' aria-hidden='true'></i></span></span><br />".$tr->translate(strtoupper($rs))."</a></li>";
+      		$menuleft[$rs]="<li class='$class'><a href='$url'><span class='icon_menu'>$icon[$rs]</span></span><br />".$tr->translate(strtoupper($rs))."</a></li>";
       	}
       }
       
