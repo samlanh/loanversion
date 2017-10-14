@@ -21,19 +21,35 @@
       
       $session_user=new Zend_Session_Namespace('auth');
       $arr_module = $session_user->arr_module;
-//       print_r($arr_module);exit();
+      $icon = array(
+      		'home'=>'<i class="fa fa-home" aria-hidden="true"></i>',
+      		'registrar'=>'<i class="fa fa-graduation-cap" aria-hidden="true"></i>',
+      		'global'=>'<i class="fa fa-users" aria-hidden="true"></i>',
+      		'foundation'=>'<i class="fa fa-university" aria-hidden="true"></i>',
+      		'loan'=>'<i class="fa fa-money" aria-hidden="true"></i>',
+      		'user'=>'<i class="fa fa-book" aria-hidden="true"></i>',
+      		'reports'=>'<i class="fa  fa-file-text" aria-hidden="true"></i>',
+      		'rsvAcl'=>'<i class="fa  fa-cog" aria-hidden="true"></i>',
+      		'setting'=>'<i class="fa  fa-cogs" aria-hidden="true"></i>',
+      		
+      		'subagent'=>'<i class="fa  fa-cog" aria-hidden="true"></i>',
+      		'agent'=>'<i class="fa  fa-cogs" aria-hidden="true"></i>',
+      		'transfer'=>'<i class="fa  fa-cog" aria-hidden="true"></i>',
+      		'exchange'=>'<i class="fa  fa-cogs" aria-hidden="true"></i>',
+      );
       $menuleft=array();
       $class='link';
       if(!empty($arr_module)){
       	foreach ($arr_module as $rs){
       		if($rs==$module){$class='current';}else{$class='link';}
       		$url =$this->url(array('module'=>$rs,'controller'=>'index','action'=>'index'), null, true); ;
-      		$menuleft[$rs]="<li class='$class'><a href='$url'><span>".$tr->translate(strtoupper($rs))."</span></a></li>";
+      		$menuleft[$rs]="<li class='$class'><a href='$url'><span class='icon_menu'><i class='fa fa-users' aria-hidden='true'></i></span></span><br />".$tr->translate(strtoupper($rs))."</a></li>";
       	}
       }
       
 	  $arr_module=array(
 		'home'=>'<li class="link">
+							<span class="icon_menu"><i class="fa fa-users" aria-hidden="true"></i></span>
 							<a title="ទំព័រដើម" href="'.$home.'">
 								<span>'.$tr->translate("HOME_PAGE").'</span>
 							</a>
@@ -45,7 +61,9 @@
 			  		</li>',
 	  	'group'=>'<li class="link">
 						<a title="ព័ត៏មានរបស់អតិថិជន" href="'.$group.'">
-							<span>'.$tr->translate("Group_Member").'</span>
+							<span>'.$tr->translate("Group_Member").'
+	  		<i class="fa fa-user-circle" aria-hidden="true"></i>ddds
+	  		</span>
 						</a>
 					</li>',
 	    'loan'=>'<li class="link">
@@ -92,6 +110,9 @@
 ?>  
 <div id="menu">
 	<ul>
+		<li>
+			<a><img src="<?php echo $this->baseurl()?>/images/cam-app-logo.png" style="max-height:45px"></a>
+		</li>
 		<?php
 // 		$access=0;
 // 		if($access!=''){
