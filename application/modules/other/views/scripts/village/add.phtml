@@ -99,6 +99,23 @@ function filterCommune(){
 <form  id='add_techer' action="<?php echo $this->url(array('module'=>'other','controller'=>'village','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
  <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
+                if(dijit.byId("province_name").get("value")=='' || dijit.byId("province_name").get("value")==0){
+					alert("Please Select Province Name !!!");
+					dijit.byId("province_name").focus();
+					return false;
+				}
+                if(dijit.byId("district_name").get("value")==''){
+					alert("Please Select District Name!!!");
+					dijit.byId("district_name").focus();
+					return false;
+				}
+				if(dijit.byId("commune_name").get("value")==''){
+					alert("Please Select Commune Name!!!");
+					dijit.byId("commune_name").focus();
+					return false;
+				}
+                dijit.byId("save_new").attr("disabled",true);
+				dijit.byId("save_close").attr("disabled",true);
 				return true;
 			} else {
 				return false;
@@ -148,9 +165,9 @@ function filterCommune(){
 						<tr>
 							<td colspan="2" align="center">
 											<input type="reset" value="សំអាត" label="<?php echo $tr->translate('CLEAR');?>"dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
-											<input type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
+											<input type="button" onclick="submitDataClose()" value="save_close" name="save_close" id="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
 												iconClass="dijitEditorIcon dijitEditorIconSave" />
-											<input type="submit" value="save_new" name="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
+											<input type="submit" value="save_new" name="save_new"  id="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
 												iconClass="dijitEditorIcon dijitEditorIconSave" />
 							</td>
 						</tr>
@@ -231,6 +248,39 @@ function showPopupCommune(){
 	}else{
 		alert('please select district first');
 		dijit.byId('district_name').focus();
+	}
+}
+
+function submitDataClose(){
+	if(dijit.byId("province_name").get("value")=='' || dijit.byId("province_name").get("value")==0){
+		alert("Please Select Province Name !!!");
+		dijit.byId("province_name").focus();
+		return false;
+	}
+    if(dijit.byId("district_name").get("value")==''){
+		alert("Please Select District Name!!!");
+		dijit.byId("district_name").focus();
+		return false;
+	}
+	if(dijit.byId("commune_name").get("value")==''){
+		alert("Please Select Commune Name!!!");
+		dijit.byId("commune_name").focus();
+		return false;
+	}
+	if(dijit.byId('add_techer').validate()) {
+		dijit.byId("save_new").attr("disabled",true);
+		dijit.byId("save_close").attr("disabled",true);
+		var url_submit = '<?php echo $this->url(array('module'=>'other','controller'=>'village','action'=>'add')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("add_techer"),		    
+			load: function(data) {
+				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+				window.location.href ="<?php echo $this->baseUrl();?>/other/village";
+			},
+			error: function(e) {
+			}
+		});
 	}
 }
 </script>

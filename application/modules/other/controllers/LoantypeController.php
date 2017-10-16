@@ -17,12 +17,11 @@ public function init()
 			$data=$this->getRequest()->getPost();
 			$db = new Other_Model_DbTable_DbLoanType();
 			try {
-				if(isset($data['btn_save'])){
-					$db->addViewType($data);
+				$db->addViewType($data);
+				if(isset($data['save_new'])){
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 				}
-				if(isset($data['btn_save_close'])){
-					$db->addViewType($data);
+				if(isset($data['save_close'])){
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 					Application_Form_FrmMessage::redirectUrl('/other/loantype');
 				}

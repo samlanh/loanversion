@@ -13,16 +13,16 @@ public function init()
 
     public function addAction()
     {
+    	
     	if($this->getRequest()->isPost()){
 			$data=$this->getRequest()->getPost();
 			$db = new Group_Model_DbTable_DbCallecteralltype();
 			try {
+				$db->addcallecterall($data);
 				if(isset($data['btn_save'])){
-					$db->addcallecterall($data);
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 				}
-				if(isset($data['btn_save_close'])){
-					$db->addcallecterall($data);
+				if(isset($data['save_close'])){
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 					Application_Form_FrmMessage::redirectUrl('/other/callecteralltype');
 				}

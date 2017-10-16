@@ -10,43 +10,92 @@ $frm = $this->Form_Frmcallecterall;
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
+				
+				if(dijit.byId("type").get("value")==-1){
+					alert("Please Select Type!!!");
+                    dijit.byId("type").focus();
+                    return false;
+				}
+                dijit.byId("save_close").set("disabled",true);
+				dijit.byId("save_new").set("disabled",true);
 				return true;
 			}else {
 				return false;
 			}
 </script>
+<fieldset>
 <table cellspacing="10" class='fullside'>
+<legend><strong><?php echo $tr->translate("LOAN_TYPE")?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong><?php echo $tr->translate("LOAN_TYPE")?></strong></legend>
-					<table cellspacing="10"  width="100%">
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("TITLE")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
 							<td><?php echo $tr->translate("NAME_KH")?></td>
 							<td><?php echo $frm->getElement('title_kh')?></td>			
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("NAME_ENG")?></td>
 							<td><?php echo $frm->getElement('title_en')?></td>	
+						</tr>
+				</table>
+			</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("TYPE")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
+							<td><?php echo $tr->translate("TYPE")?></td>
+							<td><?php echo $frm->getElement('type')?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("DISPLAY_BY")?></td>
 							<td><?php echo $frm->getElement('display_by')?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("TYPE")?></td>
-							<td><?php echo $frm->getElement('type')?></td>
 							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php echo $frm->getElement('status')?></td>
-					   </tr>
-					</table>
-					</fieldset>
+						</tr>
+				</table>
+			</fieldset>	
 		</td>
-	</tr>		
+	</tr>
+	
 	<tr>
-		<td align="center">
+		<td align="center" colspan="2">
 			<input type="reset" iconClass="dijitIconClear" label="<?php echo $tr->translate('CLEAR');?>"dojoType="dijit.form.Button"/>
-			<input type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
+			<input type="button" value="save_close" onclick="submitDataClose()" name="save_close" id="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
 				iconClass="dijitEditorIcon dijitEditorIconSave" />
-			<input type="submit" value="save_new" name="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
+			<input type="submit" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
 				iconClass="dijitEditorIcon dijitEditorIconSave" />
 		</td>
 	</tr>	
 </table>
+</fieldset>
 </form>
+<script>
+function submitDataClose(){
+	if(dijit.byId("type").get("value")==-1){
+		alert("Please Select Type!!!");
+        dijit.byId("type").focus();
+        return false;
+	}
+	if(dijit.byId('frm_add_tran').validate()) {
+		dijit.byId("save_new").set("disabled",true);
+		dijit.byId("save_close").set("disabled",true);
+		var url_submit = '<?php echo $this->url(array('module'=>'other','controller'=>'loantype','action'=>'add')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("frm_add_tran"),		    
+			load: function(data) {
+				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+				window.location.href ="<?php echo $this->baseUrl();?>/other/loantype";
+			},
+			error: function(e) {
+			}
+		});
+	}
+}
+</script>

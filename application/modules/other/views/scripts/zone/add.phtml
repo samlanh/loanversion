@@ -3,9 +3,11 @@
 	echo $this->headTitle($tr->translate('ADD_ZONE_AREA'));
 ?>	
 <?php  $frm = $this->frm_zone;?>
-<form action="<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form id="form_zone" action="<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
  <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
+                dijit.byId("save_new").set("disabled",true);
+				dijit.byId("save_close").set("disabled",true);
 				return true;
 			} else {
 				return false;
@@ -18,15 +20,14 @@
 					<legend align="center" ><strong><?php echo $tr->translate("ADD_ZONE_AREA");?></strong></legend>
 					
 					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
-					   <tr>
-							<td><?php echo $tr->translate("ZONE_NAME")?></td>
-							<td><?php  echo $frm->getElement('zone_name');?></td>
-						</tr>
 						<tr>
 							<td><?php echo $tr->translate("ZONE_NUMBER")?></td>
 							<td><?php  echo $frm->getElement('zone_number');?></td>
 						</tr>
-						
+					   <tr>
+							<td><?php echo $tr->translate("ZONE_NAME")?></td>
+							<td><?php  echo $frm->getElement('zone_name');?></td>
+						</tr>
 						<tr>
 							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php  echo $frm->getElement('status');?></td>
@@ -34,9 +35,9 @@
 					<tr>
 						<td colspan="2" align="center" >
 									<input type="reset" value="សំអាត" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
-									<input type="submit" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
+									<input type="button" onclick="submitDataClose();" value="save_close" name="save_close" id="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
 										iconClass="dijitEditorIcon dijitEditorIconSave" />
-									<input type="submit" value="save_new" name="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
+									<input type="submit" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
 										iconClass="dijitEditorIcon dijitEditorIconSave" />
 					   </td>
 					</tr>
@@ -46,3 +47,22 @@
 	</tr>
 </table>	
 </form>
+<script>
+function submitDataClose(){
+	if(dijit.byId('form_zone').validate()) {
+		dijit.byId("save_new").set("disabled",true);
+		dijit.byId("save_close").set("disabled",true);
+		var url_submit = '<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("form_zone"),		    
+			load: function(data) {
+				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+				window.location.href ="<?php echo $this->baseUrl();?>/other/zone";
+			},
+			error: function(e) {
+			}
+		});
+	}
+}
+</script>

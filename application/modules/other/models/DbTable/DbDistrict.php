@@ -51,9 +51,8 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$sql = "SELECT
 					dis_id,code,
-					district_namekh,district_name,
-					(SELECT name_en FROM ln_view WHERE TYPE=4 AND key_code = displayby LIMIT 1) AS displayby,
-				    (SELECT province_en_name FROM ln_province WHERE province_id=pro_id limit 1) As province_name
+					district_namekh,district_name, 
+					 (SELECT province_en_name FROM ln_province WHERE province_id=pro_id limit 1) As province_name
 					,modify_date,
 					(SELECT name_en FROM ln_view WHERE TYPE=3 AND key_code = status LIMIT 1) AS status_name,
 				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
@@ -68,10 +67,10 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
 		}
 		if(!empty($search['adv_search'])){
 			$s_where=array();
-			$s_search=addslashes(trim($search['adv_search']));
-			$s_where[]=" code LIKE '%{$s_search}%'";
-			$s_where[]=" district_name LIKE '%{$s_search}%'";
-			$s_where[]=" district_namekh LIKE '%{$s_search}%'";
+			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+			$s_where[]=" REPLACE(code,' ','') 			LIKE '%{$s_search}%'";
+			$s_where[]=" REPLACE(district_name,' ','') 	LIKE '%{$s_search}%'";
+			$s_where[]=" REPLACE(district_namekh,' ','')LIKE '%{$s_search}%'";
 			$where.=' AND ('.implode('OR',$s_where).')';
 		}
 		$where.=" ORDER BY dis_id DESC ";

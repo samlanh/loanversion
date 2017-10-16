@@ -66,7 +66,7 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 				FROM ln_village AS v,`ln_commune` AS c, `ln_district` AS d , `ln_province` AS p
 				WHERE v.commune_id = c.com_id AND c.district_id = d.dis_id AND d.pro_id = p.province_id ";
 		$where = '';
-        if($search['province_name']>=0){
+        if(!empty($search['province_name'])){
         	$where.= " AND p.province_id = ".$search['province_name'];
         }
         if(!empty($search['district_name'])){
@@ -81,15 +81,16 @@ class Other_Model_DbTable_DbVillage extends Zend_Db_Table_Abstract
 		}
 		if(!empty($search['adv_search'])){
 			$s_where = array();
-			$s_search = $search['adv_search'];
-			$s_where[] = " v.village_name LIKE '%{$s_search}%'";
-			$s_where[]=" v.village_namekh LIKE '%{$s_search}%'";
+			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+			$s_where[] ="REPLACE(v.code,' ','')   		 LIKE '%{$s_search}%'";
+			$s_where[] ="REPLACE(v.village_name,' ','')  LIKE '%{$s_search}%'";
+			$s_where[]=" REPLACE(v.village_namekh,' ','')LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		$order= ' ORDER BY v.vill_id DESC ';
 		return $db->fetchAll($sql.$where.$order);	
 	}
-       public function getAllvillagebyCommune($village_id){
+    public function getAllvillagebyCommune($village_id){
 		$db = $this->getAdapter();
 		$sql = "SELECT vill_id AS id,village_namekh AS name FROM $this->_name WHERE village_name!='' AND status=1 AND commune_id=".$db->quote($village_id);
 		$rows=$db->fetchAll($sql);

@@ -18,14 +18,13 @@
 					<legend align="center" ><strong><?php echo $tr->translate("EDIT_ZONE_AREA");?></strong></legend>
 					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
 						<tr>
-							<td><?php echo $tr->translate("ZONE_NAME");echo $frm->getElement('id');?></td>
-							<td><?php  echo $frm->getElement('zone_name');?></td>
-						</tr>
-						<tr>
 							<td><?php echo $tr->translate("ZONE_NUMBER")?></td>
 							<td><?php  echo $frm->getElement('zone_number');?></td>
 						</tr>
-						
+						<tr>
+							<td><?php echo $tr->translate("ZONE_NAME");echo $frm->getElement('id');?></td>
+							<td><?php  echo $frm->getElement('zone_name');?></td>
+						</tr>
 						<tr>
 							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php  echo $frm->getElement('status');?></td>
@@ -35,7 +34,7 @@
 							  <input type="reset" label="<?php echo $tr->translate('CLEAR');?>" id="" dojoType="dijit.form.Button"
 				                 iconClass="dijitIconClear" />
 							<input type="submit" value="កែប្រែទិន្នន័យ" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button" 
-								 iconClass=""/>
+								iconClass="dijitEditorIcon dijitEditorIconSave"/>
 							</td>
 						</tr>
 					</table>	

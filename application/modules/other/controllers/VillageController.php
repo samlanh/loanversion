@@ -16,13 +16,14 @@ class Other_VillageController extends Zend_Controller_Action {
 			}
 			else{
 				$search = array(
-						'adv_search' => 1,
+						'adv_search' => '',
 						'search_status' => -1,
 						'province_name'=>0,
 						'district_name'=>'',
 						'commune_name'=>'');
 			}
 			$rs_rows= $db->getAllVillage($search);
+			//print_r($rs_rows);exit();
 			$list = new Application_Form_Frmtable();
 			$collumns = array("VILLAGENAME_KH","VILLAGE_NAME","DISPLAY_BY","COMMNUE_NAME","DISTRICT_NAME","PROVINCE_NAME","DATE","STATUS","BY");
 			$link=array(
@@ -46,10 +47,10 @@ class Other_VillageController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try{
 				$db->addVillage($_data);
-				if(!empty($_data['save_new'])){
-					Application_Form_FrmMessage::message($this->tr->translate('INSERT_SUCCESS'));
-				}else{
+				if(!empty($_data['save_close'])){
 					Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'),self::REDIRECT_URL . '/village/index');
+				}else{
+					Application_Form_FrmMessage::message($this->tr->translate('INSERT_SUCCESS'));
 				}
 			}catch(Exception $e){
 				$err = $e->getMessage();

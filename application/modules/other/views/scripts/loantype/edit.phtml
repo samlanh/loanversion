@@ -7,44 +7,63 @@ $frm = $this->Form_Frmcallecterall;
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
-				//return false;
+			    if(dijit.byId("type").get("value")==-1){
+					alert("Please Select Type!!!");
+                    dijit.byId("type").focus();
+                    return false;
+				}
 				return true;
 			}else {
 				return false;
 			}
 </script>
+<fieldset>
 <table cellspacing="10" class='fullside'>
+	<legend><strong><?php echo $tr->translate("LOAN_TYPE")?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong><?php echo $tr->translate("LOAN_TYPE")?></strong></legend>
-					<table cellspacing="10"  width="100%">
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("TITLE")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
 							<?php echo $frm->getElement('id')?>
 							<td><?php echo $tr->translate("NAME_KH")?></td>
-							<td><?php echo $frm->getElement('title_kh')?></td>								
+							<td><?php echo $frm->getElement('title_kh')?></td>			
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("NAME_ENG")?></td>
 							<td><?php echo $frm->getElement('title_en')?></td>	
+						</tr>
+				</table>
+			</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("TYPE")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
+							<td><?php echo $tr->translate("TYPE")?></td>
+							<td><?php echo $frm->getElement('type')?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("DISPLAY_BY")?></td>
 							<td><?php echo $frm->getElement('display_by')?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("TYPE")?></td>
-							<td><?php echo $frm->getElement('type')?></td>
 							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php echo $frm->getElement('status')?></td>
-							
-					   </tr>
-					</table>
-					</fieldset>
+						</tr>
+				</table>
+			</fieldset>	
 		</td>
-	</tr>		
+	</tr>
 	<tr>
-		<td align="center">
-			<input type="submit" value="កែប្រៃ & ចាកចេញ" name="btn_save_close" label="<?php echo $tr->translate('SAVEEDIT');?>" id="submitButton_Save" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
+		<td align="center" colspan="2">
+			<input type="submit" value="áž€áŸ‚áž”áŸ’ážšáŸƒ & áž…áž¶áž€áž…áŸ�áž‰" name="btn_save_close" label="<?php echo $tr->translate('SAVEEDIT');?>" id="submitButton_Save" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/>
 		</td>
 	</tr>	
 </table>
+</fieldset>
 </form>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");

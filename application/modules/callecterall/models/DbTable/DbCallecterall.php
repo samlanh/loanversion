@@ -39,9 +39,9 @@ class Callecterall_Model_DbTable_DbCallecterall extends Zend_Db_Table_Abstract
     	 
     	if(!empty($search['adv_search'])){
     		$s_where = array();
-    		$s_search = $search['adv_search'];
-    		$s_where[] = "title_kh LIKE '%{$s_search}%'";
-    		$s_where[]="title_en LIKE '%{$s_search}%'";
+    		$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+    		$s_where[] = "REPLACE(title_kh,' ','') LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE(title_en,' ','')   LIKE '%{$s_search}%'";
     		$where .=' AND ('.implode(' OR ',$s_where).')';
     	}
     	if($search['status_search']>-1){
