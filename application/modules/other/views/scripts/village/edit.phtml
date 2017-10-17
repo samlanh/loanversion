@@ -123,12 +123,9 @@ function filterCommune(){
 						<tr>
 							<td><?php echo $tr->translate("VILLAGE_NAME")?></td>
 							<td><?php  echo $commune->getElement('village_name');?>
-								<?php  echo $commune->getElement('id');?>
+								<?php  echo $commune->getElement('id');echo $commune->getElement('id')?>
+								
 							</td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("DISPLAY_BY")?></td>
-							<td><?php  echo $commune->getElement('display'); echo $commune->getElement('id')?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("PROVINCE_NAME")?></td>
@@ -150,7 +147,7 @@ function filterCommune(){
 							<td colspan="2" align="center">
 							  <input type="reset" label="<?php echo $tr->translate('CLEAR');?>" id="" dojoType="dijit.form.Button"
 				                  iconClass="dijitIconClear" />
-							<input type="submit" value="កែប្រែទិន្នន័យ" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button" 
+							<input type="submit" value="កែប្រែទិន្នន័យ" label="<?php echo $tr->translate('SAVECLOSE');?>" id="submitButton" dojoType="dijit.form.Button" 
 								iconClass="dijitEditorIcon dijitEditorIconSave" />
 							</td>
 						</tr>

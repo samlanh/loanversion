@@ -19,7 +19,7 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		));
 		
 		$clienttype_nameen= new Zend_Dojo_Form_Element_DateTextBox('clienttype_nameen');
-		$clienttype_nameen->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox','class'=>'fullside','required' =>'true'
+		$clienttype_nameen->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox','class'=>'fullside',
 		));
 		$clienttype_namekh= new Zend_Dojo_Form_Element_DateTextBox('clienttype_namekh');
 		$clienttype_namekh->setAttribs(array('dojoType'=>'dijit.form.ValidationTextBox','required' =>'true',

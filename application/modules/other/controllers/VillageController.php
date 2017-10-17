@@ -17,7 +17,7 @@ class Other_VillageController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'search_status' => -1,
+						'search_status' => 1,
 						'province_name'=>0,
 						'district_name'=>'',
 						'commune_name'=>'');
@@ -25,7 +25,7 @@ class Other_VillageController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllVillage($search);
 			//print_r($rs_rows);exit();
 			$list = new Application_Form_Frmtable();
-			$collumns = array("VILLAGENAME_KH","VILLAGE_NAME","DISPLAY_BY","COMMNUE_NAME","DISTRICT_NAME","PROVINCE_NAME","DATE","STATUS","BY");
+			$collumns = array("VILLAGENAME_KH","VILLAGE_NAME","COMMNUE_NAME","DISTRICT_NAME","PROVINCE_NAME","DATE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'village','action'=>'edit',
 			);
@@ -122,7 +122,7 @@ class Other_VillageController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db = new Other_Model_DbTable_Dbvillage();
 			$rows = $db->getAllvillagebyCommune($data['commune_id']);
-			array_unshift($rows, array ( 'id' => -1, 'name' => 'បន្ថែម​អ្នក​ទទួល​ថ្មី') );
+			array_unshift($rows, array ( 'id' => -1, 'name' => 'ន្ថែមឈ្មោះភូមិ') );
 			print_r(Zend_Json::encode($rows));
 			exit();
 		}

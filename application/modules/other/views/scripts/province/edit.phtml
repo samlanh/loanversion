@@ -33,9 +33,6 @@
 										<td><?php echo $province->getElement("en_province");?></td>
 									</tr>
 									<tr>
-										<td><?php echo $tr->translate("DISPLAY_BY")?></td>
-										<td><?php  echo $province->getElement('display');?></td>
-									<tr>
 										<td><?php echo $tr->translate("STATUS")?></td>
 										<td><?php echo $province->getElement("status");?></td>
 									</tr>
@@ -43,7 +40,7 @@
 										<td colspan="2" align="center">
 										    <input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button"
 				                           iconClass="dijitIconClear" />
-											<input type="submit" iconClass="dijitEditorIcon dijitEditorIconSave" value="<?php echo $tr->translate("GO_EDIT");?>" label="<?php echo $tr->translate("SAVE");?>" 
+											<input type="submit" iconClass="dijitEditorIcon dijitEditorIconSave" value="<?php echo $tr->translate("GO_EDIT");?>" label="<?php echo $tr->translate("SAVECLOSE");?>" 
 											id="submitButton" dojoType="dijit.form.Button" 
 											 iconClass=""/>
 										</td>

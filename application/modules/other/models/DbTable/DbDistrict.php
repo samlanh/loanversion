@@ -11,14 +11,14 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
     
 	public function addDistrict($_data){
 		$_arr=array(
-				'code'	  => $_data['code'],
-				'pro_id'	  => $_data['province_name'],
-				'district_name'	  => $_data['district_name'],
-				'district_namekh'	  => $_data['district_namekh'],
-				'displayby'	  => $_data['display'],
-				'status'	  => $_data['status'],
-				'modify_date' => Zend_Date::now(),
-				'user_id'	  => $this->getUserId()
+				'code'	  			=> $_data['code'],
+				'pro_id'	  		=> $_data['province_name'],
+				'district_name'	  	=> $_data['district_name'],
+				'district_namekh'	=> $_data['district_namekh'],
+				//'displayby'	  => $_data['display'],
+				'status'	  		=> $_data['status'],
+				'modify_date' 		=> Zend_Date::now(),
+				'user_id'	 		=> $this->getUserId()
 		);
 		if(!empty($_data['id'])){
 			$where = 'dis_id = '.$_data['id'];
@@ -54,7 +54,7 @@ class Other_Model_DbTable_DbDistrict extends Zend_Db_Table_Abstract
 					district_namekh,district_name, 
 					 (SELECT province_en_name FROM ln_province WHERE province_id=pro_id limit 1) As province_name
 					,modify_date,
-					(SELECT name_en FROM ln_view WHERE TYPE=3 AND key_code = status LIMIT 1) AS status_name,
+					(SELECT name_en FROM ln_view WHERE TYPE=3 AND key_code = ln_district.status  LIMIT 1) AS status_name,
 				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
 		 FROM $this->_name ";
 		$where = ' WHERE 1 ';

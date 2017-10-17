@@ -23,13 +23,15 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
-				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")
+				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH"),
+				'class'=>'fullside'
 				));
 		$_title->setValue($request->getParam("adv_search"));
 		
 		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
-		$_status->setAttribs(array('dojoType'=>$this->filter));
+		$_status->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside'
+				));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),
@@ -42,7 +44,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		
 		$employee = new Zend_Dojo_Form_Element_FilteringSelect('employee');
 		$rows = $db ->getAllCOName();
-		$options=array(''=>"---ស្វែងរកតាមរយៈឈ្មោះ---");
+		$options=array(''=>"---ážŸáŸ’ážœáŸ‚áž„ážšáž€áž�áž¶áž˜ážšáž™áŸˆážˆáŸ’áž˜áŸ„áŸ‡---");
 		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
 		$employee->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -67,7 +69,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 				'required' =>'true'
 		));
 		$rows = $db->getAllBranchName();
-		$options_branch=array(''=>"---ស្វែងរកតាមរយៈសាខា---");
+		$options_branch=array(''=>"---ážŸáŸ’ážœáŸ‚áž„ážšáž€áž�áž¶áž˜ážšáž™áŸˆážŸáž¶áž�áž¶---");
 		if(!empty($rows))foreach($rows AS $row){
 			$options_branch[$row['br_id']]=$row['branch_namekh'];
 		}
@@ -76,7 +78,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		
 		$approve_by = new Zend_Dojo_Form_Element_FilteringSelect('approve_by');
 		$rows = $db ->getAllCOName();
-		$options_approve=array(''=>"---ស្វែងរកអ្នកយល់ព្រម---");
+		$options_approve=array(''=>"---ážŸáŸ’ážœáŸ‚áž„ážšáž€áž¢áŸ’áž“áž€áž™áž›áŸ‹áž–áŸ’ážšáž˜---");
 		if(!empty($rows))foreach($rows AS $row) $options_approve[$row['co_id']]=$row['co_khname'];
 		$approve_by->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -124,7 +126,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 		$_date = $request->getParam("start_date");
 		
 		if(empty($_date)){
-			$_date = date('Y-m-d');
+			//$_date = date('Y-m-d');
 		}
 		$from_date->setValue($_date);
 		

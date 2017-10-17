@@ -73,10 +73,6 @@ function filterDistrict(){
 							<td><?php  echo $commune->getElement('commune_name');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("DISPLAY_BY")?></td>
-							<td><?php  echo $commune->getElement('display');?></td>
-						</tr>
-						<tr>
 							<td><?php echo $tr->translate("PROVINCE_NAME")?></td>
 							<td><?php  echo $commune->getElement('province_name');?></td>
 						</tr>
@@ -123,7 +119,7 @@ function filterDistrict(){
 					</tr>
 					<tr>
 						<td><?php echo $tr->translate("DISTRICT_EN")?></td>
-						<td><input dojoType="dijit.form.ValidationTextBox" required="true" class="fullside" id="pop_district_name" name="pop_district_name" value="" type="text"></td>
+						<td><input dojoType="dijit.form.ValidationTextBox"  class="fullside" id="pop_district_name" name="pop_district_name" value="" type="text"></td>
 					</tr>
 					<tr>
 						<td colspan="4" align="center">

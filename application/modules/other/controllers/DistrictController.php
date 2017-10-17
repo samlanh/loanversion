@@ -17,7 +17,7 @@ class Other_DistrictController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'search_status' => -1);
+						'search_status' => 1);
 			}
 			$rs_rows= $db->getAllDistrict($search);
 			$list = new Application_Form_Frmtable();
@@ -98,7 +98,7 @@ class Other_DistrictController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db_district = new Other_Model_DbTable_DbDistrict();
 			$rows = $db_district->getDistrictByIdProvince($data['pro_id']);
-			array_unshift($rows, array ( 'id' => -1, 'name' => 'បន្ថែម​អ្នក​ទទួល​ថ្មី') );
+			array_unshift($rows, array ( 'id' => -1, 'name' => 'បន្ថែម​ស្រុក') );
 			print_r(Zend_Json::encode($rows));
 			exit();
 		}

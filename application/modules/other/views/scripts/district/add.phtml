@@ -8,6 +8,7 @@
 			if(this.validate()) {
 				if(dijit.byId('province_name').get('value')==''){
 				 alert('Please Select Province');
+				 dijit.byId('province_name').focus();
                  return false;
                 }
 				dijit.byId("save_close").set("disabled",true);
@@ -66,6 +67,7 @@
 <script>
 function submitDataClose(){
 	if(dijit.byId('province_name').get('value')==''){
+		 dijit.byId('province_name').focus();
 		 alert('Please Select Province');
        return false;
       }

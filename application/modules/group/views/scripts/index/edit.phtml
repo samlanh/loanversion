@@ -92,7 +92,7 @@ dojo.require("dijit.Dialog");
 								<td><input id="client_d_type" required="true"/><?php  //echo $frm->getElement('client_d_type');?></td>
 							</tr>
 							<tr>
-								<td>No</td>
+								<td><?php echo $tr->translate("N_O")?></td>
 								<td><?php  echo $frm->getElement('national_id');?></td>
 						    </tr>
 						    <tr>
@@ -147,7 +147,7 @@ dojo.require("dijit.Dialog");
 			</td>
 		</tr>
 		<tr>
-			<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("JOIN_ACCOUNT_INFO")?></strong></td>
+			<td colspan="6"  bgcolor="#dbe7ff"><strong><?php echo $tr->translate("JOIN_ACCOUNT_INFO")?></strong></td>
 		</tr>
 		<tr>
 			<td width="33%;" valign="top">
@@ -169,7 +169,7 @@ dojo.require("dijit.Dialog");
 						<td><input id="join_d_type" /><?php  //echo $frm->getElement('join_d_type');?></td>
 					</tr>
 					<tr>
-						<td style="width:30%;">No</td>
+						<td style="width:30%;"><?php echo $tr->translate("N_O")?></td>
 						<td><?php echo $frm->getElement('join_nation_id');?></td>					
 					</tr>
 				</table>
@@ -188,7 +188,7 @@ dojo.require("dijit.Dialog");
 			</td>
 		</tr>
 		<tr>
-			<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("GUARANTOR_INFO")?></strong></td>
+			<td colspan="6"  bgcolor="#dbe7ff"><strong><?php echo $tr->translate("GUARANTOR_INFO")?></strong></td>
 		</tr>
 		<tr>
 			<td width="33%;" valign="top">
@@ -202,7 +202,7 @@ dojo.require("dijit.Dialog");
 						<td valign="top"><input id="guarantor_d_type" /><?php //echo $frm->getElement('guarantor_d_type');?></td>
 				    </tr>
 				    <tr>
-				        <td valign="top">No</td>
+				        <td valign="top"><?php echo $tr->translate("N_O")?></td>
 						 <td valign="top"><?php echo $frm->getElement('spouse_nationid');?></td>
 				    </tr>
 				    

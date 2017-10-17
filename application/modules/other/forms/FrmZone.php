@@ -47,7 +47,7 @@ Class Other_Form_FrmZone extends Zend_Dojo_Form {
 // 		$_stu->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
 		
 		$_zone_number= new Zend_Dojo_Form_Element_TextBox('zone_number');
-		$_zone_number->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside',));
+		$_zone_number->setAttribs(array('dojoType'=>$this->tvalidate,'class'=>'fullside',));
 		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_status->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));

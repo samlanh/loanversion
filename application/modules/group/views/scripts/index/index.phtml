@@ -5,10 +5,9 @@ $frm = $this->frm_search;
 $frms=$this->frm_client;
 ?>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
-<table>
+<table width="100%">
    <tr>  
       <td><?php echo $frm->getElement("adv_search");?></td>
-      <td><?php echo $frm->getElement('status');?></td>
       <td><?php echo $frms->getElement('province');?></td>
       <td><input id="district" ></td>
       <td><input id="commune" ></td>
@@ -17,11 +16,10 @@ $frms=$this->frm_client;
    <tr>
       <td><?php echo $frm->getElement('start_date');?></td>
       <td><?php echo $frm->getElement('end_date');?></td>
+      <td><?php echo $frm->getElement('status');?></td>
       <td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
 	  </td>
-   	  <td></td>
-   	  <td></td>
-   	  <td></td>
+   	   
    </tr>
 </table>  
 <?php echo $this->list;?> 

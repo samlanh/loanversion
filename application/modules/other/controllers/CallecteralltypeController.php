@@ -19,12 +19,12 @@ public function init()
 			$db = new Group_Model_DbTable_DbCallecteralltype();
 			try {
 				$db->addcallecterall($data);
-				if(isset($data['btn_save'])){
-					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
-				}
 				if(isset($data['save_close'])){
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 					Application_Form_FrmMessage::redirectUrl('/other/callecteralltype');
+				}else{
+					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+					Application_Form_FrmMessage::redirectUrl('/other/callecteralltype/add');
 				}
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");

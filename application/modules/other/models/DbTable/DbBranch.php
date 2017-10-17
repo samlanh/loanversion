@@ -15,7 +15,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     			'fax'=>$_data['fax'],
     			'other'=>$_data['branch_note'],
     			'status'=>$_data['branch_status'],
-    			'displayby'=>$_data['branch_display'],
+    			//'displayby'=>$_data['branch_display'],
     			);
     	$this->insert($_arr);//insert data
 //     	$where = 'id = 1';
@@ -32,7 +32,7 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     			'fax'=>$_data['fax'],
     			'other'=>$_data['branch_note'],
     			'status'=>$_data['branch_status'],
-    			'displayby'=>$_data['branch_display'],
+    			//'displayby'=>$_data['branch_display'],
     			);
     	$where=$this->getAdapter()->quoteInto("br_id=?", $id);
     	$this->update($_arr, $where);

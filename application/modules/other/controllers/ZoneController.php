@@ -19,7 +19,7 @@ class Other_ZoneController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'adv_search' => '',
-						'search_status' => -1);
+						'search_status' => 1);
 			}
 			$rs_rows= $db->getAllZoneArea($search);
 			$list = new Application_Form_Frmtable();

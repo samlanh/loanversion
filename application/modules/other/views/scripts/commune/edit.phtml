@@ -74,10 +74,6 @@ function filterDistrict(){
 							<td><?php  echo $commune->getElement('commune_name');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("DISPLAY_BY")?></td>
-							<td><?php  echo $commune->getElement('display');?></td>
-						</tr>
-						<tr>
 							<td><?php echo $tr->translate("PROVINCE_NAME")?></td>
 							<td><?php  echo $commune->getElement('province_name');?></td>
 						</tr>
@@ -93,7 +89,7 @@ function filterDistrict(){
 							<td colspan="2" align="center">
 							 <input type="reset" label="<?php echo $tr->translate('CLEAR');?>" id="" dojoType="dijit.form.Button"
 				                 iconClass="dijitIconClear" />
-							<input type="submit" value="កែប្រែទិន្នន័យ" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button" 
+							<input type="submit" value="កែប្រែទិន្នន័យ" label="<?php echo $tr->translate('SAVECLOSE');?>" id="submitButton" dojoType="dijit.form.Button" 
 								 iconClass=""/>
 							</td>
 						</tr>
@@ -119,11 +115,11 @@ function filterDistrict(){
 					</tr>
 					<tr>
 						<td><?php echo $tr->translate("DISTRICT_KH")?></td>
-						<td><input dojoType="dijit.form.ValidationTextBox" required="true" class="fullside" id="pop_district_namekh" name="pop_district_namekh" value="" type="text"></td>
+						<td><input dojoType="dijit.form.ValidationTextBox" ​  required="true" class="fullside" id="pop_district_namekh" name="pop_district_namekh" value="" type="text"></td>
 					</tr>
 					<tr>
 						<td><?php echo $tr->translate("DISTRICT_EN")?></td>
-						<td><input dojoType="dijit.form.ValidationTextBox" required="true" class="fullside" id="pop_district_name" name="pop_district_name" value="" type="text"></td>
+						<td><input dojoType="dijit.form.ValidationTextBox" class="fullside" id="pop_district_name" name="pop_district_name" value="" type="text"></td>
 					</tr>
 					<tr>
 						<td colspan="4" align="center">

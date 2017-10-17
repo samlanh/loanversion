@@ -39,7 +39,7 @@ class Other_Model_DbTable_DbZone extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$sql = "SELECT
 				zone_id,zone_name,zone_num,modify_date,
-				(SELECT name_en FROM ln_view WHERE TYPE=3 AND key_code = status LIMIT 1) AS status,
+				(SELECT name_en FROM ln_view WHERE TYPE=3 AND key_code = ln_zone.status LIMIT 1) AS status,
 				(SELECT first_name FROM rms_users WHERE id=user_id LIMIT 1) As user_name
 				FROM $this->_name ";
 		$where = ' WHERE zone_name!="" ';

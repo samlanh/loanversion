@@ -65,7 +65,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$branch_nameen->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
-				'required'=>true,
+				//'required'=>true,
 				'onkeyup'=>'Caltweenty()'
 				));
 		$db=new Report_Model_DbTable_DbParamater();
@@ -97,7 +97,6 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$branch_tel->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'onkeyup'=>'Calfive()'
 				));
 		
 		$_fax = new Zend_Dojo_Form_Element_TextBox('fax ');
@@ -119,7 +118,6 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$prefix_code->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
-				'required'=>true
 		));
 		
 		

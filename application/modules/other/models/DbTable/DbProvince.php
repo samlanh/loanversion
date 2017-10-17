@@ -14,7 +14,7 @@ class Other_Model_DbTable_DbProvince extends Zend_Db_Table_Abstract
     			'code' 			   => $_data['code'],
     			'province_en_name' => $_data['en_province'],
     			'province_kh_name' => $_data['kh_province'],
-    			'displayby'	       => $_data['display'],
+    			//'displayby'	       => $_data['display'],
     			'modify_date'      => Zend_Date::now(),
     			'status'           => $_data['status'],
     			'user_id'	       => $this->getUserId()
@@ -34,7 +34,7 @@ class Other_Model_DbTable_DbProvince extends Zend_Db_Table_Abstract
     			'code' 			   => $_data['code'],
     			'province_en_name' => $_data['en_province'],
     			'province_kh_name' => $_data['kh_province'],
-    			'displayby'	       => $_data['display'],
+    			//'displayby'	       => $_data['display'],
     			'modify_date'      => Zend_Date::now(),
     			'status'           => $_data['status'],
     			'user_id'	       => $this->getUserId()
