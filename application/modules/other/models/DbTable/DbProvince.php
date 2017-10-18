@@ -46,10 +46,10 @@ class Other_Model_DbTable_DbProvince extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$sql = " SELECT province_id AS id,code,province_en_name,province_kh_name,
     	modify_date,
-    	     (SELECT name_en FROM ln_view WHERE TYPE=3 AND key_code = status LIMIT 1) AS status_name,
+    	     (SELECT name_en FROM ln_view WHERE TYPE=3 AND key_code = ln_province.status LIMIT 1) AS status_name,
     	(SELECT CONCAT(last_name,' ',first_name) FROM rms_users WHERE id=user_id )AS user_name
     	FROM $this->_name
-    	WHERE 1 ";
+    	WHERE 1 AND province_kh_name!=''";
     	$order=" order by province_id DESC";
     	$where = '';
     	if(!empty($search['title'])){

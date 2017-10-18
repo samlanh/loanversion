@@ -84,6 +84,9 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$db = new Application_Model_GlobalClass();
 		$this->view->collect_option = $db->getCollecteralOption();
 		$this->view->owner_type = $db->getCollecteralTypeOption();
+		
+		$dbpop = new Application_Form_FrmPopupGlobal();
+		$this->view->frm_popup_callecteral = $dbpop->frmPopupCallecterallType();
 	}
 	
 	public function editAction()

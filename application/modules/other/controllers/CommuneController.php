@@ -21,7 +21,7 @@ class Other_CommuneController extends Zend_Controller_Action {
 			}
 			$rs_rows= $db->getAllCommune($search);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("COMMUNE_CODE","COMMUNENAME_KH","COMMUNENAME_EN","DISTRICT_NAME","DATE","STATUS","BY");
+			$collumns = array("COMMUNE_CODE","COMMUNE_NAME_KH","COMMUNE_NAME_EN","DISTRICT_NAME","DATE","STATUS","BY");
 			$link=array(
 					'module'=>'other','controller'=>'commune','action'=>'edit',
 			);

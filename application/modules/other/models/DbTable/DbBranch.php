@@ -40,7 +40,9 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     	
     function getAllBranch($search=null){
     	$db = $this->getAdapter();
-    	$sql = "SELECT b.br_id,b.branch_namekh,b.branch_nameen,b.prefix,b.branch_code,b.br_address,b.branch_tel,b.fax,b.other,b.`status` FROM $this->_name AS b  ";
+    	$sql = "SELECT b.br_id,b.branch_namekh,b.branch_nameen,b.prefix,
+				 b.branch_code,b.br_address,b.branch_tel,b.fax,b.other,b.`status`
+				 FROM ln_branch AS b ";
     	$where = ' WHERE b.branch_namekh!="" AND b.branch_nameen !="" ';
     	
     	if($search['status_search']>-1){

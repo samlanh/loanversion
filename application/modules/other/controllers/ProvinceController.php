@@ -21,7 +21,7 @@ class Other_ProvinceController extends Zend_Controller_Action {
 		
 				$search = array(
 						'title' => '',
-						'status' => -1,
+						'status' => 1,
 				);
 		
 			}

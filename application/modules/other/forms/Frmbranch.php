@@ -58,15 +58,12 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
 				'required'=>true,
-				'onkeyup'=>'Calfifty()'
 				));
 
 		$branch_nameen = new Zend_Dojo_Form_Element_ValidationTextBox('branch_nameen');
 		$branch_nameen->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
-				//'required'=>true,
-				'onkeyup'=>'Caltweenty()'
 				));
 		$db=new Report_Model_DbTable_DbParamater();
 		$rows=$db->getAllBranch();
@@ -103,7 +100,6 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$_fax->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'onkeyup'=>'Calone()'
 				));
 		
 		///*** result of calculator ///***

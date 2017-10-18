@@ -21,6 +21,7 @@ class Other_BranchController extends Zend_Controller_Action {
       		'status_search' => -1);
   		 }
            $rs_rows= $db->getAllBranch($search);
+           
            $glClass = new Application_Model_GlobalClass();
 			$rs_rowshow = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();

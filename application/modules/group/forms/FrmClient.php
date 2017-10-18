@@ -203,7 +203,13 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		
 		$rows =  $db->getAllProvince();
 		$options=array($this->tr->translate("SELECT_PROVINCE")); //array(''=>"------Select Province------",-1=>"Add New");
-		if(!empty($rows))foreach($rows AS $row) $options[$row['province_id']]=$row['province_en_name'];
+		if(!empty($rows))foreach($rows AS $row){
+			if($row['province_en_name']=="ភ្នំពេញ"){
+				//exit();
+				$_province->setValue($row['province_id']);
+			}
+			$options[$row['province_id']]=$row['province_en_name'];
+		}
 		$_province->setMultiOptions($options);
 // 		$_province->setValue($request->getParam('province'));
 		

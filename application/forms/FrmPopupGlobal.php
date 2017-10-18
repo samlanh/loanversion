@@ -520,5 +520,43 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		return $str;
 	}
 	
+	public function frmPopupCallecterallType(){
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$fm = new Callecterall_Form_Frmcallecterall();
+		$frm = $fm->Frmcallecterall();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$str='<div class="dijitHidden">
+				<div data-dojo-type="dijit.Dialog"  id="callteral_pop" >
+					<form id="frm_callteral" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+			 ';
+		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
+		<tr>
+		<td>'.$tr->translate("NAME_KH").'</td>
+		<td>'.$frm->getElement('title_kh').'</td>
+		</tr>
+		<tr>
+		<td>'.$tr->translate("NAME_ENG").'</td>
+		<td>'.$frm->getElement('title_en').'</td>
+		</tr>
+		<tr>
+		<td>'.$tr->translate("DATE").'</td>
+		<td>'.$frm->getElement('date').'</td>
+		</tr>
+		<tr>
+		<td>'.$tr->translate("STATUS").'</td>
+		<td><input type="text" id="row_value" value=""/>'.$frm->getElement('status').'</td>
+		</tr>
+		<tr>
+		<td colspan="2" align="center">
+		<input type="button" value="Save" id="save_call" label="'.$tr->translate("SAVECLOSE").'" dojoType="dijit.form.Button"
+		iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewCallecterall();"/>
+		</td>
+		</tr>
+		</table>';
+		$str.='</form></div>
+		</div>';
+		return $str;
+	}
+	
 }
 

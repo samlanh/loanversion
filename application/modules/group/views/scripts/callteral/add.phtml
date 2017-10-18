@@ -1,6 +1,7 @@
 <?php
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_callteral;
+echo $this->frm_popup_callecteral;
 echo $this->headTitle($tr->translate("CLIENT_COLLTERAL"));
 $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 $row=$this->row;
@@ -23,6 +24,7 @@ dojo.require("dijit.Dialog");
 }
 </style>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
+<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'group','controller'=>'callteral','action'=>'add')); ?>" 
 dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
@@ -311,8 +313,8 @@ function addCollecteral(){
 			dojo.query("#t_amountmoneytype").append(tmp);
 			
 		temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
-		temp+='<td width="200px"><select style=" width:98%;background:#fff; padding-left:5px;" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+collect_option+'</select></td>';
-	    temp+='<td><select style=" width:90%; background:#fff; padding-left:5px;" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')" class="fullside">'+owner_option+'</select></td>';
+		temp+='<td width="200px"><select style=" width:98%;background:#fff; padding-left:5px;" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="showPopCallecteral('+r+')"  >'+collect_option+'</select></td>';
+	    temp+='<td><select style=" width:90%; background:#fff; padding-left:5px;" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+');" class="fullside">'+owner_option+'</select></td>';
 		temp+='<td width="200px"><input style=" width:98%;" type="text" required="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox" class="fullside"/></td>';
 		temp+='<td><input style=" width:90%;" type="text" required="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox" class="fullside"/></td>';
 		temp+='<td><input constraints='+'{datePattern:"dd/MM/yyyy"}'+' style=" width:90%;" type="text"  name="issue_date'+r+'" value="<?php echo date('Y-m-d'); ?>" id="issue_date'+r+'" dojoType="dijit.form.DateTextBox" class="fullside"/></td>';
@@ -356,6 +358,41 @@ function setOwnerNameCollecteralById(index){
 	dijit.byId('owner_name'+index).attr('value',label);
 }
 
+function showPopCallecteral(r){
+    if(dijit.byId('collect_type'+r).get("value")==-1){
+    	dijit.byId('callteral_pop').show();
+    	$("#row_value").val(r);
+    }
+}
+
+var b_store  = getDataStorefromJSON('id','title_kh',<?php print_r(Zend_Json::encode($this->collect_option));?> );
+var district_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add-callteral-type'));?>';
+function addNewCallecterall(){
+	//dijit.byId("save_call").set("disabled",true);
+	name=dijit.byId("title_kh").attr('displayedValue');
+	 
+	if(dijit.byId('frm_callteral').validate()) {
+		dojo.xhrPost({
+			url:district_url,	
+			form:dojo.byId('frm_callteral'),
+			handleAs:"json",
+			load: function(data) {	
+				var Itemmake = { 
+						 id: data,
+						 name: dijit.byId('title_kh').get('value')
+					   };
+		        addDataToSelectbox(dijit.byId('collect_type1'), b_store, Itemmake, data);
+				
+				dijit.byId('frm_callteral').reset();
+				dijit.byId('callteral_pop').hide();
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});	
+	}
+}
+
 function submitDataClose(){
 	 if(dijit.byId('branch_id').get('value')==''){
 	     alert('Please Select Branch Name!');
@@ -377,9 +414,6 @@ function submitDataClose(){
 	         alert('Please Select collateral must be record!');
              return false;
      }
-
-    
-    
 	if(dijit.byId('frm_add_tran').validate()) {
 		dijit.byId('save_close').set('disabled',true);
 		dijit.byId('save_new').set('disabled',true);

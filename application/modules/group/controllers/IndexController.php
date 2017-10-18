@@ -308,5 +308,15 @@ class Group_indexController extends Zend_Controller_Action {
 		}
 	}
 	
+	function addCallteralTypeAction(){ 
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db_insert = new Group_Model_DbTable_DbCallecteralltype();
+			$district=$db_insert->addCallteralAjax($data);
+			print_r(Zend_Json::encode($district));
+			exit();
+		}
+	}
+	
 }
 

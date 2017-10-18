@@ -108,7 +108,8 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
 function getAllBranch($search=null){
     		$db = $this->getAdapter();
     	$sql = "SELECT b.br_id,b.branch_namekh,b.branch_nameen,b.br_address,b.branch_code,b.branch_tel,b.fax,
-(SELECT v.name_en FROM `ln_view` AS v WHERE v.`type` = 4 AND v.key_code = b.displayby)AS displayby,b.other,b.`status` FROM ln_branch AS b  ";
+		(SELECT v.name_en FROM `ln_view` AS v WHERE v.`type` = 4 AND v.key_code = b.displayby LIMIT 1)AS displayby,b.other,b.`status` FROM ln_branch AS b  ";
+    	$where="";
     	$where = ' WHERE b.branch_namekh!="" AND b.branch_nameen !="" ';
     	if($search['select_branch_nameen']>0){
     		$where.= " AND b.br_id = ".$search['select_branch_nameen'];

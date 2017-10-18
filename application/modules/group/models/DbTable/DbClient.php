@@ -135,7 +135,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		$where = " WHERE (name_kh!='' OR  name_en!='') AND ".$from_date." AND ".$to_date;		
 		$sql = "
 		SELECT client_id,
-		(SELECT branch_nameen FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch_name ,
+		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch_name ,
 		client_number,name_kh,name_en,
 		(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND sex=key_code LIMIT 1) AS sex
 		,phone,house,street,
@@ -146,16 +146,16 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			status FROM $this->_name ";
 		if(!empty($search['adv_search'])){
 			$s_where = array();
-			$s_search = $search['adv_search'];
-			$s_where[] = "client_number LIKE '%{$s_search}%'";
-			$s_where[] = " name_en LIKE '%{$s_search}%'";
-			$s_where[] = " name_kh LIKE '%{$s_search}%'";
-			$s_where[] = "join_with LIKE '%{$s_search}%'";
-			$s_where[] = "join_nation_id LIKE '%{$s_search}%'";
-			$s_where[] = " phone LIKE '%{$s_search}%'";
-			$s_where[] = " house LIKE '%{$s_search}%'";
-			$s_where[] = " street LIKE '%{$s_search}%'";
-			$s_where[] = " spouse_name LIKE '%{$s_search}%'";
+			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+			$s_where[] = "REPLACE(client_number,' ','') 	LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(name_en,' ','')   		LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(name_kh,' ','')   		LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(join_with,' ','')  		LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(join_nation_id,' ','')  	LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(phone,' ','')   			LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(house,' ','')   			LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(street,' ','')  	 		LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(spouse_name,' ','')  		LIKE '%{$s_search}%'";
 // 			$s_where[] = " spouse_nationid LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}

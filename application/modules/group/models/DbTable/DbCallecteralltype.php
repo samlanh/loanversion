@@ -23,6 +23,17 @@ class Group_Model_DbTable_DbCallecteralltype extends Zend_Db_Table_Abstract
          $id=$this->insert($arr);
      
     }
+    
+    public function addCallteralAjax($data){
+    	$arr = array(
+    			'title_en'=>$data['title_en'],
+    			'title_kh'=>$data['title_kh'],
+    			'date'=>$data['date'],
+    			'status'=>$data['status'],
+    			);
+         return $this->insert($arr);
+    }
+    
     function updatcallecterall($data){
     	$arr = array(
     			'title_en'=>$data['title_en'],
