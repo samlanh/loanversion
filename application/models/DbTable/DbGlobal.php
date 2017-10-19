@@ -624,17 +624,18 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   }
   public function getCollteralType($option = null,$limit =null){
   	$db = $this->getAdapter();
-  	$sql="SELECT id,title_en,title_kh,displayby FROM `ln_callecteral_type` WHERE status =1 ";
+  	$sql="SELECT id,title_kh As name FROM `ln_callecteral_type` WHERE status =1 and title_kh!='' ";
   	if($limit!=null){
   		$sql.=" LIMIT $limit ";
   	}
   	$rows = $db->fetchAll($sql);
   	if($option!=null){
-  		$options=array(''=>"-----Select Callecteral Type-----",'-1'=>"Add New");
-  		if(!empty($rows))foreach($rows AS $row){
-  			$options[$row['id']]=($row['displayby']==1)?$row['title_kh']:$row['title_en'];
-  		}
-  		return $options;
+//   		$options=array(''=>"-----Select Callecteral Type-----",'-1'=>"Add New");
+//   		if(!empty($rows))foreach($rows AS $row){
+//   			$options[$row['id']]=($row['displayby']==1)?$row['title_kh']:$row['title_en'];
+//   		}
+//   		return $options;
+  		return $rows;
   	}else{
   		return $rows;
   	}

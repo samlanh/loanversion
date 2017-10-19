@@ -181,6 +181,15 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		}
 		$to_date->setValue($_date);
 		
+		$client_name = new Zend_Dojo_Form_Element_FilteringSelect("client_name");
+		$opt_client = array(''=>'ជ្រើសរើស ឈ្មោះអតិថិជន');
+		$rows = $db->getAllClient();
+		if(!empty($rows))foreach($rows AS $row){
+			$opt_client[$row['id']]=$row['name'];
+		}
+		$client_name->setMultiOptions($opt_client);
+		$client_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',));
+		$client_name->setValue($request->getParam("client_name"));
 		
 		$id = new Zend_Form_Element_Hidden("id");
 		if($data!=null){
@@ -200,7 +209,7 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		}
 
 
-		$this->addElements(array($from_date,$to_date,$_btn_search,$_status_search,$_title,$co_name,$getter_name,$giver_name,$Date,
+		$this->addElements(array($client_name,$from_date,$to_date,$_btn_search,$_status_search,$_title,$co_name,$getter_name,$giver_name,$Date,
 				$_name,$relattive,$guarantor,$relative_guarantor,$note,	$Date_estate,$_branch_id,$id,$stutas,$cod_cal));
 		return $this;
 		

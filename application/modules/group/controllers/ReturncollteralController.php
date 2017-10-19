@@ -25,7 +25,7 @@ class Group_ReturncollteralController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rowss = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","CUSTOMER_CODE","CUSTOMER_NAME","GIVER_NAME","RECEIVER_NAME","DATE","NOTE","STATUS","BY_USER");
+			$collumns = array("BRANCH_NAME","CUSTOMER_CODE","CUSTOMER_NAME","GIVER_NAME","RECEIVER_NAME","DATE","NOTE","BY_USER","STATUS");
 			$link=array(
 					'module'=>'group','controller'=>'returncollteral','action'=>'edit',
 			);

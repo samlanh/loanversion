@@ -33,9 +33,8 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 					'to'=>'to',
 					'date'=>$rs['date'],
 					'note'=>$rs['id'],
-					'status'=>$rs['status'],
 					'user_id'=>$rs['user_id'],
-					
+					'status'=>$rs['status'],
 				);
 				
 				$rows = $db->getColleteralById($rs['id']);
@@ -50,7 +49,6 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
                                                 $to_array.=$row['collateral'];
                                                 $from_array.=$row['from_collateral'];
 					}
-					
 
 //
 				}
@@ -61,7 +59,7 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($arr, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","CUSTOMER_CODE","CUSTOMER_NAME","FROM","TO","DATE","NOTE","STATUS","BY");
+			$collumns = array("BRANCH_NAME","CUSTOMER_CODE","CUSTOMER_NAME","FROM","TO","DATE","NOTE","BY","STATUS");
 			$link=array(
 					'module'=>'group','controller'=>'changecollteral','action'=>'edit',
 			);

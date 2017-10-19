@@ -312,8 +312,9 @@ class Group_indexController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
 			$db_insert = new Group_Model_DbTable_DbCallecteralltype();
-			$district=$db_insert->addCallteralAjax($data);
-			print_r(Zend_Json::encode($district));
+			$row=$db_insert->addCallteralAjax($data);
+			$result = array("id"=>$row);
+			print_r(Zend_Json::encode($row));
 			exit();
 		}
 	}

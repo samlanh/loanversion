@@ -41,12 +41,10 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$this->view->frm_callteral=$frm;
 	}
 	public function addAction(){
-		
 		$db = new Group_Model_DbTable_DbClient();
 		$id = $this->getRequest()->getParam("id");
 		$row = $db->getClientById($id);
 		if(!empty($row)){
-		
 		$row['co_id']='';
 		$row['guarantor']=$row['spouse_name'];
 		$row['relative']=$row['relate_with'];
@@ -63,7 +61,6 @@ class Group_CallteralController extends Zend_Controller_Action {
 				$db = $db_call->addcallteral($calldata);
 				if(!empty($calldata['save_close'])){
 					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/callteral/index');
-					
 				}else{
 					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL . '/callteral/add');
 				}
@@ -87,6 +84,10 @@ class Group_CallteralController extends Zend_Controller_Action {
 		
 		$dbpop = new Application_Form_FrmPopupGlobal();
 		$this->view->frm_popup_callecteral = $dbpop->frmPopupCallecterallType();
+		$db = new Application_Model_DbTable_DbGlobal();
+		$rs=$db->getCollteralType();
+		array_unshift($rs, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
+		$this->view->call_all= $rs;
 	}
 	
 	public function editAction()
@@ -126,6 +127,11 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$this->view->collect_option = $db->getCollecteralOption();
 		$this->view->owner_type = $db->getCollecteralTypeOption();
 		
-		
+		$dbpop = new Application_Form_FrmPopupGlobal();
+		$this->view->frm_popup_callecteral = $dbpop->frmPopupCallecterallType();
+		$db = new Application_Model_DbTable_DbGlobal();
+		$rs=$db->getCollteralType();
+		array_unshift($rs, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
+		$this->view->call_all= $rs;
     }
 }

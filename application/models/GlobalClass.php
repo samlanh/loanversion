@@ -277,11 +277,11 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 			$db = new Application_Model_DbTable_DbGlobal();
 			$rows= $db->getCollteralType();
-			array_unshift($rows, array('id'=>-1,'title_kh'=>$tr->translate('ADD_NEW')));
-			array_unshift($rows, array('id'=>'','title_kh'=>"Please Select"));
+			array_unshift($rows, array('id'=>-1,'name'=>$tr->translate('ADD_NEW')));
+			array_unshift($rows, array('id'=>'','name'=>$tr->translate('ADD_CALLTERAL_TYPE')));
 			$options = '';
 			if(!empty($rows))foreach($rows as $value){
-				$options .= '<option value="'.$value['id'].'" >'.htmlspecialchars($value['title_kh'], ENT_QUOTES).'</option>';
+				$options .= '<option value="'.$value['id'].'" >'.htmlspecialchars($value['name'], ENT_QUOTES).'</option>';
 			}
 			return $options;
 		}

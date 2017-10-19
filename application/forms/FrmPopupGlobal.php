@@ -526,8 +526,8 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		$frm = $fm->Frmcallecterall();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$str='<div class="dijitHidden">
-				<div data-dojo-type="dijit.Dialog"  id="callteral_pop" >
-					<form id="frm_callteral" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+				<div data-dojo-type="dijit.Dialog"  id="call_pop" >
+					<form id="frm_call_add" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 			 ';
 		$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 		<tr>
@@ -544,12 +544,12 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		</tr>
 		<tr>
 		<td>'.$tr->translate("STATUS").'</td>
-		<td><input type="text" id="row_value" value=""/>'.$frm->getElement('status').'</td>
+		<td><input type="hidden" id="row_value" value=""/>'.$frm->getElement('status').'</td>
 		</tr>
 		<tr>
 		<td colspan="2" align="center">
 		<input type="button" value="Save" id="save_call" label="'.$tr->translate("SAVECLOSE").'" dojoType="dijit.form.Button"
-		iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewCallecterall();"/>
+		iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addCallteral();"/>
 		</td>
 		</tr>
 		</table>';

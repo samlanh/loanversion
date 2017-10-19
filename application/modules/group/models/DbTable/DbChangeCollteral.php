@@ -275,7 +275,7 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 			 $sql=" SELECT cc.id,(SELECT branch_namekh FROM ln_branch WHERE br_id = branch_id LIMIT 1) AS branch_id, 
 			(SELECT (c.client_number) FROM ln_client AS c WHERE c.client_id=cc.client_id LIMIT 1) AS customer_code, 
 			(SELECT (c.name_kh) FROM ln_client AS c WHERE c.client_id=cc.client_id LIMIT 1) AS client_name, 
-			cc.date,cc.note,cc.status, (SELECT user_name FROM rms_users WHERE id=cc.user_id) AS user_id
+			cc.date,cc.note, (SELECT user_name FROM rms_users WHERE id=cc.user_id) AS user_id,cc.status
 			 FROM $this->_name AS cc ";
 			
 			if($search['status_search']>-1){

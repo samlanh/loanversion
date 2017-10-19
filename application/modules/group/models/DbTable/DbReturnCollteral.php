@@ -127,8 +127,8 @@ class Group_Model_DbTable_DbReturnCollteral extends Zend_Db_Table_Abstract
 			(SELECT CONCAT(client_number) FROM ln_client AS c WHERE c.client_id=rc.client_id LIMIT 1) AS client_number, 
 			(SELECT CONCAT(name_kh,' ',name_en) FROM ln_client AS c WHERE c.client_id=rc.client_id LIMIT 1) AS client_name, 
 			rc.giver_name,rc.receiver_name
-			      ,rc.date,rc.note,rc.status,
-			       (SELECT user_name FROM rms_users WHERE id=rc.user_id LIMIT 1) AS user_id
+			      ,rc.date,rc.note,
+			       (SELECT user_name FROM rms_users WHERE id=rc.user_id LIMIT 1) AS user_id,rc.status
 			       FROM `ln_return_collteral` AS rc  ";
 			if($search['status_search']>-1){
 				$where.=" AND rc.status=".$search['status_search'];
@@ -138,11 +138,14 @@ class Group_Model_DbTable_DbReturnCollteral extends Zend_Db_Table_Abstract
 			}
 			if(!empty($search['adv_search'])){
 				$s_where=array();
-				$s_search= addslashes(trim($search['adv_search']));
-				$s_where[]=" rc.giver_name LIKE '%{$s_search}%'";
-				$s_where[]=" rc.receiver_name LIKE '%{$s_search}%'";
-				$s_where[]=" rc.note LIKE '%{$s_search}%'";
-				
+				$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+				$s_where[]="REPLACE(rc.giver_name,' ','')     LIKE '%{$s_search}%'";
+				$s_where[]="REPLACE(rc.receiver_name,' ','')  LIKE '%{$s_search}%'";
+				$s_where[]="REPLACE(rc.note,' ','')           LIKE '%{$s_search}%'";
+				$s_where[]="REPLACE((SELECT CONCAT(name_kh,' ',name_en) FROM ln_client AS c WHERE c.client_id=rc.client_id LIMIT 1),' ','')
+				           LIKE '%{$s_search}%'";
+				$s_where[]="REPLACE((SELECT CONCAT(client_number) FROM ln_client AS c WHERE c.client_id=rc.client_id LIMIT 1),' ','')
+				LIKE '%{$s_search}%'";
 				$where .=' AND ('.implode(' OR ',$s_where).')';
 			}
 
