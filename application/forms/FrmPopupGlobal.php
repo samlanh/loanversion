@@ -536,15 +536,11 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		</tr>
 		<tr>
 		<td>'.$tr->translate("NAME_ENG").'</td>
-		<td>'.$frm->getElement('title_en').'</td>
+		<td><input type="text" id="row_value" value=""/>'.$frm->getElement('title_en').'</td>
 		</tr>
 		<tr>
-		<td>'.$tr->translate("DATE").'</td>
-		<td>'.$frm->getElement('date').'</td>
-		</tr>
-		<tr>
-		<td>'.$tr->translate("STATUS").'</td>
-		<td><input type="hidden" id="row_value" value=""/>'.$frm->getElement('status').'</td>
+			<td>'.$tr->translate("STATUS").'</td>
+			<td>'.$frm->getElement('status').'</td>
 		</tr>
 		<tr>
 		<td colspan="2" align="center">

@@ -558,7 +558,7 @@ function addVillage(){
 				labelkh = dijit.byId('village_namekh').get('value');
 				var villageItem1 = {					
 						id: data,
-						name: labelen+' - '+labelkh,
+						name:labelkh +' - '+labelen,
 				};			
 				addDataToSelectbox(dijit.byId('village'), village_store, villageItem1, data);	
 				dijit.byId('frm_village').reset();
@@ -622,7 +622,7 @@ function addNewDistrict(){
 			load: function(data) {	
 				var myNewItem1 = {					
 						id: data,
-						name: dijit.byId('pop_district_name').get('value')+' - '+dijit.byId('pop_district_namekh').get('value'),
+						name:dijit.byId('pop_district_namekh').get('value')+' - '+ dijit.byId('pop_district_name').get('value'),
 				};			
 				addDataToSelectbox(dijit.byId('district'), district_store, myNewItem1, data);	
 				dijit.byId('frm_district').reset();
@@ -646,7 +646,7 @@ function addNewCommune(){
 				communekh = dijit.byId('commune_namekh').get('value');
 				var Itemcommune = {					
 						id: data,
-						name: communeen+' - '+communekh,
+						name:communekh+' - '+communeen,
 				};			
 				addDataToSelectbox(dijit.byId('commune'), commune_store, Itemcommune, data);
 				dijit.byId('frm_commune').reset();

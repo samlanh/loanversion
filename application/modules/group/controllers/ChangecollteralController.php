@@ -102,6 +102,12 @@ class Group_ChangecollteralController extends Zend_Controller_Action {
 		$this->view->collect_option = $db->getCollecteralOption();
 		$this->view->owner_type = $db->getCollecteralTypeOption();
 		
+		$dbpop = new Application_Form_FrmPopupGlobal();
+		$this->view->frm_popup_callecteral = $dbpop->frmPopupCallecterallType();
+		$db = new Application_Model_DbTable_DbGlobal();
+		$rs=$db->getCollteralType();
+		array_unshift($rs, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
+		$this->view->call_all= $rs;
 	}
 	public function editAction()
 	{

@@ -331,7 +331,7 @@ function addCollecteral(){
 		temp+='<td width="200px"><select style=" width:98%;background:#fff; padding-left:5px;" id="collect_type'+r+'" name="collect_type'+r+'"  dojoType="dijit.form.FilteringSelect" onchange="showPopCallecteral('+r+')"  >'+collect_option+'</select></td>';
 	    temp+='<td><select style=" width:90%; background:#fff; padding-left:5px;" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+');" class="fullside">'+owner_option+'</select></td>';
 		temp+='<td width="200px"><input style=" width:98%;" type="text" required="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox" class="fullside"/></td>';
-		temp+='<td><input style=" width:90%;" type="text" required="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox" class="fullside"/></td>';
+		temp+='<td><input style=" width:90%;" type="text"  name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox" class="fullside"/></td>';
 		temp+='<td><input constraints='+'{datePattern:"dd/MM/yyyy"}'+' style=" width:90%;" type="text"  name="issue_date'+r+'" value="<?php echo date('Y-m-d'); ?>" id="issue_date'+r+'" dojoType="dijit.form.DateTextBox" class="fullside"/></td>';
 		temp+='<td><input type="text" name="note'+r+'" id="note'+r+'" dojoType="dijit.form.TextBox" class="fullside"/></td>';
 		

@@ -3,10 +3,20 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_changeCollteral;
 echo $this->headTitle($tr->translate("CHANGE_COLLTERAL_INFO"));
 ?>
-<script>
-dojo.require("dijit.form.DateTextBox");
+
+<script type="text/javascript">
+    dojo.require("dojo.NodeList-manipulate");
 </script>
+<script>
+dojo.require("dojo.data.ItemFileWriteStore");  
+dojo.require("dojo.data.ObjectStore");
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.Dialog");
+</script>
+<script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
 <style>	
+
 .collteral{
 	color:blue;
 }
@@ -15,6 +25,18 @@ dojo.require("dijit.form.DateTextBox");
 dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
+				var rowId = $('#record_row').val();
+    			if(rowId!=''){ 
+					var rowIDArray = rowId.split(',');
+					for(var n = 0; n < rowIDArray.length; n++){
+					var row_id = dijit.byId('tocollect_type'+rowIDArray[n]).get('value');
+					if(row_id==''){
+							alert("Please Select Collteral Type!");
+							dijit.byId('tocollect_type'+rowIDArray[n]).focus();
+							return false;
+						}
+					}
+				}				
 				if(dijit.byId('branch_id').get('value')==''){
                     alert('Please Select Branch !');
                     dijit.byId('branch_id').focus();
@@ -126,7 +148,7 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 	</tr>
 	<tr>
 		<td align="center" colspan="3">
-				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
+				<input type="text" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
 				<div  id="showrecord"></div>
 		</td>
 	</tr>		
@@ -142,8 +164,12 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 </table>
 </fieldset>
 </form>
+<?php 
+	 echo $this->frm_popup_callecteral;
+?>
+
 <script type="text/javascript">
-dojo.require("dojo.data.ObjectStore");
+ 
 dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
 
@@ -310,7 +336,7 @@ function getClientCollateral(){
 				thead+='<th><?php echo $tr->translate("NUMBER_COLLTERAL");?></th>';
 				thead+='<th><?php echo $tr->translate("COLETERAL_TYPE");?></th>';
 				thead+='<th><?php echo $tr->translate("OWNER_TYPE");?></th>';
-				thead+='<th><?php echo $tr->translate("OWNER_NAME");?></th>';
+				thead+='<th nowrap><?php echo $tr->translate("OWNER_NAME");?></th>';
 				thead+='<th><?php echo $tr->translate("NUMBER_COLLTERAL");?></th>';
 				thead+='<th><?php echo $tr->translate("SIGN_DATE");?></th>';
 				thead+='<th><?php echo $tr->translate("ISSUE_BY");?> </th>';
@@ -323,10 +349,10 @@ function getClientCollateral(){
 			temp+='<td><input style=" width:130px" type="text"  readonly="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
 			temp+='<td><input style=" width:100px" type="text" required="true" readonly="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
 
-			temp+='<td><select style=" width:130px;background:#fff; padding-left:5px;"  id="tocollect_type'+r+'" name="tocollect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="checkSelectOption(1,'+r+')"  >'+collect_option+'</select></td>';
+			temp+='<td><select style=" width:130px;background:#fff; padding-left:5px;"  id="tocollect_type'+r+'" name="tocollect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="showPopCallecteral('+r+')"  >'+collect_option+'</select></td>';
 		    temp+='<td><select style=" width:90px; background:#fff; padding-left:5px;"  id="toowner_type'+r+'" name="toowner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
 			temp+='<td><input style=" width:90%;" type="text" required="true"  name="toowner_name'+r+'" id="toowner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
-			temp+='<td><input type="text" style="width:110px" required="true"  name="tonumber_collteral'+r+'" id="tonumber_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input type="text" style="width:110px"  name="tonumber_collteral'+r+'" id="tonumber_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
 			temp+='<td><input type="text" style="width:110px"  name="issue_date'+r+'" id="issue_date'+r+'" dojoType="dijit.form.DateTextBox"/></td>';
 			temp+='<td><input style=" width:110px" type="text" name="tonote'+r+'"  id="tonote'+r+'" dojoType="dijit.form.TextBox" /><input type="hidden" name="coid'+r+'" id="coid'+r+'" dojoType="dijit.form.TextBox" /> </td>';
 
@@ -402,6 +428,42 @@ function submitDataClose(){
 				window.location.href ="<?php echo $this->baseUrl();?>/group/changecollteral";
 			},
 			error: function(e) {
+			}
+		});
+	}
+}
+
+function showPopCallecteral(r){
+	//alert('hello');
+    if(dijit.byId('tocollect_type'+r).get("value")==-1){
+    	dijit.byId('call_pop').show();
+    	$("#row_value").val(r);
+    }
+}
+
+var data_store  = getDataStorefromJSON('id','name',<?php print_r(Zend_Json::encode($this->call_all));?> );
+var url_add_service =  '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add-callteral-type'));?>';
+function addCallteral(){
+if(dijit.byId('frm_call_add').validate()){
+	//language = dijit.byId('add_title').get('value');
+	dojo.xhrPost({
+			url:url_add_service,
+			form: dojo.byId("frm_call_add"),
+			handleAs:"json",
+			load: function(data) {
+				alert(data);
+			var Itemmake = { 
+		        id: data,
+		        name: dijit.byId('title_kh').get('value')
+		         };
+			num=$("#row_value").val();
+		    addDataToSelectbox(dijit.byId('tocollect_type'+num), data_store, Itemmake, data);
+			//dijit.byId("").
+		    dijit.byId('frm_call_add').reset();
+		  	dijit.byId("call_pop").hide();
+			},
+			error: function(err) {
+				alert(err);
 			}
 		});
 	}

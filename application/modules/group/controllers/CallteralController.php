@@ -17,10 +17,11 @@ class Group_CallteralController extends Zend_Controller_Action {
 			    	}
 			    	else{
 			    			$search = array(
-			    					'adv_search' => '',
+			    					'adv_search' 	=> '',
 			    					'status_search' => -1,
-			    					'start_date'=> date('Y-m-d'),
-									'end_date'=>date('Y-m-d'));
+			    					'client_name'	=>'',
+			    					'start_date'	=> date('Y-m-d'),
+									'end_date'		=>date('Y-m-d'));
 			    	}
 			$rs_rows= $db->geteAllcallteral($search);//call frome model
 			$glClass = new Application_Model_GlobalClass();
@@ -30,7 +31,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 			$link=array(
 					'module'=>'group','controller'=>'callteral','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch_name'=>$link,'code_call'=>$link,'co_id'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch_name'=>$link,'collecteral_code'=>$link,'client_code'=>$link,'name_kh'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

@@ -74,19 +74,21 @@ class Group_indexController extends Zend_Controller_Action {
 				$data = $this->getRequest()->getPost();
 				$db = new Group_Model_DbTable_DbClient();
 				try{
-					//print_r($data);exit();
 					$id= $db->addClient($data);
 					if($data['chackcall']==1){
 						Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
 						Application_Form_FrmMessage::redirectUrl("/group/callteral/add/id/".$id);
-					}else if (isset($data['save_close'])){
-					Application_Form_FrmMessage::redirectUrl("/group/index");
-					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
-					if($data['chackcall']==1){
-						Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
-						Application_Form_FrmMessage::redirectUrl("/group/callteral/add/id/".$id);
 					}
-				}
+					if (!empty($data['save_close'])){
+						if($data['chackcall']==1){
+							Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
+							Application_Form_FrmMessage::redirectUrl("/group/callteral/add/id/".$id);
+						}else{
+							Application_Form_FrmMessage::redirectUrl("/group/index");
+							Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
+						}
+					}
+					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("Application Error");
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -115,13 +117,14 @@ class Group_indexController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			try{
 				$data = $this->getRequest()->getPost();
-				//print_r($data);exit();
 				$id= $db->addClient($data);
 				if($data['chackcall']==1){
 					Application_Form_FrmMessage::message("វានឹងបន្ថែមទ្រព្យបញ្ចាំរបស់អតិថិជនដោយស្វ័យប្រវត្តិ!");
 					Application_Form_FrmMessage::redirectUrl("/group/callteral/add/id/".$id);
 				}
-				Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS',"/group/index");
+				if(!empty($data['save_close'])){
+					Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS',"/group/index");
+				}
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("EDIT_FAILE");
 				echo $e->getMessage();

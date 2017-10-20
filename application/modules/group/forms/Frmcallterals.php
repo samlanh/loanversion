@@ -21,12 +21,13 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 		$_title->setAttribs(array(
 				'dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
+				//'class'=>'fullside',
 				'placeholder'=>$this->tr->translate("SEARCH_COLLTERAL")
 		));
 		$_title->setValue($request->getParam("adv_search"));
 		
 		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('status_search');
-		$_status_search->setAttribs(array('dojoType'=>$this->filter));
+		$_status_search->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside'));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),
@@ -188,7 +189,7 @@ Class Group_Form_Frmcallterals extends Zend_Dojo_Form {
 			$opt_client[$row['id']]=$row['name'];
 		}
 		$client_name->setMultiOptions($opt_client);
-		$client_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',));
+		$client_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside'));
 		$client_name->setValue($request->getParam("client_name"));
 		
 		$id = new Zend_Form_Element_Hidden("id");

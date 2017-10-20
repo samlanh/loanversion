@@ -112,8 +112,6 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 		$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
 		$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
 		$where = " WHERE ".$from_date." AND ".$to_date;
-		
-		
 		$sql=" SELECT id ,branch_name ,client_code ,name_kh,collecteral_code,co_id,join_with , relative , 
 		date ,note ,status FROM `v_getallcallateral` ";
 		if($search['status_search']>-1){
@@ -122,22 +120,24 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 		if(!empty($search['branch_id'])){
 			$where.=" AND branch_id = ".$search['branch_id'];
 		}
+		if(!empty($search['client_name'])){
+			$where.=" AND client_id = ".$search['client_name'];
+		}
 		if(!empty($search['adv_search'])){
 			$s_where=array();
-			$s_search=addslashes(trim($search['adv_search']));
-			
-			$s_where[]="branch_name LIKE'%{$s_search}%'";
-			$s_where[]="co_id LIKE'%{$s_search}%'";
-			$s_where[]="collecteral_code LIKE'%{$s_search}%'";
-			$s_where[]="client_code LIKE'%{$s_search}%'";
-			$s_where[]="client_name LIKE'%{$s_search}%'";
-			$s_where[]="join_with LIKE'%{$s_search}%'";
-			$s_where[]="relative LIKE'%{$s_search}%'";
-			$s_where[]="note LIKE'%{$s_search}%'";
+			$s_search =str_replace(' ', '', addslashes(trim($search['adv_search'])));
+			$s_where[]="REPLACE(branch_name,' ','')  	LIKE'%{$s_search}%'";
+			$s_where[]="REPLACE(co_id,' ','')  			LIKE'%{$s_search}%'";
+			$s_where[]="REPLACE(collecteral_code,' ','')LIKE'%{$s_search}%'";
+			$s_where[]="REPLACE(owner_name,' ','')		LIKE'%{$s_search}%'";
+			$s_where[]="REPLACE(client_code,' ','')  	LIKE'%{$s_search}%'";
+			$s_where[]="REPLACE(client_name,' ','')  	LIKE'%{$s_search}%'";
+			$s_where[]="REPLACE(join_with,' ','')  		LIKE'%{$s_search}%'";
+			$s_where[]="REPLACE(relative,' ','')  		LIKE'%{$s_search}%'";
+			$s_where[]="REPLACE(note,' ','')  			LIKE'%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		$order = " ORDER BY id DESC ";
-// 		echo $sql.$where.$order;
 		return $db->fetchAll($sql.$where.$order);
 	}
 	public static function getCallteralCode(){
