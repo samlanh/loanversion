@@ -817,8 +817,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     				'pay_after'=>$data['pay_late'],
     				'graice_period'=>$data['graice_pariod'],
     				'amount_collect_principal'=>$data['amount_collect'],
-    				'collect_typeterm'=>$data['collect_termtype'],
-    				'loan_number'=>$data['loan_code'],
+    				'collect_typeterm'=>$data['collect_termtype'],    				
     				'semi'=>$data['amount_collect_pricipal']
     		);
     		$this->_name='ln_loan_member';
