@@ -49,7 +49,8 @@ td.field{color:#333333;font-family:"Lucida Grande",Tahoma,"Bitstream Vera Sans",
 td.photo{width:110px;border:1px solid #dcf3f3;}
 .photo img{width:100%;padding:4px;}
 td.field-no-border{color:#333333;font-family:"Lucida Grande",Tahoma,"Bitstream Vera Sans",Arial,sans-serif;font-size:12px;margin:0;min-width:150px;padding:6px 5px;text-align:left;word-wrap:break-word;border:none;}
-fieldset{border:1px solid #ccc;}
+fieldset{border: 1px solid #4646fb;}
+legend{color:#0000bb;}
 td.field-member{color:#333333;font-family:"Lucida Grande",Tahoma,"Bitstream Vera Sans",Arial,sans-serif;font-size:12px;margin:0;width:400px;padding:6px 5px;text-align:left;word-wrap:break-word;}
 #value{padding:6px 5px;margin:0px;border:solid 1px #BDC3AD;color:#333;font-family:Arial, Helvetica, sans-serif;font-size:12px;font-weight:normal;text-align:left;min-width:180px;max-width:200px;line-height:18px;word-wrap:break-word;}
 td #value-auto-row span{color:#146295;}
