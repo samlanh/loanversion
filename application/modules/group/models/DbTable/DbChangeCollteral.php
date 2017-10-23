@@ -292,11 +292,11 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 			}
 			if(!empty($search['adv_search'])){
 				$s_where=array();
-				$s_search=$search['adv_search'];
-				$s_where[]=" cc.note LIKE '%{$s_search}%'";
+				$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+				$s_where[]="REPLACE(cc.note,' ','')  LIKE'%{$s_search}%'";
 				$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
-// 	echo  $sql.$where;
+   // echo  $sql.$where;
 			$dbs=$db->fetchAll($sql.$where);
 			return $dbs;
 		}catch (Exception $e){

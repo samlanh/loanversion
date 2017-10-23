@@ -148,7 +148,7 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 	</tr>
 	<tr>
 		<td align="center" colspan="3">
-				<input type="text" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
+				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
 				<div  id="showrecord"></div>
 		</td>
 	</tr>		
@@ -451,7 +451,7 @@ if(dijit.byId('frm_call_add').validate()){
 			form: dojo.byId("frm_call_add"),
 			handleAs:"json",
 			load: function(data) {
-				alert(data);
+				//alert(data);
 			var Itemmake = { 
 		        id: data,
 		        name: dijit.byId('title_kh').get('value')

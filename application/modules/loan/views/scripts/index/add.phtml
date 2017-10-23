@@ -66,168 +66,143 @@
 				return false;
 			}
 </script>
-<fieldset>
-<table width="100%" style="margin-top:-10px;">
-		<legend><strong><?php echo $tr->translate("INFO_INDILOAN")?></strong></legend>
+<fieldset style="background: #e0ebff">
+<table width="100%" style="margin-top:0px;">
+
 	<tr>
 		<td width="33%;" valign="top">
-			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			    <tr>
-			        <td><?php echo $tr->translate("BRANCH_NAME")?></td>
-					<td><?php echo $frm->getElement('branch_id');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("LOAN_NO")?></td>
-					<td><?php echo $frm->getElement('loan_code');?></td>
-			    </tr>
-			    <tr>
-					<td><?php echo $tr->translate("CO_NAME")?></td>
-					<td><input id="co_id" /><?php //echo $frm->getElement('co_id');?></td>
-				</tr>
-			</table>	
+			 <fieldset >
+				<legend align="center" ><strong><?php echo $tr->translate("INFO_INDILOAN")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+						<tr>
+					        <td><?php echo $tr->translate("BRANCH_NAME")?></td>
+							<td><?php echo $frm->getElement('branch_id');?></td>
+					    </tr>
+					    <tr>
+					    	<td><?php echo $tr->translate("LOAN_NO")?></td>
+							<td><?php echo $frm->getElement('loan_code');?></td>
+					    </tr>
+					    <tr>
+							<td><?php echo $tr->translate("CO_NAME")?></td>
+							<td><input id="co_id" /><?php //echo $frm->getElement('co_id');?></td>
+						</tr>
+						<tr >
+							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+							<td><input id="customer_code" /><?php //echo $frm->getElement('customer_code');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+							<td><input id="member" /> <?php //echo $frm->getElement('member');?></td>
+						</tr>
+						<tr>
+					    	<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
+							<td><?php echo $frm->getElement('level');?></td>
+					    </tr>
+					     <tr>
+				  		<td style=" width: 40%;"><?php echo $tr->translate("ZONE_NAME")?></td>
+						<td><?php echo $frm->getElement('zone');?></td>
+					    </tr>
+					    <tr>
+					    	<td><?php echo $tr->translate("LOAN_TYPE")?></td>
+							<td><?php echo $frm->getElement('loan_type');?></td>
+					    </tr>
+					    <tr>
+					    	<td><?php echo $tr->translate("OTHER_FEE")?></td>
+							<td><?php echo $frm->getElement('other_fee');?></td>
+					    </tr>
+				</table>
+			</fieldset>	
 		</td>
 		<td width="33%;" valign="top">
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-				<tr >
-					<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-					<td><input id="customer_code" /><?php //echo $frm->getElement('customer_code');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-					<td><input id="member" /> <?php //echo $frm->getElement('member');?></td>
-				</tr>
-				<tr>
-			    	<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
-					<td><?php echo $frm->getElement('level');?></td>
-			    </tr>
-			</table>
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+						<tr>
+					        <td style="width: 41%;"><?php echo $tr->translate("LOAN_AMOUNT")?></td>
+							<td><?php echo $frm->getElement('total_amount');?></td>
+					    </tr>
+					    <tr>
+					    	<td><?php echo $tr->translate("CURRENCY")?></td>
+							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
+					    </tr>
+					    <tr>
+					    	<td><?php echo $tr->translate("AMIN_FEE")?></td>
+							<td><?php echo $frm->getElement('loan_fee');?></td>
+					    </tr>
+					    <tr>
+					    	<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
+							<td><?php echo $frm->getElement('repayment_method');?></td>
+					    </tr>
+					    <tr >
+							<td style="width: 34%;"><?php echo $tr->translate("INTEREST_RATE")?></td>
+							<td><?php echo $frm->getElement('interest_rate');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("TERM_INSTALL")?></td>
+							<td><?php echo $frm->getElement('pay_every');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("TERM_BORROW")?></td>
+							<td><?php echo $frm->getElement('period');?></td>
+						</tr>
+						<tr>
+							<td><label style="font-size:10px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label ><br/>(<label style="font-size:10px;" id="graice_type"></label>)</td>
+							<td><?php echo $frm->getElement('graice_pariod');?></td>
+						</tr>
+						<tr>
+					  		<td style=" width: 40%;"><?php echo $tr->translate("LOAN_RELEASE")?></td>
+							<td><?php echo $frm->getElement('release_date');?></td>
+					    </tr>
+					    
+				</table>
+			</fieldset>	
 		</td>
 		<td width="33%;" valign="top">
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			    <tr>
-			  		<td style=" width: 40%;"><?php echo $tr->translate("ZONE_NAME")?></td>
-					<td><?php echo $frm->getElement('zone');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("LOAN_TYPE")?></td>
-					<td><?php echo $frm->getElement('loan_type');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("OTHER_FEE")?></td>
-					<td><?php echo $frm->getElement('other_fee');?></td>
-			    </tr>
-			</table>
+			<fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("INFO_FUND")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+						 <tr>
+					        <td style="width: 41%;"><?php echo $tr->translate("TIME_COLLECION")?></td>
+							<td><?php echo $frm->getElement('time');?></td>
+					     </tr>
+					     <tr>
+					    	<td><?php echo $tr->translate("TERM_FUND")?></td>
+							<td><?php echo $frm->getElement('collect_termtype');?></td>
+					     </tr>
+					     <tr>
+					    	<td style="width: 34%;"><?php echo $tr->translate("AMOUNT_TERM_FUND")?></td>
+							<td><?php echo $frm->getElement('amount_collect');?></td>
+					     </tr>
+						 <tr>
+							<td><?php echo $tr->translate("HOLIDAY_STATUS")?></td>
+							<td><?php  echo $frm->getElement('every_payamount');?></td>
+						 </tr>
+						 <tr>
+					  		<td style="width: 40%;"><?php echo $tr->translate("PENAL_AMOUNT")?></td>
+							<td><?php echo $frm->getElement('pay_late');?></td>
+					    </tr>
+					    <tr>
+					    	<td><?php echo $tr->translate("SAVING_AMOUNT")?></td>
+							<td><?php echo $frm->getElement('deposit');?></td>
+					    </tr>
+					    
+					    <tr>
+					    	<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
+							<td><?php echo $frm->getElement('first_payment');?></td>
+					    </tr>
+					    <tr>
+					    	<td><?php echo $tr->translate("LIFE_LOAN")?></td>
+							<td><?php echo $frm->getElement('date_line');?></td>
+					    </tr>
+					    <tr>
+					    	<td><label id="lbl_payment"><?php echo $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?></label></td>
+							<td><?php echo $frm->getElement('amount_collect_pricipal');?></td>
+					    </tr>
+				</table>
+			</fieldset>	
 		</td>
 	</tr>
-	<tr>
-		<td colspan="3" bgcolor="#dbe7ff"><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></td>
-	</tr>
-	<tr>
-		<td width="33%;" valign="top">
-			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			    <tr>
-			        <td style="width: 41%;"><?php echo $tr->translate("LOAN_AMOUNT")?></td>
-					<td><?php echo $frm->getElement('total_amount');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("CURRENCY")?></td>
-					<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("AMIN_FEE")?></td>
-					<td><?php echo $frm->getElement('loan_fee');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
-					<td><?php echo $frm->getElement('repayment_method');?></td>
-			    </tr>
-			</table>	
-		</td>
-		<td width="33%;" valign="top">
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-				<tr >
-					<td style="width: 34%;"><?php echo $tr->translate("INTEREST_RATE")?></td>
-					<td><?php echo $frm->getElement('interest_rate');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("TERM_INSTALL")?></td>
-					<td><?php echo $frm->getElement('pay_every');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("TERM_BORROW")?></td>
-					<td><?php echo $frm->getElement('period');?></td>
-				</tr>
-				<tr>
-					<td><label style="font-size:10px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label ><br/>(<label style="font-size:10px;" id="graice_type"></label>)</td>
-					<td><?php echo $frm->getElement('graice_pariod');?></td>
-				</tr>
-			</table>
-		</td>
-		<td width="33%;" valign="top">
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			    <tr>
-			  		<td style=" width: 40%;"><?php echo $tr->translate("LOAN_RELEASE")?></td>
-					<td><?php echo $frm->getElement('release_date');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
-					<td><?php echo $frm->getElement('first_payment');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("LIFE_LOAN")?></td>
-					<td><?php echo $frm->getElement('date_line');?></td>
-			    </tr>
-			    <tr>
-			    	<td><label id="lbl_payment"><?php echo $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?></label></td>
-					<td><?php echo $frm->getElement('amount_collect_pricipal');?></td>
-			    </tr>
-			</table>
-		</td>
-	</tr>
-	
-	<tr>
-		<td colspan="3" bgcolor="#dbe7ff"><strong><?php echo $tr->translate("INFO_FUND")?></strong></td>
-	</tr>
-	
-	<tr>
-		<td width="33%;" valign="top">
-			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			    <tr>
-			        <td style="width: 41%;"><?php echo $tr->translate("TIME_COLLECION")?></td>
-					<td><?php echo $frm->getElement('time');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("TERM_FUND")?></td>
-					<td><?php echo $frm->getElement('collect_termtype');?></td>
-			    </tr>
-			    
-			</table>	
-		</td>
-		<td width="33%;" valign="top">
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-				<tr>
-			    	<td style="width: 34%;"><?php echo $tr->translate("AMOUNT_TERM_FUND")?></td>
-					<td><?php echo $frm->getElement('amount_collect');?></td>
-			    </tr>
-				<tr>
-					<td><?php echo $tr->translate("HOLIDAY_STATUS")?></td>
-					<td><?php  echo $frm->getElement('every_payamount');?></td>
-				</tr>
-			</table>
-		</td>
-		<td width="33%;" valign="top">
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			    <tr>
-			  		<td style="width: 40%;"><?php echo $tr->translate("PENAL_AMOUNT")?></td>
-					<td><?php echo $frm->getElement('pay_late');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("SAVING_AMOUNT")?></td>
-					<td><?php echo $frm->getElement('deposit');?></td>
-			    </tr>
-			</table>
-		</td>
-	</tr>
+	 
 	<tr>
 		<td align="center" colspan="3">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
