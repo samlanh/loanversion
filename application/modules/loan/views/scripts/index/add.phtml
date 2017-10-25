@@ -68,7 +68,7 @@
 </script>
 <fieldset style="background: #e0ebff">
 <table width="100%" style="margin-top:0px;">
-
+     <legend class="mainblog" ><strong><?php echo $tr->translate("IL_DISBURSE")?></strong></legend>
 	<tr>
 		<td width="33%;" valign="top">
 			 <fieldset >
@@ -82,17 +82,15 @@
 					    	<td><?php echo $tr->translate("LOAN_NO")?></td>
 							<td><?php echo $frm->getElement('loan_code');?></td>
 					    </tr>
-					    <tr>
-							<td><?php echo $tr->translate("CO_NAME")?></td>
-							<td><input id="co_id" /><?php //echo $frm->getElement('co_id');?></td>
-						</tr>
-						<tr >
+					    <tr >
 							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
 							<td><input id="customer_code" /><?php //echo $frm->getElement('customer_code');?></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-							<td><input id="member" /> <?php //echo $frm->getElement('member');?></td>
+							<td><input id="member" /> <?php //echo $frm->getElement('member');?>
+								<input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
+							</td>
 						</tr>
 						<tr>
 					    	<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
@@ -107,9 +105,10 @@
 							<td><?php echo $frm->getElement('loan_type');?></td>
 					    </tr>
 					    <tr>
-					    	<td><?php echo $tr->translate("OTHER_FEE")?></td>
-							<td><?php echo $frm->getElement('other_fee');?></td>
-					    </tr>
+							<td><?php echo $tr->translate("CO_NAME")?></td>
+							<td><input id="co_id" /><?php //echo $frm->getElement('co_id');?></td>
+						</tr>
+					    
 				</table>
 			</fieldset>	
 		</td>
@@ -130,6 +129,10 @@
 							<td><?php echo $frm->getElement('loan_fee');?></td>
 					    </tr>
 					    <tr>
+					    	<td><?php echo $tr->translate("OTHER_FEE")?></td>
+							<td><?php echo $frm->getElement('other_fee');?></td>
+					    </tr>
+					    <tr>
 					    	<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
 							<td><?php echo $frm->getElement('repayment_method');?></td>
 					    </tr>
@@ -144,10 +147,6 @@
 						<tr>
 							<td><?php echo $tr->translate("TERM_BORROW")?></td>
 							<td><?php echo $frm->getElement('period');?></td>
-						</tr>
-						<tr>
-							<td><label style="font-size:10px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label ><br/>(<label style="font-size:10px;" id="graice_type"></label>)</td>
-							<td><?php echo $frm->getElement('graice_pariod');?></td>
 						</tr>
 						<tr>
 					  		<td style=" width: 40%;"><?php echo $tr->translate("LOAN_RELEASE")?></td>
@@ -169,6 +168,12 @@
 					    	<td><?php echo $tr->translate("TERM_FUND")?></td>
 							<td><?php echo $frm->getElement('collect_termtype');?></td>
 					     </tr>
+					     
+					     <tr>
+							<td><?php echo $tr->translate("TERM_GRAICE_PARIOD")?><br/>(<label style="font-size:10px;" id="graice_type"></label>)</td>
+							<td><?php echo $frm->getElement('graice_pariod');?></td>
+						</tr>
+					     
 					     <tr>
 					    	<td style="width: 34%;"><?php echo $tr->translate("AMOUNT_TERM_FUND")?></td>
 							<td><?php echo $frm->getElement('amount_collect');?></td>
@@ -217,6 +222,7 @@
 	</tr>	
 </table>
 </fieldset>
+ 
 <div class="dijitHidden">
 <style>
 .print tr td{
@@ -345,8 +351,9 @@ require(["dojo/ready"], function(ready){
 	onChange: function() {
 		member = dijit.byId('member').get('value');
 		if(member==-1){
-			showPopupclient();
-		}else{
+			//showPopupclient();
+			window.open("<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add')); ?>","_blank");
+			}else{
 			getLoanLevel(member);
 			dijit.byId('customer_code').attr('value',member);
 		}
@@ -584,13 +591,14 @@ function addNewClient(){
 	});
 }
 var url_submitco = '<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'add-newco')); ?>';
-function AddNewCo(){
+function AddConew(){
 	if(dijit.byId('form_co').validate()){
 		dojo.xhrPost({
 	    url: url_submitco,	
 		form: dojo.byId("form_co"),		    
 		handleAs:"json",
 		load: function(data) {	
+			alert(data);
 			var myNewItem1 = {					
 					id: data,
 					name: dijit.byId('first_name').get('value')+' - '+dijit.byId('last_name').get('value'),
@@ -603,7 +611,7 @@ function AddNewCo(){
 		    alert("Can not insert credit officer");
 		}
 	 });
-  }
+	}
 }
 var url_submitzone = '<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add-newzone')); ?>';
 function addNewZone(){
@@ -1045,6 +1053,20 @@ function submitDataClose(){
 			}
 		});
 	}
+}
+
+function getRefreshGroup(){
+	filterClient();
+	loading();
+	setTimeout(stopLoading, 1000);
+}
+
+function loading(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
+
+function stopLoading(){
+	 document.getElementsByClassName("overlay")[0].style.display="none";
 }
 
 </script>

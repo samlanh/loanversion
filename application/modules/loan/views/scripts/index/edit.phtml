@@ -59,6 +59,7 @@
 </div>
 <fieldset style="background: #e0ebff">
 <table width="100%" style="margin-top:0px;">
+	<legend class="mainblog" ><strong><?php echo $tr->translate("IL_DISBURSE")?></strong></legend>
 	<tr>
 		<td width="33%;" valign="top">
 			 <fieldset>
@@ -72,17 +73,15 @@
 							<td><?php echo $tr->translate("LOAN_NO")?></td>
 							<td><?php echo $frm->getElement('loan_code');?></td>
 					    </tr>
-					    <tr>
-							<td><?php echo $tr->translate("CO_NAME")?></td>
-							<td><?php echo $frm->getElement('co_id');?></td>
-						</tr>
 						<tr >
 							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
 							<td><input id="customer_code" /></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-							<td><input id="member" /></td>
+							<td><input id="member" />
+								<input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
+							</td>
 						</tr>
 						<tr>
 					    	<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
@@ -97,9 +96,10 @@
 							<td><?php echo $frm->getElement('loan_type');?></td>
 					    </tr>
 					    <tr>
-							<td><?php echo $tr->translate("OTHER_FEE")?></td>
-							<td><?php echo $frm->getElement('other_fee');?></td>
-					    </tr>
+							<td><?php echo $tr->translate("CO_NAME")?></td>
+							<td><?php echo $frm->getElement('co_id');?></td>
+						</tr>
+					    
 				</table>
 			</fieldset>	
 		</td>
@@ -120,6 +120,10 @@
 							<td><?php echo $frm->getElement('loan_fee');?></td>
 					    </tr>
 					    <tr>
+							<td><?php echo $tr->translate("OTHER_FEE")?></td>
+							<td><?php echo $frm->getElement('other_fee');?></td>
+					    </tr>
+					    <tr>
 							<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
 							<td><?php echo $frm->getElement('repayment_method');?></td>
 					    </tr>
@@ -135,10 +139,7 @@
 							<td><?php echo $tr->translate("TERM_BORROW")?></td>
 							<td><?php echo $frm->getElement('period');?></td>
 						</tr>
-						<tr>
-							<td><label style="font-size:10px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label ><br/>(<label style="font-size:10px;" id="graice_type"></label>)</td>
-							<td><?php echo $frm->getElement('graice_pariod');?></td>
-						</tr>
+						
 						<tr>
 							<td style="width: 40%;"><?php echo $tr->translate("LOAN_RELEASE")?></td>
 							<td><?php echo $frm->getElement('release_date');?></td>
@@ -159,6 +160,10 @@
 							<td><?php echo $tr->translate("TERM_FUND")?></td>
 							<td><?php echo $frm->getElement('collect_termtype');?></td>
 					    </tr>
+					    <tr>
+							<td><?php echo $tr->translate("TERM_GRAICE_PARIOD")?><br/>(<label style="font-size:10px;" id="graice_type"></label>)</td>
+							<td><?php echo $frm->getElement('graice_pariod');?></td>
+						</tr>
 					    <tr>
 							<td style="width: 34%;"><?php echo $tr->translate("AMOUNT_TERM_FUND")?></td>
 							<td><?php echo $frm->getElement('amount_collect');?></td>
@@ -818,8 +823,23 @@ function getDayName(day){
 	    weekday[6] = "សៅរ៍";
 	    return weekday[day];
 }
+
 function hideDialog() {		
 	dijit.byId("frm_client").hide();
+}
+
+function getRefreshGroup(){
+	filterClient();
+	loading();
+	setTimeout(stopLoading, 1000);
+}
+
+function loading(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
+
+function stopLoading(){
+	 document.getElementsByClassName("overlay")[0].style.display="none";
 }
 </script>
 <style>

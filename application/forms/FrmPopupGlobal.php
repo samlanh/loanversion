@@ -159,40 +159,40 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$str='<div class="dijitHidden">
 				<div data-dojo-type="dijit.Dialog"  id="frm_co" >
-					<form id="form_co" name="form_co" >';
+					<form id="form_co" name="form_co" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded" >';
 			$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 					<tr>
-						<td>Name Khmer</td>
+						<td></td>
 						<td>'.$frm->getElement('namsdfse_kh').'</td>
 					</tr>
 					<tr>
-						<td>First Name</td>
-						<td>'.$frm->getElement('first_name').'</td>
-					</tr>
-					<tr>
-						<td>Last Name</td>
+						<td>'.$tr->translate("NAME_KH").'</td>
 						<td>'.$frm->getElement('last_name').'</td>
 					</tr>
 					<tr>
-						<td>Sex</td>
+						<td>'.$tr->translate("NAME_EN").'</td>
+						<td>'.$frm->getElement('first_name').'</td>
+					</tr>
+					<tr>
+						<td>'.$tr->translate("SEX").'</td>
 						<td>'.$frm->getElement('co_sex').'</td>
 					</tr>
 					<tr>
-						<td>Tel</td>
+						<td>'.$tr->translate("PHONE").'</td>
 						<td>'.$frm->getElement('tel').'</td>
 					</tr>
 					<tr>
-						<td>Email</td>
+						<td>'.$tr->translate("EMAIL").'</td>
 						<td>'.$frm->getElement('email').'</td>
 					</tr>
 					<tr>
-						<td>Address</td>
+						<td>'.$tr->translate("ADDRESS").'</td>
 						<td>'.$frm->getElement('address').'</td>
 					</tr>
 					<tr>
 						<td colspan="4" align="center">
-						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
-						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="AddNewCo();"/>
+						<input type="button" value="Save" label="'.$tr->translate("SAVECLOSE").'" dojoType="dijit.form.Button"
+						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="AddConew();"/>
 						</td>
 					</tr>						
 		       </table>';
@@ -217,16 +217,16 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		      </script>';
 			$str.='<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 					<tr>
-						<td>Zone Name</td>
+						<td>'.$tr->translate("ZONE_NAME").'</td>
 						<td>'.$frm->getElement('zone_name').'</td>
 					</tr>
 					<tr>
-						<td>Zone Number</td>
+						<td>'.$tr->translate("ZONE_NUMBER").'</td>
 						<td>'.$frm->getElement('zone_number').'</td>
 					</tr>
 					<tr>
 						<td colspan="4" align="center">
-						<input type="button" value="Save" label="Save" dojoType="dijit.form.Button"
+						<input type="button" value="Save" label="'.$tr->translate("SAVECLOSE").'" dojoType="dijit.form.Button"
 						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addNewZone();"/>
 						</td>
 					</tr>
@@ -387,11 +387,11 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 	';
 		$str.='<table style="margin: 0 auto; width: 95%;" cellspacing="10">
 		<tr>
-		<td>'.$tr->translate("TITLE_KH").'</td>
+		<td nowrap>'.$tr->translate("TITLE_KH").'</td>
 		<td>'.$frm->getElement('title_kh').'</td>
 		</tr>
 		<tr>
-		<td>'.$tr->translate("TITLE_EN").'</td>
+		<td nowrap>'.$tr->translate("TITLE_EN").'</td>
 		<td>'.$frm->getElement('title_en').'</td>
 		</tr>
 		<tr>
@@ -405,7 +405,7 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		<tr>
 		<td colspan="2" align="center">
 		<input type="reset" value="ážŸáŸ†áž¢áž¶áž�" label='.$tr->translate('CLEAR').' dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
-		<input type="button" value="save_close" name="save_close" label="'. $tr->translate('SAVE').'" dojoType="dijit.form.Button"
+		<input type="button" value="save_close" name="save_close" label="'. $tr->translate('SAVECLOSE').'" dojoType="dijit.form.Button"
 		iconClass="dijitEditorIcon dijitEditorIconSave" Onclick="addNewloanType();"  />
 		</td>
 		</tr>

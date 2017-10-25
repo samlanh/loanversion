@@ -71,7 +71,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_enname->setAttribs(array('dojoType'=>$this->text,'class'=>'fullside',));
 		
 		$_lname = new Zend_Dojo_Form_Element_TextBox('last_name');
-		$_lname->setAttribs(array('dojoType'=>$this->text,'class'=>'fullside',));
+		$_lname->setAttribs(array('dojoType'=>$this->tvalidate,'class'=>'fullside','required'=>true));
 		
 		$_sex = new Zend_Dojo_Form_Element_FilteringSelect('co_sex');
 		$_sex->setAttribs(array(
@@ -174,7 +174,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_note->setAttribs(array('dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside'));
 		
-		$opt_shift=array(1=>'ពេញម៉ោង',2=>'ក្រៅម៉ោង');
+		$opt_shift=array(1=>'áž–áŸ�áž‰áž˜áŸ‰áŸ„áž„',2=>'áž€áŸ’ážšáŸ…áž˜áŸ‰áŸ„áž„');
 		$_shift =  new Zend_Dojo_Form_Element_FilteringSelect('shift');
 		$_shift->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -183,7 +183,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 				));
 		$_shift->setMultiOptions($opt_shift);
 		
-		$opt_workingtime=array(1=>'ពេលព្រឹក និង ពេលល្ងាច​',2=>'ពេលព្រឹក',3=>'ពេលល្ងាច');
+		$opt_workingtime=array(1=>'áž–áŸ�áž›áž–áŸ’ážšáž¹áž€ áž“áž·áž„ áž–áŸ�áž›áž›áŸ’áž„áž¶áž…â€‹',2=>'áž–áŸ�áž›áž–áŸ’ážšáž¹áž€',3=>'áž–áŸ�áž›áž›áŸ’áž„áž¶áž…');
 		$_workingtime =  new Zend_Dojo_Form_Element_FilteringSelect('workingtime');
 		$_workingtime->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
