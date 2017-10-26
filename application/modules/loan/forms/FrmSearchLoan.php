@@ -13,9 +13,10 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect'));
 		$_status_opt = array(
-				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),
-				0=>$this->tr->translate("DACTIVE"));
+				0=>$this->tr->translate("DACTIVE"),
+				-1=>$this->tr->translate("ALL"));
+				
 		$_status->setMultiOptions($_status_opt);
 		$_status->setValue($request->getParam("status"));
 		
@@ -120,7 +121,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_date = $request->getParam("start_date");
 		
 		if(empty($_date)){
-			$_date = date('Y-m-d');
+			//$_date = date('Y-m-d');
 		}
 		$_releasedate->setValue($_date);
 		

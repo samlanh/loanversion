@@ -63,11 +63,11 @@ function getAllExpense($search=null){
 	
 	if (!empty($search['adv_search'])){
 			$s_where = array();
-			$s_search = trim(addslashes($search['adv_search']));
-			$s_where[] = " account_id LIKE '%{$s_search}%'";
-			$s_where[] = " title LIKE '%{$s_search}%'";
-			$s_where[] = " total_amount LIKE '%{$s_search}%'";
-			$s_where[] = " invoice LIKE '%{$s_search}%'";
+			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+			$s_where[] = "REPLACE(account_id,' ','')  	LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(title,' ','')  		LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(total_amount,' ','')  LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(invoice,' ','')  		LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		if($search['status']>-1){

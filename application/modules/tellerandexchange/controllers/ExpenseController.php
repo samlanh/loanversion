@@ -21,7 +21,7 @@ class Tellerandexchange_ExpenseController extends Zend_Controller_Action
     			$formdata = array(
     					"adv_search"=>'',
     					"currency_type"=>-1,
-    					"status"=>-1,
+    					"status"=>1,
     					'start_date'=> date('Y-m-d'),
     					'end_date'=>date('Y-m-d'),
     			);
@@ -56,8 +56,9 @@ class Tellerandexchange_ExpenseController extends Zend_Controller_Action
 				if(!empty($data['saveclose'])){
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/tellerandexchange/expense");
 				}else{
-					Application_Form_FrmMessage::message("INSERT_SUCCESS");
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/tellerandexchange/expense/add");
 				}				
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/tellerandexchange/expense/add");
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

@@ -35,18 +35,18 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     	(SELECT co.co_khname FROM ln_co AS co WHERE co.`co_id` = tf.to LIMIT 1)) AS to_coname,
     	tf.date,tf.note,
     	(SELECT `name_en` FROM `ln_view` WHERE TYPE = 3 AND key_code = tf.status ) AS status
-    	FROM ln_tranfser_co AS tf WHERE tf.status = 1 AND tf.type = 1';
+    	FROM ln_tranfser_co AS tf WHERE  tf.type = 1';
     	$order = " ORDER BY tf.id DESC";
-    	if($search['status']>1){
-    		$where.= " tf.status = ".$search['status'];
+    	if($search['status']>-1){
+    		$where.= " AND tf.status = ".$search['status'];
     	}
     	if(($search['branch_name'])>0){
     		$where.= " AND tf.branch_id = ".$search['branch_name'];
     	}
     	
     	if(!empty($search['note'])){
-    		$where.= " AND tf.note  LIKE '%{$search['note']}%'";
-    		 
+    		$s_search = str_replace(' ', '', addslashes(trim($search['note'])));
+    		$where.= " AND REPLACE(tf.note,' ','')  LIKE '%{$s_search}%'";
     	}
     	if(($search['co_code'])>0){
     		$where.= " AND tf.from = ".$search['co_code'] ;
@@ -71,11 +71,9 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
                  (SELECT co.co_khname FROM ln_co AS co WHERE co.`co_id` = tf.to LIMIT 1)) AS to_coname,
                  tf.date,tf.note,
                 (SELECT `name_en` FROM `ln_view` WHERE type = 3 AND key_code = tf.status ) AS status
-    	 FROM ln_tranfser_co AS tf WHERE tf.status = 1 AND tf.type = 2';
+    	 FROM ln_tranfser_co AS tf WHERE  tf.type = 2';
     	$order = " ORDER BY tf.id DESC";
-    	if($search['status']>1){
-    		$where.= " tf.status = ".$search['status'];
-    	}
+    	
     	if(($search['branch_name'])>0){
     		$where.= " AND tf.branch_id = ".$search['branch_name'];
     	}
@@ -85,8 +83,12 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     		
     	}
     	if(!empty($search['note'])){
-    		$where.= " AND tf.note  LIKE '%{$search['note']}%'";
+    		$s_search = str_replace(' ', '', addslashes(trim($search['note'])));
+    		$where.= " AND REPLACE(tf.note,' ','')  LIKE '%{$s_search}%'";
     	
+    	}
+    	if($search['status']>-1){
+    		$where.= " AND tf.status = ".$search['status'];
     	}
     	return $db->fetchAll($sql.$where.$order);
     }
@@ -108,7 +110,7 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
                  (SELECT co.co_khname FROM ln_co AS co WHERE co.`co_id` = tf.to LIMIT 1)) AS to_coname,
                  tf.date,tf.note,
                 (SELECT `name_en` FROM `ln_view` WHERE TYPE = 3 AND key_code = tf.status ) AS status
-    	 FROM ln_tranfser_co AS tf WHERE tf.status = 1 AND tf.type = 3';
+    	 FROM ln_tranfser_co AS tf WHERE tf.type = 3';
     	$order = " ORDER BY tf.id DESC";
     	if($search['status']>1){
     		$where.= " tf.status = ".$search['status'];
@@ -119,16 +121,23 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     	if(($search['loan_number'])>0){
     		$where.= " AND tf.loan_id = ".$search['loan_number'];
     	}
+    	
     	if(!empty($search['note'])){
-    		$where.= " AND tf.note  LIKE '%{$search['note']}%'";
-    		 
+    		$s_search = str_replace(' ', '', addslashes(trim($search['note'])));
+    		$where.= " AND REPLACE(tf.note,' ','')  LIKE '%{$s_search}%'";
     	}
+    	
     	if(($search['name_co'])>0){
     		$where.= " AND ( tf.from = ".$search['name_co'] ;
     		$where.= " OR tf.to = ".$search['name_co']." )" ;
     		
     	}
-//     	echo $sql.$where.$order;
+    	
+    	if(($search['status'])>-1){
+    		$where.= " AND tf.status= ".$search['status'] ;
+    	}
+    	
+    	//echo $sql.$where.$order;
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getAllinfoTransfer($id){

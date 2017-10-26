@@ -46,9 +46,9 @@
     return false;
    }
 </script>
-<fieldset>
+<fieldset style="background: #e0ebff">
 <table cellspacing="10" class='fullside'>
-	<legend><strong><?php echo $tr->translate('TRANSFER_ZONE_CO');?></strong></legend>
+	<legend class="mainblog"​ align="center"><strong><?php echo $tr->translate('ADD_TRANSFER_ZONE');?></strong></legend>
 	<tr>
 		<td width="33%;" valign="top">
 		<fieldset>
@@ -73,13 +73,13 @@
 		<fieldset>
 		     <legend align="center"><strong><?php echo $tr->translate('CO_INFO');?></strong></legend>
 			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			 	<tr>
+					<td><?php 	echo $tr->translate("TO_CO")?></td>
+					<td><?php  echo $frm->getElement('to_co_code');?></td>
+				</tr>
 			 	<tr >
 					<td><?php 	echo $tr->translate("TO_CO")?></td>
 					<td><?php 	echo $frm->getElement('to_co');?></td>
-				</tr>
-				<tr>
-					<td><?php 	echo $tr->translate("TO_CO")?></td>
-					<td><?php  echo $frm->getElement('to_co_code');?></td>
 				</tr>
 			    <tr>
 			    	  <td><?php echo $tr->translate("NOTE")?></td>

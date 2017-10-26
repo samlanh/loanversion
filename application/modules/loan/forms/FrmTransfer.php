@@ -168,7 +168,8 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'class'=>'fullside'));
 		
 		//$id = new Zend_Form_Element_Hidden("id");
-		if($data!=null){				
+		if($data!=null){	
+			print_r($data);			
 			$branch_name->setValue($data['branch_id']);
 			$co_name->setValue($data['code_from']);
 			$formc_co->setValue($data['from']);

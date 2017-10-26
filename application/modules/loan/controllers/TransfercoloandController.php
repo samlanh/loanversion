@@ -22,12 +22,14 @@ class Loan_TransfercoloandController extends Zend_Controller_Action {
  						'start_date'=> date('Y-m-01'),
  						'end_date'=>date('Y-m-d'),
  						'txt_search'=>'',
- 						'status' => '',
+ 						'status' => 1,
  						'note'=>''
  						);
  			}
+ 			$this->view->search=$search;
  			$db = new Loan_Model_DbTable_DbTransferCoClient();
  			$rs_rows= $db->getAllinfoCoLoan($search);//call frome model
+ 			
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","FROM_CO","TO_CO","DATE","NOTE","STATUS",);
  			$link=array(

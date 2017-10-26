@@ -32,12 +32,18 @@ class Loan_Model_DbTable_DbTransferZone extends Zend_Db_Table_Abstract
     	if($search['branch_name']>0){
     		$where.=" AND t.branch_id = ".$search['branch_name'];
     	}
+    	
+    	if($search['status']>-1){
+    		$where.=" AND t.status = ".$search['status'];
+    	}
+    	
     	if(!empty($search['note'])){
     		$s_where=array();
-    		$s_search=addslashes(trim($search['note']));
-    		$s_where[]=" t.note LIKE '%{$s_search}%'";
+    		$s_search = str_replace(' ', '', addslashes(trim($search['note'])));
+    		$s_where[]="REPLACE(t.note,' ','')  LIKE '%{$s_search}%'";
     		$where .=' AND '.implode(' OR ',$s_where).' ';
     	}
+    	//echo $sql.$where;
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getAllinfoTransfer($id){

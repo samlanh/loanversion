@@ -163,9 +163,9 @@ class Capital_Model_DbTable_DbCapital extends Zend_Db_Table_Abstract
     	
     	if(!empty($search['search'])){
     		$s_where = array();
-    		$s_search = $search['search'];
-    		$s_where[] = "branch_namekh LIKE '%{$s_search}%'";
-    		$s_where[] = " branch_nameen LIKE '%{$s_search}%'";
+    		$s_search = str_replace(' ', '', addslashes(trim($search['search'])));
+    		$s_where[] = "REPLACE(branch_namekh,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[] = "REPLACE(branch_nameen,' ','')  LIKE '%{$s_search}%'";
     		$where .=' AND ('.implode(' OR ',$s_where).')';
     	}
     	if($search['status']>-1){

@@ -37,10 +37,29 @@
 	dojo.require("dijit.form.DateTextBox");
 	dojo.require("dijit.form.NumberTextBox");
 </script>
-<fieldset>
+<fieldset style="background: #e0ebff">
 <table cellspacing="10" class='fullside'>
-	<legend><strong><?php echo $tr->translate('TRANSFER_CLIENT_CO');?></strong></legend>
+	<legend class="mainblog" align="center"><strong><?php echo $tr->translate('EDIT_TRANSFER_CLIENT_CO');?></strong></legend>
 	<tr>
+		<td width="33%;" valign="top">
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate('CUSTOMER_INFO');?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+			 	<tr >
+					<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+					<td><?php  echo $frm->getElement('customer_code');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+					<td><?php  echo $frm->getElement('member');?></td>
+				</tr>
+				<tr>
+			    	 <td><?php echo $tr->translate("NOTE")?></td>
+					 <td><?php  echo $frm->getElement('Note');?></td>
+			    </tr>
+			</table>
+		 </fieldset>
+		</td>
 		<td width="33%;" valign="top">
 		 <fieldset>
 		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
@@ -54,25 +73,6 @@
 					<td><?php  echo $frm->getElement('name_co');?></td>
 			    </tr>
 			    <tr>
-			    	 <td><?php echo $tr->translate("NOTE")?></td>
-					 <td><?php  echo $frm->getElement('Note');?></td>
-			    </tr>
-			</table>	
-		  </fieldset>
-		</td>
-		<td width="33%;" valign="top">
-		<fieldset>
-		     <legend align="center"><strong><?php echo $tr->translate('CUSTOMER_INFO');?></strong></legend>
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			 	<tr >
-					<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-					<td><?php  echo $frm->getElement('customer_code');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-					<td><?php  echo $frm->getElement('member');?></td>
-				</tr>
-			    <tr>
 					 <td><?php echo $tr->translate("DATE")?></td>
 					 <td><?php  echo $frm->getElement('Date');?></td>
 			    </tr>
@@ -80,8 +80,8 @@
 			    	<td><?php echo $tr->translate("STATUS")?></td>
 					<td><?php  echo $frm->getElement('status');?></td>
 			    </tr>
-			</table>
-		 </fieldset>
+			</table>	
+		  </fieldset>
 		</td>
 	</tr>
 		<tr>

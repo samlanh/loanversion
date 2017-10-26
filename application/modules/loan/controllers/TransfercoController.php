@@ -21,7 +21,7 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 						'start_date'=> date('Y-m-01'),
 						'end_date'=>date('Y-m-d'),
 						'txt_search'=>'',
-						'status' => '',
+						'status' => 1,
 						'note'=>''
 				);
 			}
@@ -54,6 +54,7 @@ class Loan_TransfercoController extends Zend_Controller_Action {
  				else{
  					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferco/add");
  				}
+ 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/transferco/add");
  			}catch (Exception $e) {
  				Application_Form_FrmMessage::message("INSERT_FAIL");
  				$err =$e->getMessage();

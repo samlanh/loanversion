@@ -149,7 +149,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$date = $request->getParam("start_date");
 		
 		if(empty($date)){
-			$date = date('Y-m-01');
+			//$date = date('Y-m-01');
 		}
 		$star_date->setValue($date);
 		

@@ -71,6 +71,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 					}else{
 						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/ilpayment/add");
 					}
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/ilpayment/add");
 				}
 			}catch (Exception $e) {
 				//echo $e->getMessage();

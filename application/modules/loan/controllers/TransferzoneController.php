@@ -20,7 +20,7 @@ class Loan_TransferzoneController extends Zend_Controller_Action {
 						'start_date'=> date('Y-m-01'),
 						'end_date'=>date('Y-m-d'),
 						'txt_search'=>'',
-						'status' => '',
+						'status' => 1,
 						'note'=>''
 				);
 			}

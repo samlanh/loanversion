@@ -163,14 +163,14 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     		$where.=" AND l.`cash_type` = ".$search['cash_type'];
     	}
     	if($search['status']!=""){
-    		$where.= " AND status = ".$search['status'];
+    		$where.= " AND l.status = ".$search['status'];
     	}    	
     	if(!empty($search['adv_search'])){
     		$s_where=array();
-    		$s_search=$search['adv_search'];
-    		$s_where[]=" l.note LIKE '%{$s_search}%'";
-    		$s_where[]=" l.total_amount LIKE '%{$s_search}%'";
-    		$s_where[]=" l.intrest_amount LIKE '%{$s_search}%'";
+    		$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+    		$s_where[]="REPLACE(l.note,' ','')  		LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE(l.total_amount,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE(l.intrest_amount,' ','')LIKE '%{$s_search}%'";
     		$s_where[]=" l.tem = '{$s_search}' ";
     		$where .=' AND ('.implode(' OR ',$s_where).' )';
     	}
