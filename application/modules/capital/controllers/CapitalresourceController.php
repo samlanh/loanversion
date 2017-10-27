@@ -43,15 +43,13 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
 			$data=$this->getRequest()->getPost();
 			$db_acc = new Capital_Model_DbTable_DbCapitalResource();
 			try {
+				$db = $db_acc->addCapitalResource($data);
 				if(isset($data["save"])){
-					$db = $db_acc->addCapitalResource($data);
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capitalresource/add');
 				}elseif (isset($data["save_close"])){
-					$db = $db_acc->addCapitalResource($data);
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capitalresource');
-				}else {
-					Application_Form_FrmMessage::redirectUrl("/capital/capitalresource");
-				}
+				} 
+				Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capitalresource/add');
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
 				$err =$e->getMessage();

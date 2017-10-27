@@ -54,7 +54,7 @@ class Capital_CapitalController extends Zend_Controller_Action {
 				}else {
 					Application_Form_FrmMessage::redirectUrl("/capital/capital/add");
 				}
-				
+				Application_Form_FrmMessage::redirectUrl("/capital/capital/add");
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
 				$err =$e->getMessage();

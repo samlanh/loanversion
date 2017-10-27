@@ -8,8 +8,9 @@ $frm = $this->frm;
 	height: 30px;
 }
 .td{width:128px !important;} 
-.tds{width:114px !important;}
+.tds{width:155px !important;}
 </style>
+<center>
 <form id='frm_add' action="<?php echo $this->url(array('module'=>'capital','controller'=>'interest','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
@@ -21,31 +22,36 @@ $frm = $this->frm;
 				return false;
 			}
 </script>
-<table cellspacing="10" class='fullside'>
+
+<table cellspacing="10" style="width:50%">
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong>Form Add Interest</strong></legend>
+					<legend class="mainblog" style="width: 98%;text-align: center;"><strong><?php echo $tr->translate("EDIT_INTEREST")?></strong></legend>
 					<table cellspacing="10"  width="100%">
-						<tr><td colspan="8" bgcolor="#dbe7ff">តារាងអាត្រាការប្រាក់</td></tr>
+						<tr><td colspan="8" bgcolor="#dbe7ff"><?php echo $tr->translate("INTEREST_INFORMATION")?></td></tr>
 						<tr>
-							<td class="tds">Interest Lable</td>
+							<td class="tds"​ nowrap="nowrap"><?php echo $tr->translate("INTEREST_LABEL")?></td>
 							<td><?php echo $frm->getElement('inter_one')?></td>
-							<td class="tds">Interest Value</td>
+						</tr>
+						<tr>
+							<td class="tds"><?php echo $tr->translate("INTEREST_VALUE")?></td>
 							<td><?php echo $frm->getElement('interest1')?><?php echo $frm->getElement('id')?></td>
+						</tr>
+						<tr>
+							<td align="center" colspan="2">
+								<input type="submit" value="បោះបង់" label="<?php echo $tr->translate("CANCEL")?>" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
+								<input type="submit" value="កែប្រែ" label="<?php echo $tr->translate("UPDATE")?>" name="save" id="save" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+							</td>
 						</tr>
 					</table>
 				</fieldset>
 		</td>
 	</tr>		
-	<tr>
-		<td align="center">
-			<input type="submit" value="បោះបង់" label="បោះបង់" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
-			<input type="submit" value="កែប្រែ" label="កែប្រែ" name="save" id="save" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
-		</td>
-	</tr>	
 </table>
+
 </form>
+</center>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
 dojo.require("dijit.form.NumberTextBox");

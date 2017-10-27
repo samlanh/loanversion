@@ -24,65 +24,82 @@ $frm = $this->frm;
 				return false;
 			}
 </script>
+<fieldset>
 <table cellspacing="10" class='fullside'>
+	<legend class="mainblog"><strong><?php echo $tr->translate("ADD_CAPITAL")?></strong></legend>
 	<tr>
-		<td>
-				<fieldset>
-					<legend><strong>Form Add Capital</strong></legend>
-					<table cellspacing="10"  width="100%">
-						
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" align="center"><strong><?php echo $tr->translate("BRANCH_INFO")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
 							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('brance')?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("DATE")?></td>	
 							<td><?php echo $frm->getElement('date')?></td>
+						</tr>
+						<tr>
 							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php echo $frm->getElement('status')?></td>
 						</tr>
+				</table>
+			</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("CASH_ON_HAND")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
-							<td colspan="6" bgcolor="#dbe7ff">ដើមទុនក្នុងដៃ (Cash On Hand)</td>
+							<td><?php echo $tr->translate("DOLLARS")?></td>
+							<td><?php echo $frm->getElement('usa')?></td>
 						</tr>
 						<tr>
-							<td>ប្រាក់ដុល្លា</td>
-							<td><?php echo $frm->getElement('usa')?></td>
-							<td>ប្រាក់រៀល</td>
+							<td><?php echo $tr->translate("REIL")?></td>
 							<td><?php echo $frm->getElement('reil')?></td>
-							<td>ប្រាក់បាត</td>	
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("BATHS")?></td>	
 							<td><?php echo $frm->getElement('bath')?></td>
 						</tr>
+				</table>
+			</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+			<fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("CASH_IN_BANK")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
-							<td colspan="6" bgcolor="#dbe7ff">ដើមទុនក្នុងធនាគា (Cash In Bank)</td>
+							<td><?php echo $tr->translate("DOLLARS")?></td>
+							<td><?php echo $frm->getElement('usabank')?></td>
 						</tr>
 						<tr>
-							<td>ប្រាក់ដុល្លា</td>
-							<td><?php echo $frm->getElement('usabank')?></td>
-							<td>ប្រាក់រៀល</td>
+							<td><?php echo $tr->translate("REIL")?></td>
 							<td><?php echo $frm->getElement('reilbank')?></td>
-							<td>ប្រាក់បាត</td>	
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("BATHS")?></td>	
 							<td><?php echo $frm->getElement('bathbank')?></td>
 						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>	
-							<td></td>
-							<td>Note</td>
-							<td><?php echo $frm->getElement('note');echo $frm->getElement('id');?></td>
-						</tr>
-						
-					</table>
-				</fieldset>
-				
+				</table>
+			</fieldset>	
 		</td>
-	</tr>		
+	</tr>
 	<tr>
-			<td align="center">
-				<input type="submit" value="បោះបង់" label="បោះបង់" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
-				<input type="button" onclick="submitDataClose()" value="បិទ" label="រក្សាទុកបិទ" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
-				<input type="submit" value="រក្សាទុកថ្មី" label="រក្សាទុកថ្មី" name="save_new" id="save_new" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+	 		  <td style="text-align: right;"><?php echo $tr->translate("NOTE")?></td>
+			  <td colspan="2"><?php echo $frm->getElement('note');echo $frm->getElement('id');?></td>
+	</tr>
+		
+	<tr>
+			<td align="center" colspan="3">
+				<input type="submit" value="បោះបង់" label="<?php echo $tr->translate("CANCEL")?>" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
+				<input type="button" onclick="submitDataClose()" value="បិទ" label="<?php echo $tr->translate("SAVECLOSE")?>" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+				<input type="submit" value="រក្សាទុកថ្មី" label="<?php echo $tr->translate("SAVENEW")?>" name="save_new" id="save_new" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
 			</td>
 	</tr>	
 </table>
+</fieldset>
 </form>
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");

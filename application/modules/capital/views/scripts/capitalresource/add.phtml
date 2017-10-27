@@ -28,54 +28,54 @@ $frm = $this->frm;
 	<tr>
 		<td>
 				<fieldset>
-					<legend><strong>Form Add Capital</strong></legend>
+					<legend class="mainblog"><strong><?php echo $tr->translate("ADD_CAPITAL")?></strong></legend>
 					<table cellspacing="10"  width="100%">
-						<tr><td colspan="8" bgcolor="#dbe7ff">ដើមទុនក្នុងដៃ</td></tr>
+						<tr><td colspan="8" bgcolor="#dbe7ff"><?php echo $tr->translate("CAPITAL_ON_HAND")?></td></tr>
 						<tr>
-							<td><?php echo $tr->translate("សាខា")?></td>
+							<td nowrap><?php echo $tr->translate("BRANCH")?></td>
 							<td><?php echo $frm->getElement('brance')?></td>
-							<td class="tds">ប្រាក់ដុល្លា បច្ចុប្បន្ន</td>
+							<td class="tds"><?php echo $tr->translate("CURRENT_DOLLAR")?></td>
 							<td><?php echo $frm->getElement('dollar_current')?></td>
-							<td class="tds">ប្រាក់រៀល បច្ចុប្បន្ន</td>
+							<td class="tds"><?php echo $tr->translate("CURRENT_REIL")?></td>
 							<td><?php echo $frm->getElement('reil_current')?></td>
-							<td class="tds">ប្រាក់បាត បច្ចុប្បន្ន</td>	
+							<td class="tds"><?php echo $tr->translate("CURRENT_BATH")?></td>	
 							<td><?php echo $frm->getElement('bath_current')?></td>
 						</tr>
 						<tr>
-							<td>Date</td>	
+							<td><?php echo $tr->translate("DATE")?></td>	
 							<td><?php echo $frm->getElement('date')?></td>
-							<td>ប្រាក់ដុល្លា បន្ថែម</td>
+							<td><?php echo $tr->translate("EXTRA_DOLLARS")?></td>
 							<td><?php echo $frm->getElement('usa')?></td>
-							<td>ប្រាក់រៀល បន្ថែម</td>
+							<td><?php echo $tr->translate("EXTRA_REIL")?></td>
 							<td><?php echo $frm->getElement('reil')?></td>
-							<td>ប្រាក់បាត បន្ថែម</td>	
+							<td><?php echo $tr->translate("EXTRA_BATH")?></td>	
 							<td><?php echo $frm->getElement('bath')?></td>
 						</tr>
-						<tr><td colspan="8" bgcolor="#dbe7ff">ដើមទុនក្នុងធនាគា</td></tr>
+						<tr><td colspan="8" bgcolor="#dbe7ff"><?php echo $tr->translate("CAPITAL_IN_BANK")?></td></tr>
 						<tr>
-							<td><?php echo $tr->translate("Stutas")?></td>
+							<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php echo $frm->getElement('status')?></td>
-							<td>ប្រាក់ដុល្លា បច្ចុប្បន្ន</td>
+							<td><?php echo $tr->translate("CURRENT_DOLLAR")?></td>
 							<td><?php echo $frm->getElement('dollarbank_current')?></td>
-							<td>ប្រាក់រៀល បច្ចុប្បន្ន</td>
+							<td><?php echo $tr->translate("CURRENT_REIL")?></td>
 							<td><?php echo $frm->getElement('reilbank_current')?></td>
-							<td>ប្រាក់បាត បច្ចុប្បន្ន</td>	
+							<td><?php echo $tr->translate("CURRENT_BATH")?></td>	
 							<td><?php echo $frm->getElement('bathbank_current')?></td>
 						</tr>
 						
 						<tr>
 							<td><?php //echo $tr->translate("Stutas")?></td>
 							<td><?php //echo $frm->getElement('status')?></td>
-							<td>ប្រាក់ដុល្លា បន្ថែម</td>
+							<td><?php echo $tr->translate("EXTRA_DOLLARS")?></td>
 							<td><?php echo $frm->getElement('usabank')?></td>
-							<td>ប្រាក់រៀល បន្ថែម</td>
+							<td><?php echo $tr->translate("EXTRA_REIL")?></td>
 							<td><?php echo $frm->getElement('reilbank')?></td>
-							<td>ប្រាក់បាត បន្ថែម</td>	
+							<td><?php echo $tr->translate("EXTRA_BATH")?></td>	
 							<td><?php echo $frm->getElement('bathbank')?></td>
 						</tr>
 						<tr>
 						<td colspan="2"></td>
-						<td>សម្គាល់</td>
+						<td><?php echo $tr->translate("NOTE")?></td>
 						<td colspan="5"><?php echo $frm->getElement('note');?></td>
 						</tr>
 					</table>
@@ -84,9 +84,9 @@ $frm = $this->frm;
 	</tr>		
 	<tr>
 		<td align="center">
-			<input type="submit" value="បោះបង់" label="បោះបង់" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
-			<input type="submit" value="បិទ" label="រក្សាទុកបិទ" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
-			<input type="submit" value="រក្សាទុកថ្មី" label="រក្សាទុកថ្មី" name="save_new" id="save_new" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" value="បោះបង់" label="<?php echo $tr->translate("CANCEL")?>" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
+			<input type="submit" value="បិទ" label="<?php echo $tr->translate("SAVECLOSE")?>" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" value="រក្សាទុកថ្មី" label="<?php echo $tr->translate("SAVENEW")?>" name="save_new" id="save_new" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
 		</td>
 	</tr>	
 	<tr>

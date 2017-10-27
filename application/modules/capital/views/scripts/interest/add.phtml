@@ -8,7 +8,7 @@ $frm = $this->frm;
 	height: 30px;
 }
 .td{width:128px !important;} 
-.tds{width:114px !important;}
+.tds{width:155px !important;}
 </style>
 <form id='frm_add' action="<?php echo $this->url(array('module'=>'capital','controller'=>'interest','action'=>'add')); ?>" 
 				dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
@@ -25,17 +25,17 @@ $frm = $this->frm;
 </script>
 <fieldset>
 <table cellspacing="10" class='fullside'>
-		 <legend><strong>Form Add Interest</strong></legend>
-	<tr><td colspan="4" bgcolor="#dbe7ff">តារាងអាត្រាការប្រាក់</td></tr>
+		 <legend  class="mainblog" style="width: 99%;text-align: center;"><strong><?php echo $tr->translate("ADD_INTEREST")?></strong></legend>
+	<tr><td colspan="4" bgcolor="#dbe7ff"><?php echo $tr->translate("INTEREST_INFORMATION")?></td></tr>
 	<tr>
 		<td width="25%;" valign="top">
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
-							<td class="tds">Interest Label 1</td>
+							<td class="tds"​​ nowrap><?php echo $tr->translate("INTEREST_LABEL_ONE")?></td>
 							<td><?php echo $frm->getElement('inter_one')?></td>
 						</tr>
 						<tr>
-							<td class="tds">Interest Value 1</td>
+							<td class="tds" nowrap><?php echo $tr->translate("INTEREST_VALUE_ONE")?></td>
 							<td><?php echo $frm->getElement('interest1')?></td>
 						</tr>
 				</table>
@@ -43,11 +43,11 @@ $frm = $this->frm;
 		<td width="25%;" valign="top">
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
-							 <td class="tds">Interest Label 2</td>
+							 <td class="tds" nowrap><?php echo $tr->translate("INTEREST_LABEL_TWO")?></td>
 							<td><?php echo $frm->getElement('inter_two')?></td>
 						</tr>
 						<tr>
-							<td class="tds">Interest Value 2</td>
+							<td class="tds"><?php echo $tr->translate("INTEREST_VALUE_TWO")?></td>
 							<td><?php echo $frm->getElement('interest2')?></td>
 						</tr>
 				</table>
@@ -55,11 +55,11 @@ $frm = $this->frm;
 		<td width="25%;" valign="top">
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
-							<td class="tds">Interest Label 3</td>	
+							<td class="tds"><?php echo $tr->translate("INTEREST_LABEL_THREE")?></td>	
 							<td><?php echo $frm->getElement('inter_three')?></td>
 						</tr>
 						<tr>
-							<td class="tds">Interest Value 3</td>	
+							<td class="tds"><?php echo $tr->translate("INTEREST_VALUE_THREE")?></td>	
 							<td><?php echo $frm->getElement('interest3')?></td>
 						</tr>
 				</table>
@@ -67,11 +67,11 @@ $frm = $this->frm;
 		<td width="25%;" valign="top">
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
-							<td class="tds">Interest Label 4</td>
+							<td class="tds"><?php echo $tr->translate("INTEREST_LABEL_FOUR")?></td>
 							<td><?php echo $frm->getElement('inter_four')?></td>
 						</tr>
 						<tr>
-							<td class="tds">Interest Value 4</td>
+							<td class="tds"><?php echo $tr->translate("INTEREST_VALUE_FOUR")?></td>
 							<td><?php echo $frm->getElement('interest4')?></td>
 						</tr>
 				</table>
@@ -79,10 +79,10 @@ $frm = $this->frm;
 	</tr>
 	<tr>
 		<td align="center" colspan="4">
-			<input type="reset" label="សម្អាត" dojoType="dijit.form.Button" 
+			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button" 
 			 iconClass="dijitIconClear" /> 
-			<input type="button" onclick="submitDataClose()" value="បិទ" label="រក្សាទុកបិទ" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
-			<input type="submit" value="រក្សាទុកថ្មី" label="រក្សាទុកថ្មី" name="save_new" id="save_new" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="button" onclick="submitDataClose()" value="បិទ" label="<?php echo $tr->translate("SAVECLOSE")?>" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<input type="submit" value="រក្សាទុកថ្មី" label="<?php echo $tr->translate("SAVENEW")?>" name="save_new" id="save_new" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
 		</td>
 	</tr>	
 </table>

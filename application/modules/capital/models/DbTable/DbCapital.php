@@ -10,6 +10,7 @@ class Capital_Model_DbTable_DbCapital extends Zend_Db_Table_Abstract
     	return $db->fetchRow($sql);
     }
    	Public function addCapital($_data){
+   		//print_r($_data);exit();
    		$db = $this->getAdapter();
    		$db->beginTransaction();
    		$session_user=new Zend_Session_Namespace('auth');
@@ -43,7 +44,7 @@ class Capital_Model_DbTable_DbCapital extends Zend_Db_Table_Abstract
 	   				'amount_dollarbefore'=>	$amountDolloar,
 	   				'amount_bathbefore'	=>	$amountBath,
 	   				'amount_reilbefore'	=>	$amountReil,
-	   				'account_type'      =>1,
+	   				'account_id'      =>1,
 	   			);
 	   			$this->_name = "ln_capital_detail";
 	   			$this->insert($arr_history);
@@ -107,7 +108,7 @@ class Capital_Model_DbTable_DbCapital extends Zend_Db_Table_Abstract
 		   				'amount_dollarbefore'=>	$amountDolloar,
 		   				'amount_bathbefore'	=>	$amountBath,
 		   				'amount_reilbefore'	=>	$amountReil,
-		   				'account_type'      =>2,
+		   				'account_id'      =>2,
 		   		);
 		   		$this->_name = "ln_capital_detail";
 		   		$this->insert($arr_history);

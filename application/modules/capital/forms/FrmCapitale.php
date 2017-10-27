@@ -34,9 +34,13 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		));
 		$options= array(1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
 		$_stutas->setMultiOptions($options);
-		$note=new Zend_Dojo_Form_Element_TextBox('note');
+		
+		$note=new Zend_Dojo_Form_Element_Textarea('note');
 		$note->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox'));
+				'dojoType'=>'dijit.form.Textarea',
+				'class'=>'fullside',
+				'style'=>'width:100%;min-height:40px; font-size:18px;'));
+		
 		$usa=new Zend_Dojo_Form_Element_NumberTextBox('usa');
 		$usa->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',

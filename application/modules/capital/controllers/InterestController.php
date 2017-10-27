@@ -48,9 +48,9 @@ class Capital_InterestController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/interest/');
 				}elseif (isset($data["save_close"])){
 					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/interest/index');
-				}else {
-					Application_Form_FrmMessage::redirectUrl("/capital/interest/index/add");
-				}
+				} 
+				Application_Form_FrmMessage::redirectUrl("/capital/interest/add");
+				 
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
 				$err =$e->getMessage();
@@ -62,7 +62,8 @@ class Capital_InterestController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm= $frm;
 	}
-public function editAction()
+	
+	public function editAction()
 	{
 		$db_acc = new Capital_Model_DbTable_DbInterestResource();
 		if($this->getRequest()->isPost()){
@@ -76,7 +77,6 @@ public function editAction()
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
-		
 		$id = $this->getRequest()->getParam("id");
 		$row = $db_acc->getinterestId($id);
 		
@@ -84,7 +84,6 @@ public function editAction()
 		$frm = $fm->frmInterest($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm= $frm;
-		
-		
 	}
+	
 }
