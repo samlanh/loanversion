@@ -38,7 +38,7 @@ dojo.require("dijit.Dialog");
 </script>
 <fieldset>
 <table  width="100%" style="margin-top:-5px;" >
-		 <legend><strong><?php echo $tr->translate("ADD_CLIENT");?></strong></legend>
+		 <legend  class="mainblog"><strong><?php echo $tr->translate("ADD_CLIENT");?></strong></legend>
 	<tr>
 		<td width="33%;" valign="top">
 			<fieldset>
@@ -421,6 +421,7 @@ dojo.ready(function(){
 	}catch(e){
 		alert(e);
 	}
+	filterDistrict();
 });
 
 url_getdistrict = '<?php echo $this->url(array('module'=>'other','controller'=>'district','action'=>'get-district'));?>';

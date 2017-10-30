@@ -228,6 +228,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }
+    
     public function addNewLoanIL($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();

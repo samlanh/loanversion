@@ -24,6 +24,8 @@ public function init()
 					Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
 					Application_Form_FrmMessage::redirectUrl('/group/clientblacklist/add');
 				}
+				Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');
+				Application_Form_FrmMessage::redirectUrl('/group/clientblacklist/add');
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err = $e->getMessage();
@@ -36,6 +38,7 @@ public function init()
 	   $this->view->Form_client_blacklist = $frm;
 	   
     }
+    
     function indexAction()
     {
     	try{

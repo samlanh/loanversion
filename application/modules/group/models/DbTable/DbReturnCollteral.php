@@ -14,13 +14,13 @@ class Group_Model_DbTable_DbReturnCollteral extends Zend_Db_Table_Abstract
     		
     		$_arr=array(
 //     				'change_id'=>$change_id,
-    				'branch_id'=>$data['branch_id'],
-    				'client_id'=>$data['client_name'],
-    				'giver_name'=>$data['receiver_name'],
-    				'receiver_name'=>$data['giver_name'],
-    				'date'=>$data['date'],
-    				'user_id'=>$this->getUserId(),
-    				'note'=>$data['_note'],
+    				'branch_id'		=>$data['branch_id'],
+    				'client_id'		=>$data['client_name'],
+    				'giver_name'	=>$data['receiver_name'],
+    				'receiver_name'	=>$data['giver_name'],
+    				'date'			=>$data['date'],
+    				'user_id'		=>$this->getUserId(),
+    				'note'			=>$data['_note'],
     		);
     		
     		$this->_name='ln_return_collteral';
@@ -31,21 +31,21 @@ class Group_Model_DbTable_DbReturnCollteral extends Zend_Db_Table_Abstract
     			
     		$this->_name='ln_return_collteral_detail';
 				 $array=array(
-				 		'return_id'=>$return_id,
-				 		'collect_type'=>$data['collect_type'.$i],
-				 		'owner_type'=>$data['owner_type'.$i],
-				 		'owner_name'=>$data['owner_name'.$i],
-				 		'number_collteral'=>$data['number_collteral'.$i],
-				 		'issue_date'=>$data['issue_date'.$i],
-				 		'note'=>$data['note'.$i]
+				 		'return_id'			=>$return_id,
+				 		'collect_type'		=>$data['collect_type'.$i],
+				 		'owner_type'		=>$data['owner_type'.$i],
+				 		'owner_name'		=>$data['owner_name'.$i],
+				 		'number_collteral'	=>$data['number_collteral'.$i],
+				 		'issue_date'		=>$data['issue_date'.$i],
+				 		'note'				=>$data['note'.$i]
 				 		);
 			  $this->insert($array);
     			
     			
     			$this->_name='ln_client_callecteral_detail';//what relationship
     			$array = array(
-    					'note'=>'return by change collateral',
-    					'is_return'=>1
+    					'note'		=>'return by change collateral',
+    					'is_return'	=>1
     			);
     			$where = " id = ".$data['coid'.$i];
     			$this->update($array, $where);
@@ -65,13 +65,13 @@ class Group_Model_DbTable_DbReturnCollteral extends Zend_Db_Table_Abstract
 		try {
 			
 		$_arr=array(
-				'branch_id'=>$data['branch_id'],
-				'client_id'=>$data['client_name'],
-				'giver_name'=>$data['giver_name'],
-				'receiver_name'=>$data['receiver_name'],
-				'date'=>$data['date'],
-				'user_id'=>$this->getUserId(),
-				'note'=>$data['_note'],
+				'branch_id'		=>$data['branch_id'],
+				'client_id'		=>$data['client_name'],
+				'giver_name'	=>$data['giver_name'],
+				'receiver_name'	=>$data['receiver_name'],
+				'date'			=>$data['date'],
+				'user_id'		=>$this->getUserId(),
+				'note'			=>$data['_note'],
 		);
 		
 		$where=" id = ".$data['id'];
@@ -85,12 +85,12 @@ class Group_Model_DbTable_DbReturnCollteral extends Zend_Db_Table_Abstract
 		$this->_name='ln_return_collteral_detail';
 		foreach($ids as $i){
 			$array=array(
-					'return_id'=>$data['id'],
-					'collect_type'=>$data['collect_type'.$i],
-					'owner_type'=>$data['owner_type'.$i],
-					'owner_name'=>$data['owner_name'.$i],
-					'number_collteral'=>$data['number_collteral'.$i],
-					'note'=>$data['note'.$i],
+					'return_id'			=>$data['id'],
+					'collect_type'		=>$data['collect_type'.$i],
+					'owner_type'		=>$data['owner_type'.$i],
+					'owner_name'		=>$data['owner_name'.$i],
+					'number_collteral'	=>$data['number_collteral'.$i],
+					'note'				=>$data['note'.$i],
 			);
 			$this->insert($array);
 		}

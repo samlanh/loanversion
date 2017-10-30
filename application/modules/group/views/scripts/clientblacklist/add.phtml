@@ -27,14 +27,31 @@ $frm = $this->Form_client_blacklist;
 </script>
 <fieldset>
 <table cellspacing="10" class='fullside'>
-	<legend><strong><?php echo $tr->translate("CLIENT_BLACK_LIST")?></strong></legend>
+	<legend  class="mainblog"><strong><?php echo $tr->translate("CLIENT_BLACK_LIST")?></strong></legend>
 	<tr>
 		<td width="33%;" valign="top">
+		 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("BRANCH_INFO")?></strong></legend>
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
 							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch')?></td>	
 						</tr>
+						<tr>
+							<td><?php echo $tr->translate("DATE")?></td>
+							<td><?php echo $frm->getElement('date')?></td>
+					   </tr>
+						<tr>
+							<td><?php echo $tr->translate("REASON")?></td>
+							<td><?php echo $frm->getElement('problem')?></td>
+						</tr>
+				</table>
+			</fieldset>
+		</td>
+		<td width="33%;" valign="top">
+		 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("CLIENT_INFO")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
 							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
 							<td><input id="client_code" /><?php //echo $frm->getElement('client_code')?></td>								
@@ -43,23 +60,12 @@ $frm = $this->Form_client_blacklist;
 							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 							<td><input id="client_name" /><?php //echo $frm->getElement('client_name')?></td>
 						</tr>
-				</table>
-		</td>
-		<td width="33%;" valign="top">
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-						<tr>
-							<td><?php echo $tr->translate("REASON")?></td>
-							<td><?php echo $frm->getElement('problem')?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("DATE")?></td>
-							<td><?php echo $frm->getElement('date')?></td>
-					   </tr>
 					   <tr>
 					   		<td><?php echo $tr->translate("STATUS")?></td>
 							<td><?php echo $frm->getElement('status')?></td>
 					   </tr>
 				</table>
+				</fieldset>
 		</td>
 	</tr>
 	<tr>

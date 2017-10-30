@@ -88,7 +88,7 @@ class Group_indexController extends Zend_Controller_Action {
 							Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
 						}
 					}
-					Application_Form_FrmMessage::message("ការ​បញ្ចូល​ជោគ​ជ័យ !");
+					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​ជោគ​ជ័យ !',"/group/index/add");
 			}catch (Exception $e){
 				Application_Form_FrmMessage::message("Application Error");
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

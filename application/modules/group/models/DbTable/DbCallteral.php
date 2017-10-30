@@ -9,17 +9,17 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
     	$db->beginTransaction();
     	try{
 	    	$arr = array(
-	    			'branch_id'=>$data['branch_id'],
-					'collecteral_code'=>$data['cod_cal'],
-	    			'co_id'=>$data['co_name'],
-	    			'client_id'=>$data['client_name'],
-	    			'join_with'=>$data['name'],
-	    			'relative'=>$data['names'],
-	    			'guarantor'=>$data['owner'],
+	    			'branch_id'		 	=>$data['branch_id'],
+					'collecteral_code'	=>$data['cod_cal'],
+	    			'co_id'				=>$data['co_name'],
+	    			'client_id'			=>$data['client_name'],
+	    			'join_with'			=>$data['name'],
+	    			'relative'			=>$data['names'],
+	    			'guarantor'			=>$data['owner'],
 	    			'guarantor_relative'=>$data['and_name'],
-					'note'=>$data['note'],
-					'date'=>$data['date_estate'],
-					'status'=>$data['Stutas'],
+					'note'				=>$data['note'],
+					'date'				=>$data['date_estate'],
+					'status'			=>$data['Stutas'],
 	    		);
 	    	$id_call = $this->insert($arr);
 	    	$ids = explode(",",$data['record_row']);
@@ -27,15 +27,15 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 	    	foreach ($ids as $i){
 	    		$code = Group_Model_DbTable_DbCallteral::getCallteralCode();
 	    		$array = array(
-	    				'client_coll_id'=> $id_call,//$data['client_coll'],
-	    				'collecteral_code'=>$code,
-	    				'collecteral_type'=>$data['collect_type'.$i],
-	    				'owner_type'=>$data['owner_type'.$i],
-	    				'owner_name'=>$data['owner_name'.$i],
+	    				'client_coll_id'	=> $id_call,//$data['client_coll'],
+	    				'collecteral_code'	=>$code,
+	    				'collecteral_type'	=>$data['collect_type'.$i],
+	    				'owner_type'		=>$data['owner_type'.$i],
+	    				'owner_name'		=>$data['owner_name'.$i],
 	    				'number_collecteral'=>$data['number_collteral'.$i],
-	    				'issue_date'=>$data['issue_date'.$i],
-	    				'status'=>$data['Stutas'],
-	    				'note'=>$data['note'.$i],
+	    				'issue_date'		=>$data['issue_date'.$i],
+	    				'status'			=>$data['Stutas'],
+	    				'note'				=>$data['note'.$i],
 	    				);
 	    		$this->insert($array);
 	    	}

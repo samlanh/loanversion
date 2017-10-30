@@ -12,24 +12,24 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
     	$db->beginTransaction();
     	try {
 	    	$array=array(
-		    			'branch_id'=>$data['branch_id'],
-		    			'client_id'=>$data['client_name'],
-		    			'date'=>$data['date'],
-		    			'note'=>$data['note'],
-		    		    'status'=>1,//$data['Stutas'],
-		    			'user_id'=>$this->getUserId()
+		    			'branch_id'	=>$data['branch_id'],
+		    			'client_id'	=>$data['client_name'],
+		    			'date'		=>$data['date'],
+		    			'note'		=>$data['note'],
+		    		    'status'	=>1,//$data['Stutas'],
+		    			'user_id'	=>$this->getUserId()
 		    			);
 		    $change_id = $this->insert($array);  
 	    
 		    $_arr=array(
-		    		'change_id'=>$change_id,
-		    		'branch_id'=>$data['branch_id'],
-		    		'client_id'=>$data['client_name'],
-		    		'giver_name'=>$data['giver_name'],
-		    		'receiver_name'=>$data['receiver_name'],
-		    		'date'=>$data['date'],
-		    		'user_id'=>$this->getUserId(),
-		    		'note'=>$data['_note'],
+		    		'change_id'		=>$change_id,
+		    		'branch_id'		=>$data['branch_id'],
+		    		'client_id'		=>$data['client_name'],
+		    		'giver_name'	=>$data['giver_name'],
+		    		'receiver_name'	=>$data['receiver_name'],
+		    		'date'			=>$data['date'],
+		    		'user_id'		=>$this->getUserId(),
+		    		'note'			=>$data['_note'],
 		    );
 		    $this->_name='ln_return_collteral';
 		    $return_id = $this->insert($_arr);
@@ -38,32 +38,30 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 	   foreach($ids as $i){
 	     	$this->_name='ln_client_callecteral_detail';//what relationship
 	   	    $array = array(
-					'note'=>'return by change collateral',
-	   	    		'is_return'=>1
+					'note'		=>'return by change collateral',
+	   	    		'is_return'	=>1
 					);	
 			$where = " id = ".$data['coid'.$i];
 			$this->update($array, $where);
 
 ////////////////////////////////add new more calleteral detail
-		
-			
 			$this->_name='ln_changecollteral_detail';
 			$code = Group_Model_DbTable_DbCallteral::getCallteralCode();
 			$array = array(
 				//	'client_coll'=>$data['client_coll'],
 // 					colllecteral_code
-					'client_coll_id'=>$data['coid'.$i],
-					'change_id'=>$change_id,
-					'from_collateral_type'=>$data['collect_type'.$i],
-					'from_owner_id'=>$data['owner_type'.$i],
-					'from_owner_name'=>$data['owner_name'.$i],
+					'client_coll_id'		=>$data['coid'.$i],
+					'change_id'				=>$change_id,
+					'from_collateral_type'	=>$data['collect_type'.$i],
+					'from_owner_id'			=>$data['owner_type'.$i],
+					'from_owner_name'		=>$data['owner_name'.$i],
 					'from_number_collateral'=>$data['number_collteral'.$i],
-					'collateral_type'=>$data['tocollect_type'.$i],
-					'owner_id'=>$data['toowner_type'.$i],
-					'toowner_name'=>$data['toowner_name'.$i],
-					'number_collateral'=>$data['tonumber_collteral'.$i],
-					'issue_date'=>$data['issue_date'.$i],
-					'note'=>$data['tonote'.$i],
+					'collateral_type'		=>$data['tocollect_type'.$i],
+					'owner_id'				=>$data['toowner_type'.$i],
+					'toowner_name'			=>$data['toowner_name'.$i],
+					'number_collateral'		=>$data['tonumber_collteral'.$i],
+					'issue_date'			=>$data['issue_date'.$i],
+					'note'					=>$data['tonote'.$i],
 // 					'is_changed'=>1,
 			); 
 			 $change_detail_id = $this->insert($array);
@@ -71,26 +69,26 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 			 $this->_name='ln_client_callecteral_detail';//what relationship
 			 $code = Group_Model_DbTable_DbCallteral::getCallteralCode();
 			 $array = array(
-			 		'collecteral_code'=>$code,
+			 		'collecteral_code'	=>$code,
 			 		'changecollteral_id'=>$change_detail_id,
-			 		'client_coll_id'=> $data['client_coll'],
-			 		'collecteral_type'=>$data['tocollect_type'.$i],
-			 		'owner_type'=>$data['toowner_type'.$i],
-			 		'owner_name'=>$data['toowner_name'.$i],
+			 		'client_coll_id'	=> $data['client_coll'],
+			 		'collecteral_type'	=>$data['tocollect_type'.$i],
+			 		'owner_type'		=>$data['toowner_type'.$i],
+			 		'owner_name'		=>$data['toowner_name'.$i],
 			 		'number_collecteral'=>$data['tonumber_collteral'.$i],
-			 		'issue_date'=>$data['issue_date'.$i],
-			 		'note'=>$data['tonote'.$i],
+			 		'issue_date'		=>$data['issue_date'.$i],
+			 		'note'				=>$data['tonote'.$i],
 			 );
 			 $this->insert($array);
 			 
 			 $this->_name='ln_return_collteral_detail';
 			 $array=array(
-			 		'return_id'=>$return_id,
-			 		'collect_type'=>$data['collect_type'.$i],
-			 		'owner_type'=>$data['owner_type'.$i],
-			 		'owner_name'=>$data['owner_name'.$i],
-			 		'number_collteral'=>$data['number_collteral'.$i],
-			 		'issue_date'=>$data['issue_date'.$i]
+			 		'return_id'			=>$return_id,
+			 		'collect_type'		=>$data['collect_type'.$i],
+			 		'owner_type'		=>$data['owner_type'.$i],
+			 		'owner_name'		=>$data['owner_name'.$i],
+			 		'number_collteral'	=>$data['number_collteral'.$i],
+			 		'issue_date'		=>$data['issue_date'.$i]
 			 		);
 			 $this->insert($array);
 	   }
@@ -102,18 +100,19 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
 	}
+	
 	function updateChangeCollteral($data){
 		$db=$this->getAdapter();
 		$db->beginTransaction();
 		try {
 			
 			$array=array(
-					'branch_id'=>$data['branch_id'],
-					'client_id'=>$data['client_name'],
-					'date'=>$data['date'],
-					'note'=>$data['note'],
-					'status'=>$data['Stutas'],
-					'user_id'=>$this->getUserId()
+					'branch_id'	=>$data['branch_id'],
+					'client_id'	=>$data['client_name'],
+					'date'		=>$data['date'],
+					'note'		=>$data['note'],
+					'status'	=>$data['Stutas'],
+					'user_id'	=>$this->getUserId()
 			);
 			
 			$where="id = ".$data['id'];
@@ -129,14 +128,14 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 			
 			///////////////////////////update return and delete return detail////////////////////////////
 			$_arr=array(
-					'branch_id'=>$data['branch_id'],
-					'client_id'=>$data['client_name'],
-					'giver_name'=>$data['giver_name'],
-					'receiver_name'=>$data['receiver_name'],
-					'date'=>$data['date'],
-					'user_id'=>$this->getUserId(),
-					'note'=>$data['_note'],
-					'status'=>$data['Stutas']
+					'branch_id'		=>$data['branch_id'],
+					'client_id'		=>$data['client_name'],
+					'giver_name'	=>$data['giver_name'],
+					'receiver_name'	=>$data['receiver_name'],
+					'date'			=>$data['date'],
+					'user_id'		=>$this->getUserId(),
+					'note'			=>$data['_note'],
+					'status'		=>$data['Stutas']
 			);
 			
 			$this->_name='ln_return_collteral';//table return collateral
@@ -178,18 +177,18 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 					
 				$this->_name='ln_changecollteral_detail';
 				$array = array(
-					'from_collateral_type'=>$data['collect_type'.$i],
-					'from_owner_id'=>$data['owner_type'.$i],
-					'from_owner_name'=>$data['owner_name'.$i],
+					'from_collateral_type'	=>$data['collect_type'.$i],
+					'from_owner_id'			=>$data['owner_type'.$i],
+					'from_owner_name'		=>$data['owner_name'.$i],
 					'from_number_collateral'=>$data['number_collteral'.$i],
-					'collateral_type'=>$data['tocollect_type'.$i],
-					'owner_id'=>$data['toowner_type'.$i],
-					'toowner_name'=>$data['toowner_name'.$i],
-					'number_collateral'=>$data['tonumber_collteral'.$i],
-					'issue_date'=>$data['issue_date'.$i],
-					'note'=>$data['tonote'.$i],
-					'is_changed'=>1,
-					'status'=>$data['Stutas']
+					'collateral_type'		=>$data['tocollect_type'.$i],
+					'owner_id'				=>$data['toowner_type'.$i],
+					'toowner_name'			=>$data['toowner_name'.$i],
+					'number_collateral'		=>$data['tonumber_collteral'.$i],
+					'issue_date'			=>$data['issue_date'.$i],
+					'note'					=>$data['tonote'.$i],
+					'is_changed'			=>1,
+					'status'				=>$data['Stutas']
 				);
 				$where="id = ".$data['de_id'.$i];
 				$this->update($array, $where);
@@ -213,26 +212,26 @@ class Group_Model_DbTable_DbChangeCollteral extends Zend_Db_Table_Abstract
 				}
 				$array = array(
 // 					'client_coll_id'=> $data['coid'.$i],//check here
-					'collecteral_type'=>$data['tocollect_type'.$i],
-					'owner_type'=>$data['toowner_type'.$i],
-					'owner_name'=>$data['toowner_name'.$i],
+					'collecteral_type'	=>$data['tocollect_type'.$i],
+					'owner_type'		=>$data['toowner_type'.$i],
+					'owner_name'		=>$data['toowner_name'.$i],
 					'number_collecteral'=>$data['tonumber_collteral'.$i],
-					'issue_date'=>$data['issue_date'.$i],
-					'note'=>$data['tonote'.$i],
-					'status'=>$data['Stutas']
+					'issue_date'		=>$data['issue_date'.$i],
+					'note'				=>$data['tonote'.$i],
+					'status'			=>$data['Stutas']
 								);
 				$where = ' changecollteral_id = '.$data['de_id'.$i];//new from add from change detail
 				$this->update($array, $where);
 				
 				$this->_name='ln_return_collteral_detail';
 				$array=array(
-						'return_id'=>$return_id,//$data['id'],//not right
-						'collect_type'=>$data['collect_type'.$i],
-						'owner_type'=>$data['owner_type'.$i],
-						'owner_name'=>$data['owner_name'.$i],
-						'number_collteral'=>$data['number_collteral'.$i],
-						'issue_date'=>$data['issue_date'.$i],
-						'status'=>$data['Stutas']
+						'return_id'			=>$return_id,//$data['id'],//not right
+						'collect_type'		=>$data['collect_type'.$i],
+						'owner_type'		=>$data['owner_type'.$i],
+						'owner_name'		=>$data['owner_name'.$i],
+						'number_collteral'	=>$data['number_collteral'.$i],
+						'issue_date'		=>$data['issue_date'.$i],
+						'status'			=>$data['Stutas']
 				);
 				$this->insert($array);
 			}

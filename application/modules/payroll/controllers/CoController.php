@@ -8,6 +8,7 @@ class Payroll_CoController extends Zend_Controller_Action {
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
+	
 	public function indexAction(){
 		try{
 			$db = new Other_Model_DbTable_DbCreditOfficer();
@@ -41,6 +42,7 @@ class Payroll_CoController extends Zend_Controller_Action {
    		$this->view->frm_co = $frm_co;
 	
 	}
+	
 	public function settingAction(){
 	try{
 		$db_dept=new Global_Model_DbTable_DbDept();
@@ -98,6 +100,7 @@ class Payroll_CoController extends Zend_Controller_Action {
 			Application_Form_FrmMessage::getUrl("/global/index/setting");
 		}
 	}
+	
    function addAction(){
    	if($this->getRequest()->isPost()){
    		$_data = $this->getRequest()->getPost();
@@ -116,7 +119,6 @@ class Payroll_CoController extends Zend_Controller_Action {
    			Application_Model_DbTable_DbUserLog::writeMessageError($err);
    		}
    	}
-   	
    	$frm = new Other_Form_FrmCO();
    	$frm_co=$frm->FrmAddCO();
    	Application_Model_Decorator::removeAllDecorator($frm_co);
@@ -125,6 +127,7 @@ class Payroll_CoController extends Zend_Controller_Action {
    	$frmpopup = new Application_Form_FrmPopupGlobal();
    	$this->view->frmpopupdepartment = $frmpopup->frmPopupDepartment();
    }
+   
    function editAction(){
    	$db_co = new Other_Model_DbTable_DbCreditOfficer();
    	if($this->getRequest()->isPost()){
@@ -148,7 +151,6 @@ class Payroll_CoController extends Zend_Controller_Action {
    	$frm_co=$frm->FrmAddCO($row);
    	Application_Model_Decorator::removeAllDecorator($frm_co);
    	$this->view->frm_co = $frm_co;
-   
    }
    
    public function addNewcoAction(){
@@ -173,6 +175,7 @@ class Payroll_CoController extends Zend_Controller_Action {
    		exit();
    	}
    }
+   
    function getstaffcodeAction(){
    	if($this->getRequest()->isPost()){
    		$db = new Application_Model_DbTable_DbGlobal();
@@ -183,4 +186,3 @@ class Payroll_CoController extends Zend_Controller_Action {
    	}
    }
 }
-
