@@ -1,7 +1,7 @@
 <?php
-class Payroll_DepartmentController extends Zend_Controller_Action {
+class Loan_DepartmentController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
-	const REDIRECT_URL = '/payroll';
+	const REDIRECT_URL = '/loan';
     public function init()
     {    	
      /* Initialize action controller here */
@@ -25,7 +25,7 @@ class Payroll_DepartmentController extends Zend_Controller_Action {
 			$list = new Application_Form_Frmtable();
 			$collumns = array("DEPARTMENT_KH","DEPARTMENT_EN","STATUS");
 			$link=array(
-					'module'=>'payroll','controller'=>'department','action'=>'edit',
+					'module'=>'loan','controller'=>'department','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('department_kh'=>$link,'department_en'=>$link));
 		}catch (Exception $e){
@@ -77,7 +77,7 @@ class Payroll_DepartmentController extends Zend_Controller_Action {
 	   		$_data = $this->getRequest()->getPost();
 	   		try{
 	   			$db->upDateDepartment($_data);
-	   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/department');
+	   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/loan/department');
 	   		}catch(Exception $e){
 	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
 	   			$err =$e->getMessage();
@@ -87,7 +87,7 @@ class Payroll_DepartmentController extends Zend_Controller_Action {
 	   	$id = $this->getRequest()->getParam("id");//ចាប់ id from ln_position ;
 	   	$row = $db->getDepartmemtById($id);
 	   	if(empty($row)){
-	   		$this->_redirect('payroll/department');
+	   		$this->_redirect('loan/department');
 	   	}
 		 $frm = new Payroll_Form_FrmDepartment();
 		 $frm_partment=$frm->FrmAddDepartment($row);

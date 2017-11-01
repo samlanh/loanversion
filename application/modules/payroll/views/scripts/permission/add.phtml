@@ -1,7 +1,7 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	echo $this->headTitle($tr->translate('ADD_STAFF_PERMISSION'));
-	$this->headTitle('ADD_STAFF_PERMISSION'); 
+	$this->headTitle('PERMISSION_LETTER'); 
 	echo $this->headTitle();
 	$frm = $this->frm_permistion;
 ?>
@@ -80,10 +80,10 @@
 					<div style="text-align: center; margin: 10px 0px;"> 
 						<input type="hidden" name="exchangefrom" value="2" />
 						<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
-						<input type="reset" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button"/>
-						<input type="submit" value="save_close" name="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
+						<input type="reset" value="ážŸáŸ†áž¢áž¶áž�" label="ážŸáŸ†áž¢áž¶áž�"dojoType="dijit.form.Button"/>
+						<input type="submit" value="save_close" name="save_close" label="ážšáž€áŸ’ážŸáž¶áž‘áž»áž€+áž”áž·áž�" dojoType="dijit.form.Button" 
 							iconClass="dijitEditorIcon dijitEditorIconSave" />
-						<input type="submit" value="save_new" name="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 
+						<input type="submit" value="save_new" name="save_new" label="ážšáž€áŸ’ážŸáž¶áž‘áž»áž€+áž�áŸ’áž˜áž¸" dojoType="dijit.form.Button" 
 							iconClass="dijitEditorIcon dijitEditorIconSave" />
 					</div>
 				</fieldset>

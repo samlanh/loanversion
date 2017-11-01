@@ -18,7 +18,7 @@ class Other_Model_DbTable_DbPosition extends Zend_Db_Table_Abstract
 	}
 	function getAllStaffPosition($search=null){
 		$db = $this->getAdapter();
-		$sql=" SELECT id,position_en,position_kh,
+		$sql=" SELECT id,position_kh,position_en,
 		
 		status
 		FROM `ln_position` WHERE 1 ";
@@ -27,11 +27,11 @@ class Other_Model_DbTable_DbPosition extends Zend_Db_Table_Abstract
 		
 		if(!empty($search['adv_search'])){
 			$s_where = array();
-			$s_search = $search['adv_search'];
-			$s_where[] = "position_kh LIKE '%{$s_search}%'";
-			$s_where[] = " position_en LIKE '%{$s_search}%'";
-			$s_where[] = " status LIKE '%{$s_search}%'";
-			$s_where[] = " displayby LIKE '%{$s_search}%'";
+			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+			$s_where[] = "REPLACE(position_kh,' ','')   LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(position_en,' ','')   LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(status,' ','')  		LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(displayby,' ','')  	LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		if($search['status_search']>-1){

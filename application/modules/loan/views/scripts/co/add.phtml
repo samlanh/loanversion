@@ -7,7 +7,7 @@
 	dojo.require("dijit/form/DateTextBox");
 	dojo.require("dijit/form/NumberTextBox");
 </script>
-<form  id='add_techer' action="<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
+<form  id='add_techer' action="" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				if(dijit.byId('branch_id').get('value')==''){
@@ -297,13 +297,13 @@ var url_staffcode = '<?php echo $this->url(array('module'=>'payroll','controller
 		if(dijit.byId('add_techer').validate()) {
 			dijit.byId('save_close').set('disabled',true);
 			dijit.byId('save_new').set('disabled',true);
-			var url_submit = '<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'add')); ?>';
+			var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'co','action'=>'add')); ?>';
 			dojo.xhrPost({
 			    url: url_submit,	
 				form: dojo.byId("add_techer"),		    
 				load: function(data) {
 					alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-					window.location.href ="<?php echo $this->baseUrl();?>/payroll/co";
+					window.location.href ="<?php echo $this->baseUrl();?>/loan/co";
 				},
 				error: function(e) {
 				}

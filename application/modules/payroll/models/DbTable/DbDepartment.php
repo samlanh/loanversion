@@ -15,7 +15,7 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
     			'department_en'=>$_data['department_en'],
     			'status'=>$_data['status'],
     			'date'=>date('Y-m-d'),
-    			'displayby'=>$_data['display'],
+    			//'displayby'=>$_data['display'],
     			'user_id'=>$this->getUserId(),
     	);
     	return $this->insert($arr);//insert data
@@ -26,7 +26,7 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
     			'department_en'=>$_data['department_en'],
     			'status'=>$_data['status_pop'],
     			'date'=>date('Y-m-d'),
-    			'displayby'=>$_data['display_pop'],
+    			//'displayby'=>$_data['display_pop'],
     			'user_id'=>$this->getUserId(),
     	);
     	return $this->insert($arr);//insert data
@@ -37,7 +37,7 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
     			'department_en'=>$_data['department_en'],
     			'status'=>$_data['status'],
     			'date'=>date('Y-m-d'),
-    			'displayby'=>$_data['display'],
+    			//'displayby'=>$_data['display'],
     			'user_id'=>$this->getUserId(),
     	);
     	$where = " id = ".$_data['id'];
@@ -61,11 +61,11 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
 		
 		if(!empty($search['adv_search'])){
 			$s_where = array();
-			$s_search = $search['adv_search'];
-			$s_where[] = " department_kh LIKE '%{$s_search}%'";
-			$s_where[] = " department_en LIKE '%{$s_search}%'";
-			$s_where[] = " status LIKE '%{$s_search}%'";
-			$s_where[] = " displayby LIKE '%{$s_search}%'";
+			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+			$s_where[] = "REPLACE(department_kh,' ','')  LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(department_en,' ','')  LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(status,' ','')  		 LIKE '%{$s_search}%'";
+			$s_where[] = " REPLACE(displayby,' ','')     LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 // 		print_r($search); exit();

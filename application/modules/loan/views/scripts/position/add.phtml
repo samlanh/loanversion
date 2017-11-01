@@ -3,7 +3,7 @@
 	echo $this->headTitle($tr->translate('POSITION_INFO'));
 ?>	
 <?php  $techer= $this->frm_position;?>
-<form  id='add_techer' action="<?php echo $this->url(array('module'=>'payroll','controller'=>'position','action'=>'Add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form  id='add_techer' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				/*if(dijit.byId('province').get('value')==''){
@@ -21,7 +21,7 @@
 	<tr>
 		<td>
 		<fieldset>
-					<legend align="center"><strong><?php echo $tr->translate("ADD_POSITION");?></strong></legend>
+					<legend class="mainblog" align="center"><strong><?php echo $tr->translate("ADD_POSITION");?></strong></legend>
 					
 					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
 						<tr>
@@ -60,13 +60,13 @@ function submitDataClose(){
 	if(dijit.byId('add_techer').validate()) {
 		dijit.byId('save_close').set('disabled',true);
 		dijit.byId('save_new').set('disabled',true);
-		var url_submit = '<?php echo $this->url(array('module'=>'payroll','controller'=>'position','action'=>'add')); ?>';
+		var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'position','action'=>'add')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	
 			form: dojo.byId("add_techer"),		    
 			load: function(data) {
 				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-				window.location.href ="<?php echo $this->baseUrl();?>/payroll/position";
+				window.location.href ="<?php echo $this->baseUrl();?>/loan/position";
 			},
 			error: function(e) {
 			}

@@ -1,22 +1,20 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate('ADD_CO'));
+	echo $this->headTitle($tr->translate('EDIT_CO'));
 ?>	
+
 <?php  $techer= $this->frm_co;?>
 <script>
 	dojo.require("dijit/form/DateTextBox");
 	dojo.require("dijit/form/NumberTextBox");
 </script>
-<form  id='add_techer' action="<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
+<form  id='add_techer' action="" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
-				if(dijit.byId('branch_id').get('value')==''){
-					alert('Please Select Branch Name !!!');
-					dijit.byId("branch_id").focus();
+				/*if(dijit.byId('province').get('value')==''){
+					alert('Province required');
 					return false;
-			    }
-				dijit.byId("save_new").attr("disabled",true);
-				dijit.byId("save_close").attr("disabled",true);
+			    }*/
 				return true;
 			} else {
 				return false;
@@ -24,7 +22,7 @@
 </script>
 <fieldset  style="background: #e0ebff">
 <table width="100%" style="margin: 0 auto;">
-	<legend class="mainblog"><strong><?php echo $tr->translate("ADD_CO");?></strong></legend>
+	<legend class="mainblog"><strong><?php echo $tr->translate("EDIT_CO");?></strong></legend>
 	<tr>
 		<td width="33%;" valign="top">
 			 <fieldset>
@@ -176,29 +174,15 @@
 	<tr>
 		<td colspan="3">
 				<div style="text-align: center; margin: 10px 0px;">
-						<input type="hidden" name="exchangefrom" value="2" />
-						<input type="hidden" name="inv_no" value="<?php echo $this->inv_no;?>">
-						<input type="reset" value="សំអាត" label="សំអាត"dojoType="dijit.form.Button"  iconClass="dijitIconClear"/>
-						<input type="button"  onclick="submitDataClose()" value="save_close" name="save_close" id="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
+						<input type="submit"  value="save_close" name="save_close" id="save_close" label="រក្សាទុក+បិត" dojoType="dijit.form.Button" 
 							iconClass="dijitEditorIcon dijitEditorIconSave" />
-						<input type="submit" value="save_new" name="save_new" id="save_new" label="រក្សាទុក+ថ្មី" dojoType="dijit.form.Button" 
-							iconClass="dijitEditorIcon dijitEditorIconSave" />
+						 
 				</div>
 		</td>
 	</tr>
 </table>	
-</fieldset>
 </form>
-
-<?php  echo $this->frmpopupdepartment;?>
 <script type="text/javascript">
-dojo.require("dojo.data.ItemFileWriteStore"); 
-dojo.require("dojo.date.locale");
-
-dojo.require("dojo.data.ObjectStore");
-dojo.require("dojo.NodeList-manipulate");
-dojo.require("dojo.html");
-
 	function calculateDay(){
 		start_date = dijit.byId("start_date").get('value');
 		var a=new Date(start_date);
@@ -210,62 +194,7 @@ dojo.require("dojo.html");
 		t_day=18*(12-m)/12;
 		dijit.byId('annual_lives').attr('value',t_day);
 	}
-	function Checktime(type){
-		workingtime_id=dijit.byId("workingtime").get("value");
-		shift_id=dijit.byId("shift").get("value");
-		if(type==1){
-			if(workingtime_id==1){
-				dijit.byId("shift").attr('value',1);
-				dijit.byId("workingtime").set('readOnly',true);
-			}
-			else if(workingtime_id==2){
-				dijit.byId("shift").attr('value',2);
-			}
-			else if(workingtime_id==3){
-				dijit.byId("shift").attr('value',2);
-			}
-		}else{
-			if(shift_id==1){
-				dijit.byId("workingtime").attr('value',1);
-				dijit.byId("workingtime").set('readOnly',true);
-			}
-			else if(shift_id==2){
-				dijit.byId("workingtime").attr('value',2);
-				dijit.byId("workingtime").set('readOnly',false);
-			}
-			else if(shift_id==2){
-				dijit.byId("workingtime").attr('value',3);
-				dijit.byId("workingtime").set('readOnly',false);
-			}
-		}
-	}
-
-	function popupDepartment(){
-		var department_id = dijit.byId('department_id').get('value');
-		if(department_id==-1){
-			dijit.byId('department').show();
-		}
-	}
-	function addNewDepartment(){
-		var url_submit = '<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'addnewdepartment')); ?>';
-				dojo.xhrPost({
-			    url: url_submit,	
-				form: dojo.byId("frm_department"),		    
-				handleAs:"json", 
-				load: function(data) {	
-					labelen = dijit.byId('department_en').get('value');
-					labelkh = dijit.byId('department_kh').get('value');
-					$('#department_id').val(labelen);
-					$('input[name="department_id"]').val(data);
-					dojo.byId('frm_department').reset(); 
-					dijit.byId('department').hide();
-				},
-				error: function(e) {
-				alert("Your message could not be sent, please try again!.");
-				}
-			});
-	}
-var url_staffcode = '<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'getstaffcode')); ?>';
+	var url_staffcode = '<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'getstaffcode')); ?>';
 	function getStaffCode(){
 		branch_id = dijit.byId('branch_id').get('value');
 		dijit.byId('co_id').attr('value','');
@@ -286,28 +215,5 @@ var url_staffcode = '<?php echo $this->url(array('module'=>'payroll','controller
 			error: function(err) {
 			}
 		});
-	}
-
-	function submitDataClose(){
-		if(dijit.byId('branch_id').get('value')==''){
-			alert('Please Select Branch Name !!!');
-			dijit.byId("branch_id").focus();
-			return false;
-	    }
-		if(dijit.byId('add_techer').validate()) {
-			dijit.byId('save_close').set('disabled',true);
-			dijit.byId('save_new').set('disabled',true);
-			var url_submit = '<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'add')); ?>';
-			dojo.xhrPost({
-			    url: url_submit,	
-				form: dojo.byId("add_techer"),		    
-				load: function(data) {
-					alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-					window.location.href ="<?php echo $this->baseUrl();?>/payroll/co";
-				},
-				error: function(e) {
-				}
-			});
-		}
 	}
 </script>

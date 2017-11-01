@@ -1,7 +1,7 @@
 <?php
-class Payroll_PositionController extends Zend_Controller_Action {
+class Loan_PositionController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
-	const REDIRECT_URL = '/payroll';
+	const REDIRECT_URL = '/loan';
     public function init()
     {    	
      /* Initialize action controller here */
@@ -25,7 +25,7 @@ class Payroll_PositionController extends Zend_Controller_Action {
 			$list = new Application_Form_Frmtable();
 			$collumns = array("POSITION_KH","POSITION_EN","STATUS");
 			$link=array(
-					'module'=>'payroll','controller'=>'position','action'=>'edit',
+					'module'=>'loan','controller'=>'position','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('position_en'=>$link,'position_kh'=>$link));
 		}catch (Exception $e){
@@ -81,7 +81,7 @@ class Payroll_PositionController extends Zend_Controller_Action {
 	   		$_data = $this->getRequest()->getPost();
 	   		try{
 	   			$db->upDatePosition($_data);
-	   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/position');
+	   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/loan/position');
 	   		}catch(Exception $e){
 	   			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
 	   			$err =$e->getMessage();
@@ -91,7 +91,7 @@ class Payroll_PositionController extends Zend_Controller_Action {
 	   	$id = $this->getRequest()->getParam("id");//ចាប់ id from ln_position ;
 	   	$row = $db->getPositionById($id);
 	   	if(empty($row)){
-	   		$this->_redirect('payroll/co');
+	   		$this->_redirect('loan/co');
 	   	}
 // 	   	if(!empty($row['save_new'])){
 // 	   		Application_Form_FrmMessage::message('ការ​បញ្ចូល​​ជោគ​ជ័យ');

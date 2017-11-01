@@ -1,7 +1,7 @@
 <?php
-class Payroll_CoController extends Zend_Controller_Action {
+class Loan_CoController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
-	const REDIRECT_URL = '/payroll';
+	const REDIRECT_URL = '/loan';
     public function init()
     {    	
      /* Initialize action controller here */
@@ -27,7 +27,7 @@ class Payroll_CoController extends Zend_Controller_Action {
 			$collumns = array("CODE","NAME_KH","NAME_EN","NATIONAL_ID","ADDRESS","PHONE",
 					"EMAIL","DEGREE","DEPARTMENT","ANNUAL_LIVES","STATUS");
 			$link=array(
-					'module'=>'payroll','controller'=>'co','action'=>'edit',
+					'module'=>'loan','controller'=>'co','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('co_code'=>$link,'co_khname'=>$link,'co_engname'=>$link));
 		}catch (Exception $e){
@@ -135,7 +135,7 @@ class Payroll_CoController extends Zend_Controller_Action {
    		$_data = $this->getRequest()->getPost();
    		try{
    			$db_co->addCreditOfficer($_data);
-   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/payroll/co');
+   			Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/loan/co');
    		}catch(Exception $e){
    			Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
    			$err =$e->getMessage();

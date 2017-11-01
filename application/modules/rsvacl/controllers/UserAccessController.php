@@ -172,6 +172,7 @@ public function addAction()
     	
 //     		$list=new Application_Form_Frmlist();
     		$list = new Application_Form_Frmtable();
+    		
     		$columns=array("Label",$tr->translate('URL'), $tr->translate('STATUS'));
     		$this->view->list = $list->getCheckList('radio', $columns, $rows);
     			

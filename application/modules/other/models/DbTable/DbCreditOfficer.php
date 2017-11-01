@@ -29,7 +29,7 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 				'co_khname'	  => $_data['name_kh'],
 				'co_firstname'=> $_data['first_name'],
 				'co_lastname' => '',//$_data['last_name'],
-				'displayby'	  => $_data['display'],
+				//'displayby'	  => $_data['display'],
 				'position_id' =>$_data['position'],
 				'sex'		  => $_data['co_sex'],
 				'national_id'	  => $_data['national_id'],
@@ -106,15 +106,15 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 		}
 		if(!empty($search['adv_search'])){
 			$s_where = array();
-			$s_search = ($search['adv_search']);
-			$s_where[] = "co_khname LIKE '%{$s_search}%'";
-			$s_where[] = "co_firstname LIKE '%{$s_search}%'";
-			$s_where[] = "co_lastname LIKE '%{$s_search}%'";
-			$s_where[]= "national_id LIKE '%{$s_search}%'";
-			$s_where[] = " tel LIKE '%{$s_search}%'";
-			$s_where[] = "email LIKE '%{$s_search}%'";
-			$s_where[] = "address LIKE '%{$s_search}%'";
-			$s_where[]="annual_lives LIKE '%{$s_search}%'";
+			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+			$s_where[] = "REPLACE(co_khname,' ','') 	 	LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(co_firstname,' ','') 	 	LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(co_lastname,' ','')  		LIKE '%{$s_search}%'";
+			$s_where[]= "REPLACE(national_id,' ','')  		LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(tel,' ','')   			LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(email,' ','')  			LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(address,' ','')  			LIKE '%{$s_search}%'";
+			$s_where[]="REPLACE(annual_lives,' ','')  		LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		return $db->fetchAll($sql.$where.$order);	

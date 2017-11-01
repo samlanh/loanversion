@@ -3,7 +3,7 @@
 	echo $this->headTitle($tr->translate('POSITION_INFO'));
 ?>	
 <?php  $techer= $this->frm_position;?>
-<form  id='add_techer' action="<?php echo $this->url(array('module'=>'payroll','controller'=>'position','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form  id='add_techer' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				/*if(dijit.byId('province').get('value')==''){
@@ -19,7 +19,7 @@
 	<tr>
 		<td>
 		<fieldset>
-					<legend align="center"><strong><?php echo $tr->translate("EDIT_POSITION");?></strong></legend>
+					<legend class="mainblog" align="center"><strong><?php echo $tr->translate("EDIT_POSITION");?></strong></legend>
 					<table style="margin: 0 auto; width: 95%;" cellspacing="10">
 						<tr>
 							<td><?php echo $tr->translate("POSITION_KH")?><?php echo $techer->getElement('id');?></td>

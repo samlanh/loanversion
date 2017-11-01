@@ -36,6 +36,7 @@ class Application_Model_Decorator
 		
 		//if(is_array($arr_menu)){
 			foreach($arr_menu as $param=>$url){
+				
 				//$access = array_search($module.'/'.$param,$arr_actin);
 				//if($access!=''){
 						if($param==$controller){
@@ -54,6 +55,7 @@ class Application_Model_Decorator
 				//}
 				$i++;
 			}
+			
 			return $menu;
 	 // }
 		//return null;

@@ -28,9 +28,10 @@ Class Payroll_Form_FrmDepartment extends Zend_Dojo_Form {
 		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('status_search');
 		$_status_search->setAttribs(array('dojoType'=>$this->filter));
 		$_status_opt = array(
-				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),
-				0=>$this->tr->translate("DACTIVE"));
+				0=>$this->tr->translate("DACTIVE"),
+				-1=>$this->tr->translate("ALL"),
+				);
 		$_status_search->setMultiOptions($_status_opt);
 		$_status_search->setValue($request->getParam("status_search"));
 		

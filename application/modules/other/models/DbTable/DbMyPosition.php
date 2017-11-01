@@ -12,22 +12,23 @@ class Other_Model_DbTable_DbMyPosition extends Zend_Db_Table_Abstract
     
     function addPosition($_data){
     	$arr = array(
-    			'position_en'=>$_data['position_en'],
+    			//'position_en'=>$_data['position_en'],
     			'position_kh'=>$_data['position_kh'],
     			'status'=>$_data['status'],
     			'date'=>date('Y-m-d'),
-    			'displayby'=>$_data['display'],
+    			//'displayby'=>$_data['display'],
     			'user_id'=>$this->getUserId(),
     			);
     	$this->insert($arr);//insert data
     }
+    
     function upDatePosition($_data){
     	$arr = array(
-    			'position_en'=>$_data['position_en'],
+    			//'position_en'=>$_data['position_en'],
     			'position_kh'=>$_data['position_kh'],
     			'status'=>$_data['status'],
     			'date'=>date('Y-m-d'),
-    			'displayby'=>$_data['display'],
+    			//'displayby'=>$_data['display'],
     			'user_id'=>$this->getUserId(),
     	);
     	$where = " id = ".$_data['id'];
