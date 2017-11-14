@@ -71,7 +71,7 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
 		    	$db->beginTransaction();
 		    	try {
     			$this->_name='ln_xchange';
-    			$session_user=new Zend_Session_Namespace('auth');
+    			$session_user=new Zend_Session_Namespace('authloan');
     			$to_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["to_amount_type"]);
     			$from_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["from_amount_type"]);
     			$status = "in";
@@ -177,7 +177,7 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     	$db->beginTransaction();
     	try {
     		$this->_name='ln_xchange';
-    		$session_user=new Zend_Session_Namespace('auth');
+    		$session_user=new Zend_Session_Namespace('authloan');
     		$to_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["to_amount_type"]);
     		$from_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["from_amount_type"]);
     		$status = "in";
@@ -213,7 +213,7 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     	}
     }
     function updateExchange($data){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try {
@@ -300,7 +300,7 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     	$data["to_amount_type"] =$data['exchangefrom'];
     	
     	$db_cap = new Application_Model_DbTable_DbCapital();
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	$to_type = $this->getCurrencyById("`name`, `symbol`,`country_id`", $data["to_amount_type"]);
     	$from_type = $this->getCurrencyById("`name`, `symbol`,`country_id`", $data["from_amount_type"]);
     	$status = "in";
@@ -443,7 +443,7 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
 	    		$db_cap = new Application_Model_DbTable_DbCapital();//for data capital
 	    		foreach($rows as $row){
 	    			
-	    			$session_user=new Zend_Session_Namespace('auth');
+	    			$session_user=new Zend_Session_Namespace('authloan');
 	    			$income = 1;
 	    			$date = $row['date'];
 	    			///update date current capital if get money from sender////////////////////
@@ -472,7 +472,7 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
 	    		//////////for add new record
 	    		
 	    		$this->_name = 'cs_exchange';
-	    		$session_user=new Zend_Session_Namespace('auth');
+	    		$session_user=new Zend_Session_Namespace('authloan');
 	    		 
 	    		$data["to_amount_type"] =$data['exchangeto'];
 	    		$to_type = $this->getCurrencyById("`name`, `symbol`", $data["to_amount_type"]);
@@ -629,7 +629,7 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     	return $return_araray;    	
     }
     public function getAllExchangeList($search = null){//for rpt exchange summery
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	$user_id = $session_user->user_id;
     	
     	$from_date =(empty($search['from_date']))? '1': " e.statusdate  >= '".$search['from_date']." 00:00:00'";

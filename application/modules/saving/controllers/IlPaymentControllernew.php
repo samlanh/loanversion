@@ -97,7 +97,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$this->view->client = $db->getAllClient();
 		$this->view->clientCode = $db->getAllClientCode();
 		
-		$session_user=new Zend_Session_Namespace('auth');
+		$session_user=new Zend_Session_Namespace('authloan');
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 		
 		$this->view->loan_number = $db_global->getLoanNumberByBranch(1);
@@ -149,7 +149,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		
 		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
 		
-		$session_user=new Zend_Session_Namespace('auth');
+		$session_user=new Zend_Session_Namespace('authloan');
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 		
 // 		$this->view->loan_numbers = $db_global->getLoanNumberByBranch(1);

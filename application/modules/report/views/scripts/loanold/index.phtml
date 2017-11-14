@@ -62,7 +62,7 @@
   		<li><a href="<?php echo $rpt_writoff;?>"><?php echo $tr->translate('REPORT_LOAN_WRITE_OFF');?></a></li>
   		<li><a href="<?php echo $rpt_loanoustading;?>"><?php echo $tr->translate('LOAN_OUTSTADING');?></a></li>
 		<?php 
-		$session_user=new Zend_Session_Namespace('auth');
+		$session_user=new Zend_Session_Namespace('authloan');
 	    $level =  $session_user->level;  
 	    if($level!=4){
 		?>

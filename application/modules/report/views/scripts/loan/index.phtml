@@ -33,7 +33,7 @@
   $rpt_incomestatement =$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-incomestatement'), null, true);
   $rpt_revenue = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-income'), null, true);
   
-  $session_user=new Zend_Session_Namespace('auth');
+  $session_user=new Zend_Session_Namespace('authloan');
   $url_report=$session_user->report_url;
 
   ?>

@@ -67,7 +67,7 @@ class Tellerandexchange_TransferController extends Zend_Controller_Action
         $mt_id = $this->getRequest()->getParam('id');
         $mt_id = (empty($mt_id))? 0 : $mt_id; 
         
-        $session_user=new Zend_Session_Namespace('auth');
+        $session_user=new Zend_Session_Namespace('authloan');
         $this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
         
         $this->view->tran_typelist = $this->tran_typelist;
@@ -92,7 +92,7 @@ class Tellerandexchange_TransferController extends Zend_Controller_Action
 
     public function addAction()
     {
-        $session_user=new Zend_Session_Namespace('auth');
+        $session_user=new Zend_Session_Namespace('authloan');
         $this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
         
         $db_keycode = new Application_Model_DbTable_DbKeycode();

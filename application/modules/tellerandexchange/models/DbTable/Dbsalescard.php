@@ -5,7 +5,7 @@ class Tellerandexchange_Model_DbTable_Dbsalescard extends Zend_Db_Table_Abstract
 
     protected $_name = 'ln_salecard';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     	 
     }

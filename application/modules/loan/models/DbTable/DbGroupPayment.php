@@ -29,7 +29,7 @@ class Loan_Model_DbTable_DbGroupPayment extends Zend_Db_Table_Abstract
     	return $db->fetchAll($sql.$where);
     }
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     	 
     }
@@ -301,7 +301,7 @@ function getLoanPaymentByLoanNumber($data){
     public function addGroupPayment($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	$user_id = $session_user->user_id;
     	$reciept_no = $data['reciept_no'];
     	$sql="SELECT id  FROM ln_client_receipt_money WHERE receipt_no='$reciept_no' ORDER BY id DESC LIMIT 1 ";
@@ -534,7 +534,7 @@ function getLoanPaymentByLoanNumber($data){
     	$db_loan = new Loan_Model_DbTable_DbLoanILPayment();
     	$db_group= new Loan_Model_DbTable_DbGroupPayment();
     	$db->beginTransaction();
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	$user_id = $session_user->user_id;
     	$query = new Application_Model_DbTable_DbGlobal();
     	$id= $data["id"];

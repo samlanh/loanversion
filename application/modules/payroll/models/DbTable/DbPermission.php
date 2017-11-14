@@ -4,7 +4,7 @@ class Payroll_Model_DbTable_DbPermission extends Zend_Db_Table_Abstract
 {
     protected $_name = 'ln_permission';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     }
 	public function addPermission($_data){

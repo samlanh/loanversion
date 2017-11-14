@@ -5,7 +5,7 @@ class Payroll_Model_DbTable_DbDepartment extends Zend_Db_Table_Abstract
 
     protected $_name = 'ln_department';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     	 
     }

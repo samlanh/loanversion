@@ -11,7 +11,7 @@ class Application_Model_DbTable_DbMoneyTransactions extends Zend_Db_Table_Abstra
     }
 	function getTransactionLis($search){
 		$db = $this->getAdapter();
-		$session_user=new Zend_Session_Namespace('auth');
+		$session_user=new Zend_Session_Namespace('authloan');
 		$from_date =(empty($search['start_date']))? '1': " send_date >= '".$search['start_date']." 00:00:00'";
 		$to_date = (empty($search['end_date']))? '1': " send_date <= '".$search['end_date']." 23:59:59'";
 		$where = " WHERE ".$from_date." AND ".$to_date;
@@ -52,7 +52,7 @@ class Application_Model_DbTable_DbMoneyTransactions extends Zend_Db_Table_Abstra
     	$this->_name='ln_transfer';
     	$send_date = $data['send_date'].' '.date('h:i:s');
     	$exp_date = $data['epx_date'].' '.date('h:i:s');    
-    	$session_user=new Zend_Session_Namespace('auth');   	
+    	$session_user=new Zend_Session_Namespace('authloan');   	
     	 $db = $this->getAdapter();
     	 $db->beginTransaction();
     	 try {
@@ -90,7 +90,7 @@ class Application_Model_DbTable_DbMoneyTransactions extends Zend_Db_Table_Abstra
     }
     function getTransactionReport($search){
     	$db = $this->getAdapter();
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	$from_date =(empty($search['start_date']))? '1': " send_date >= '".$search['start_date']." 00:00:00'";
     	$to_date = (empty($search['end_date']))? '1': " send_date <= '".$search['end_date']." 23:59:59'";
     	$where = " WHERE ".$from_date." AND ".$to_date;

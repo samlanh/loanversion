@@ -5,7 +5,7 @@ class Loan_Model_DbTable_DbLoanreceipt extends Zend_Db_Table_Abstract
 
     protected $_name = 'ln_client_receipt_money';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     	 
     }
@@ -218,7 +218,7 @@ public function addRecieptclient($data){
 	    $this->_name='ln_loan_member';
     	$db = $this->getAdapter();
     	$db->beginTransaction();
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	$user_id = $session_user->user_id;
     	try{
     	   $arr = array(
@@ -539,7 +539,7 @@ public function addRecieptclient($data){
    public function quickPayment($data){
    		$db = $this->getAdapter();
    		$db->beginTransaction();
-   		$session_user=new Zend_Session_Namespace('auth');
+   		$session_user=new Zend_Session_Namespace('authloan');
    		$user_id = $session_user->user_id;
    		$reciept_no=$this->getIlPaymentNumber();
    		$db_loan_fun = new Loan_Model_DbTable_DbLoanILPayment();
@@ -810,7 +810,7 @@ public function addRecieptclient($data){
    public function editQuickPayment($id,$data){
    	$db = $this->getAdapter();
    	$db->beginTransaction();
-   	$session_user=new Zend_Session_Namespace('auth');
+   	$session_user=new Zend_Session_Namespace('authloan');
    	$user_id = $session_user->user_id;
    	$reciept_no=$this->getIlPaymentNumber();
    	$db_loanFun = new Loan_Model_DbTable_DbLoanILPayment();

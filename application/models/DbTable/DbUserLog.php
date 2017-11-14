@@ -30,7 +30,7 @@ class Application_Model_DbTable_DbUserLog extends Zend_Db_Table_Abstract
     	$controller=$request->getControllerName();
     	$module=$request->getModuleName();
     
-    	$session = new Zend_Session_Namespace('auth');
+    	$session = new Zend_Session_Namespace('authloan');
     	$user_name = $session->user_name;
     
     	$file = "../logs/user.log";

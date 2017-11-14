@@ -5,7 +5,7 @@ class Loan_Model_DbTable_DbRepaymentSchedule extends Zend_Db_Table_Abstract
 
     protected $_name = 'ln_loan_group';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     	 
     }
@@ -59,7 +59,7 @@ function round_up($value, $places)
 //     		$this->update($arr_update, $where);
     		
     		$session_transfer=new Zend_Session_Namespace();
-    		$session_user=new Zend_Session_Namespace('auth');
+    		$session_user=new Zend_Session_Namespace('authloan');
     		$user_id = $session_user->user_id;
     		
     		$this->_name = 'ln_loan_member';

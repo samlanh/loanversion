@@ -306,7 +306,7 @@ public function init()
 		));
 		$s_date = date('Y-m-d');
 		
-		$session_user=new Zend_Session_Namespace('auth');
+		$session_user=new Zend_Session_Namespace('authloan');
 		if($session_user->level!=1){
 			$_releasedate->setAttribs(array(
 					'readonly'=>true,

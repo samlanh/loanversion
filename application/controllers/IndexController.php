@@ -46,7 +46,7 @@ class IndexController extends Zend_Controller_Action
 // 					$this->view->msg = 'Authentication Sucessful!';
 // 					$this->view->err="0";
 					
-					$session_user=new Zend_Session_Namespace('auth');
+					$session_user=new Zend_Session_Namespace('authloan');
 					$user_id=$db_user->getUserID($user_name);
 					$user_info = $db_user->getUserInfo($user_id);
 					
@@ -143,7 +143,7 @@ class IndexController extends Zend_Controller_Action
         if($this->getRequest()->getParam('value')==1){        	
         	$aut=Zend_Auth::getInstance();
         	$aut->clearIdentity();        	
-        	$session_user=new Zend_Session_Namespace('auth');
+        	$session_user=new Zend_Session_Namespace('authloan');
         	
         	$log=new Application_Model_DbTable_DbUserLog();
 			$log->insertLogout($session_user->user_id);
@@ -159,7 +159,7 @@ class IndexController extends Zend_Controller_Action
     {
         // action body
         if ($this->getRequest()->isPost()){ 
-			$session_user=new Zend_Session_Namespace('auth');    		
+			$session_user=new Zend_Session_Namespace('authloan');    		
     		$pass_data=$this->getRequest()->getPost();
     		if ($pass_data['password'] == $session_user->pwd){
     			    			 

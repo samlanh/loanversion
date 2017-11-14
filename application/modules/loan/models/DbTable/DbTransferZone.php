@@ -9,7 +9,7 @@ class Loan_Model_DbTable_DbTransferZone extends Zend_Db_Table_Abstract
     	return $db->fetchAll($sql);
     }
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     }
     public function getAllinfoZone($search = null){

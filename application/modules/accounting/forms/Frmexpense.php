@@ -40,7 +40,7 @@ Class Accounting_Form_Frmexpense extends Zend_Dojo_Form {
 		));
 		$_Date->setValue(date('Y-m-d'));
 		
-		$session_user=new Zend_Session_Namespace('auth');
+		$session_user=new Zend_Session_Namespace('authloan');
 		if($session_user->level!=1){
 			$_Date->setAttribs(array(
 					'readonly'=>true,

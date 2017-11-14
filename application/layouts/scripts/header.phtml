@@ -19,7 +19,7 @@
       $capital=$this->url(array('module'=>'capital','controller'=>'index','action'=>'index'), null, true);
       $module=Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
       
-      $session_user=new Zend_Session_Namespace('auth');
+      $session_user=new Zend_Session_Namespace('authloan');
       $arr_module = $session_user->arr_module;
       $icon = array(
       		'home'=>'<i class="fa fa-home" aria-hidden="true"></i>',
@@ -121,7 +121,7 @@
 // 		}
 // 		exit();
 		
-		$session_user=new Zend_Session_Namespace('auth');
+		$session_user=new Zend_Session_Namespace('authloan');
 		$modules_access = $session_user->arr_module;
 			foreach($menuleft as $key=>$value){
 				$access = array_search($key,$modules_access);

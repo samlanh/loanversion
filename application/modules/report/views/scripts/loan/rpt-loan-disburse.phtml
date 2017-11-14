@@ -3,7 +3,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $url = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-groupmember'));
 $url_client = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-paymentschedules'));
 $url_contract = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-updatepayment'));
-$session_user=new Zend_Session_Namespace('auth');
+$session_user=new Zend_Session_Namespace('authloan');
 $level = $session_user->level;
 ?>
 <style>

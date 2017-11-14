@@ -6,7 +6,7 @@
 	$controller=$request->getControllerName();
 	$module=$request->getModuleName();
 	
-	$session_user=new Zend_Session_Namespace('auth');
+	$session_user=new Zend_Session_Namespace('authloan');
 	$username = $session_user->first_name;
 	$them_style ='soria';//  $session_user->theme_style;
 	$level =  $session_user->level;

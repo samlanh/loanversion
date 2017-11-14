@@ -5,7 +5,7 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 
     protected $_name = 'ln_client_receipt_money';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     	 
     }
@@ -214,7 +214,7 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$db->beginTransaction();
 		try{
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	$user_id = $session_user->user_id;
 		$rows= $this->getIlPaymentByID($id);
 		$option_pay= $rows["payment_option"];
@@ -307,7 +307,7 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 public function addILPayment($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	$user_id = $session_user->user_id;
     	try{
     	$reciept_no = $data['reciept_no'];
@@ -586,7 +586,7 @@ public function addILPayment($data){
     }
     function updateIlPayment($data){
     	$db = $this->getAdapter();
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	$user_id = $session_user->user_id;
     	$db_loan = new Loan_Model_DbTable_DbLoanILPayment();
     	$db_group = new Loan_Model_DbTable_DbGroupPayment();
@@ -1205,7 +1205,7 @@ public function addILPayment($data){
    public function quickPayment($data){
    		$db = $this->getAdapter();
    		$db->beginTransaction();
-   		$session_user=new Zend_Session_Namespace('auth');
+   		$session_user=new Zend_Session_Namespace('authloan');
    		$user_id = $session_user->user_id;
    		$reciept_no=$this->getIlPaymentNumber();
    		$db_loan_fun = new Loan_Model_DbTable_DbLoanILPayment();
@@ -1476,7 +1476,7 @@ public function addILPayment($data){
    public function editQuickPayment($id,$data){
    	$db = $this->getAdapter();
    	$db->beginTransaction();
-   	$session_user=new Zend_Session_Namespace('auth');
+   	$session_user=new Zend_Session_Namespace('authloan');
    	$user_id = $session_user->user_id;
    	$reciept_no=$this->getIlPaymentNumber();
    	$db_loanFun = new Loan_Model_DbTable_DbLoanILPayment();
