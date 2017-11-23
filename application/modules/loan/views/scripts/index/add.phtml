@@ -67,7 +67,7 @@
 			}
 </script>
 <fieldset style="background: #e0ebff">
-<table width="100%" style="margin-top:0px;">
+<table width="100%" style="margin-top:0px;" cellspacing="10">
      <legend class="mainblog" ><strong><?php echo $tr->translate("IL_DISBURSE")?></strong></legend>
 	<tr>
 		<td width="33%;" valign="top">
@@ -186,15 +186,6 @@
 							<td><?php echo $tr->translate("HOLIDAY_STATUS")?></td>
 							<td><?php  echo $frm->getElement('every_payamount');?></td>
 						 </tr>
-						 <tr>
-					  		<td style="width: 40%;"><?php echo $tr->translate("PENAL_AMOUNT")?></td>
-							<td><?php echo $frm->getElement('pay_late');?></td>
-					    </tr>
-					    <tr>
-					    	<td><?php echo $tr->translate("SAVING_AMOUNT")?></td>
-							<td><?php echo $frm->getElement('deposit');?></td>
-					    </tr>
-					    
 					    <tr>
 					    	<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
 							<td><?php echo $frm->getElement('first_payment');?></td>

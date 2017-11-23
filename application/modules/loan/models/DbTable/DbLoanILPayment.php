@@ -182,20 +182,7 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 		//return $sql;
 		return $db->fetchAll($sql);
 	}
-    function getTranLoanByIdWithBranch($id){
-//     	$sql = "SELECT lg.g_id,lg.level,lg.co_id,lg.zone_id,lg.pay_term,lm.payment_method,
-//     		lm.interest_rate,lm.amount_collect_principal,
-//     		lm.client_id,lm.admin_fee,
-// 	    	(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
-// 	  		(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
-// 	  		lm.total_capital,lm.interest_rate,lm.payment_method,
-// 	    	lg.time_collect,
-// 	    	lg.zone_id,
-// 	    	(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_enname,
-// 	    	lg.status AS str ,lg.status FROM `ln_loan_group` AS lg,`ln_loan_member` AS lm
-// 			WHERE lg.g_id = lm.group_id AND lg.g_id = $id LIMIT 1 ";
-//     	return $this->getAdapter()->fetchRow($sql);
-    }
+
     public function getIlPaymentNumber(){
     	$this->_name='ln_client_receipt_money';
     	$db = $this->getAdapter();
@@ -214,7 +201,7 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 	public function getIlPaymentRPNumber($co_id){
     	$this->_name='ln_client_receipt_money';
     	$db = $this->getAdapter();
-    	$sql=" SELECT id,`receipt_no`  FROM `ln_client_receipt_money` WHERE `co_id`= $co_id ORDER BY id DESC LIMIT 1";
+    	$sql=" SELECT id,`receipt_no` FROM `ln_client_receipt_money` WHERE `co_id`= $co_id ORDER BY id DESC LIMIT 1";
     	$acc_no = $db->fetchRow($sql);
     	$new_acc_no= $acc_no["receipt_no"]+1;
     	/*$sql=" SELECT id  FROM `ln_client_receipt_money` ORDER BY id DESC LIMIT 1";
@@ -955,51 +942,83 @@ public function addILPayment($data){
     				  AND $where
     				";
     	}elseif($data['type']==1){
-    		$where = 'lm.`loan_number`='."'".$loan_number."'";
-    		$sql ="SELECT 
-    					(SELECT d.`date_payment` FROM `ln_client_receipt_money_detail` AS d WHERE d.`loan_number`='$loan_number' ORDER BY d.`date_payment` DESC LIMIT 1) AS installment_date ,
-    				  (SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm , `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id` AND crmd.`lfd_id`=lf.`id` AND crmd.`loan_number`=lm.`loan_number` ORDER BY `crm`.`date_input` DESC LIMIT 1) AS last_pay_date,
-					  lc.`client_id`,
-					  lc.`client_number`,
-					  lc.`name_kh`,
-					  lm.`total_capital`,
-					  lm.`loan_number`,
-					  lm.`currency_type`,
-					  lm.`pay_before`,
-					  lm.`pay_after`,
-					  lm.`branch_id`,
-					  lm.`interest_rate`,
-					  					      (SELECT
-     `in_ln_interest`.`label`
-   FROM `in_ln_interest`
-   WHERE (`in_ln_interest`.`value` =   lm.`interest_rate` )
-   LIMIT 1) AS `interest_rate_label`,
-			   		  lm.`collect_typeterm`,
-			   		  lm.`amount_collect_principal`,
-					  lg.`co_id`,
-					  lg.`total_duration`,
-					  lg.`payment_method`,
-					  lg.`payment_method`,
-					  DATE_FORMAT(lg.`date_release`, '%d-%m-%Y') AS `date_release`,
-					  lg.`level`, 
-					  lg.`date_release` AS release_date,
-					  lf.*,
-					  DATE_FORMAT(lf.date_payment, '%d-%m-%Y') AS `date_payments`
-					FROM
-					  `ln_client` AS lc,
-					  `ln_loan_member` AS lm ,
-					  `ln_loan_group` AS lg,
-					  `ln_loanmember_funddetail` AS lf
-					WHERE lg.`g_id`=lm.`group_id`
-					  AND lf.`member_id`=lm.`member_id`
-					  AND lm.`client_id`=lc.`client_id`
-					  AND lg.`loan_type`=1
-					  AND $where
-    				AND lf.`is_completed`=0
-    				 AND lf.`status`=1";
+    		$sql="
+    			SELECT
+			   	lc.`client_id`,
+			   	lc.`client_number`,
+			   	lc.`name_kh`,
+			   	l.`loan_number`,
+					 l.`currency_type`,
+   					 l.`branch_id`,
+   					 l.`co_id`,
+   					 l.`payment_method`,
+   					 l.collect_typeterm,
+   					 l.amount_collect_principal,
+   					 l.interest_rate,
+   					 l.loan_amount,
+   					 l.level,
+   					 (SELECT date_pay FROM `ln_client_receipt_money` WHERE loan_id=1 AND status=1 ORDER BY date_pay DESC LIMIT 1) AS last_pay_date,
+   					 ld.*,
+   					 DATE_FORMAT(ld.date_payment, '%d-%m-%Y') AS `date_payments`,
+   					 (SELECT SUM(principal_paid) FROM `ln_client_receipt_money` WHERE loan_id=l.id AND status=1) AS principal_paid
+   			   FROM
+   					  `ln_client` AS lc,
+   					  `ln_loan` AS l ,
+   					  `ln_loan_detail` AS ld
+   				WHERE 
+   					 l.status=1
+   					 AND l.is_completed=0
+   					 AND l.is_badloan=0
+   					 AND l.`customer_id`=lc.`client_id`
+   					 AND l.`id` = ld.`loan_id`	  
+   					 AND ld.`status`=1
+   					 AND ld.is_completed=0
+   					 AND l.`loan_type`=1   					     					   
+   					 AND l.`id` = ".$loan_number;
+    		//$where = 'lm.`loan_number`='."'".$loan_number."'";
+//     		$sql ="SELECT 
+//     				  (SELECT d.`date_payment` FROM `ln_client_receipt_money_detail` AS d WHERE d.`loan_number`='$loan_number' ORDER BY d.`date_payment` DESC LIMIT 1) AS installment_date ,
+//     				  (SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm , `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id` AND crmd.`lfd_id`=lf.`id` AND crmd.`loan_number`=lm.`loan_number` ORDER BY `crm`.`date_input` DESC LIMIT 1) AS last_pay_date,
+// 					  lc.`client_id`,
+// 					  lc.`client_number`,
+// 					  lc.`name_kh`,
+// 					  lm.`total_capital`,
+// 					  lm.`loan_number`,
+// 					  lm.`currency_type`,
+// 					  lm.`pay_before`,
+// 					  lm.`pay_after`,
+// 					  lm.`branch_id`,
+// 					  lm.`interest_rate`,
+// 					  					      (SELECT
+//      `in_ln_interest`.`label`
+//    FROM `in_ln_interest`
+//    WHERE (`in_ln_interest`.`value` =   lm.`interest_rate` )
+//    LIMIT 1) AS `interest_rate_label`,
+// 			   		  lm.`collect_typeterm`,
+// 			   		  lm.`amount_collect_principal`,
+// 					  lg.`co_id`,
+// 					  lg.`total_duration`,
+// 					  lg.`payment_method`,
+// 					  lg.`payment_method`,
+// 					  DATE_FORMAT(lg.`date_release`, '%d-%m-%Y') AS `date_release`,
+// 					  lg.`level`, 
+// 					  lg.`date_release` AS release_date,
+// 					  lf.*,
+// 					  DATE_FORMAT(lf.date_payment, '%d-%m-%Y') AS `date_payments`
+// 					FROM
+// 					  `ln_client` AS lc,
+// 					  `ln_loan_member` AS lm ,
+// 					  `ln_loan_group` AS lg,
+// 					  `ln_loanmember_funddetail` AS lf
+// 					WHERE lg.`g_id`=lm.`group_id`
+// 					  AND lf.`member_id`=lm.`member_id`
+// 					  AND lm.`client_id`=lc.`client_id`
+// 					  AND lg.`loan_type`=1
+// 					  AND $where
+//     				AND lf.`is_completed`=0
+//     				 AND lf.`status`=1";
     				
  	}
- 		//return $sql;
     	return $db->fetchAll($sql);
    }
    

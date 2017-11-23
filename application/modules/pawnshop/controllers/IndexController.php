@@ -1,5 +1,5 @@
 <?php
-class Loan_IndexController extends Zend_Controller_Action {
+class Pawnshop_IndexController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
@@ -16,8 +16,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'txt_search'=>'',
-						'deposit'=>'',
-						'client_name'=> -1,
+						'customer_code'=> -1,
 						'repayment_method' => -1,
 						'branch_id' => -1,
 						'co_id' => -1,
@@ -28,18 +27,16 @@ class Loan_IndexController extends Zend_Controller_Action {
 						'end_date'=>date('Y-m-d'),
 						 );
 			}
-			$db = new Loan_Model_DbTable_DbLoanIL();
+			$db = new Pawnshop_Model_DbTable_DbPawnshop();
 			$rs_rows= $db->getAllIndividuleLoan($search);
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","LOAN_AMOUNT","INTEREST_RATE","REPAYMENT_TYPE","TERM_BORROW","ZONE_NAME","CO_NAME",
-				"STATUS");
-			$link=array(
-					'module'=>'loan','controller'=>'index','action'=>'view',
-			);
-			$link_info=array('module'=>'loan','controller'=>'index','action'=>'edit',);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch'=>$link,'loan_number'=>$link,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
+			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","COMUNE_NAME_EN","RECEIPT_NO","PAWN_AMOUNT","TERM_BORROW",
+					"INTEREST_RATE","TOTAL_INTEREST","PAWN_DATE","PAWN_ENDDATE","STATUS");
+			
+			$link_info=array('module'=>'pawnshop','controller'=>'index','action'=>'edit',);
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch'=>$link_info,'saving_number'=>$link_info,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -51,57 +48,28 @@ class Loan_IndexController extends Zend_Controller_Action {
   }
   function addAction()
   {
-  	$dbs = new Application_Model_DbTable_DbKeycode();
-  	$rsd = $dbs->getKeyCodeMiniInv();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try {
-				$_dbmodel = new Loan_Model_DbTable_DbLoandisburse();//new
-// 				if($rsd['loanversion']==1){
-// 					$_dbmodel = new Loan_Model_DbTable_DbLoandisburse();//new
-// 				}else{
-// 					$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
-// 				}
-				$_dbmodel->addNewLoanIL($_data);
+				$_dbmodel = new Pawnshop_Model_DbTable_DbPawnshop();
+				$_dbmodel->addPawnshop($_data);
 				if(!empty($_data['saveclose'])){
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan");
 				}else{
-					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/add");
+					Application_Form_FrmMessage::message("INSERT_SUCCESS");
 				}
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/add");
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 		}
-		$frm = new Loan_Form_FrmLoan();
+		$frm = new Pawnshop_Form_FrmPawnshop();
 		$frm_loan=$frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
-		
-//         $db = new Application_Model_DbTable_DbGlobal();
-//        $client=$db->getAllClient();
-//        // $client_type = $db->getclientdtype();
-//         array_unshift($client,array(
-//         'id' => -1,
-//         'name' => '---Add New ---',
-//         'branch_id' => -1
-//         ) );
-//         $this->view->allclient = $client;
-
-//         $client_number= $db->getAllClientNumber();
-//         array_unshift($client_number,array(
-//         'id' => -1,
-//         'name' => '---Add New ---',
-//         'branch_id' => -1
-//         ) );
-//         $this->view->allclient_number=$client_number;
 
 		$frmpopup = new Application_Form_FrmPopupGlobal();
-		$this->view->frmpupoploantype = $frmpopup->frmPopupLoanTye();
-		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
 		$this->view->frmpupopinfoclient = $frmpopup->frmPopupindividualclient();
-		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
 		
 		$db = new Setting_Model_DbTable_DbLabel();
 		$this->view->setting=$db->getAllSystemSetting();
@@ -127,37 +95,69 @@ class Loan_IndexController extends Zend_Controller_Action {
 	public function editAction(){
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
-			try{
-				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
-				$_dbmodel->updateLoanById($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
+			try {
+				$_dbmodel = new Pawnshop_Model_DbTable_DbPawnshop();
+				$_dbmodel->addPawnshop($_data);
+				if(!empty($_data['saveclose'])){
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan");
+				}else{
+					Application_Form_FrmMessage::message("INSERT_SUCCESS");
+				}
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
-				Application_Model_DbTable_DbUserLog::writeMessageError($err =$e->getMessage());
+				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
 		}
-		$id = $this->getRequest()->getParam('id');
 		$db_g = new Application_Model_DbTable_DbGlobal();
-		$rs = $db_g->getLoanFundExist($id);
-		if($rs==true){ 	Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/index/index");}
-		$db = new Loan_Model_DbTable_DbLoanIL();
-		$row = $db->getTranLoanByIdWithBranch($id,1);
-		$frm = new Loan_Form_FrmLoan();
+		$id = $this->getRequest()->getParam('id');
+		$db = new Pawnshop_Model_DbTable_DbPawnshop();
+		$row = $db->getPawnshopById($id);
+		
+		$frm = new Pawnshop_Form_FrmPawnshop();
 		$frm_loan=$frm->FrmAddLoan($row);
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
-		$this->view->datarow = $row;
+		
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->frmpupopinfoclient = $frmpopup->frmPopupindividualclient();
+		
+		$db = new Setting_Model_DbTable_DbLabel();
+		$this->view->setting=$db->getAllSystemSetting();
 		
 		$db = new Application_Model_DbTable_DbGlobal();
-		$this->view->allclient = $db->getAllClient();
-		$this->view->allclient_number = $db->getAllClientNumber();
-// 		$frmpopup = new Application_Form_FrmPopupGlobal();
-// 		$this->view->frmpupopclient = $frmpopup->frmPopupClient();
-// 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
-// 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
-// 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
-// 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
-// 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
+		$co_name = $db->getAllCoNameOnly();
+		array_unshift($co_name,array(
+				'id' => -1,
+				'name' => '---Add New ---',
+		) );
+		$this->view->co_name=$co_name;
+// 		if($this->getRequest()->isPost()){
+// 			$_data = $this->getRequest()->getPost();
+// 			try{
+// 				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
+// 				$_dbmodel->updateLoanById($_data);
+// 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
+// 			}catch (Exception $e) {
+// 				Application_Form_FrmMessage::message("INSERT_FAIL");
+// 				Application_Model_DbTable_DbUserLog::writeMessageError($err =$e->getMessage());
+// 			}
+// 		}
+// 		$id = $this->getRequest()->getParam('id');
+// 		$db_g = new Application_Model_DbTable_DbGlobal();
+// 		$rs = $db_g->getLoanFundExist($id);
+// 		if($rs==true){ 	Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/index/index");}
+// 		$db = new Loan_Model_DbTable_DbLoanIL();
+// 		$row = $db->getTranLoanByIdWithBranch($id,1);
+// 		$frm = new Loan_Form_FrmLoan();
+// 		$frm_loan=$frm->FrmAddLoan($row);
+// 		Application_Model_Decorator::removeAllDecorator($frm_loan);
+// 		$this->view->frm_loan = $frm_loan;
+// 		$this->view->datarow = $row;
+		
+// 		$db = new Application_Model_DbTable_DbGlobal();
+// 		$this->view->allclient = $db->getAllClient();
+// 		$this->view->allclient_number = $db->getAllClientNumber();
+
 	}
 	public function viewAction(){
 // 		$this->_helper->layout()->disableLayout();
@@ -178,6 +178,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 				print_r(Zend_Json::encode($row));
 			    exit();
 		}
+		
 	}
 	public function getLoaninfoAction(){//from repayment schedule
 		if($this->getRequest()->isPost()){
@@ -197,39 +198,30 @@ class Loan_IndexController extends Zend_Controller_Action {
 			exit();
 		}
 	}
-// 	function getLoannumberAction(){
-// 		if($this->getRequest()->isPost()){
-// 			$data = $this->getRequest()->getPost();
-// 			$db = new Loan_Model_DbTable_DbLoanIL();
-// 			$row = $db->getLoanPaymentByLoanNumber($data['loan_number']);
-// 			print_r(Zend_Json::encode($row));
-// 			exit();
-// 		}
-// 	}
-    function getloannumberAction(){
-    			if($this->getRequest()->isPost()){
-    				$data = $this->getRequest()->getPost();
-    				$db = new Application_Model_DbTable_DbGlobal();
-		            $loan_number = $db->getLoanNumber($data);
-    				print_r(Zend_Json::encode($loan_number));
-    				exit();
-    			}
-    }
+
 	public function testAction($result=null,$table='ln_branch'){
 
 	}
-	function addloantestAction(){
+	function addpawnshoptestAction(){
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
-				$_dbmodel = new Loan_Model_DbTable_DbLoanILtest();
-				$rows_return=$_dbmodel->addNewLoanILTest($_data);
-				print_r(Zend_Json::encode($rows_return));
-				exit();
+			$_dbmodel = new Pawnshop_Model_DbTable_DbPawnshop();
+			$rows_return=$_dbmodel->addPawnshoptest($_data);
+			print_r(Zend_Json::encode($rows_return));
+			exit();
 		}
 		
 	}
-
-	function addNewloantypeAction(){
+	function getloannumberAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db = new Application_Model_DbTable_DbGlobal();
+			$loan_number = $db->getPawnshoNumber($data);
+			print_r(Zend_Json::encode($loan_number));
+			exit();
+		}
+	}
+function addNewloantypeAction(){
 	if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
 			$data['status']=1;
@@ -240,20 +232,5 @@ class Loan_IndexController extends Zend_Controller_Action {
 			exit();
 		}
 	}
-	
-	function getConameAction(){
-		if($this->getRequest()->isPost()){
-			$_data = $this->getRequest()->getPost();
-			$db = new Application_Model_DbTable_DbGlobal();
-			$co_name = $db->getAllCoNameOnly();
-			array_unshift($co_name,array(
-					'id' => -1,
-					'name' => '---Add New ---',
-			) );
-			print_r(Zend_Json::encode($co_name));
-			exit();
-		}
-	}
-	
 }
 

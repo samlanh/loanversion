@@ -716,7 +716,6 @@ function trRow(x){
 var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'ilpayment','action'=>'get-il-loan-Detail')); ?>';
 function getLaonPayment(type){
 	dijit.byId('option_pay').attr('value',1);
-	dijit.byId('identity').attr('value',"");
 	try{
 	tem='';	is_set=0;
 	if(type==1){
@@ -848,7 +847,7 @@ function getLaonPayment(type){
 							tem += '<td>&nbsp;<label style="font-size:10px;">'+is_appr+'</label></td>';
 						    tem += '</tr>';
 						 // dijit.byId('identity').attr('value',1);
-						   /*if(a<=0){
+						   if(a<=0){
 								if(inx!=1) {
 									var identity = dijit.byId('identity').get('value');
 									dijit.byId('identity').attr('value',identity+','+inx);
@@ -857,29 +856,6 @@ function getLaonPayment(type){
 								}
 							}else{
 								dijit.byId('identity').attr('value',1);
-							}
-								if(inx!=1) {
-									var identity = dijit.byId('record_id').get('value');
-									dijit.byId('record_id').attr('value',identity+','+inx);
-								} else {
-									dijit.byId('record_id').attr('value',inx);
-									//dijit.byId('identity').attr('value',inx);
-								}*/
-								
-								if(a<=0){
-								if(inx==1) {
-									dijit.byId('identity').attr('value',1);
-									
-								} else if(inx!=1) {
-									var identity = dijit.byId('identity').get('value');
-									//alert(identity);
-									dijit.byId('identity').attr('value',identity+','+inx);
-								}
-							}else{
-								identity = dijit.byId('identity').get('value');
-								if(identity==""){
-									dijit.byId('identity').attr('value',1);
-								}
 							}
 								if(inx!=1) {
 									var identity = dijit.byId('record_id').get('value');
@@ -1218,8 +1194,8 @@ function calculateTotal(index){
 // 							old_interest = $('#old_interest_'+arrays[i]).val();
 // 							document.getElementById('lb_interest_'+arrays[i]).innerHTML = roundhundred(parseFloat(old_interest));
 // 	  	  	  				$('#interest_'+arrays[i]).val(roundhundred(parseFloat(old_interest)));
-	  	  	  				//total_penelize_permonth=penelize_in_day*parseFloat(total_late_day);
-							total_penelize_permonth = roundhundred((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/1)*parseFloat(total_late_day))+parseFloat(penelize));
+	  	  	  				total_penelize_permonth=penelize_in_day*parseFloat(total_late_day);
+							//total_penelize_permonth = roundhundred((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/1)*parseFloat(total_late_day))+parseFloat(penelize));
 							///*******************
 							total_interest_late = total_interest_late + parseFloat(total_penelize_permonth);
 							total_penelize = total_penelize+roundhundred(parseFloat(total_penelize_permonth));
@@ -1247,8 +1223,8 @@ function calculateTotal(index){
 // 							old_interest = $('#old_interest_'+arrays[i]).val();
 // 							document.getElementById('lb_interest_'+arrays[i]).innerHTML = roundhundred(parseFloat(old_interest));
 // 	  	  	  				$('#interest_'+arrays[i]).val(roundhundred(parseFloat(old_interest)));
-							//total_penelize_permonth=penelize_in_day*parseFloat(total_late_day);
-							total_penelize_permonth = roundhundred((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/7)*parseFloat(total_late_day))+parseFloat(penelize));
+							total_penelize_permonth=penelize_in_day*parseFloat(total_late_day);
+							//total_penelize_permonth = roundhundred((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/7)*parseFloat(total_late_day))+parseFloat(penelize));
 							///*******************
 							total_interest_late = total_interest_late + parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/7)*parseFloat(total_late_day);
 							total_penelize = total_penelize+parseFloat(total_penelize_permonth);
@@ -1270,9 +1246,9 @@ function calculateTotal(index){
 // 							document.getElementById('lb_interest_'+arrays[i]).innerHTML = roundhundred(parseFloat(old_interest));
 // 	  	  	  				$('#interest_'+arrays[i]).val(roundhundred(parseFloat(old_interest)));
 							
-							//total_penelize_permonth=penelize_in_day*parseFloat(total_late_day);
+							total_penelize_permonth=penelize_in_day*parseFloat(total_late_day);
 							//alert(total_penelize_permonth);
-							total_penelize_permonth = roundhundred((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day))+parseFloat(penelize));
+							//total_penelize_permonth = roundhundred((parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/30)*parseFloat(total_late_day))+parseFloat(penelize));
 							///*******************
 							total_interest_late = total_interest_late + roundhundred(parseFloat(total_penelize_permonth));
 							total_penelize = total_penelize+parseFloat(total_penelize_permonth);
@@ -1569,6 +1545,7 @@ function calculateTotal(index){
 									total_interest_late=0;
 									totalAmount_late=0;
 									total_priciple=0;
+									total_saving_amount_late=0;
 									
 									var ids =dijit.byId('record_id').get('value');
 								  	  var arraysn = ids.split(',');

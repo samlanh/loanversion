@@ -26,13 +26,20 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 	}
 	public function getLoanNumberByBranch($type){
 		$db = $this->getAdapter();
-		if($type==1){
-			$sql="SELECT m.`loan_number` AS id,CONCAT((SELECT name_kh FROM `ln_client` WHERE client_id = m.client_id LIMIT 1),'-',m.`loan_number`) AS `name`,g.`branch_id` FROM `ln_loan_member` AS m,`ln_loan_group` AS g WHERE m.`group_id`= g.`g_id` AND m.`is_completed`=0 AND g.`loan_type`=1 AND m.status=1 AND g.status=1 ORDER BY m.member_id DESC ";
+// 		if($type==1){
+			$sql="SELECT l.`id` AS id,
+				CONCAT((SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1),'-',l.`loan_number`) AS `name`,
+				l.`branch_id` 
+				FROM `ln_loan` AS l
+				WHERE 
+					l.`is_completed` = 0 
+			  		AND l.status=1 
+			  		AND l.is_badloan=0 ORDER BY l.loan_number DESC ";
 			return $db->fetchAll($sql);
-		}else{
-			$sql="SELECT m.`loan_number` AS id,m.`loan_number` AS `name`,g.`branch_id` FROM `ln_loan_member` AS m,`ln_loan_group` AS g WHERE m.`group_id`= g.`g_id` AND m.`is_completed`=0 AND g.`loan_type`=2 AND m.status=1 AND g.status=1 GROUP BY m.`loan_number` ";
-			return $db->fetchAll($sql);
-		}
+// 		}else{
+// 			$sql="SELECT m.`loan_number` AS id,m.`loan_number` AS `name`,g.`branch_id` FROM `ln_loan_member` AS m,`ln_loan_group` AS g WHERE m.`group_id`= g.`g_id` AND m.`is_completed`=0 AND g.`loan_type`=2 AND m.status=1 AND g.status=1 GROUP BY m.`loan_number` ";
+// 			return $db->fetchAll($sql);
+// 		}
 	}
 	public function getGlobalDb($sql)
   	{
@@ -1077,19 +1084,19 @@ $sql = " SELECT g.co_id,m.client_id  FROM  `ln_loan_member` AS m , `ln_loan_grou
   function getAllLoanNumber($type){//type ==1 is ilPayment, type==2 is group payment
   	$db = $this->getAdapter();
   	$sql ="SELECT 
-			  lm.`loan_number` 
-			FROM
-			  `ln_loan_member` AS lm,
-			  `ln_loan_group` AS lg 
-			WHERE lm.`is_completed` = 0 
-			  AND lm.`group_id` = lg.`g_id`
-  			  AND lg.`is_reschedule`!=1
-  			";
+  		l.`loan_number` 
+  			FROM `ln_loan` AS l 
+  		WHERE 
+  		l.`is_completed` = 0 
+  		AND l.status=1 
+  		AND l.is_badloan=0 ";
   	if($type==1){
-  		$sql.=" AND lg.`loan_type` = 1";
+  		$sql.=" AND l.`loan_type` = 1 ";
   	}else{
-  		$sql.=" AND lg.`loan_type` =2";
+  		$sql.=" AND l.`loan_type` =2 ";
   	}
+  	$sql.=" ORDER BY loan_number ASC ";
+  
   	return $db->fetchAll($sql);
   }
   
