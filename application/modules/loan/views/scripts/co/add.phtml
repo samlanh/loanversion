@@ -15,6 +15,11 @@
 					dijit.byId("branch_id").focus();
 					return false;
 			    }
+				if(dijit.byId("position").get("value")==""){
+					alert("Please Select Position Name!!!");
+					dijit.byId("position").focus();
+					return false;
+				}
 				dijit.byId("save_new").attr("disabled",true);
 				dijit.byId("save_close").attr("disabled",true);
 				return true;
@@ -294,6 +299,11 @@ var url_staffcode = '<?php echo $this->url(array('module'=>'payroll','controller
 			dijit.byId("branch_id").focus();
 			return false;
 	    }
+		if(dijit.byId("position").get("value")==""){
+			alert("Please Select Position Name!!!");
+			dijit.byId("position").focus();
+			return false;
+		}
 		if(dijit.byId('add_techer').validate()) {
 			dijit.byId('save_close').set('disabled',true);
 			dijit.byId('save_new').set('disabled',true);

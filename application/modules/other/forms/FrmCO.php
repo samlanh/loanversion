@@ -48,6 +48,9 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_co_id->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside','readOnly'=>true));
 		$_co_id->setValue($db->getStaffNumberByBranch(1));
 		
+		$_co_code = new Zend_Dojo_Form_Element_TextBox('co_code');
+		$_co_code->setAttribs(array('dojoType'=>$this->tvalidate,'required'=>'true','class'=>'fullside','readOnly'=>true));
+		$_co_code->setValue($db->getStaffNumberByBranch(1));
 		
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
@@ -75,7 +78,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_enname->setAttribs(array('dojoType'=>$this->text,'class'=>'fullside',));
 		
 		$_lname = new Zend_Dojo_Form_Element_TextBox('last_name');
-		$_lname->setAttribs(array('dojoType'=>$this->text,'class'=>'fullside',));
+		$_lname->setAttribs(array('dojoType'=>$this->text,'class'=>'fullside','required'=>'true',));
 		
 		$_sex = new Zend_Dojo_Form_Element_FilteringSelect('co_sex');
 		$_sex->setAttribs(array(
@@ -232,7 +235,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 			$_photo->setValue($_data['photo']);
 			
 		}
-		$this->addElements(array($_figer_print_id,$_department,$_photo,$_annual_lives,$_btn_search,$_status_search,$_title,$_id,$_co_id,$_name_kh,$_branch_id,$_degree,$_national_id,$_display,$_enname,$_lname,
+		$this->addElements(array($_co_code,$_figer_print_id,$_department,$_photo,$_annual_lives,$_btn_search,$_status_search,$_title,$_id,$_co_id,$_name_kh,$_branch_id,$_degree,$_national_id,$_display,$_enname,$_lname,
 				$_sex,$_tel,$_email,$_pob,$_address,$_shift,$_workingtime,$_status,$_position,$_basic_salary,$_start_work,$_end_work,$_contract,$_note));
 		
 		return $this;

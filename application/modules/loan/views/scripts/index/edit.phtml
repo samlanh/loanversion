@@ -80,8 +80,16 @@
 						<tr>
 							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 							<td><input id="member" />
-								<input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
 							</td>
+						</tr>
+						<tr>
+							<td> </td>
+							<td> <input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
+							</td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("CO_NAME")?></td>
+							<td><?php echo $frm->getElement('co_id');?></td>
 						</tr>
 						<tr>
 					    	<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
@@ -95,11 +103,6 @@
 							<td><?php echo $tr->translate("LOAN_TYPE")?></td>
 							<td><?php echo $frm->getElement('loan_type');?></td>
 					    </tr>
-					    <tr>
-							<td><?php echo $tr->translate("CO_NAME")?></td>
-							<td><?php echo $frm->getElement('co_id');?></td>
-						</tr>
-					    
 				</table>
 			</fieldset>	
 		</td>
@@ -830,8 +833,28 @@ function hideDialog() {
 
 function getRefreshGroup(){
 	filterClient();
+	getAllCo();
 	loading();
 	setTimeout(stopLoading, 1000);
+}
+
+var url_co = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-coname')); ?>';
+function getAllCo(){
+	dojo.xhrPost({
+		url:url_co,	
+		content:{ 
+		    //'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			co_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('co_id').set('store', co_store);
+		},
+		error: function(err) {
+			//alert(err);
+		}
+	});
+	
 }
 
 function loading(){

@@ -11,10 +11,16 @@
 <form  id='add_techer' action="<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
-				/*if(dijit.byId('province').get('value')==''){
-					alert('Province required');
+				if(dijit.byId('branch_id').get('value')==''){
+					alert('Please Select Branch Name !!!');
+					dijit.byId("branch_id").focus();
 					return false;
-			    }*/
+	  			}
+				if(dijit.byId("position").get("value")==""){
+					alert("Please Select Position Name!!!");
+					dijit.byId("position").focus();
+					return false;
+				}
 				return true;
 			} else {
 				return false;

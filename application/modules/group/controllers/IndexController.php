@@ -269,6 +269,7 @@ class Group_indexController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	
 	function getclientbybranchAction(){//At callecteral when click client
 		if($this->getRequest()->isPost()){
 			 $data = $this->getRequest()->getPost();
@@ -278,8 +279,8 @@ class Group_indexController extends Zend_Controller_Action {
 			 print_r(Zend_Json::encode($dataclient));
 			exit();
 		}
-	
 	}
+	
 	function getGroupclientbybranchAction(){//At callecteral when click client
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();

@@ -234,5 +234,19 @@ class Loan_IndexController extends Zend_Controller_Action {
 		}
 	}
 	
+	function getConameAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$db = new Application_Model_DbTable_DbGlobal();
+			$co_name = $db->getAllCoNameOnly();
+			array_unshift($co_name,array(
+					'id' => -1,
+					'name' => '---Add New ---',
+			) );
+			print_r(Zend_Json::encode($co_name));
+			exit();
+		}
+	}
+	
 }
 
