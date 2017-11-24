@@ -597,6 +597,7 @@ class Loan_Model_DbTable_DbLoandisburse extends Zend_Db_Table_Abstract
     					$datapayment = array(
     							'loan_id'=>$loan_id,
     							'outstanding'=>$remain_principal,//good
+    							'outstanding_after'=>$remain_principal,//good
     							'principal_permonth'=> $old_pri_permonth,//good
     							'principle_after'=> $old_pri_permonth,//good
     							'total_interest'=>$old_interest_paymonth,//good
@@ -666,6 +667,7 @@ class Loan_Model_DbTable_DbLoandisburse extends Zend_Db_Table_Abstract
     				$datapayment = array(
     						'loan_id'=>$loan_id,
     						'outstanding'=>$pri_permonth,//good
+    						'outstanding_after'=>$remain_principal,//good
     						'principal_permonth'=> $pri_permonth,//good
     						'principle_after'=> $old_pri_permonth,//good
     						'total_interest'=>$interest_paymonth,//good

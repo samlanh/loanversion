@@ -648,12 +648,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  lg.`collect_typeterm`,
 				  lg.`date_release`,
 				  lg.`date_line`,
-				 
 				  (SELECT `in_ln_interest`.`label`  FROM `in_ln_interest`  WHERE (`in_ln_interest`.`value` = lm.`interest_rate`) LIMIT 1) AS `interest_rate`,
-				 
 				  lm.`total_capital` as capital,
 				 `crm`.`total_principal_permonth` AS `principle_amount`,
-				 
 				 (crm.`total_interest`) AS interest,
 				 (crm.`penalize_amount`) AS penelize,
 				 (crm.`service_charge`) AS service,
@@ -769,15 +766,11 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$where= " AND ".$from_date." AND ".$to_date;
       	 
       	if(!empty($search['advance_search'])){
-
       		$s_where = array();
       		$s_search = trim(addslashes($search['advance_search']));
-//       		echo print_r($search['advance_search']);
       		$s_where[] = " `loan_number` LIKE '%{$s_search}%'";
-//       		$s_where[] = " `receipt_no` LIKE '%{$s_search}%'";
       		$s_where[] = " `total_payment` LIKE '%{$s_search}%'";
       		$s_where[] = " `total_interest` LIKE '%{$s_search}%'";
-//       		$s_where[] = " `penalize_amount` LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
       	if($search['status']!=""){
@@ -792,11 +785,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['co_id']>0){
       		$where.=" AND `co_id`= ".$search['co_id'];
       	}
-//       	if($search['paymnet_type']>0){
-//       		$where.=" AND lcrm.`payment_option`= ".$search['paymnet_type'];
-//       	}
-      
-      	//$where='';
+
       	$order = " ORDER BY id DESC ";
 //      echo $sql.$where.$order;
       	return $db->fetchAll($sql.$where.$order);

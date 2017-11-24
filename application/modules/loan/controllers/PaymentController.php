@@ -63,15 +63,15 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			$identify = $_data["identity"];
 			try {
 				if($identify==""){
-					Application_Form_FrmMessage::Sucessfull("Client no laon to pay!","/loan/ilpayment/");
+					Application_Form_FrmMessage::Sucessfull("Client no laon to pay!","/loan/payment/");
 				}else {
 					$db->addILPayment($_data);
 					if(!empty($_data['save_close'])){
-			        	Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/ilpayment/index");
+			        	Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/index");
 					}else{
-						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/ilpayment/add");
+						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/add");
 					}
-					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/ilpayment/add");
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/add");
 				}
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");

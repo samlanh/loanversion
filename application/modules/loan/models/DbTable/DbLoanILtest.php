@@ -81,7 +81,7 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     				'is_completed'=>0,
     				'branch_id'=>$data['branch_id'],
     				//'pay_before'=>$data['pay_before'],
-    				'pay_after'=>$data['pay_late'],
+//     				'pay_after'=>$data['pay_late'],
     				'graice_period'=>$data['graice_pariod'],
     				'amount_collect_principal'=>$data['amount_collect'],
     				'collect_typeterm'=>$data['collect_termtype'],

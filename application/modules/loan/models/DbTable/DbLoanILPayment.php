@@ -311,7 +311,6 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 		
 	}
 public function addILPayment($data){
-		//print_r($data);exit();
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	$session_user=new Zend_Session_Namespace('authloan');
@@ -326,281 +325,306 @@ public function addILPayment($data){
     	}else{
     		$reciept_no = $data['reciept_no'];
     	}
-		
-		if($data["amount_receive"]>=$data["saving_amount"]){
-			$saving_after =  0;
-		}else{
-			$saving_after =  $data["saving_amount"] - $data["amount_receive"];
-		}
-    	$data["total_payment"]= $data["total_payment"]-$data["saving_amount"];
-    	$loan_number = $data['loan_number'];
-		$data["amount_receive"]=$data["amount_receive"]-$data["saving_amount"];
-    	$amount_receive = $data["amount_receive"];
-		$total_payment = $data["total_payment"];
-		
+			
+			$amount_receive = $data["amount_receive"];//ប្រាក់ទទួលបាន
+			$total_payment = $data["total_payment"];//ត្រូវបង់សរុប
+			$total_interest = $data["total_interest"];//ត្រូវបង់សរុប
+			$total_principal = $data["os_amount"];//ត្រូវបង់សរុប
+			
+	    	$return = $data["amount_return"];//ប្រាក់អាប់
+	    	$option_pay = $data["option_pay"];//បង់ជាអ្វី ដើម,ធម្មតា និង 
+	    	$service_charge= $data["service_charge"];//សេវាផ្សេងៗ
+	    	$penalize = $data["penalize_amount"];//ផាកពិន័យ
     	
-    	$return = $data["amount_return"];
-    	
-    	$option_pay = $data["option_pay"];
-    	
-    	
-    	if($amount_receive>$total_payment){
-    		$amount_payment = $amount_receive - $return;
-    		$is_compleated = 1;
-    	}elseif($amount_receive<$total_payment){
-    		$amount_payment = $amount_receive;
-    		$is_compleated = 0;
-    	}else{
-    		$amount_payment = $total_payment;
-    		$is_compleated = 1;
-    	}
-    	//echo $total_payment;exit();
-    	$service_charge= $data["service_charge"];
-    	$penalize = $data["penalize_amount"];
-		
-		$sql = "SELECT `client_id` FROM `ln_loan_member` WHERE `loan_number`="."'".$data["loan_number"]."'";
-		$client = $db->fetchRow($sql);
+	    	if($amount_receive>=$total_payment){
+	    		$is_compleated = 1;
+	    	}elseif($amount_receive<$total_payment){
+	    		$is_compleated = 0;
+	    	}
     	
     		$arr_client_pay = array(
-    			'co_id'							=>		$data['co_id'],
-    			'group_id'						=>		$data["client_id"],
-				'client_name'					=>		$client["client_id"],
-    			'receiver_id'					=>		$data['reciever'],
-    			'receipt_no'					=>		$reciept_no,
-    			'branch_id'						=>		$data['branch_id'],
-    			//'loan_number'					=>		$data['loan_number'],
-    			'date_pay'						=>		$data['collect_date'],
-    			'date_input'					=>		$data['collect_date'],
-    			'principal_amount'				=>		$data["priciple_amount"],
-    			'total_principal_permonth'		=>		$data["os_amount"],
-    			'total_payment'					=>		$data["total_payment"],
-    			'recieve_amount'				=>		$data["amount_receive"],
-    			'penalize_amount'				=>		$penalize,
-    			'return_amount'					=>		$return,
-    			'service_charge'				=>		$data["service_charge"],
-				'total_interest'				=>$data['total_interest'],
-    			'note'							=>		$data['note'],
-    			'user_id'						=>		$user_id,
-    			'is_group'						=>		0,
-    			'payment_option'				=>		$data["option_pay"],
-    			'currency_type'					=>		$data["currency_type"],
-    			'status'						=>		1,
-    			'amount_payment'				=>		$amount_payment,
-    			'is_completed'					=>		$is_compleated,
-				'saving_amount'					=>		$data["saving_amount"],
-    		);
-			$this->_name = "ln_client_receipt_money";
-    		$client_pay = $this->insert($arr_client_pay);
+	    			'co_id'				=> $data['co_id'],
+					'client_id'		=> $data['client_id'],
+	    			'receipt_no'		=> $reciept_no,
+	    			'branch_id'			=> $data['branch_id'],
+	    			'date_pay'			=> $data['collect_date'],
+	    			'date_input'		=> $data['collect_date'],
+    				'paid_times'        => $data['installment_no'],
+    				'loan_id'			=> $data['loan_number'],
+    				'date_payment'    	=> $data['payment_date'],
+    				'begining_balance'	=> $data['priciple_amount'],
+    				'principal_amount'	=> $data['os_amount'],
+    				'interest_amount'	=> $data['total_interest'],
+    				'total_payment'		=> $total_payment,
+    				'penalize_amount'	=> $data["penalize_amount"],
+    				'service_chargeamount'=>$data["service_charge"],
+    				
+    				'recieve_amount'	=> $data["amount_receive"],
+    				'total_paymentpaid'	=> $data["amount_receive"],//check
+//     				'principal_paid'	=> $data['os_amount'],//check here
+//     				'interest_paid'		=> $data['total_interest'],//check
+//     				'penalize_paid'		=> 0,//check
+//     				'service_paid'      => 0,//echeck
+    				'return_amount'		=> $return,
+    				
+    				'note'				=> $data['note'],
+    				'status'			=> 1,
+    				'user_id'			=> $user_id,
+    				'late_day'			=> $data['amount_late'],
+    				'is_completed'		=> $is_compleated,
+    				'payment_option'	=> $data["option_pay"],
+    				'currency_type'		=> $data["currency_type"],
+//     				'is_payoff'=>0
+    				);
     		
-    		$date_collect = $data["collect_date"];
-			$sub_recieve_amount = $data["amount_receive"];
-			
+		$this->_name = "ln_client_receipt_money";
+    	$receipt_id = $this->insert($arr_client_pay);
+    		
+    	$date_collect = $data["collect_date"];
     	$identify = explode(',',$data['identity']);
 		$count_d = count($identify);
 		
-    		foreach($identify as $i){
-    			if($option_pay==1){
-    				$total_recieve = $data["amount_receive"];
-    				if($total_recieve>=$data["total_payment"]){
-    					$is_compleated = 1;
-    				}else{
-    					$is_compleated = 0;
-    				}
-    			}else{// by channy check ;below is the wrong code 
-    				$total_recieve=$data["payment_".$i];
-    				$is_compleated = 1;
-    			}
-    			$client_detail = $data["mfdid_".$i];
-				
-				if($i==1){
-					$new_sub_service_charge = $data["service_charge"];
-					$new_sub_penelize = $data["penalize_amount"];
-				}else{
-					$new_sub_service_charge = 0;
-					$new_sub_penelize = 0;
-				}
-    			
-    			$sub_service_charge = $data["service_".$i];
-    			$sub_peneline_amount = $data["penelize_".$i];
-    			$sub_interest_amount = $data["interest_".$i];
-    			$sub_principle= $data["principal_permonth_".$i];
-    			$sub_total_payment = $data["payment_".$i];
-    			$loan_number = $data["loan_number"];
-    			$date_payment = $data["date_payment_".$i];
-				
-    			if($client_detail!=""){
-    				$arr_money_detail = array(
-    						'crm_id'				=>		$client_pay,
-    						'loan_number'			=>		$data['loan_number'],
-    						'lfd_id'				=>		$data["mfdid_".$i],
-    						'client_id'				=>		$data["client_id_".$i],
-    						'date_payment'			=>		$data["date_payment_".$i],
-    						'capital'				=>		$data["total_priciple_".$i],
-    						'remain_capital'		=>		$data["total_priciple_".$i] - $data["principal_permonth_".$i],
-    						'principal_permonth'	=>		$data["principal_permonth_".$i],
-    						'total_interest'		=>		$data["interest_".$i],
-    						'total_payment'			=>		$data["payment_".$i],
-    						'total_recieve'			=>		$total_recieve,
-    						'currency_id'			=>		$data["currency_type"],
-    						'pay_after'				=>		$data['multiplier_'.$i],
-    						'penelize_amount'		=>		$data['penelize_'.$i],
-    						'service_charge'		=>		$data['service_'.$i],
-							'penelize_service'		=>		$data["penelize_pay_".$i],
-    						'penelize_new'			=>		$data['penelize_'.$i]-$data['old_penelize_'.$i],
-    						'service_charge_new'	=>		$data["service_charge"]-$data['service_'.$i],
-    						'old_penelize'			=>		$data['old_penelize_'.$i],
-    						'old_service_charge'	=>		$data['service_'.$i],
-    						'old_interest'			=>		$data["old_interest_".$i],
-							'saving_amount'			=>		$data["saving_amount_".$i],
-    						'is_completed'			=>		$is_compleated,
-    						'is_verify'				=>		0,
-    						'verify_by'				=>		0,
-    						'is_closingentry'		=>		0,
-    						'status'				=>		1
-    				);
-    				
-    				$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
-    				
-					$array = array(
-						'client_name'	=>		$data["client_id_1"],
-					);
-					$where = $db->quoteInto("id=?", $client_pay);
-					$this->_name="ln_client_receipt_money";
-					$this->update($array,$where);
-					
-    				if($option_pay==1){
-	    				if($sub_recieve_amount>=$total_payment){
-		    				 
-		    				$arr_update_fun_detail = array(
-		    					'is_completed'		=> 	1,
+		$paid_principal = 0;
+		$paid_interest = 0;
+		$paid_penalty = 0;
+		$paid_service = 0;
+		
+		$paid_principalall = 0;
+		$paid_interestall = 0;
+		$paid_penaltyall = 0;
+		$paid_serviceall = 0;
+		 
+		$after_principal = 0;
+		$after_interest = 0;
+		$after_penalty = 0;
+		$after_service = 0;
+		$remain_money=0;
+	    	foreach($identify as $i){
+	    			$sub_principle= $data["principal_permonth_".$i];
+		    		$sub_interest_amount = $data["interest_".$i];
+	    			$sub_peneline_amount = $data["penelize_".$i];
+	    			$sub_total_payment = $data["payment_".$i];
+	    			$date_payment = $data["date_payment_".$i];
+	    			
+	    			$record_id = $data["mfdid_".$i];
+	    			if($record_id!=""){
+	    				if($option_pay==1 OR $option_pay==2 OR $option_pay==3){//បង់ធម្មតា
+	    					if($option_pay==3){
+	    						$total_interest=0;
+	    					}
+	    					$remain_money = $amount_receive-$service_charge;
+	    					if($remain_money>=0){//ដកសេវាកម្ម
+	    						$paid_service=$service_charge;
+	    						$after_service=0;
+	    						$remain_money = $remain_money - $penalize;
+	    						
+	    						if($remain_money>=0){//ដកផាគពិន័យ
+	    							$paid_penalty = $penalize;
+	    							$principle_after=0;
+	    							$remain_money = $remain_money -$total_interest;
+	    							
+	    							if($remain_money>=0){
+	    								$paid_interest = $total_interest;
+	    								$after_interest = 0;
+	    								$remain_money = $remain_money - $total_principal;
+	    								
+	    								if($remain_money>=0){//check here of គេបង់លើសខ្លះ
+	    									$paid_principal = $total_principal;
+	    									$after_principal =0;
+	    									$is_compleated_d=1;
+	    								}else{
+	    									$paid_principal = $total_principal-abs($remain_money);
+	    									$after_principal = abs($remain_money);
+	    									$is_compleated_d=0;
+	    								}
+	    							}else{
+	    								$paid_interest = $total_interest-abs($remain_money);
+	    								$after_interest =abs($remain_money);
+	    							}
+	    						}else{
+	    							$paid_penalty =$penalize -abs($remain_money);
+	    							$after_penalty = abs($remain_money);
+	    						}
+	    					}else{
+	    						$paid_service=$service_charge-abs($remain_money);
+	    						$after_service = abs($remain_money);
+	    					}
+	    					
+		    					$arr_money_detail = array(
+		    						'receipt_id'		=> $receipt_id,
+		    						'lfd_id'			=> $record_id,
+		    						'date_payment'		=> $date_payment,
+		    						'capital'			=> $data['outstanding_'.$i],
+		    						'remain_capital'	=> $data['remain_capital']-$data['principal_permonth_'.$i],
+		    						'principal_permonth'=> $data['principal_permonth_'.$i],
+		    						'total_interest'	=> $data['interest_'.$i],
+		    						'total_payment'		=> $data['total_payment_after_'.$i],
+		    						'total_recieve'		=> $paid_principal,
+		    						'penelize_amount'	=> $after_penalty,
 		    				);
-		    				$this->_name="ln_loanmember_funddetail";
-		    				$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
-		    				$this->update($arr_update_fun_detail, $where);
-	    				}else{
-								$is_compleated_d =0;
-			   					$new_sub_interest_amount = $data["interest_".$i];
-			   					$principle_after = $data["principal_permonth_".$i];
-			   					$pyament_after = 0;
-				   				if($sub_recieve_amount>0){
-				   					$new_amount_after_service = $sub_recieve_amount-$new_sub_service_charge;
-				   					if($new_amount_after_service>=0){
-				   						$new_sub_service_charge = 0;
-				   						$new_amount_after_penelize = $new_amount_after_service - $new_sub_penelize;
-				   						//echo $new_amount_after_penelize."=".$new_amount_after_service."-".$new_sub_penelize;
-				   						if($new_amount_after_penelize>=0){
-				   							$new_sub_penelize = 0;
-				   							$new_amount_after_interest = $new_amount_after_penelize - $sub_interest_amount;
-				   							if($new_amount_after_interest>=0){
-				   								$new_sub_interest_amount = 0;
-				   								$sub_principle_after = $new_amount_after_interest - $principle_after;
-												if($sub_principle_after>=0){
-													$principle_after =0;
-													$is_compleated_d=1;
-													$sub_recieve_amount=$sub_principle_after;
-													//echo $sub_recieve_amount;
-													$pyament_after=0;
-												}else{
-													$principle_after = abs($sub_principle_after);
-													$sub_recieve_amount=0;
+		    				$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
+		    				
+		    				$load_detail = array(
+	    						'outstanding_after'   => $data['outstanding_'.$i]-$paid_principal,
+	    						'principle_after'     => $after_principal,
+	    						'total_interest_after'=> $after_interest,
+	    						'total_payment_after' => $after_principal+$after_interest,
+	    						'is_completed'		  => $is_compleated,
+		    				);
+		    				$this->_name="ln_loan_detail";
+		    				$where = $db->quoteInto("id=?", $record_id);
+		    				$this->update($load_detail, $where);
+		    				
+	    				$paid_principalall =$paid_principalall+$paid_principal;
+	    				$paid_interestall =$paid_interestall+$paid_interest;
+	    				$paid_penaltyall =$paid_penaltyall+$paid_penalty;
+	    				$paid_serviceall =$paid_serviceall+$paid_service;
+		    				
+	    				}elseif ($option_pay==3){//រំលស់ដើម
+	    					
+	    				}elseif($option_pay==4){//បង់ដាច់
+	    					
+	    				}
+	    			}
+	    			
+	    	}
+	    	
+	    	$arr = array(
+    			'principal_paid'=> $paid_principalall,//check here
+    			'interest_paid'	=> $paid_interestall,//check
+    			'penalize_paid'	=> $paid_penaltyall,//check
+    			'service_paid'  => $paid_serviceall,//echeck
+	    	);
+	    	
+	    	$this->_name="ln_client_receipt_money";
+	    	$where = $db->quoteInto("id=?", $receipt_id);
+	    	$this->update($arr, $where);
+	    	
+//     				if($option_pay==1){
+// 	    				if($sub_recieve_amount>=$total_payment){
+// 		    				$arr_update_fun_detail = array(
+// 		    					'is_completed'		=> 	1,
+// 		    				);
+// 		    				$this->_name="ln_loanmember_funddetail";
+// 		    				$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
+// 		    				$this->update($arr_update_fun_detail, $where);
+// 	    				}else{
+// 								$is_compleated_d =0;
+// 			   					$new_sub_interest_amount = $data["interest_".$i];
+// 			   					$principle_after = $data["principal_permonth_".$i];
+// 			   					$pyament_after = 0;
+// 				   				if($sub_recieve_amount>0){
+// 				   					$new_amount_after_service = $sub_recieve_amount-$new_sub_service_charge;
+// 				   					if($new_amount_after_service>=0){
+// 				   						$new_sub_service_charge = 0;
+// 				   						$new_amount_after_penelize = $new_amount_after_service - $new_sub_penelize;
+// 				   						//echo $new_amount_after_penelize."=".$new_amount_after_service."-".$new_sub_penelize;
+// 				   						if($new_amount_after_penelize>=0){
+// 				   							$new_sub_penelize = 0;
+// 				   							$new_amount_after_interest = $new_amount_after_penelize - $sub_interest_amount;
+// 				   							if($new_amount_after_interest>=0){
+// 				   								$new_sub_interest_amount = 0;
+// 				   								$sub_principle_after = $new_amount_after_interest - $principle_after;
+// 												if($sub_principle_after>=0){
+// 													$principle_after =0;
+// 													$is_compleated_d=1;
+// 													$sub_recieve_amount=$sub_principle_after;
+// 													//echo $sub_recieve_amount;
+// 													$pyament_after=0;
+// 												}else{
+// 													$principle_after = abs($sub_principle_after);
+// 													$sub_recieve_amount=0;
 													
-												}
-				   							}else{
-				   								$new_sub_interest_amount = abs($new_amount_after_interest);
-				   							}
-				   						}else{
-				   							$new_sub_penelize = abs($new_amount_after_penelize);
-				   						}
-				   					}else{
-				   						$new_sub_service_charge = abs($new_amount_after_service);
-				   					}
-				   				}
+// 												}
+// 				   							}else{
+// 				   								$new_sub_interest_amount = abs($new_amount_after_interest);
+// 				   							}
+// 				   						}else{
+// 				   							$new_sub_penelize = abs($new_amount_after_penelize);
+// 				   						}
+// 				   					}else{
+// 				   						$new_sub_service_charge = abs($new_amount_after_service);
+// 				   					}
+// 				   				}
 				   				
-								$pyament_after=$principle_after+$new_sub_interest_amount+$new_sub_penelize+$new_sub_service_charge;
+// 								$pyament_after=$principle_after+$new_sub_interest_amount+$new_sub_penelize+$new_sub_service_charge;
 								
 								
-				   				$arr_update_fun_detail = array(
-				   						'is_completed'			=> 	$is_compleated_d,
-				   						'total_interest_after'	=>  $new_sub_interest_amount,
-				   						'total_payment_after'	=>	$pyament_after,
-				   						'penelize'				=>	$new_sub_penelize,
-				   						'principle_after'		=>	$principle_after,
-				   						'service_charge'		=>	$new_sub_service_charge,
-				   						'payment_option'		=>	1,
-										'saving_amount'			=>	$saving_after,
-// 				   						'old_penelize'			=>	$data["old_penelize_".$i],
-// 				   						'old_service_charge'	=>	$data["service_".$i],
-				   				);
-				   				$this->_name="ln_loanmember_funddetail";
-				   				$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
-				   				$this->update($arr_update_fun_detail, $where);
-			   				}
-    					}else{
-    						$sql_loan_fun = "SELECT 
-											  lf.`id` ,
-											  lf.`total_principal`,
-											  lf.`principle_after`,
-											  lf.`total_interest_after`,
-											  lf.`service_charge`,
-											  lf.`penelize`
-											FROM
-											  `ln_loanmember_funddetail` AS lf,
-											  `ln_loan_member` AS lm 
-											WHERE lf.`member_id` = lm.`member_id`      
-  												AND lm.`loan_number` = '$loan_number' 
-    											AND lf.`date_payment` = '$date_payment'";
-    						$row_fun = $db->fetchAll($sql_loan_fun);
-    						$is_set=0;
-    						foreach ($row_fun as $rs_fun){
-    							if($is_set!=1){
-    								$penelize=$data["penelize_".$i];
-    								$is_set=1;
-    							}else{
-    								$penelize = $rs_fun['penelize'];
-    							}
-    							$total_pay=$rs_fun["principle_after"]+$rs_fun["total_interest_after"]+$penelize; 
+// 				   				$arr_update_fun_detail = array(
+// 				   						'is_completed'			=> 	$is_compleated_d,
+// 				   						'total_interest_after'	=>  $new_sub_interest_amount,
+// 				   						'total_payment_after'	=>	$pyament_after,
+// 				   						'penelize'				=>	$new_sub_penelize,
+// 				   						'principle_after'		=>	$principle_after,
+// 				   						'service_charge'		=>	$new_sub_service_charge,
+// 				   						'payment_option'		=>	1,
+// 										'saving_amount'			=>	$saving_after,
+// 				   				);
+// 				   				$this->_name="ln_loanmember_funddetail";
+// 				   				$where = $db->quoteInto("id=?", $data["mfdid_".$i]);
+// 				   				$this->update($arr_update_fun_detail, $where);
+// 			   				}
+//     					}else{
+//     						$sql_loan_fun = "SELECT 
+// 											  lf.`id` ,
+// 											  lf.`total_principal`,
+// 											  lf.`principle_after`,
+// 											  lf.`total_interest_after`,
+// 											  lf.`service_charge`,
+// 											  lf.`penelize`
+// 											FROM
+// 											  `ln_loanmember_funddetail` AS lf,
+// 											  `ln_loan_member` AS lm 
+// 											WHERE lf.`member_id` = lm.`member_id`      
+//   												AND lm.`loan_number` = '$loan_number' 
+//     											AND lf.`date_payment` = '$date_payment'";
+//     						$row_fun = $db->fetchAll($sql_loan_fun);
+//     						$is_set=0;
+//     						foreach ($row_fun as $rs_fun){
+//     							if($is_set!=1){
+//     								$penelize=$data["penelize_".$i];
+//     								$is_set=1;
+//     							}else{
+//     								$penelize = $rs_fun['penelize'];
+//     							}
+//     							$total_pay=$rs_fun["principle_after"]+$rs_fun["total_interest_after"]+$penelize; 
     							
-    							$arr_update_fun_detail = array(
-    									'is_completed'			=> 	1,
-    									'payment_option'		=>	$data["option_pay"]
-    							);
-    							$this->_name="ln_loanmember_funddetail";
-    							$where = $db->quoteInto("id=?", $rs_fun['id']);
-    							$this->update($arr_update_fun_detail, $where);
-    						}
-    					}
+//     							$arr_update_fun_detail = array(
+//     									'is_completed'			=> 	1,
+//     									'payment_option'		=>	$data["option_pay"]
+//     							);
+//     							$this->_name="ln_loanmember_funddetail";
+//     							$where = $db->quoteInto("id=?", $rs_fun['id']);
+//     							$this->update($arr_update_fun_detail, $where);
+//     						}
+//     					}
 		   				
-		   				$sql_payment ="SELECT
-						   					l.*
-						   				FROM
-							   				`ln_loanmember_funddetail` AS l,
-							   				`ln_loan_member` AS m
-						   				WHERE l.`member_id` = m.`member_id`
-							   				AND m.`loan_number` = '$loan_number'
-							   				AND l.`is_completed` = 0 ";
-		   				$rs_payment = $db->fetchRow($sql_payment);
+// 		   				$sql_payment ="SELECT
+// 						   					l.*
+// 						   				FROM
+// 							   				`ln_loanmember_funddetail` AS l,
+// 							   				`ln_loan_member` AS m
+// 						   				WHERE l.`member_id` = m.`member_id`
+// 							   				AND m.`loan_number` = '$loan_number'
+// 							   				AND l.`is_completed` = 0 ";
+// 		   				$rs_payment = $db->fetchRow($sql_payment);
 		   				
-		   				$group_id = $data["client_code"];
-		   				if(empty($rs_payment)){
-			   				$sql ="UPDATE
-					   					`ln_loan_group` AS l
-					   				SET l.`status` = 2
-					   				WHERE l.`g_id`= (SELECT m.`group_id` FROM `ln_loan_member` AS m WHERE m.`loan_number`='$loan_number' LIMIT 1)
-					   					AND l.`group_id`= $group_id AND l.`loan_type`=1 ";
-			   				
-			   				//$db->query($sql);
-			   				
-			   				$sql_loan_memeber ="UPDATE `ln_loan_member` AS m SET m.`is_completed`=1 WHERE m.`loan_number`= '$loan_number'";
-			   				
-			   				$db->query($sql_loan_memeber);
-		   				}
-    			}
-    		}
-    		//print_r($data);
-      		//exit();
+// 		   				$group_id = $data["client_code"];
+// 		   				if(empty($rs_payment)){
+// 			   				$sql ="UPDATE
+// 					   					`ln_loan_group` AS l
+// 					   				SET l.`status` = 2
+// 					   				WHERE l.`g_id`= (SELECT m.`group_id` FROM `ln_loan_member` AS m WHERE m.`loan_number`='$loan_number' LIMIT 1)
+// 					   					AND l.`group_id`= $group_id AND l.`loan_type`=1 ";
+// 			   				$sql_loan_memeber ="UPDATE `ln_loan_member` AS m SET m.`is_completed`=1 WHERE m.`loan_number`= '$loan_number'";
+// 			   				$db->query($sql_loan_memeber);
+// 		   				}
+    			
+    		//}
     		$db->commit();
     	}catch (Exception $e){
     		$db->rollBack();
+    		echo $e->getMessage();exit();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }
@@ -948,19 +972,21 @@ public function addILPayment($data){
 			   	lc.`client_number`,
 			   	lc.`name_kh`,
 			   	l.`loan_number`,
-					 l.`currency_type`,
-   					 l.`branch_id`,
-   					 l.`co_id`,
-   					 l.`payment_method`,
-   					 l.collect_typeterm,
-   					 l.amount_collect_principal,
-   					 l.interest_rate,
-   					 l.loan_amount,
-   					 l.level,
-   					 (SELECT date_pay FROM `ln_client_receipt_money` WHERE loan_id=1 AND status=1 ORDER BY date_pay DESC LIMIT 1) AS last_pay_date,
-   					 ld.*,
-   					 DATE_FORMAT(ld.date_payment, '%d-%m-%Y') AS `date_payments`,
-   					 (SELECT SUM(principal_paid) FROM `ln_client_receipt_money` WHERE loan_id=l.id AND status=1) AS principal_paid
+				l.`currency_type`,
+   				l.`branch_id`,
+   				l.`co_id`,
+   				l.`payment_method`,
+   				l.collect_typeterm,
+   				l.amount_collect_principal,
+   				l.interest_rate,
+   				l.loan_amount,
+   				l.level,
+   				l.total_duration,
+   				DATE_FORMAT(l.date_release, '%d/%m/%Y') AS `date_release`,
+   				(SELECT date_pay FROM `ln_client_receipt_money` WHERE loan_id=$loan_number AND status=1 ORDER BY date_pay DESC LIMIT 1) AS last_pay_date,
+   				 ld.*,
+   				DATE_FORMAT(ld.date_payment, '%d-%m-%Y') AS `date_payments`,
+   			(SELECT SUM(principal_paid) FROM `ln_client_receipt_money` WHERE loan_id=l.id AND status=1) AS principal_paid
    			   FROM
    					  `ln_client` AS lc,
    					  `ln_loan` AS l ,
