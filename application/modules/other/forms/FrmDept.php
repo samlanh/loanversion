@@ -23,6 +23,7 @@ Class global_Form_FrmDept extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>'true',
 				'missingMessage'=>'Invalid Module!',
+				'autoComplete'=>"false" ,'queryExpr'=>'*${0}*',
 				'class'=>'fullside'));
 		
 		$this->addElements(array($_en_name,$_kh_name, $_status));

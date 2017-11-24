@@ -38,6 +38,13 @@ dojo.require("dijit.form.DateTextBox");
 }
 ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold; list-style-type: none;}
 td ul li{list-style: none; }
+
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
 </style>
 <div style="clear: both;"></div>
 <div  style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm;">
@@ -103,6 +110,7 @@ td ul li{list-style: none; }
                 	$num=1;
                 ?>
                 <?php if($key>0){?>
+               <thead>
                 <tr>
                 	<td style="background: #8494B5;" class="style" colspan="11">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
                 </tr>
@@ -114,6 +122,7 @@ td ul li{list-style: none; }
 	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("OTHER_FEE");?>&nbsp;</td>
 	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
 	            </tr>
+	            </thead>
                 <tr class="style" style="font-weight:bold; line-height: 24px;">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
                     <td>&nbsp;<?php echo $count_ld;?>&nbsp;</td>

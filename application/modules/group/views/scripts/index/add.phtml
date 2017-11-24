@@ -374,6 +374,8 @@ dojo.ready(function(){
 		name: "client_d_type",
 		id: "client_d_type",
 		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
 		class: 'fullside',
 			onChange: function() {
 				client_d_type = dijit.byId('client_d_type').get('value');
@@ -391,6 +393,8 @@ dojo.ready(function(){
 		name: "join_d_type",
 		id: "join_d_type",
 		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
 		class: 'fullside',
 			onChange: function() {
 				client_d_type = dijit.byId('join_d_type').get('value');
@@ -408,6 +412,8 @@ dojo.ready(function(){
 		name: "guarantor_d_type",
 		id: "guarantor_d_type",
 		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
 		class: 'fullside',
 			onChange: function() {
 				client_d_type = dijit.byId('guarantor_d_type').get('value');

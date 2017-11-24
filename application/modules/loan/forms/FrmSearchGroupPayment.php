@@ -10,13 +10,17 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 		$db = new Loan_Model_DbTable_DbGroupPayment();
 		
 		$payment_type = new Zend_Dojo_Form_Element_FilteringSelect("paymnet_type");
-		$payment_type->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect'));
+		$payment_type->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+				));
 		$options= array(''=>'ប្រភេទបង់ប្រាក់',1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម');
 		$payment_type->setMultiOptions($options);
 		$payment_type->setValue($request->getParam("paymnet_type"));
 		
 		$branch = new Zend_Dojo_Form_Element_FilteringSelect("branch_id");
-		$branch->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect'));
+		$branch->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',));
 		$opt_branch = array(-1=>'ជ្រើសរើស សាខា');
 		$dbs = new Application_Model_DbTable_DbGlobal();
 		$rows = $dbs->getAllBranchName();
@@ -39,7 +43,8 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 			$opt_client[$row['id']]=$row['name'];
 		}
 		$client_name->setMultiOptions($opt_client);
-		$client_name->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect'));
+		$client_name->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',));
 		
 		$g_client_name = new Zend_Dojo_Form_Element_FilteringSelect("g_client_name");
 		$opt_client = array(''=>'ជ្រើសរើស ឈ្មោះអតិថិជន');
@@ -48,13 +53,17 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 			$opt_client[$row['id']]=$row['name'];
 		}
 		$g_client_name->setMultiOptions($opt_client);
-		$g_client_name->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect'));
+		$g_client_name->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',));
 		
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'onchange'=>'popupCheckCO();',
-				'class'=>'fullside'
+				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options = $dbs->getAllCOName(1);
 		$_coid->setMultiOptions($options);
@@ -87,7 +96,10 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 		$end_date->setValue($_date);
 		
 		$status = new Zend_Dojo_Form_Element_FilteringSelect("status");
-		$status->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect','placeholder'=>$this->tr->translate("ស្ថានការ")));
+		$status->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+				'placeholder'=>$this->tr->translate("ស្ថានការ")));
 		$opt_status = array(''=>'ជ្រើសរើស ស្ថានការ','1'=>'ដំណើការ','2'=>'មិនដំណើការ');
 		$status->setMultiOptions($opt_status);
 		
@@ -104,6 +116,8 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$_currency_type->setMultiOptions($opt);

@@ -336,6 +336,8 @@ require(["dojo/ready"], function(ready){
 	id: "member",
 	class:"fullside",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	value:"<?php echo $this->datarow['client_id'];?>",	     
 	onChange: function() {
 		getClientInfo(2);
@@ -357,6 +359,8 @@ require(["dojo/ready"], function(ready){
 	id: "customer_code",
 	class:"fullside",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	onChange: function() {
 		getClientInfo(1);
 }

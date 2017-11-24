@@ -11,7 +11,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
-		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect'));
+		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),
@@ -29,14 +29,14 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
 		$_btn_search->setAttribs(array(
 				'dojoType'=>'dijit.form.Button',
-				'iconclass'=>'dijitIconSearch',
+				'iconclass'=>'dijitIconSearch','class'=>'fullside',
 		
 		));
 		
 		$_group_code = new Zend_Dojo_Form_Element_FilteringSelect('group_code');
 		$_group_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
+				'class'=>'fullside',
 				'onchange'=>'getmemberIdGroup();'
 		));
 		$group_opt = $db ->getGroupCodeById(1,1,1);
@@ -125,7 +125,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		
 		$_dateline = new Zend_Dojo_Form_Element_DateTextBox('end_date');
 		$_dateline->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
-// 				'class'=>'fullside',
+				'class'=>'fullside',
 		));
 		$_date = $request->getParam("end_date");
 		
@@ -138,7 +138,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_payterm = new Zend_Dojo_Form_Element_FilteringSelect('payment_term');
 		$_payterm->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
+				'class'=>'fullside',
 				'required' =>'true'
 		));
 		$options= array(1=>"Day",2=>"Week",3=>"Month");
@@ -147,7 +147,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
+				'dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',
 		));
 		
 		$rows = $db->getAllBranchName();
@@ -255,6 +255,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
 		));
 		
 		$rows = $db->getAllBranchName();

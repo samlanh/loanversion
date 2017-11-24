@@ -12,6 +12,8 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 // 				'class'=>'fullside',
 				'required' =>'true',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getAllBranchName();
@@ -31,6 +33,8 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$_stutas = new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options= array(1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
 		$_stutas->setMultiOptions($options);
@@ -128,6 +132,8 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 				// 				'class'=>'fullside',
 				'required' =>'true',
 				'OnChange'	=> 'getAmountFrom();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$brance_from->setMultiOptions($options);
 		
@@ -137,6 +143,8 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 				// 				'class'=>'fullside',
 				'required' =>'true',
 				'OnChange'	=> 'getAmountTo();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$brance_to->setMultiOptions($options);
@@ -150,7 +158,9 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$_stutas = new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'OnChange' => 'statusCheck();'
+				'OnChange' => 'statusCheck();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options= array(-1=>"ជ្រើសរើស ស្ថានភាព",1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
 		$_stutas->setMultiOptions($options);
@@ -262,7 +272,9 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				//'class'=>'fullside',
 				'required' =>'true',
-				'OnChange'	=>	'getAmounts();'
+				'OnChange'	=>	'getAmounts();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getAllBranchName();
@@ -282,6 +294,8 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$_stutas = new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options= array(1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
 		$_stutas->setMultiOptions($options);
@@ -414,14 +428,18 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		
 		$brance_from = new Zend_Dojo_Form_Element_FilteringSelect('brance_from');
 		$brance_from->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect'
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$brance_from->setMultiOptions($options);
 		$brance_from->setValue($request->getParam("brance_from"));
 		
 		$brance_to = new Zend_Dojo_Form_Element_FilteringSelect('brance_to');
 		$brance_to->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect'
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$brance_to->setValue($request->getParam("brance_to"));
 		$brance_to->setMultiOptions($options);
@@ -435,6 +453,8 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		$_stutas = new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options= array(-1=>"ជ្រើសរើស ស្ថានភាព",1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
 		$_stutas->setMultiOptions($options);

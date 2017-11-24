@@ -140,6 +140,8 @@ require(["dojo/ready"], function(ready){
 	id: "client_name",
 	class:"fullside",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	onChange: function() {
 		getClientInfo(2);
     }
@@ -158,6 +160,8 @@ require(["dojo/ready"], function(ready){
 	id: "client_code",
 	class:"fullside",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	onChange: function() {
 		getClientInfo(1);
 }

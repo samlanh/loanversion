@@ -27,7 +27,7 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 		
 		
 		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('search_status');
-		$_status_search->setAttribs(array('dojoType'=>$this->filter));
+		$_status_search->setAttribs(array('dojoType'=>$this->filter,'autoComplete'=>false,'queryExpr'=>'*${0}*',));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),
@@ -68,7 +68,7 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 		));
 		
 		$_display =  new Zend_Dojo_Form_Element_FilteringSelect('display');
-		$_display->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
+		$_display->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside','autoComplete'=>false,'queryExpr'=>'*${0}*',));
 		$_display_opt = array(
 				1=>$this->tr->translate("NAME_KHMER"),
 				2=>$this->tr->translate("NAME_EN"));
@@ -81,7 +81,7 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 		
 		$_province = new Zend_Dojo_Form_Element_FilteringSelect('province_name');
 		$_province->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
+				'dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>false,'queryExpr'=>'*${0}*',
 				'class'=>'fullside'
 		));
 		
@@ -96,7 +96,7 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 		if(!empty($rows_province))foreach($rows_province AS $row) $opt_province[$row['province_id']]=$row['province_en_name'];
 		
 		$_provincess=new Zend_Dojo_Form_Element_FilteringSelect('province_names');
-		$_provincess->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',
+		$_provincess->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>false,'queryExpr'=>'*${0}*',
 				'class'=>'fullside',
 				'onchange'=>'filterDistrict();',
 		));
@@ -109,7 +109,7 @@ Class Other_Form_FrmDistrict extends Zend_Dojo_Form {
 		$_status->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>'true',
-				'missingMessage'=>'Invalid Module!',
+				'missingMessage'=>'Invalid Module!','autoComplete'=>false,'queryExpr'=>'*${0}*',
 				'class'=>'fullside'));
 		$id = new Zend_Form_Element_Hidden('id');
 		if(!empty($data)){

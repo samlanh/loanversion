@@ -55,6 +55,8 @@ public function init()
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'onchange'=>'getmemberIdGroup();',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 // 		$group_opt = $db ->getGroupCodeById(1,1,1);
 // 		$_group_code->setMultiOptions($group_opt);
@@ -63,7 +65,9 @@ public function init()
 		$get_laonnumber->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getInfoByLoanNumber();getLoanInfoByLoanNumber();'
+				'onchange'=>'getInfoByLoanNumber();getLoanInfoByLoanNumber();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$group_opt = $db->getLoanAllLoanNumber(1,1);
 		$get_laonnumber->setMultiOptions($group_opt);
@@ -72,6 +76,8 @@ public function init()
 		$schedule_opt->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt = $db->getVewOptoinTypeByType(25,1,null,1);
 		$schedule_opt->setMultiOptions($opt);
@@ -83,7 +89,9 @@ public function init()
 		$_customer_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'showPopupclient;'
+				'onchange'=>'showPopupclient;',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 // 		$group_opt = $dbs ->getClient(1);//code,individual,option
 		$group_opt = $db->getGroupCodeById(1,0,1);//code,individual,option
@@ -121,7 +129,9 @@ public function init()
 		$_groupid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
- 				'onchange'=>'popupCheckClient();'
+ 				'onchange'=>'popupCheckClient();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				));
 // 		$options = $db->getGroupCodeById(2,1,1);//show name,show group,show option
 // 		$_groupid->setMultiOptions($options);
@@ -130,7 +140,9 @@ public function init()
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'popupCheckCO();'
+				'onchange'=>'popupCheckCO();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options = $db ->getAllCOName(1);
 		$_coid->setMultiOptions($options);
@@ -139,7 +151,9 @@ public function init()
 		$_coids->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'popupCheckCO();'
+				'onchange'=>'popupCheckCO();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$optionss = $db ->getAllCOName(1);
 		$_coids->setMultiOptions($optionss);
@@ -148,6 +162,8 @@ public function init()
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 // 		$opt = array(2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$opt = $db->getVewOptoinTypeByType(15,1,3,1);
@@ -158,7 +174,9 @@ public function init()
 		$_loan_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onChange'=>'loantype();'
+				'onChange'=>'loantype();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt = $db->getVewOptoinTypeByType(24,1,null,1);
 		$opt[-1]="--- Add New---";
@@ -168,7 +186,9 @@ public function init()
 		$_loan_types->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onChange'=>'loantype();'
+				'onChange'=>'loantype();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opts = $db->getVewOptoinTypeByType(24,1,null,1);
 		$opt[-1]="--- Add New---";
@@ -178,7 +198,9 @@ public function init()
 		$_zone->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'zone();'
+				'onchange'=>'zone();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options = $db ->getZoneList(1);
 		$options[-1]="--- Add New---";
@@ -188,7 +210,9 @@ public function init()
 		$_zones->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'zone();'
+				'onchange'=>'zone();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$optionsf = $db ->getZoneList(1);
 		$optionsf[-1]="--- Add New---";
@@ -283,6 +307,8 @@ public function init()
 		$_rate->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				'invalidMessage'=>'អាចបញ្ជូលពី 1 ដល់'));
 		$options = $db->getAllInterest(1);
 		$_rate->setMultiOptions($options);
@@ -350,7 +376,9 @@ public function init()
  		$_collect_term->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'changeGraicePeroid();'	
+				'onchange'=>'changeGraicePeroid();',
+ 				'autoComplete'=>"false",
+ 				'queryExpr'=>'*${0}*',
 		));
 		$term_opt = $db->getVewOptoinTypeByType(14,1,3,1);
 		$_collect_term->setMultiOptions($term_opt);
@@ -359,7 +387,9 @@ public function init()
 		$_payterm->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$_payterm->setMultiOptions($term_opt);
 		$_pay_every = new Zend_Dojo_Form_Element_FilteringSelect('pay_every');
@@ -367,7 +397,9 @@ public function init()
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required' =>'true',
 				'class'=>'fullside',
-				'onchange'=>'changeCollectType();'
+				'onchange'=>'changeCollectType();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 // 		$options= array(1=>"Day",2=>"Week",3=>"Month");
 // 		$_pay_every->setMultiOptions($options);
@@ -377,7 +409,9 @@ public function init()
 		$_every_payamount->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options= array(2=>"After",1=>"Before",3=>"Normal");
 		$_every_payamount->setMultiOptions($options);
@@ -423,7 +457,9 @@ public function init()
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required' =>'true',
 				'class'=>'fullside',
-				'onchange'=>'filterClient();'
+				'onchange'=>'filterClient();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$rows = $db->getAllBranchName();
@@ -453,7 +489,9 @@ public function init()
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required' =>'true',
 				'class'=>'fullside',
-				'onchange'=>'chechPaymentMethod()'
+				'onchange'=>'chechPaymentMethod()',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options = $db->getAllPaymentMethod(null,1);
 		$_repayment_method->setMultiOptions($options);
@@ -462,7 +500,9 @@ public function init()
 		$_status->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 // 		$options= array(1=>"Befor",2=>"After",3=>"Cancel");
 		$options= array(1=>"Active",0=>"Cancel");

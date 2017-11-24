@@ -33,7 +33,9 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$_client_code = new Zend_Dojo_Form_Element_FilteringSelect('client_code');
 		$_client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'onchange'=>'getOwnerInfo();'
+				'onchange'=>'getOwnerInfo();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$group_opt = $db ->getGroupCodeById(1,0,1);//code,individual,option
 		$_client_code->setMultiOptions($group_opt);
@@ -41,7 +43,8 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		
 		
 		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('status_search');
-		$_status_search->setAttribs(array('dojoType'=>$this->filter));
+		$_status_search->setAttribs(array('dojoType'=>$this->filter,'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),
@@ -61,7 +64,9 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
     			'dojoType'=>'dijit.form.FilteringSelect',
     			'required' =>'true',
     			'onchange'=>'filterClient();',
-    			'class'=>'fullside'
+    			'class'=>'fullside',
+    			'autoComplete'=>"false",
+    			'queryExpr'=>'*${0}*',
     	));
     	$rows = $db->getAllBranchName();
     	$options=array(''=>"---Select Branch Name---");
@@ -80,7 +85,9 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
 		$co_name->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'onchange'=>'popupCheckCO();'
+				'onchange'=>'popupCheckCO();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$Date=new Zend_Dojo_Form_Element_DateTextBox('date');
@@ -110,7 +117,9 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$clint_name = new Zend_Dojo_Form_Element_FilteringSelect('client_name');
 		$clint_name->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'onchange'=>'checkClientCode()'
+				'onchange'=>'checkClientCode()',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options = $db->getGroupCodeById(2,0,1);
 		$clint_name->setMultiOptions($options);
@@ -124,6 +133,8 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$collteral_type=new Zend_Dojo_Form_Element_FilteringSelect('collteral_type');
 		$collteral_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				));
 		$opt= $db->getCollteralType(1);
 		$opt=array(''=>'------Select------',1=>'áž•áŸ’áž‘áž¶áž›áŸ‹áž�áŸ’áž›áž½áž“',2=>'áž¢áŸ’áž“áž€áž’áž¶áž“áž¶áž‡áŸ†áž“áž½ážŸ');
@@ -154,7 +165,9 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$stutas = new Zend_Dojo_Form_Element_FilteringSelect('Stutas');
 		$stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside'
+				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				));
 		$options= array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DACTIVE"));
 		$stutas->setMultiOptions($options);
@@ -172,7 +185,9 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$from = new Zend_Dojo_Form_Element_FilteringSelect('from');
 		$from->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'required'=>true
+				'required'=>true,
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$from->setValue($request->getParam('from'));
 		$opt= $db->getCollteralType(1);
@@ -181,7 +196,9 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$to = new Zend_Dojo_Form_Element_FilteringSelect('to');
 		$to->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'required'=>true
+				'required'=>true,
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt= $db->getCollteralType(1);
 		$to->setMultiOptions($opt);

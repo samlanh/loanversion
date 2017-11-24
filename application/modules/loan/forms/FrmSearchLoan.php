@@ -11,7 +11,8 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
-		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect'));
+		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",
+				'queryExpr'=>'*${0}*','class'=>'fullside',));
 		$_status_opt = array(
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"),
@@ -22,7 +23,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>'dijit.form.TextBox',
-				'onkeyup'=>'this.submit()',
+				'onkeyup'=>'this.submit()','class'=>'fullside',
 				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")
 		));
 		$_title->setValue($request->getParam("adv_search"));
@@ -30,7 +31,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
 		$_btn_search->setAttribs(array(
 				'dojoType'=>'dijit.form.Button',
-				'iconclass'=>'dijitIconSearch',
+				'iconclass'=>'dijitIconSearch','class'=>'fullside',
 		
 		));
 		
@@ -55,7 +56,9 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_member = new Zend_Dojo_Form_Element_FilteringSelect('member');
 		$_member->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'onchange'=>'checkMember()'
+				'onchange'=>'checkMember()',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*','class'=>'fullside',
 		));
 		$options = $db->getGroupCodeById(2,0,1);
 		$_member->setMultiOptions($options);
@@ -73,7 +76,9 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'onchange'=>'popupCheckCO();'
+				'onchange'=>'popupCheckCO();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options = $db ->getAllCOName(1);
 		$_coid->setMultiOptions($options);
@@ -82,6 +87,8 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$_currency_type->setMultiOptions($opt);
@@ -91,7 +98,9 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_repayment_method->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required' =>'true',
-				'onchange'=>'chechPaymentMethod()'
+				'onchange'=>'chechPaymentMethod()',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options = $db->getAllPaymentMethod(null,1);
 		$options[-1]="--Select Repayment Method--";
@@ -105,6 +114,8 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
 		$_zone->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 // 				'onchange'=>'popupCheckZone();'
 		));
 		
@@ -115,7 +126,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		
 		$_releasedate = new Zend_Dojo_Form_Element_DateTextBox('start_date');
 		$_releasedate->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
-// 				'class'=>'fullside',
+				'class'=>'fullside',
 				'onchange'=>'CalculateDate();',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}"));
 		$_date = $request->getParam("start_date");
@@ -128,8 +139,8 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		
 		$_dateline = new Zend_Dojo_Form_Element_DateTextBox('end_date');
 		$_dateline->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
-				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
-// 				'class'=>'fullside',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
+				'class'=>'fullside',
 		));
 		$_date = $request->getParam("end_date");
 		
@@ -142,8 +153,10 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_payterm = new Zend_Dojo_Form_Element_FilteringSelect('payment_term');
 		$_payterm->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
-				'required' =>'true'
+				'class'=>'fullside',
+				'required' =>'true',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options= array(1=>"Day",2=>"Week",3=>"Month");
 		$_payterm->setMultiOptions($options);
@@ -151,7 +164,9 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
+				'dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$rows = $db->getAllBranchName();
@@ -166,7 +181,9 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_pay_every->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required' =>'true',
-				'onchange'=>'changeCollectType();'
+				'onchange'=>'changeCollectType();','class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$term_opt = $db->getVewOptoinTypeByType(14,1,3);
@@ -182,7 +199,8 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 			$opt_client[$row['id']]=$row['name'];
 		}
 		$client_name->setMultiOptions($opt_client);
-		$client_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect',));
+		$client_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",
+				'queryExpr'=>'*${0}*','class'=>'fullside',));
 		$client_name->setValue($request->getParam("client_name"));
 		
 		if($data!=null){
@@ -214,6 +232,8 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt = $db->getVewOptoinTypeByType(15,1,3,1);
 		$opt['-1']=("--Select Currency Type--");
@@ -251,7 +271,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_dateline = new Zend_Dojo_Form_Element_DateTextBox('end_date');
 		$_dateline->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
-		// 				'class'=>'fullside',
+				'class'=>'fullside',
 		));
 		$_date = $request->getParam("end_date");
 		
@@ -264,6 +284,8 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$rows = $db->getAllBranchName();

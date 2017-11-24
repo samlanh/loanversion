@@ -192,6 +192,8 @@ require(["dojo/ready"], function(ready){
 	name: "client_name",
 	id: "client_name",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	value:'<?php echo $row['client_id'];?>',
 	class: 'fullside',
 	onChange: function() {
@@ -212,6 +214,8 @@ require(["dojo/ready"], function(ready){
 	id: "client_code",
 	searchAttr: "name",
 	class: 'fullside',
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	value:'<?php echo $row['client_id'];?>',
 	onChange: function() {
 		getClientInfo(1);	
@@ -328,7 +332,7 @@ function addCollecteral(){
 			dojo.query("#t_amountmoneytype").append(tmp);
 			
 		temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
-		temp+='<td width="200px"><select style=" width:98%;background:#fff; padding-left:5px;" id="collect_type'+r+'" name="collect_type'+r+'"  dojoType="dijit.form.FilteringSelect" onchange="showPopCallecteral('+r+')"  >'+collect_option+'</select></td>';
+		temp+='<td width="200px"><select style=" width:98%;background:#fff; padding-left:5px;" id="collect_type'+r+'" name="collect_type'+r+'"  dojoType="dijit.form.FilteringSelect" onchange="showPopCallecteral('+r+')" ​autoComplete="false" queryExpr="*${0}*" >'+collect_option+'</select></td>';
 	    temp+='<td><select style=" width:90%; background:#fff; padding-left:5px;" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+');" class="fullside">'+owner_option+'</select></td>';
 		temp+='<td width="200px"><input style=" width:98%;" type="text" required="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox" class="fullside"/></td>';
 		temp+='<td><input style=" width:90%;" type="text"  name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox" class="fullside"/></td>';

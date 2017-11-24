@@ -19,9 +19,7 @@ dojo.require("dijit.form.DateTextBox");
 			<td><?php echo $filter->getElement('branch_name');?></td>
 			<!-- <td><?php //echo $filter->getElement('client_name');?></td> -->
 			<td><?php echo $filter->getElement('co_code');?></td>
-		</tr>
-		<tr>
-			<td><?php echo $filter->getElement('start_date');?></td>
+				<td><?php echo $filter->getElement('start_date');?></td>
 			<td><?php echo $filter->getElement('end_date');?></td>
 			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
 			<td></td>
@@ -37,6 +35,12 @@ dojo.require("dijit.form.DateTextBox");
 }
 th{padding: 5px;}
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>
@@ -72,6 +76,7 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
     <tr>
     	<td id="exportExcel">
             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:10px; white-space: nowrap;" width="100%" cellspacing="0">
+                <thead>
                  <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 20px; font-size:12px; padding:5px 0px; ">
                     <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
                     <td><?php echo $tr->translate("BRANCH_NAME");?></td>
@@ -81,6 +86,7 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
                     <td><?php echo $tr->translate("NOTE");?></td>
                     <td><?php echo $tr->translate("STATUS");?></td>
                 </tr>
+                </thead>
                <?php 
                $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
                $other_fee_r=0; $other_fee_b=0; $other_fee_d=0;$total_r=0;$total_b=0;$total_d=0;

@@ -34,6 +34,14 @@ dojo.require("dijit.form.DateTextBox");
 .hover:hover{ background: #ccc;}
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 th{padding: 5px;}
+
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
+
 </style>
 <table width="100%" >
 	<tr>
@@ -80,6 +88,7 @@ th{padding: 5px;}
                 	$old_currnecy = '';$total_collectprince=0;
                 	$db  = new Report_Model_DbTable_DbLoan();
                 ?>
+               <thead>
                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:10px; padding:5px 0px;">
 	                <td style="padding:5px 0px;" rowspan="2">&nbsp;​<?php echo $tr->translate("NUM");?>&nbsp;</td>
 	                <td style="padding:5px 0px;" rowspan="2">&nbsp;​<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
@@ -105,6 +114,7 @@ th{padding: 5px;}
                     <td>&nbsp;សមតុល្យ&nbsp;</td>
                     <td>&nbsp;ភាគរយ&nbsp;</td>
                 </tr>
+                </thead>
                 <?php  $loan_new = 0;
                 $total_capital = 0;
                 $str='';

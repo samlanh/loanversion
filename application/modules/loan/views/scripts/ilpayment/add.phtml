@@ -593,6 +593,8 @@ dojo.ready(function(){
 			name: "loan_number",
 			id: "loan_number",
 			searchAttr: "name",
+			autoComplete: false,
+			queryExpr: "*${0}*",
 			class: 'fullside',
 			onChange: function() {
 				getLaonHasPayByLoanNumber();
@@ -616,6 +618,8 @@ dojo.ready(function(){
 	readOnly:true,
 	id: "client_id",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	class: 'fullside',
 	onChange: function() {
 		if(not_submit==0){
@@ -639,6 +643,8 @@ dojo.ready(function(){
 	readOnly:true,
 	id: "client_code",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	class: 'fullside',
 	onChange: function() {
 		if(not_submit==0){

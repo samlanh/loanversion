@@ -36,6 +36,14 @@
 }
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 th{padding: 5px;}
+
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
+
 </style>
 <?php 
 $db_keycode = new Application_Model_DbTable_DbKeycode();
@@ -78,6 +86,7 @@ $free_day=$key_code['value'];
     <tr>
     	<td id="exportExcel">
             <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
+                <thead>
                  <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 24px;font-size:9px; font-family: 'Khmer OS Content';white-space: nowrap;">
                     <td><?php echo $tr->translate("NUM");?></td>
                     <td><?php echo $tr->translate("BRANCH_NAME");?></td>
@@ -96,6 +105,7 @@ $free_day=$key_code['value'];
                     <td><?php echo $tr->translate("LATE_DAY");?></td>
                     <td><?php echo $tr->translate("PAY_DATE");?></td>
                 </tr>
+                </thead>
                 <?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;
                 	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;
                 	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;

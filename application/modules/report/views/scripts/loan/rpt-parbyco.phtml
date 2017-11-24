@@ -35,6 +35,14 @@ dojo.require("dijit.form.DateTextBox");
 .hover:hover{ background: #ccc;}
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 th{padding: 5px;}
+
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
+
 </style>
 <table width="100%" >
 	<tr>
@@ -71,6 +79,7 @@ th{padding: 5px;}
     <tr>
     	<td id="exportExcel">
             <table width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; white-space: nowrap;" cellspacing="0">
+               <thead>
                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 18px; font-size:11px; padding:10px 0px; ">
                     <td ><?php echo $tr->translate("NUM");?></td>
                     <td ><?php echo $tr->translate("BRANCH_NAME");?></th>
@@ -89,6 +98,7 @@ th{padding: 5px;}
                     <td><?php echo $tr->translate("INTEREST");?></td>
                     <td><?php echo $tr->translate("LATE_AMOUNT");?></td> 
                 </tr>
+                </thead>
                 <?php
                  	$tdollarout = 0; $tdollar_late = $trielout = 0; $trielout_late =0;
                  	$tbathout =0; $tbath_late=0;

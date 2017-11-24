@@ -36,6 +36,14 @@ dojo.require("dijit.form.DateTextBox");
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 th{padding: 5px;}
 .hover:hover{ background:#ccc;}
+
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
+
 </style>
 <table width="100%" >
 	<tr>
@@ -85,11 +93,13 @@ th{padding: 5px;}
                 <?php  if($co_id!=$rs['co_id']){ $record=0;
                 if($key>0){
                 ?>
+                <thead>
                 <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:10px; padding:5px 0px;">
 	                    <td style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>
 	                    <td style="padding:5px 0px;">&nbsp;​<?php echo $tr->translate("ចំនួនកម្ចី");?>&nbsp;</td>
 	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_AMOUNT");?>&nbsp;</td>
 	            </tr>
+	            </thead>
                 <tr class="style" style="font-weight:bold; line-height: 24px;">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
                     <td>&nbsp;<?php echo $count_ld;?>&nbsp;</td>

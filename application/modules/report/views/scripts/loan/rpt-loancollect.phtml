@@ -50,6 +50,14 @@ $client = $this->client;
 }
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 th{padding: 5px;}
+
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
+
 </style>
 <div id="exportExcel">
 	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
@@ -89,6 +97,7 @@ th{padding: 5px;}
 	    <tr>
 	    	<td>
 	            <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%">
+	             <thead>
 	                 <tr class="style" align="center" bgcolor="#ccc" style="white-space: nowrap;">
 	                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("NUM");?></td>
 	                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("BRANCH_NAME");?></td>
@@ -114,6 +123,7 @@ th{padding: 5px;}
 	                    <td  style="text-align:center ;padding:0px 2px;"><?php echo $tr->translate("ប្រាក់សន្សំ");?></td>
 	                 	<td  style="text-align:center ;padding:0px 2px;"><?php echo $tr->translate("TOTAL_PAYMENT");?></td>
 	                </tr>
+	               </thead> 
 	                <?php $amt_r1 = 0;$tir = 0;$amt_r3 = 0;$amt_r4 = 0;$amt_r5 = 0;$total_r=0;
                 	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;$total_b=0;
                 	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;$total_d=0;

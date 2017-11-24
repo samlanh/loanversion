@@ -28,7 +28,9 @@ Class Group_Form_FrmClientBlackList extends Zend_Dojo_Form {
 		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status_search');
 		$_status->setAttribs(array('dojoType'=>$this->filter,
-					'class'=>'fullside'
+					'class'=>'fullside',
+					'autoComplete'=>"false",
+					'queryExpr'=>'*${0}*',
 				));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
@@ -50,7 +52,9 @@ Class Group_Form_FrmClientBlackList extends Zend_Dojo_Form {
 		$branch->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'Onchange'=>'filterClient();'
+				'Onchange'=>'filterClient();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$rows = $db->getAllBranchName();
 		$options=array(''=>'---Select Branch---');
@@ -97,7 +101,10 @@ Class Group_Form_FrmClientBlackList extends Zend_Dojo_Form {
 		));
 		$date->setValue(date('Y-m-d'));
 		$status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
-		$status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
+		$status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+				));
 		$opt = array(
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"));

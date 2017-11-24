@@ -25,7 +25,9 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
     	$branch_name->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
     			'class'=>'fullside',
-    			'required' =>'true'
+    			'required' =>'true',
+    			'autoComplete'=>"false",
+    			'queryExpr'=>'*${0}*',
     	));
     	$rows = $db->getAllBranchName();
     	$options=array(''=>"------Select------");
@@ -41,7 +43,9 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
     			'dojoType'=>'dijit.form.FilteringSelect',
     			'class'=>'fullside',
     			'required' =>'true',
-    			'onchange'=>'getClientInfo(1);'
+    			'onchange'=>'getClientInfo(1);',
+    			'autoComplete'=>"false",
+    			'queryExpr'=>'*${0}*',
     	));
     	$db_co = new Loan_Model_DbTable_DbTransferCo();
     	$row_co = $db_co->getcoinfo();
@@ -57,7 +61,9 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
     			'dojoType'=>'dijit.form.FilteringSelect',
     			'class'=>'fullside',
     			'required' =>'true',
-    			'onchange'=>'getClientInfo(1);'
+    			'onchange'=>'getClientInfo(1);',
+    			'autoComplete'=>"false",
+    			'queryExpr'=>'*${0}*',
     	));
     	$db_zo = new Loan_Model_DbTable_DbTransferZone();
     	$row_zo = $db_zo->getzoneinfo();
@@ -82,6 +88,8 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$co_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 // 				'onchange'=>'getClientInfo();'
 		));
 
@@ -92,7 +100,9 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$formc_co->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-			    'onchange'=>"getClientInfo(2);"
+			    'onchange'=>"getClientInfo(2);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				));
 		$row_froms = $db_co->getcoinfo();
 		$options_from =array(''=>"---Select From CO Name---");
@@ -109,7 +119,9 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$to_co->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"getClientInfo(3);"
+				'onchange'=>"getClientInfo(3);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$row_co = $db_co->getcoinfo();
 		$options_co =array(''=>"---Select To CO Name---");
@@ -125,7 +137,9 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$to_co_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"getClientInfo(4);"
+				'onchange'=>"getClientInfo(4);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$row_froms = $db_co->getcoinfo();
 		$options_from =array(''=>"---Select To CO Code---");
@@ -146,6 +160,8 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		$user_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				//'onchange'=>"getClientInfo(1);"
 		));
 		$row_froms = $db_co->getcoinfo();
@@ -165,11 +181,13 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>'true',
 				'missingMessage'=>'Invalid Module!',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				'class'=>'fullside'));
 		
 		//$id = new Zend_Form_Element_Hidden("id");
 		if($data!=null){	
-			print_r($data);			
+			//print_r($data);			
 			$branch_name->setValue($data['branch_id']);
 			$co_name->setValue($data['code_from']);
 			$formc_co->setValue($data['from']);
@@ -178,7 +196,7 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 			$_status->setValue($data['status']);
 			$_date->setValue($data['date']);
 			$note->setValue($data['note']);
-			$zo_name->setValue($data['zone_name']);
+			//$zo_name->setValue($data['zone_name']);
 			
 		}		
 		

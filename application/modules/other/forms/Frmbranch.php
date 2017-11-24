@@ -21,12 +21,13 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
 		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
+				'class'=>'fullside',
 				'placeholder'=>$this->tr->translate("SEARCH_BRANCH_INFO")
 		));
 		$_title->setValue($request->getParam("adv_search"));
 		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status_search');
-		$_status->setAttribs(array('dojoType'=>$this->filter));
+		$_status->setAttribs(array('dojoType'=>$this->filter,'autoComplete'=>"false" ,'queryExpr'=>'*${0}*','class'=>'fullside',));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),
@@ -74,6 +75,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				'dojoType'=>$this->filter,
 				'class'=>'fullside',
 				'required'=>true,
+				'autoComplete'=>"false" ,'queryExpr'=>'*${0}*',
 				'onkeyup'=>'Caltweenty()'
 		));
 		$select_branch_nameen->setMultiOptions($opt_branch);
@@ -121,6 +123,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$branch_status->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false" ,'queryExpr'=>'*${0}*',
 // 				'readonly'=>true
 				));
 		$options = array(1=>$this->tr->translate("ACTIVE"),
@@ -131,6 +134,7 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 		$branch_display->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false" ,'queryExpr'=>'*${0}*',
 				));
 		$_display_opt = array(
 				1=>$this->tr->translate("NAME_KHMER"),

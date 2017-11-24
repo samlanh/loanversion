@@ -69,7 +69,7 @@ class Application_Form_FrmAdvanceSearch extends Zend_Dojo_Form
 				'required' =>'true'
 		));
 		$rows = $db->getAllBranchName();
-		$options_branch=array(''=>"---ážŸáŸ’ážœáŸ‚áž„ážšáž€áž�áž¶áž˜ážšáž™áŸˆážŸáž¶áž�áž¶---");
+		$options_branch=array(''=>"---ជ្រើសរើសឈ្មោះសាខា---");
 		if(!empty($rows))foreach($rows AS $row){
 			$options_branch[$row['br_id']]=$row['branch_namekh'];
 		}

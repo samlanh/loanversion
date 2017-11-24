@@ -185,6 +185,8 @@ dojo.ready(function(){
 	name: "client_name",
 	id: "client_name",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	value:'<?php echo $this->client_id;?>',
 	class: 'fullside',
 	onChange: function() {
@@ -204,6 +206,8 @@ dojo.ready(function(){
 	name: "client_code",
 	id: "client_code",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	value:'<?php echo $this->client_id;?>',
 	class: 'fullside',
 	onChange: function() {

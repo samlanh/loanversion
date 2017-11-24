@@ -2,6 +2,7 @@
 class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
 {
       public function getAllHoliday($search=null){
+      	//print_r($search);exit();
     	$db = $this->getAdapter();		
           $sql="SELECT id,holiday_name,amount_day,start_date,end_date,status,modify_date,note FROM ln_holiday ";
 //           $where = '';

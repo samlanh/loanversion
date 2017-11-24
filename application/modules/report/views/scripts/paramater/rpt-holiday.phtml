@@ -7,7 +7,7 @@ dojo.require("dijit.form.DateTextBox");
 </script>
 <title><?php echo $tr->translate("LIST HOLIDAY");?></title>
  <form name="frm_rptholiday" action="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-holiday')); ?>" dojoType="dijit.form.Form" method="post">
-<table style="float: right;">
+<table style="font-family: 'Khmer OS Content'; margin: 0 auto;width:28.6cm;">
 	 <tr> 
 		   <td><?php echo $frm->getElement("adv_search");?></td>
 		   <td> <?php echo $frm->getElement("start_date");?></td>
@@ -17,18 +17,26 @@ dojo.require("dijit.form.DateTextBox");
    	  </tr>
 </table>
  </form> 
-<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 <table style="font-family: 'Khmer OS Content'; width:100%;">	
 	<tr>
     	<td align="center">
     	   <div id="divPrint">
     	   <style>
-.style{
-	line-height: 20px;font-size: 11px !important;
-	font-family: 'Khmer OS Battambang';
-}
-th{padding: 5px;}
-</style>
+		.style{
+				line-height: 20px;font-size: 11px !important;
+				font-family: 'Khmer OS Battambang';
+				}
+				
+					table { page-break-inside:auto }
+					  tr{ page-break-inside:avoid; page-break-after:auto; }
+					#header {
+					  display: table-header-group;
+					  page-break-inside:avoid; page-break-after:auto;
+					}
+				
+		th{padding: 5px;}
+		</style>
     	  <table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
@@ -54,6 +62,7 @@ th{padding: 5px;}
 		           </tr>   
             </table>
         <table id="exportExcel" align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
+				    <thead> 
 				    <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
 				        <th ><?php echo $tr->translate("NUM");?></th>
 				        <th ><?php echo $tr->translate("HOLIDAY_NAME");?></th>
@@ -61,6 +70,7 @@ th{padding: 5px;}
 				        <th ><?php echo $tr->translate("AMOUNT_DAY");?></th>
 				        <th ><?php echo $tr->translate("NOTE");?></th>
 				    </tr>
+				     </thead> 
 					<?php $amount_day = 0;
 					 
 					if(!empty($this->holiday_list)) 

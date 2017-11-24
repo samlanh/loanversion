@@ -32,6 +32,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"),
 				-1=>$this->tr->translate("ALL"),
+				'autoComplete'=>"false" ,'queryExpr'=>'*${0}*',
 				);
 				
 		$_status_search->setMultiOptions($_status_opt);
@@ -57,6 +58,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required' =>'true',
+				'autoComplete'=>"false" ,'queryExpr'=>'*${0}*',
 				'Onchange'=>'getStaffCode();'
 		));
 		
@@ -83,6 +85,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_sex = new Zend_Dojo_Form_Element_FilteringSelect('co_sex');
 		$_sex->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false" ,'queryExpr'=>'*${0}*',
 				'class'=>'fullside',
 		));
 		$opt = array(1=>"Male",2=>"Femail");
@@ -93,7 +96,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		
 		$_position = new Zend_Dojo_Form_Element_FilteringSelect('position');
 		$_position->setAttribs(array('dojoType'=>$this->filter,
-				'required'=>'true','class'=>'fullside',));
+				'required'=>'true','class'=>'fullside','autoComplete'=>"false" ,'queryExpr'=>'*${0}*',));
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$opt = $db->getAllStaffPosition(null,1);
@@ -101,7 +104,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		
 		
 		$_department= new Zend_Dojo_Form_Element_FilteringSelect('department_id');
-		$_department->setAttribs(array('dojoType'=>$this->filter,
+		$_department->setAttribs(array('dojoType'=>$this->filter,'autoComplete'=>"false" ,'queryExpr'=>'*${0}*',
 				'required'=>'true','class'=>'fullside','OnChange'=>'popupDepartment()'));
 		
 		$db = new Application_Model_DbTable_DbGlobal();
@@ -135,21 +138,21 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_pob->setAttribs(array('dojoType'=>$this->text,'class'=>'fullside',));
 		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
-		$_status->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
+		$_status->setAttribs(array('dojoType'=>$this->filter,'autoComplete'=>"false" ,'queryExpr'=>'*${0}*','class'=>'fullside',));
 		$_status_opt = array(
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"));
 		$_status->setMultiOptions($_status_opt);
 		
 		$_display=  new Zend_Dojo_Form_Element_FilteringSelect('display');
-		$_display->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
+		$_display->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside','autoComplete'=>"false" ,'queryExpr'=>'*${0}*',));
 		$_display_opt = array(
 				1=>$this->tr->translate("NAME_KHMER"),
 				2=>$this->tr->translate("NAME_ENGLISH"));
 		$_display->setMultiOptions($_display_opt);
 		
 		$_degree=  new Zend_Dojo_Form_Element_FilteringSelect('degree');
-		$_degree->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
+		$_degree->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside','autoComplete'=>"false" ,'queryExpr'=>'*${0}*',));
 		$degree_opt = $db->getAllDegree();
 		$_degree->setMultiOptions($degree_opt);
 		$_degree->setValue($request->getParam('degree'));
@@ -186,6 +189,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_shift->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false" ,'queryExpr'=>'*${0}*',
 				'onchange'=>'Checktime(2)'
 				));
 		$_shift->setMultiOptions($opt_shift);
@@ -195,6 +199,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_workingtime->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false" ,'queryExpr'=>'*${0}*',
 				'onchange'=>'Checktime(1)'
 				));
 		$_workingtime->setMultiOptions($opt_workingtime);

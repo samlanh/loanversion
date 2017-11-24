@@ -34,6 +34,14 @@ dojo.require("dijit.form.DateTextBox");
 }
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 th{padding: 5px;}
+
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
+
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>
@@ -70,6 +78,7 @@ th{padding: 5px;}
     <tr>
     	<td id="exportExcel">
             <table border="1"? style="border-collapse:collapse;border:1px solid #000; font-size:9px; white-space: nowrap;" width="100%" cellspacing="0">
+               <thead>
                  <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 20px; padding: 2px 0px;background:#ccc;">
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
@@ -90,6 +99,7 @@ th{padding: 5px;}
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("COMMUNE_NAME");?>&nbsp;</td>
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("VILLAGE_NAME");?>&nbsp;</td>
                 </tr>
+                </thead>
                <?php 
                $dbvillage = new Application_Model_DbTable_DbGlobal();
                $vill = $dbvillage->getClientByType(null,$clientid=1,$row=1);

@@ -96,6 +96,8 @@ require(["dojo/ready"], function(ready){
 	name: "client_name",
 	id: "client_name",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	class: 'fullside',
 	onChange: function() {
 		member = dijit.byId('client_name').get('value');
@@ -113,6 +115,8 @@ require(["dojo/ready"], function(ready){
 		name: "client_code",
 		id: "client_code",
 		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
 		class: 'fullside',
 		onChange: function() {
 			member = dijit.byId('client_code').get('value');

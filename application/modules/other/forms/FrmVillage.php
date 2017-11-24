@@ -29,7 +29,10 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 		
 		
 		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('search_status');
-		$_status_search->setAttribs(array('dojoType'=>$this->filter));
+		$_status_search->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+				));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),
@@ -85,7 +88,10 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 // 		));
 		
 		$_display =  new Zend_Dojo_Form_Element_FilteringSelect('display');
-		$_display->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
+		$_display->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+				));
 		$_display_opt = array(
 				1=>$this->tr->translate("NAME_KHMER"),
 				2=>$this->tr->translate("NAME_EN"));
@@ -124,7 +130,9 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 				'required'=>'true',
 				'class'=>'fullside',
 				'onchange'=>'filterDistrict();',
-				'invalidMessage'=>false
+				'invalidMessage'=>false,
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				));
 		$_province->setValue($request->getParam("province_name"));
 		
@@ -135,6 +143,8 @@ Class Other_Form_FrmVillage extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>'true',
 				'missingMessage'=>'Invalid Module!',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				'class'=>'fullside'));
 		$_fromdate = new Zend_Dojo_Form_Element_DateTextBox('from_date');
 		$_fromdate->setAttribs(array('dojoType'=>$this->date,

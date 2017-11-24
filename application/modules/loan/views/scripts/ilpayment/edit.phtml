@@ -517,6 +517,8 @@ dojo.ready(function(){
 		name: "loan_number",
 		id: "loan_number",
 		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
 		value: "<?php echo $ilPaymentById["loan_numbers"];?>",
 		class: 'fullside',
 		onChange: function() {
@@ -539,6 +541,8 @@ dojo.ready(function(){
 	name: "client_id",
 	id: "client_id",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	value: "<?php echo $this->client_id;?>",
 	class: 'fullside',
 	onChange: function() {
@@ -562,6 +566,8 @@ dojo.ready(function(){
 	name: "client_code",
 	id: "client_code",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	value: "<?php echo $this->client_id;?>",
 	class: 'fullside',
 	onChange: function() {

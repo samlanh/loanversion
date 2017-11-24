@@ -187,6 +187,8 @@ require(["dojo/ready"], function(ready){
 	name: "client_name",
 	id: "client_name",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	class: 'fullside',
 	onChange: function() {
 		
@@ -207,6 +209,8 @@ require(["dojo/ready"], function(ready){
 	name: "client_code",
 	id: "client_code",
 	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
 	class: 'fullside',
 	onChange: function() {
 		getClientInfo(1);

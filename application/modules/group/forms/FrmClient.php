@@ -82,7 +82,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_branch_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'Onchange'=>'getFunction();'
+				'Onchange'=>'getFunction();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getAllBranchName();
@@ -96,7 +98,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_member->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getGroupCode();'
+				'onchange'=>'getGroupCode();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getClientByType(1);
@@ -167,6 +171,8 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$client_d_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 // 		$opt_client_d_type= $db->getVewOptoinTypeByType(23,1);
 // 		$client_d_type->setMultiOptions($opt_client_d_type);
@@ -198,6 +204,8 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'onchange'=>'filterDistrict();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				
 		));
 		
@@ -222,7 +230,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_district->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'popupCheckDistrict();'
+				'onchange'=>'popupCheckDistrict();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$_commune = new Zend_Dojo_Form_Element_FilteringSelect('commune');
@@ -233,7 +243,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_commune->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'popupCheckCommune();'
+				'onchange'=>'popupCheckCommune();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$_village = new Zend_Dojo_Form_Element_FilteringSelect('village');
@@ -241,7 +253,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required' =>'true',
-				'onchange'=>'popupCheckVillage();'
+				'onchange'=>'popupCheckVillage();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 // 		$rows =  $db->getVillage();
 		$options=array(''=>"------Select------",-1=>"Add New");
@@ -274,7 +288,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_id_no->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		
@@ -296,7 +312,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$job->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'popupJobOption();'
+				'onchange'=>'popupJobOption();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$jobrs = $db->getJobName();
 		$options=array(''=>"------Select------",-1=>"Add New");
@@ -328,7 +346,10 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 				'style'=>'width:98%;min-height:50px;'));
 		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
-		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',));
+		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+				));
 		$_status_opt = array(
 				1=>$this->tr->translate("ACTIVE"),
 				0=>$this->tr->translate("DACTIVE"));

@@ -11,7 +11,8 @@ Class Accounting_Form_Frmexpense extends Zend_Dojo_Form {
 		$account_id->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
 				'class'=>'fullside',
-				'required'=>true
+				'required'=>true,
+				
 				));
 		
 		
@@ -25,7 +26,9 @@ Class Accounting_Form_Frmexpense extends Zend_Dojo_Form {
 		$for_date = new Zend_Dojo_Form_Element_FilteringSelect('for_date');
 		$for_date->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside'
+				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options= array(1=>"1",2=>"2",3=>"3",4=>"4",5=>"5",6=>"6",7=>"7",8=>"8",9=>"9",10=>"10",11=>"11",12=>"12");
 		$for_date->setMultiOptions($options);
@@ -52,7 +55,9 @@ Class Accounting_Form_Frmexpense extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required' =>'true',
 				'class'=>'fullside',
-				'onchange'=>'filterClient();'
+				'onchange'=>'filterClient();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$db = new Application_Model_DbTable_DbGlobal();
@@ -68,7 +73,8 @@ Class Accounting_Form_Frmexpense extends Zend_Dojo_Form {
 		$_stutas ->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-			
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options= array(1=>"ប្រើប្រាស់",0=>"មិនប្រើប្រាស់");
 		$_stutas->setMultiOptions($options);
@@ -99,6 +105,8 @@ Class Accounting_Form_Frmexpense extends Zend_Dojo_Form {
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt = $db->getVewOptoinTypeByType(15,1,3,1);
 		$_currency_type->setMultiOptions($opt);

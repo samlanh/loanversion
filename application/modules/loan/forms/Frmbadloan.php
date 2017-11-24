@@ -21,7 +21,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
     	$_branch_id->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
     			'class'=>'fullside',
-    			'required' =>'true'
+    			'required' =>'true',
+    			'autoComplete'=>"false",
+    			'queryExpr'=>'*${0}*',
     	));
     	$rows = $db->getAllBranchName();
     	$options=array(''=>"---Select Branch Name---");
@@ -37,7 +39,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$client_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getClientInfo();'
+				'onchange'=>'getClientInfo();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt= $db->getClientByTypes(1);
 		$opt[0]='---Select Client Code---';
@@ -48,7 +52,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$client_codeadd->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getClientInfo();'
+				'onchange'=>'getClientInfo();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt= $db->getClientByTypesADD(1);
 		$client_codeadd->setMultiOptions($opt);
@@ -57,7 +63,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$client_name->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-			    'onchange'=>"getClientInfo(1);"
+			    'onchange'=>"getClientInfo(1);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				));
 		$options = $db->getClientByTypes(2);
 		$options[0]='---Select Client Name---';
@@ -68,7 +76,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$client_nameadd->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"getClientInfo(1);"
+				'onchange'=>"getClientInfo(1);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options = $db->getClientByTypesADD(2);
 		$client_nameadd->setMultiOptions($options);
@@ -77,7 +87,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$number_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"getClientInfo(2);"
+				'onchange'=>"getClientInfo(2);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$options = $db->getClientByTypes(3);
@@ -129,6 +141,8 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$_term->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$type_opt = array(
@@ -170,7 +184,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$cash_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required'=>true
+				'required'=>true,
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt = array(''=>"Select Currency Type",2=>"Dollar",1=>'Khmer',3=>"Bath");
 		if($request->getActionName()!='index' AND $request->getActionName()!='rpt-loan-npl' ){
@@ -196,7 +212,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>'true',
 				'missingMessage'=>'Invalid Module!',
-				'class'=>'fullside'));
+				'class'=>'fullside',
+				'autoComplete'=>"false",
+    			'queryExpr'=>'*${0}*',));
 		$_status->setValue($request->getParam('status'));
 		
 		$id = new Zend_Form_Element_Hidden("id");
@@ -222,7 +240,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required' =>'true',
-				'readOnly'=>'readOnly'
+				'readOnly'=>'readOnly',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$_payterm->setMultiOptions($term_opt);
 		
@@ -243,7 +263,8 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		
 		$options = $db->getAllPaymentMethod(null,1);
 		$payment_method= new Zend_Dojo_Form_Element_FilteringSelect("payment_method");
-		$payment_method->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside','readOnly'=>'readOnly'));
+		$payment_method->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside','readOnly'=>'readOnly','autoComplete'=>"false",
+    			'queryExpr'=>'*${0}*',));
 		$payment_method->setMultiOptions($options);
 		
 		$loannumber = new Zend_Dojo_Form_Element_TextBox("loannumber");
@@ -275,7 +296,9 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'popupCheckCO();'
+				'onchange'=>'popupCheckCO();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$options = $db ->getAllCOName(1);
 		$_coid->setMultiOptions($options);

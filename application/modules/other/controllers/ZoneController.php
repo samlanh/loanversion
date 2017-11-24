@@ -44,11 +44,12 @@ class Other_ZoneController extends Zend_Controller_Action {
    			$_data = $this->getRequest()->getPost();
    			$db = new Other_Model_DbTable_DbZone();
    			$db->addZone($_data);
-   			if(!empty($_data['save_new'])){
-   				Application_Form_FrmMessage::message($this->tr->translate('INSERT_SUCCESS'));
-   			}else{
+   			if(!empty($_data['save_close'])){
    				Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'), self::REDIRECT_URL.'/zone/index');
+   			}else{
+   				Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'), self::REDIRECT_URL.'/zone/add');
    			}
+   			Application_Form_FrmMessage::Sucessfull($this->tr->translate('INSERT_SUCCESS'), self::REDIRECT_URL.'/zone/add');
    		}catch(Exception $e){
    			Application_Form_FrmMessage::message($this->tr->translate('INSERT_FAIL'));
    			$err =$e->getMessage();

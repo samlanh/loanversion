@@ -22,7 +22,7 @@ Class Other_Form_FrmStaff extends Zend_Dojo_Form {
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
-		$_title->setAttribs(array('dojoType'=>$this->tvalidate,
+		$_title->setAttribs(array('dojoType'=>$this->tvalidate,'class'=>'fullside',
 				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")
 		));
 		$_title->setValue($request->getParam("adv_search"));
@@ -41,6 +41,7 @@ Class Other_Form_FrmStaff extends Zend_Dojo_Form {
 		$_btn_search->setAttribs(array(
 				'dojoType'=>'dijit.form.Button',
 				'iconclass'=>'dijitIconSearch',
+				'class'=>'fullside',
 		
 		));
 		$_db = new Application_Model_DbTable_DbGlobal();
@@ -49,7 +50,8 @@ Class Other_Form_FrmStaff extends Zend_Dojo_Form {
 		$opt_co = array(''=>$this->tr->translate("SELECT_CO_NAME"));
 		if(!empty($rows))foreach($rows AS $row) $opt_co[$row['co_id']]=$row['co_khname'];
 		$_co = new Zend_Dojo_Form_Element_FilteringSelect('co_khname');
-		$_co->setAttribs(array('dojoType'=>$this->filter,
+		$_co->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside','autoComplete'=>"false",
+						'queryExpr'=>'*${0}*',
 				//'class'=>'fullside',
 		));
 		
@@ -68,7 +70,7 @@ Class Other_Form_FrmStaff extends Zend_Dojo_Form {
 		
 		$_startdate = new Zend_Dojo_Form_Element_DateTextBox('start_date');
 		$_startdate->setAttribs(array('dojoType'=>$this->date,
-				//'class'=>'fullside',
+				'class'=>'fullside',
 				'onchange'=>'CalculateDate();'));
 		$_date = $request->getParam("start_date");
 
@@ -80,7 +82,7 @@ Class Other_Form_FrmStaff extends Zend_Dojo_Form {
 		
 		$_enddate = new Zend_Dojo_Form_Element_DateTextBox('end_date');
 		$_enddate->setAttribs(array('dojoType'=>$this->date,'required'=>'true',
-				//'class'=>'fullside',
+				'class'=>'fullside',
 				));
 		$_date = $request->getParam("end_date");
 		

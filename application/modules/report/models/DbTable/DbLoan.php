@@ -97,6 +97,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$order = " ORDER BY (CASE DAYOFWEEK(v.first_payment) WHEN 1 THEN 8 ELSE DAYOFWEEK(v.first_payment) END),v.first_payment DESC ";
       	return $db->fetchAll($sql.$where.$order);
       }
+      
       public function getAllLoanCo($search = null){//rpt-loan-released
       	$db = $this->getAdapter();
 

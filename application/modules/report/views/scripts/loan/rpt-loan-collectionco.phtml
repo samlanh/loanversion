@@ -40,6 +40,14 @@ $level = $session_user->level;
 	font-family: 'Khmer OS Battambang';
 }
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
+
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
+
 </style>
 <?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;$amt_r5 = 0;$total_r=0;
                 	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;$total_b=0;
@@ -87,6 +95,7 @@ $free_day=$key_code['value'];
 </table>
 <div id="exportExcel">
 <table  width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
+		    <thead>
 		        <tr class="style" bgcolor="#ccc" align="center" style="font-weight:bold; line-height: 24px; font-size:10px; white-space: nowrap; ">
 			      <td rowspan="2"><?php echo $tr->translate("NUM");?></td>
 	                    <td rowspan="2"><?php echo $tr->translate("BRANCH_NAME");?></td>
@@ -115,6 +124,7 @@ $free_day=$key_code['value'];
 	                    <td align="center"><?php echo $tr->translate("ប្រាក់សន្សំ");?></td>	                    
 	                    <td><?php echo $tr->translate("TOTAL");?></td>
 	                </tr>
+	             </thead>
 <?php 
 $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){?>
 	<?php 

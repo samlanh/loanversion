@@ -31,6 +31,14 @@ dojo.require("dijit.form.DateTextBox");
 }
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 th{padding: 5px;}
+
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
+
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>
@@ -66,6 +74,7 @@ th{padding: 5px;}
     <tr>
     	<td id="exportExcel">
             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;white-space: nowrap; " width="100%" cellspacing="0">
+                <thead>
                  <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
                     <th>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
                     <th><?php echo $tr->translate("BRANCH_NAME");?></th>
@@ -83,6 +92,7 @@ th{padding: 5px;}
                     <th><?php echo $tr->translate("LOAN_TYPE");?></th>
                     <th><?php echo $tr->translate("PAMENT_METHOD");?></th>
                 </tr>
+                </thead>
                <?php 
                $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
                $other_fee_r=0; $other_fee_b=0; $other_fee_d=0;$total_r=0;$total_b=0;$total_d=0;

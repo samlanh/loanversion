@@ -42,7 +42,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_payterm->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$_payterm->setMultiOptions($term_opt);
 		
@@ -50,6 +52,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$_currency_type->setMultiOptions($opt);
@@ -60,7 +64,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'=>'fullside',
  				//'onchange'=>'getLaonPayment(3);getAllLaonPayment(3);',
 				'required'=>true,
-				'readOnly'=>'readOnly'
+				'readOnly'=>'readOnly',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				));
 		$rows = $db ->getClientByType();
 		$options=array(''=>'-----Select------');
@@ -74,7 +80,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required'=>true,
-				'readOnly'=>'readOnly'
+				'readOnly'=>'readOnly',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$option_client_number = array(''=>'-----Select------');
@@ -94,7 +102,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'onChange'=>'getLaonHasPayByLoanNumber(1);getLaonPayment(1);getAllLaonPayment(1);',
-				'required'=>true
+				'required'=>true,
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$_loan_number->setMultiOptions($options);
 		
@@ -139,7 +149,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required' =>'true',
-				'OnChange'	=>	'filterLoanNumber();filterClient();'
+				'OnChange'	=>	'filterLoanNumber();filterClient();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$rows = $db->getAllBranchName();
@@ -157,6 +169,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		 						//'onchange'=>'getLoan(1);'
 		));
 		$_coid->setMultiOptions($options);
@@ -169,6 +183,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'readOnly'=>'readOnly',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$_cocode->setMultiOptions($options);
 		
@@ -285,7 +301,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$option_pay->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'OnChange'=>'payOption();'
+				'OnChange'=>'payOption();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$option_status = array(1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម',4=>'បង់ផ្តាច់');
 		$option_pay->setMultiOptions($option_status);
@@ -324,7 +342,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		
 		$options = $db->getAllPaymentMethod(null,1);
 		$payment_method= new Zend_Dojo_Form_Element_FilteringSelect("payment_method");
-		$payment_method->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside','readOnly'=>'readOnly'));
+		$payment_method->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside','readOnly'=>'readOnly','autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',));
 		$payment_method->setMultiOptions($options);
 		
 		$using_date = new Zend_Dojo_Form_Element_DateTextBox("using_date");
@@ -436,7 +455,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required' =>'true',
-				'readOnly'=>'readOnly'
+				'readOnly'=>'readOnly',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$_payterm->setMultiOptions($term_opt);
 		
@@ -444,7 +465,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'readOnly'=>'readOnly'
+				'readOnly'=>'readOnly',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
 		$_currency_type->setMultiOptions($opt);
@@ -471,7 +494,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				//'readOnly'=>'readOnly',
 				//'onchange'=>'getLaonHasPayByLoanNumber(2);getLaonPayment(2);getAllLaonPayment(2);',
-				'required'=>true
+				'required'=>true,
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$option_client_number = array(''=>'-----Select------');
@@ -507,7 +532,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'onChange'=>'getLaonPayment();
 							 getAllLaonPayment();
 							 getPaymentHasByLoan();',
-				'required'=>true
+				'required'=>true,
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$_loan_number->setMultiOptions($options);
 		
@@ -553,7 +580,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required' =>'true',
-				'OnChange'	=>	'filterLoanNumber();'
+				'OnChange'	=>	'filterLoanNumber();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$rows = $db->getAllBranchName();
@@ -572,7 +601,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'readOnly'=>'readOnly'
+				'readOnly'=>'readOnly',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		 						//'onchange'=>'getLoan(1);'
 		));
 		$_coid->setMultiOptions($options);
@@ -584,7 +615,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_cocode->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'readOnly'=>'readOnly'
+				'readOnly'=>'readOnly',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				//'onchange'=>'getLoan(2);'
 		));
 		$_cocode->setMultiOptions($options);
@@ -698,7 +731,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$option_pay->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'OnChange'=>'getPayOption();'
+				'OnChange'=>'getPayOption();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$option_status = array(1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម',4=>'បង់ផ្តាច់');
 		$option_pay->setMultiOptions($option_status);
@@ -744,7 +779,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		
 		$options = $db->getAllPaymentMethod(null,1);
 		$payment_method= new Zend_Dojo_Form_Element_FilteringSelect("payment_method");
-		$payment_method->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside','readOnly'=>'readOnly'));
+		$payment_method->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','class'=>'fullside','readOnly'=>'readOnly',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',));
 		$payment_method->setMultiOptions($options);
 		
 		$using_date = new Zend_Dojo_Form_Element_DateTextBox("using_date");
@@ -807,7 +844,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 				'required' =>'true',
-				'OnChange'	=> 'filterCo();'
+				'OnChange'	=> 'filterCo();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$rows = $db->getAllBranchName();
@@ -824,6 +863,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				//'onchange'=>'getLoan();'
 		));
 		$_coid->setMultiOptions($options);
@@ -835,7 +876,9 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_cocode->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getLoan();'
+				'onchange'=>'getLoan();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$_cocode->setMultiOptions($options);
 		
@@ -976,6 +1019,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				//'onchange'=>'getLoan();'
 		));
 		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");

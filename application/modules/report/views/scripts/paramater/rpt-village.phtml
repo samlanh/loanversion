@@ -91,25 +91,19 @@ $frm = $this->frm_village;
 ?>
 <title><?php echo $tr->translate("RPT_VILLAGE");?></title>
 <form name="frm_rptholiday" action="<?php echo $this->url(array('module'=>'report','controller'=>'paramater','action'=>'rpt-village')); ?>" dojoType="dijit.form.Form" method="post">
-<table style="float: left;">
+<table  style="font-family: 'Khmer OS Content'; margin: 0 auto;width:28.6cm;">
 	<tr>
-		   
-	</tr>
-	<tr>
-		   		<td><?php echo $frm->getElement("adv_search");?></td>
-		   
+		   <td><?php echo $frm->getElement("adv_search");?></td>
 		   	<td><?php  echo $frm->getElement('province_name');?></td>
-		   		<td><?php echo $frm->getElement("from_date");?></td>	   
+		   	<td><?php echo $frm->getElement("from_date");?></td>	   
            	<td><?php echo $frm->getElement("to_date");?></td>
 		    <td><?php echo $frm->getElement('search_status');?></td>
 		    <td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit" name="btn_search" ><?php echo $tr->translate("SEARCH");?></button></td>
    	   </tr>
 </table>
 </form>
-<div style="clear: both;"></div>
-<div style=" width:80%; margin:0 auto;">
-
-<div style=" width:22cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+ 
+<div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 
@@ -117,12 +111,19 @@ $frm = $this->frm_village;
     	<td align="center">
     	<div id="divPrint">
     	<style>
-.style{
-	line-height: 20px;font-size: 11px !important;
-	font-family: 'Khmer OS Battambang';
-}
-th{padding: 5px;}
-</style>
+				.style{
+					line-height: 20px;font-size: 11px !important;
+					font-family: 'Khmer OS Battambang';
+				}
+				th{padding: 5px;}
+				
+					table { page-break-inside:auto }
+					tr{ page-break-inside:avoid; page-break-after:auto; }
+					#header {
+					  display: table-header-group;
+					  page-break-inside:avoid; page-break-after:auto;
+					}
+		</style>
         	<table width="100%" style="font-family:khmer;" style="margin:0; padding:0;border:none;" >
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
@@ -149,6 +150,7 @@ th{padding: 5px;}
 		           </tr>   
             </table>
         	<table id="exportExcel" align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
+				    <thead>
 				    <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
 				        <th ><?php echo $tr->translate("NUM");?></th>
 				        <th ><?php echo $tr->translate("VILLAGE_NAME");?></th>
@@ -159,6 +161,7 @@ th{padding: 5px;}
 				        <th ><?php echo $tr->translate("DATE");?></th>
 				        
 				    </tr>
+				    </thead>
 					<?php 
 					 if(!empty($this->village_list))foreach($this->village_list as $key =>$row){
 					 	?>
@@ -188,4 +191,4 @@ th{padding: 5px;}
 				   </tr>
 			</table>
  </div>
- </div>
+ 

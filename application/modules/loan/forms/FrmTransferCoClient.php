@@ -15,8 +15,11 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
     	$branch_name->setAttribs(array(
     			'dojoType'=>'dijit.form.FilteringSelect',
     			'class'=>'fullside',
-    			'required' =>'true'
+    			'required' =>'true',
+    			'autoComplete'=>"false",
+    			'queryExpr'=>'*${0}*',
     	));
+    	
     	$rows = $db->getAllBranchName();
     	$options=array(''=>"------Select Branch Name------");
     	if(!empty($rows))
@@ -38,14 +41,18 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$co_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"getClientInfo(1);"
+				'onchange'=>"getClientInfo(1);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 	
 		$_member = new Zend_Dojo_Form_Element_FilteringSelect('member');
 		$_member->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getClientInfo(1);'
+				'onchange'=>'getClientInfo(1);',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		
 		$db = new Application_Model_DbTable_DbGlobal();
@@ -56,7 +63,9 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$_customer_code->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				 'onchange'=>'getClientInfo(2);'
+				'onchange'=>'getClientInfo(2);',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$group_opt = $db->getGroupCodeById(1,0,1);//code,individual,option
 		$_customer_code->setMultiOptions($group_opt);
@@ -77,7 +86,9 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$formc_co->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-			    'onchange'=>"getClientInfo(2);"
+			    'onchange'=>"getClientInfo(2);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				));
 		$options = $db->getAllCOName(1);
 		$options['']='---Select To CO---';
@@ -88,7 +99,9 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$name_client->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"getClientInfo(3);"
+				'onchange'=>"getClientInfo(3);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$row_co = $db_co->getcoinfo();
 		$options_co =array(''=>"---Select Client Name---");
@@ -102,7 +115,9 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$code_client->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"getClientInfo(4);"
+				'onchange'=>"getClientInfo(4);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$row_number = $db_co->getcoinfo();
 		$options_numbers=array(''=>"---Select Client Code---");
@@ -116,7 +131,9 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$loan_number->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"getClientInfo(5);"
+				'onchange'=>"getClientInfo(5);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$row_number = $db_co->getcoinfo();
 		$options_from =array(''=>"------Select Loan Number------");
@@ -131,7 +148,9 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$loan_client->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"getClientInfo(3);"
+				'onchange'=>"getClientInfo(3);",
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$loan_clientgroup = $db_co->getcoinfo();
 		$options_loan_client =array(''=>"------Select Client Name------");
@@ -161,6 +180,8 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$user_id->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 		));
 		$row_froms = $db_co->getcoinfo();
 		$options_from =array(''=>"------Select------");
@@ -178,6 +199,8 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required'=>'true',
 				'missingMessage'=>'Invalid Module!',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
 				'class'=>'fullside'));
 		
 		

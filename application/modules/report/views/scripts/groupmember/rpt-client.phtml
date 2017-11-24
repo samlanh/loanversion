@@ -120,12 +120,19 @@ $frms=$this->frm_client;
 <br />
 <div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 <div id="divPrint">
-<style>
-.style{
-	line-height: 20px;font-size: 9px !important;
-	font-family: 'Khmer OS Battambang';
-}
-th{padding: 3px 5px;}
+	<style>
+	.style{
+		line-height: 20px;font-size: 9px !important;
+		font-family: 'Khmer OS Battambang';
+	}
+	th{padding: 3px 5px;}
+	
+	table { page-break-inside:auto }
+	  tr{ page-break-inside:avoid; page-break-after:auto; }
+	#header {
+	  display: table-header-group;
+	  page-break-inside:avoid; page-break-after:auto;
+	}
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
@@ -167,6 +174,7 @@ th{padding: 3px 5px;}
     		<th colspan="3"><?php echo $tr->translate("Join Account Info");?></th>
     		<th rowspan="2"><?php echo $tr->translate("DATE");?></th>
     	</tr>
+    	<thead>
     	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
 	       <th><?php echo $tr->translate("NUM");?></th>
 	       <th><?php echo $tr->translate("BRANCH_NAME");?></th>
@@ -185,6 +193,7 @@ th{padding: 3px 5px;}
 	       <th><?php echo $tr->translate("NUMBER");?></th>
 	       
           </tr>
+          </thead>
           <?php if(!empty($this->client_list)) foreach($this->client_list as $key =>$row){?>
           <a href="" title="ចុចទីនេះដើម្បីបោះពុម្ពបង្កានដៃតម្កល់ទ្រព្យធធានា">
 		   <tr style="font-size: 9px;line-height: 14px;" align="center">

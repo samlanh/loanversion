@@ -27,13 +27,20 @@ dojo.require("dijit.form.DateTextBox");
 </form>
 <div style=" width:26cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint" style="width: 100%;">
-<style>
-.style{
-	line-height: 20px;font-size: 11px !important;
-	font-family: 'Khmer OS Battambang';
-}
-th{padding: 5px;}
-</style>
+	<style>
+		.style{
+			line-height: 20px;font-size: 11px !important;
+			font-family: 'Khmer OS Battambang';
+		}
+		th{padding: 5px;}
+		  
+			table { page-break-inside:auto }
+			  tr{ page-break-inside:avoid; page-break-after:auto; }
+			#header {
+			  display: table-header-group;
+			  page-break-inside:avoid; page-break-after:auto;
+			}
+	</style>
 <table style="font-family: 'Khmer OS Content'; width:100%;" >
 	<tr>
     	<td align="center">

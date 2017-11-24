@@ -35,6 +35,14 @@ $level = $session_user->level;
 }
 .style1:hover{ background: #ccc; }
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
+
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
+
 </style>
 <table width="100%">
 	<tr>
@@ -75,6 +83,7 @@ $saving_amountr = 0;$saving_amountd = 0;$saving_amountb = 0;
              ?>
             <?php if(!empty($this->LoanFee_list)){?>
             <table width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; font-size:10px;" cellspacing="0">
+            	<thead>
             	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:10px; padding:5px 0px; ">
                   <th><?php echo $tr->translate("NUM");?></th>
                   <th><?php echo $tr->translate("BRANCH_NAME");?></th>
@@ -88,7 +97,7 @@ $saving_amountr = 0;$saving_amountd = 0;$saving_amountb = 0;
                   <th><?php echo $tr->translate("OTHER_FEE");?></th>
                   <th style="padding:5px 0px;font-size: 8px;"><?php echo $tr->translate("FOR_LOAN_TYPE");?></th>
                 </tr>
-                
+                </thead>
                 <?php if(!empty($this->LoanFee_list)) foreach ($this->LoanFee_list as $key => $row){ ?>
                 <?php 
                 if($row['curr_type']==1){

@@ -35,6 +35,14 @@ $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង
 .stylehover:hover{background: #ccc;}
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 th{padding: 5px;}
+
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
+
 </style>
 <?php $client_id = null;?>
 <?php $principle_r = 0;$interst_r = 0;$penalize_r = 0;$service_charge_r = 0;$balane_r = 0;
@@ -226,6 +234,7 @@ th{padding: 5px;}
                 <tr>
                 	<td colspan="14" style="border-left:1px solid #fff;border-right:1px solid #fff;">&nbsp;</td>
                 </tr>
+                 <thead>
                   <tr bgcolor="#ccc" class="style stylehover" style="font-weight:bold; line-height: 24px; text-align: center;" >
 	                    <th style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</th>
 	                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_PRINCIPLE");?>&nbsp;</th>
@@ -235,6 +244,7 @@ th{padding: 5px;}
 	                    <th style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("TOTAL_PAYMENTED");?>&nbsp;</th>
 	                    
 	                </tr>
+	                </thead>
                 	 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td colspan="2">&nbsp;<?php echo number_format($principle_d,2);?>&nbsp;</td>
