@@ -12,7 +12,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 	    $to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
 	    $where.= " AND ".$from_date." AND ".$to_date;
 
-        if($search['branch_id']>0){
+     	if($search['branch_id']>0){
     		$where.=" AND branch_id = ".$search['branch_id'];
     	}
     	if($search['zone']>0){
@@ -31,21 +31,23 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	 if(!empty($search['adv_search'])){
       	 	$s_where = array();
       	 	$s_search = addslashes(trim($search['adv_search']));
-      	 	$s_where[] = " branch_name LIKE '%{$s_search}%'";
-      	 	$s_where[] = " loan_number LIKE '%{$s_search}%'";
-      	 	$s_where[] = " client_number LIKE '%{$s_search}%'";
-      	 	$s_where[] = " client_name LIKE '%{$s_search}%'";
-      	 	$s_where[] = " co_name LIKE '%{$s_search}%'";
-      	 	$s_where[] = " total_capital LIKE '%{$s_search}%'";
-      	 	$s_where[] = " other_fee LIKE '%{$s_search}%'";
-      	 	$s_where[] = " admin_fee LIKE '%{$s_search}%'";
-      	 	$s_where[] = " interest_rate LIKE '%{$s_search}%'";
-      	 	$s_where[] = " loan_type LIKE '%{$s_search}%'";
+      	 	$s_search = str_replace(' ', '',$s_search);
+      	 	$s_where[] = " REPLACE(branch_name,' ','')  LIKE '%{$s_search}%'";
+      	 	$s_where[] = " REPLACE(loan_number,' ','')  LIKE '%{$s_search}%'";
+      	 	$s_where[] = " REPLACE(client_number,' ','')LIKE '%{$s_search}%'";
+      	 	$s_where[] = " REPLACE(client_name,' ','')  LIKE '%{$s_search}%'";
+      	 	$s_where[] = " REPLACE(co_name,' ','')  	LIKE '%{$s_search}%'";
+      	 	$s_where[] = " REPLACE(total_capital,' ','')LIKE '%{$s_search}%'";
+      	 	$s_where[] = " REPLACE(other_fee,' ','')  	LIKE '%{$s_search}%'";
+      	 	$s_where[] = " REPLACE(admin_fee,' ','')  	LIKE '%{$s_search}%'";
+      	 	$s_where[] = " REPLACE(interest_rate,' ','')LIKE '%{$s_search}%'";
+      	 	$s_where[] = " REPLACE(loan_type,' ','')  	LIKE '%{$s_search}%'";
       	 	$where .=' AND ( '.implode(' OR ',$s_where).')';
       	 }
-      	 $order = " ORDER BY member_id DESC ";
-      	 return $db->fetchAll($sql.$where.$order);
+      	 //$order = " ORDER BY member_id DESC ";
+      	 return $db->fetchAll($sql.$where);
       }
+      
       public function getAllDailyLoan($search = null){//rpt-loan-released/
       	$db = $this->getAdapter();
       	$end_date = $search['end_date'];
