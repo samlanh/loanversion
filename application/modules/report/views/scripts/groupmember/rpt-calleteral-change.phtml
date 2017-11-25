@@ -40,6 +40,14 @@ dojo.require("dijit.form.DateTextBox");
 			  display: table-header-group;
 			  page-break-inside:avoid; page-break-after:auto;
 			}
+			
+			table { page-break-inside:auto }
+			  tr{ page-break-inside:avoid; page-break-after:auto; }
+			#header {
+			  display: table-header-group;
+			  page-break-inside:avoid; page-break-after:auto;
+			}
+			
 	</style>
 <table style="font-family: 'Khmer OS Content'; width:100%;" >
 	<tr>
@@ -101,10 +109,12 @@ dojo.require("dijit.form.DateTextBox");
                 <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                 <?php } ?>
              <?php ?>
+             <thead>
              	<tr>
              		<td colspan="10">&nbsp;<span class="style"><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_name']; ?></td>
              		<td colspan="3" align="center"><a target="_blank" href="<?php echo $calleteralurl."/id/".$row['client_id'];?>">បោះពុម្ពសំណើរប្តូរឯកសារ</a></td>
              	</tr>
+             </thead>
                 <tr>
                 	<td colspan="6" align="center" bgcolor="#ccc">&nbsp;<span class="style"><?php  echo $tr->translate("FROM_COLL"); ?></td>
                 	<td colspan="7" align="center" bgcolor="#ccc" style="border-left:3px double #000; ">&nbsp;<span class="style"><?php echo $tr->translate("TO_COLL");?> </span></td>

@@ -29,7 +29,7 @@ Class Other_Form_FrmStaff extends Zend_Dojo_Form {
 		
 		
 		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('search_status');
-		$_status_search->setAttribs(array('dojoType'=>$this->filter));
+		$_status_search->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside',));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
 				1=>$this->tr->translate("ACTIVE"),

@@ -26,6 +26,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$_title->setAttribs(array(
 				'dojoType'=>$this->tvalidate,
 				'onkeyup'=>'this.submit()',
+				'class'=>'fullside',
 				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")
 		));
 		$_title->setValue($request->getParam("adv_search"));
@@ -36,6 +37,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 				'onchange'=>'getOwnerInfo();',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
+				'class'=>'fullside',
 		));
 		$group_opt = $db ->getGroupCodeById(1,0,1);//code,individual,option
 		$_client_code->setMultiOptions($group_opt);
@@ -43,7 +45,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		
 		
 		$_status_search=  new Zend_Dojo_Form_Element_FilteringSelect('status_search');
-		$_status_search->setAttribs(array('dojoType'=>$this->filter,'autoComplete'=>"false",
+		$_status_search->setAttribs(array('dojoType'=>$this->filter,'autoComplete'=>"false",'class'=>'fullside',
 				'queryExpr'=>'*${0}*',));
 		$_status_opt = array(
 				-1=>$this->tr->translate("ALL"),
@@ -55,7 +57,9 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$_btn_search = new Zend_Dojo_Form_Element_SubmitButton('btn_search');
 		$_btn_search->setAttribs(array(
 				'dojoType'=>'dijit.form.Button',
-				'iconclass'=>'dijitIconSearch'
+				'iconclass'=>'dijitIconSearch',
+				'class'=>'fullside',
+				'label'=>'Search'
 		));
 		
 		
@@ -85,7 +89,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		if(!empty($rows))foreach($rows AS $row) $options[$row['co_id']]=$row['co_khname'];
 		$co_name->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
-				'onchange'=>'popupCheckCO();',
+				'onchange'=>'popupCheckCO();','class'=>'fullside',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
@@ -100,12 +104,13 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$number_code = new Zend_Dojo_Form_Element_NumberTextBox('number_code');
 		$number_code->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
-				'required'=>true
+				'required'=>true,
+				'class'=>'fullside',
 		));
 		$contract_code = new Zend_Dojo_Form_Element_NumberTextBox('contract_code');
 		$contract_code->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
-				'required'=>true
+				'required'=>true,'class'=>'fullside',
 		));
 		
 		$_code = new Zend_Dojo_Form_Element_NumberTextBox('code');
@@ -120,6 +125,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 				'onchange'=>'checkClientCode()',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
+				'class'=>'fullside',
 		));
 		$options = $db->getGroupCodeById(2,0,1);
 		$clint_name->setMultiOptions($options);
@@ -127,6 +133,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		$owner=new Zend_Dojo_Form_Element_ValidationTextBox('owner');
 		$owner->setAttribs(array(
 				'dojoType'=>'dijit.form.ValidationTextBox',
+				'class'=>'fullside',
 		));
 		
         $db = new Application_Model_DbTable_DbGlobal();
@@ -246,7 +253,7 @@ Class Group_Form_Frmchangecollteral extends Zend_Dojo_Form {
 		
 		$to_date = new Zend_Dojo_Form_Element_DateTextBox('end_date');
 		$to_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
-				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",'class'=>'fullside',
 		));
 		$_date = $request->getParam("end_date");
 		

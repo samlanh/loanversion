@@ -15,13 +15,12 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
           elseif(!empty($search['adv_search'])){
           	$s_where = array();
           	$s_search = $search['adv_search'];
-          	$s_where[] = " holiday_name LIKE '%{$s_search}%'";
-          	$s_where[]=" start_date LIKE '%{$s_search}%'";
-          	$s_where[]=" end_date LIKE '%{$s_search}%'";
-          	$s_where[]=" amount_day LIKE '%{$s_search}%'";
-          	$s_where[]=" note LIKE '%{$s_search}%'";
+          	$s_search = str_replace(' ', '',$s_search);
+          	$s_where[] = "REPLACE(holiday_name,' ','')  LIKE '%{$s_search}%'";
+          	$s_where[]="REPLACE(note,' ','')  			LIKE '%{$s_search}%'";
           	$where .=' AND '.implode(' OR ',$s_where).'';
           }      
+         // echo $sql.$where;
           return $db->fetchAll($sql.$where);
     }
     public function getALLzone($search = null){
@@ -35,9 +34,10 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
     	if(!empty($search['adv_search'])){
     		$s_where = array();
     		$s_search = $search['adv_search'];
-    		$s_where[] = " zone_name LIKE '%{$s_search}%'";
-    		$s_where[]=" zone_num LIKE '%{$s_search}%'";
-    		$s_where[]=" modify_date LIKE '%{$s_search}%'";
+    		$s_search = str_replace(' ', '',$s_search);
+    		$s_where[] = "REPLACE(zone_name,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE(zone_num,' ','')  	 LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE(modify_date,' ','')  LIKE '%{$s_search}%'";
     		$where .=' AND '.implode(' OR ',$s_where).'';
     	}
     	//echo $sql.$where.$Other;
@@ -61,13 +61,14 @@ class Report_Model_DbTable_DbParamater extends Zend_Db_Table_Abstract
     	if(!empty($search['adv_search'])){
     		$s_where = array();
     		$s_search = $search['adv_search'];
-    		$s_where[] =" co_code LIKE '%{$s_search}%'";
-    		$s_where[]=" co_khname LIKE '%{$s_search}%'";
-    		$s_where[]=" co_firstname LIKE '%{$s_search}%'";
-    		$s_where[]=" email LIKE '%{$s_search}%'";
-    		$s_where[]=" tel LIKE '%{$s_search}%'";
-    		$s_where[]=" address LIKE '%{$s_search}%'";
-    		$s_where[]=" national_id LIKE '%{$s_search}%'";
+    		$s_search = str_replace(' ', '',$s_search);
+    		$s_where[] ="REPLACE(co_code,' ','')   LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE(co_khname,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE(co_firstname,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE(email,' ','')       LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE(tel,' ','')         LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE(address,' ','')     LIKE '%{$s_search}%'";
+    		$s_where[]="REPLACE(national_id,' ','') LIKE '%{$s_search}%'";
     		$where .=' AND '.implode(' OR ',$s_where). '';
     	}
     	//echo  $sql.$where.$Other;

@@ -36,6 +36,14 @@ dojo.require("dijit.form.DateTextBox");
 		  display: table-header-group;
 		  page-break-inside:avoid; page-break-after:auto;
 		}
+		
+		table { page-break-inside:auto }
+		  tr{ page-break-inside:avoid; page-break-after:auto; }
+		#header {
+		  display: table-header-group;
+		  page-break-inside:avoid; page-break-after:auto;
+		}
+		
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>
@@ -101,6 +109,7 @@ dojo.require("dijit.form.DateTextBox");
                 <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
                 <?php } ?>
              <?php ?>
+               <thead>
                 <tr class="style">
                 	<td colspan="11" style="background:rgb(237, 237, 237) none repeat scroll 0% 0%"><a style="color:#000;" title="បង្កាន់ដៃតម្កល់ទ្រព្យដាក់ធានា" target="_blank" href="<?php echo $calleteralurl."/id/".$row['client_id'];?>">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_code'].' , '.$row['name_kh'].' - '.$row['client_name']; ?></a></td>
                 </tr>
@@ -117,6 +126,7 @@ dojo.require("dijit.form.DateTextBox");
                     <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("STATUS");?> </td>
                     <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NOTE");?> </td>
                 </tr>
+                </thead>
                 <?php }
                 $id = $row['client_id'];
                 ?>
