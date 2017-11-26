@@ -128,7 +128,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try{
-				$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
+				$_dbmodel = new Loan_Model_DbTable_DbLoandisburse();
 				$_dbmodel->updateLoanById($_data);
 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
 			}catch (Exception $e) {
@@ -140,7 +140,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		$rs = $db_g->getLoanFundExist($id);
 		if($rs==true){ 	Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/index/index");}
-		$db = new Loan_Model_DbTable_DbLoanIL();
+		$db = new Loan_Model_DbTable_DbLoandisburse();
 		$row = $db->getTranLoanByIdWithBranch($id,1);
 		$frm = new Loan_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan($row);

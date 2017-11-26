@@ -16,24 +16,26 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$sql = "SELECT lcrm.`id`,
     				(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lcrm.`branch_id`) AS branch,
-    				(SELECT c.`loan_number` FROM `ln_client_receipt_money_detail` AS c WHERE c.`crm_id` = lcrm.`id` LIMIT 1) AS loan_number,
-					(SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lcrm.`group_id`) AS team_group ,
+					(SELECT loan_number FROM ln_loan l WHERE l.id=lcrm.loan_id LIMIT 1) AS loan_number,
+					(SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lcrm.`client_id`) AS team_group ,
 					lcrm.`receipt_no`,
-					lcrm.`total_principal_permonth`,
-					lcrm.`total_interest`,
-					lcrm.`penalize_amount`,
-					lcrm.`total_payment`,
+					lcrm.`principal_paid`,
+					lcrm.`interest_paid`,
+					lcrm.`penalize_paid`,
+					lcrm.`service_paid`,
 					lcrm.`recieve_amount`,
 					lcrmd.`date_payment`,
 					lcrm.`date_input`,
 				    (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lcrm.`co_id`) AS co_name
-				FROM `ln_client_receipt_money` AS lcrm,`ln_client_receipt_money_detail` AS lcrmd WHERE lcrm.is_group=0 AND lcrm.id=lcrmd.`crm_id`";
+				
+				FROM `ln_client_receipt_money` AS lcrm,
+				`ln_client_receipt_money_detail` AS lcrmd
+    	 WHERE  lcrm.id=lcrmd.`receipt_id`";
     	$where ='';
     	if(!empty($search['advance_search'])){
-    		//print_r($search);
     		$s_where = array();
     		$s_search = str_replace(' ', '', addslashes(trim($search['advance_search'])));
-    		$s_where[] = "REPLACE(lcrmd.`loan_number`,' ','')  LIKE '%{$s_search}%'";
+    		//$s_where[] = "REPLACE(lcrmd.`loan_number`,' ','')  LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE(lcrm.`receipt_no`,' ','')    LIKE '%{$s_search}%'";
     		
     		$where .=' AND ('.implode(' OR ',$s_where).')';
@@ -41,12 +43,11 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     	if($search['status']!=""){
     		$where.= " AND status = ".$search['status'];
     	}
-    	
     	if(!empty($search['start_date']) or !empty($search['end_date'])){
     		$where.=" AND lcrm.`date_input` BETWEEN '$start_date' AND '$end_date'";
     	}
     	if($search['client_name']>0){
-    		$where.=" AND lcrm.`group_id`= ".$search['client_name'];
+    		$where.=" AND lcrm.`client_id`= ".$search['client_name'];
     	}
     	if($search['branch_id']>0){
     		$where.=" AND lcrm.`branch_id`= ".$search['branch_id'];
@@ -57,11 +58,8 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     	if($search['paymnet_type']>0){
     		$where.=" AND lcrm.`payment_option`= ".$search['paymnet_type'];
     	}
-    	
-    	//$where='';
-    	$group_by = " GROUP BY lcrmd.crm_id";
+    	$group_by = " GROUP BY lcrmd.id";
     	$order = " ORDER BY receipt_no DESC";
-//     	echo $sql.$where.$order;
     	return $db->fetchAll($sql.$where.$group_by.$order);
     }
     public function getAllQuickIndividuleLoan($search){

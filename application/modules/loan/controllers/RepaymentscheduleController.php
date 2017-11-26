@@ -148,7 +148,7 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$data=$this->getRequest()->getPost();
 			$db=new Loan_Model_DbTable_DbRepaymentSchedule();
-			$row=$db->getLaoForRepaymentSchedule($data['member_id']);
+			$row=$db->getLaoForRepaymentSchedule($data['loan_id']);
 			print_r(Zend_Json::encode($row));
 			exit();
 		}

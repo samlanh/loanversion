@@ -176,14 +176,6 @@
 							<td><?php  echo $frm->getElement('every_payamount');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("PENAL_AMOUNT")?></td>
-							<td><?php echo $frm->getElement('pay_late');?></td>
-					    </tr>
-					    <tr>
-							<td><?php echo $tr->translate("SAVING_AMOUNT")?></td>
-							<td><?php echo $frm->getElement('deposit');?></td>
-					    </tr>
-						<tr>
 							<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
 							<td><?php echo $frm->getElement('first_payment');?></td>
 					    </tr>
@@ -338,7 +330,7 @@ require(["dojo/ready"], function(ready){
 	searchAttr: "name",
 	autoComplete: false,
 	queryExpr: "*${0}*",
-	value:"<?php echo $this->datarow['client_id'];?>",	     
+	value:"<?php echo $this->datarow['customer_id'];?>",	     
 	onChange: function() {
 		getClientInfo(2);
 }
@@ -354,7 +346,7 @@ require(["dojo/ready"], function(ready){
 		branch_id: "<?php echo $this->datarow['branch_id'];?>"
 	},            
 	required: false,	
-	value:"<?php echo $this->datarow['client_id'];?>",	           
+	value:"<?php echo $this->datarow['customer_id'];?>",	           
 	name: "customer_code",
 	id: "customer_code",
 	class:"fullside",

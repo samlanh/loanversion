@@ -11,7 +11,6 @@ public function init()
 		$_isgroup->setAttribs(array(
 				'dojoType'=>'dijit.form.CheckBox',
 				'class'=>'fullside',
-				// 				'onkeyup'=>'Calcuhundred()'
 		));
 		
 		
@@ -290,28 +289,25 @@ public function init()
 				'required' =>'true'
 		));
 		$_levels->setValue(1);
-// 		$_rate =  new Zend_Dojo_Form_Element_NumberTextBox("interest_rate");
-// 		$_rate->setAttribs(array(
-// 				'data-dojo-Type'=>'dijit.form.NumberTextBox',
-// 				'data-dojo-props'=>"
-// 				'required':true,
-// 				'name':'interest_rate',
-// 				constraints:{pattern:'#,###.####'},
-		
-// 				'class':'fullside',
-// 				'invalidMessage':'អាចបញ្ជូលពី 1 ដល់'
-// 				"));
-		
-
-		$_rate =  new Zend_Dojo_Form_Element_FilteringSelect("interest_rate");
+		$_rate =  new Zend_Dojo_Form_Element_NumberTextBox("interest_rate");
 		$_rate->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'autoComplete'=>"false",
-				'queryExpr'=>'*${0}*',
-				'invalidMessage'=>'អាចបញ្ជូលពី 1 ដល់'));
-		$options = $db->getAllInterest(1);
-		$_rate->setMultiOptions($options);
+				'data-dojo-Type'=>'dijit.form.NumberTextBox',
+				'data-dojo-props'=>"
+				'required':true,
+				'name':'interest_rate',
+				constraints:{pattern:'#,###.####'},
+				'class':'fullside',
+				'invalidMessage':'អាចបញ្ជូលពី 1 ដល់'
+				"));
+// 		$_rate =  new Zend_Dojo_Form_Element_FilteringSelect("interest_rate");
+// 		$_rate->setAttribs(array(
+// 				'dojoType'=>'dijit.form.FilteringSelect',
+// 				'class'=>'fullside',
+// 				'autoComplete'=>"false",
+// 				'queryExpr'=>'*${0}*',
+// 				'invalidMessage'=>'អាចបញ្ជូលពី 1 ដល់'));
+// 		$options = $db->getAllInterest(1);
+// 		$_rate->setMultiOptions($options);
 				
 		$_period = new Zend_Dojo_Form_Element_NumberTextBox('period');
 		$_period->setAttribs(array(
@@ -545,8 +541,8 @@ public function init()
 			$_level->setValue($data['level']);
 			$_loan_fee->setValue($data['admin_fee']);
 			$_other_fee->setValue($data['other_fee']);
-			$_group_code->setValue($data['client_id']);
-			$_customer_code->setValue($data['client_id']);
+			$_group_code->setValue($data['customer_id']);
+			$_customer_code->setValue($data['customer_id']);
 			$_coid->setValue($data['co_id']);
 			$_zone->setValue($data['zone_id']);
 			$_releasedate->setValue($data['date_release']);
@@ -562,18 +558,18 @@ public function init()
 					'value':'".$data['interest_rate']."'"));
 			$_repayment_method->setValue($data['payment_method']);
 			$_graice_pariod->setValue($data['graice_period']);
-			$_time_collect_pri->setValue($data['semi']);
+			//$_time_collect_pri->setValue($data['semi']);
 			$_dateline->setValue($data['date_line']);
 			$_pay_every->setValue($data['pay_term']);
 			$_time_collect->setValue($data['amount_collect_principal']);
 			$_collect_term->setValue($data['collect_typeterm']);
-			$_pay_late->setValue($data['pay_after']);
-			$_paybefore->setValue($data['pay_before']);
-			$_id->setValue($data['g_id']);
-			$_deposit->setValue($data['deposit']);
-			$_group_code->setValue($data['client_id']);
+			$_pay_late->setValue($data['holiday']);
+			$_paybefore->setValue($data['holiday']);
+			$_id->setValue($data['id']);
+			//$_deposit->setValue($data['deposit']);
+			$_group_code->setValue($data['customer_id']);
 // 			$_groupid->setValue($data['client_id']);
-			$get_laonnumber->setvalue($data['g_id']);
+			$get_laonnumber->setvalue($data['id']);
 			$_status->setValue($data['status']);
 			
 			
