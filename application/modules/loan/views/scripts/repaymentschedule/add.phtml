@@ -235,7 +235,7 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 		<td align="center" colspan="3">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
-			<input type="submit"  label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose'	id='saveclose' value='saveclose' dojoType="dijit.form.Button"
+			<input type="button"  onclick="submitDataClose()" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose'	id='saveclose' value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
