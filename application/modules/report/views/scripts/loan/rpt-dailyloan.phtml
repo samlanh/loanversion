@@ -144,7 +144,6 @@ table { page-break-inside:auto }
                <?php } 
                $amount_loan=$amount_loan+1;
                ?>
-               
 					<tr align="center" style="line-height: 18px; white-space: nowrap;" class="hover">
 					<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 					<td >&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
@@ -165,7 +164,7 @@ table { page-break-inside:auto }
 					<td align="center">&nbsp;<?php echo $row['installment_paid']; ?></td>			
 					<td align="center" >&nbsp;<?php echo $row['total_duration']-$row['installment_paid']; ?>&nbsp;</td>	
 					<td align="center" >&nbsp;<?php echo $row['amount_late']; ?>&nbsp;</td>	
-					<td align="left" >&nbsp;<?php echo number_format($row['principle_after']+$row['total_interest_after']+$row['service_charge']+$row['penelize'],2).' '.$row['currency_type']; ?>&nbsp;</td>	
+					<td align="left" >&nbsp;<?php echo number_format($row['principle_after']+$row['total_interest_after'],2).' '.$row['currency_type']; ?>&nbsp;</td>	
 				</tr>
 				<?php  $old=$str_day; }?>
 				<tr align="left" style="line-height: 25px; white-space: nowrap;" class="hover">

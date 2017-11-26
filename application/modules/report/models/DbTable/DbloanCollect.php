@@ -16,9 +16,9 @@ class Report_Model_DbTable_DbloanCollect extends Zend_Db_Table_Abstract
     	 FROM v_newloancolect WHERE 1 ";
     	$where ='';
     	
-    	$from_date =(empty($search['start_date']))? '1': " date_payment >= '".$search['start_date']." 00:00:00'";
-    	$to_date = (empty($search['end_date']))? '1': " date_payment <= '".$search['end_date']." 23:59:59'";
-    	$where= " AND ".$from_date." AND ".$to_date;
+    	//$from_date =(empty($search['start_date']))? '1': " date_payment <= '".$search['end_date']." 00:00:00'";
+    	$to_date = (empty($search['end_date']))? '1': " date_payment = '".$search['end_date']." 00:00:00'";
+    	$where= " AND  ".$to_date;
     	
 //     	if(!empty($search['start_date']) or !empty($search['end_date'])){
 //     		$where.=" AND date_payment BETWEEN '$start_date' AND '$end_date'";
@@ -36,12 +36,11 @@ class Report_Model_DbTable_DbloanCollect extends Zend_Db_Table_Abstract
     		$s_where = array();
     		$s_search = trim(addslashes($search['adv_search']));
     		$s_where[] = " branch_kh LIKE '%{$s_search}%'";
+    		$s_where[] = " loan_number LIKE '%{$s_search}%'";
     		$s_where[] = " co_name LIKE '%{$s_search}%'";
     		$s_where[] = " client_name LIKE '%{$s_search}%'";
-    		$s_where[] = " total_principal LIKE '%{$s_search}%'";
-    		$s_where[] = " principal_permonth LIKE '%{$s_search}%'";
+    		$s_where[] = " principle_after LIKE '%{$s_search}%'";
     		$s_where[] = " total_interest LIKE '%{$s_search}%'";
-    		$s_where[] = " amount_day LIKE '%{$s_search}%'";
     		$s_where[] = " loan_number LIKE '%{$s_search}%'";
     		$where .=' AND ( '.implode(' OR ',$s_where).')';
     	}
@@ -384,35 +383,36 @@ WHERE (`lg`.`g_id` = `g`.`group_id`)
 	public function getALLParBYCO($search=null){
 		$db = $this->getAdapter();
 		$sql=" SELECT
-			  `lg`.`branch_id`      AS `branch_id`,
-			  `lg`.`co_id`          AS `co_id`,
+			  `l`.`branch_id`      AS `branch_id`,
+			  `l`.`co_id`          AS `co_id`,
 			  (SELECT
 			     `ln_co`.`co_khname`
 			   FROM `ln_co`
-			   WHERE (`ln_co`.`co_id` = `lg`.`co_id`) limit 1 ) AS `co_name`,
+			   WHERE (`ln_co`.`co_id` = `l`.`co_id`) LIMIT 1 ) AS `co_name`,
 			  (SELECT
 			     `ln_branch`.`branch_namekh`
 			   FROM `ln_branch`
-			   WHERE (`ln_branch`.`br_id` = `lg`.`branch_id`)
+			   WHERE (`ln_branch`.`br_id` = `l`.`branch_id`)
 			   LIMIT 1) AS `branch_name`,
-			   lm.loan_number,
-			  `lm`.`total_capital`  AS `total_capital`,
-			  `lm`.`interest_rate`  AS `interest_rate`,
-			  `lm`.`currency_type`  AS `curr_type`,
-			  `lm`.`loan_number`    AS `loan_number`,
+			   l.loan_number,
+			  `l`.`loan_amount`  AS `total_capital`,
+			  `l`.`interest_rate`  AS `interest_rate`,
+			  `l`.`currency_type`  AS `curr_type`,
+			  `l`.`loan_number`    AS `loan_number`,
+			  (SELECT SUM(cm.principal_paid) FROM ln_client_receipt_money AS cm WHERE STATUS=1 AND cm.loan_id=l.id) AS principal_paid,
+			  (SELECT SUM(cm.interest_paid) FROM ln_client_receipt_money AS cm WHERE STATUS=1 AND cm.loan_id=l.id) AS interest_paid,
+			  (SELECT SUM(cm.penalize_paid) FROM ln_client_receipt_money AS cm WHERE STATUS=1 AND cm.loan_id=l.id) AS penalize_paid,
+			  (SELECT SUM(cm.service_paid) FROM ln_client_receipt_money AS cm WHERE STATUS=1 AND cm.loan_id=l.id) AS service_paid,
+			  (SELECT SUM(total_paymentpaid) FROM ln_client_receipt_money AS cm WHERE STATUS=1 AND cm.loan_id=l.id) AS total_paymentpaid,
+			  
 			  (SELECT
 			     `ln_currency`.`symbol`
 			   FROM `ln_currency`
-			   WHERE (`ln_currency`.`id` = `lm`.`currency_type`) limit 1) AS `currency_type`
-			FROM ( `ln_loan_group` `lg`
-			   JOIN `ln_loan_member` `lm`)
+			   WHERE (`ln_currency`.`id` = `l`.`currency_type`) LIMIT 1) AS `currency_type`
+			FROM (`ln_loan` `l`)
 			WHERE 
-			       (`lg`.`g_id` = `lm`.`group_id`)
-			       AND `lg`.`is_badloan`=0
-			       AND lg.`status` = 1
-			       AND (`lm`.`status` = 1)
-			       AND (`lm`.`is_completed` = 0)
-			       AND (`lm`.`is_reschedule` <> 1) ";
+			        l.`status` = 1
+			       AND (`l`.`is_completed` = 0) ";
 
 		$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
 		$where= "  AND ".$to_date;
@@ -432,19 +432,16 @@ WHERE (`lg`.`g_id` = `g`.`group_id`)
 			//       		$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 		if($search['co_id']>0){
-			$where.=" AND `lg`.`co_id` = ".$search['co_id'];
+			$where.=" AND `l`.`co_id` = ".$search['co_id'];
 		}
 		if($search['branch_id']>0){
-		     $where.=" AND `lg`.`branch_id` = ".$search['branch_id'];
+		     $where.=" AND `l`.`branch_id` = ".$search['branch_id'];
 		}
 		if($search['currency_type']>0){
-		     $where.=" AND `lm`.`currency_type` = ".$search['currency_type'];
+		     $where.=" AND `l`.`currency_type` = ".$search['currency_type'];
 		}
-		$order = " GROUP BY `lm`.`group_id`
-	      ORDER BY `lm`.`currency_type`,`lg`.`co_id` ";
-		//ORDER BY `lm`.`currency_type`, `lg`.`co_id`
-		//ORDER BY `lg`.`co_id` ,`lm`.`currency_type`
-// 		echo $sql.$where.$order;
+		$order = " GROUP BY `l`.`id`
+	      ORDER BY `l`.`currency_type`,`l`.`co_id` ";
 		return $db->fetchAll($sql.$where.$order);
 	}
 	public function getLoanlateByLoan($loan_number,$search = null){

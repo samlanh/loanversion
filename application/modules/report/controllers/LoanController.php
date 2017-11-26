@@ -47,7 +47,7 @@ function rptLoanDisburseAction(){//release all loan
   				'client_name'=>'',
   				'pay_every'=>-1,
   				'co_id'=>'',
-  				'start_date'=> date('Y-m-d'),
+  				'start_date'=> '',
   				'end_date'=>date('Y-m-d'));
   	}
   	$this->view->loanrelease_list=$db->getAllDailyLoan($search);
@@ -201,7 +201,6 @@ function rptLoanDisburseAction(){//release all loan
   }
   
   function rptLoanLateAction(){
-
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();		
   	}else {
@@ -213,7 +212,6 @@ function rptLoanDisburseAction(){//release all loan
   				'co_id'=>0
   		);
   	}
-  	
   	$db  = new Report_Model_DbTable_DbLoan();
   	$this->view->loanlate_list =$db->getALLLoanlate($search);
   	
@@ -1070,23 +1068,6 @@ function rptLoanTrasferzoneAction(){//release all loan
  		//  		print_r($db->getCalleteralByClient($id));
  }
  function rptDailypaymentAction(){
- 	
- 		
-//  	if($this->getRequest()->isPost()){
-//  		$search = $this->getRequest()->getPost();
-//  	}else{
-//  		$search = array(
-//  		 	'adv_search' => '',
-//  		 	'client_name' => -1,
-//  		 	'start_date'=> date('Y-m-d'),
-//  		 	'end_date'=>date('Y-m-d'),
-//  				'branch_id'		=>	-1,
-//  				'co_id'		=> -1,
-//  				'paymnet_type'	=> -1,
-//  				'status'=>"",);
- 			
-//  	}
- 	
  	$db  = new Report_Model_DbTable_DbLoan();
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
@@ -1106,13 +1087,10 @@ function rptLoanTrasferzoneAction(){//release all loan
  		);
  	}
  	$this->view->loantotalcollect_list =$rs=$db->getCollectDailyPayment($search);
- 
  	$this->view->rsincome= $db->getAllOtherIncomeReport($search);//call frome model
  	$this->view->rsexpense= $db->getAllExpenseReport($search);//call frome model
  	$this->view->LoanFee_list =$db->getALLLFee($search);
  	
- 	// 	$this->view->list_end_date=$search;
- 
  	$this->view->list_end_date = $search;
  	$frm = new Loan_Form_FrmSearchLoan();
  	$frm = $frm->AdvanceSearch();

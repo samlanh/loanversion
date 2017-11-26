@@ -15,6 +15,9 @@ $client = $this->client;
 	$db_keycode = new Application_Model_DbTable_DbKeycode();
 	$key_code= $db_keycode->getSystemSetting(9);
 	$free_day=$key_code['value'];
+	
+	$keyvalue = $db_keycode->getKeyCodeMiniInv();
+	$interest_penalty = $keyvalue['interst_late'];
 ?>
 <style>
 .hover:hover{background: #ccc;}
@@ -86,7 +89,6 @@ table { page-break-inside:auto }
 									<br /><?php echo $tr->translate("TEL_COMPANY");?>
 	                				</td>
 	                				<td></td>
-	                				
 				                </tr>
 			                </table>
 			              </td>
@@ -114,7 +116,6 @@ table { page-break-inside:auto }
 	                    <td rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("បង់លើក");?></td>
 	                    <td colspan="3" style="padding:0px 2px;"><?php echo $tr->translate("PAYMENT");?></td>
 	                    <td rowspan="2" style="text-align:center ;padding:0px 2px;"><?php echo $tr->translate("TOTAL_PAYMENT");?></td>
-	                
 	                </tr>
 	                <tr class="style" bgcolor="#ccc" style="white-space: nowrap;">
 	                    <td style="text-align:center ;padding:0px 2px;"><?php echo $tr->translate("OS_AMOUNT");?></td>
@@ -168,15 +169,6 @@ table { page-break-inside:auto }
 	                    }
 	                    else {
 	                    	$total_late=($row['principle_after']+$row['total_interest_after']);
-// 	                    	if ($pay_term==1){
-// 	                    		$result=$total_pay*($row['pay_after']*($row['interest_rate']/100)/1)*($amount_lateday);
-// 	                    	}
-// 	                    	if ($pay_term==2){
-// 	                    		$result=$total_pay*($row['pay_after']*($row['interest_rate']/100)/7)*($amount_lateday);
-// 	                    	}
-// 	                    	if ($pay_term==3){
-// 	                    		$result=$total_pay*($row['pay_after']*(($row['interest_rate']/100)/30))*($amount_lateday);
-// 	                    	}
 	                    }
 	                    $penelize = $row['penelize']+$result;
 	                    echo str_replace('.00', '', number_format($penelize,2));?>&nbsp;
@@ -191,7 +183,7 @@ table { page-break-inside:auto }
 				               		$amt_r1 = $amt_r1+$row['principle_after'];
 // 				               		$amt_r2 = $amt_r2+$row['total_interest_after'];
 				               		$tir = $tir+$row['total_interest_after'];
-// 				               		echo $row['total_interest_after'];exit();
+// 				               		echo $row['total_interest_after'];
 				               		$amt_r3 = $amt_r3+$penelize;
 				               		$amt_r4 = $amt_r4+$total_payment;
 // 				               		$amt_r5 = $amt_r5+$row['service_charge'];
@@ -287,7 +279,6 @@ table { page-break-inside:auto }
                <?php if(!empty($this->loanlate_list))foreach ($this->loanlate_list as $index => $rs){ ?>
                		<?php $end_dat = $this->list_end_dates;
 	               			$total_pay=($rs['principle_after']+$rs['total_interest_after']);
-	               			//echo $total_pay;
 	               			if ($rs['last_pay_date']==null or $rs['last_pay_date']==""){
 	               				$total_day=strtotime($end_dat)-strtotime($rs['date_payment']);
 	               				$amount_lateday=$total_day/(60*60*24)-$free_day;
@@ -305,15 +296,15 @@ table { page-break-inside:auto }
 	               			}
 	               			else {
 	               				$total_late=($rs['principle_after']+$rs['total_interest_after']);
-// 	               				if ($pay_term==1){
-// 	               					$result=$total_pay*($rs['pay_after']*($rs['interest_rate']/100)/1)*($amount_lateday);
-// 	               				}
-// 	               				if ($pay_term==2){
-// 	               					$result=$total_pay*($rs['pay_after']*($rs['interest_rate']/100)/7)*($amount_lateday);
-// 	               				}
-// 	               				if ($pay_term==3){
-// 	               					$result=$total_pay*($rs['pay_after']*(($rs['interest_rate']/100)/30))*($amount_lateday);
-// 	               				}
+	               				if ($pay_term==1){
+	               					$result=$total_pay*($interest_penalty*($rs['interest_rate']/100)/1)*($amount_lateday);
+	               				}
+	               				if ($pay_term==2){
+	               					$result=$total_pay*($interest_penalty*($rs['interest_rate']/100)/7)*($amount_lateday);
+	               				}
+	               				if ($pay_term==3){
+	               					$result=$total_pay*($interest_penalty*(($rs['interest_rate']/100)/30))*($amount_lateday);
+	               				}
 	               			}
 	               			$penelize = $db->roundhundred($rs['penelize']+$result, $rs['curr_type']);
 	               			$total_payment =$penelize+$rs['principle_after']+$rs['total_interest_after'];

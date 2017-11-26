@@ -749,6 +749,11 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     		$this->update($datagroup, $where);
     		unset($datagroup);
     		
+    		$this->_name='ln_loan_detail';
+    		$where="loan_id =".$loan_id;
+    		$this->delete($where);
+//     		echo $loan_id;exit();
+    		
     		$dbtable = new Application_Model_DbTable_DbGlobal();
     		$remain_principal = $data['total_amount'];
     			$remain_principalirr = $data['total_amount'];
@@ -1174,7 +1179,6 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     		return 1;
     	}catch (Exception $e){
     		$db->rollBack();
-    		echo $e->getMessage();exit();
     		Application_Form_FrmMessage::message("INSERT_FAIL");
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}

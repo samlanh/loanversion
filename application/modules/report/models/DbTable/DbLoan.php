@@ -52,11 +52,11 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$db = $this->getAdapter();
       	$end_date = $search['end_date'];
       	$sql = "SELECT v.*,      		
-      		(SELECT count(d.id) FROM ln_loan_detail as d WHERE d.loan_id AND d.is_completed=0  AND d.date_payment <'".$end_date."'  ORDER BY d.`date_payment` ASC LIMIT 1) AS amount_late,
-      		(SELECT SUM(d.total_principal) FROM  ln_loan_detail as f WHERE d.is_completed=0 AND d.loan_id=v.id AND d.date_payment <'".$end_date."'  LIMIT 1) AS total_principal,
-			(SELECT SUM(d.principle_after) FROM  ln_loan_detail as f WHERE d.is_completed=0 AND l.loan_id=v.id AND d.date_payment <'".$end_date."' LIMIT 1) AS principle_after,
-			(SELECT SUM(d.total_interest_after) FROM  ln_loan_detail as f WHERE d.is_completed=0 AND l.loan_id=v.id AND d.date_payment <'".$end_date."' LIMIT 1) AS total_interest_after,
-			(SELECT SUM(d.total_payment_after) FROM  ln_loan_detail as f WHERE d.is_completed=0 AND l.loan_id=v.id AND d.date_payment <'".$end_date."' LIMIT 1) AS total_payment_after,
+      		(SELECT COUNT(d.id) FROM ln_loan_detail AS d WHERE d.loan_id=v.id AND d.is_completed=0  AND d.date_payment <'2017-11-27'  ORDER BY d.`date_payment` ASC LIMIT 1) AS amount_late,
+      		(SELECT SUM(d.principal_permonth) FROM  ln_loan_detail AS d WHERE d.is_completed=0 AND d.loan_id=v.id AND d.date_payment <'2017-11-27'  LIMIT 1) AS total_principal,
+			(SELECT SUM(d.principle_after) FROM  ln_loan_detail AS d WHERE d.is_completed=0 AND d.loan_id=v.id AND d.date_payment <'2017-11-27' LIMIT 1) AS principle_after,
+			(SELECT SUM(d.total_interest_after) FROM  ln_loan_detail AS d WHERE d.is_completed=0 AND d.loan_id=v.id AND d.date_payment <'2017-11-27' LIMIT 1) AS total_interest_after,
+			(SELECT SUM(d.total_payment_after) FROM  ln_loan_detail AS d WHERE d.is_completed=0 AND d.loan_id=v.id AND d.date_payment <'2017-11-27' LIMIT 1) AS total_payment_after
      	  FROM v_dailyloan AS v WHERE 1 ";
       	$where ='';
       
@@ -87,11 +87,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " v.co_name LIKE '%{$s_search}%'";
       		$s_where[] = " v.total_capital LIKE '%{$s_search}%'";
       		$s_where[] = " v.interest_rate LIKE '%{$s_search}%'";
-      		$s_where[] = " v.loan_type LIKE '%{$s_search}%'";
       		$where .=' AND ( '.implode(' OR ',$s_where).')';
       	}
       	$order = " ORDER BY (CASE DAYOFWEEK(v.first_payment) WHEN 1 THEN 8 ELSE DAYOFWEEK(v.first_payment) END),v.first_payment DESC ";
-      	echo $sql.$where.$order;exit();
       	return $db->fetchAll($sql.$where.$order);
       }
       
@@ -267,7 +265,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  c.`phone`,
 				  l.`loan_amount` as total_capital,
 				  l.`loan_number`,
-				  interest_rate  AS interest_rate,
+				  l.interest_rate  AS interest_rate,
 				  l.`date_release`,
 				  l.`date_line`,
 				  l.`total_duration`,
@@ -323,64 +321,60 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$where.=" AND l.`branch_id` = ".$search['branch_id'];
       	}
         $group_by = " GROUP BY l.`id` ORDER BY d.`date_payment` ASC";
+//         echo $sql.$where.$group_by;exit();
         return $db->fetchAll($sql.$where.$group_by);
       }
+      
 	  public function getAllLoanlateDetail($search = null){
       	$end_date = $search['end_date'];
       	$db = $this->getAdapter();
-      	$sql=" SELECT
-      	CONCAT(`co_firstname`,' ',co.`co_lastname`) AS co_name ,
-      	b.branch_namekh,
-      	co.`co_id`,
-      	c.`client_number`,
-      	c.`name_kh`,
-      	(SELECT `ln_village`.`village_name` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) limit 1) AS `village_name`,
-      	(SELECT ln_commune.`commune_name` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
-      	(SELECT `d`.`district_name` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
-      	(SELECT province_en_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
-      	c.`phone`,
-      	lm.`total_capital`,
-      	lm.`loan_number`,
-      	(SELECT label FROM `in_ln_interest` WHERE `value` = lm.`interest_rate` LIMIT 1) AS interest_rate,
-      	lg.`date_release`,
-      	lg.`date_line`,
-      	lg.`total_duration`,
-      	lg.`time_collect`,
-      	lm.`currency_type` AS curr_type,
-      	lm.`collect_typeterm`,
-      	lm.`pay_after`,
-      	(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = lm.`currency_type` ) limit 1) AS `currency_type`,
-      	(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `lg`.`pay_term`)) limit 1) AS `Term Borrow`,
-      	(SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm` JOIN `ln_client_receipt_money_detail` `crmd`) WHERE ((`crm`.`loan_number` = lm.`loan_number`)
-      	AND (`crm`.`id` = `crmd`.`crm_id`) AND (`crmd`.`lfd_id` = f.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
-      	(f.`total_principal`) AS total_principal,
-      	(f.`principle_after`) AS principle_after,
-      	(f.`total_interest_after`) AS total_interest_after,
-      	(f.`total_payment_after`) AS total_payment_after,
-      	(f.`penelize`) AS penelize,
-      	(f.saving_amount) as saving_amount,
-      	(f.`service_charge`) AS service_charge,
-      	f.`date_payment` ,
-      	COUNT(lm.`group_id`) AS amount_late,
-      	f.`branch_id`
-      	FROM
-      	`ln_loanmember_funddetail` AS f,
-      	`ln_loan_group` AS lg,
-      	`ln_loan_member` AS lm,
-      	`ln_co` AS co,
-      	`ln_client` AS c ,
-      	`ln_branch` AS b
-      	WHERE f.`is_completed` = 0
-      	AND `lg`.`is_badloan`=0
-      	AND lg.`g_id` = lm.`group_id`
-      	AND lm.`member_id` = f.`member_id`
-      	AND lg.`status` = 1
-      	AND lm.`status` = 1
-      	AND f.`status`=1
-      	AND co.`co_id` = lg.`co_id`
-      	AND c.`client_id` = lm.`client_id`
-      	AND b.`br_id`=f.`branch_id`
-      	AND lm.is_reschedule!=1 ";
+      	$sql="SELECT
+		      	CONCAT(`co_firstname`,' ',co.`co_lastname`) AS co_name ,
+		      	b.branch_namekh,
+		      	co.`co_id`,
+		      	c.`client_number`,
+		      	c.`name_kh`,
+		      	(SELECT `ln_village`.`village_name` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) limit 1) AS `village_name`,
+		      	(SELECT ln_commune.`commune_name` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
+		      	(SELECT `d`.`district_name` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
+		      	(SELECT province_en_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
+		      	c.`phone`,
+		      	l.`loan_amount`,
+		      	l.`loan_number`,
+		      	l.`interest_rate`,
+		      	l.`date_release`,
+		      	l.`date_line`,
+		      	l.`total_duration`,
+		      	l.`time_collect`,
+		      	l.`currency_type` AS curr_type,
+		      	l.`collect_typeterm`,
+		      	
+		      	(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) limit 1) AS `currency_type`,
+		      	(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`pay_term`)) limit 1) AS `Term Borrow`,
+		      	(SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm` JOIN `ln_client_receipt_money_detail` `crmd`) WHERE ((`crm`.`id` = `crmd`.`receipt_id`) AND (`crmd`.`lfd_id` = ld.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
+		      	(ld.`principal_permonth`) AS total_principal,
+		      	(ld.`principle_after`) AS principle_after,
+		      	(ld.`total_interest_after`) AS total_interest_after,
+		      	(ld.`total_payment_after`) AS total_payment_after,
+		      	(ld.`penelize`) AS penelize,
+		      	
+		      	ld.`date_payment` ,
+		      	l.`branch_id`
+		    FROM
+		      	`ln_loan_detail` AS ld,
+		      	`ln_loan` AS l,
+		      	`ln_co` AS co,
+		      	`ln_client` AS c ,
+		      	`ln_branch` AS b
+	      	WHERE ld.`is_completed` = 0
+	      		and l.id = ld.loan_id
+		      	AND `l`.`is_badloan`=0
+		      	AND l.`status` = 1
+		      	AND ld.`status` = 1
+		      	AND co.`co_id` = l.`co_id`
+		      	AND c.`client_id` = l.`customer_id`
+		      	AND b.`br_id`=l.`branch_id`
+		      	AND l.is_reschedule!=1 ";
       	$where='';
       	if(!empty($search['adv_search'])){
       		$s_search = addslashes(trim($search['adv_search']));
@@ -401,17 +395,20 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if(($search['client_name']>0)){
       		$where.=" AND lm.`client_id` =".$search['client_name'];//before use collect by
       	}
-      	$from_date =(empty($search['start_date']))? '1': "  f.date_payment > '".$search['start_date']." 00:00:00'";
-      	$to_date = (empty($search['end_date']))? '1': "  f.date_payment < '".$search['end_date']."  00:00:00'";
+      	$from_date =(empty($search['start_date']))? '1': "  ld.date_payment > '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': "  ld.date_payment < '".$search['end_date']."  00:00:00'";
       	$where.= " AND ".$from_date." AND ".$to_date;
       	
       	if($search['branch_id']>0){
       		$where.=" AND f.`branch_id` = ".$search['branch_id'];
       	}
-      	$group_by = " GROUP BY lm.`member_id`,f.`date_payment` ORDER BY f.`date_payment` ASC";
+      	$group_by = " GROUP BY l.`customer_id`,ld.`date_payment` ORDER BY ld.`date_payment` ASC";
       	//$group_by = " GROUP BY lm.`member_id` ORDER BY f.`date_payment` ASC";
+      	//echo $sql.$where.$group_by;
       	return $db->fetchAll($sql.$where.$group_by);
       }
+      
+      
       public function getALLLoandateline(){
       	//$to_date = (empty($search['to_date']))? '1': "date_payment <= '".$search['to_date']." 23:59:59'";
       	$db = $this->getAdapter();
@@ -623,58 +620,56 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  crm.`co_id`,
 				  crm.`payment_option`,
 				  crm.`recieve_amount`,
-				  crmd.`loan_number`,
-				  (SELECT c.`phone` FROM ln_client AS c WHERE c.`client_id`=crmd.`client_id`) AS phone,
+				  l.`loan_number`,
+				  (SELECT c.`phone` FROM ln_client AS c WHERE c.`client_id`=l.`customer_id`) AS phone,
 				  (SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=crm.`branch_id`) AS branch,
 				  (SELECT CONCAT(c.`co_code`,'-',c.`co_khname`,'-',c.`co_firstname`,' ',c.`co_lastname`) FROM ln_co AS c WHERE c.`co_id`=crm.`co_id`) AS co_name,
-				  (SELECT c.`client_number` FROM ln_client AS c WHERE c.`client_id`=crmd.`client_id`) AS client_code,
-				  (SELECT c.`name_kh` FROM ln_client AS c WHERE c.`client_id`=crmd.`client_id`) AS client_name,
-				  lg.`loan_type`,
-				  lg.`total_duration`,
-				  lg.`time_collect`,
-				  lg.`collect_typeterm`,
-				  lg.`date_release`,
-				  lg.`date_line`,
-				  (SELECT `in_ln_interest`.`label`  FROM `in_ln_interest`  WHERE (`in_ln_interest`.`value` = lm.`interest_rate`) LIMIT 1) AS `interest_rate`,
-				  lm.`total_capital` as capital,
-				 `crm`.`total_principal_permonth` AS `principle_amount`,
-				 (crm.`total_interest`) AS interest,
+				  (SELECT c.`client_number` FROM ln_client AS c WHERE c.`client_id`=l.`customer_id`) AS client_code,
+				  (SELECT c.`name_kh` FROM ln_client AS c WHERE c.`client_id`=l.`customer_id`) AS client_name,
+				  l.`loan_type`,
+				  l.`total_duration`,
+				  l.`time_collect`,
+				  l.`collect_typeterm`,
+				  l.`date_release`,
+				  l.`date_line`,
+				  (SELECT `in_ln_interest`.`label`  FROM `in_ln_interest`  WHERE (`in_ln_interest`.`value` = l.`interest_rate`) LIMIT 1) AS `interest_rate`,
+				  l.`loan_amount` as capital,
+				 `crm`.`principal_amount` AS `principal_amount`,
+				 (crm.`interest_amount`) AS interest,
 				 (crm.`penalize_amount`) AS penelize,
-				 (crm.`service_charge`) AS service,
-				 crm.saving_amount,
+				 (crm.`service_chargeamount`) AS service,
 				 crm.`currency_type` AS curr_type,
 				 crmd.`date_payment`,
 				 
 				(crm.`return_amount`) AS return_amount,
 				
 				(`crm`.`total_payment`) AS `payment`,
-				SUM(crmd.`capital`) AS total_printciple,
-				SUM(crmd.`principal_permonth`) AS total_principal_permonth,
-				SUM(crmd.`total_payment`) AS total_payment,
-				SUM(crmd.`total_interest`) AS total_interest,
-				SUM(crmd.`total_recieve`) AS recieve_amount,
-				SUM(crmd.`penelize_amount`) AS penelize_amount,
-				SUM(crmd.`service_charge`) AS service_charge,
+				crm.principal_amount AS principal_amount,
+				crm.interest_amount AS total_interest,
+				crm.`recieve_amount` AS recieve_amount,
+				crmd.`penelize_amount` AS penelize_amount,
+				crm.`service_chargeamount` AS service_charge,
 				(crm.`recieve_amount`) AS amount_recieve,
 				
 				(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = crm.`currency_type`)) AS `currency_type`,
-      			(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = (SELECT lg.`pay_term` FROM `ln_loan_group` AS lg WHERE lg.`g_id`=(SELECT `group_id` FROM `ln_loan_member` AS lm WHERE lm.`member_id`=(SELECT f.`member_id` FROM `ln_loanmember_funddetail` AS f WHERE f.`id`=crmd.`lfd_id`)))))) AS name_en
+      			(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = l.`pay_term` ))) AS name_en
 				FROM
 				  `ln_client_receipt_money` AS crm,
 				  `ln_client_receipt_money_detail` AS crmd,
-				  `ln_loan_member` AS lm,
-				  `ln_loan_group` AS lg,
-				  `ln_loanmember_funddetail` AS lf 
-				WHERE crmd.`lfd_id` = lf.`id` 
-				AND crmd.`crm_id`=crm.`id`
-				  AND lf.`member_id`=lm.`member_id`
-				  AND lm.`group_id`=lg.`g_id` ";
+				  `ln_loan` AS l,
+				  `ln_loan_detail` AS ld
+				WHERE crmd.`lfd_id` = ld.`id` 
+				  AND crmd.`receipt_id`=crm.`id`
+				  AND l.`customer_id`=crm.`client_id`
+				  and l.id = ld.loan_id
+				  and l.id = crm.loan_id
+				  ";
       	$where ='';
       	if(!empty($search['advance_search'])){
       		//print_r($search);
       		$s_where = array();
       		$s_search = addslashes(trim($search['advance_search']));
-      		$s_where[] = " crmd.`loan_number` LIKE '%{$s_search}%'";
+      		$s_where[] = " l.`loan_number` LIKE '%{$s_search}%'";
       		$s_where[] = " crm.`receipt_no` LIKE '%{$s_search}%'";
       		$s_where[] = " crmd.`total_payment` LIKE '%{$s_search}%'";
       		$s_where[] = " crmd.`total_interest` LIKE '%{$s_search}%'";
@@ -703,7 +698,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	}
       	 
       //	`d`.`crm_id`
-      	$groupby="  GROUP BY crmd.`crm_id` ORDER BY crm.`co_id` ASC , crm.`date_input` DESC ";
+      	$groupby="  GROUP BY crmd.`receipt_id` ORDER BY crm.`co_id` ASC , crm.`date_input` DESC ";
       	return $db->fetchAll($sql.$where.$groupby);
       }
       public function getALLLFee($search=null){
@@ -934,6 +929,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		if(!empty($search['cash_type'])){
       			$where.=" AND `curr_type` = ".$search['cash_type'];
       		}
+      		//echo $sql.$where;
       		return $db->fetchAll($sql.$where);
       }
       public function getAllxchange($search = null){
@@ -1655,6 +1651,7 @@ AND cl.client_id = $client_id )";
       		return $db->fetchAll($sql.$where.$order);
       
       }
+      
 //       function getAmountReceiveByLoanNumber($loan_number,$from_date=null){
 //       	$db = $this->getAdapter();
 //       	$sql="

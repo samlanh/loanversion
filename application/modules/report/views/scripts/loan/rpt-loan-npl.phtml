@@ -120,7 +120,7 @@ table { page-break-inside:auto }
                		<td style="font-size: 11px;text-align: center; white-space:nowrap;">&nbsp;<?php echo date("d/m/Y",strtotime($rs["date_line"]));?>&nbsp;</td>
                		<td style="font:bolder 11px Arial ;text-align: right;">&nbsp;<?php 
                		$db = new Report_Model_DbTable_DbLoan();
-               		$total_receive = $db->getAmountReceiveByLoanNumber($rs['loan_number']);
+               		$total_receive = $rs['principal_paid'];//$db->getAmountReceiveByLoanNumber($rs['loan_number']);
                		$total_receive = $rs["total_capital"] - $total_receive;
                		echo number_format($total_receive,2).'&nbsp;'.$rs['currency_type'];
                		

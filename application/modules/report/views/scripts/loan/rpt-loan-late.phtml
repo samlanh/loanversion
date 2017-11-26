@@ -47,8 +47,11 @@ table { page-break-inside:auto }
 </style>
 <?php 
 $db_keycode = new Application_Model_DbTable_DbKeycode();
+$keyvalue = $db_keycode->getKeyCodeMiniInv();
+$interest_penalty = $keyvalue['interst_late'];
 $key_code= $db_keycode->getSystemSetting(9);
 $free_day=$key_code['value'];
+
 ?>
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
@@ -128,35 +131,36 @@ $free_day=$key_code['value'];
                		<td align="right" style="white-space: nowrap;">&nbsp;
                			<?php $end_dat = $this->list_end_date;
 	               			$total_pay=($rs['principle_after']+$rs['total_interest_after']);
-// 	               			if ($rs['last_pay_date']==null or $rs['last_pay_date']==""){
-// 	               				$total_day=strtotime($end_dat)-strtotime($rs['date_payment']);
-// 	               				$amount_lateday=$total_day/(60*60*24)-$free_day;
-// 	               				$total_late_day=$total_day/(60*60*24);
-// 	               			}else {
-// 	               				$total_day=strtotime($end_dat)-strtotime($rs['last_pay_date']);
-// 	               				$total_late_day=$total_day/(60*60*24);
-// 	               				$amount_lateday=$total_day/(60*60*24);
-// 	               			}
-// 	               			$pay_term=$rs['collect_typeterm'];
-// 	               			if($amount_lateday<0){
-// 	               				$amount_lateday=0;
-// 	               				$result=0;
-// 	               			}
-// 	               			else {
-// 	               				$total_late=($rs['principle_after']+$rs['total_interest_after']);
-// 	               				if ($pay_term==1){
-// 	               					$result=$total_pay*($rs['pay_after']*($rs['interest_rate']/100)/1)*($amount_lateday);
-// 	               				}
-// 	               				if ($pay_term==2){
-// 	               					$result=$total_pay*($rs['pay_after']*($rs['interest_rate']/100)/7)*($amount_lateday);
-// 	               				}
-// 	               				if ($pay_term==3){
-// 	               					$result=$total_pay*($rs['pay_after']*(($rs['interest_rate']/100)/30))*($amount_lateday);
-// 	               				}
-// 	               			}
+	               			if ($rs['last_pay_date']==null or $rs['last_pay_date']==""){
+	               				$total_day=strtotime($end_dat)-strtotime($rs['date_payment']);
+	               				$amount_lateday=$total_day/(60*60*24)-$free_day;
+	               				$total_late_day=$total_day/(60*60*24);
+	               			}else {
+	               				$total_day=strtotime($end_dat)-strtotime($rs['last_pay_date']);
+	               				$total_late_day=$total_day/(60*60*24);
+	               				$amount_lateday=$total_day/(60*60*24);
+	               			}
+	               			
+	               			$pay_term=$rs['collect_typeterm'];
+	               			if($amount_lateday<0){
+	               				$amount_lateday=0;
+	               				$result=0;
+	               			}
+	               			else {
+	               				$total_late=($rs['principle_after']+$rs['total_interest_after']);
+	               				if ($pay_term==1){
+	               					$result=$total_pay*($interest_penalty*($rs['interest_rate']/100)/1)*($amount_lateday);
+	               				}
+	               				if ($pay_term==2){
+	               					$result=$total_pay*($interest_penalty*($rs['interest_rate']/100)/7)*($amount_lateday);
+	               				}
+	               				if ($pay_term==3){
+	               					$result=$total_pay*($interest_penalty*(($rs['interest_rate']/100)/30))*($amount_lateday);
+	               				}
+	               			}
 	               			$penelize = $rs['penelize']+$result;
 	               			$total_payment = $penelize+$rs['principle_after']+$rs['total_interest_after'];
-//                				echo number_format($penelize,2).' '.$rs['currency_type'];
+               				echo number_format($penelize,2).' '.$rs['currency_type'];
                			?>&nbsp;
                		</td>
                		<td align="right" style="white-space: nowrap;">&nbsp;<?php echo number_format($total_payment,2).' '.$rs['currency_type'];?>&nbsp;</td>
@@ -170,21 +174,21 @@ $free_day=$key_code['value'];
 // 		               		$amt_r1 = $amt_r1+$rs['total_principal'];
 		               		$amt_r2 = $amt_r2+$rs['principle_after'];
 		               		$amt_r3 = $amt_r3+$rs['total_interest_after'];
-// 		               		$pene_amr=$pene_amr+$penelize;
+		               		$pene_amr=$pene_amr+$penelize;
 // 		               		$amt_r4 = $amt_r4+$total_payment;
 // 		               		$serv_amr = $serv_amr+$rs["service_charge"];
 		               }elseif($rs['curr_type']==2){
 // 							$amt_d1 = $amt_d1+$rs['total_principal'];
 							$amt_d2 = $amt_d2+$rs['principle_after'];
 							$amt_d3 = $amt_d3+$rs['total_interest_after'];
-// 							$pene_amd=$pene_amd+$penelize;
+							$pene_amd=$pene_amd+$penelize;
 // 							$amt_d4 = $amt_d4+$total_payment;
 // 							$serv_amd = $serv_amd+$rs["service_charge"];
 		               }else{
 // 		               		$amn_b1 = $amn_b1+$rs['total_principal'];
 							$amn_b2 = $amn_b2+$rs['principle_after'];
 							$amn_b3 = $amn_b3+$rs['total_interest_after'];
-// 							$pene_amb= $pene_amb+$penelize;
+							$pene_amb= $pene_amb+$penelize;
 // 							$amn_b4 = $amn_b4+$total_payment;
 // 							$serv_amb = $serv_amb+$rs["service_charge"];
 		               }
@@ -209,21 +213,21 @@ $free_day=$key_code['value'];
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($pene_amd,2);?>&nbsp;</td>
-                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d4,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d2+$amt_d3+$pene_amd,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r2,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_r3,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($pene_amr,2);?>&nbsp;</td>
-                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r4,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r2+$amt_r3+$pene_amr,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style="line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
-                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
-                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($pene_amb,2);?>&nbsp;</td>
-                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b4,2);?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b2+$amn_b3+$pene_amb,2);?>&nbsp;</td>
                 </tr>
               </table>
               <br />

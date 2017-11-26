@@ -221,8 +221,8 @@ table { page-break-inside:auto }
              	<?php  
                         $total_interest_rate =  $total_interest_rate+$rs['interest_rate'];          
                		    
-                        $resultcollect = $db->getReceiveByLoanNumber($rs['loan_number'],$this->search);
-               		    $total_receive = $resultcollect['total_collectprinciple'];
+                        //$resultcollect = $db->getReceiveByLoanNumber($rs['loan_number'],$this->search);
+               		    $total_receive = $rs['total_paymentpaid'];
 	               		$search = array(
 	               				'adv_search'=>	"",
 	               				'client_name'=>$this->list_end_date['client_name'],
