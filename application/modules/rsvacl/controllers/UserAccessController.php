@@ -30,7 +30,7 @@ class RsvAcl_UserAccessController extends Zend_Controller_Action
     		);
     		$this->view->list=$list->getCheckList(0,$collumns, $result,array('user_type'=>$link,'title'=>$link));
     		if (empty($result)){
-    			$result = array('err'=>1, 'msg'=>'មិនទាន់មានទិន្នន័យនៅឡើយ!');
+    			$result = array('err'=>1, 'msg'=>'áž˜áž·áž“áž‘áž¶áž“áŸ‹áž˜áž¶áž“áž‘áž·áž“áŸ’áž“áž“áŸ�áž™áž“áŸ…áž¡áž¾áž™!');
     		}		
     	} catch (Exception $e) {
     		$result = Application_Model_DbTable_DbGlobal::getResultWarning();
@@ -108,20 +108,41 @@ public function addAction()
     			//Display all for admin id = 1
     			//Do not change admin id = 1 in database
     			//Otherwise, it error
-    			$sql = "select acl.acl_id,acl.controller,acl.label,acl.action,CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access
-    			from rms_acl_acl as acl
-    			WHERE acl.status=1 " . $where;
+    			$sql = "select 
+    						acl.acl_id,
+    						acl.label,
+    						CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access ,
+    						acl.status, 
+    						acl.module, 
+    						acl.is_menu
+		    			from 
+    						rms_acl_acl as acl 
+    					WHERE 1 " . $where;
     		}
     		 
     		else {
     			//Display all of his/her parent access
-    			$sql="SELECT acl.acl_id,acl.controller,acl.label,acl.action,CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status
-    			FROM rms_acl_user_access AS ua
-    			INNER JOIN rms_acl_user_type AS ut ON (ua.user_type_id = ut.parent_id)
-    			INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE acl.status=1 AND ut.user_type_id =".$id . $where;
+    			$sql="SELECT 
+    					acl.acl_id,
+    					acl.label, 
+    					CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, 
+    					acl.status, 
+    					acl.module, 
+    					acl.is_menu
+    				FROM 
+    					rms_acl_user_access AS ua
+    				INNER JOIN 
+    					rms_acl_user_type AS ut ON (ua.user_type_id = ut.parent_id)
+    				INNER JOIN 
+    					rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) 
+    				WHERE 
+    					ut.user_type_id = ".$id . $where;
     		}
+    		
+    		$order = " order by acl.module ASC, acl.rank ASC,acl.controller ASC,acl.is_menu DESC ";
+    		
     		//echo $sql; exit;
-    		$acl=$db_acl->getGlobalDb($sql);
+    		$acl=$db_acl->getGlobalDb($sql.$order);
     		$acl = (is_null($acl))? array(): $acl;
     		//print_r($acl);
     		$this->view->acl=$acl;		
@@ -129,24 +150,44 @@ public function addAction()
     		if(!$usernotparentid){
     			///Display only of his/her parent access	and not have user_type_id of user access in user type parent id
     			//ua.user_type_id != ut.parent_id
-    			$sql_acl = "SELECT acl.acl_id,acl.label, CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status
-    			FROM rms_acl_user_access AS ua
-    			INNER JOIN rms_acl_user_type AS ut ON (ua.user_type_id = ut.user_type_id)
-    			INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE acl.status=1 AND ua.user_type_id =".$id . $where;
+    			$sql_acl = "SELECT 
+    							acl.acl_id,
+    							acl.label, 
+    							CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, 
+    							acl.status
+    						FROM 
+    							rms_acl_user_access AS ua
+    						INNER JOIN 
+    							rms_acl_user_type AS ut ON (ua.user_type_id = ut.user_type_id)
+    						INNER JOIN 
+    							rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) 
+    						WHERE 
+    							ua.user_type_id =".$id . $where;
     		}else{
     			//Display only he / she access in rsv_acl_user_access
-    			$sql_acl = "SELECT acl.acl_id,acl.label, CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, acl.status
-    			FROM rms_acl_user_access AS ua
-    			INNER JOIN rms_acl_user_type AS ut ON (ua.user_type_id = ut.parent_id)
-    			INNER JOIN rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) WHERE acl.status=1 AND ua.user_type_id =".$id . $where;
+    			$sql_acl = "SELECT 
+    							acl.acl_id,
+    							acl.label, 
+    							CONCAT(acl.module,'/', acl.controller,'/', acl.action) AS user_access, 
+    							acl.status, 
+    							acl.is_menu
+    						FROM 
+    							rms_acl_user_access AS ua
+			    			INNER JOIN 
+			    				rms_acl_user_type AS ut ON (ua.user_type_id = ut.parent_id)
+			    			INNER JOIN 
+    							rms_acl_acl AS acl ON (acl.acl_id = ua.acl_id) 
+    						WHERE 
+    							ua.user_type_id = ".$id . $where;
     		}
     	
-    		$acl_name=$db_acl->getGlobalDb($sql_acl);
+    		$acl_name=$db_acl->getGlobalDb($sql_acl.$order);
     		$acl_name = (is_null($acl_name))? array(): $acl_name;
     			
     		$imgnone='<img src="'.BASE_URL.'/images/icon/none.png"/>';
     		$imgtick='<img src="'.BASE_URL.'/images/icon/tick.png"/>';
     			
+    		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     		$rows= array();
     		foreach($acl as $com){
     			$img='<img src="'.BASE_URL.'/images/icon/none.png" id="img_'.$com['acl_id'].'" onclick="changeStatus('.$com['acl_id'].','.$id.');" class="pointer"/>';
@@ -163,16 +204,14 @@ public function addAction()
     				if($tmp_status !== $status) continue;
     			}
     			
-    			$lbl_controller = $tr->translate(strtoupper($com['controller']));
-    			if($com['action']!='index'){
-    			  $lbl_controller=$tr->translate(strtoupper($com['action'])).$lbl_controller;
-    			}
-    			$rows[] = array($com['acl_id'],$lbl_controller, $com['user_access'], $img) ;
+    			$rows[] = array("acl_id"=>$com['acl_id'],"label"=>$tr->translate($com['label']), "url"=>$com['user_access'], "img"=>$img,"module"=>$com['module'] , "is_menu"=>$com['is_menu']) ;
     		}
     	
+    		$this->view->rows = $rows;
+    		
 //     		$list=new Application_Form_Frmlist();
     		$list = new Application_Form_Frmtable();
-    		
+    		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     		$columns=array("Label",$tr->translate('URL'), $tr->translate('STATUS'));
     		$this->view->list = $list->getCheckList('radio', $columns, $rows);
     			
