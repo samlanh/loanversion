@@ -81,6 +81,7 @@ class Loan_TransfercoController extends Zend_Controller_Action {
 		}
 		$data = $db->getAllinfoTransfer($id);
 		$fm = new Loan_Form_FrmTransfer();
+		$fm->FrmTransfer($data);
 		if(empty($data)){
 			Application_Form_FrmMessage::Sucessfull("NO_DATA","/loan/transferco/");
 		}

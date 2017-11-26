@@ -189,10 +189,10 @@ Class Loan_Form_FrmTransfer extends Zend_Dojo_Form {
 		if($data!=null){	
 			//print_r($data);			
 			$branch_name->setValue($data['branch_id']);
-			$co_name->setValue($data['code_from']);
+			$co_name->setValue($data['from']);
 			$formc_co->setValue($data['from']);
 			$to_co->setValue($data['to']);
-			$to_co_code->setValue($data['code_to']);			
+			$to_co_code->setValue($data['to']);			
 			$_status->setValue($data['status']);
 			$_date->setValue($data['date']);
 			$note->setValue($data['note']);

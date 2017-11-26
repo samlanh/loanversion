@@ -179,7 +179,6 @@ dojo.require("dijit.form.Textarea");
 
 var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'badloan','action'=>'getloaninfo')); ?>';
 function getClientInfo(type){
-    
 	if(type==1){
 		values = dijit.byId("client_nameadd").get('value');
 	}else if(type==2){
@@ -224,6 +223,7 @@ function getClientInfo(type){
 	});
 	
 }
+
 
 function submitDataClose(){
 	if(dijit.byId('branch').get('value')==''){

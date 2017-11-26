@@ -107,7 +107,7 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$options_co =array(''=>"---Select Client Name---");
 		if (!empty($row_co))
 			foreach ($row_co AS $row_cos){
-			$options_co[$row_cos['member_id']] = $row_cos['client_name'];
+			$options_co[$row_cos['customer_id']] = $row_cos['customer_name'];
 		}
 		$name_client->setMultiOptions($options_co);
 		
@@ -123,7 +123,7 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$options_numbers=array(''=>"---Select Client Code---");
 		if (!empty($row_number))
 			foreach ($row_number AS $row_client){
-			$options_numbers[$row_client['member_id']] = $row_client['client_code'];
+			$options_numbers[$row_client['customer_id']] = $row_client['loan_number'];
 		}
 		$code_client->setMultiOptions($options_numbers);
 		
@@ -139,7 +139,7 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$options_from =array(''=>"------Select Loan Number------");
 		if (!empty($row_number))
 			foreach ($row_number AS $row_numbers){
-			$options_from[$row_numbers['member_id']] = $row_numbers['loan_number'];
+			$options_from[$row_numbers['customer_id']] = $row_numbers['loan_number'];
 		}		
 		$loan_number->setMultiOptions($options_from);
 		$loan_number->setValue($request->getParam("loan_number")); 
@@ -156,7 +156,7 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$options_loan_client =array(''=>"------Select Client Name------");
 		if (!empty($loan_clientgroup))
 			foreach ($loan_clientgroup AS $loan_clientgroups){
-			$options_loan_client[$loan_clientgroups['member_id']] = $loan_clientgroups['client_name'];
+			$options_loan_client[$loan_clientgroups['customer_id']] = $loan_clientgroups['customer_name'];
 		}
 		$loan_client->setMultiOptions($options_loan_client);
 		$loan_client->setValue($request->getParam('loan_client'));

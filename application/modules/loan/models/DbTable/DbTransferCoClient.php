@@ -9,16 +9,7 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
 	}
     public function getcoinfo(){
     	$db = $this->getAdapter();
-    	$sql = 'SELECT m.member_id,m.client_id,m.loan_number,m.group_id,
-		(SELECT (SELECT co.`co_id` FROM `ln_co` AS co WHERE co.`co_id`= g.`g_id` LIMIT 1) FROM `ln_loan_group` AS g  
-		WHERE g. `g_id` = m.`group_id` LIMIT 1) AS co_id ,
-		(SELECT (SELECT co.`co_code` FROM `ln_co` AS co WHERE co.`co_id`= g.`g_id` LIMIT 1) FROM `ln_loan_group` AS g  
-		WHERE g. `g_id` = m.`group_id` LIMIT 1) AS co_code ,
-		(SELECT (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`= g.`g_id` LIMIT 1) FROM `ln_loan_group` AS g  
-		WHERE g. `g_id` = m.`group_id` LIMIT 1) AS co_name ,
-		(SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id` = m.client_id LIMIT 1) AS client_name ,
-		(SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id` = m.client_id LIMIT 1) AS client_code 
-		FROM `ln_loan_member` AS m WHERE status = 1 ORDER BY m.member_id DESC ';
+    	$sql = "select l.loan_number, l.customer_id,(select name_kh from ln_client where client_id = l.customer_id ) as customer_name from ln_loan as l";
     	return $db->fetchAll($sql);
     }
     function getAllTransferCO($search){
@@ -251,28 +242,27 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     		);
     		$this->insert($_data_arr);
     		
-    		$sql=" SELECT member_id,group_id FROM `ln_loan_member` WHERE client_id=".$data['member'];
+    		$sql=" SELECT id,customer_id,co_id FROM `ln_loan` WHERE customer_id=".$data['member'];
     		$rows = $db->fetchAll($sql);
     		if(!empty($rows)){
     			foreach ($rows as $row){
     				
-    			$arr = array('co_id'=>$data['name_co']);
-    			$where = " g_id=".$row['group_id'];
-    			$this->_name="ln_loan_group";
-    			$this->update($arr, $where);
-    			
-    			$arr= array(
-    					'collect_by'=>$data['name_co'],
-    			);
-    			
-    			$this->_name ="ln_loanmember_funddetail";
-    			$where ='  member_id = '.$row['member_id'];
-    			$this->update($arr, $where);
-    			
-    			$this->_name="ln_client_receipt_money";
-    			$arr = array("co_id"=>$data['name_co']);
-    			$where = " client_name = ".$data['member'];
-    			$this->update($arr, $where);
+	    			$arr = array('co_id'=>$data['name_co']);
+	    			$where = " customer_id = ".$row['customer_id'];
+	    			$this->_name="ln_loan";
+	    			$this->update($arr, $where);
+	    			
+	    			$arr= array(
+	    					'collect_by'=>$data['name_co'],
+	    			);
+	    			$this->_name ="ln_loan_detail";
+	    			$where ='  loan_id = '.$row['id'];
+	    			$this->update($arr, $where);
+	    			
+	    			$this->_name="ln_client_receipt_money";
+	    			$arr = array("co_id"=>$data['name_co']);
+	    			$where = " client_id = ".$data['member'];
+	    			$this->update($arr, $where);
     			}
     		}
     		$db->commit();
@@ -286,8 +276,8 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     }
     function getAllIdFundDetailByClient($client_id){
     	$db = $this->getAdapter();
-    	$sql = "SELECT f.id FROM `ln_loan_member` AS m ,`ln_loanmember_funddetail` AS f WHERE m.member_id = f.member_id AND
-    	m.client_id = $client_id AND f.status=1 AND f.is_completed = 0 ";
+    	$sql = "SELECT ld.id FROM `ln_loan` AS l ,`ln_loan_detail` AS ld WHERE l.id = ld.loan_id and 
+    	l.customer_id = $client_id AND ld.status=1 AND ld.is_completed = 0 ";
     	return $db->fetchAll($sql);
     	 
     }
@@ -308,13 +298,18 @@ class Loan_Model_DbTable_DbTransferCoClient extends Zend_Db_Table_Abstract
     		$wheres = "id = $id";
     		$this->update($_data_arr, $wheres);
     		
-    		$this->_name ="ln_loanmember_funddetail";
+    		$arr = array('co_id'=>$data['name_co']);
+    		$where = " customer_id = ".$data['member'];
+    		$this->_name="ln_loan";
+    		$this->update($arr, $where);
+    		
+    		$this->_name ="ln_loan_detail";
     		$rows = $this->getAllIdFundDetailByClient($data['member']);
     		$arr= array(
     				'collect_by'=>$data['name_co'],
     		);
     		foreach ($rows as $row){
-    			$where ='  is_completed = 0 AND status = 1 AND id = '. $row['id'];
+    			$where =' id = '. $row['id'];
     			$this->update($arr, $where);
     		}
     		$db->commit();

@@ -23,6 +23,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
     			'class'=>'fullside',
     			'required' =>'true',
     			'autoComplete'=>"false",
+    			//'onchange'=>'getClientByBranch();',
     			'queryExpr'=>'*${0}*',
     	));
     	$rows = $db->getAllBranchName();

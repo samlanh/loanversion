@@ -9,56 +9,62 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	$user_id = $session_user->user_id;
     	$db = $this->getAdapter();
     	$db->beginTransaction();
+    	
+//     	print_r($_data);exit();
+    	
     	try{
     		if($_data['Term']<90){
     			$writ_off = 0;
     		}elseif($_data['Term']>=90) {
     			$writ_off = 1;
     		}
-    	$arr = array(
-    			'branch'=>$_data['branch'],
-    			'client_code'=>$_data['client_codeadd'],
-    			'client_name'=>$_data['client_nameadd'],
-    			'loan_number'=>$_data['loannumber'],
-    			'intrest_amount'=>$_data['Interest_amount'],
-    			'date'=>$_data['Date'],
-    			'loss_date'=>$_data['date_loss'],
-    			'cash_type'=>$_data['cash_type'],
-    			'total_amount'=>$_data['Total_amount'],
-    			'tem'=>$_data['Term'],
-    			'note'=>$_data['Note'],
-    			'status'=>$_data['status'],
-    			'create_by'=>$user_id,
-    			'is_writoff'=>$writ_off    			
-    			);
-    	$this->insert($arr);//insert data
-    	
-    	$this->_name = 'ln_loan_group'; 
-    	$arr_loan_group = array(
-    		'is_badloan' =>1,
-    	);
-    	$where=" group_id = ".$_data['client_codeadd'];
-		$this->update($arr_loan_group, $where);
-		
-		$this->_name='ln_income_expense';
-			$data = array(
-					'branch_id'=>$_data['branch'],
-					'account_id'=>'កម្ចីខូច',
-					'total_amount'=>$_data['Total_amount'],
-// 					'Date'=>$data['for_date'],
-					'invoice'=>'',
-					'curr_type'=>$_data['cash_type'],
-					'tran_type'=>1,
-					'disc'=>$_data['Note'],
-					'date'=>$_data['Date'],
-					'status'=>$_data['status'],
-					'user_id'=>$user_id
-			);
-			$this->insert($data);
-		
-		$db->commit();
+    		
+	    	$arr = array(
+	    			'branch'=>$_data['branch'],
+	    			'client_code'=>$_data['client_codeadd'],
+	    			'client_name'=>$_data['client_nameadd'],
+	    			'loan_id'=>$_data['loannumber'],
+	    			'intrest_amount'=>$_data['Interest_amount'],
+	    			'date'=>$_data['Date'],
+	    			'loss_date'=>$_data['date_loss'],
+	    			'cash_type'=>$_data['cash_type'],
+	    			'total_amount'=>$_data['Total_amount'],
+	    			'tem'=>$_data['Term'],
+	    			'note'=>$_data['Note'],
+	    			'status'=>$_data['status'],
+	    			'create_by'=>$user_id,
+	    			'is_writoff'=>$writ_off    			
+	    			);
+	    	$this->insert($arr);//insert data
+	    	//echo 1;exit();
+	    	
+	    	$this->_name = 'ln_loan'; 
+	    	$arr_loan = array(
+	    		'is_badloan' =>1,
+	    	);
+	    	$where=" customer_id = ".$_data['client_codeadd'];
+			$this->update($arr_loan, $where);
+			
+			$this->_name='ln_income_expense';
+				$data = array(
+						'branch_id'=>$_data['branch'],
+						'account_id'=>'កម្ចីខូច',
+						'total_amount'=>$_data['Total_amount'],
+	// 					'Date'=>$data['for_date'],
+						'invoice'=>'',
+						'curr_type'=>$_data['cash_type'],
+						'tran_type'=>1,
+						'disc'=>$_data['Note'],
+						'date'=>$_data['Date'],
+						'status'=>$_data['status'],
+						'user_id'=>$user_id
+				);
+				$this->insert($data);
+			
+			$db->commit();
 		}catch (Exception $e){
 			$db->rollBack();
+			echo $e->getMessage();exit();
 		}
     }
     function updatebadloan($_data){
@@ -198,19 +204,19 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     }
     public function getClientByTypesADD($type){
     	$this->_name='ln_loan_member';
-    	$sql ="SELECT c.client_number,c.name_kh,lm.client_id ,lm.loan_number,g.`is_badloan`
-				FROM `ln_loan_member` AS lm,ln_client AS c,`ln_loan_group` AS g
-				WHERE lm.client_id = c.client_id  AND lm.is_completed = 0 AND lm.status=1 AND c.client_number !='' 
-				AND g.`group_id` = lm.client_id  AND g.`is_badloan` = 0 ORDER BY lm.member_id DESC";
+    	$sql ="SELECT c.client_number,c.name_kh,l.customer_id ,l.loan_number,l.`is_badloan`
+				FROM ln_loan AS l,ln_client AS c
+				WHERE l.customer_id = c.client_id  AND l.is_completed = 0 AND l.status=1 AND c.client_number !='' 
+				AND l.`is_badloan` = 0 ORDER BY l.customer_id DESC";
     	$db = $this->getAdapter();
     	$rows = $db->fetchAll($sql);
     	$options=array(0=>'------Select------');
     	if(!empty($rows))foreach($rows AS $row){
     		if($type==1){
-    			$lable = $row['client_number'];
+    			$lable = $row['loan_number'];
     		}elseif($type==2){ $lable = $row['name_kh'];}
     		else{$lable = $row['loan_number'];}
-    		$options[$row['client_id']]=$lable;
+    		$options[$row['customer_id']]=$lable;
     	}
     	return $options;
     }
@@ -235,16 +241,15 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     }
     public function getLoanInfo($id){
     	$db=$this->getAdapter();
-    	$sql=" SELECT (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND status=1 AND lf.is_completed=0 LIMIT 1)  AS total_principal,
-    	              (SELECT sum(lf.total_interest) FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND status=1 AND lf.is_completed=0 LIMIT 1)  AS total_interest ,
-    	              (SELECT lf.date_payment FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND status=1 AND lf.is_completed=0 LIMIT 1)  AS date_payment,
-                      g.level,g.date_release,g.date_line,g.total_duration,g.pay_term,
-                      SUM(l.total_capital) as total_capital,			  
+    	$sql="SELECT (SELECT SUM(ld.principal_permonth) FROM `ln_loan_detail` AS ld WHERE ld.loan_id = l.id AND ld.status=1 AND ld.is_completed=0 LIMIT 1)  AS total_principal,
+    	              (SELECT SUM(ld.total_interest) FROM `ln_loan_detail` AS ld WHERE ld.loan_id= l.id AND ld.status=1 AND ld.is_completed=0 LIMIT 1)  AS total_interest ,
+    	              (SELECT ld.date_payment FROM `ln_loan_detail` AS ld WHERE ld.loan_id= l.id AND ld.status=1 AND ld.is_completed=0 LIMIT 1)  AS date_payment,
+                      l.level,l.date_release,l.date_line,l.total_duration,l.pay_term,
+                      SUM(l.loan_amount) AS total_capital,			  
     				  l.loan_number,l.currency_type,l.interest_rate 
-    		FROM ln_loan_group AS g,`ln_loan_member` AS l 
-    		WHERE l.member_id= g.g_id AND  l.client_id=$id AND l.status=1 AND l.is_completed=0 
-    		GROUP BY l.group_id
-    	   LIMIT 1 ";
+    		FROM `ln_loan` AS l 
+    		WHERE l.customer_id=$id AND l.status=1 AND l.is_completed=0 
+    	   LIMIT 1";
     	return $db->fetchRow($sql);
     }
     public function getLoanedit($id){

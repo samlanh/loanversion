@@ -59,14 +59,14 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    	);
 	    	$this->insert($_data_arr);	
 	    		    	    	
-	    	$this->_name ="ln_loan_group";
+	    	$this->_name ="ln_loan";
 	    	$_arr = array(
 	    			'co_id'=>$data['to_co'],
 	    	);
 	    	$where = " co_id = ".$data['formc_co'];
 	    	$this->update($_arr, $where);
 	    	
-	    	$this->_name ="ln_loanmember_funddetail";//update all funddetail
+	    	$this->_name ="ln_loan_detail";//update all funddetail
 	    	$_arr_fund = array(
 	    			'collect_by'=>$data['to_co'],
 	    	);
@@ -81,8 +81,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    	$db->commit();
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("INSERT_FAIL");
-    		$err =$e->getMessage();
-    		Application_Model_DbTable_DbUserLog::writeMessageError($err);
+    		echo $e->getMessage();
     		$db->rollBack();
     	}
     }
@@ -102,7 +101,8 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    	);
     		$wheres = "id = $id";
     		$this->update($_data_arr, $wheres);
-    		$this->_name ="ln_loanmember_funddetail";
+    		
+    		$this->_name ="ln_loan_detail";
     		$_arr_fund = array(
     				'collect_by'=>$data['to_co'],
     		);
@@ -111,8 +111,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     		$db->commit();
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("INSERT_FAIL");
-    		$err =$e->getMessage();
-    		Application_Model_DbTable_DbUserLog::writeMessageError($err);
+    		echo $e->getMessage();
     		$db->rollBack();
     	}
     }
