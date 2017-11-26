@@ -29,7 +29,7 @@ dojo.require("dijit.form.DateTextBox");
 <div id="divPrint" style="width: 100%;">
 <style>
 .style{
-	line-height: 20px;font-size: 10px !important;
+	line-height: 20px;font-size: 12px !important;
 	font-family: 'Khmer OS Battambang';
 }
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
@@ -77,7 +77,7 @@ table { page-break-inside:auto }
     </tr>
     <tr>
     	<td id="exportExcel">
-            <table border="1"? style="border-collapse:collapse;border:1px solid #000; font-size:9px; white-space: nowrap;" width="100%" cellspacing="0">
+            <table border="1"? style="border-collapse:collapse;border:1px solid #000; font-size:12px; white-space: nowrap;" width="100%" cellspacing="0">
                <thead>
                  <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 20px; padding: 2px 0px;background:#ccc;">
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
@@ -99,30 +99,28 @@ table { page-break-inside:auto }
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("COMMUNE_NAME");?>&nbsp;</td>
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("VILLAGE_NAME");?>&nbsp;</td>
                 </tr>
-                </thead>
+               </thead>
                <?php 
                $dbvillage = new Application_Model_DbTable_DbGlobal();
                $vill = $dbvillage->getClientByType(null,$clientid=1,$row=1);
-               
                $db = new Report_Model_DbTable_DbLoan();
-              
                $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;$result_b=0;$result_r=0;$result_d=0;
                if(!empty($this->outstandloan)) foreach($this->outstandloan as $key =>$row){?>
                <?php 
-               $total_receive = $db->getAmountReceiveByLoanNumber($row['loan_number']);
-               if($row['curr_type']==1){
-               		$amt_r = $amt_r+$row['total_capital'];
-               		$amn_r = $amn_r+$total_receive;
-               		$result_r=number_format(($amn_r/$amt_r)*100,2).' %';
-               }elseif($row['curr_type']==2){
-               		$amt_d = $amt_d+$row['total_capital'];
-               		$amn_d = $amn_d+$total_receive;
-               		$result_d=number_format(($amn_d/$amt_d)*100,2).' %';
-               }else{
-               		$amt_b = $amt_b+$row['total_capital'];
-               		$amn_b = $amn_b+$total_receive;
-               		$result_b=number_format(($amn_b/$amt_b)*100,2).' %';
-               }
+	               $total_receive = $row['total_payment'];//$db->getAmountReceiveByLoanNumber($row['loan_number']);
+	               if($row['curr_type']==1){
+	               		$amt_r = $amt_r+$row['total_capital'];
+	               		$amn_r = $amn_r+$total_receive;
+	               		$result_r=number_format(($amn_r/$amt_r)*100,2).' %';
+	               }elseif($row['curr_type']==2){
+	               		$amt_d = $amt_d+$row['total_capital'];
+	               		$amn_d = $amn_d+$total_receive;
+	               		$result_d=number_format(($amn_d/$amt_d)*100,2).' %';
+	               }else{
+	               		$amt_b = $amt_b+$row['total_capital'];
+	               		$amn_b = $amn_b+$total_receive;
+	               		$result_b=number_format(($amn_b/$amt_b)*100,2).' %';
+	               }
                ?>
 					<tr align="center" class="hover">
 						<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>

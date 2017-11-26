@@ -586,7 +586,7 @@ function showReciept(){
 					document.getElementById('lbl_note').innerHTML = dijit.byId('note').attr('displayedValue');
 					document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue')+symbal;
 					document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue')+symbal;
-					document.getElementById('lbl_amount_return').innerHTML = dijit.byId('amount_return').attr('displayedValue')+symbal;
+					//document.getElementById('lbl_amount_return').innerHTML = dijit.byId('amount_return').attr('displayedValue')+symbal;
 					dijit.byId('frm_client').show();
 					//submitData();
 				}
@@ -864,7 +864,7 @@ function getLaonPayment(type){//tab ទី1
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].outstanding_after)+' '+curr+'&nbsp;<input type="hidden" name="outstanding_'+inx+'" id="outstanding_'+inx+'" value="'+respone[i].outstanding_after+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principle_after)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+respone[i].principle_after+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest_after)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+respone[i].total_interest_after+'" /></td>';
-							tem += '<td>&nbsp;<label id="lb_penelize_'+inx+'">'+dojo.number.format(respone[i].penelize_service)+' '+curr+'</label>&nbsp;<input type="hidden" name="penelize_'+inx+'" id="penelize_'+inx+'" value="'+respone[i].penelize_service+'" /><input type="hidden" name="penelize_service'+inx+'" id="penelize_service'+inx+'" value="'+respone[i].penelize_service+'" /></td>';
+							tem += '<td>&nbsp;<label id="lb_penelize_'+inx+'">'+dojo.number.format(respone[i].penelize_service)+' '+curr+'</label>&nbsp;<input type="hidden" name="penelize_'+inx+'" id="penelize_'+inx+'" value="'+respone[i].penelize_service+'" /></td>';
 						    tem += '<td>&nbsp;<label id="lb_payment_'+inx+'">'+dojo.number.format(respone[i].total_payment_after)+' '+curr+'</label>&nbsp;<input type="hidden" name="total_payment_after_'+inx+'" id="total_payment_after_'+inx+'" value="'+respone[i].total_payment_after+'" /></td>';
 							
 							if(is_set!=1){
@@ -1259,9 +1259,9 @@ function totalReturn(){
 	amonut_return = parseFloat(receive_amount)-parseFloat(total_payments);
 	remain_amount = parseFloat(total_payments)-parseFloat(receive_amount);
 	if(amonut_return<0){
-		dijit.byId('amount_return').attr('value',0);
+		//dijit.byId('amount_return').attr('value',0);
 	}else{
-		dijit.byId('amount_return').attr('value',amonut_return.toFixed(2));
+		//dijit.byId('amount_return').attr('value',amonut_return.toFixed(2));
 	}
 	if(remain_amount>0){
 		dijit.byId('remain').attr('value',remain_amount.toFixed(2));

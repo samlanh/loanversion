@@ -471,30 +471,33 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 	  	return $date;
 	  }
   }
-  public function getClientByMemberId($member_id){
-  	$sql="SELECT lg.level,lg.date_release,lg.total_duration,lg.first_payment,
-  		lg.pay_term,lg.payment_method,
-  		lg.loan_type,
-  		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) as branch_name,
-  		(SELECT co_khname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_khname,
-  		(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_enname,
-  		(SELECT displayby FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS displayby,
-  		(SELECT tel FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS tel,
-  		(SELECT client_number FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_number,
-  		(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
-  		(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
-  		(SELECT phone FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_phone,
-  		(SELECT displayby FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS displayclient,
-  		lm.client_id,
-  		(SELECT curr_namekh FROM `ln_currency` WHERE id = lm.currency_type limit 1) AS currency_type
-  		,lm.total_capital,lm.loan_number,
-  		lm.interest_rate,lm.branch_id,
-        (SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = lg.user_id LIMIT 1) AS user_name
+  public function getClientByMemberId($loan_id){
+  	$sql="SELECT l.level,
+		l.date_release,
+		l.total_duration,
+		l.first_payment,
+		l.pay_term,
+		l.payment_method,
+		l.loan_type,
+  		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name,
+  		(SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_khname,
+  		(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
+  		(SELECT displayby FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS displayby,
+  		(SELECT tel FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS tel,
+  		(SELECT client_number FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_number,
+  		(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
+  		(SELECT name_en FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,
+  		(SELECT phone FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_phone,
+  		(SELECT displayby FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS displayclient,
+  		l.customer_id AS client_id,
+  		(SELECT curr_namekh FROM `ln_currency` WHERE id = l.currency_type LIMIT 1) AS currency_type
+  		,l.loan_amount AS total_capital,l.loan_number,
+  		l.interest_rate,l.branch_id,
+        (SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = l.user_id LIMIT 1) AS user_name
   		FROM 
-  	   `ln_loan_group` AS lg,`ln_loan_member` AS lm WHERE
-  		lg.g_id =lm.group_id  ";
-  	if(!empty($member_id)){
-  		$sql.=" AND lm.member_id = $member_id";
+  	   `ln_loan` AS l WHERE 1 ";
+  	if(!empty($loan_id)){
+  		$sql.=" AND l.id = $loan_id";
   	}
   	$db=$this->getAdapter();
   	return $db->fetchRow($sql);

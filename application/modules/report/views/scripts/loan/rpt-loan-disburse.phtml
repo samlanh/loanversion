@@ -146,11 +146,7 @@ dojo.require("dijit.form.DateTextBox");
 					<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
 					<td align="left" style="line-height:15px;min-width:90px; ">&nbsp;
-					<?php if ($row['loantype']==1){?>
-						<a target="_blank" title="click here to preview payment schedule" style="color:#000; text-decoration: none;" href="<?php //echo $url_client."/id/".$row['member_id'];?>">&nbsp;<?php echo $row['client_khname']; ?></a>&nbsp;
-					<?php }else {?>
-						<a target="_blank" title="click here to preview payment schedule" style="color:#000; text-decoration: none;" href="<?php //echo $url."/id/".$row['group_id'];?>">&nbsp;<?php echo $row['client_khname']; ?></a>&nbsp;
-					<?php }?>
+					<a target="_blank" title="click here to preview payment schedule" style="color:#000; text-decoration: none;" href="<?php echo $url_client."/id/".$row['id'];?>">&nbsp;<?php echo $row['client_khname']; ?></a>&nbsp;
 					</td>	
 					<td>&nbsp;<?php echo $row['loan_level'];?>&nbsp;</td>
 					<td align="left" style="min-width:75px;"><span style="line-height:15px;">&nbsp;<?php echo $row['co_name']; ?></span>&nbsp;</td>	

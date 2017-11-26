@@ -497,12 +497,12 @@ function rptPaymentschedulesAction(){
 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/paymentschedule-list');
 	}
 	$db = new Application_Model_DbTable_DbGlobal();
-	$rs = $db->getClientByMemberId(@$row[0]['member_id']);
-	if($rs['loan_type']==2){//if loan group
-		$this->_redirect('report/loan/rpt-groupmember/id/'.$row[0]['member_id']);
-	}else{
+	$rs = $db->getClientByMemberId($id);
+// 	if($rs['loan_type']==2){//if loan group
+// 		$this->_redirect('report/loan/rpt-groupmember/id/'.$row[0]['member_id']);
+// 	}else{
 		
-	}
+// 	}
 	$this->view->client =$rs;
 	$frm = new Application_Form_FrmSearchGlobal();
 	$form = $frm->FrmSearchLoadSchedule();

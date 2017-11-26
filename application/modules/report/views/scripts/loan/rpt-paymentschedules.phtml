@@ -27,8 +27,6 @@ td p{ margin-top:0px !important;}
 		<tr>
 	    	<td align="center">
 	        	<table width="100%" style="font-family:khmer;margin:0 auto;padding:0px; border:none;">
-	            	<?php // if($client['pay_term']==2){ ?>
-					<?php //}else{?>
 					<tr>
 	                	  <td style="text-align: center;" valign="top"><img src="<?php echo $this->baseUrl();?>/images/letterhead.jpg" />  
 	                	</td>
@@ -38,7 +36,6 @@ td p{ margin-top:0px !important;}
 	                		<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><?php //echo $tr->translate('rpt-paymentschedule');?> <?php echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2>
 	               		</td>
 	                </tr> 
-					<?php //}?>
 	                <?php $db = new Application_Model_DbTable_DbGlobal();
 	                	  $row = $db->getClientByType(null,$client['client_id'],1);
 	                ?> 
@@ -79,38 +76,30 @@ td p{ margin-top:0px !important;}
 	                    <td><?php echo $tr->translate("NUM");?></td>
 	                    <td><?php echo $tr->translate("DAY_PAYMENT");?></td>
 	                    <td><?php echo $tr->translate("ថ្ងៃ-ខែ ឆ្នាំ");?></td>
+	                    <td><?php echo $tr->translate("PRINCIPLE");?></td>
+	                    <td><?php echo $tr->translate("OS_AMOUNT");?></td>
+	                    <td><?php echo $tr->translate("TOTAL_INTEREST");?></td>
+	                    <td><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT");?></td>
 	                    <td><?php echo $tr->translate("OS");?></td>
-	                    <td><?php echo $tr->translate("AMOUNT");?></td>
-	                    <?php if($client['pay_term']!=1){?>
-	                    <td>បង់ផ្ដាច់ត្រូវពិន័យ</td>
-	                    <?php }?>
-	                    <td>អ្នកទទួល</td>
 	                    <td><?php echo $tr->translate("OTHER");?></td>
 	                </tr>
 	               <?php 
 	               $is_panelty=0;
 	               if(!empty($tran)) foreach($tran as $key =>$row){?>
-	               	<tr align="center" style="font-weight:bold; height: 20px;<?php if($key>0 AND $is_panelty==0 AND $row['penelize_service']<=0 AND $client['pay_term']!=1){echo'background:#b0d5f3';}?>" class="style">
+	               	<tr align="center" style="font-weight:bold; height: 20px;" class="style">
 	                    <td ><?php echo ($key+1<10)?"0":"";echo $key+1;?></td>
 	                    <?php $str_day = date('D',strtotime($row['date_payment']));
 	                    	$day_as_khmer = $dayin_khmer[$str_day];
 	                    ?>
 	                    <td align="right">&nbsp;<?php echo $day_as_khmer.'-'.$str_day; ?>&nbsp;&nbsp;&nbsp;</td>
 	                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
-	                   <!--  <td><?php //echo $row['is_completed']?></td> 
-	                    <td><?php //echo str_replace('.00', '', number_format($row['total_principal'],2));?></td>-->
-	                    <!-- <td><?php //echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td> -->
-	                    <!--<td><?php //echo str_replace('.00', '', number_format($row['total_interest'],2));?></td> -->
-	                    <?php $remain = $row['total_principal']-$row['principal_permonth']
-	                    ?>
-	                    <td><?php echo number_format($remain,(!strrpos($remain,"."))? 0 : 2);?></td>
-	                    
-	                    <td ><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
-	                    <?php if($client['pay_term']!=1){?> <td><?php if($key>0 AND $is_panelty==0 AND $row['penelize_service']<=0){echo'fini';$is_panelty=1;}?><?php echo ($row['penelize_service']>0)?$row['penelize_service']:"";?></td><?php }?>
-	                    <td></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['outstanding'],2));?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
+	                    <td><?php echo str_replace('.00', '', number_format($row['outstanding']-$row['principal_permonth'],2)); ?></td>
 	                    <td></td>
 	                </tr>
-	                
 	               <?php }
 	               	if(!empty($record))for($record = $key;$record<11;$record++){
 	               ?>
@@ -120,7 +109,8 @@ td p{ margin-top:0px !important;}
 	               			<td></td>
 	               			<td></td>
 	               			<td></td>
-	               			 <?php if($client['pay_term']!=1){?><td></td><?php }?>
+	               			<td></td>
+	               			<td></td>
 	               			<td></td>
 	               			<td></td>
 	               		</tr>
@@ -128,9 +118,7 @@ td p{ margin-top:0px !important;}
 	            </table>
 	            <table>
 	            	<tr>
-	            		<td align="left" style="font-size: 12px;" ><u>បញ្ជាក់:</u> ការសងប្រាក់ប្រព្រឹត្តទៅតាមកិច្ចសន្យាខ្ចីប្រាក់និងតារាងសងប្រាក់នៅការិយាល័យរុងរឿងឫនៅផ្ទះអតិថិជន
-	            		<p style="padding-top:10px;">លេខទូរស័ព្ទការិយាល័យ 096 9 595 201</p>
-	            		</td>
+	            		<td align="left" style="font-size: 12px;" ><u></u> <?php echo $tr->translate("NOTED_SCHEDULE");?></td>
 	            	</tr>
 	            </table>
 	            <table width="100%" cellpadding="3">

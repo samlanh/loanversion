@@ -26,7 +26,7 @@ $level =$session_user->level;
 </table>
 </form>
 <div style="width:100%; margin:0 auto;">
-<div style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+<div style="min-width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 <div id="divPrint">
 <style type="text/css">
 .style{
@@ -92,8 +92,10 @@ table { page-break-inside:auto }
 	                    <td colspan="<?php echo $colspan;?>"><?php echo $tr->translate("TOTAL_PAYMENT");?></td>    
 	                    <td rowspan="2" style="white-space:nowrap; border-right:3px double black; "><?php echo $tr->translate("PAY_DATE");?></td>
 	                    <td rowspan="2"><?php echo $tr->translate("INPUT_DATE");?></td>
+	                    <td rowspan="2"><?php echo $tr->translate("PAID_TIME");?></td>
 	                    <td rowspan="2"><?php echo $tr->translate("RECIEPT_NO");?></td>
 	                    <td rowspan="2"><?php echo $tr->translate("PAYMENT_OPTION");?></td>
+	                    <td rowspan="2"><?php echo $tr->translate("BY_USER");?></td>
 	                </tr>
 	                <tr class="style" style="white-space: nowrap;">
 	                	<td align="center"><?php echo $tr->translate("PAID_PRINCIPAL");?></td> 
@@ -148,12 +150,13 @@ table { page-break-inside:auto }
                		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['interest_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
                		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['penalize_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
                		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['service_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
-               		 <td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs["total_paymentpaid"],2).' '.$rs['currency_typeshow'];;?>&nbsp;</td> 
+               		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs["total_paymentpaid"],2).' '.$rs['currency_typeshow'];;?>&nbsp;</td> 
                		<td style="white-space:nowrap; border-right:3px double black; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_payment"]));?>&nbsp;</td>
                		<td style="white-space:nowrap; ">&nbsp;<?php echo date("d-M-Y",strtotime($rs["date_input"]));?>&nbsp;</td>
+               		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo $rs["paid_times"];?>&nbsp;</td> 
                		<td>&nbsp;<?php echo $rs["receipt_no"];?>&nbsp;</td>
                		<td style="font-site:9px; <?php if($rs["payment_option"]==4){echo " background:#ccc";} ?>" align="center" >&nbsp;<?php echo @$opt[$rs["payment_option"]];?>&nbsp;</td>
-               		<!--<td style="font:bolder 11px Arial;">&nbsp;<?php //$balance=($rs["recieve_amount"]-$rs["recieve_amount"])-$rs["total_payment"]; if($balance<0){echo '('.abs($balance).')';}else {echo $balance=0;};echo $rs['currency_typeshow'];?>&nbsp;</td>-->
+               		<td>&nbsp;<?php echo $rs["user_name"]; ?>&nbsp;</td>
                 </tr>
                 <?php }?>
             </table>
