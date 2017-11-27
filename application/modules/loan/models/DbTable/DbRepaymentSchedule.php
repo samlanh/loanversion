@@ -85,8 +85,29 @@ function round_up($value, $places)
     				're_payment_method'=>$data['repayment_method'],
     				'user_id'=>$user_id,
     		);
+    		
     		$this->_name="ln_reschedule";
     		$this->insert($arr);
+    		
+    		$datapayment = array(
+    				'loan_id'=>$loan_id,
+    				'outstanding'=>$data['total_amount'],//good
+    				'outstanding_after'=>$data['total_amount'],//good
+    				'principal_permonth'=> $data['principle_paid'],//good
+    				'principle_after'=> $data['principle_paid'],//good
+    				'total_interest'=>0,//good
+    				'total_interest_after'=>0,//good
+    				'total_payment'=>$data['principle_paid'],//good
+    				'total_payment_after'=>$data['principle_paid'],//good
+    				'date_payment'=>$data['date_payment'],//good
+    				'is_completed'=>1,
+    				'status'=>0,
+    				'amount_day'=>0,
+    				'collect_by'=>$data['co_id'],
+    				'installment_amount'=>$start_id+1,
+    		);
+    		$this->insert($datapayment);
+    		
     		
     		$g_id = $data['group_id'];
     		$remain_principal = $data['total_amount'];
@@ -430,7 +451,7 @@ function round_up($value, $places)
     						'status'=>1,
     						'amount_day'=>$old_amount_day,
     						'collect_by'=>$data['co_id'],
-    						'installment_amount'=>$i
+    						'installment_amount'=>$i+$start_id
     				);
     				$this->insert($datapayment);
     				$amount_collect=0;
@@ -500,7 +521,7 @@ function round_up($value, $places)
     					'collect_by'=>$data['co_id'],
     					//'penelize_service'=>$penelize_service,
     			//     						'saving_amount'=>$saving,
-    					'installment_amount'=>$i
+    					'installment_amount'=>$i+$start_id
     			);
     			$this->insert($datapayment);
     		

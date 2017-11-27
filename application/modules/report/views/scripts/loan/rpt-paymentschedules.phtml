@@ -86,21 +86,27 @@ td p{ margin-top:0px !important;}
 	               <?php 
 	               $is_panelty=0;
 	               if(!empty($tran)) foreach($tran as $key =>$row){?>
-	               	<tr align="center" style="font-weight:bold; height: 20px;" class="style">
-	                    <td ><?php echo ($key+1<10)?"0":"";echo $key+1;?></td>
-	                    <?php $str_day = date('D',strtotime($row['date_payment']));
-	                    	$day_as_khmer = $dayin_khmer[$str_day];
-	                    ?>
-	                    <td align="right">&nbsp;<?php echo $day_as_khmer.'-'.$str_day; ?>&nbsp;&nbsp;&nbsp;</td>
-	                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
-	                    <td><?php echo str_replace('.00', '', number_format($row['outstanding'],2));?></td>
-	                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
-	                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
-	                    <td><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
-	                    <td><?php echo str_replace('.00', '', number_format($row['outstanding']-$row['principal_permonth'],2)); ?></td>
-	                    <td></td>
-	                </tr>
-	               <?php }
+	               	
+               		<?php if($row['is_completed']==1 and $row['status']==0){?>
+               			<tr>
+               				<td colspan="9" align="center" style="font-family: Khmer OS Battambang;font-size: 14px;">អតិថិជនបានបង់ប្រាក់រំលស់ដើមចំនួន <?php echo $row['principal_permonth']?> នៅថ្ងៃទី <?php echo date("d-m-Y",strtotime($row['date_payment']));?> </td>
+               			</tr>
+               		<?php }else{?>
+		               	<tr align="center" style="font-weight:bold; height: 20px;" class="style">
+		                    <td ><?php echo ($key+1<10)?"0":"";echo $key+1;?></td>
+		                    <?php $str_day = date('D',strtotime($row['date_payment']));
+		                    	$day_as_khmer = $dayin_khmer[$str_day];
+		                    ?>
+		                    <td align="right">&nbsp;<?php echo $day_as_khmer.'-'.$str_day; ?>&nbsp;&nbsp;&nbsp;</td>
+		                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
+		                    <td><?php echo str_replace('.00', '', number_format($row['outstanding'],2));?></td>
+		                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
+		                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
+		                    <td><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
+		                    <td><?php echo str_replace('.00', '', number_format($row['outstanding']-$row['principal_permonth'],2)); ?></td>
+		                    <td></td>
+		                </tr>
+	               <?php }}
 	               	if(!empty($record))for($record = $key;$record<11;$record++){
 	               ?>
 	               		<tr>

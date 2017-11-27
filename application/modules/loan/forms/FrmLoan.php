@@ -275,6 +275,24 @@ public function init()
 				        'onkeyup'=>'calCulateAdminFee();'
 		));
 		
+		$_principle_paid = new Zend_Dojo_Form_Element_NumberTextBox('principle_paid');
+		$_principle_paid->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required' =>'true',
+				//'onkeyup'=>'calCulateAdminFee();'
+		));
+		
+		$_date_payment = new Zend_Dojo_Form_Element_DateTextBox('date_payment');
+		$_date_payment->setAttribs(array(
+				'dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'required' =>'true',
+				//'readonly'=>true,
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
+		));
+		$_date_payment->setValue(date("Y-m-d"));
+		
 		$_level = new Zend_Dojo_Form_Element_NumberTextBox('level');
 		$_level->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
@@ -575,7 +593,7 @@ public function init()
 			
 // 			print_r($data);
 		}
-		$this->addElements(array($_deposit,$_groupid,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,$_interest,$penalize,$_service_charge,$schedule_opt,$_loan_types,$_loan_fees,$_other_fees,$_zones
+		$this->addElements(array($_date_payment,$_principle_paid,$_deposit,$_groupid,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,$_interest,$penalize,$_service_charge,$schedule_opt,$_loan_types,$_loan_fees,$_other_fees,$_zones
 				,$_client_codes,$_loan_codes,$_members,$_customer_codes,$_levels,$_coids,$get_laonnumber,$_loan_type,
 				$_other_fee,$_isgroup,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,
 				$_pay_late,$_branch_id,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate
