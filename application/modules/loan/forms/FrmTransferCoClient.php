@@ -191,7 +191,6 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$user_id->setMultiOptions($options_from);	
 
 		$_arr = array(1=>$this->tr->translate("ACTIVE"),0=>$this->tr->translate("DACTIVE"),-1=>$this->tr->translate("ALL"));
-		//$_status = $request->getParam("status");
 		$_status = new Zend_Dojo_Form_Element_FilteringSelect("status");
 		$_status->setMultiOptions($_arr);
 		$_status->setValue($request->getParam('status'));
@@ -208,9 +207,7 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$star_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','class'=>'fullside',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}"));
 		$date = $request->getParam("start_date");
-		
 		if(empty($date)){
-			//$date = date('Y-m-01');
 		}
 		$star_date->setValue($date);
 		

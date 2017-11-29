@@ -145,32 +145,23 @@ table { page-break-inside:auto }
                 ?>
                 <?php if($key>0){?>
                 <?php 
-                	//$rs_release = $dbc->getReleaseloanByCO($co_id,$rs['curr_type'],$this->search);
                 	$rs_release = $dbc->getReleaseloanByCO($co_id,$old_currnecy,$this->search);
                 	if($old_currnecy==1){
                 		$newloan_reil = $newloan_reil+$rs_release['new_loan'];
                 		$newloan_rrelease = $newloan_rrelease+$rs_release['total_release'];
                 		$newloan_rtotalintertest = $newloan_rtotalintertest+$rs_release['total_interest_rate'];
                 		
-//                 		$newloan_routstanding = $newloan_routstanding+$loan_new;
-//                 		$all_routstanding = $all_routstanding+$total_capital;
                 	}else if($old_currnecy==2){
                 		$newloan_dollar = $newloan_dollar+$rs_release['new_loan'];
                 		$newloan_drelease = $newloan_drelease+$rs_release['total_release'];
                 		$newloan_dtotalintertest = $newloan_dtotalintertest+$rs_release['total_interest_rate'];
                 		
-//                 		$newloan_doutstanding = $newloan_doutstanding+$loan_new;
-//                 		$all_doutstanding = $all_doutstanding+$total_capital;
                 	}else{
                 		$newloan_bath = $newloan_bath+$rs_release['new_loan'];
                 		$newloan_brelease = $newloan_brelease+$rs_release['total_release'];
                 		$newloan_btotalintertest = $newloan_btotalintertest+$rs_release['total_interest_rate'];
                 		
-//                 		$newloan_boutstanding = $newloan_boutstanding+$loan_new;
-//                 		$all_boutstanding = $all_boutstanding+$total_capital;
                 	}
-                			
-                	
                 ?>
                 <tr class="style hover" style="font-weight:bold; line-height: 24px;">
                     <td >&nbsp;<?php ?>&nbsp;</td>
@@ -195,13 +186,9 @@ table { page-break-inside:auto }
                     <td >&nbsp;<?php echo number_format(empty($total_lateamount)?0:($total_lateamount/$total_capital),2); ?>&nbsp;</td>
                 </tr>
                 <?php
-//                 $newloan_rtotalintertest=0;$newloan_dtotalintertest=0;$newloan_btotalintertest=0;
-//                 $newloan_rrelease=0;$newloan_drelease=0;$newloan_brelease=0;
-//                 $newloan_reil=0;$newloan_dollar=0; $newloan_bath=0;$loan_new=0;
-                
-                $total_capital=0; $total_interest_rate=0;//$old_currnecy='';
-                $total_collectinterest=0;$total_collecttotal_penelize=0;$total_collectprince=0;$str='';
-                $amount_cust_late=0;$loan_new=0;
+	                $total_capital=0; $total_interest_rate=0;//$old_currnecy='';
+	                $total_collectinterest=0;$total_collecttotal_penelize=0;$total_collectprince=0;$str='';
+	                $amount_cust_late=0;$loan_new=0;
                 ?>
                 <?php }?>
               <?php 
@@ -221,7 +208,6 @@ table { page-break-inside:auto }
              	<?php  
                         $total_interest_rate =  $total_interest_rate+$rs['interest_rate'];          
                		    
-                        //$resultcollect = $db->getReceiveByLoanNumber($rs['loan_number'],$this->search);
                		    $total_receive = $rs['total_paymentpaid'];
 	               		$search = array(
 	               				'adv_search'=>	"",
@@ -233,10 +219,9 @@ table { page-break-inside:auto }
 	               		);
 	               		
 	               		$total_capital = $total_capital+($rs["total_capital"]-$total_receive);
-	               		$resultperiod = $db->getReceiveByLoanNumberPeriod($rs['loan_number'],$this->search);
-	               		$total_collectprince = $total_collectprince+$resultperiod['total_collectprinciple'];
-	               		$total_collectinterest = $total_collectinterest+$resultperiod['total_interest'];
-	               		$total_collecttotal_penelize = $total_collecttotal_penelize+$resultperiod['total_penelize'];
+	               		$total_collectprince = $total_collectprince+$rs['principal_paid'];//$resultperiod['total_collectprinciple'];
+	               		$total_collectinterest = $total_collectinterest+$rs['interest_paid'];//$resultperiod['total_interest'];
+	               		$total_collecttotal_penelize = $total_collecttotal_penelize+$rs['penalize_paid'];//$resultperiod['total_penelize'];
 	               		
 	               		$result =$dbc->getLoanlateByLoan($rs['loan_number'],$search);//late by loan
 	               		if(!empty($result)){
@@ -248,16 +233,14 @@ table { page-break-inside:auto }
 	               			$trielout = $trielout + $total_receive;
 	               			
 	               			$outstadningriel = $outstadningriel + $total_receive;
-	               			
-	               		
 	               			$all_routstanding = $all_routstanding+($rs["total_capital"]-$total_receive);
 	               			$newloan_routstanding = $newloan_routstanding+1;
 	               			
 	               			$total_rinterest_rate = $total_rinterest_rate+$rs['interest_rate'];
 	               			
-	               			$total_rcollectprince = $total_rcollectprince+$resultperiod['total_collectprinciple'];
-	               			$total_rcollectinterest = $total_rcollectinterest+$resultperiod['total_interest'];
-	               			$total_rcollectpenelty = $total_rcollectpenelty+$resultperiod['total_penelize'];
+	               			$total_rcollectprince = $total_rcollectprince+$rs['principal_paid'];//$resultperiod['total_collectprinciple'];
+	               			$total_rcollectinterest = $total_rcollectinterest+$rs['interest_paid'];//$resultperiod['total_interest'];
+	               			$total_rcollectpenelty = $total_rcollectpenelty+$rs['penalize_paid'];//$resultperiod['total_penelize'];
 	               			if(!empty($result)){
 	               			$total_rcustomer_late = $total_rcustomer_late+1;
 	               			}
@@ -266,14 +249,13 @@ table { page-break-inside:auto }
 	               			$tdollarout = $tdollarout + $total_receive;
 	               			$outstadningdollar = $outstadningdollar + $total_receive;
 	               			
-	               			
 	               			$all_doutstanding = $all_doutstanding+($rs["total_capital"]-$total_receive);
 	               			$newloan_doutstanding = $newloan_doutstanding+1;
 	               			$total_dinterest_rate = $total_dinterest_rate+$rs['interest_rate'];
 	               			
-	               			$total_dcollectprince = $total_dcollectprince+$resultperiod['total_collectprinciple'];
-	               			$total_dcollectinterest = $total_dcollectinterest+$resultperiod['total_interest'];
-	               			$total_dcollectpenelty = $total_dcollectpenelty+$resultperiod['total_penelize'];
+	               			$total_dcollectprince = $total_dcollectprince+$rs['principal_paid'];//$resultperiod['total_collectprinciple'];
+	               			$total_dcollectinterest = $total_dcollectinterest+$rs['interest_paid'];//$resultperiod['total_interest'];
+	               			$total_dcollectpenelty = $total_dcollectpenelty+$rs['penalize_paid'];//$resultperiod['total_penelize'];
 	               			if(!empty($result)){
 	               				$total_dcustomer_late = $total_dcustomer_late+1;
 	               			}
@@ -282,31 +264,20 @@ table { page-break-inside:auto }
 	               			$tbathout = $tbathout + $total_receive;
 	               			$outstadningbath = $outstadningbath + $total_receive;
 	               			
-	               			
 	               			$all_boutstanding = $all_boutstanding+($rs["total_capital"]-$total_receive);
 	               			$newloan_boutstanding = $newloan_boutstanding+1;
 	               			
 	               			$total_binterest_rate = $total_binterest_rate+$rs['interest_rate'];
 	               			
-	               			$total_bcollectprince = $total_bcollectprince+$resultperiod['total_collectprinciple'];
-	               			$total_bcollectinterest = $total_bcollectinterest+$resultperiod['total_interest'];
-	               			$total_bcollectpenelty = $total_bcollectpenelty+$resultperiod['total_penelize'];
+	               			$total_bcollectprince = $total_bcollectprince+$rs['principal_paid'];//$resultperiod['total_collectprinciple'];
+	               			$total_bcollectinterest = $total_bcollectinterest+$rs['interest_paid'];//$resultperiod['total_interest'];
+	               			$total_bcollectpenelty = $total_bcollectpenelty+$rs['interest_paid'];//$resultperiod['total_penelize'];
 	               			if(!empty($result)){
 	               				$total_bcustomer_late = $total_bcustomer_late+1;
 	               			}
 	               		}
 	               		$old_currnecy =$rs['curr_type'];
                		?>
-               		<!-- 
-               		    <tr>
-               			<td colspan="13"><?php //echo $rs['loan_number'];//."ប្រាក់ដើមខ្ចី ".$rs["total_capital"];?></td>
-               			<td>ប្រាក់ដើមបានបង់<?php //echo $total_receive;?></td>
-               			<td>ប្រាក់ការបានបង់ <?php //echo $total_collectinterest;?></td>
-               			<td>ប្រាក់ពិន័យបានបង់ <?php //echo $total_collecttotal_penelize;?></td>
-               			<td>ប្រាក់ដើមនៅសល់មិនទាន់បានបង់ <?php //echo "Remain P ".$total_capital;?></td>
-               			<td>Late P<?php //echo $result['principle_after'];?></td>
-               			<td> Late I <?php //echo $result['total_interest_after'];?></td>
-               		</tr>    -->
                 <?php }
                ?>
                <?php 
@@ -315,19 +286,15 @@ table { page-break-inside:auto }
                 	$newloan_reil = $newloan_reil+$rs_release['new_loan'];
                 	$newloan_rrelease = $newloan_rrelease+$rs_release['total_release'];
                 	$newloan_rtotalintertest = $newloan_rtotalintertest+$rs_release['total_interest_rate'];
-                
                 }else if($rs['curr_type']==2){
                 	$newloan_dollar = $newloan_dollar+$rs_release['new_loan'];
                 	$newloan_drelease = $newloan_drelease+$rs_release['total_release'];
                 	$newloan_dtotalintertest = $newloan_dtotalintertest+$rs_release['total_interest_rate'];
-                
                 }else{
                 	$newloan_bath = $newloan_bath+$rs_release['new_loan'];
                 	$newloan_brelease = $newloan_brelease+$rs_release['total_release'];
                 	$newloan_btotalintertest = $newloan_btotalintertest+$rs_release['total_interest_rate'];
-                
                 }
-                
                 ?>
                <tr class="style hover" style="font-weight:bold; line-height: 24px;">
                    <td >&nbsp;<?php ?>&nbsp;</td>

@@ -358,26 +358,23 @@ WHERE (`lg`.`g_id` = `g`.`group_id`)
 	
 	 function getReleaseloanByCO($co_id,$currency_id,$search){
 			$db =$this->getAdapter();
-			$from_date =(empty($search['start_date']))? '1': " g.date_release >= '".$search['start_date']." 00:00:00'";
-			$to_date = (empty($search['end_date']))? '1': " g.date_release <= '".$search['end_date']." 23:59:59'";
+			$from_date =(empty($search['start_date']))? '1': " l.date_release >= '".$search['start_date']." 00:00:00'";
+			$to_date = (empty($search['end_date']))? '1': " l.date_release <= '".$search['end_date']." 23:59:59'";
 			$where= " AND ".$from_date." AND ".$to_date;
 			$sql=" SELECT 
-		    COUNT(g.g_id) AS new_loan,
-			SUM(m.total_capital) AS total_release,
-			(SELECT symbol FROM `ln_currency` WHERE id=m.currency_type limit 1) AS curr_type,
-			SUM(m.interest_rate) AS total_interest_rate
+		    COUNT(l.id) AS new_loan,
+			SUM(l.loan_amount) AS total_release,
+			(SELECT symbol FROM `ln_currency` WHERE id=l.currency_type limit 1) AS curr_type,
+			SUM(l.interest_rate) AS total_interest_rate
 			FROM 
-			ln_loan_group AS g,
-			ln_loan_member AS m 
+			ln_loan AS l
 			WHERE 
-			(`g`.`g_id` = `m`.`group_id`)
-			AND (`m`.`status` = 1)
-			AND (`m`.`is_completed` = 0)
-			AND (`m`.`is_reschedule` <> 1)
-            AND g.co_id=".$co_id." 
-            AND m.currency_type=".$currency_id;	
+			 (`l`.`status` = 1)
+			AND l.is_badloan=0
+			AND (`l`.`is_completed` = 0)			
+            AND l.co_id=".$co_id." 
+            AND l.currency_type=".$currency_id;	
 			$where.=" LIMIT 1";
-// 			echo $sql.$where."<br />";
 			return $db->fetchRow($sql.$where);
 	}
 	public function getALLParBYCO($search=null){
@@ -399,6 +396,7 @@ WHERE (`lg`.`g_id` = `g`.`group_id`)
 			  `l`.`interest_rate`  AS `interest_rate`,
 			  `l`.`currency_type`  AS `curr_type`,
 			  `l`.`loan_number`    AS `loan_number`,
+			  
 			  (SELECT SUM(cm.principal_paid) FROM ln_client_receipt_money AS cm WHERE STATUS=1 AND cm.loan_id=l.id) AS principal_paid,
 			  (SELECT SUM(cm.interest_paid) FROM ln_client_receipt_money AS cm WHERE STATUS=1 AND cm.loan_id=l.id) AS interest_paid,
 			  (SELECT SUM(cm.penalize_paid) FROM ln_client_receipt_money AS cm WHERE STATUS=1 AND cm.loan_id=l.id) AS penalize_paid,
@@ -412,7 +410,8 @@ WHERE (`lg`.`g_id` = `g`.`group_id`)
 			FROM (`ln_loan` `l`)
 			WHERE 
 			        l.`status` = 1
-			       AND (`l`.`is_completed` = 0) ";
+			       AND (`l`.`is_completed` = 0)
+				   AND l.is_badloan=0 ";
 
 		$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
 		$where= "  AND ".$to_date;

@@ -147,7 +147,7 @@ fieldset{padding:10px;}
 				<tr>
 					<td><?php echo $tr->translate("INTEREST_RATE")?></td>
 					<td><?php  echo $frm->getElement('interest_ratelabel');?>
-								<input dojoType="dijit.form.TextBox"  id="interest_rate" name="interest_rate" type="hidden">
+					<input dojoType="dijit.form.TextBox"  id="interest_rate" name="interest_rate" type="hidden">
 					</td>
 				</tr>
 				<tr>
@@ -302,8 +302,8 @@ fieldset{padding:10px;}
 	</tr>		
 </table>
 </fieldset>
-<input type="text" dojoType="dijit.form.TextBox" name="identity" id="identity">
-<input type="text" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
+<input type="hidden" dojoType="dijit.form.TextBox" name="identity" id="identity">
+<input type="hidden" dojoType="dijit.form.TextBox" name="record_id" id="record_id">
 <input type="hidden" dojoType="dijit.form.TextBox" name="curr" id="curr">
 <?php  echo $frm->getElement('reciever');?>
 </form>
@@ -612,7 +612,7 @@ dojo.ready(function(){
 			class: 'fullside',
 			onChange: function() {
 				getLaonPayment(1);//tab1
-				//getAllLaonPayment(1);//tab2
+				getAllLaonPayment(1);//tab2
 				///getLaonHasPayByLoanNumber();//tab3
 				dijit.byId("amount_receive").focus();
 			}
@@ -938,7 +938,7 @@ function getLaonPayment(type){//tab ទី1
 			}
 		});
 	}catch(err){
-		alert("tabe 1 eror");
+		
 	}	
 }
 function getdataPaymentToForm(data){//គណនាថ្ងៃយឺតអោយត្រូវគ្រប់ករណី
@@ -1040,12 +1040,12 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		dijit.byId("total_payment").attr("value",principal_permonth+interest);
 		calTotal();
 	}catch(err){
-		alert(err);
 	}
 }
 function getLoan(){
 }
-function getAllLaonPayment(types){//tabl2 
+function getAllLaonPayment(type){//tabl2 
+	types=1;
 	if(types==1){
 		var loan_numbers = dijit.byId('loan_number').get('value');
 	}else if(types==2){
@@ -1078,7 +1078,6 @@ function getAllLaonPayment(types){//tabl2
 						+'<th class="tdheader"><?php echo $tr->translate('NOTE');?></th></tr>'
 					+'</thead>';
 				nums=0;
-				alert(data);
 				if(data!=""){
 					for(j=0;j<data.length;j++){
 						statuss='<label style="color:red;"><?php echo $tr->translate('NOT_COMPLETED');?></label>';

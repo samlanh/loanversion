@@ -3,8 +3,8 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 {
       public function getAllLoan($search = null){//rpt-loan-released/
       	 $db = $this->getAdapter();
-      	 $sql = "SELECT *,
-      	 	(SELECT label FROM `in_ln_interest` WHERE `value` =v_loanreleased.interest_rate LIMIT 1) AS interest_rate
+      	 $sql = "SELECT *
+      	 	
       	  FROM v_loanreleased WHERE 1 ";
       	 $where ='';
       

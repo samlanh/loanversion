@@ -1014,6 +1014,7 @@ function getLaonPayment(type){
 function getLoan(){
 }
 function getAllLaonPayment(types){
+	types=1;
 	if(types==1){
 		var loan_numbers = dijit.byId('loan_number').get('value');
 	}else if(types==2){
@@ -1093,7 +1094,7 @@ function getAllLaonPayment(types){
 				dojo.byId('data_table1').innerHTML = tmp;
 			},
 			error: function(e) {
-				//alert(e);
+				
 			}
 		});
 }

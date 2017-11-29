@@ -185,10 +185,17 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	return $db->fetchAll($sql.$where.$order);
     }
     public function getClientByTypes($type){
-    	$this->_name='ln_loan_member';
-    	$sql ="SELECT c.client_number,c.name_kh,c.name_en,lm.client_id ,lm.loan_number
-				FROM `ln_loan_member` AS lm,ln_client AS c WHERE lm.client_id=c.client_id  
-				AND lm.is_completed = 0 AND lm.status=1 AND c.client_number !='' ORDER BY lm.member_id DESC ";
+    	$this->_name='ln_loan';
+    	$sql ="SELECT c.client_number,
+    			c.name_kh,c.name_en,
+    			l.customer_id AS client_id ,l.loan_number
+				FROM `ln_loan` AS l,
+				ln_client AS c 
+				WHERE 
+				l.customer_id=c.client_id  
+				AND l.is_completed = 0 
+				AND l.status=1 AND 
+    			c.client_number !='' ORDER BY l.id DESC ";
     	$db = $this->getAdapter();
     	$rows = $db->fetchAll($sql);
     	$options=array(0=>'------Select------');

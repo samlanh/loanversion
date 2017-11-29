@@ -470,7 +470,6 @@ function getAllClientNumberByBranch(branch_id){
 	});
 }
 var url_getloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloannumber')); ?>';
-
 function getLoanByBranch(){
 	branch_id = dijit.byId('branch_id').get('value');
 	if(branch_id==''){
@@ -486,7 +485,6 @@ function getLoanByBranch(){
 		},		    
 		handleAs:"json",
 		load: function(data) {
-			//alert(data);	
 			dijit.byId('loan_code').attr('value',data);
 		},
 		error: function(err) {

@@ -56,6 +56,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		$fm = $frm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($fm);
 		$this->view->frm_search = $fm;
+		
   }
   function addAction()
   {

@@ -9,14 +9,14 @@ class Report_Model_DbTable_DbRptPaymentSchedule extends Zend_Db_Table_Abstract
     }
     public function getPaymentSchedule($id){
     	$db=$this->getAdapter();
-    	$sql = "SELECT * FROM `ln_loan_detail` WHERE loan_id= $id ";
+    	$sql = "SELECT * FROM `ln_loan_detail` WHERE loan_id = $id ";
     	return $db->fetchAll($sql);
     }
     public function getPaymentScheduleGroupById($id){//for group member total pay per month
     	$db=$this->getAdapter();
     	$sql = "SELECT f.*,
-    	SUM(total_principal) AS total_principal,
-    	SUM(total_interest) AS total_interest_permonth,SUM(f.principal_permonth) AS total_principal_permonth 
+    	total_principal AS total_principal,
+    	total_interest AS total_interest_permonth,SUM(f.principal_permonth) AS total_principal_permonth 
     	             ,SUM(total_payment) AS total_payment_permonth FROM `ln_loan_member` AS m,`ln_loanmember_funddetail` AS f
 				   WHERE m.member_id = f.member_id AND m.group_id=$id AND f.status=1 
     			AND m.status=1 GROUP BY m.group_id ,f.date_payment";

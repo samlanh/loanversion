@@ -281,16 +281,16 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	return $pre.$new_acc_no;
    }
    public function getLoanNumber($data=array('branch_id'=>1,'is_group'=>0)){
-   	$this->_name='ln_loan_member';
+   	$this->_name='ln_loan';
    	$db = $this->getAdapter();
    	if(empty($data['is_group'])){
    		$data['is_group']=0;
    	}
    	if(($data['is_group'])!=0){
-   		$sql = "SELECT COUNT(g_id)  FROM `ln_loan_group` WHERE branch_id=".$data['branch_id']." AND loan_type=2 LIMIT 1 ";
+   		$sql = "SELECT COUNT(id)  FROM `ln_loan` WHERE branch_id=".$data['branch_id']." AND loan_type=2 LIMIT 1 ";
    		$pre = $this->getPrefixCode($data['branch_id'])."GL";
    	}else{
-   		$sql=" SELECT COUNT(member_id)  FROM $this->_name WHERE branch_id=".$data['branch_id']." LIMIT 1 ";
+   		$sql=" SELECT COUNT(id)  FROM $this->_name WHERE branch_id=".$data['branch_id']." LIMIT 1 ";
    		$pre = $this->getPrefixCode($data['branch_id'])."L";
    	}
    
@@ -502,35 +502,35 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$db=$this->getAdapter();
   	return $db->fetchRow($sql);
   }
-  public function getClientGroupByMemberId($group_id){
-  	$sql="SELECT lg.level,lg.date_release,lg.total_duration,lg.first_payment,
-  	lg.pay_term,lg.payment_method,
-  	lg.loan_type,
-  	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) as branch_name,
-  	(SELECT co_khname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_khname,
-  	(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_enname,
-  	(SELECT displayby FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS displayby,
-  	(SELECT tel FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS tel,
-  	(SELECT client_number FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_number,
-  	(SELECT phone FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_phone,
-  	(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
-  	(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
-  	(SELECT displayby FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS displayclient,
-  	lm.client_id,
-  	(SELECT curr_namekh FROM `ln_currency` WHERE id = lm.currency_type limit 1) AS currency_type
-  	,SUM(lm.total_capital) AS total_capital,lm.loan_number,
-  	lm.interest_rate,lm.branch_id,
-  	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = lg.user_id LIMIT 1) AS user_name
-  	FROM
-  	`ln_loan_group` AS lg,`ln_loan_member` AS lm WHERE
-  	lg.g_id =lm.group_id  ";
-  	if(!empty($group_id)){
-  		$sql.=" AND lm.group_id = $group_id";
-  	}
-  	$sql.=" GROUP BY lm.group_id";
-  	$db=$this->getAdapter();
-  	return $db->fetchRow($sql);
-  }
+//   public function getClientGroupByMemberId($group_id){
+//   	$sql="SELECT lg.level,lg.date_release,lg.total_duration,lg.first_payment,
+//   	lg.pay_term,lg.payment_method,
+//   	lg.loan_type,
+//   	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) as branch_name,
+//   	(SELECT co_khname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_khname,
+//   	(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_enname,
+//   	(SELECT displayby FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS displayby,
+//   	(SELECT tel FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS tel,
+//   	(SELECT client_number FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_number,
+//   	(SELECT phone FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_phone,
+//   	(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
+//   	(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
+//   	(SELECT displayby FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS displayclient,
+//   	lm.client_id,
+//   	(SELECT curr_namekh FROM `ln_currency` WHERE id = lm.currency_type limit 1) AS currency_type
+//   	,SUM(lm.total_capital) AS total_capital,lm.loan_number,
+//   	lm.interest_rate,lm.branch_id,
+//   	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = lg.user_id LIMIT 1) AS user_name
+//   	FROM
+//   	`ln_loan_group` AS lg,`ln_loan_member` AS lm WHERE
+//   	lg.g_id =lm.group_id  ";
+//   	if(!empty($group_id)){
+//   		$sql.=" AND lm.group_id = $group_id";
+//   	}
+//   	$sql.=" GROUP BY lm.group_id";
+//   	$db=$this->getAdapter();
+//   	return $db->fetchRow($sql);
+//   }
   function getAllPaymentMethod($payment_id=null,$option = null){
   	$sql = "SELECT * FROM ln_payment_method WHERE status = 1 ";
   	if($payment_id!=null){
@@ -744,35 +744,57 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
  }
  public function getNextPayment($str_next,$next_payment,$amount_amount,$holiday_status=null,$first_payment=null){//code make slow
  $default_day = Date("d",strtotime($first_payment));
+ $prev_month=$next_payment;
  for($i=0;$i<$amount_amount;$i++){
 		if($default_day>28){
-			
-			$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
-			
 		   if($str_next!='+1 month'){
+		   	$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
 				$default_day='d';
 				if($str_next=='+1 day'){//if day
-// 					echo "ddd".$next_payment;
-// 					exit();
 				}else{
 					$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));//code here have problem
-// 					echo "ddd".$next_payment;
-// 					exit();
 				}
 			}else{
-				$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));
-				$str_next='-1 month';
-				$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
+				
+// 				$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));
+// 				$str_next='-1 month';
+// 				$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
+/*update*/
+				if($default_day==31){
+					// 		 		$next_payment = date("Y-m-t", strtotime("$next_payment +1 day"));//if many hear not work
+					$date= new DateTime($next_payment);
+					$date->modify('+1 day');
+					$next_payment = $date->format("Y-m-t");
+					return $next_payment;
+				}elseif($default_day==30 OR $default_day==29){
+					$date= new DateTime($prev_month);
+					$pre_month = $date->format("m");
+					$prev_month = $pre_month;
+					if($pre_month=='01'){
+						$date= new DateTime($next_payment);
+						$next_payment = $date->format("Y-02-20");
+						$date= new DateTime($next_payment);
+						$next_payment = $date->format("Y-m-t");
+					}//for Feb
+					else{
+						$date= new DateTime($next_payment);
+						$date->modify('+1 month');
+						$next_payment = $date->format("Y-m-$default_day");
+					}
+				}else{//for 29
+						 
+				}
+/*update new*/	
+				return $next_payment;
+				break;			
 			}
 		}else{
-// 			echo 2;exit();
 			if($str_next!='+1 month'){
 				$default_day='d';
 			}
 	  		$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));
 		}
   	}
-//   	return $next_payment;
   	if($holiday_status==3){//normal
   		if($str_next=='+1 day'){
   			while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
@@ -781,9 +803,11 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		}
   		return $next_payment;//if normal day
   	}else{//check for sat and sunday
+  		if($default_day<=28){
   		while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
   			$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
   		}
+  	}
 //   		echo $next_payment;exit();
   		return $next_payment;
   	}
@@ -1078,9 +1102,9 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   }
   function getClientIdBYMemberId($member_id){
   	$db = $this->getAdapter();
-//   	$sql = "SELECT client_id FROM `ln_loan_member` WHERE member_id = $member_id AND status = 1 LIMIT 1 ";
-$sql = " SELECT g.co_id,m.client_id  FROM  `ln_loan_member` AS m , `ln_loan_group` AS g
-          WHERE m.status=1 AND g.status=1 AND m.group_id = g.g_id AND m.member_id = $member_id GROUP BY m.member_id ";
+		$sql = " SELECT l.co_id,l.customer_id AS client_id  
+			FROM  `ln_loan` AS l 
+          WHERE l.status=1 AND l.id = $member_id GROUP BY l.id ";
   	return $db->fetchRow($sql);
   }
 
@@ -1126,7 +1150,7 @@ $sql = " SELECT g.co_id,m.client_id  FROM  `ln_loan_member` AS m , `ln_loan_grou
   	$options=array(''=>"---Select Loan Number---");
   	if($opt!=null){
   		if(!empty($result))foreach($result AS $row){
-  			$options[$row['member_id']]= $row['customer_name']."-".$row['loan_number'];
+  			$options[$row['id']]= $row['customer_name']."-".$row['loan_number'];
   		}
   		return $options;
   	}else{

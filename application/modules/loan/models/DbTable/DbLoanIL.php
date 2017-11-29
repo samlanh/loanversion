@@ -1255,10 +1255,9 @@ function getLoanPaymentByLoanNumber($data){
 function getLoanLevelByClient($client_id,$type){
     	$db  = $this->getAdapter();
     	if($type==1){
-    		$sql = " SELECT COUNT(member_id) FROM `ln_loan_member` WHERE STATUS =1 AND client_id = $client_id LIMIT 1 ";
+    		$sql = " SELECT COUNT(id) FROM `ln_loan` WHERE status =1 AND customer_id = $client_id LIMIT 1 ";
     	}else{
-    		$sql = "SELECT COUNT(m.member_id) FROM `ln_loan_member` AS m,`ln_loan_group` AS g WHERE m.status =1 AND
-    		m.group_id =g_id AND m.client_id = $client_id AND g.loan_type=2 LIMIT 1";
+    		$sql = "SELECT COUNT(id) FROM `ln_loan` WHERE status =1 AND customer_id = $client_id  LIMIT 1";
     	} 
     	$level  = $db->fetchOne($sql);
     	return ($level+1);

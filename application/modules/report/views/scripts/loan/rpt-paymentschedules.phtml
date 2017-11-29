@@ -104,7 +104,7 @@ td p{ margin-top:0px !important;}
 		                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
 		                    <td><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
 		                    <td><?php echo str_replace('.00', '', number_format($row['outstanding']-$row['principal_permonth'],2)); ?></td>
-		                    <td></td>
+		                    <td><?php echo ($row['is_completed']==1)?"បង់ដាច់":""?></td>
 		                </tr>
 	               <?php }}
 	               	if(!empty($record))for($record = $key;$record<11;$record++){

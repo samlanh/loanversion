@@ -411,9 +411,9 @@ public function addILPayment($data){
 	    			$record_id = $data["mfdid_".$i];
 	    			if($record_id!=""){
 	    				if($option_pay==1 OR $option_pay==2 OR $option_pay==3 OR $option_pay==4){//បង់ធម្មតា
-	    					
 	    					if($option_pay==3){
 	    						$total_interest=0;
+	    						$total_principal = $data["principal_permonth_".$i];
 	    					}elseif($option_pay==2){//ដើម្បីអោយគណនា១ Record ម្តងៗរក completed=1
 	    						$total_interest=$data["interest_".$i];
 	    						$total_principal = $data["principal_permonth_".$i];
@@ -428,8 +428,7 @@ public function addILPayment($data){
 	    						if($remain_money>=0){//ដកផាគពិន័យ
 	    							$paid_penalty = $penalize;
 	    							$principle_after=0;
-	    							$remain_money = $remain_money -$total_interest;
-	    							
+	    							$remain_money = $remain_money -$total_interest;	    							
 	    							if($remain_money>=0){
 	    								$paid_interest = $total_interest;
 	    								$after_interest = 0;
@@ -439,14 +438,13 @@ public function addILPayment($data){
 	    									$paid_principal = $total_principal;
 	    									$after_principal =0;
 	    									$is_compleated_d=1;
-// 	    									echo 1;exit();
 	    								}else{
 	    									$paid_principal = $total_principal-abs($remain_money);
 	    									$after_principal = abs($remain_money);
 	    									$is_compleated_d=0;
-// 	    									echo 0;exit();
 	    								}
 	    							}else{
+	    								
 	    								$paid_interest = $total_interest-abs($remain_money);
 	    								$after_interest =abs($remain_money);
 	    							}
@@ -471,6 +469,7 @@ public function addILPayment($data){
 		    						'total_recieve'		=> $paid_principal,
 		    						'penelize_amount'	=> $after_penalty,
 		    				);
+		    				
 		    				$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
 		    				
 		    				$load_detail = array(
@@ -480,10 +479,11 @@ public function addILPayment($data){
 	    						'total_payment_after' => $after_principal+$after_interest,
 	    						'is_completed'		  => $is_compleated,
 		    				);
-// 		    				print_r($is_compleated);exit();
+// 		    				print_r($load_detail);exit();
 		    				$this->_name="ln_loan_detail";
 		    				$where = $db->quoteInto("id=?", $record_id);
 		    				$this->update($load_detail, $where);
+		    				
 		    				
 	    				$paid_principalall =$paid_principalall+$paid_principal;
 	    				$paid_interestall =$paid_interestall+$paid_interest;
@@ -559,7 +559,7 @@ public function addILPayment($data){
 	    	if(empty($rs)){//update ករណីបង់ចុងក្រោយ គឺ updatE ទៅជាដាច់
 	    		$arr = array(
 	    				'is_payoff'=> 1,//check here
-	    				'option_pay'=>4
+	    				'payment_option'=>4
 	    		);
 	    		
 	    		$this->_name="ln_client_receipt_money";
