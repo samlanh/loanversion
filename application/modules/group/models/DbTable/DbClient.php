@@ -124,7 +124,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
     function getViewClientByGroupId($group_id){
     	$db = $this->getAdapter();
     	$sql=" SELECT * FROM $this->_name WHERE client_id=
-    	(SELECT client_id FROM `ln_loan_member` WHERE group_id=".$db->quote($group_id)." LIMIT 1)";
+    	(SELECT customer_id FROM `ln_loan` WHERE customer_id=".$db->quote($group_id)." LIMIT 1)";
     	$row=$db->fetchRow($sql);
     	return $row;
     }

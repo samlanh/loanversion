@@ -479,12 +479,10 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 // 		));
 		$a = Application_Model_GlobalClass::getDefaultAdapter();
 		$sql = "SELECT 
-			  lm.`loan_number` 
+			  l.`loan_number` 
 			FROM
-			  `ln_loan_member` AS lm,
-			  `ln_loan_group` AS lg 
-			WHERE lm.`group_id` = lg.`g_id`
-  			  AND lg.`is_reschedule`!=1 AND lg.`loan_type` =2 GROUP BY lm.`loan_number`";
+			  `ln_loan` AS l
+			WHERE l.is_badloan=0 AND l.status=1 AND l.`loan_type` =2 GROUP BY l.`loan_number` ";
 		$row_loan_number = $a->fetchAll($sql);
 		$options=array(''=>'');
 		if(!empty($row_loan_number))foreach($row_loan_number AS $row){
