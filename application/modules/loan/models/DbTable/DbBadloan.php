@@ -210,7 +210,7 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
 		return $options;
     }
     public function getClientByTypesADD($type){
-    	$this->_name='ln_loan_member';
+    	$this->_name='ln_loan';
     	$sql ="SELECT c.client_number,c.name_kh,l.customer_id ,l.loan_number,l.`is_badloan`
 				FROM ln_loan AS l,ln_client AS c
 				WHERE l.customer_id = c.client_id  AND l.is_completed = 0 AND l.status=1 AND c.client_number !='' 
@@ -228,19 +228,19 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	return $options;
     }
     public function getClientByTypess($type=null,$client_id=null ,$row=null){
-    	$this->_name='ln_loan_member';
+    	$this->_name='ln_loan';
     	$where='';
     	if($type!=null){
-    		$where=' AND is_group = 1';
+    		$where='';
     	}
-    	$sql ="SELECT client_id,
-       (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= member_id AND STATUS=1 AND is_completed=0 LIMIT 1) AS total_principal,
-       (SELECT lf.total_interest FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= member_id AND STATUS=1 AND is_completed=0 LIMIT 1) AS total_interest
-        FROM `ln_loan_member`";
+    	$sql ="SELECT customer_id AS client_id,
+       (SELECT outstanding_after FROM `ln_loan_detail` WHERE loan_id=l.id AND is_completed=0 AND STATUS= 1 LIMIT 1) AS total_principal,
+       (SELECT (total_interest_after) FROM `ln_loan_detail` WHERE loan_id=l.id AND is_completed=0  AND STATUS= 1 LIMIT 1) AS total_interest
+        FROM `ln_loan` AS l ";
     	$db = $this->getAdapter();
     	if($row!=null){
     		if($client_id!=null){
-    			$where.=" AND client_id  =".$client_id ." LIMIT 1";
+    			$where.=" AND customer_id  =".$client_id ." LIMIT 1";
     		}
     		return $db->fetchRow($sql.$where);
     	}

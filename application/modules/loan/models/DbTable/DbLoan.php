@@ -43,7 +43,7 @@ class Loan_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
     					'is_completed'=>0,
     					'branch_id'=>1
     			);
-    			$this->_name='ln_loan_member';
+    			$this->_name='ln_loan';
     			$g_id = $this->insert($datamember);//add member loan
     			
     			$remain_principal = $row['total_amount'];

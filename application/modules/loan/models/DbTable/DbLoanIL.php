@@ -113,39 +113,35 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
 //     }
     public function getLoanviewById($id){
     	$sql = "SELECT
-    	lg.g_id
-    	,(SELECT branch_nameen FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) AS branch_name
-    	,lg.level,
-    	(SELECT name_kh FROM `ln_view` WHERE status =1 and type=24 and key_code=lg.for_loantype) AS for_loantype
-    	,(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_firstname
-    	,(select concat(zone_name,'-',zone_num)as dd from `ln_zone` where zone_id = lg.zone_id ) AS zone_name
-    	,(SELECT name_en FROM `ln_view` WHERE status =1 and type=14 and key_code=lg.pay_term) AS pay_term
-    	,(SELECT name_en FROM `ln_view` WHERE status =1 and type=14 and key_code=lg.collect_typeterm) AS collect_typeterm
-    	,lg.date_release
-    	,lg.total_duration
-    	,lg.first_payment
-    	,lg.time_collect
-    	,(SELECT name_en FROM `ln_view` WHERE status =1 and type=2 and key_code=lg.holiday) AS holiday
-    	,lg.date_line
-    	,lm.pay_after, lm.pay_before
-    	,(SELECT payment_nameen FROM `ln_payment_method` WHERE id =lm.payment_method ) AS payment_nameen
-    	,(SELECT curr_nameen FROM `ln_currency` WHERE id=lm.currency_type) AS currency_type
-    	,lm.graice_period,
-    	lm.loan_number,
-    	(SELECT label FROM `in_ln_interest` WHERE `value` =lm.interest_rate LIMIT 1) AS interest_rate,
-    	lm.amount_collect_principal,lm.semi,
-    	lm.client_id,lm.admin_fee,
-    	lm.pay_after,lm.pay_before,lm.other_fee
-    	,(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
-    	(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
-    	(SELECT group_code FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS group_code,
-    	(SELECT client_number FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_number,
-    	lm.total_capital,lm.payment_method,
-    	lg.time_collect,
-    	lg.zone_id,
-    	(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_enname,
-    	lg.status AS str ,lg.status FROM `ln_loan_group` AS lg,`ln_loan_member` AS lm
-    	WHERE lg.g_id = lm.group_id AND lm.member_id = $id LIMIT 1 ";
+    	l.id
+    	,(SELECT branch_nameen FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name
+    	,l.level,
+    	(SELECT name_kh FROM `ln_view` WHERE STATUS =1 AND TYPE=24 AND key_code=l.for_loantype) AS for_loantype
+    	,(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_firstname
+    	,(SELECT CONCAT(zone_name,'-',zone_num)AS dd FROM `ln_zone` WHERE zone_id = l.zone_id ) AS zone_name
+    	,(SELECT name_en FROM `ln_view` WHERE STATUS =1 AND TYPE=14 AND key_code=l.pay_term) AS pay_term
+    	,(SELECT name_en FROM `ln_view` WHERE STATUS =1 AND TYPE=14 AND key_code=l.collect_typeterm) AS collect_typeterm
+    	,l.date_release
+    	,l.total_duration
+    	,l.first_payment
+    	,l.time_collect
+    	,(SELECT name_en FROM `ln_view` WHERE STATUS =1 AND TYPE=2 AND key_code=l.holiday) AS holiday
+    	,l.date_line
+    	,(SELECT payment_nameen FROM `ln_payment_method` WHERE id =l.payment_method ) AS payment_nameen
+    	,(SELECT curr_nameen FROM `ln_currency` WHERE id=l.currency_type) AS currency_type
+    	,l.graice_period,
+    	l.loan_number, interest_rate,
+    	l.amount_collect_principal,
+    	l.customer_id,l.admin_fee,l.other_fee,(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
+    	(SELECT name_en FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,
+    	(SELECT group_code FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS group_code,
+    	(SELECT client_number FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_number,
+    	l.loan_amount,l.payment_method,
+    	l.time_collect,
+    	l.zone_id,
+    	(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
+    	l.status AS str ,l.status 
+    	FROM `ln_loan` AS l  WHERE  l.id =$id LIMIT 1";
     	return $this->getAdapter()->fetchRow($sql);
     }
     function round_up($value, $places)
@@ -191,7 +187,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
-    		$this->_name='ln_loan_member';
+    		$this->_name='ln_loan';
     		$arr = array(
     				'loan_number'=>$data['loan_code']);
     		$where=" member_id =".$data['id'];
@@ -276,7 +272,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     					'collect_typeterm'=>$data['collect_termtype'],
     					'semi'=>$data['amount_collect_pricipal']
     			);
-    			$this->_name='ln_loan_member';
+    			$this->_name='ln_loan';
     			$member_id = $this->insert($datamember);//add member loan
     			unset($datamember);
     			

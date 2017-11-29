@@ -774,13 +774,13 @@ public function addILPayment($data){
 				if($is_set!=1){
 					$loan_number = $row_recipt_detail["loan_number"];
 					$rs_fun = $db_group->getFunDetailByLoanNumber($loan_number);
-					$rs_group = "SELECT m.group_id FROM ln_loan_member AS m WHERE m.loan_number = '$loan_number' GROUP BY m.loan_number";
+					$rs_group = "SELECT l.id FROM ln_loan AS l WHERE l.loan_number = '$loan_number' GROUP BY l.loan_number";
 					$group_id = $db->fetchOne($rs_group);
 					if(empty($rs_fun) or $rs_fun=="" or $rs_fun==null){
 						$arr_member = array(
 							'is_completed'	=>	0,
 						);
-						$this->_name = "ln_loan_member";
+						$this->_name = "ln_loan";
 						$where = $db->quoteInto("loan_number=?", $loan_number);
 						$this->update($arr_member, $where);
 						
@@ -930,18 +930,19 @@ public function addILPayment($data){
     					}else{
     						
     						$sql_loan_fun = "SELECT 
-											  lf.`id` ,
-											  lf.`total_principal`,
-											  lf.`principle_after`,
-											  lf.`total_interest_after`,
-											  lf.`service_charge`,
-											  lf.`penelize`
+											  d.`id` ,
+											  d.`total_principal`,
+											  d.`principle_after`,
+											  d.`total_interest_after`,
+											  d.`service_charge`,
+											  d.`penelize`
 											FROM
-											  `ln_loanmember_funddetail` AS lf,
-											  `ln_loan_member` AS lm 
-											WHERE lf.`member_id` = lm.`member_id`      
-  												AND lm.`loan_number` = '$loan_number' 
-    											AND lf.`date_payment` = '$date_payment'";
+											  `ln_loan_detail` AS d,
+											  `ln_loan` AS l
+											WHERE 
+												l.id= d.loan_id
+  												AND l.`loan_number` = '$loan_number' 
+    											AND d.`date_payment` = '$date_payment'";
     						$row_fun = $db->fetchAll($sql_loan_fun);
     						$is_set=0;
     						foreach ($row_fun as $rs_fun){
