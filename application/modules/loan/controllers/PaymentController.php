@@ -38,12 +38,15 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllIndividuleLoan($search);
 			$result = array();
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","RECIEPT_NO","TOTAL_PRINCEPLE","TOTAL_INTEREST","PENALIZE AMOUNT","TOTAL_PAYMENT","RECEIVE_AMOUNT","PAY_DATE","DATE","CO_NAME",
+			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","RECIEPT_NO","TOTAL_PRINCEPLE","TOTAL_INTEREST","PENALIZE AMOUNT","TOTAL_PAYMENT","RECEIVE_AMOUNT","PAY_DATE","DATE","CO_NAME","DELETE"
 				);
 			$link=array(
-					'module'=>'loan','controller'=>'ilpayment','action'=>'edit',
+					'module'=>'loan','controller'=>'payment','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('team_group'=>$link,'loan_number'=>$link,'client_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
+			$link1=array(
+					'module'=>'loan','controller'=>'payment','action'=>'delete',
+			);
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('delete'=>$link1));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -157,6 +160,21 @@ class Loan_PaymentController extends Zend_Controller_Action {
 // 		$this->view->loan_numbers = $db_global->getLoanNumberByBranch(1);
 		$this->view->loan_numbers = $db->getAllLoanNumberByBranch(1);
 	}
+	
+	function deleteAction()
+	{
+		$id = $this->getRequest()->getParam("id");
+		$db = new Loan_Model_DbTable_DbLoanILPayment();
+		try {
+			$db->deleteRecord($id);
+			Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/loan/payment/");
+		}catch (Exception $e) {
+			Application_Form_FrmMessage::message("INSERT_FAIL");
+			echo $e->getMessage();
+		}
+	}
+	
+	
 	function cancelIlPayment(){
 // 		$db = new Loan_Model_DbTable_DbLoanILPayment();
 		$db = new Loan_Model_DbTable_DbGroupPayment();

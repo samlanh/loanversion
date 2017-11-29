@@ -43,7 +43,7 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 			$link=array(
 					'module'=>'loan','controller'=>'ilpayment','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('team_group'=>$link,'loan_number'=>$link,'client_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array());
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -133,13 +133,13 @@ class Loan_IlPaymentController extends Zend_Controller_Action {
 		$payment_il = $db->getIlPaymentByID($id);
 		$this->view->ilPaymentById= $payment_il;
 		
-		$getIlDetail = $db->getIlDetail($id);
+		//$getIlDetail = $db->getIlDetail($id);
 		
 		$frm = new Loan_Form_FrmIlPayment();
 		$frm_loan=$frm->FrmAddIlPayment($payment_il);
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_ilpayment = $frm_loan;
-		$this->view->ilPayent = $getIlDetail;
+		//$this->view->ilPayent = $getIlDetail;
 		$this->view->client_id=$payment_il["group_id"];
 		$this->view->client_code=$payment_il["group_id"];
 		$this->view->branch_id=$payment_il["branch_id"];
