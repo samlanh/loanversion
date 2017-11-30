@@ -717,14 +717,17 @@ function calCulateFirstPayment(){
 	release_date = dijit.byId("release_date").get('value');
 	var a = new Date(release_date);
 	if(pay_term==3){//month
-		mm = a.getMonth()+amount_date+1;
+		var month = a.getMonth()+amount_date+1;
 	}else if(pay_term==2){//week
 		a.setDate(a.getDate() + (amount_date*7)); 
-		var mm = a.getMonth() + 1;
+		var month = a.getMonth() + 1;
 	}else if(pay_term==1){
 		a.setDate(a.getDate() + (amount_date)); 
-		var mm = a.getMonth() + 1;
+		var month = a.getMonth() + 1;
+	}else{
 	}
+	mm = month%12;
+	var year = parseInt(month/12);
 	var dd = a.getDate();
 	 if(dd<10){
 		 dd = "0"+dd;
@@ -732,7 +735,7 @@ function calCulateFirstPayment(){
 	 if(mm<10){
 		 mm = "0"+mm;
 	}
-	var y = a.getFullYear();
+	var y = a.getFullYear()+year;
 	var epx_date = y + '-'+ mm + '-'+dd ;
 	dijit.byId('first_payment').attr('value',epx_date);
 }
@@ -851,6 +854,14 @@ function getAllCo(){
 		}
 	});
 	
+}
+
+function getAddCoNew(){
+	co_id = dijit.byId('co_id').get('value');
+	if(co_id==-1){
+		window.open("<?php echo $this->url(array('module'=>'loan','controller'=>'co','action'=>'add')); ?>","_blank");
+	}else{
+	}
 }
 
 function loading(){

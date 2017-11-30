@@ -17,7 +17,7 @@ public function init()
 		$_loan_code = new Zend_Dojo_Form_Element_TextBox('loan_code');
 		$_loan_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
-				'readonly'=>true,
+				//'readonly'=>true,
 				'class'=>'fullside',
 				'style'=>'color:red; font-weight: bold;'
 		));
@@ -139,7 +139,7 @@ public function init()
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'popupCheckCO();',
+				'onchange'=>'getAddCoNew();popupCheckCO();',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));

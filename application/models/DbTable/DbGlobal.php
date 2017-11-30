@@ -193,7 +193,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	$sql = " call stGetAllCOName();";
    	$db = $this->getAdapter();
    	$rows =  $db->fetchAll($sql);
-   	$options = array(''=>'----Select Credit Officer ----');
+   	$options = array(''=>'----Select Credit Officer ----','-1'=>'Add New');
    	if(!empty($rows)){
    	if($option!=null){
    			foreach($rows as $rs){
@@ -1147,6 +1147,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$db = $this->getAdapter();
   	$sql = "CALL `stGetAllLoanNumber`";
   	$result = $db->fetchAll($sql);
+  	//print_r($result);exit();
   	$options=array(''=>"---Select Loan Number---");
   	if($opt!=null){
   		if(!empty($result))foreach($result AS $row){

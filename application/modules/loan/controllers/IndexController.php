@@ -246,7 +246,8 @@ class Loan_IndexController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			$db = new Application_Model_DbTable_DbGlobal();
 			$co_name = $db->getAllCoNameOnly();
-			array_unshift($co_name,array(
+			$optionss = $db ->getAllCOName(1);
+			array_unshift($co_name,$optionss,array(
 					'id' => -1,
 					'name' => '---Add New ---',
 			) );

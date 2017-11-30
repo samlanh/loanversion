@@ -125,7 +125,7 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 	<tr>
 		<td width="33%;" valign="top">
 		<fieldset>
-		     <legend align="center"><strong><?php echo $tr->translate('ILLOAN_INFO');?></strong></legend>
+		     <legend align="center"><strong><?php echo $tr->translate('INFO_ILLOAN');?></strong></legend>
 			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 			    <tr>
 					<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
@@ -139,21 +139,32 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 			    	<td><?php echo $tr->translate("AMIN_FEE")?></td>
 					<td><?php echo $frm->getElement('loan_fee');?></td>
 			    </tr>
+			     
 			    <tr>
 			    	<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
 					<td><?php echo $frm->getElement('repayment_method');?></td>
 			    </tr>
+			    
+			    <tr>
+					<td><?php echo $tr->translate("INTEREST_RATE")?></td>
+					<td><?php echo $frm->getElement('interest_rate');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
+					<td><?php echo $frm->getElement('release_date');?></td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
+					<td><?php echo $frm->getElement('first_payment');?></td>
+				</tr>
 			</table>
 		</fieldset>	
 		</td>
 		<td width="33%;" valign="top">
 		<fieldset>
-		     <legend align="center"><strong><?php echo $tr->translate('INTEREST_RATE_INFO');?></strong></legend>
+		     <legend align="center"><strong><?php echo $tr->translate('TERM_INSTALL');?></strong></legend>
 			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			 	<tr>
-					<td><?php echo $tr->translate("INTEREST_RATE")?></td>
-					<td><?php echo $frm->getElement('interest_rate');?></td>
-				</tr>
+			 	
 			 	<tr>
 					<td><?php echo $tr->translate("TERM_INSTALL")?></td>
 					<td><?php echo $frm->getElement('pay_every');?></td>
@@ -166,21 +177,7 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 					<td><label style="font-size:10px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label >(<label style="font-size:10px;" id="graice_type"></label>)</td>
 					<td><?php echo $frm->getElement('graice_pariod');?></td>
 				</tr>
-			</table>
-		</fieldset>
-		</td>
-		<td width="33%;" valign="top">
-		<fieldset>
-		     <legend align="center"><strong><?php echo $tr->translate('TERM_INSTALL');?></strong></legend>
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-				<tr>
-					<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
-					<td><?php echo $frm->getElement('release_date');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
-					<td><?php echo $frm->getElement('first_payment');?></td>
-				</tr>
+			 	
 				<tr>
 					<td><?php echo $tr->translate("LIFE_LOAN")?></td>
 					<td><?php echo $frm->getElement('date_line');?></td>
@@ -192,14 +189,13 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 			</table>
 		</fieldset>
 		</td>
-	</tr>
-	<tr>
-		<td colspan="6" style="border-bottom:1px solid #ccc;    background: none repeat scroll 0 0 #bbcff3;"><strong><?php echo $tr->translate("INFO_FUND")?></strong></td>
-	</tr>
-	<tr>
 		<td width="33%;" valign="top">
-			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			    <tr>
+		
+		<fieldset>
+		     <legend align="center"><strong><?php echo $tr->translate("INFO_FUND")?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				
+				<tr>
 					<td><?php echo $tr->translate("TIME_COLLECION")?></td>
 					<td><?php echo $frm->getElement('time');?></td>
 			    </tr>
@@ -207,12 +203,7 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 			    	<td><?php echo $tr->translate("TERM_FUND")?></td>
 					<td><?php echo $frm->getElement('collect_termtype');?></td>
 			    </tr>
-			    
-			</table>
-		</td>
-		<td width="33%;" valign="top">
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			 	<tr>
+			    <tr>
 					<td><?php echo $tr->translate("AMOUNT_TERM_FUND")?></td>
 					<td><?php echo $frm->getElement('amount_collect');?></td>
 				</tr>
@@ -221,16 +212,10 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 					<td><?php  echo $frm->getElement('every_payamount');?></td>
 				</tr>
 			</table>
-		</td>
-		<td width="33%;" valign="top">
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-				<tr>
-					<td><?php echo $tr->translate("PENAL_AMOUNT")?></td>
-					<td><?php echo $frm->getElement('pay_late');?></td>
-				</tr>
-			</table>
+		</fieldset>
 		</td>
 	</tr>
+	​
 	<tr>
 		<td align="center" colspan="3">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
@@ -844,7 +829,7 @@ function getInfoByLoanNumber(){
 		    dijit.byId('group_id').attr('value',data.group_id);
 		},
 		error: function(err) {
-			alert(err);
+			//alert(err);
 		}
 	});
 }
@@ -938,7 +923,7 @@ function getLoanInfoByLoanNumber(){
 			dijit.byId('total_amount').attr('value',data.all_total);
 		},
 		error: function(err) {
-			alert("got error"+err);
+			//alert("got error"+err);
 		}
 	});
 }

@@ -49,6 +49,7 @@ function round_up($value, $places)
     	return Loan_Model_DbTable_DbIRRFunction::IRR($array);
     }
     public function addRepayMentSchedule($data){
+    	print_r($data);exit();
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{

@@ -406,10 +406,6 @@ class Application_Form_FrmPopupGlobal extends Zend_Dojo_Form
 		<td>'.$frm->getElement('title_en').'</td>
 		</tr>
 		<tr>
-		<td>'. $tr->translate("DISPLAY_BY").'</td>
-		<td>'.$frm->getElement('display_by').'</td>
-		</tr>
-		<tr>
 		<td>'.$tr->translate("STATUS").'</td>
 		<td>'. $frm->getElement('status').'</td>
 		</tr>

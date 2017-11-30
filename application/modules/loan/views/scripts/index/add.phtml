@@ -445,6 +445,7 @@ function getAllCo(){
 		load: function(data) {
 			co_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('co_id').set('store', co_store);
+		    
 		},
 		error: function(err) {
 			//alert(err);
@@ -784,20 +785,26 @@ function calCulatePeriod(){
 function getFirstPayment(){
 	calCulateFirstPayment();
 }
+
 function calCulateFirstPayment(){
 	pay_term = dijit.byId('collect_termtype').get('value');
 	amount_date = dijit.byId('amount_collect').get('value');
 	release_date = dijit.byId("release_date").get('value');
 	var a = new Date(release_date);
 	if(pay_term==3){//month
-		mm = a.getMonth()+amount_date+1;
+		//mm = a.getMonth()+amount_date+1;
+		var month = a.getMonth()+amount_date+1;
 	}else if(pay_term==2){//week
 		a.setDate(a.getDate() + (amount_date*7)); 
-		var mm = a.getMonth() + 1;
+		var month = a.getMonth() + 1;
 	}else if(pay_term==1){
 		a.setDate(a.getDate() + (amount_date)); 
-		var mm = a.getMonth() + 1;
+		var month = a.getMonth() + 1;
+	}else{
 	}
+	
+	mm = month%12;
+	var year = parseInt(month/12);
 	var dd = a.getDate();
 	 if(dd<10){
 		 dd = "0"+dd;
@@ -805,10 +812,12 @@ function calCulateFirstPayment(){
 	 if(mm<10){
 		 mm = "0"+mm;
 	}
-	var y = a.getFullYear();
+	//var y = a.getFullYear();
+	var y = a.getFullYear()+year;
 	var epx_date = y + '-'+ mm + '-'+dd ;
 	dijit.byId('first_payment').attr('value',epx_date);
 }
+
 ////add preview loan
 var url_previewloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'addloantest')); ?>';
 function addPreviewLoan(){

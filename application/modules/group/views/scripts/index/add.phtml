@@ -266,7 +266,7 @@ dojo.require("dijit.Dialog");
 </table>
 <div class="dijitHidden">
 	<div data-dojo-type="dijit.Dialog"  id="frm_jobtype" >
-			<form id="form_job" >
+			<form id="form_job" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 				<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 					<tr>
 						<td><?php echo $tr->translate("JOB_TITLE")?></td>
@@ -298,10 +298,12 @@ function popupJobOption(){
 }
 url_job = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'addjob'));?>';
 function addjob(type){
+	 if(dijit.byId('form_job').validate()){
 		labeljob = dijit.byId('job_name').get('value');
 		$('#job').val(labeljob);
 		$('input[name="job"]').val(labeljob);				
 		dijit.byId('frm_jobtype').hide();
+	}
 }
 
 var d_datastore  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->clienttype));?> );

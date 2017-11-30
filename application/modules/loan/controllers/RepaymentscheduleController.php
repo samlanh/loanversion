@@ -131,7 +131,7 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 		
 		$db = new Loan_Model_DbTable_DbLoanIL();
 		$row = $db->getTranLoanByIdWithBranch($id,1,1);
-		if(empty($row)){ Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST","/loan/repaymentschedule/index"); }
+// 		if(empty($row)){ Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST","/loan/repaymentschedule/index"); }
 		
 		$frm = new Loan_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan($row);
