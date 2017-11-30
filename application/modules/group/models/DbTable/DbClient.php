@@ -213,12 +213,12 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		$acc_no = $db->fetchOne($sql);
 		$new_acc_no= (int)$acc_no+1;
 		$acc_no= strlen((int)$acc_no+1);
-// 		$pre =$this->getPrefixCode($branch_id);
-		$pre="";
+		$pre =$this->getPrefixCode($branch_id);
+		//$pre="";
 		for($i = $acc_no;$i<6;$i++){
 			$pre.='0';
 		}
-		return date("ym").$pre.$new_acc_no;
+		return $pre.$new_acc_no;
 	}
 // 	public function adddoocumenttype($data){
 		

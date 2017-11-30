@@ -447,36 +447,32 @@ WHERE (`lg`.`g_id` = `g`.`group_id`)
 		$end_date = $search['end_date'];
 		$db = $this->getAdapter();
 		$sql=" SELECT
-		lm.`loan_number`,
-		lm.`total_capital`,
-		lm.`interest_rate`,
-		lg.`date_release`,
-		lg.`date_line`,
-		lg.`total_duration`,
-		lg.`time_collect`,
-		lm.`currency_type` AS curr_type,
-		lm.`collect_typeterm`,
-		lm.`pay_after`,
-		SUM(f.`total_principal`) AS total_principal,
-		SUM(f.`principle_after`) AS principle_after,
-		SUM(f.`total_interest_after`) AS total_interest_after,
-		SUM(f.`total_payment_after`) AS total_payment_after,
-		SUM(f.`penelize`) AS penelize,
-		SUM(f.`service_charge`) AS service_charge,
-		f.`date_payment` ,
-		COUNT(lm.`group_id`) AS amount_late
+		l.`loan_number`,
+		l.`loan_amount`,
+		l.`interest_rate`,
+		l.`date_release`,
+		l.`date_line`,
+		l.`total_duration`,
+		l.`time_collect`,
+		l.`currency_type` AS curr_type,
+		l.`collect_typeterm`,
+		SUM(d.`principal_permonth`) AS total_principal,
+		SUM(d.`principle_after`) AS principle_after,
+		SUM(d.`total_interest_after`) AS total_interest_after,
+		SUM(d.`total_payment_after`) AS total_payment_after,
+		SUM(d.`penelize`) AS penelize,
+		d.`date_payment` 
 		FROM
-		`ln_loanmember_funddetail` AS f,
-		`ln_loan_group` AS lg,
-		`ln_loan_member` AS lm
-		WHERE f.`is_completed` = 0
-		AND lg.`g_id` = lm.`group_id`
-		AND lm.`member_id` = f.`member_id`
-		AND lg.`status` = 1
-		AND lm.`status` = 1
-		AND f.`status`=1
-		AND lm.is_reschedule!=1
-        AND lm.loan_number='".$loan_number."'";
+		`ln_loan_detail` AS d,
+		`ln_loan` AS l
+		WHERE d.`is_completed` = 0
+		AND l.`id` = d.`loan_id`
+		AND l.`status` = 1
+		AND l.`is_badloan` = 0
+		AND l.`is_completed` = 0
+		AND d.`status` = 1
+		AND d.`is_completed`=0
+        AND l.loan_number='".$loan_number."'";
 		$where='';
 		if(!empty($search['adv_search'])){
 			$s_search = addslashes(trim($search['adv_search']));
@@ -492,12 +488,12 @@ WHERE (`lg`.`g_id` = `g`.`group_id`)
 // 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}		
 		if(!empty($search['end_date'])){
-			$where.=" AND f.date_payment < '$end_date'";
+			$where.=" AND d.date_payment < '$end_date'";
 		}
 		if($search['branch_id']>0){
-			$where.=" AND f.`branch_id` = ".$search['branch_id'];
+			$where.=" AND l.`branch_id` = ".$search['branch_id'];
 		}		
-		$group_by = " GROUP BY lm.`group_id` ORDER BY f.`date_payment` ASC LIMIT 1";
+		$group_by = " GROUP BY l.`id` ORDER BY d.`date_payment` ASC LIMIT 1";
 		return $db->fetchRow($sql.$where.$group_by);
 	}
 	
