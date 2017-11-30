@@ -133,7 +133,6 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     	interest_rate,
     	l.amount_collect_principal,
     	l.customer_id,l.admin_fee,
-    	
     	l.other_fee
     	,(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
     	(SELECT name_en FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,

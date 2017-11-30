@@ -1019,11 +1019,7 @@ public function addILPayment($data){
 					  lm.`pay_after`,
 					  lm.`branch_id`,
 					  lm.`interest_rate`,
-					      (SELECT
-     `in_ln_interest`.`label`
-   FROM `in_ln_interest`
-   WHERE (`in_ln_interest`.`value` =   lm.`interest_rate` )
-   LIMIT 1) AS `interest_rate_label`,
+					  lm.`interest_rate` AS `interest_rate_label`,
    
 			   		  lm.`collect_typeterm`,
 			   		  lm.`amount_collect_principal`,

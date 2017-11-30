@@ -1201,6 +1201,16 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	return $rows;
   }
+  function getIndividuleClient(){
+  	$db = $this->getAdapter();
+  	$sql = "SELECT c.`client_id` AS id ,c.`name_kh` AS name ,c.`branch_id`,c.`client_number` FROM `ln_client` AS c WHERE c.`is_group`=0  AND c.`name_en`!='' " ;
+  	return $db->fetchAll($sql);
+  }
+//   function getAllClient(){
+//   	$db = $this->getAdapter();
+//   	$sql = "SELECT c.`client_id` AS id ,c.`name_kh` AS name ,c.`branch_id`,c.`client_number` FROM `ln_client` AS c WHERE c.`is_group`=1  AND c.`name_en`!='' " ;
+//   	return $db->fetchAll($sql);
+//   }
   
 }
 ?>

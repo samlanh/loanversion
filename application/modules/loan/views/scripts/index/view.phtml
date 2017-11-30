@@ -12,7 +12,7 @@
 </style>
 <p style="float:right;">
 <input type="button"  label="<?php echo $tr->translate("GO_BACK");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'loan','controller'=>"index",'action'=>'index'),null,true); ?>';"/>
-<input  type="button" id="wu-register" iconClass="dijitIconEdit" label="<?php echo $tr->translate("GO_EDIT");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'loan','controller'=>"index",'action'=>'edit','id'=>$rs['g_id']),null,true); ?>';"/>
+<input  type="button" id="wu-register" iconClass="dijitIconEdit" label="<?php echo $tr->translate("GO_EDIT");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'loan','controller'=>"index",'action'=>'edit','id'=>$rs['id']),null,true); ?>';"/>
 <div class="menureport">
 	<ul>
 		<li class="preview"><a title="Preview" href="" onclick="preview();"></a></li>
@@ -83,7 +83,7 @@
 			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 			    <tr>
 			         <td style="width:30%"><?php echo $tr->translate("LOAN_AMOUNT")?></td>
-					 <td class="border-cover"><?php echo $rs['total_capital']." ".$rs['currency_type'];?></td>
+					 <td class="border-cover"><?php echo $rs['loan_amount']." ".$rs['currency_type'];?></td>
 			    </tr>
 			    <tr>
 					<td style="width:30%"><?php echo $tr->translate("CURRENCY")?></td>
@@ -135,7 +135,7 @@
 			    </tr>
 			    <tr>
 					<td><label id="lbl_payment" ><?php echo ($rs['payment_method']==4)? $tr->translate("AMOUNT_GRAICE_PARIOD"): $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?></label></td>
-					<td class="border-cover"><?php  echo $rs['semi'];?></td>
+					<td class="border-cover"><?php  //echo $rs['semi'];?></td>
 			    </tr>
 			</table>
 		</td>
@@ -172,8 +172,8 @@
 		<td width="33%;" valign="top">
 			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 			    <tr>
-			  		<td style="width:35%;"><?php echo $tr->translate("PENAL_AMOUNT")?></td>
-					<td class="border-cover"><?php echo $rs['pay_after'];?></td>
+			  		<td style="width:35%;"><?php //echo $tr->translate("PENAL_AMOUNT")?></td>
+					<td class="border-cover"><?php //echo $rs['pay_after'];?></td>
 			    </tr>
 			    <tr>
 			    	<td><?php //echo $tr->translate("SAVING_AMOUNT")?></td>

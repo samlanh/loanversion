@@ -19,11 +19,10 @@ class Other_VillageController extends Zend_Controller_Action {
 						'adv_search' => '',
 						'search_status' => 1,
 						'province_name'=>0,
-						'district_name'=>'',
-						'commune_name'=>'');
+						'district_name'=>0,
+						'commune_name'=>909);
 			}
 			$rs_rows= $db->getAllVillage($search);
-			//print_r($rs_rows);exit();
 			$list = new Application_Form_Frmtable();
 			$collumns = array("VILLAGENAME_KH","VILLAGE_NAME","COMMNUE_NAME","DISTRICT_NAME","PROVINCE_NAME","DATE","STATUS","BY");
 			$link=array(

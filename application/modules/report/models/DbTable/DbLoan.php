@@ -632,14 +632,14 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  l.`collect_typeterm`,
 				  l.`date_release`,
 				  l.`date_line`,
-				  (SELECT `in_ln_interest`.`label`  FROM `in_ln_interest`  WHERE (`in_ln_interest`.`value` = l.`interest_rate`) LIMIT 1) AS `interest_rate`,
+				  l.`interest_rate`,
 				  l.`loan_amount` as capital,
 				 `crm`.`principal_amount` AS `principal_amount`,
 				 (crm.`interest_amount`) AS interest,
 				 (crm.`penalize_amount`) AS penelize,
 				 (crm.`service_chargeamount`) AS service,
 				 crm.`currency_type` AS curr_type,
-				 crmd.`date_payment`,
+				 crm.`date_payment`,
 				 
 				(crm.`return_amount`) AS return_amount,
 				
@@ -662,8 +662,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  AND crmd.`receipt_id`=crm.`id`
 				  AND l.`customer_id`=crm.`client_id`
 				  and l.id = ld.loan_id
-				  and l.id = crm.loan_id
-				  ";
+				  and l.id = crm.loan_id ";
       	$where ='';
       	if(!empty($search['advance_search'])){
       		//print_r($search);

@@ -7,7 +7,7 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 	}
 	public function AdvanceSearch ($data=null){
 		$request=Zend_Controller_Front::getInstance()->getRequest();
-		$db = new Loan_Model_DbTable_DbGroupPayment();
+// 		$db = new Loan_Model_DbTable_DbGroupPayment();
 		
 		$payment_type = new Zend_Dojo_Form_Element_FilteringSelect("paymnet_type");
 		$payment_type->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect',
@@ -38,7 +38,7 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 		
 		$client_name = new Zend_Dojo_Form_Element_FilteringSelect("client_name");
 		$opt_client = array(''=>'ជ្រើសរើស ឈ្មោះអតិថិជន');
-		$rows = $db->getIndividuleClient();
+		$rows = $dbs->getIndividuleClient();
 		if(!empty($rows))foreach($rows AS $row){
 			$opt_client[$row['id']]=$row['name'];
 		}
@@ -48,7 +48,7 @@ Class Loan_Form_FrmSearchGroupPayment extends Zend_Dojo_Form {
 		
 		$g_client_name = new Zend_Dojo_Form_Element_FilteringSelect("g_client_name");
 		$opt_client = array(''=>'ជ្រើសរើស ឈ្មោះអតិថិជន');
-		$rows = $db->getAllClient();
+		$rows = $dbs->getAllClient();
 		if(!empty($rows))foreach($rows AS $row){
 			$opt_client[$row['id']]=$row['name'];
 		}

@@ -166,7 +166,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 		if(empty($id)){
 			Application_Form_FrmMessage::Sucessfull("RECORD_NOT_FUND","/loan/index/index");
 		}
-		$db = new Loan_Model_DbTable_DbLoanIL();
+		$db = new Loan_Model_DbTable_DbLoandisburse();
 		$row = $db->getLoanviewById($id);
 		$this->view->tran_rs = $row;
 	}
