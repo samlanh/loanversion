@@ -41,8 +41,8 @@ td p{ margin-top:0px !important;}
 	                ?> 
 	                <tr>
 	                	<td colspan="3">
-	                		<table width="100%" >
-			                	<tr class='style'>
+	                		<table width="100%" style="font-family:">
+			                	<tr style="font-size:15px;line-height: 25px;font-family:'Khmer OS Battambang'" >
 				                   <td width="35%">
 				                   		<p> <?php echo "<strong>". $tr->translate('CLIENT_NO')."</strong> : ".$client['client_number']?></p>
 				                	    <p><b><?php echo $tr->translate('CUSTOMER_NAME');?></b>: <?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> </p>
@@ -130,12 +130,12 @@ td p{ margin-top:0px !important;}
 	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('BORROWER');?></td>
 	            	</tr>
 	            	<tr class="font_bold">
-	            		<td align="center" height="80px" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $client['user_name'];?></td>
-	            		<td align="center"  valign="bottom" style="line-height: 30px;font-family:'Khmer OS Muol'" >
+	            		<td align="center" height="80px" valign="bottom" style="font-size:15px;font-family:'Khmer OS Battambang'"><?php echo $client['user_name'];?></td>
+	            		<td align="center"  valign="bottom" style="font-size:15px;line-height: 30px;font-family:'Khmer OS Battambang'" >
 	            			<?php echo $client['co_khname'];?>
 	            			<p><?php echo $tr->translate("TEL");?>  : <?php echo $client['tel'];?></p>   
 	            		</td>
-	            		<td align="center" height="75px" valign="bottom" style="font-family:'Khmer OS Muol'">
+	            		<td align="center" height="75px" valign="bottom" style="font-size:15px;font-family:'Khmer OS Battambang'">
 	            			<?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></td>
 	            	</tr>
 	            </table>
