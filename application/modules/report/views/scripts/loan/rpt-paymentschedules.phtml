@@ -14,7 +14,7 @@ td p{ margin-top:0px !important;}
 	<div id="divPrint">
 	<style type="text/css">
 	.style{
-		line-height: 20px;font-size: 11px;
+		line-height: 20px;font-size: 13px;
 		font-family: 'Khmer OS Battambang';
 	}
 	.font_bold{
@@ -28,7 +28,7 @@ td p{ margin-top:0px !important;}
 	    	<td align="center">
 	        	<table width="100%" style="font-family:khmer;margin:0 auto;padding:0px; border:none;">
 					<tr>
-	                	  <td style="text-align: center;" valign="top"><img src="<?php echo $this->baseUrl();?>/images/letterhead.jpg" />  
+	                	  <td style=" " valign="top"><img src="<?php echo $this->baseUrl();?>/images/letterhead.jpg" />  
 	                	</td>
 	                </tr>
 	                <tr>
@@ -74,14 +74,12 @@ td p{ margin-top:0px !important;}
 	            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
 	                 <tr class="style" align="center" style="font-weight:bold; line-height: 40px;">
 	                    <td><?php echo $tr->translate("NUM");?></td>
-	                    <td><?php echo $tr->translate("DAY_PAYMENT");?></td>
 	                    <td><?php echo $tr->translate("ថ្ងៃ-ខែ ឆ្នាំ");?></td>
 	                    <td><?php echo $tr->translate("PRINCIPLE");?></td>
 	                    <td><?php echo $tr->translate("OS_AMOUNT");?></td>
 	                    <td><?php echo $tr->translate("TOTAL_INTEREST");?></td>
-	                    <td><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT");?></td>
-	                    <td><?php echo $tr->translate("OS");?></td>
 	                    <td><?php echo $tr->translate("OTHER");?></td>
+	                    <td><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT");?></td>
 	                </tr>
 	               <?php 
 	               $is_panelty=0;
@@ -97,14 +95,12 @@ td p{ margin-top:0px !important;}
 		                    <?php $str_day = date('D',strtotime($row['date_payment']));
 		                    	$day_as_khmer = $dayin_khmer[$str_day];
 		                    ?>
-		                    <td align="right">&nbsp;<?php echo $day_as_khmer.'-'.$str_day; ?>&nbsp;&nbsp;&nbsp;</td>
-		                    <td align="center"><?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
+		                    <td align="center"><?php echo $day_as_khmer; ?>&nbsp;<?php echo date('d-m-Y',strtotime($row['date_payment']));//echo$row['date_payment']?></td>
 		                    <td><?php echo str_replace('.00', '', number_format($row['outstanding'],2));?></td>
 		                    <td><?php echo str_replace('.00', '', number_format($row['principal_permonth'],2));?></td>
 		                    <td><?php echo str_replace('.00', '', number_format($row['total_interest'],2));?></td>
-		                    <td><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
-		                    <td><?php echo str_replace('.00', '', number_format($row['outstanding']-$row['principal_permonth'],2)); ?></td>
 		                    <td><?php echo ($row['is_completed']==1)?"បង់ដាច់":""?></td>
+		                     <td><?php echo str_replace('.00', '', number_format($row['total_payment'],2)); ?></td>
 		                </tr>
 	               <?php }}
 	               	if(!empty($record))for($record = $key;$record<11;$record++){
@@ -130,16 +126,16 @@ td p{ margin-top:0px !important;}
 	            <table width="100%" cellpadding="3">
 	            	<tr class="font_bold" style="height:25px;">
 	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('ACCOUNTING_SIGN');?></td>
-	            		<td align="center" valign="bottom"><?php echo $tr->translate('ភ្នាក់ងារឥណទាន'); ?></td> 
+	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('ភ្នាក់ងារឥណទាន'); ?></td> 
 	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('BORROWER');?></td>
 	            	</tr>
 	            	<tr class="font_bold">
-	            		<td align="center" height="80px" valign="bottom"><?php echo $client['user_name'];?></td>
-	            		<td align="center"  valign="bottom">
+	            		<td align="center" height="80px" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $client['user_name'];?></td>
+	            		<td align="center"  valign="bottom" style="line-height: 30px;font-family:'Khmer OS Muol'" >
 	            			<?php echo $client['co_khname'];?>
 	            			<p><?php echo $tr->translate("TEL");?>  : <?php echo $client['tel'];?></p>   
 	            		</td>
-	            		<td align="center" height="75px" valign="bottom">
+	            		<td align="center" height="75px" valign="bottom" style="font-family:'Khmer OS Muol'">
 	            			<?php echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></td>
 	            	</tr>
 	            </table>

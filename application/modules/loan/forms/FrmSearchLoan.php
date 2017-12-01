@@ -77,6 +77,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'onchange'=>'popupCheckCO();',
+				'class'	  =>'fullside',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
@@ -97,6 +98,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_repayment_method = new Zend_Dojo_Form_Element_FilteringSelect('repayment_method');
 		$_repayment_method->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
 				'required' =>'true',
 				'onchange'=>'chechPaymentMethod()',
 				'autoComplete'=>"false",
