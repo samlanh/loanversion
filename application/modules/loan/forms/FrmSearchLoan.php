@@ -88,6 +88,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
 		$_currency_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'   =>'fullside',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
