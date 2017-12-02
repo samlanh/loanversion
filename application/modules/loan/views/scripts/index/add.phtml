@@ -415,6 +415,7 @@ function filterClient(){
 		getAllClientByBranch(branch_id);
 		getAllClientNumberByBranch(branch_id);
 }
+
 var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
 function getAllClientByBranch(branch_id){
 	dojo.xhrPost({

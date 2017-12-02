@@ -4,6 +4,7 @@
 	$frm = $this->frm_loan;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	//print_r($this->datarow);
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
    <script>
@@ -375,6 +376,10 @@ function getLoanByBranch(){
 	if(branch_id==''){
 		alert('Please Select Branch');
 		dijit.byId('branch_id').focus();
+		return false;
+	}
+	if(dijit.byId("branch_id").get("value")=='<?php echo $this->datarow['branch_id']?>'){
+		dijit.byId("loan_code").attr("value",'<?php echo $this->datarow['loan_number']?>');
 		return false;
 	}
 	dojo.xhrPost({

@@ -144,6 +144,7 @@ class Loan_CoController extends Zend_Controller_Action {
    	}
    	$id = $this->getRequest()->getParam("id");
    	$row = $db_co->getCOById($id);
+   	$this->view->row=$row;
    	$this->view->photo = $row['photo'];
    	if(empty($row)){
    		$this->_redirect('payroll/co');

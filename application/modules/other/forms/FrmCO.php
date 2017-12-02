@@ -213,6 +213,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 		$_id = new Zend_Form_Element_Hidden('id');
 		
 		if(!empty($_data)){
+			
 			$_co_id->setValue($_data['co_code']);
 			$_name_kh->setValue($_data['co_khname']);
 			$_enname->setValue($_data['co_firstname']);
@@ -238,7 +239,7 @@ Class Other_Form_FrmCO extends Zend_Dojo_Form {
 			$_department->setValue($_data['department_id']);
 			$_figer_print_id->setValue($_data['figer_print_id']);
 			$_photo->setValue($_data['photo']);
-			
+			$_branch_id->setValue($_data['branch_id']);
 		}
 		$this->addElements(array($_co_code,$_figer_print_id,$_department,$_photo,$_annual_lives,$_btn_search,$_status_search,$_title,$_id,$_co_id,$_name_kh,$_branch_id,$_degree,$_national_id,$_display,$_enname,$_lname,
 				$_sex,$_tel,$_email,$_pob,$_address,$_shift,$_workingtime,$_status,$_position,$_basic_salary,$_start_work,$_end_work,$_contract,$_note));

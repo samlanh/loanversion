@@ -209,6 +209,10 @@
 			dijit.byId('branch_id').focus();
 			return false;
 		}
+		if(dijit.byId("branch_id").get("value")=='<?php echo $this->row['branch_id'];?>'){
+			dijit.byId("co_id").attr("value",'<?php echo $this->row['co_code'];?>');
+			return false;
+		}
 		dojo.xhrPost({
 			url:url_staffcode,	
 			content:{ 
