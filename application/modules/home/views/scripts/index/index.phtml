@@ -29,11 +29,10 @@ $collecteral=$this->url(array('module'=>'group','controller'=>'callteral','actio
 $chagen_coll=$this->url(array('module'=>'group','controller'=>'changecollteral','action'=>'index'), null, true);
 $indi_loan=$this->url(array('module'=>'loan','controller'=>'index','action'=>'index'), null, true);
 $disburse_loan=$this->url(array('module'=>'loan','controller'=>'groupdisburse','action'=>'index'), null, true);
-$indi_payment=$this->url(array('module'=>'loan','controller'=>'ilpayment','action'=>'index'), null, true);
+$indi_payment=$this->url(array('module'=>'loan','controller'=>'payment','action'=>'index'), null, true);
 $group_payment=$this->url(array('module'=>'loan','controller'=>'grouppayment','action'=>'index'), null, true);
 $repay_schedule=$this->url(array('module'=>'loan','controller'=>'repaymentschedule','action'=>'index'), null, true);
-$quickpayment=$this->url(array('module'=>'loan','controller'=>'ilquickpayment','action'=>'index'), null, true);
-$co=$this->url(array('module'=>'payroll','controller'=>'co','action'=>'index'), null, true);
+$co=$this->url(array('module'=>'loan','controller'=>'co','action'=>'index'), null, true);
 $bad_loan=$this->url(array('module'=>'loan','controller'=>'badloan','action'=>'index'), null, true);
 // report
 $rpt_loanrelease=$this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-disburse'), null, true);
@@ -99,13 +98,7 @@ $rpt_exchangemoney=$this->url(array('module'=>'report','controller'=>'loan','act
                             <div class="status"><?php echo $tr->translate('LOAN_IL');?></div>
                         </a>
                     </div>
-                    <!-- <div class="metro-nav-block nav-block-yellow">
-                        <a href="<?php //echo $disburse_loan;?>" data-original-title="">
-                            <i class="icon-tags"></i>
-                            <div class="info"></div>
-                            <div class="status"><?php //echo $tr->translate('INFO_LOANGROUP');?></div>
-                        </a>
-                    </div> -->
+                   
                      <div class="metro-nav-block nav-block-red double">
                         <a href="<?php echo $co;?>" data-original-title="">
                             <i class="icon-shopping-cart"></i>
@@ -124,20 +117,6 @@ $rpt_exchangemoney=$this->url(array('module'=>'report','controller'=>'loan','act
                         <a href="<?php echo $indi_payment;?>" class="text-center" data-original-title="">
                             <i class="icon-bar-chart"></i>
                             <div class="status"><?php echo $tr->translate('IL_PAYMENT');?></div>
-                        </a>
-                    </div>
-                    <div class="metro-nav-block nav-block-red double">
-                        <a href="<?php echo $group_payment;?>" data-original-title="">
-                            <i class="icon-bar-chart"></i>
-                            <div class="status"><?php echo $tr->translate('GROUP_PAYMENT');?></div>
-                        </a>
-                    </div>
-                    
-                    <div class="metro-nav-block nav-block-purple double">
-                        <a href="<?php echo $quickpayment;?>" data-original-title="">
-                            <i class="icon-eye-open"></i>
-                            <div class="info"></div>
-                            <div class="status"><?php echo $tr->translate('QUICK_PAYMENT');?> </div>
                         </a>
                     </div>
                     <div class="metro-nav-block nav-block-grey">

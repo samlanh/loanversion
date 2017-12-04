@@ -5,10 +5,8 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 	{
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
-	public function FrmAddPayment($data=null){
-		
-		$db = new Application_Model_DbTable_DbGlobal();
-		
+	public function FrmAddPayment($data=null){		
+		$db = new Application_Model_DbTable_DbGlobal();		
 		$old_penelize = new Zend_Form_Element_Hidden("old_penelize");
 		$old_penelize->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',

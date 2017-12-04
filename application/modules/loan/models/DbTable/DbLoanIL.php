@@ -46,7 +46,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
   	    CONCAT( l.total_duration,' ',(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =l.pay_term )),
         (SELECT zone_name FROM `ln_zone` WHERE zone_id=l.zone_id LIMIT 1) AS zone_name,
         (SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_name,
-         l.status  FROM `ln_loan` AS l
+         l.status,'Click Here'  FROM `ln_loan` AS l
 				WHERE loan_type =1 ";
     	if(!empty($search['adv_search'])){
     		$s_where = array();

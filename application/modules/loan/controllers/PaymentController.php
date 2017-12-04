@@ -107,6 +107,14 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 		
 		$this->view->loan_number = $db_global->getLoanNumberByBranch(1);
+		
+		$id = $this->getRequest()->getParam('id');
+		if(!empty($id)){
+			if(empty($id)){$id=0;}
+			$this->view->rsid=$id;
+			$db = new Loan_Model_DbTable_DbLoandisburse();
+			$this->view->rsloan =  $db->getTranLoanByIdWithBranch($id,1);
+		}
 	}	
 	
 	function editAction()

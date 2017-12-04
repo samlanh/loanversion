@@ -101,7 +101,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
 	    	l.zone_id,
 	    	(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
 	    	l.status AS str ,l.status FROM `ln_loan` AS l
-			WHERE l.loan_type = $loan_type AND l.status=1 ";
+			WHERE l.loan_type = $loan_type AND l.status=1 AND is_badloan=0 ";
     	if($is_newschedule!=null){
     		$where=" AND l.is_reschedule = 2 ";
     	}

@@ -1212,6 +1212,26 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 //   	$sql = "SELECT c.`client_id` AS id ,c.`name_kh` AS name ,c.`branch_id`,c.`client_number` FROM `ln_client` AS c WHERE c.`is_group`=1  AND c.`name_en`!='' " ;
 //   	return $db->fetchAll($sql);
 //   }
+  public function getAllProduct(){
+  	$sql=" SELECT v.id,v.product_en,v.product_kh,
+  	v.status FROM ln_pawnshopproduct AS v WHERE v.status=1 ";
+  	$Other=" ORDER BY  v.id desc ";
+  	$db = $this->getAdapter();
+  	return $db->fetchAll($sql);
+  }
+  public function getPawnshoNumber($data=array('branch_id'=>1,'is_group'=>0)){
+  	$db = $this->getAdapter();
+  	$sql=" SELECT COUNT(id)  FROM ln_pawnshop WHERE branch_id=".$data['branch_id']." LIMIT 1 ";
+  	$pre = $this->getPrefixCode($data['branch_id'])."PS";
+  	$acc_no = $db->fetchOne($sql);
+  	$new_acc_no= (int)$acc_no+1;
+  	$acc_no= strlen((int)$acc_no+1);
+  
+  	for($i = $acc_no;$i<5;$i++){
+  		$pre.='0';
+  	}
+  	return $pre.$new_acc_no;
+  }
   
 }
 ?>

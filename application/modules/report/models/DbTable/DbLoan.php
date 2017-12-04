@@ -634,23 +634,22 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  l.`date_line`,
 				  l.`interest_rate`,
 				  l.`loan_amount` as capital,
-				 `crm`.`principal_amount` AS `principal_amount`,
-				 (crm.`interest_amount`) AS interest,
-				 (crm.`penalize_amount`) AS penelize,
-				 (crm.`service_chargeamount`) AS service,
+				
+				crm.principal_amount AS principal_amount,
+				crm.interest_amount AS total_interest,
+				crmd.`penelize_amount` AS penelize_amount,
+				crm.`service_chargeamount` AS service_charge,
+				(`crm`.`total_payment`) AS `total_payment`,
+				
+				crm.`recieve_amount` AS amount_recieve,
+				crm.`return_amount` AS return_amount,
+				`crm`.`principal_paid` AS `principal_paid`,
+				(crm.`interest_paid`) AS interest_paid,
+				(crm.`service_paid`) AS service_paid,
+				crm.total_paymentpaid,
 				 crm.`currency_type` AS curr_type,
 				 crm.`date_payment`,
 				 
-				(crm.`return_amount`) AS return_amount,
-				
-				(`crm`.`total_payment`) AS `payment`,
-				crm.principal_amount AS principal_amount,
-				crm.interest_amount AS total_interest,
-				crm.`recieve_amount` AS recieve_amount,
-				crmd.`penelize_amount` AS penelize_amount,
-				crm.`service_chargeamount` AS service_charge,
-				(crm.`recieve_amount`) AS amount_recieve,
-				
 				(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = crm.`currency_type`)) AS `currency_type`,
       			(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = l.`pay_term` ))) AS name_en
 				FROM

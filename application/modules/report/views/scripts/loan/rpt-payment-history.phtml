@@ -81,9 +81,10 @@ table { page-break-inside:auto }
             </table>
         </td>
     </tr>
-    <tr><td class="mymy"><table id="exportExcel" width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
+    <tr>
+    	<td class="mymy">
+    	<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
             	<?php if(!empty($this->loantotalcollect_list)) {
-					//print_r($this->loantotalcollect_list);
 	              	foreach ($this->loantotalcollect_list as $index => $rs){
 	              		if ($client_id!=$rs["client_id"]) {
 	              		?>
@@ -115,117 +116,39 @@ table { page-break-inside:auto }
 	                    <td><?php echo $tr->translate("PAY_DATE");?></td>
 	                    <td bgcolor="#999"><?php echo $tr->translate("RECIEPT_NO");?></td>
 	                    <td bgcolor="#999"><?php echo $tr->translate("PAYMENTED");?></td>
-	                    <td bgcolor="#999"><?php echo $tr->translate("RETURN_AMOUNT");?></td>
-	                    <td bgcolor="#999"><?php echo $tr->translate("BALANCE");?></td>
 	                    <td bgcolor="#999"><?php echo $tr->translate("INPUT_DATE");?></td>
 	                    <td bgcolor="#999"><?php echo $tr->translate("PAYMENT_OPTION");?></td>
 	                </tr>
-	                <?php }?>
-                
-                <?php //if(!empty($this->loantotalcollect_list)) foreach ($this->loantotalcollect_list as $index => $rs){ ?>
-                <?php $balance=$rs["payment"]-$rs["amount_recieve"]-$rs["return_amount"];//$rs["total_payment"];?>
-             <?php 
-               $interest=0;
-               	if($rs["payment_option"]==4){
-               		
-// 					if($oldloan_number!=$rs['loan_number'] AND $is_set!=1){
-						$principle= $rs["principle_amount"];
-						$total_pay = $rs["payment"];
-						$interest= $rs["interest"];
-						$recieve = $rs["amount_recieve"];
-						$penelize = $rs["penelize"];
-						$service_charge =$rs["service"];
-						$is_set=1;
-// 					}
-				}else{
-					if($rs["payment_option"]==1){
-						$pay = $rs["amount_recieve"]-$rs["return_amount"];
-						$recieve = $pay;
-					}else{
-						$pay = $rs["recieve_amount"]-$rs["return_amount"];
-						$recieve = $pay-$rs["penalize_amount"]+$rs["penelize"];
-					}
-						$is_set=0;
-	               		$service_charge = $rs["service_charge"];
-	               		$interest = $rs["total_interest"];
-	               		$principle = $rs["total_principal_permonth"];
-	               		$penelize = $rs["penelize"];
-	               		//$recieve = $rs["recieve_amount"];
-	               		$total_pay = $rs["total_payment"];
-               		}
-               		$oldloan_number = $rs['loan_number'];
-               		$new_service = $recieve-$service_charge;
-               		if($new_service>=0){
-						$service = $service_charge;
-						$new_penelize = $new_service - $penelize;
-						if($new_penelize>=0){
-							$penelize_amount =  $penelize;
-							$new_interest = $new_penelize - $interest;
-							if($new_interest>=0){
-								$interest_amount = $interest;
-								//echo $interest_amount;exit();
-								$new_printciple = $new_interest - $principle;
-								if($new_printciple>=0){
-									$principle_amount = $principle;
-// 									exit();
-								}else{
-									$principle_amount = abs($new_interest);
-// 									echo  $principle_amount;
-								}
-							}else{
-								$interest_amount = abs($new_penelize);
-								$principle_amount=0;
-								
-							}
-						}else{
-							$penelize_amount = abs($new_service);
-							$interest =0;
-							$principle_amount=0;
-							
-						}
-					}else{
-						$service = abs($recieve);
-						$penelize_amount = 0;
-						$interest =0;
-						$principle_amount=0;
-					}
-               ?>
-            
+	                <?php }?>              
              <?php 
 		               if($rs['currency_type']==1){
-		               		$principle_r = $principle_r+$principle_amount;
-		               		$interst_r = $interst_r+$interest_amount;
-		               		$penalize_r = $penalize_r+$penelize_amount;
-		               		$service_charge_r = $service_charge_r+$service;
-		               		$balane_r=$balane_r-$balance;
+		               		$principle_r = $principle_r+$rs["principal_paid"];
+		               		$interst_r = $interst_r+$rs["interest_paid"];
+		               		$penalize_r = $penalize_r+$rs["penalize_paid"];
+		               		$service_charge_r = $service_charge_r+$rs["service_paid"];
 		               }elseif($rs['currency_type']==2){
-							$principle_d = $principle_d+$principle_amount;
-							$interst_d = $interst_d+$interest_amount;
-							$penalize_d = $penalize_d+$penelize_amount;
-							$service_charge_d = $service_charge_d+$service;
-							$balane_d=$balane_d+$balance;
+							$principle_d = $principle_d+$rs["principal_paid"];
+							$interst_d = $interst_d+$rs["interest_paid"];
+							$penalize_d = $penalize_d+$rs["penalize_paid"];
+							$service_charge_d = $service_charge_d+$rs["service_paid"];
 		               }else{
-		               		$principle_b = $principle_b+$principle_amount;
-							$interst_b = $interst_b+$interest_amount;
-							$penalize_b = $penalize_b+$penelize_amount;
-							$service_charge_b = $service_charge_b+$service;
-							$balane_b=$balane_b+$balance;
+		               		$principle_b = $principle_b+$rs["principal_paid"];
+							$interst_b = $interst_b+$rs["interest_paid"];;
+							$penalize_b = $penalize_b+$rs["penalize_paid"];;
+							$service_charge_b = $service_charge_b+$rs["service_paid"];
 		               }
                ?>
                 <tr class="style stylehover" style="font-family: 'Khmer OS Content';white-space: nowrap;" width="100%">
                		<td style="text-align: center;">&nbsp;<?php echo $i++; ?>&nbsp;</td>
                		<td>&nbsp;&nbsp;<?php echo $rs["branch_name"];?></td>
-               		<td>&nbsp;&nbsp;<?php echo number_format($principle_amount,2).' '.$rs['currency_typeshow'];?></td>               		
-               		<td>&nbsp;&nbsp;<?php echo number_format($interest_amount,2).' '.$rs['currency_typeshow'];?></td>
-               		<td>&nbsp;&nbsp;<?php echo number_format($penelize_amount,2).' '.$rs['currency_typeshow'];?></td>
-               		<td>&nbsp;&nbsp;<?php echo number_format($service,2).' '.$rs['currency_typeshow'];?></td>
-               		<td>&nbsp;&nbsp;<?php echo number_format($rs["payment"],2);?>
+               		<td>&nbsp;&nbsp;<?php echo number_format($rs["principal_paid"],2).' '.$rs['currency_typeshow'];?></td>               		
+               		<td>&nbsp;&nbsp;<?php echo number_format($rs["interest_paid"],2).' '.$rs['currency_typeshow'];?></td>
+               		<td>&nbsp;&nbsp;<?php echo number_format($rs['penalize_paid'],2).' '.$rs['currency_typeshow'];?></td>
+               		<td>&nbsp;&nbsp;<?php echo number_format($rs["service_paid"],2).' '.$rs['currency_typeshow'];?></td>
+               		<td>&nbsp;&nbsp;<?php echo number_format($rs["total_paymentpaid"],2);?>
                		<td>&nbsp;&nbsp;<?php echo date('d-m-Y',strtotime($rs["date_payment"]));?></td>
                		<td>&nbsp;&nbsp;<?php echo $rs["receipt_no"];?></td>
-               		<td>&nbsp;&nbsp;<?php echo number_format($recieve,2);?></td>
-               		<td>&nbsp;&nbsp;<?php echo number_format($rs["return_amount"],2);?></td>
-               		<td style="background:#FFB5B5;">&nbsp;&nbsp;<?php  //echo $rs["payment"]-$rs["recieve_amount"]-$rs["return_amount"];
-					if($balance<0){echo '';}else {echo number_format($balance,2);};?></td>
+               		<td>&nbsp;&nbsp;<?php echo number_format($rs['total_paymentpaid'],2);?></td>
                		<td>&nbsp;&nbsp;<?php echo date("d-m-Y",strtotime($rs['date_input']));?></td>
                		<td style="font-site:9px; <?php if($rs["payment_option"]==4){echo " background:#ccc";} ?>" align="center" >&nbsp;<?php echo @$opt[$rs["payment_option"]];?>&nbsp;</td>
                		
@@ -234,6 +157,7 @@ table { page-break-inside:auto }
                 <tr>
                 	<td colspan="14" style="border-left:1px solid #fff;border-right:1px solid #fff;">&nbsp;</td>
                 </tr>
+               <table  width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
                  <thead>
                   <tr bgcolor="#ccc" class="style stylehover" style="font-weight:bold; line-height: 24px; text-align: center;" >
 	                    <th style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</th>
@@ -245,7 +169,7 @@ table { page-break-inside:auto }
 	                    
 	                </tr>
 	                </thead>
-                	 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+                 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td colspan="2">&nbsp;<?php echo number_format($principle_d,2);?>&nbsp;</td>
                     <td colspan="2">&nbsp;<?php echo number_format($interst_d,2);?>&nbsp;</td>
@@ -269,10 +193,7 @@ table { page-break-inside:auto }
 					<td colspan="2">&nbsp;<?php echo number_format($service_charge_b,2);?>&nbsp;</td>
 					<td colspan="4">&nbsp;<?php echo number_format($principle_b+$interst_b+$penalize_b+$service_charge_b,2);?>&nbsp;</td>
                 </tr>
-                
             </table>
-           
-            
               <br />
                <table align="center" width="100%">
 				   <tr style="font-size: 12px;">
