@@ -120,6 +120,7 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 				'class'		=>	'fullside',
 				'onKeyup'	=>	'totalReturn();',
 				'style'		=>	'color:red;',
+				'required'=>true,
 		));
 		
 		$old_amount_receive = new Zend_Form_Element_Text('old_amount_receive');

@@ -46,7 +46,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
   	    CONCAT( l.total_duration,' ',(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =l.pay_term )),
         (SELECT zone_name FROM `ln_zone` WHERE zone_id=l.zone_id LIMIT 1) AS zone_name,
         (SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_name,
-         l.status,'Click Here'  FROM `ln_loan` AS l
+         l.status,'បោះពុម្ភ','Click Here'  FROM `ln_loan` AS l
 				WHERE loan_type =1 ";
     	if(!empty($search['adv_search'])){
     		$s_where = array();
@@ -153,12 +153,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     }
     function round_up_currency($curr_id, $value,$places=-2){
     	if ($curr_id==1){
-    		$value_array = explode(".", $value);
-    		if(!empty($value_array[1])){//last array
-    			return $this->round_up($value, $places);
-    		}else{
-    			return $value;
-    		}
+    		return $this->round_up($value, $places);
     	}
     	else{
     		return round($value,2);

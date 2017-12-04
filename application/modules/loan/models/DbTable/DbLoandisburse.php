@@ -154,13 +154,9 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     	ceil($value * $mult) / $mult;
     }
     function round_up_currency($curr_id, $value,$places=-2){
-    	if ($curr_id==1){
+    	if ($curr_id==1){//for riel
     		$value_array = explode(".", $value);
-    		if(!empty($value_array[1])){//last array
-    			return $this->round_up($value, $places);
-    		}else{
-    			return $value;
-    		}
+			return $this->round_up($value, $places);
     	}
     	else{
     		return round($value,2);
@@ -265,7 +261,6 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     				);
     			$loan_id = $this->insert($datagroup);//add group loan
     			
-    			
     			$remain_principal = $data['total_amount'];
     			$remain_principalirr = $data['total_amount'];
     			$pri_permonthirr=0;
@@ -328,7 +323,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
     						
 							$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-    						$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
+    						$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;//here 
     						$penelize_service = $penelize_service-$panelize_descreas;
     						if($i>11){
     							$penelize_service=0;
@@ -579,13 +574,14 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     			    }
     				$old_remain_principal =$old_remain_principal+$remain_principal;
     				$old_pri_permonth = $old_pri_permonth+$pri_permonth;
+    				
     				$old_interest_paymonth = $this->round_up_currency($curr_type,($old_interest_paymonth+$interest_paymonth));
     				$old_amount_day =$old_amount_day+ $amount_day;
+    				
     				if($i==$loop_payment){
     					$this->_name='ln_loan';
 	    				$datagroup = array('date_line'=>$next_payment);
 	    				$where =" id= ".$loan_id;
-	    				
 	    				$this->update($datagroup, $where);//add group loan
 	    				$this->_name='ln_loan_detail';
     				}
@@ -662,7 +658,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     				
     				$datapayment = array(
     						'loan_id'=>$loan_id,
-    						'outstanding'=>$pri_permonth,//good
+    						'outstanding'=>$remain_principal,//good
     						'outstanding_after'=>$remain_principal,//good
     						'principal_permonth'=> $pri_permonth,//good
     						'principle_after'=> $old_pri_permonth,//good
@@ -687,7 +683,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     				$this->update($datagroup, $where);//add group loan
     			}
     		$db->commit();
-    		return 1;
+    		return $loan_id;
     	}catch (Exception $e){
     		$db->rollBack();
     		Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -1149,7 +1145,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     				
     				$datapayment = array(
     						'loan_id'=>$loan_id,
-    						'outstanding'=>$pri_permonth,//good
+    						'outstanding'=>$remain_principal,//good
     						'outstanding_after'=>$remain_principal,//good
     						'principal_permonth'=> $pri_permonth,//good
     						'principle_after'=> $old_pri_permonth,//good

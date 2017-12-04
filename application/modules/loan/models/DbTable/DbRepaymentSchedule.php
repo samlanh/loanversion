@@ -18,12 +18,7 @@ function round_up($value, $places)
     }
     function round_up_currency($curr_id, $value,$places=-2){
     	if ($curr_id==1){
-    		$value_array = explode(".", $value);
-    		if(!empty($value_array[1])){//last array
-    			return $this->round_up($value, $places);
-    		}else{
-    			return $value;
-    		}
+    		return $this->round_up($value, $places);
     	}
     	else{
     		return round($value,2);

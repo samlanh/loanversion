@@ -19,12 +19,7 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     }
     function round_up_currency($curr_id, $value,$places=-2){
       if ($curr_id==1){
-      $value_array = explode(".", $value);
-    		if(!empty($value_array[1])){//last array
-    			return $this->round_up($value, $places);
-    		}else{
-    			return $value;
-    		}
+    		 return $this->round_up($value, $places);
     	}
     	else{
     		return round($value,2);
@@ -387,7 +382,7 @@ class Loan_Model_DbTable_DbLoanILtest extends Zend_Db_Table_Abstract
     			}
     			$old_remain_principal =$old_remain_principal+$remain_principal;
     			$old_pri_permonth = $old_pri_permonth+$pri_permonth;
-    			$old_interest_paymonth = $this->round_up_currency($curr_type,($old_interest_paymonth+$interest_paymonth));
+    			$old_interest_paymonth = $this->round_up_currency($curr_type,($old_interest_paymonth+$interest_paymonth));//here 
     			$old_amount_day =$old_amount_day+ $amount_day;
     		
     			if($data['amount_collect']==$amount_collect){

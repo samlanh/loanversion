@@ -45,71 +45,81 @@
                 }
 
             }
+			 dijit.byId('save_new').set('disabled',true); 
+      			dijit.byId('save_close').set('disabled',true); 
+					dijit.byId('save_view').set('disabled',true); 
 				return true;
 			}else {
 				return false;
 			}
 </script>
-<table width="100%" style="margin-top:-10px;">
+<table width="100%" style="margin-top:0px;">
 	<tr>
 		<td>
 				<fieldset>
 					<legend><strong><?php echo $tr->translate("ព៌ត័មាន អតិថិជន​")?></strong></legend>
 					<table cellspacing="10"  width="100%" style="margin-top: -10px;">
-						<tr>
-							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+                    
+                   <tr>
+                   <td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
-							<td><?php echo $tr->translate("PAWN_NO")?></td>
+                   	<td><?php echo $tr->translate("ប្រភេទ​​ទ្រព្យដាក់បញ្ចាំ")?></td>
+							<td><?php echo $frm->getElement('product_id');?></td>
+                  <td><?php echo $tr->translate("ចំនួនប្រាក់កម្ចី")?></td>
+							<td><?php echo $frm->getElement('total_amount');?></td>
+                   </tr>
+                        <tr>
+                  	<td><?php echo $tr->translate("PAWN_NO")?></td>
 							<td><?php echo $frm->getElement('loan_code');?></td>
-							<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
+                		<td><?php echo $tr->translate("ពត៍មានលម្អិត​​ ទ្រព្យដាក់បញ្ចាំ")?></td>
+							<td><?php echo $frm->getElement('description');?></td>
+                							<td><?php echo $tr->translate("រយៈពេល​បញ្ចំា")?></td>
+							<td><?php echo $frm->getElement('period');?></td>
+
+                   </tr>
+                        <tr>
+                   		<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
 							<td><?php echo $frm->getElement('level');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+                <td><?php echo $tr->translate("តម្លៃប៉ាន់ស្មាន ទ្រព្យដាក់បញ្ចាំ")?></td>
+							<td><?php echo $frm->getElement('estimatevalue');?></td>
+                 	<td><?php echo $tr->translate("អត្រាការប្រាក់​")?></td>
+							<td><?php echo $frm->getElement('interest_rate');?></td>
+                   </tr>
+                        <tr>
+                   		<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
 							<td><input id="customer_code" /></td>
-							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+                 	<td><?php echo $tr->translate("CURRENCY")?></td>
+							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+                   </tr>
+                        <tr>
+                   				<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 							<td><input id="member" /> </td>
-							<td><?php echo $tr->translate("បង្កាន់ដៃទទួលប្រាក់")?></td>
+                   <td>&nbsp;</td>
+                   <td>&nbsp;</td>
+              	<td><?php // echo $tr->translate("រយះពេលដាក់បញ្ចាំ(គិតជា)")?></td>
+							<td><?php //echo $frm->getElement('pay_every');?></td>
+                   </tr>
+                        <tr>
+                   <td colspan="4" rowspan="4" align="center"><img style="max-height:170px" src="<?= $this->baseUrl() ?>/images/banner_money_exchange.jpg" /></td>
+                   <td><?php echo $tr->translate("ថ្ងៃដាក់បញ្ចាំ​")?></td>
+							<td><?php echo $frm->getElement('release_date');?></td>
+                   </tr>
+                        <tr>
+                   <td><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់ដំបូង​")?></td>
+							<td><?php echo $frm->getElement('first_payment');?></td>                   </tr>
+                        <tr>
+                   <td><?php echo $tr->translate("ថ្ងៃបញ្ចប់ប្រាក់បញ្ចាំ")?></td>
+							<td><?php echo $frm->getElement('date_line');?></td>                   </tr>
+                   <tr>
+                   <td><?php echo $tr->translate("បង្កាន់ដៃទទួលប្រាក់")?></td>
 							<td><?php echo $frm->getElement('receipt_num');?></td>
-						</tr>
+                   </tr>
 						<tr>
 							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
 						</tr>
-						<tr>
-							<td><?php echo $tr->translate("ប្រភេទ​​ទ្រព្យដាក់បញ្ចាំ")?></td>
-							<td><?php echo $frm->getElement('product_id');?></td>
-							<td><?php echo $tr->translate("តម្លៃប៉ាន់ស្មាន ទ្រព្យដាក់បញ្ចាំ")?></td>
-							<td><?php echo $frm->getElement('estimatevalue');?></td>
-							<td></td>
-							<td></td>
-							
-						</tr>
-						<tr>
-							<td align="center"><?php echo $tr->translate("ពត៍មានលម្អិត​​ ទ្រព្យដាក់បញ្ចាំ")?></td>
-							<td colspan="5"><?php echo $frm->getElement('description');?></td>
-						</tr>
-						<tr>
-					        <td><?php echo $tr->translate("ចំនួនប្រាក់កម្ចី")?></td>
-							<td><?php echo $frm->getElement('total_amount');?></td>
-							<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("រយៈពេល​បញ្ចំា")?></td>
-							<td><?php echo $frm->getElement('period');?></td>
-							<td><?php echo $tr->translate("រយះពេលដាក់បញ្ចាំ(គិតជា)")?></td>
-							<td><?php echo $frm->getElement('pay_every');?></td>
-							<td><?php echo $tr->translate("អត្រាការប្រាក់​")?></td>
-							<td><?php echo $frm->getElement('interest_rate');?></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("ថ្ងៃដាក់បញ្ចាំ​")?></td>
-							<td><?php echo $frm->getElement('release_date');?></td>
-							<td><?php //echo $tr->translate("ថ្ងៃបង់ប្រាក់ដំបូង​")?></td>
-							<td><?php //echo $frm->getElement('first_payment');?></td>
-							<td><?php echo $tr->translate("ថ្ងៃបញ្ចប់ប្រាក់បញ្ចាំ")?></td>
-							<td><?php echo $frm->getElement('date_line');?></td>
-						</tr>
+						
 					</table>
 				</fieldset>
 		</td>
@@ -118,11 +128,12 @@
 		<td align="center">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
-			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
+			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose'
+            id="save_close" value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
-			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id="save_new" value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
-			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' id="save_view"  value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
 		</td>
 	</tr>	

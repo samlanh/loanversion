@@ -192,12 +192,18 @@ public function init()
 		));
 		$_estimate->setValue(0);
 		
-		$_display=  new Zend_Form_Element_Textarea('description');
+		/*$_display=  new Zend_Form_Element_Textarea('description');
 		$_display->setAttribs(array(
 				//'dojoType'=>'dijit.form.Textarea',
 				'class'=>'fullside',
 				'style'=>'height:100px !important;'));
-		
+		*/
+		$_display = new Zend_Dojo_Form_Element_TextBox("description");
+		$_display->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+
 		$withdrawal = new Zend_Dojo_Form_Element_TextBox("withdrawal");
 		$withdrawal->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',

@@ -20,18 +20,21 @@
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">
 			if(this.validate()) {
+				
                	branch_id = dijit.byId('branch_id').get('value');
 		    	if (branch_id=='' || branch_id==-1){
 		  	  			alert('Please Select Branch Name!');
 			   			dijit.byId('branch_id').focus();
 			   			return false;
 		   		}
+
 				service_charge = dijit.byId('service_charge').get('value');
 				receive_amount = dijit.byId('amount_receive').get('value');
 				option_pay = dijit.byId('option_pay').get('value');
-				dijit.byId('total_payment').attr('value',total_amount);
-				total_payments = dijit.byId('total_payment').get('value');
-				if(option_pay==2 || option_pay==3 || option_pay==4){
+				//dijit.byId('total_payment').attr('value',total_amount);
+				//total_payments = dijit.byId('total_payment').get('value');
+
+				/*if(option_pay==2 || option_pay==3 || option_pay==4){
 					if(receive_amount<total_payments){
 						alert('You Can not paymnet in this option! Please Input Recieve Amount more than or squar Total Paymnet!');
 						dijit.byId('amount_receive').focus();
@@ -42,7 +45,7 @@
 					alert('Please fill Recieve Amount');
 					dijit.byId('amount_receive').focus();
 					return false;
-				}
+				}*/
 			co_id = dijit.byId('co_id').get('value');
 			client = dijit.byId('client_id').get('value');
 			if (client=='' || client==-1){
@@ -53,9 +56,10 @@
 				alert('Please Select CO Name !');
 				dijit.byId('co_id').focus();
 				return false;
-			} 
+			}
+
             dijit.byId("save_close").set("disabled",true);
-    		dijit.byId("save_new").set("disabled",true);
+			dijit.byId("save_new").set("disabled",true);
 			dijit.byId("saveprint").set("disabled",true);
     		return true;
 		}else {
@@ -266,7 +270,7 @@ fieldset{padding:10px;}
 			   iconClass="dijitEditorIcon dijitEditorIconSave" onclick="submitDataClose()"  />
 			   <input type="submit" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint"  name="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" />
-			    <input type="submit" name="save_new" id="save_new" value="រក្សាទុក" label="<?php echo $tr->translate('SAVENEW');?>" id="submitButton" dojoType="dijit.form.Button"
+			    <input type="submit" name="save_new" id="save_new" value="រក្សាទុក" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" />
 			</td>
 		</tr>
@@ -583,7 +587,7 @@ dojo.ready(function(){
 			onChange: function() {
 				getLaonPayment(1);//tab1
 				getAllLaonPayment(1);//tab2
-				///getLaonHasPayByLoanNumber();//tab3
+				//getLaonHasPayByLoanNumber();//tab3
 				dijit.byId("amount_receive").focus();
 			}
 		}, "loan_number");

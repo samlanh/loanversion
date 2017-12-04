@@ -94,11 +94,13 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 	}	
 	function editAction()
 	{
-		$this->_redirect("/pawnshop/payment");
+		//$this->_redirect("/pawnshop/payment");
 		$id = $this->getRequest()->getParam("id");
+	
 		$db_global = new Application_Model_DbTable_DbGlobal();
+			
 		$db = new Loan_Model_DbTable_DbLoanILPayment();
-		$db1 = new Loan_Model_DbTable_DbGroupPayment();
+		//$db1 = new Loan_Model_DbTable_DbGroupPayment();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			$identify = $_data["identity"];
@@ -116,34 +118,34 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
-		$payment_il = $db->getIlPaymentByID($id);
-		$this->view->ilPaymentById= $payment_il;
+// 		$payment_il = $db->getIlPaymentByID($id);
+// 		$this->view->ilPaymentById= $payment_il;
 		
-		$getIlDetail = $db->getIlDetail($id);
+// 		$getIlDetail = $db->getIlDetail($id);
 		
 		$frm = new Loan_Form_FrmIlPayment();
-		$frm_loan=$frm->FrmAddIlPayment($payment_il);
-		Application_Model_Decorator::removeAllDecorator($frm_loan);
+		$frm_loan=$frm->FrmAddIlPayment();
+// 		$frm_loan=$frm->FrmAddIlPayment($payment_il);
+// 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_ilpayment = $frm_loan;
-		$this->view->ilPayent = $getIlDetail;
-		$this->view->client_id=$payment_il["group_id"];
-		$this->view->client_code=$payment_il["group_id"];
-		$this->view->branch_id=$payment_il["branch_id"];
-		$this->view->loan_number=$payment_il["loan_numbers"];
+// 		$this->view->ilPayent = $getIlDetail;
+// 		$this->view->client_id=$payment_il["group_id"];
+// 		$this->view->client_code=$payment_il["group_id"];
+// 		$this->view->branch_id=$payment_il["branch_id"];
+// 		$this->view->loan_number=$payment_il["loan_numbers"];
 		
-		$this->view->client = $db->getAllClient();
-		$this->view->clientCode = $db->getAllClientCode();
+// 		$this->view->client = $db->getAllClient();
+// 		$this->view->clientCode = $db->getAllClientCode();
 		
-		$db_keycode = new Application_Model_DbTable_DbKeycode();
-		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+// 		$db_keycode = new Application_Model_DbTable_DbKeycode();
+// 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
 		
-		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
+// 		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
 		
-		$session_user=new Zend_Session_Namespace('auth');
-		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+// 		$session_user=new Zend_Session_Namespace('auth');
+// 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 		
-// 		$this->view->loan_numbers = $db_global->getLoanNumberByBranch(1);
-		$this->view->loan_numbers = $db->getAllLoanNumberByBranch(1);
+// 		$this->view->loan_numbers = $db->getAllLoanNumberByBranch(1);
 	}
 
 

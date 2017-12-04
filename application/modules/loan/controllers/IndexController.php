@@ -34,14 +34,16 @@ class Loan_IndexController extends Zend_Controller_Action {
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","LOAN_AMOUNT","INTEREST_RATE","REPAYMENT_TYPE","TERM_BORROW","ZONE_NAME","CO_NAME",
-				"STATUS","ADD_PAYMENT");
+				"STATUS","SCHEDULE_PAYMENT","ADD_PAYMENT");
 			$link=array(
 					'module'=>'loan','controller'=>'index','action'=>'view',
 			);
 			$link_info=array('module'=>'loan','controller'=>'index','action'=>'edit',);
+			$link_schedule=array('module'=>'report','controller'=>'loan','action'=>'rpt-paymentschedules',);
+				
 			
 			$link_payment=array('module'=>'loan','controller'=>'payment','action'=>'add',);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('Click Here'=>$link_payment,'branch'=>$link,'loan_number'=>$link,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('បោះពុម្ភ'=>$link_schedule,'Click Here'=>$link_payment,'branch'=>$link,'loan_number'=>$link,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -64,13 +66,14 @@ class Loan_IndexController extends Zend_Controller_Action {
 // 				}else{
 // 					$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
 // 				}
-				$_dbmodel->addNewLoanIL($_data);
+				$loan_id = $_dbmodel->addNewLoanIL($_data);
 				if(!empty($_data['saveclose'])){
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan");
 				}else{
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/add");
 				}
 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/add");
+				return $loan_id;
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -115,6 +118,16 @@ class Loan_IndexController extends Zend_Controller_Action {
 		        'name' => '---Add New ---',
 		) );
 	    $this->view->co_name=$co_name;
+	}
+	public function submitloanAction(){
+		if($this->getRequest()->isPost()){
+			$data=$this->getRequest()->getPost();
+			$_dbmodel = new Loan_Model_DbTable_DbLoandisburse();//new
+			$loan_id = $_dbmodel->addNewLoanIL($data);
+			$suc = array('sms'=>'ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
+			print_r(Zend_Json::encode($loan_id));
+			exit();
+		}
 	}	
 	public function addloanAction(){
 		if($this->getRequest()->isPost()){
@@ -228,9 +241,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 				print_r(Zend_Json::encode($rows_return));
 				exit();
 		}
-		
 	}
-
 	function addNewloantypeAction(){
 	if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();

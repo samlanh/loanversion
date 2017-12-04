@@ -350,7 +350,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 				(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `ln_client`.`dis_id`) LIMIT 1) AS `district_name`,
 				(SELECT province_kh_name FROM `ln_province` WHERE province_id= ln_client.pro_id  LIMIT 1) AS province_en_name
 
-   	FROM $this->_name WHERE status=1 AND name_en!=''";
+   	FROM $this->_name WHERE status=1 AND (name_en!='' OR  name_kh!='' )";
    
    	$db = $this->getAdapter();
    	if($row!=null){

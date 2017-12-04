@@ -6,10 +6,9 @@
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	echo $this->frmpupoploantype;
 	echo $this->frmPopupZone;
-	echo $this->frmPopupClient;
-	echo $this->frmpupopinfoclient;
-	echo $this->frmPopupCO;	
-	$date = date('Y-m-d', strtotime('+1 month'));
+	//echo $this->frmPopupClient;
+	//echo $this->frmpupopinfoclient;
+	//echo $this->frmPopupCO;	
 ?>
 <div class="overlay">
 	<div class="overlay-load">
@@ -57,7 +56,6 @@
 				if(amount_loan<10000){
 					alert('Loan Amount Must Than 10000 for Riel Currency!');
                 }
-
             }
 				dijit.byId('savenew').set('disabled',true);
 			    dijit.byId('saveclose').set('disabled',true);
@@ -172,7 +170,6 @@
 					    	<td><?php echo $tr->translate("TERM_FUND")?></td>
 							<td><?php echo $frm->getElement('collect_termtype');?></td>
 					     </tr>
-					     
 					     <tr>
 							<td><?php echo $tr->translate("TERM_GRAICE_PARIOD")?><br/>(<label style="font-size:10px;" id="graice_type"></label>)</td>
 							<td><?php echo $frm->getElement('graice_pariod');?></td>
@@ -207,7 +204,7 @@
 		<td align="center" colspan="3">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
-			<input type="button" onclick="submitDataClose()" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
+			<input type="button" onclick="submitDataClose(1)" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"  
 				 iconClass="dijitIconNewTask"/>
@@ -225,13 +222,16 @@
 }
 </style>
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'កាលវិភាគត្រូវបង់ប្រាក់', onCancel:hideDialog" id="frm_client" style="width:1000px">
-	<div id="rpt_print" class="print">
+	<div id="rpt_print" class="print" style="text-align:center;">
+	<input type="button" onclick="submitDataClose(2);" label="<?php echo $tr->translate("SAVE_PRINT");?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+	iconClass="dijitIconNewTask"/>
+	
 	<div id="t_amountmoneytype" name="t_amountmoneytype"></div>
 	</div>
 </div>
 </div>
 </form>
-<?php echo $this->frmpupoploantype;?>
+<?php //echo $this->frmpupoploantype;?>
 <script type="text/javascript">	
     function checkValidateDate(){
     	debt_term = dijit.byId('pay_every').get('value');
@@ -258,12 +258,6 @@
 			dijit.byId('collect_termtype').focus();
 			return false;
 		}
-		/*method = dijit.byId('repayment_method').get('value');
-		amount_collect = dijit.byId('amount_collect_pricipal').get('value');
-		amount_principal = dijit.byId('total_amount').get('value');
-		if(method==4 AND (debt_amount*term_d)/(collect_amount*term_c)*amount_collect>amount_principal ){
-			
-		}*/
 		return true;
      }
     function setDefaultPaymentAmount(){
@@ -278,7 +272,6 @@
     	else{
     		debt_term=30;
     	}
-    	
     	collect_term = dijit.byId('collect_termtype').get('value');
 		collect_amount = dijit.byId('amount_collect').get('value');
 		if(collect_term==1){
@@ -318,14 +311,12 @@
 </script>
 <script type="text/javascript">
 dojo.require("dojo.data.ItemFileWriteStore"); 
-//dojo.require("dojo.data.ObjectStore");
-dojo.require("dojo.NodeList-manipulate");
+//dojo.require("dojo.NodeList-manipulate");
 dojo.require("dojo.html");
 
 var client_store  = getDataStorefromJSON('id','name', [] );//getDataStorefromJSON('id','name', <?php //print_r(Zend_Json::encode($this->recieverlist));?> );
 var client_number_store  = getDataStorefromJSON('id','name', [] );//getDataStorefromJSON('id','name', <?php //print_r(Zend_Json::encode($this->recieverlist));?> );
 var co_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->co_name));?> );
-
 
 require(["dojo/ready"], function(ready){
 	 ready(function(){
@@ -348,7 +339,6 @@ require(["dojo/ready"], function(ready){
 	onChange: function() {
 		member = dijit.byId('member').get('value');
 		if(member==-1){
-			//showPopupclient();
 			window.open("<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add')); ?>","_blank");
 			}else{
 			getLoanLevel(member);
@@ -357,9 +347,6 @@ require(["dojo/ready"], function(ready){
 }
 	}, "member");
 
-	// var client_number = new dojo.store.Memory({
-	       //data: <?php //print_r(Zend_Json::encode($this->allclient_number));?>
-	//});
 	new dijit.form.FilteringSelect({
 	store: client_number_store,//dojo.data.ObjectStore({objectStore: client_number}),
 	autoComplete: true,
@@ -396,7 +383,6 @@ require(["dojo/ready"], function(ready){
 		onChange: function() {
 			co_id = dijit.byId('co_id').get('value');
 			if(co_id==-1){
-				//popupcreditofficer();
 				window.open("<?php echo $this->url(array('module'=>'loan','controller'=>'co','action'=>'add')); ?>","_blank");
 			}else{
 			}
@@ -415,7 +401,6 @@ function filterClient(){
 		getAllClientByBranch(branch_id);
 		getAllClientNumberByBranch(branch_id);
 }
-
 var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
 function getAllClientByBranch(branch_id){
 	dojo.xhrPost({
@@ -432,29 +417,22 @@ function getAllClientByBranch(branch_id){
 			//alert(err);
 		}
 	});
-	
 }
-
 var url_co = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-coname')); ?>';
 function getAllCo(){
 	dojo.xhrPost({
 		url:url_co,	
 		content:{ 
-		    //'branch_id':branch_id
 		},		    
 		handleAs:"json",
 		load: function(data) {
 			co_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('co_id').set('store', co_store);
-		    
 		},
 		error: function(err) {
-			//alert(err);
 		}
 	});
-	
 }
-
 var url_getclientnum = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientnumberbybranch')); ?>';
 function getAllClientNumberByBranch(branch_id){
 	dojo.xhrPost({
@@ -490,7 +468,6 @@ function getLoanByBranch(){
 			dijit.byId('loan_code').attr('value',data);
 		},
 		error: function(err) {
-			//alert(err);
 		}
 	});
 }
@@ -516,11 +493,8 @@ function chechPaymentMethod(){
 	method_id = dijit.byId('repayment_method').get('value');
 	dojo.byId('lbl_payment').innerHTML="<?php echo $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?>";
 	dijit.byId('amount_collect_pricipal').attr('value',0);
-
 	dijit.byId("amount_collect").set('readOnly',false);
-	dijit.byId("collect_termtype").set('readOnly',false);
-	
-	
+	dijit.byId("collect_termtype").set('readOnly',false);	
 	if(method_id==6){
 		dijit.byId("collect_termtype").set('readOnly',true);
 		dijit.byId('amount_collect_pricipal').set('readOnly',true);
@@ -551,7 +525,6 @@ function chechPaymentMethod(){
 		dijit.byId('graice_pariod').set('readOnly',true);
 	}
 }
-
 function changeCollectType(){
 	get_id = dijit.byId('pay_every').get('value');
 	dijit.byId('collect_termtype').attr('value',get_id);
@@ -561,22 +534,7 @@ function changeCollectType(){
 function changeGraicePeroid(){
 	disp_value = dijit.byId('collect_termtype').attr('displayedValue');
 	dojo.byId('graice_type').innerHTML=disp_value;
-	calCulateFirstPayment();
-	
-}
-function clearTextBox(){
-	dijit.byId('member').set('value','');
-	dijit.byId('total_amount').set('value',0);
-}
-function getClientInfo(type){
-	if(type==1){
-		customer_code= dijit.byId('customer_code').get('value');
-		dijit.byId('member').attr('value',customer_code);
-	}else{
-		customer_code= dijit.byId('member').get('value');
-		dijit.byId('customer_code').attr('value',customer_code);
-	}
-	
+	calCulateFirstPayment();	
 }
 var getloan_level = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-loanlevel')); ?>';
 function getLoanLevel(client_id){
@@ -596,45 +554,6 @@ function getLoanLevel(client_id){
 		}
 	});
 }
-
-var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'client','action'=>'add-newclient')); ?>';
-function addNewClient(){
-		dojo.xhrPost({
-	    url: url_submit,	
-		form: dojo.byId("form_client"),		    
-		handleAs:"json", 
-		load: function(data) {	
-			dijit.byId('frm_client').reset(); 
-			dijit.byId('frm_client').hide();
-		},
-		error: function() {
-		alert("Your message could not be sent, please try again!.");
-		}
-	});
-}
-var url_submitco = '<?php echo $this->url(array('module'=>'payroll','controller'=>'co','action'=>'add-newco')); ?>';
-function AddConew(){
-	if(dijit.byId('form_co').validate()){
-		dojo.xhrPost({
-	    url: url_submitco,	
-		form: dojo.byId("form_co"),		    
-		handleAs:"json",
-		load: function(data) {	
-			alert(data);
-			var myNewItem1 = {					
-					id: data,
-					name: dijit.byId('first_name').get('value')+' - '+dijit.byId('last_name').get('value'),
-			};			
-			addDataToSelectbox(dijit.byId('co_id'), co_store, myNewItem1, data);		
-			dojo.byId('form_co').reset(); 
-			dijit.byId('frm_co').hide();
-		},
-		error: function(err) {
-		    alert("Can not insert credit officer");
-		}
-	 });
-	}
-}
 var url_submitzone = '<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add-newzone')); ?>';
 function addNewZone(){
 		dojo.xhrPost({
@@ -642,77 +561,22 @@ function addNewZone(){
 		form: dojo.byId("form_zone"),		    
 		handleAs:"json",
 		load: function(data) {	
-			//alert(data);
 			dojo.byId('form_zone').reset(); 
 			dijit.byId('frm_zone').hide();
 		},
 		error: function(err) {
 			alert(err);
 		alert("Your message could not be sent, please try again!.");
-				        
 		}
 	});
 }
-var url_submitdistrict = '<?php echo $this->url(array('module'=>'other','controller'=>'district','action'=>'add-newdistrict')); ?>';
-function addNewDistrict(){
-		dojo.xhrPost({
-	    url: url_submitdistrict,	
-		form: dojo.byId("form_district"),		    
-		handleAs:"json",
-		load: function(data) {	
-			dojo.byId('form_district').reset(); 
-			dijit.byId('frm_district').hide();
-		},
-		error: function(err) {
-		alert("Your message could not be sent, please try again!.");
-				        
-		}
-	});
-}
-var url_submitcommune = '<?php echo $this->url(array('module'=>'other','controller'=>'commune','action'=>'add-newcommune')); ?>';
-function addNewCommune(){
-		dojo.xhrPost({
-	    url: url_submitcommune,	
-		form: dojo.byId("form_commune"),		    
-		handleAs:"json",
-		load: function(data) {	
-			dojo.byId('form_commune').reset(); 
-			dijit.byId('frm_commune').hide();
-		},
-		error: function(err) {
-		alert("Your message could not be sent, please try again!.");
-				        
-		}
-	});
-}
-var url_submitvillage = '<?php echo $this->url(array('module'=>'other','controller'=>'village','action'=>'add-newvillage')); ?>';
-function addNewVillage(){
-		dojo.xhrPost({
-	    url: url_submitvillage,	
-		form: dojo.byId("form_village"),		    
-		handleAs:"json",
-		load: function(data) {	
-			dojo.byId('form_village').reset(); 
-			dijit.byId('frm_village').hide();
-		},
-		error: function(err) {
-		alert("Your message could not be sent, please try again!.");
-				        
-		}
-	});
-}
+
 </script>
 <?php 
-// echo $this->frmpupopclient;
- //echo $this->frmPopupZone;
- //echo $this->frmPopupCommune;
- //echo $this->frmPopupDistrict;
- //echo $this->frmPopupVillage;
 echo $this->frmpupoploantype;
 ?>
 <script>
 function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
-	//alert('date release'+date_release);
 	var a = new Date(release_date);
 	if(pay_term==3){//month
 		mm = a.getMonth()+amount_date+1;
@@ -767,12 +631,8 @@ function calCulateEndDate(){
 function CalculateDate(){
 	pay_term = dijit.byId('pay_every').get('value');
 	amount_date = dijit.byId('period').get('value');
-	//release_date = dijit.byId("release_date").get('value');//before 
 	release_date = dijit.byId("first_payment").get('value');//just update follow by first payment
-	//alert('date first'+release_date);
-	
 	if(isNaN(amount_date)){
-		//alert('សូមបញ្ចលចំនួនរយៈពេល​ !');
 	}else{
 		setFirstPaymentAndDateLine(pay_term,release_date,amount_date);		
     }
@@ -786,14 +646,12 @@ function calCulatePeriod(){
 function getFirstPayment(){
 	calCulateFirstPayment();
 }
-
 function calCulateFirstPayment(){
 	pay_term = dijit.byId('collect_termtype').get('value');
 	amount_date = dijit.byId('amount_collect').get('value');
 	release_date = dijit.byId("release_date").get('value');
 	var a = new Date(release_date);
 	if(pay_term==3){//month
-		//mm = a.getMonth()+amount_date+1;
 		var month = a.getMonth()+amount_date+1;
 	}else if(pay_term==2){//week
 		a.setDate(a.getDate() + (amount_date*7)); 
@@ -813,12 +671,10 @@ function calCulateFirstPayment(){
 	 if(mm<10){
 		 mm = "0"+mm;
 	}
-	//var y = a.getFullYear();
 	var y = a.getFullYear()+year;
 	var epx_date = y + '-'+ mm + '-'+dd ;
 	dijit.byId('first_payment').attr('value',epx_date);
 }
-
 ////add preview loan
 var url_previewloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'addloantest')); ?>';
 function addPreviewLoan(){
@@ -872,7 +728,6 @@ function addPreviewLoan(){
 					    temp+='<tr><td align="center">'+r+'</td>';
 						var myDate = new Date(data[i].date_payment);
 						d = new Date(data[i].date_name);
-						//dateString=((myDate.getMonth() + 1) + "-" + myDate.getDate() + "-" + myDate.getFullYear());
 						temp+='<td>'+getDayName(d.getDay())+'-'+data[i].date_payments+'</td>';
 						temp+='<td>'+dojo.number.format(data[i].total_principal,2)+'</td>';
 						temp+='<td>'+dojo.number.format(data[i].principal_permonth,2)+'</td>';
@@ -917,9 +772,6 @@ function zone(){
 	    if(dijit.byId('zone').get('value')==-1){
 	    	dijit.byId("frm_zone").show();
         }
- 
-		
-	
 }
 var url_loantype = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add-newloantype')); ?>';
 function addNewloanType(){
@@ -930,7 +782,6 @@ function addNewloanType(){
 		    'title_en':dijit.byId('title_en').get('value'),
 		    'title_kh':dijit.byId('title_kh').get('value'),
 		    'type':24,
-		    
 		},
 		handleAs:"json",
 		load: function(data) {
@@ -963,11 +814,10 @@ function addNewZone(){
 			labelen = dijit.byId('zone_name').get('value');
 			labelkh = dijit.byId('zone_number').get('value');
 			$('#zone').val(labelkh+'-'+labelen);
-			 $('input[name="zone"]').val(data);
+			$('input[name="zone"]').val(data);
 			 	
 			dijit.byId('frm_zone').reset();
 			dijit.byId('frm_zone').hide();
-	
 		},
 		error: function(err) {
 			alert(err);
@@ -992,47 +842,10 @@ function popupcreditofficer(){
 		dijit.byId('frm_co').show();
     }
 }
-var individual_client_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'insert-client'));?>';
-function addNewindividual(){
-	if(dijit.byId('addclient').validate()){
-	dojo.xhrPost({
-		url:individual_client_url,	
-		form:dojo.byId('addclient'),
-		content:{
-			'branch_id':dijit.byId('branch_id').get('value')
-			},
-		handleAs:"json",
-		load: function(response) {
-			dijit.byId('frmpop_client').hide();	
-			var myNewItem = {					
-					id: response.id,
-					name: dijit.byId('name_en').get('value')+' - '+dijit.byId('name_kh').get('value'),
-					branch_id: dijit.byId('branch_id').get('value'),
-			};			
-			addDataToSelectbox(dijit.byId('member'), client_store, myNewItem, response.id);
-
-			var myNewItem1 = {					
-					id: response.id,
-					name: response.client_code,
-					branch_id: dijit.byId('branch_id').get('value'),
-			};			
-			addDataToSelectbox(dijit.byId('customer_code'), client_number_store, myNewItem1, response.id);		
-			dijit.byId('addclient').reset();
-	
-		},
-		error: function(err) {
-		}
-	});
- }	
-}
-function popupCheckCO(){
-  
-}
 function loading(){
     document.getElementsByClassName("overlay")[0].style.display="block";
 }
- 
-function submitDataClose(){
+function submitDataClose(type){
 	zone = dijit.byId('zone').get('value');
 	co_id = dijit.byId('co_id').get('value');
 	client = dijit.byId('member').get('value');
@@ -1063,11 +876,9 @@ function submitDataClose(){
 	if(currency_type==1){
 		amount_loan = dijit.byId('total_amount').get('value');
 		if(amount_loan<10000){
-			alert('Loan Amount Must Than 10000 for Riel Currency!');
+			alert('កម្ចីជាលុយរៀល ត្រូវតែធំជា 1ម៉ឺនរៀល!');
         }
-
     }
-    
 	if(dijit.byId('frm_add_tran').validate()) {
 		dijit.byId('saveclose').set('disabled',true);
 		dijit.byId('savenew').set('disabled',true);
@@ -1077,14 +888,17 @@ function submitDataClose(){
 			form: dojo.byId("frm_add_tran"),		    
 			load: function(data) {
 				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-				window.location.href ="<?php echo $this->baseUrl();?>/loan/index";
+				if(type==1){
+					window.location.href ="<?php echo $this->baseUrl();?>/loan/index";
+				}else{
+					window.location.href ="<?php echo $this->baseUrl();?>/report/loan/rpt-paymentschedules/".data;
+				}
 			},
 			error: function(e) {
 			}
 		});
 	}
 }
-
 function getRefreshGroup(){
 	var co_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->co_name));?> );
 	filterClient();
@@ -1092,15 +906,12 @@ function getRefreshGroup(){
 	loading();
 	setTimeout(stopLoading, 1000);
 }
-
 function loading(){
     document.getElementsByClassName("overlay")[0].style.display="block";
 }
-
 function stopLoading(){
 	 document.getElementsByClassName("overlay")[0].style.display="none";
 }
-
 </script>
 <style>
 .overlay {display: none;position: absolute;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}
