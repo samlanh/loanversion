@@ -7,7 +7,6 @@ class Loan_TransfercoloandController extends Zend_Controller_Action {
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
-	
 	public function indexAction()
 	{
 	try{
@@ -39,7 +38,6 @@ class Loan_TransfercoloandController extends Zend_Controller_Action {
  		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-// 			echo $e->getMessage();exit();
  		}
  		$fm = new Loan_Form_FrmTransferCoClient();
  		$frm = $fm->FrmTransfer();

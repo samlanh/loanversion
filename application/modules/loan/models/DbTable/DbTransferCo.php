@@ -63,7 +63,7 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    	$_arr = array(
 	    			'co_id'=>$data['to_co'],
 	    	);
-	    	$where = " co_id = ".$data['formc_co'];
+	    	$where = "co_id = ".$data['formc_co'];
 	    	$this->update($_arr, $where);
 	    	
 	    	$this->_name ="ln_loan_detail";//update all funddetail
@@ -81,7 +81,6 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
 	    	$db->commit();
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("INSERT_FAIL");
-    		echo $e->getMessage();
     		$db->rollBack();
     	}
     }
@@ -109,9 +108,9 @@ class Loan_Model_DbTable_DbTransferCo extends Zend_Db_Table_Abstract
     		$where = " collect_by = ".$data['formc_co']." AND is_completed = 0 AND status = 1 ";
     		$this->update($_arr_fund, $where);
     		$db->commit();
+    		
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("INSERT_FAIL");
-    		echo $e->getMessage();
     		$db->rollBack();
     	}
     }

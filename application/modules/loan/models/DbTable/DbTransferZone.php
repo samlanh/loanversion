@@ -58,8 +58,8 @@ class Loan_Model_DbTable_DbTransferZone extends Zend_Db_Table_Abstract
     }
     function getLoanNumberByZone($zone_id){
     	$dbg = $this->getAdapter();
-    	$sql="SELECT g.g_id,g.zone_id,lm.member_id  FROM `ln_loan_group` AS g,`ln_loan_member` AS lm WHERE
-    		g.g_id=lm.group_id AND g.zone_id=$zone_id ";
+    	$sql="SELECT l.id,l.zone_id
+    		FROM `ln_loan` AS l WHERE l.zone_id=$zone_id ";
     	return $dbg->fetchAll($sql);
     }
     public function insertTransferZone($data){
@@ -67,7 +67,6 @@ class Loan_Model_DbTable_DbTransferZone extends Zend_Db_Table_Abstract
     	$db->beginTransaction();
     	$this->_name='ln_tranfser_zone';
     	try {
-    		
     		$_data_arr = array(
     				'branch_id'=> $data['branch_name'],
     				'from_zone'=> $data['zone_name'],
@@ -81,38 +80,33 @@ class Loan_Model_DbTable_DbTransferZone extends Zend_Db_Table_Abstract
     		
     		$rsz = $this->getLoanNumberByZone($data['zone_name']);
     		if(!empty($rsz))foreach ($rsz as $rsg){
+    			$_arr_fund = array(
+    					'co_id'=>$data['to_co'],
+    			);
+    			 
+    			$where = " id = ".$rsz['id']."  AND status = 1 ";
+    			$this->_name ="ln_loan";
+    			$this->update($_arr_fund, $where);
+    			
 	    		$_arr_fund = array(
 	    				'collect_by'=>$data['to_co'],
 	    		);
 	    		
-	    		$where = " member_id = ".$rsg['member_id']."  AND status = 1 ";
-	    		$this->_name ="ln_loanmember_funddetail";
+	    		$where = " loan_id = ".$rsz['id']."  AND status = 1 ";
+	    		$this->_name ="ln_loan_detail";
 	    		$this->update($_arr_fund, $where);
 	    		
-	    		$sql = "SELECT crm_id,cd.loan_number FROM `ln_client_receipt_money` AS c ,`ln_client_receipt_money_detail` AS cd WHERE
-	    		c.id=cd.crm_id AND cd.loan_number='".$rsg['member_id']."' GROUP BY c.id ";
-	    		$rows = $db->fetchAll($sql);
-	    		
 	    		$this->_name="ln_client_receipt_money";
-	    		if(!empty($rows))foreach($rows as $rs){
-	    			$arr = array("co_id"=>$data['to_co']);
-	    			$where = " id = ".$rs['crm_id'];
-	    			$this->update($arr, $where);
-	    		}
+    			$arr = array("co_id"=>$data['to_co']);
+    			$where = " loan_id = ".$rsz['id'];
+    			$this->update($arr, $where);
 	    	}
-	    	
-    		$this->_name ="ln_loan_group";
-    		$_arr = array(
-    				'co_id'=>$data['to_co'],
-    		);
-    		$where = " zone_id = ".$data['zone_name'];
-    		$this->update($_arr, $where);
     		$db->commit();
 	    	
     	}catch (Exception $e){
     		$db->rollBack();
     		Application_Form_FrmMessage::message("INSERT_FAIL");
-    		Application_Model_DbTable_DbUserLog::writeMessageError($err);
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }
     public function updatTransfer($data,$id){

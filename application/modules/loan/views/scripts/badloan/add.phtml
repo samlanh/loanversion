@@ -1,9 +1,8 @@
 <?php
-$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate('BAD_LOAN'));
-$frm = $this->frm_loan;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate('BAD_LOAN'));
+	$frm = $this->frm_loan;
 ?>
-
 <style>	
 .fullside {
 	width: 100%;
@@ -40,10 +39,10 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 		dijit.byId("save").set("disabled",true);
 		dijit.byId("save_close").set("disabled",true);
     	return true;
-   		}else {
+   	}else {
     	return false;
-   	}
-	</script>
+   }
+</script>
 <fieldset style="background: #e0ebff">
 <table cellspacing="10" class='fullside' style="margin-top:-10px;">
 	<legend class="mainblog"><strong><?php echo $tr->translate('BAD_LOAN');?></strong></legend>
@@ -87,8 +86,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 					<td><?php echo $tr->translate("LOAN_AMOUNT")?></td>
 					<td><?php echo $frm->getElement('total_amount_loan')?></td>
 				</tr>
-				
-				
 			</table>
 		</fieldset>
 		</td>
@@ -112,7 +109,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 					<td><?php echo $tr->translate("LIFE_LOAN")?></td>
 					<td><?php  echo $frm->getElement('end_date');?></td>	
 				</tr>
-				
 			</table>
 		</fieldset>
 		</td>
@@ -179,7 +175,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 </fieldset>
 </form>
 <script type="text/javascript">
-
 require(["dojo/ready"], function(ready){
 	 ready(function(){
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
@@ -201,7 +196,7 @@ require(["dojo/ready"], function(ready){
 	class: 'fullside',
 	onChange: function() {
 		//getClientInfo(2);
-}
+	}
 	}, "member");
 
 	 var client_number = new dojo.store.Memory({
@@ -219,7 +214,6 @@ require(["dojo/ready"], function(ready){
 	searchAttr: "name",
 	class: 'fullside',
 	onChange: function() {
-		//getClientInfo(1);
 }
 	}, "customer_code");
 	 

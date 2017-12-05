@@ -328,7 +328,6 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$_coid->setvalue($request->getParam('co_id'));
 		
 		if($data!=null){
-			print_r($data);  
 			$_branch_id->setValue($data['branch']);
 			$get_laonnumber->setValue($data['loan_id']);
 			$get_elaonnumber->setValue($data['loan_id']);

@@ -166,7 +166,7 @@ table { page-break-inside:auto }
                		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["client_number"];?></td>
                		<td style="font-size: 11px;">&nbsp;&nbsp;<?php echo $rs["client_name"];?></td>
                		<td style="font-size: 9px; max-width: 200px; white-space:normal;">&nbsp;&nbsp;<?php echo $rs["phone"];?><?php echo $rs['village_name'].",".$rs['village_name'].",".str_replace("Commune","",$rs['commune_name']).",".$rs['district_name'].",".$rs['province_en_name'];?></td>
-					<td style="font:bolder 11px Arial ;text-align: center;​">&nbsp;&nbsp;<?php echo number_format($rs["total_capital"],2).''.$rs['currency_type'];?></td>
+					<td style="font:bolder 11px Arial ;text-align: center;​">&nbsp;&nbsp;<?php echo number_format($rs["loan_amount"],2).''.$rs['currency_type'];?></td>
                		<td style="font-size: 11px;text-align: center;">&nbsp;&nbsp;<?php echo $rs["interest_rate"];?>&nbsp;</td>
                		<td style="font-size: 11px;text-align: center;">&nbsp;<?php echo $rs['total_duration'].$rs['termborrow'];//$rs['pay_term'];?>&nbsp;</td>
                		<td style="font-size: 11px;text-align: center; white-space:nowrap; ">&nbsp;<?php echo date("d-m-Y",strtotime($rs["date_release"]));?>&nbsp;</td>

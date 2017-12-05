@@ -10,15 +10,12 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	
-//     	print_r($_data);exit();
-    	
     	try{
     		if($_data['Term']<90){
     			$writ_off = 0;
     		}elseif($_data['Term']>=90) {
     			$writ_off = 1;
     		}
-    		
 	    	$arr = array(
 	    			'branch'=>$_data['branch'],
 	    			'client_code'=>$_data['customer_code'],
@@ -42,32 +39,31 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
 	    	$arr_loan = array(
 	    		'is_badloan' =>1,
 	    	);
-	    	$where=" customer_id = ".$_data['customer_code'];
+	    	$where=" id = ".$_data['get_laonnumber'];
 			$this->update($arr_loan, $where);
 			
-			$this->_name='ln_income_expense';
-				$data = array(
-						'branch_id'=>$_data['branch'],
-						'account_id'=>'កម្ចីខូច',
-						'total_amount'=>$_data['Total_amount'],
-	// 					'Date'=>$data['for_date'],
-						'invoice'=>'',
-						'curr_type'=>$_data['cash_type'],
-						'tran_type'=>1,
-						'disc'=>$_data['Note'],
-						'date'=>$_data['Date'],
-						'status'=>$_data['status'],
-						'user_id'=>$user_id
-				);
-				$this->insert($data);
+// 				$this->_name='ln_income_expense';
+// 				$data = array(
+// 						'branch_id'=>$_data['branch'],
+// 						'account_id'=>'កម្ចីខូច',
+// 						'total_amount'=>$_data['Total_amount'],
+// 						'invoice'=>'',
+// 						'curr_type'=>$_data['cash_type'],
+// 						'tran_type'=>1,
+// 						'disc'=>$_data['Note'],
+// 						'date'=>$_data['Date'],
+// 						'status'=>$_data['status'],
+// 						'user_id'=>$user_id
+// 				);
+// 				$this->insert($data);
 			
 			$db->commit();
 		}catch (Exception $e){
 			$db->rollBack();
-			echo $e->getMessage();exit();
 		}
     }
     function updatebadloan($_data){
+    	
     	$session_transfer=new Zend_Session_Namespace();
     	$session_user=new Zend_Session_Namespace('authloan');
     	$user_id = $session_user->user_id;
@@ -76,8 +72,20 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     	}elseif($_data['Term']>=90) {
     		$writ_off = 1;
     	}
-    	//print_r($_data);exit();
-    	$arr = array(
+    	
+    	$this->_name = 'ln_loan';
+    	$status=0;
+    	if($_data['status']==1){
+    		$status=1;
+    	}
+    	
+    		$arr_loan = array(
+    			'is_badloan' =>$status,
+    		);
+	    	$where=" id = ".$_data['get_laonnumber_edit'];
+	    	$this->update($arr_loan, $where);
+
+    		$arr = array(
     			'branch'=>$_data['branch'],
     			'client_code'=>$_data['client_code'],
     			'client_name'=>$_data['client_name'],
@@ -86,14 +94,13 @@ class Loan_Model_DbTable_DbBadloan extends Zend_Db_Table_Abstract
     			'loss_date'=>$_data['date_loss'],
     			'cash_type'=>$_data['cash_type'],
     			'total_amount'=>$_data['Total_amount'],
-//     			'intrest_amount'=>$_data['Interest_amount'],
     			'tem'=>$_data['Term'],
     			'note'=>$_data['Note'],
     			'status'=>$_data['status'],
     			'create_by'=>$user_id,
     			'is_writoff'=>$writ_off
     			);
-    	$where=" id = ".$_data['id'];    	
+    	$where=" id = ".$_data['get_laonnumber_edit'];    	
     	$this->update($arr, $where);
     }
     function updatebadloan_bad($_data){

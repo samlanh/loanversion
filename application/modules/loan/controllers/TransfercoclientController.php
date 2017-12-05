@@ -3,29 +3,26 @@ class Loan_TransfercoClientController extends Zend_Controller_Action {
 	
 	public function init()
 	{
-		/* Initialize action controller here */
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
-	
 	public function indexAction()
 	{
 	try{
-		if($this->getRequest()->isPost()){
-			$search = $this->getRequest()->getPost();
-		}else{
-			$search = array(
-					'branch_name'=>'',
-					'loan_client'=>'',
-					'name_co'=>'',
-					'start_date'=> date('Y-m-01'),
-					'end_date'=>date('Y-m-d'),
-					'txt_search'=>'',
-					'status' => 1,
-					'note'=>''
-			);
-		}
-		
+			if($this->getRequest()->isPost()){
+				$search = $this->getRequest()->getPost();
+			}else{
+				$search = array(
+						'branch_name'=>'',
+						'loan_client'=>'',
+						'name_co'=>'',
+						'start_date'=> date('Y-m-01'),
+						'end_date'=>date('Y-m-d'),
+						'txt_search'=>'',
+						'status' => 1,
+						'note'=>''
+				);
+			}
  			$db = new Loan_Model_DbTable_DbTransferCoClient(); 
  			$rs_rows= $db->getAllinfoCo($search);//call frome model
 			$list = new Application_Form_Frmtable();

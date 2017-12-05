@@ -890,7 +890,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " v.client_number LIKE '%{$s_search}%'";
       		$s_where[] = " v.client_name LIKE '%{$s_search}%'";
       		$s_where[] = " v.co_name LIKE '%{$s_search}%'";
-      		$s_where[] = " v.total_capital LIKE '%{$s_search}%'";
+      		$s_where[] = " v.loan_amount LIKE '%{$s_search}%'";
       		
       		$s_where[] = " v.interest_rate LIKE '%{$s_search}%'";
       		$s_where[] = " v.loan_type LIKE '%{$s_search}%'";

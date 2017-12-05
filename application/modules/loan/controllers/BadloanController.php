@@ -34,13 +34,12 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			$collumns = array("BRANCH_NAME","CUSTOMER_NAME","LOSS_DATE"
 					,"TOTAL_PRINCEPLE","INTERREST_AMOUNT","TERM","NOTE","DATE","STATUS");
 			$link=array(
-					'module'=>'loan','controller'=>'badloan','action'=>'oldedit',
+					'module'=>'loan','controller'=>'badloan','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns,$rs_row,array('branch_namekh'=>$link,'client_name_en'=>$link,
 					'total_amount'=>$link,'intrest_amount'=>$link,'loss_date'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
-			echo $e->getMessage();
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}
 		$fm = new Loan_Form_Frmbadloan();
