@@ -7,6 +7,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 		header('content-type: text/html; charset=utf8');
 		defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
+	
 	public function indexAction()
 	{
 		try{
@@ -33,7 +34,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			$collumns = array("BRANCH_NAME","CUSTOMER_NAME","LOSS_DATE"
 					,"TOTAL_PRINCEPLE","INTERREST_AMOUNT","TERM","NOTE","DATE","STATUS");
 			$link=array(
-					'module'=>'loan','controller'=>'badloan','action'=>'edit',
+					'module'=>'loan','controller'=>'badloan','action'=>'oldedit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns,$rs_row,array('branch_namekh'=>$link,'client_name_en'=>$link,
 					'total_amount'=>$link,'intrest_amount'=>$link,'loss_date'=>$link));
@@ -47,6 +48,7 @@ class Loan_BadloanController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_loan = $frm;
 	}
+	
 	public function addAction(){
 		if($this->getRequest()->isPost()){//check condition return true click submit button
 			$_data = $this->getRequest()->getPost();
@@ -68,8 +70,43 @@ class Loan_BadloanController extends Zend_Controller_Action {
 		$frm = $fm->FrmBadLoan();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_loan = $frm;
+		
+		$db = new Application_Model_DbTable_DbGlobal();
+		$this->view->allclient = $db->getAllClient();
+		$this->view->allclient_number = $db->getAllClientNumber();
 	}
+	
 	public function editAction()
+	{
+		$id=$this->getRequest()->getParam('id');
+		$_dbmodel = new Loan_Model_DbTable_DbBadloan();
+		if($this->getRequest()->isPost()){//check condition return true click submit button
+			$_data = $this->getRequest()->getPost();
+			try {
+				$_dbmodel->updatebadloan($_data);
+				if(isset($_data['save'])){
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/badloan/");
+				}elseif(isset($_data['save_close'])){
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/badloan/");
+				}
+			}catch (Exception $e) {
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				$err =$e->getMessage();
+				Application_Model_DbTable_DbUserLog::writeMessageError($err);
+			}
+		}
+		$row=$_dbmodel->getLoanedit($id);
+		$fm = new Loan_Form_Frmbadloan();
+		$frm = $fm->FrmBadLoan($row);
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_loan = $frm;
+	
+		$db = new Application_Model_DbTable_DbGlobal();
+		$this->view->allclient = $db->getAllClient();
+		$this->view->allclient_number = $db->getAllClientNumber();
+	}
+	
+	public function oldeditAction()
 	{
 		// action body
 	if($this->getRequest()->isPost()){//check condition return true click submit button
@@ -116,6 +153,16 @@ class Loan_BadloanController extends Zend_Controller_Action {
 			$data=$this->getRequest()->getPost();
 			$db=new Loan_Model_DbTable_DbBadloan();
 			$row=$db->getLoanInfo($data['loan_id']);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
+	
+	public function getloaninfoByLoanidAction(){
+		if($this->getRequest()->isPost()){
+			$data=$this->getRequest()->getPost();
+			$db=new Loan_Model_DbTable_DbBadloan();
+			$row=$db->getLoanInfoByNumberLoanId($data['loan_id']);
 			print_r(Zend_Json::encode($row));
 			exit();
 		}

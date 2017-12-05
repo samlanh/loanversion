@@ -584,6 +584,7 @@ function addPreviewLoan(){
 function hideDialog() {		
 	dijit.byId("frm_client").hide();
 }
+
 var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloan-bymemberid')); ?>';
 function getInfoByLoanNumber(){
 	loan_id = dijit.byId('get_laonnumber').get('value');
@@ -612,6 +613,7 @@ function getInfoByLoanNumber(){
 		}
 	});
 }
+
 graice_period = '<?php echo $graiceperiod["value"]?>';
 var url_getLoanReshcedule = '<?php echo $this->url(array('module'=>'loan','controller'=>'repaymentschedule','action'=>'getloan-reschedule')); ?>';
 function getLoanInfoByLoanNumber(){
@@ -632,6 +634,7 @@ function getLoanInfoByLoanNumber(){
 		}
 	});
 }
+
 function loantype(){
 	var data=dijit.byId("loan_type").get('value');
 	if(data==-1){

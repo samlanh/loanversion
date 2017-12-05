@@ -11,6 +11,11 @@ $frm = $this->frm_loan;
 }
 </style>
 <script>
+dojo.require("dojo.data.ObjectStore");
+dojo.require("dojo.html");
+require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog"]);
+</script>
+<script>
 	dojo.require("dijit.form.DateTextBox");
 	dojo.require("dijit.form.NumberTextBox");
 </script>
@@ -53,7 +58,7 @@ $frm = $this->frm_loan;
 			    </tr>
 			    <tr>
 					<td><?php echo $tr->translate("LOAN_NO")?></td>
-					<td><?php echo $frm->getElement('loannumber');?></td>
+					<td><?php echo $frm->getElement('get_laonnumber');?></td>
 				</tr>
 				<tr >
 					<td><?php echo $tr->translate("INTEREST")?></td>
@@ -68,11 +73,11 @@ $frm = $this->frm_loan;
 			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 			 	<tr>
 					<td style="width: 41%;"><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-					<td><?php echo $frm->getElement('client_codeadd');?></td>
+					<td><input id="customer_code" /><?php //echo $frm->getElement('client_codeadd');?></td>
 				</tr>
 			 	<tr>
 					<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-					<td><?php echo $frm->getElement('client_nameadd')?></td>
+					<td><input id="member" /><?php //echo $frm->getElement('client_nameadd')?></td>
 				</tr>
 			 	<tr >
 					<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
@@ -173,6 +178,53 @@ $frm = $this->frm_loan;
 </table>
 </fieldset>
 </form>
+<script type="text/javascript">
+
+require(["dojo/ready"], function(ready){
+	 ready(function(){
+		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
+		changeCollectType();
+	  });
+	 var client_data = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->allclient));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: client_data}),
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: false,		           
+	name: "member",
+	id: "member",
+	searchAttr: "name",
+	class: 'fullside',
+	onChange: function() {
+		//getClientInfo(2);
+}
+	}, "member");
+
+	 var client_number = new dojo.store.Memory({
+	       data: <?php print_r(Zend_Json::encode($this->allclient_number));?>
+	});
+	new dijit.form.FilteringSelect({
+	store: dojo.data.ObjectStore({objectStore: client_number}),
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: false,		           
+	name: "customer_code",
+	id: "customer_code",
+	searchAttr: "name",
+	class: 'fullside',
+	onChange: function() {
+		//getClientInfo(1);
+}
+	}, "customer_code");
+	 
+	});
+</script>
 		
 <script type="text/javascript">
 dojo.require("dijit.form.Textarea");
@@ -201,7 +253,7 @@ function getClientInfo(type){
 			//alert(data);
 			dijit.byId('Total_amount').attr('value',data.total_principal);
 			dijit.byId('Interest_amount').attr('value',data.total_interest);
-			dijit.byId('loannumber').attr('value',data.loan_number);
+			//dijit.byId('loannumber').attr('value',data.loan_number);
 			dijit.byId('load_level').attr('value',data.level);
 			dijit.byId('interest_rate').attr('value',data.interest_rate);
 			dijit.byId('payment_term').attr('value',data.pay_term);
@@ -258,4 +310,44 @@ function submitDataClose(){
 		});
 	}
 }
+
+
+var url_submiinfo = '<?php echo $this->url(array('module'=>'loan','controller'=>'badloan','action'=>'getloaninfo-by-loanid')); ?>';
+function getInfoByLoanNumber(){
+	loan_id = dijit.byId('get_laonnumber').get('value');
+	dojo.xhrPost({
+	    url: url_submiinfo,	
+	    content : { 
+		    'loan_id':loan_id ,
+		},	
+		handleAs:"json",
+		load: function(data) {
+			dijit.byId('Total_amount').attr('value',data.total_principal);
+			dijit.byId('Interest_amount').attr('value',data.total_interest);
+			//dijit.byId('loannumber').attr('value',data.loan_number);
+			dijit.byId('load_level').attr('value',data.level);
+			dijit.byId('interest_rate').attr('value',data.interest_rate);
+			dijit.byId('payment_term').attr('value',data.pay_term);
+			dijit.byId('loan_period').attr('value',data.total_duration);
+		    dijit.byId('release_date').attr('value',data.date_release);
+		    dijit.byId('end_date').attr('value',data.date_line);
+			dijit.byId('total_amount_loan').attr('value',data.total_capital);
+			dijit.byId('date_loss').attr('value',data.date_payment);
+			dijit.byId('cash_type').attr('value',data.currency_type);
+			dijit.byId("cash_type").set('readOnly',true);
+			//dijit.byId("client_nameadd").attr('value',values);
+			//dijit.byId("client_codeadd").attr('value',values);
+			dijit.byId('customer_code').set('readOnly',true);
+			dijit.byId("customer_code").attr('value',data.client_id);
+			dijit.byId("member").attr('value',data.client_id);
+			dijit.byId('member').set('readOnly',true);
+		},
+		error: function(err) {
+			//alert(err);
+		}
+	});
+}
+
 </script>
+
+

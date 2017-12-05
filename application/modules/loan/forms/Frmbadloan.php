@@ -53,7 +53,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$client_codeadd->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>'getClientInfo();',
+				//'onchange'=>'getClientInfo();',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
@@ -77,7 +77,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$client_nameadd->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'onchange'=>"getClientInfo(1);",
+				//'onchange'=>"getClientInfo(1);",
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
@@ -293,6 +293,28 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		));
 		$_enddate->setValue(date('Y-m-d'));
 		
+		$get_laonnumber = new Zend_Dojo_Form_Element_FilteringSelect('get_laonnumber');
+		$get_laonnumber->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'getInfoByLoanNumber();getLoanInfoByLoanNumber();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+		));
+		$group_opt = $db->getLoanAllLoanNumber(1,1);
+		$get_laonnumber->setMultiOptions($group_opt);
+		
+		$get_elaonnumber = new Zend_Dojo_Form_Element_FilteringSelect('get_laonnumber_edit');
+		$get_elaonnumber->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+				'onchange'=>'getInfoByLoanNumber();getLoanInfoByLoanNumber();',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+		));
+		$group_opt = $db->getAllLoanNumbers(1,1);
+		$get_elaonnumber->setMultiOptions($group_opt);
+		
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$_coid->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -306,11 +328,13 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 		$_coid->setvalue($request->getParam('co_id'));
 		
 		if($data!=null){
-				
+			print_r($data);  
 			$_branch_id->setValue($data['branch']);
+			$get_laonnumber->setValue($data['loan_id']);
+			$get_elaonnumber->setValue($data['loan_id']);
 			$client_code->setValue($data['client_code']);
 			$client_name->setValue($data['client_name']);
-			$number_code->setValue($data['number_code']);
+			//$number_code->setValue($data['number_code']);
 			$_date->setValue($data['date']);
 			$date_loss->setValue($data['loss_date']);
 			$total_amount->setValue($data['total_amount']);
@@ -322,7 +346,7 @@ Class Loan_Form_Frmbadloan extends Zend_Dojo_Form {
 			$id_cient->setValue($data['client_code']);
 		}
 		
-		$this->addElements(array($_coid,$_releasedate,$_enddate,$_payterm,$loannumber,$payment_method,$loan_period,$_interest_rate,$total_amount_loan,$loan_level,$_enddate,$star_date,$id_cient,$client_nameadd,$client_codeadd,$_btn_search,$_title,$_status,$cash_type,$id,$_branch_id,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note));
+		$this->addElements(array($get_elaonnumber,$get_laonnumber,$_coid,$_releasedate,$_enddate,$_payterm,$loannumber,$payment_method,$loan_period,$_interest_rate,$total_amount_loan,$loan_level,$_enddate,$star_date,$id_cient,$client_nameadd,$client_codeadd,$_btn_search,$_title,$_status,$cash_type,$id,$_branch_id,$client_code,$client_name,$number_code,$date_loss,$total_amount,$interest_amount,$_date,$_term,$_note));
 		return $this;
 		
 	}	

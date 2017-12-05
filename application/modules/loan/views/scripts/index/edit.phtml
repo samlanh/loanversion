@@ -333,6 +333,11 @@ require(["dojo/ready"], function(ready){
 	queryExpr: "*${0}*",
 	value:"<?php echo $this->datarow['customer_id'];?>",	     
 	onChange: function() {
+		member = dijit.byId('member').get('value');
+		if(member==-1){
+			//showPopupclient();
+			window.open("<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add')); ?>","_blank");
+			} 
 		getClientInfo(2);
 }
 	}, "member");
@@ -362,6 +367,11 @@ require(["dojo/ready"], function(ready){
 	});
 </script>
 <script type="text/javascript">
+dojo.require("dojo.data.ItemFileWriteStore"); 
+//dojo.require("dojo.data.ObjectStore");
+dojo.require("dojo.NodeList-manipulate");
+dojo.require("dojo.html");
+
 function filterClient(){
 		branch_id = dijit.byId('branch_id').get('value');
 		dijit.byId('member').query.branch_id = branch_id;
@@ -851,14 +861,14 @@ function getAllCo(){
 		},		    
 		handleAs:"json",
 		load: function(data) {
-			co_store  = getDataStorefromJSON('id','name', data);		
+			 alert(data);
+			var co_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('co_id').set('store', co_store);
 		},
 		error: function(err) {
 			//alert(err);
 		}
 	});
-	
 }
 
 function getAddCoNew(){

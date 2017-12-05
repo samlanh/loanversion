@@ -49,6 +49,7 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
   }
+  
   function addAction()
   {
 		if($this->getRequest()->isPost()){

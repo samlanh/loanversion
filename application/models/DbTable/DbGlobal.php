@@ -1159,6 +1159,24 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   		return $result;
   	}
   }
+  
+  public function getAllLoanNumbers($diplayby=1,$opt=null){
+  	$db = $this->getAdapter();
+  	$sql="SELECT l.id,
+	(SELECT name_kh FROM `ln_client` WHERE ln_client.client_id=l.customer_id LIMIT 1) AS customer_name,
+	loan_number FROM `ln_loan` AS l WHERE l.status=1 AND l.is_completed = 0 ORDER BY l.id DESC ";
+  	$result = $db->fetchAll($sql);
+  	$options=array(''=>"---Select Loan Number---");
+  	if($opt!=null){
+  		if(!empty($result))foreach($result AS $row){
+  			$options[$row['id']]= $row['customer_name']."-".$row['loan_number'];
+  		}
+  		return $options;
+  	}else{
+  		return $result;
+  	}
+  }
+  
   public function ClassifiedLoan($type=26){
   	$db = $this->getAdapter();
   	$sql="SELECT id,key_code,name_en FROM `ln_view` WHERE status =1 ";//just concate

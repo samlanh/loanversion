@@ -53,6 +53,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
   }
+  
   function addAction()
   {
   	$dbs = new Application_Model_DbTable_DbKeycode();
@@ -129,6 +130,7 @@ class Loan_IndexController extends Zend_Controller_Action {
 			exit();
 		}
 	}	
+	
 	public function addloanAction(){
 		if($this->getRequest()->isPost()){
 			$data=$this->getRequest()->getPost();
@@ -173,6 +175,13 @@ class Loan_IndexController extends Zend_Controller_Action {
 // 		$this->view->frmPopupCommune = $frmpopup->frmPopupCommune();
 // 		$this->view->frmPopupDistrict = $frmpopup->frmPopupDistrict();
 // 		$this->view->frmPopupVillage = $frmpopup->frmPopupVillage();
+		$db = new Application_Model_DbTable_DbGlobal();
+		$co_name = $db->getAllCoNameOnly();
+		array_unshift($co_name,array(
+				'id' => -1,
+				'name' => '---Add New ---',
+		) );
+		$this->view->co_name=$co_name;
 	}
 	public function viewAction(){
 // 		$this->_helper->layout()->disableLayout();
