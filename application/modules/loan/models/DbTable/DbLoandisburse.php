@@ -301,7 +301,6 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     				$amount_collect = $data['amount_collect'];
     				
     				if($payment_method==1){//decline//completed
-//     					$pri_permonth = ($data['total_amount']/($data['period']-$data['graice_pariod'])*$amount_collect);
     					$pri_permonth = $data['total_amount']/(($amount_borrow_term-($data['graice_pariod']*$borrow_term))/$amount_fund_term);
     					$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
     					if($i*$amount_collect<=$data['graice_pariod']){//check here//for graice period
@@ -1236,7 +1235,13 @@ function getLoanLevelByClient($client_id,$type){
     public function getLastPayDate($data){
     	$loanNumber = $data['loan_numbers'];
     	$db = $this->getAdapter();
-    	$sql ="SELECT cd.`date_payment` FROM `ln_client_receipt_money_detail` AS cd,`ln_client_receipt_money` AS c WHERE c.`id` = cd.`crm_id` AND c.`loan_number`='$loanNumber' ORDER BY cd.`id` DESC";
+    	$sql ="SELECT cd.`date_payment` 
+			FROM `ln_client_receipt_money_detail` AS cd,
+				`ln_client_receipt_money` AS c 
+					WHERE 
+					c.status=1
+					AND c.`id` = cd.`crm_id` 
+						AND c.`loan_number`='$loanNumber' ORDER BY cd.`id` DESC";
     	//return $sql;
     	return $db->fetchOne($sql);
     }

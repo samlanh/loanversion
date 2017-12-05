@@ -44,7 +44,6 @@ function round_up($value, $places)
     	return Loan_Model_DbTable_DbIRRFunction::IRR($array);
     }
     public function addRepayMentSchedule($data){
-    	print_r($data);exit();
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
@@ -66,6 +65,10 @@ function round_up($value, $places)
     		
     		$sql="  SELECT COUNT(id) FROM ln_loan_detail WHERE loan_id= ".$loan_id;
     		$start_id = $db->fetchOne($sql);
+    		
+    		$sql="  SELECT co_id FROM ln_loan WHERE id= ".$loan_id." limit 1";
+    		$data['co_id'] = $db->fetchOne($sql);
+    		
 
     		$dbtable = new Application_Model_DbTable_DbGlobal();
     		$dbsetting = new Setting_Model_DbTable_DbLabel();
@@ -85,27 +88,28 @@ function round_up($value, $places)
     		$this->_name="ln_reschedule";
     		$this->insert($arr);
     		
-    		$datapayment = array(
-    				'loan_id'=>$loan_id,
-    				'outstanding'=>$data['total_amount'],//good
-    				'outstanding_after'=>$data['total_amount'],//good
-    				'principal_permonth'=> $data['principle_paid'],//good
-    				'principle_after'=> $data['principle_paid'],//good
-    				'total_interest'=>0,//good
-    				'total_interest_after'=>0,//good
-    				'total_payment'=>$data['principle_paid'],//good
-    				'total_payment_after'=>$data['principle_paid'],//good
-    				'date_payment'=>$data['date_payment'],//good
-    				'is_completed'=>1,
-    				'status'=>0,
-    				'amount_day'=>0,
-    				'collect_by'=>$data['co_id'],
-    				'installment_amount'=>$start_id+1,
-    		);
-    		$this->insert($datapayment);
+    		$this->_name="ln_loan_detail";
+    		if($data['principle_paid']>0){
+	    		$datapayment = array(
+	    				'loan_id'=>$loan_id,
+	    				'outstanding'=>$data['total_amount'],//good
+	    				'outstanding_after'=>$data['total_amount'],//good
+	    				'principal_permonth'=> $data['principle_paid'],//good
+	    				'principle_after'=> $data['principle_paid'],//good
+	    				'total_interest'=>0,//good
+	    				'total_interest_after'=>0,//good
+	    				'total_payment'=>$data['principle_paid'],//good
+	    				'total_payment_after'=>$data['principle_paid'],//good
+	    				'date_payment'=>$data['date_payment'],//good
+	    				'is_completed'=>1,
+	    				'status'=>0,
+	    				'amount_day'=>0,
+	    				'collect_by'=>$data['co_id'],
+	    				'installment_amount'=>$start_id+1,
+	    		);
+	    		$this->insert($datapayment);
+    		}
     		
-    		
-    		$g_id = $data['group_id'];
     		$remain_principal = $data['total_amount'];
     		$remain_principalirr = $data['total_amount'];
     		$pri_permonthirr=0;
@@ -123,8 +127,7 @@ function round_up($value, $places)
     		$curr_type = $data['currency_type'];
     		$penelize_service = 39500;
     		$panelize_descreas =1500;
-    		//$saving=empty($data['deposit'])?0:$data['deposit'];
-    		//for IRR method
+    		
     		if($data['repayment_method']==6 OR $data['repayment_method']==7){
     			$term_install = $data['period']/$data['amount_collect'];
     			$loan_amount = $data['total_amount'];
@@ -144,9 +147,8 @@ function round_up($value, $places)
     		 
     		for($i=1;$i<=$loop_payment;$i++){
     			$amount_collect = $data['amount_collect'];
-    		
+    			
     			if($payment_method==1){//decline//completed
-    				//     					$pri_permonth = ($data['total_amount']/($data['period']-$data['graice_pariod'])*$amount_collect);
     				$pri_permonth = $data['total_amount']/(($amount_borrow_term-($data['graice_pariod']*$borrow_term))/$amount_fund_term);
     				$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
     				if($i*$amount_collect<=$data['graice_pariod']){//check here//for graice period
@@ -166,9 +168,9 @@ function round_up($value, $places)
     					}
     					$start_date = $next_payment;
     					$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
-    		
+    			
     					$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-    					$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
+    					$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;//here
     					$penelize_service = $penelize_service-$panelize_descreas;
     					if($i>11){
     						$penelize_service=0;
@@ -190,7 +192,7 @@ function round_up($value, $places)
     					$start_date = $next_payment;
     					$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
     					$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-    		
+    			
     					$penelize_service = $penelize_service-$panelize_descreas;
     					if($i>11){
     						$penelize_service=0;
@@ -230,7 +232,7 @@ function round_up($value, $places)
     					$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
     					$start_date = $next_payment;
     					$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
-    		
+    			
     					$penelize_service = $penelize_service-$panelize_descreas;
     					if($i>11){
     						$penelize_service=0;
@@ -296,14 +298,14 @@ function round_up($value, $places)
     					$fixed_principal = intval($total_loan_amount/$term_install);
     					$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
     					$pri_permonthirr = $fixed_principal-$interest_paymonth;
-    		
+    			
     					if($i==$loop_payment){//for end of record only
     						$pri_permonthirr = $remain_principalirr;
     						$fixed_principal = intval($total_loan_amount/$term_install);
     						$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
     						$interest_paymonth = $fixed_principal-$remain_principalirr;
     					}
-    		
+    			
     					$penelize_service = $penelize_service-$panelize_descreas;
     					if($i>11){
     						$penelize_service=0;
@@ -343,7 +345,7 @@ function round_up($value, $places)
     							$ispay_principal=2;
     							$interest_rate = $interest_rate-0.1;
     						}
-    		
+    			
     					}elseif($data['period']<=20){
     						if($i>5){//top record
     							$interest_rate=$data['interest_rate']-0.1;
@@ -352,7 +354,7 @@ function round_up($value, $places)
     							$interest_rate=$data['interest_rate']-0.2;
     						}
     					}else{//>20week or = 24
-    		
+    			
     						if($i>5){//top record
     							$interest_rate=$data['interest_rate']-0.1;
     						}
@@ -381,7 +383,7 @@ function round_up($value, $places)
     				$interest_paymonth = $data['total_amount']*($interest_rate/100/$borrow_term)*$amount_peroid;
     				$interest_paymonth = $this->round_up_currency($curr_type, $interest_paymonth);
     			}
-    		
+    			
     			else{//    fixed payment with fixed rate
     				if($i!=1){
     					$start_date = $next_payment;
@@ -392,7 +394,7 @@ function round_up($value, $places)
     					//$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
     					$fixed_principal = intval($total_loan_amount/$term_install);
     					$pri_permonth = $fixed_principal-$interest_paymonth;
-    		
+    			
     					if($i==$loop_payment){//for end of record only
     						$pri_permonth = $remain_principal;
     						//$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
@@ -419,13 +421,14 @@ function round_up($value, $places)
     			}
     			$old_remain_principal =$old_remain_principal+$remain_principal;
     			$old_pri_permonth = $old_pri_permonth+$pri_permonth;
+    			
     			$old_interest_paymonth = $this->round_up_currency($curr_type,($old_interest_paymonth+$interest_paymonth));
     			$old_amount_day =$old_amount_day+ $amount_day;
+    			
     			if($i==$loop_payment){
     				$this->_name='ln_loan';
     				$datagroup = array('date_line'=>$next_payment);
     				$where =" id= ".$loan_id;
-    				 
     				$this->update($datagroup, $where);//add group loan
     				$this->_name='ln_loan_detail';
     			}
@@ -440,8 +443,6 @@ function round_up($value, $places)
     						'total_interest_after'=>$old_interest_paymonth,//good
     						'total_payment'=>$old_pri_permonth+$old_interest_paymonth,//good
     						'total_payment_after'=>$old_pri_permonth+$old_interest_paymonth,//good
-    						//'penelize_service'=>$penelize_service,
-    				//     							'saving_amount'=>$saving,
     						'date_payment'=>$next_payment,//good
     						'is_completed'=>0,
     						'status'=>1,
@@ -465,6 +466,7 @@ function round_up($value, $places)
     			}else{
     			}
     			$amount_collect++;
+    	
     		}
     		if(($amount_borrow_term)%($amount_fund_term)!=0){///end for record odd number only
     			$start_date = $next_payment;//$dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
@@ -482,12 +484,9 @@ function round_up($value, $places)
     			}elseif($payment_method==3){
     				$pri_permonth = $remain_principal-$pri_permonth;
     				$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
-    				//     					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm));
     				$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
-    				//     					$pri_permonth = $this->round_up_currency($curr_type,$pri_permonth);
     			}elseif($payment_method==4){
     				$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
-    				//     					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
     				$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
     				$pri_permonth = $remain_principal-$pri_permonth;
     			}elseif($payment_method==5){
@@ -515,8 +514,6 @@ function round_up($value, $places)
     					'status'=>1,
     					'amount_day'=>$amount_day,
     					'collect_by'=>$data['co_id'],
-    					//'penelize_service'=>$penelize_service,
-    			//     						'saving_amount'=>$saving,
     					'installment_amount'=>$i+$start_id
     			);
     			$this->insert($datapayment);
@@ -1008,405 +1005,7 @@ function round_up($value, $places)
     					$where =" id= ".$loan_id;
     					$this->update($datagroup, $where);//add group loan
     				}
-    				$db->commit();
-                
-//     			$remain_principal = $data['total_amount'];
-//     			$next_payment = $data['first_payment'];
-//     			$start_date = $data['release_date'];//loan release;
-//     			$from_date =  $data['release_date'];
-    			
-//     			$old_remain_principal = 0;
-//     			$old_pri_permonth = 0;
-//     			$old_interest_paymonth = 0;
-//     			$old_amount_day = 0;
-//     			$amount_collect = 1;
-//     			$ispay_principal=2;//for payment type = 5;
-//     			$is_subremain = 2;
-//     			$curr_type = $data['currency_type'];
-    			
-//     			$penelize_service=0;
-//     			$saving=empty($data['deposit'])?0:$data['deposit'];
-    			
-//     			//for IRR method
-//     			if($data['repayment_method']==6){
-//     				$term_install = $data['period']/$data['amount_collect'];
-//     				$loan_amount = $data['total_amount'];
-//     				$total_loan_amount = $loan_amount+($loan_amount*($data['interest_rate']*$data['amount_collect'])/100*$term_install);
-//     				$irr_interest = $this->calCulateIRR($total_loan_amount,$loan_amount,($term_install),$curr_type);
-//     			}
-//     			//end IRR method
-//     			$this->_name='ln_loan_detail';
-    			
-//     			$borrow_term = $dbtable->getSubDaysByPaymentTerm($data['pay_every'],null);//return amount day for payterm
-//     			$amount_borrow_term = $borrow_term*$data['period'];//amount of borrow
-    			
-//     			$fund_term = $dbtable->getSubDaysByPaymentTerm($data['collect_termtype'],null);//return amount day for payterm
-//     			$amount_fund_term = $fund_term*$data['amount_collect'];
-    			
-//     			$loop_payment = ($amount_borrow_term)/($amount_fund_term);
-//     			$payment_method = $data['repayment_method'];
-// 	            $str_next = $dbtable->getNextDateById($data['collect_termtype'],$data['amount_collect']);//for next,day,week,month;
-    			
-// 				for($i=1;$i<=$loop_payment;$i++){
-//     				$amount_collect = $data['amount_collect'];
-    				
-//     				if($payment_method==1){//decline//completed
-//     					$pri_permonth = $data['total_amount']/(($amount_borrow_term-($data['graice_pariod']*$borrow_term))/$amount_fund_term);
-//     					$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
-//     					if($i*$amount_collect<=$data['graice_pariod']){//check here//for graice period
-//     						$pri_permonth = 0;
-//     					}
-//     					if($i!=1){
-//     						if($data['graice_pariod']!=0){//if collect =1 not other check
-//     							if($i*$amount_collect>$data['graice_pariod']+$amount_collect){//not wright
-//     								$remain_principal = $remain_principal-$pri_permonth;
-//     							}else{
-    								
-//     							}
-//     						}else{
-//     							$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា}
-//     						}
-//     						if($i==$loop_payment){//check condition here//for end of record only
-//     							$pri_permonth = $data['total_amount']-$pri_permonth*($i-(($data['graice_pariod']/$amount_collect)+1));//code error here
-//     						}
-//     						$start_date = $next_payment;
-//     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
-// 							$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     						$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
-//     					}else{
-//     						$next_payment = $data['first_payment'];
-//     						$next_payment = $dbtable->checkFirstHoliday($next_payment,$data['every_payamount']);
-//     						$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     						$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
-//     					}
-//     				}elseif($payment_method==2){//baloon
-//     					$pri_permonth=0;
-//     					if(($i*$amount_fund_term)==$amount_borrow_term){//check here
-//     						$pri_permonth = ($curr_type==1)?round($data['total_amount'],-2):$data['total_amount'];
-//     						$pri_permonth =$this->round_up_currency($curr_type, $pri_permonth);
-//     						$remain_principal = $pri_permonth;//$remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
-//     					}
-//     					if($i!=1){
-//     						$start_date = $next_payment;
-//     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
-//     						$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     					}else{
-//     						$next_payment = $data['first_payment'];
-//     						$next_payment = $dbtable->checkFirstHoliday($next_payment,$data['every_payamount']);
-//     						$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     					}
-//     					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
-    					
-//     				}elseif($payment_method==3){//fixed rate
-//     					$pri_permonth = ($data['total_amount']/($amount_borrow_term/$amount_fund_term));
-//     					$pri_permonth =$this->round_up_currency($curr_type,$pri_permonth);
-//     					if($i!=1){
-//     						$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
-//     						if($i==$loop_payment){//for end of record only
-//     							$pri_permonth = $remain_principal;
-//     						}
-//     						$start_date = $next_payment;
-//     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
-//     					}else{
-//     						$next_payment = $data['first_payment'];
-//     						$next_payment = $dbtable->checkFirstHoliday($next_payment,$data['every_payamount']);
-//     					}
-//     					    $amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     					    $interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
-    						
-//     				}elseif($payment_method==4){//fixed payment full last period yes
-//     					$panelize_descreas =1500;
-//     					if($i!=1){
-//     						$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
-//     						$start_date = $next_payment;
-//     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
-//     						$penelize_service = $penelize_service-$panelize_descreas;
-//     						if($i>11){
-//     							$penelize_service=0;
-//     						}
-//     					}else{
-//     						$next_payment = $data['first_payment'];
-//     						$next_payment = $dbtable->checkFirstHoliday($next_payment,$data['every_payamount']);
-//     						$penelize_service = 39500;
-//     					}
-//     					$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     					$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
-//     					$interest_paymonth = $this->round_up_currency($curr_type, $interest_paymonth);
-//     					$pri_permonth = $data['amount_collect_pricipal']-$interest_paymonth;
-//     					if($i==$loop_payment){//for end of record only
-//     						$pri_permonth = $remain_principal;
-//     					}
-//     				}elseif($payment_method==5){//semi baloon//ok
-//     					if($i!=1){
-//     						$ispay_principal++;
-//     						$is_subremain++;
-//     						$pri_permonth=0;
-// 								if(($is_subremain-1)==$data['amount_collect_pricipal']){
-//     								$pri_permonth = ($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
-//     								$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
-//     								$is_subremain=1;
-//     							}
-//     							if(($ispay_principal-1)==$data['amount_collect_pricipal']+1){
-//     								$remain_principal = $remain_principal-($data['total_amount']/$data['period'])*$data['amount_collect_pricipal'];
-//     								$ispay_principal=2;
-//     							}
-//     							if($i==$loop_payment){//check condition here//for end of record only
-//     								$pri_permonth = $remain_principal;
-//     							}
-//     							$start_date = $next_payment;
-//     							$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
-//     							$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     							$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
-// //     							$interest_paymonth = ($remain_principal*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm));
-//     					}else{
-//     						$pri_permonth = 0;//check if get pri first too much change;
-//     						$next_payment = $data['first_payment'];
-//     						$next_payment = $dbtable->checkFirstHoliday($next_payment,$data['every_payamount']);
-//     						$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     						$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
-// //     						$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm));
-//     					}
-//     				}elseif($payment_method==7){
-// 	    				if($i!=1){
-// 	    					$start_date = $next_payment;
-// 	    					$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
-// 	    					$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-// 	    					$remain_principalirr = $remain_principalirr-$pri_permonthirr;
-// 	    					$interest_paymonth = $this->round_up_currency($curr_type,$remain_principalirr*$irr_interest);
-// 	    					$fixed_principal = intval($total_loan_amount/$term_install);
-// 	    					$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
-// 	    					$pri_permonthirr = $fixed_principal-$interest_paymonth;
-	    					
-// 	    					if($i==$loop_payment){//for end of record only
-// 	    						   $pri_permonthirr = $remain_principalirr;
-// 	    						   $fixed_principal = intval($total_loan_amount/$term_install);
-// 	    						   $fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
-// 	    						   $interest_paymonth = $fixed_principal-$remain_principalirr;
-// 	    					}
-	    					
-// 	    				}else{
-// 	    					$fixed_principal = intval($total_loan_amount/$term_install);//fixed 'ex: 100.70=>100
-// 	    					$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
-// 	    					$post_fiexed = $total_loan_amount/$term_install-$fixed_principal;
-// 	    					$total_payment_first = $this->round_up_currency($curr_type,$post_fiexed*$term_install);
-// 	    					$pri_permonthirr = $fixed_principal+$total_payment_first;
-// 	    					$next_payment = $dbtable->checkFirstHoliday($next_payment,$data['every_payamount']);
-// 	    					$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-// 	    					$interest_paymonth = $this->round_up_currency($curr_type,$loan_amount*($irr_interest));
-// 	    					$pri_permonthirr = ($fixed_principal+$total_payment_first)-$interest_paymonth;
-// 	    				}
-	    				
-// 	    				$pri_permonth = $data['total_amount']/(($amount_borrow_term)/$amount_fund_term);
-// 	    				$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
-// 	    				if($i!=1){
-// 	    					$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា}
-// 	    					if($i==$loop_payment){//check condition here//for end of record only
-// 	    						$pri_permonth = $remain_principal;//$data['total_amount']-$pri_permonth*$i;//code error here
-// 	    					}
-// 	    				}
-	    				
-//     				}///
-//     				elseif($payment_method==8){
-//     					$panelize_descreas =1500;
-//     					$pri_permonth = ($data['total_amount']/($amount_borrow_term/$amount_fund_term));
-//     					$pri_permonth =$this->round_up_currency($curr_type,$pri_permonth);
-    				
-//     					if($i!=1){
-//     						if($data['period']<=15){//if period<18;ok
-//     							$ispay_principal++;
-//     							$is_subremain++;
-//     							if(($is_subremain-1)==2){
-//     								$is_subremain=1;
-//     							}
-//     							if(($ispay_principal-1)==2+1){
-//     								$ispay_principal=2;
-//     								$interest_rate = $interest_rate-0.1;
-//     							}
-    								
-//     						}elseif($data['period']<=20){
-//     							if($i>5){//top record
-//     								$interest_rate=$data['interest_rate']-0.1;
-//     							}
-//     							if($loop_payment-$i<5){//5 last record
-//     								$interest_rate=$data['interest_rate']-0.2;
-//     							}
-    				
-//     						}else{//>20week or = 24
-    				
-//     							if($i>5){//top record
-//     								$interest_rate=$data['interest_rate']-0.1;
-//     							}
-//     							if($loop_payment-$i<5){//5 last record
-//     								$interest_rate=$data['interest_rate']-0.2;
-//     							}
-//     						}
-//     						$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
-//     						if($i==$loop_payment){//for end of record only
-//     							$pri_permonth = $remain_principal;
-//     						}
-//     						$start_date = $next_payment;
-//     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
-    							
-//     						$penelize_service = $penelize_service-$panelize_descreas;
-//     						if($i>11){
-//     							$penelize_service=0;
-//     						}
-//     					}else{
-//     						$penelize_service = 39500;
-//     						$interest_rate = $data['interest_rate'];
-    							
-//     						$next_payment = $data['first_payment'];
-//     						$next_payment = $dbtable->checkFirstHoliday($next_payment,$data['every_payamount']);
-//     					}
-//     					$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     					$amount_peroid = $dbtable->getAmountDayByTerm($data['pay_every']);
-//     					$interest_paymonth = $data['total_amount']*($interest_rate/100/$borrow_term)*$amount_peroid;
-    				
-//     				}
-//     				else{//    fixed payment with fixed rate
-//     					if($i!=1){
-//     						$start_date = $next_payment;
-//     						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
-//     						$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     						$remain_principal = $remain_principal-$pri_permonth;
-//     						$interest_paymonth = $this->round_up_currency($curr_type,$remain_principal*$irr_interest);
-//     						//$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
-//     						$fixed_principal = intval($total_loan_amount/$term_install);
-//     						$pri_permonth = $fixed_principal-$interest_paymonth;
-    						
-//     						if($i==$loop_payment){//for end of record only
-//     							$pri_permonth = $remain_principal;
-//     							//$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
-//     							$fixed_principal = intval($total_loan_amount/$term_install);
-//     							$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
-//     							$interest_paymonth = $fixed_principal-$remain_principal;
-//     						}
-    							
-//     					}else{
-//     						$fixed_principal = intval($total_loan_amount/$term_install);//fixed 'ex: 100.70=>100
-//     						//$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);//fixed
-//     						$fixed_principal= $this->round_up_currency($curr_type,$fixed_principal);
-//     						$post_fiexed = $total_loan_amount/$term_install-$fixed_principal;
-//     						$total_payment_first = $this->round_up_currency($curr_type,$post_fiexed*$term_install);
-//     						$pri_permonth = $fixed_principal+$total_payment_first;
-//     						$next_payment = $dbtable->checkFirstHoliday($next_payment,$data['every_payamount']);
-//     						$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     						$interest_paymonth = $this->round_up_currency($curr_type,$loan_amount*($irr_interest));
-//     						$pri_permonth = ($fixed_principal+$total_payment_first)-$interest_paymonth;
-//     					}	   
-//     			    }
-//     				$old_remain_principal =$old_remain_principal+$remain_principal;
-//     				$old_pri_permonth = $old_pri_permonth+$pri_permonth;
-//     				$old_interest_paymonth = $this->round_up_currency($curr_type,($old_interest_paymonth+$interest_paymonth));
-//     				$old_amount_day =$old_amount_day+ $amount_day;
-    				
-//     				if($i==$loop_payment){
-//     					$this->_name='ln_loan_group';
-//     					$datagroup = array('date_line'=>$next_payment);
-//     					$where =" g_id= ".$g_id;
-//     					$this->update($datagroup, $where);//add group loan
-//     					$this->_name='ln_loanmember_funddetail';
-//     				}
-    				
-//     				if($data['amount_collect']==$amount_collect){
-    					
-//     					$datapayment = array(
-//     							'member_id'=>$member_id,
-//     							'total_principal'=>$remain_principal,//good
-//     							'principal_permonth'=> $old_pri_permonth,//good
-//     							'principle_after'=> $old_pri_permonth,//good
-//     							'total_interest'=>$old_interest_paymonth,//good
-//     							'total_interest_after'=>$old_interest_paymonth,//good
-//     							'total_payment'=>$old_pri_permonth+$old_interest_paymonth+$saving,//good
-//     							'total_payment_after'=>$old_pri_permonth+$old_interest_paymonth+$saving,//good
-//     							'date_payment'=>$next_payment,//good
-//     							'is_completed'=>0,
-//     							'branch_id'=>$data['branch_id'],
-//     							'status'=>1,
-//     							'amount_day'=>$old_amount_day,
-//     							'collect_by'=>$data['co_id'],
-//     							'installment_amount'=>$i+$start_id,
-//     							'penelize_service'=>$penelize_service,
-//     							'saving_amount'=>$saving,
-//     					);
-//     					$this->insert($datapayment);
-//     					$amount_collect=0;
-//     					$old_remain_principal = 0;
-//     					$old_pri_permonth = 0;
-//     					$old_interest_paymonth = 0;
-//     					$old_amount_day = 0;
-	    				
-//     					$from_date=$next_payment;
-// 	     				if($i!=1){
-// 	    					$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
-// 	     				}
-//     				}else{
-//     				}
-//     				$amount_collect++;
-//     			}
-//     			if(($amount_borrow_term)%($amount_fund_term)!=0){///end for record odd number only
-//     				$start_date = $next_payment;//$dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount']);
-//     				$next_payment = $dbtable->checkFirstHoliday($data['date_line'],$data['every_payamount']);
-//     				$amount_day = $amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
-//     				if($payment_method==1){
-//     					$pri_permonth = $remain_principal-$pri_permonth; // $pri_permonth*($amount_day/$amount_fund_term);//check it if khmer currency
-//     					$interest_paymonth = $pri_permonth*($data['interest_rate']/100/$borrow_term)*$amount_day;
-//     					$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
-//     				}elseif($payment_method==2){
-//     					$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
-//     					$remain_principal = $pri_permonth;//$remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
-//     					$interest_paymonth = $pri_permonth*($data['interest_rate']/100/$borrow_term)*$amount_day;
-//     					$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
-//     				}elseif($payment_method==3){
-//     					$pri_permonth = $remain_principal-$pri_permonth;
-//     					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
-// //     					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($day_perterm/$day_perterm));
-//     					$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
-// //     					$pri_permonth = $this->round_up_currency($curr_type,$pri_permonth);
-//     				}elseif($payment_method==4){
-//     					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;
-// //     					$interest_paymonth = ($data['total_amount']*((($amount_fund_term*$data['interest_rate'])/$borrow_term)/100)*($amount_day/$day_perterm));
-//     					$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
-//     					$pri_permonth = $remain_principal-$pri_permonth;
-//     				}elseif($payment_method==5){
-//     					$pri_permonth = $remain_principal;
-//     					$interest_paymonth = $remain_principal*($data['interest_rate']/100/$borrow_term)*$amount_day;
-//     					$interest_paymonth = $this->round_up_currency($curr_type,$interest_paymonth);
-//     				}elseif($payment_method==6){
-//     					$interest_paymonth = $this->round_up_currency($curr_type,$remain_principal*$irr_interest);
-//     					$fixed_principal = round($total_loan_amount/$term_install,0, PHP_ROUND_HALF_DOWN);
-//     					$pri_permonth = $remain_principal;
-//     				}
-    				
-//     				$datapayment = array(
-//     						'member_id'=>$member_id,
-//     						'total_principal'=>$pri_permonth,//good
-//     						'principal_permonth'=> $pri_permonth,//good
-//     						'principle_after'=> $old_pri_permonth,//good
-//     						'total_interest'=>$interest_paymonth,//good
-//     						'total_interest_after'=>$interest_paymonth+$saving,//good
-//     						'total_payment'=>$interest_paymonth+$pri_permonth,//good
-//     						'total_payment_after'=>$old_pri_permonth+$old_interest_paymonth+$saving,//good
-//     						'date_payment'=>$next_payment,//good
-//     						'is_completed'=>0,
-//     						'branch_id'=>$data['branch_id'],
-//     						'status'=>1,
-//     						'amount_day'=>$amount_day,
-//     						'collect_by'=>$data['co_id'],
-//     						'installment_amount'=>$i+$start_id,
-//     						'penelize_service'=>$penelize_service,
-//     						'saving_amount'=>$saving,
-//     				);
-//     				$this->insert($datapayment);
-    				
-//     				$this->_name='ln_loan_group';
-//     				$datagroup = array('date_line'=>$next_payment);
-//     				$where =" g_id= ".$g_id;
-//     				$this->update($datagroup, $where);//add group loan
-//     				$this->_name='ln_loanmember_funddetail';
-    				
-//     			}
-//     		   $db->commit();
+    			$db->commit();
     			return 1;
     		}catch (Exception $e){
     			$db->rollBack();
@@ -1457,12 +1056,19 @@ function round_up($value, $places)
     public function getLoanInfoBymemberId($id){
     	$db=$this->getAdapter();
     	$sql=" SELECT
-    	(SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND status=1 AND lf.is_completed=0 LIMIT 1)  AS total_principal
-    	,l.client_id,l.currency_type ,l.interest_rate , l.loan_number,l.payment_method, l.group_id,l.branch_id,
-    	(SELECT co_id FROM `ln_loan_group` WHERE g_id  = l.group_id LIMIT 1 ) AS co_id ,
-    	(SELECT zone_id FROM `ln_loan_group` WHERE g_id  = l.group_id LIMIT 1) AS zone_id,
-    	(SELECT level FROM `ln_loan_group` WHERE g_id  = l.group_id LIMIT 1) AS level
-    	FROM `ln_loan_member` AS l WHERE l.member_id=$id AND status=1 AND l.is_completed=0 ";
+    	(SELECT SUM(d.principle_after) FROM `ln_loan_detail` AS d WHERE d. loan_id= l.id AND status=1 AND d.is_completed=0 LIMIT 1)  AS total_principal
+    	,l.customer_id,l.currency_type ,
+    	l.interest_rate ,l.loan_number,
+    	l.payment_method,l.branch_id,
+    	l.customer_id AS client_id,
+    	l.co_id ,
+    	l.zone_id AS zone_id,
+    	l.level
+    	FROM 
+    	`ln_loan` AS l WHERE l.id=$id 
+    		AND status=1 
+    		AND l.is_completed=0 
+    		AND l.is_badloan=0 ";
     	return $db->fetchRow($sql);
     }
     

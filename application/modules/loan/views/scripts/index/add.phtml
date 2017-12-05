@@ -223,7 +223,9 @@
 </style>
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'កាលវិភាគត្រូវបង់ប្រាក់', onCancel:hideDialog" id="frm_client" style="width:1000px">
 	<div id="rpt_print" class="print" style="text-align:center;">
-	<input type="button" onclick="submitDataClose(2);" label="<?php echo $tr->translate("SAVE_PRINT");?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+	<input type="button" onclick="submitDataClose(1)" label="<?php echo $tr->translate("SAVECLOSE");?>" name='save_close' id='save_close' value='saveclose' dojoType="dijit.form.Button"
+				 iconClass="dijitIconDelete"/>
+	<input type="button" onclick="submitDataClose(2);" label="<?php echo $tr->translate("SAVE_PRINT");?>" id='saveprint' name='saveprint' value='saveprint' dojoType="dijit.form.Button"
 	iconClass="dijitIconNewTask"/>
 	
 	<div id="t_amountmoneytype" name="t_amountmoneytype"></div>
@@ -880,18 +882,21 @@ function submitDataClose(type){
         }
     }
 	if(dijit.byId('frm_add_tran').validate()) {
+		dijit.byId('saveprint').set('disabled',true);
 		dijit.byId('saveclose').set('disabled',true);
+		dijit.byId('save_close').set('disabled',true);
 		dijit.byId('savenew').set('disabled',true);
-		var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add')); ?>';
+		var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'submitloan')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	
-			form: dojo.byId("frm_add_tran"),		    
+			form: dojo.byId("frm_add_tran"),	
+			handleAs:"json",	    
 			load: function(data) {
 				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
 				if(type==1){
 					window.location.href ="<?php echo $this->baseUrl();?>/loan/index";
 				}else{
-					window.location.href ="<?php echo $this->baseUrl();?>/report/loan/rpt-paymentschedules/".data;
+					window.location.href ='<?php echo $this->baseUrl().'/report/loan/rpt-paymentschedules/id/'?>'+data;
 				}
 			},
 			error: function(e) {

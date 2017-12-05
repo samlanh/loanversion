@@ -47,7 +47,7 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 				'required'=>true,
 				'readOnly'=>'readOnly'
 				));
-		$rows = $db ->getClientByType();
+		$rows = $db->getClientByType();
 		$options=array(''=>'-----Select------');
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['client_id']]=$row['name_en'].','.$row['province_en_name'].','.$row['district_name'].','.$row['commune_name'].','.$row['village_name'];
@@ -233,14 +233,6 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		$date_input = new Zend_Form_Element_Hidden("date_input");
 		$date_input->setValue($c_date);
 		
-		$_start_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
-		$_start_date->setAttribs(array(
-				'dojoType'=>'dijit.form.DateTextBox',
-				'class'=>'fullside',
-				'required' =>'true'				
-		));
-
-
 		$reciever = new Zend_Dojo_Form_Element_TextBox("end_date");
 		$reciever->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside',"readonly"=>true));
 		
@@ -493,8 +485,16 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'style'=>'color:red;',
-				//'required'=>true,
-				'readonly'=>true
+			
+		));
+		$_rapture_amount->setValue(0);
+
+
+		$_start_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
+		$_start_date->setAttribs(array(
+				'dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'required' =>'true'				
 		));
 
 
@@ -596,12 +596,18 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 		));
 		
-		$_note = new Zend_Dojo_Form_Element_TextBox('note');
+		/*$_note = new Zend_Dojo_Form_Element_TextBox('note');
 		$_note->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				//'required' =>'true'
-		));
+		)); */
+		$_note = new Zend_Form_Element_Textarea('note');
+				$_note->setAttribs(array(
+						//'dojoType'=>'dijit.form.TextBox',
+						'class'=>'fullside',
+						'style'=>'height:100px !important;',
+				));
 		
 		$_collect_date = new Zend_Dojo_Form_Element_DateTextBox('collect_date');
 		$_collect_date->setAttribs(array(
@@ -710,7 +716,7 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		));
 		
 		if($data!=""){
-			$id->setValue($data["id"]);
+	//		$id->setValue($data["id"]);
 // 			$_groupid->setValue($data["group_id"]);
 // 			$_loan_number->setValue($data["loan_number"]);
 // 			$_branch_id->setValue($data["branch_id"]);

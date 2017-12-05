@@ -14,26 +14,26 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 				$formdata=$this->getRequest()->getPost();
 				$search = array(
-						'advance_search' => $formdata['advance_search'],
-						'client_name'=>$formdata['client_name'],
-						'start_date'=>$formdata['start_date'],
-						'end_date'=>$formdata['end_date'],
-						'status'=>$formdata['status'],
-						'branch_id'		=>	$formdata['branch_id'],
-						'co_id'		=>	$formdata['co_id'],
-						'paymnet_type'	=> $formdata["paymnet_type"],
-						);
+					'advance_search' => $formdata['advance_search'],
+					'client_name'=>$formdata['client_name'],
+					'start_date'=>$formdata['start_date'],
+					'end_date'=>$formdata['end_date'],
+					'status'=>$formdata['status'],
+					'branch_id'		=>	$formdata['branch_id'],
+					'co_id'		=>	$formdata['co_id'],
+					'paymnet_type'	=> $formdata["paymnet_type"],
+					);
 			}
 			else{
 				$search = array(
-						'adv_search' => '',
-						'client_name' => -1,
-						'start_date'=> date('Y-m-d'),
-						'end_date'=>date('Y-m-d'),
-						'branch_id'		=>	-1,
-						'co_id'		=> -1,
-						'paymnet_type'	=> -1,
-						'status'=>"",);
+					'adv_search' => '',
+					'client_name' => -1,
+					'start_date'=> date('Y-m-d'),
+					'end_date'=>date('Y-m-d'),
+					'branch_id'		=>	-1,
+					'co_id'		=> -1,
+					'paymnet_type'	=> -1,
+					'status'=>"",);
 			}
 			$rs_rows= $db->getAllIndividuleLoan($search);
 			$result = array();
@@ -171,11 +171,20 @@ class Loan_PaymentController extends Zend_Controller_Action {
 	}
 	
 	function deleteAction()
-	{
+	{//check permission first
+		$request=Zend_Controller_Front::getInstance()->getRequest();
+		$action=$request->getActionName();
+		$controller=$request->getControllerName();
+		$module=$request->getModuleName();
+		
 		$id = $this->getRequest()->getParam("id");
 		$db = new Loan_Model_DbTable_DbLoanILPayment();
 		try {
-			$db->deleteRecord($id);
+			$dbacc = new Application_Model_DbTable_DbUsers();
+			$rs = $dbacc->getAccessUrl($module,$controller,$action);
+			if(!empty($rs)){
+				$db->deleteRecord($id);
+			}
 			Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/loan/payment/");
 		}catch (Exception $e) {
 			Application_Form_FrmMessage::message("INSERT_FAIL");

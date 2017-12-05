@@ -43,13 +43,10 @@ class IndexController extends Zend_Controller_Action
 				$password=$form->getValue('txt_password');
 				$db_user=new Application_Model_DbTable_DbUsers();
 				if($db_user->userAuthenticate($user_name,$password)){					
-// 					$this->view->msg = 'Authentication Sucessful!';
-// 					$this->view->err="0";
 					
 					$session_user=new Zend_Session_Namespace('authloan');
 					$user_id=$db_user->getUserID($user_name);
 					$user_info = $db_user->getUserInfo($user_id);
-					
 					$arr_acl=$db_user->getArrAcl($user_info['user_type']);
 					
 					$url_report =$db_user->getAclReport($user_info['user_type']);

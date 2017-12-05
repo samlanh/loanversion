@@ -123,8 +123,16 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 		
 // 		$getIlDetail = $db->getIlDetail($id);
 		
-		$frm = new Loan_Form_FrmIlPayment();
-		$frm_loan=$frm->FrmAddIlPayment();
+	/*	$frm = new Loan_Form_FrmIlPayment();
+		$frm_loan=$frm->FrmAddIlPayment(); */
+
+		//test
+		$frm = new Pawnshop_Form_FrmPayment();
+		$frm_loan=$frm->FrmAddPayment();
+		Application_Model_Decorator::removeAllDecorator($frm_loan);
+		$this->view->frm_ilpayment = $frm_loan;
+		//test
+
 // 		$frm_loan=$frm->FrmAddIlPayment($payment_il);
 // 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_ilpayment = $frm_loan;

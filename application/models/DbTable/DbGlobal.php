@@ -16,12 +16,13 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 	}
 	function getCurrentDatePayment($id){
 		$db = $this->getAdapter();
-		$sql="SELECT c.`date_input` FROM `ln_client_receipt_money` AS c WHERE c.`id`=$id ";
+		$sql="SELECT c.`date_input` FROM `ln_client_receipt_money` AS c WHERE c.status=1 AND c.`id`=$id ";
 		return $db->fetchOne($sql);
 	}
 	function getLastDatePayment($id){
 		$db = $this->getAdapter();
-		$sql="SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm,`ln_client_receipt_money_detail` AS crmd WHERE crm.`id`!=$id AND crm.`id`=(SELECT crl.`crm_id` FROM `ln_client_receipt_money_detail` AS crl WHERE crl.`crm_id`=crm.`id` AND crl.`loan_number`=(SELECT c.loan_number FROM `ln_client_receipt_money_detail` AS c WHERE c.`crm_id`=crmd.id AND c.`crm_id`=$id LIMIT 1) LIMIT 1)  ORDER BY crm.`date_input` DESC LIMIT 1 ";
+		$sql="SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm,`ln_client_receipt_money_detail` AS crmd 
+		WHERE crm.status =1 AND crm.`id`!=$id AND crm.`id`=(SELECT crl.`crm_id` FROM `ln_client_receipt_money_detail` AS crl WHERE crl.`crm_id`=crm.`id` AND crl.`loan_number`=(SELECT c.loan_number FROM `ln_client_receipt_money_detail` AS c WHERE c.`crm_id`=crmd.id AND c.`crm_id`=$id LIMIT 1) LIMIT 1)  ORDER BY crm.`date_input` DESC LIMIT 1 ";
 		return $db->fetchOne($sql);
 	}
 	public function getLoanNumberByBranch($type){

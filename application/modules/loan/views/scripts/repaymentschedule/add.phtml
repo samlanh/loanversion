@@ -59,14 +59,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 			        <td><?php echo $tr->translate("LOAN_NO")?></td>
 					<td><?php echo $frm->getElement('get_laonnumber');?></td>
 			    </tr>
-			    <tr>
-					<td><?php echo $tr->translate("CO_NAME")?></td>
-					<td><?php echo $frm->getElement('co_id');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("TOTAL_INTEREST")?></td>
-					<td><?php echo $frm->getElement('interest');?></td>
-			    </tr>
 			</table>
 		</fieldset>	
 		</td>
@@ -82,14 +74,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 					<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 					<td><input id="member" /> <?php //echo $frm->getElement('member');?></td>
 				</tr>
-				<tr>
-					<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
-					<td><?php echo $frm->getElement('level');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("PENALIZE")?></td>
-					<td align="left"><?php echo $frm->getElement('penalize');?></td>
-				</tr>
 			</table>
 		</fieldset>
 		</td>
@@ -98,21 +82,12 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 		     <legend align="center"><strong><?php echo $tr->translate('SERVICE_INFO');?></strong></legend>
 			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 				<tr>
-					<td><?php echo $tr->translate("ZONE_NAME")?></td>
-					<td><?php echo $frm->getElement('zone');echo $frm->getElement('instalment_date');echo $frm->getElement('old_payterm');echo $frm->getElement('old_release_date');echo $frm->getElement('old_rate');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("LOAN_TYPE")?></td>
-					<td><?php echo $frm->getElement('loan_type');?></td>
-					<input dojoType="dijit.form.TextBox" required="true" id="loan_code" name="loan_code" type="hidden">
-					<input dojoType="dijit.form.TextBox" required="true" id="group_id" name="group_id" type="hidden">
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("PRINCIPLE_PAID")?></td>
+					<td><?php echo $tr->translate("PAID_PRINCIPAL")?><input dojoType="dijit.form.TextBox" required="true" id="loan_code" name="loan_code" type="hidden"></td>
 					<td><?php echo $frm->getElement('principle_paid');?>
+					<?php echo $frm->getElement('instalment_date');echo $frm->getElement('old_payterm');echo $frm->getElement('old_release_date');echo $frm->getElement('old_rate');?>
 				</tr>
 				<tr>
-					<td><?php echo $tr->translate("DATE_PAYMENT")?></td>
+					<td><?php echo $tr->translate("INPUT_DATE")?></td>
 					<td><?php echo $frm->getElement('date_payment');?></td>
 				</tr>
 			</table>
@@ -120,7 +95,7 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 		</td>
 	</tr>
 	<tr>
-		<td colspan="6"  style="border-bottom:1px solid #ccc;    background: none repeat scroll 0 0 #bbcff3;"><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></td>
+		<td colspan="6"  style="border-bottom:1px solid #ccc;    background: none repeat scroll 0 0 #bbcff3;"><strong><?php echo $tr->translate("LOAN_RESCHEDULE")?></strong></td>
 	</tr>
 	<tr>
 		<td width="33%;" valign="top">
@@ -139,12 +114,10 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 			    	<td><?php echo $tr->translate("AMIN_FEE")?></td>
 					<td><?php echo $frm->getElement('loan_fee');?></td>
 			    </tr>
-			     
 			    <tr>
 			    	<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
 					<td><?php echo $frm->getElement('repayment_method');?></td>
 			    </tr>
-			    
 			    <tr>
 					<td><?php echo $tr->translate("INTEREST_RATE")?></td>
 					<td><?php echo $frm->getElement('interest_rate');?></td>
@@ -152,10 +125,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 				<tr>
 					<td><?php echo $tr->translate("LOAN_RELEASE")?></td>
 					<td><?php echo $frm->getElement('release_date');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
-					<td><?php echo $frm->getElement('first_payment');?></td>
 				</tr>
 			</table>
 		</fieldset>	
@@ -174,10 +143,15 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 					<td><?php echo $frm->getElement('period');?></td>
 				</tr>
 				<tr>
-					<td><label style="font-size:10px;"><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label >(<label style="font-size:10px;" id="graice_type"></label>)</td>
+					<td><label><?php echo $tr->translate("TERM_GRAICE_PARIOD")?></label >
+					<br />(<label style="font-size:10px;" id="graice_type"></label>)
+					</td>
 					<td><?php echo $frm->getElement('graice_pariod');?></td>
 				</tr>
-			 	
+			 	<tr>
+					<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
+					<td><?php echo $frm->getElement('first_payment');?></td>
+				</tr>
 				<tr>
 					<td><?php echo $tr->translate("LIFE_LOAN")?></td>
 					<td><?php echo $frm->getElement('date_line');?></td>
@@ -190,7 +164,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 		</fieldset>
 		</td>
 		<td width="33%;" valign="top">
-		
 		<fieldset>
 		     <legend align="center"><strong><?php echo $tr->translate("INFO_FUND")?></strong></legend>
 			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
@@ -215,7 +188,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 		</fieldset>
 		</td>
 	</tr>
-	​
 	<tr>
 		<td align="center" colspan="3">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
@@ -224,7 +196,7 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 				 iconClass="dijitIconDelete"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
-			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+			<input type="submit"  label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
 		</td>
 	</tr>	
@@ -243,10 +215,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 </div>
 </div>
 </form>
-<?php 
-	echo $this->frmPopupZone;
-	echo $this->frmpupoploantype;
-?>
 <script type="text/javascript">	
     function checkValidateDate(){
     	debt_term = dijit.byId('pay_every').get('value');
@@ -273,12 +241,6 @@ require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","diji
 			dijit.byId('collect_termtype').focus();
 			return false;
 		}
-		/*method = dijit.byId('repayment_method').get('value');
-		amount_collect = dijit.byId('amount_collect_pricipal').get('value');
-		amount_principal = dijit.byId('total_amount').get('value');
-		if(method==4 AND (debt_amount*term_d)/(collect_amount*term_c)*amount_collect>amount_principal ){
-			
-		}*/
 		return true;
      }
     function setDefaultPaymentAmount(){
@@ -380,8 +342,6 @@ function filterClient(){
 		branch_id = dijit.byId('branch_id').get('value');
 		dijit.byId('member').query.branch_id = branch_id;
 		dijit.byId('customer_code').query.branch_id = branch_id;
-		//dijit.byId('customer_code').reset();
-		//getLoanByBranch();
 }
 function popupCheckCO (){
 	
@@ -467,7 +427,6 @@ function chechPaymentMethod(){
 		dijit.byId('graice_pariod').set('readOnly',true);
 	}
 }
-
 function changeCollectType(){
 	get_id = dijit.byId('pay_every').get('value');
 	dijit.byId('collect_termtype').attr('value',get_id);
@@ -480,42 +439,7 @@ function changeGraicePeroid(){
 	calCulateFirstPayment();
 	
 }
-function clearTextBox(){
-	dijit.byId('member').set('value','');
-	dijit.byId('total_amount').set('value',0);
-}
 
-/*
-   function popupCheckClient(){
-		if(dijit.byId('group_id').get('value')==-1){
-			 dijit.byId('frm_client').show();
-		}
-	}
-	function popupCheckCO(){
-		if(dijit.byId('co_id').get('value')==-1){
-			 dijit.byId('frm_co').show();
-		}
-	}
-	function popupCheckZone(){
-		if(dijit.byId('zone').get('value')==-1){
-			 dijit.byId('frm_zone').show();
-		}
-	}
-	function popupCheckDistrict(){
-	if(dijit.byId('district').get('value')==-1){
-		 dijit.byId('frm_district').show();
-	}
-}
-function popupCheckCommune(){
-	if(dijit.byId('commune').get('value')==-1){
-		 dijit.byId('frm_commune').show();
-	}
-}
-function popupCheckVillage(){
-	if(dijit.byId('village').get('value')==-1){
-		 dijit.byId('frm_village').show();
-	}
-}*/
 function getClientInfo(type){
 	alert(33);
 	if(type==1){
@@ -525,138 +449,9 @@ function getClientInfo(type){
 		customer_code= dijit.byId('member').get('value');
 		dijit.byId('customer_code').attr('value',customer_code);
 	}
-	getLoanLevel(customer_code);
-}
-var getloan_level = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-loanlevel')); ?>';
-function getLoanLevel(client_id){
-		dojo.xhrPost({
-	    url: getloan_level,	
-	    content : { 
-	    	'client_id': client_id,
-	    	'type':1
-		},	    
-		handleAs:"json", 
-		load: function(data) {	
-			dijit.byId('level').attr('value',data);
-		},
-		error: function(err) {
-		}
-	});
 }
 
-var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'client','action'=>'add-newclient')); ?>';
-function addNewClient(){
-		dojo.xhrPost({
-	    url: url_submit,	
-		form: dojo.byId("form_client"),		    
-		handleAs:"json", 
-		load: function(data) {	
-			dijit.byId('frm_client').reset(); 
-			dijit.byId('frm_client').hide();
-		},
-		error: function() {
-		alert("Your message could not be sent, please try again!.");
-		}
-	});
-}
-var url_submitco = '<?php echo $this->url(array('module'=>'other','controller'=>'co','action'=>'add-newco')); ?>';
-function AddNewCo(){
-		dojo.xhrPost({
-	    url: url_submitco,	
-		form: dojo.byId("form_co"),		    
-		handleAs:"json",
-		load: function(data) {	
-			dojo.byId('form_co').reset(); 
-			dijit.byId('frm_co').hide();
-		},
-		error: function(err) {
-		     alert("Your message could not be sent, please try again!.");
-		}
-	});
-}
-var url_submitzone = '<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add-newzone')); ?>';
-function addNewZone(){
-	if(dijit.byId('form_zone').validate()){
-		dojo.xhrPost({
-	    url: url_submitzone,	
-		form: dojo.byId("form_zone"),		    
-		handleAs:"json",
-		load: function(data) {	
-			//alert(data);
-			dojo.byId('form_zone').reset(); 
-			dijit.byId('frm_zone').hide();
-		},
-		error: function(err) {
-			alert(err);
-		alert("Your message could not be sent, please try again!.");
-				        
-		}
-	});
-	}
-}
-var url_submitdistrict = '<?php echo $this->url(array('module'=>'other','controller'=>'district','action'=>'add-newdistrict')); ?>';
-function addNewDistrict(){
-		dojo.xhrPost({
-	    url: url_submitdistrict,	
-		form: dojo.byId("form_district"),		    
-		handleAs:"json",
-		load: function(data) {	
-			alert(data);
-			dojo.byId('form_district').reset(); 
-			dijit.byId('frm_district').hide();
-		},
-		error: function(err) {
-			alert(err);
-		alert("Your message could not be sent, please try again!.");
-				        
-		}
-	});
-}
-var url_submitcommune = '<?php echo $this->url(array('module'=>'other','controller'=>'commune','action'=>'add-newcommune')); ?>';
-function addNewCommune(){
-		dojo.xhrPost({
-	    url: url_submitcommune,	
-		form: dojo.byId("form_commune"),		    
-		handleAs:"json",
-		load: function(data) {	
-			alert(data);
-			dojo.byId('form_commune').reset(); 
-			dijit.byId('frm_commune').hide();
-		},
-		error: function(err) {
-			alert(err);
-		alert("Your message could not be sent, please try again!.");
-				        
-		}
-	});
-}
-var url_submitvillage = '<?php echo $this->url(array('module'=>'other','controller'=>'village','action'=>'add-newvillage')); ?>';
-function addNewVillage(){
-		dojo.xhrPost({
-	    url: url_submitvillage,	
-		form: dojo.byId("form_village"),		    
-		handleAs:"json",
-		load: function(data) {	
-			alert(data);
-			dojo.byId('form_village').reset(); 
-			dijit.byId('frm_village').hide();
-		},
-		error: function(err) {
-			alert(err);
-		alert("Your message could not be sent, please try again!.");
-				        
-		}
-	});
-}
 </script>
-<?php 
-// echo $this->frmpupopclient;
-// echo $this->frmPopupCO;
- //echo $this->frmPopupZone;
- //echo $this->frmPopupCommune;
- //echo $this->frmPopupDistrict;
- //echo $this->frmPopupVillage;
-?>
 <script>
 function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
 	//alert('date release'+date_release);
@@ -686,10 +481,8 @@ function CalculateDate(){
 	pay_term = dijit.byId('pay_every').get('value');
 	amount_date = dijit.byId('period').get('value');
 	release_date = dijit.byId("release_date").get('value');
-	//alert('date first'+release_date);
 	
 	if(isNaN(amount_date)){
-		//alert('សូមបញ្ចលចំនួនរយៈពេល​ !');
 	}else{
 		setFirstPaymentAndDateLine(pay_term,release_date,amount_date);		
     }
@@ -733,8 +526,7 @@ var url_previewloan = '<?php echo $this->url(array('module'=>'loan','controller'
 function addPreviewLoan(){
 	r=0;
 	if(dijit.byId('frm_add_tran').validate()) {
-		zone = dijit.byId('zone').get('value');
-		co_id = dijit.byId('co_id').get('value');
+		
 		client = dijit.byId('member').get('value');
 		branch_id = dijit.byId('branch_id').get('value');
 		if (branch_id=='' || branch_id==-1){
@@ -745,14 +537,6 @@ function addPreviewLoan(){
 		if (client=='' || client==-1){
 			alert('Please Select Client Name !');
 			dijit.byId('member').focus();
-			return false;
-		}if(co_id=='' || co_id==-1){
-			alert('Please Select CO Name !');
-			dijit.byId('co_id').focus();
-			return false;
-		}if(zone=='' || zone==-1){
-			alert('Please Select Zone !');
-			dijit.byId('zone').focus();
 			return false;
 		}
 		rs = checkValidateDate();
@@ -806,7 +590,7 @@ function getInfoByLoanNumber(){
 	dojo.xhrPost({
 	    url: url_submiinfo,	
 	    content : { 
-		    'member_id':loan_id ,
+		    'loan_id':loan_id ,
 		},	
 		handleAs:"json",
 		load: function(data) {
@@ -817,16 +601,11 @@ function getInfoByLoanNumber(){
 			dijit.byId('member').set('readOnly',true);
 			dijit.byId('currency_type').attr('value',data.currency_type);
 			dijit.byId('currency_type').set('readOnly',true);
-			dijit.byId('co_id').attr('value',data.co_id);
 			dijit.byId('interest_rate').attr('value',data.interest_rate);
-			dijit.byId('zone').attr('value',data.zone_id);
-		    dijit.byId('level').attr('value',data.level);
-		    dijit.byId('level').set('readOnly',true);
 		    dijit.byId('repayment_method').attr('value',data.payment_method);
 		    dijit.byId('branch_id').attr('value',data.branch_id);
 		    dijit.byId('branch_id').set('readOnly',true);
 		    dijit.byId('loan_code').attr('value',data.loan_number);
-		    dijit.byId('group_id').attr('value',data.group_id);
 		},
 		error: function(err) {
 			//alert(err);
@@ -846,80 +625,6 @@ function getLoanInfoByLoanNumber(){
 		},	
 		handleAs:"json",
 		load: function(data) {
-			//alert("get data"+data);
-			/*var service_charge =0;
-			var interest =0;
-			var penalize =0;
-			var os_amount =0;
-			var new_service_charge =0;
-			var new_interest =0;
-			var new_penalize =0;
-			var total_interest_late = 0;
-			var is_set =0;
-			var totalPay = 0;
-			var total_principle_permonth =0;
-			//for(i=0;i<data.length;i++){
-				if(is_set==0){
-					//$('#instalment_date').val(data[i].last_pay_date);
-					//$('#old_release_date').val(data[i].release_date);
-					//$('#old_rate').val(data[i].interest_rate);
-					//$('#old_payterm').val(data[i].collect_typeterm);
-					//is_set=1;
-				}
-				/*var ps = data[i].pay_after;
-				var principle_permonth = data[i].principle_after;
-				var interest = parseFloat(data[i].total_interest_after);
-				var penalize = penalize + parseFloat(data[i].penelize);
-				var service_charge = service_charge + parseFloat(data[i].service_charge);
-				var interest_rate = $('#old_rate').val();
-				var payterm = $('#old_payterm').val();
-				total_principle_permonth = total_principle_permonth+parseFloat(data[i].principle_after);
-				totalPay = parseFloat(principle_permonth)+parseFloat(interest);
-				os_amount = os_amount+principle_permonth;
-				last_payment_dates = data[i].last_pay_date;
-				date_pay = data[i].date_payment;
-				/*if(payterm==1){
-					divis_day = 1;
-				}else if(payterm==2){
-					divis_day = 7;
-				}else if(payterm){
-					divis_day = 30;
-				}
-				if(last_payment_dates==null || last_payment_dates=="" || last_payment_dates=="null" ){
-					pay_date= new Date(date_pay);
-				}else{
-					pay_date = new Date(last_payment_dates);
-				}
-				var late_day = Math.round((date_collect - pay_date)/(oneDay));
-				if(late_day>0){
-					if(last_payment_dates!=null || last_payment_dates!="" || last_payment_dates!="null"){
-						total_late_day = late_day;
-					}else{
-						total_late_day = late_day - graice_period;
-					}
-				}else{
-					total_late_day = late_day;
-				}
-				if(total_late_day>0){
-					total_interest_late = total_interest_late+parseFloat(totalPay)*(parseFloat(ps*(interest_rate/100))/divis_day)*parseFloat(total_late_day);
-				}else{
-					total_interest_late = total_interest_late+0;
-				}*/
-			//}
-			//last_payment_date = new Date($('#instalment_date').val());
-			//installment_date=last_payment_date==""?new Date($('#old_release_date').val()):last_payment_date;
-			 /*practical_date = Math.round((date_collect - installment_date)/(oneDay));
-		  	if(practical_date>=0){
-		  		total_interest = ((os_amount*interest_rate/100)/30)*practical_date;
-		  	}else{
-		  		total_interest=0;
-		  	}
-			total_penelize = parseFloat(total_interest_late)+parseFloat(penalize)
-			total_amount = parseFloat(total_principle_permonth)+parseFloat(total_interest)+parseFloat(total_penelize)+parseFloat(service_charge);
-			*/
-			dijit.byId('interest').attr('value',data.total_interest_after);
-			dijit.byId('penalize').attr('value',data.penelize);
-			//dijit.byId('service_charge').attr('value',data.service_charge);
 			dijit.byId('total_amount').attr('value',data.all_total);
 		},
 		error: function(err) {
@@ -939,64 +644,6 @@ function zone(){
 		dijit.byId("frm_zone").show();
 	}
 }
-var url_loantype = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'add-newloantype')); ?>';
-function addNewloanType(){
-	if(dijit.byId('frm_loantype').validate()){
-	dojo.xhrPost({
-		url:url_loantype,	
-		content:{ 
-		    'title_en':dijit.byId('title_en').get('value'),
-		    'title_kh':dijit.byId('title_kh').get('value'),
-		    'type':24,
-		    
-		},
-		handleAs:"json",
-		load: function(data) {
-			//alert(data);
-			labelen = dijit.byId('title_en').get('value');
-			labelkh = dijit.byId('title_kh').get('value');
-			$('#loan_type').val(labelkh+'-'+labelen);
-			 //$('input[name="loan_type"]').val(data);
-			 	
-			dijit.byId('frm_loantype').reset();
-			dijit.byId('frm_loantype').hide();
-	
-		},
-		error: function(err) {
-			alert(err);
-		}
-	});
-	}
-}
-var url_zone = '<?php echo $this->url(array('module'=>'other','controller'=>'zone','action'=>'add-newzone')); ?>';
-function addNewZone(){
-	if(dijit.byId('form_zone').validate()){
-	dojo.xhrPost({
-		url:url_zone,	
-		content:{ 
-		    'zone_name':dijit.byId('zone_name').get('value'),
-		    'zone_number':dijit.byId('zone_number').get('value'),
-		    'status':1,
-		},
-		handleAs:"json",
-		load: function(data) {
-			//alert(data);
-			labelen = dijit.byId('zone_name').get('value');
-			labelkh = dijit.byId('zone_number').get('value');
-			$('#zone').val(labelkh+'-'+labelen);
-			 //$('input[name="loan_type"]').val(data);
-			 	
-			dijit.byId('frm_zone').reset();
-			dijit.byId('frm_zone').hide();
-	
-		},
-		error: function(err) {
-			alert(err);
-		}
-	});
-	}
-}
-
 function submitDataClose(){
 	branch_id = dijit.byId('branch_id').get('value');
     if (branch_id=='' || branch_id==-1){

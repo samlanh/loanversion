@@ -657,7 +657,9 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  `ln_client_receipt_money_detail` AS crmd,
 				  `ln_loan` AS l,
 				  `ln_loan_detail` AS ld
-				WHERE crmd.`lfd_id` = ld.`id` 
+				WHERE 
+					crm.status=1
+				  AND crmd.`lfd_id` = ld.`id` 
 				  AND crmd.`receipt_id`=crm.`id`
 				  AND l.`customer_id`=crm.`client_id`
 				  and l.id = ld.loan_id
