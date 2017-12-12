@@ -22,11 +22,11 @@ dojo.require("dijit.form.DateTextBox");
    		<td><?php echo $frm->getElement('end_date');?></td>
    		<td><?php echo $frm->getElement('status');?></td>
    		<td>
-				<select name="status_use" id="status_use" dojoType="dijit.form.FilteringSelect" >
-					<option value="-1" <?php if($this->statusopt==-1){echo "selected";}?> >ជ្រើសរើសស្ថានការណ៏កម្ចី</option>
-					<option value="0" <?php if($this->statusopt==0){echo "selected";}?> >តែកម្ចីដំណើរការ</option>
-					<option value="-2" <?php if($this->statusopt==-2){echo "selected";}?> >ទាំងកម្ចីដំណើការនិងខូច</option>
-				</select>
+			<select class="fullside" name="status_use" id="status_use" dojoType="dijit.form.FilteringSelect" >
+				<option value="-1" <?php if($this->statusopt==-1){echo "selected";}?> >ជ្រើសរើសស្ថានការណ៏កម្ចី</option>
+				<option value="0" <?php if($this->statusopt==0){echo "selected";}?> >តែកម្ចីដំណើរការ</option>
+				<option value="-2" <?php if($this->statusopt==-2){echo "selected";}?> >ទាំងកម្ចីដំណើការនិងខូច</option>
+			</select>
 	    </td>
    		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
    	</tr>
@@ -152,7 +152,6 @@ dojo.require("dijit.form.DateTextBox");
 						<!--<td style="font-size: 8px;">&nbsp;<?php //echo $row['loan_type'];?>&nbsp;</td>
 						<td align="left">&nbsp;<?php 
 							if ($row['loantype']==1){//echo 'indi';
-								
 							}
 							else {
 								
@@ -162,6 +161,9 @@ dojo.require("dijit.form.DateTextBox");
 						<td style="white-space:nowrap; text-align: center;">&nbsp;<?php echo $row['total_principaid'];?>&nbsp;</td>
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($total_receive,2).' '.$row['currency_type'];?>&nbsp;</td>
 						<td>&nbsp;<?php 
+// 						if(count($this->outstandloan)==$key+1){
+// 							echo $row['total_capital'];exit();
+// 						}
 								echo (round(($total_receive/$row['total_capital']),2)*100).' %';
 						?>&nbsp;</td>
 						<td>&nbsp;<?php echo number_format(($row['total_capital']-$total_receive),2).' '.$row['currency_type'];?>&nbsp;</td>

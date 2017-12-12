@@ -377,6 +377,9 @@ public function addILPayment($data){
 		$paid_penaltyall = 0;
 		$paid_serviceall = 0;
 		
+		$set_service=0;//សម្រាប់បង់ថ្លៃសេវាកម្មតែម្តង
+		$set_penalty=0;//សម្រាប់បង់ថ្លៃផាគពិន័យតែម្តង
+		
 		$after_service = $data['service_charge'];
 		$resultloan = $this->getAllRemainSchedule($data['loan_number']);
 		if(!empty($resultloan))foreach($resultloan AS $key => $rsloan){
@@ -384,7 +387,8 @@ public function addILPayment($data){
 					$after_outstanding= $rsloan['outstanding_after'];
 					$after_payment_after= $rsloan['total_payment_after'];
 	    			$after_principal= $rsloan['principle_after'];//$data["principal_permonth_".$i];
-		    		$after_interest = $rsloan['total_interest_after'];//$data["interest_".$i];
+	    			$total_principal=$after_principal;
+	    			$after_interest = $rsloan['total_interest_after'];//$data["interest_".$i];
 		    		$total_interest = $after_interest;
 	    			$after_penalty = $rsloan['penelize_service'];//$data["penelize_".$i];
 	    			$date_payment = $rsloan['date_payment'];//$data["date_payment_".$i];
@@ -394,37 +398,41 @@ public function addILPayment($data){
 	    			$paid_penalty = 0;
 	    			$paid_service = 0;
 	    			$is_compleated_d=0;
+	    			if($key!=0){
+	    				$penalize = 0;//ធ្លាប់បងហើយម្តង អោយ =0
+	    				$service_charge=0;
+	    			}
 	    			
 	    			$record_id = $rsloan['id'];//$data["mfdid_".$i];
 	    			if($record_id!=""){
 	    				if($option_pay==1 OR $option_pay==2 OR $option_pay==3 OR $option_pay==4){//បង់ធម្មតា
-	    					if($option_pay==3){
+	    					if($option_pay==1){
+	    						$total_principal =$after_principal;
+	    					}elseif($option_pay==3){
 	    						$total_interest=0;
 	    						$total_principal = $after_principal;//$data["principal_permonth_".$i];
 	    					}elseif($option_pay==2){//ដើម្បីអោយគណនា១ Record ម្តងៗរក completed=1
 	    						$total_interest=$after_interest;//$data["interest_".$i];
 	    						$total_principal =$after_principal;// $data["principal_permonth_".$i];
 	    					}
-	    					
 	    					$remain_money = $remain_money-$service_charge;
 	    					if($remain_money>=0){//ដកសេវាកម្ម
 	    						$paid_service=$service_charge;
 	    						$after_service=0;
+	    						
 	    						$remain_money = $remain_money - $penalize;
 	    						
 	    						if($remain_money>=0){//ដកផាគពិន័យ
 	    							$paid_penalty = $penalize;
 	    							$principle_after=0;
 	    							
-	    							$remain_money = $remain_money -$total_interest;	 
-	    							
-	    							if($key==1){
-	    								//echo $remain_money;exit();
-	    							}						
+	    							$remain_money = $remain_money - $total_interest;	 
+	    										
 	    							if($remain_money>=0){
 	    								$paid_interest = $total_interest;
 	    								$after_interest = 0;
-	    								$remain_money = $remain_money - $total_principal;
+	    								
+	    								$remain_money = ($remain_money)-($total_principal);
 	    								if($remain_money>=0){//check here of គេបង់លើសខ្លះ
 	    									$paid_principal = $total_principal;
 	    									$after_principal =0;
@@ -462,6 +470,9 @@ public function addILPayment($data){
 		    				
 		    				$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
 		    				
+		    				if($after_principal==0){
+		    					$is_compleated_d=1;
+		    				}
 		    				$load_detail = array(
 	    						'outstanding_after'   => $after_outstanding-$paid_principal,
 	    						'principle_after'     => $after_principal,
@@ -824,41 +835,7 @@ public function addILPayment($data){
    function getLoanPaymentByLoanNumber($data){
     	$db = $this->getAdapter();
     	$loan_number= $data['loan_number'];
-    	if($data['type']!=1){
-    		$where =($data['type']==2 AND $data["type"]==3)?'lc.client_id = '.$loan_number:'lc.client_id='.$loan_number;
-    		$sql ="SELECT 
-					  lc.`client_id`,
-					  lc.`client_number`,
-					  lc.`name_kh`,
-					  lm.`loan_number`,
-					  lm.`currency_type`,
-					  lm.`pay_before`,
-					  lm.`pay_after`,
-					  lm.`branch_id`,
-					  lm.`interest_rate`,
-					  lm.`interest_rate` AS `interest_rate_label`,
-   
-			   		  lm.`collect_typeterm`,
-			   		  lm.`amount_collect_principal`,
-					  lg.`co_id`,
-					  lg.`payment_method`,
-					  lg.`date_release`,    
-					  lg.`level`,
-					  lf.*,
-					FROM
-					  `ln_client` AS lc,
-					  `ln_loan_member` AS lm ,
-					  `ln_loan_group` AS lg,
-					  `ln_loanmember_funddetail` AS lf
-					WHERE lg.`g_id`=lm.`group_id`
-					  AND lf.`member_id`=lm.`member_id`
-					  AND lm.`client_id`=lc.`client_id`
-					  AND lg.`loan_type`=1
-    				  AND lf.`is_completed`=0
-    				  AND lf.`status`=1
-    				  AND $where
-    				";
-    	}elseif($data['type']==1){
+    	
     		$sql="
     			SELECT
 			   	lc.`client_id`,
@@ -876,6 +853,7 @@ public function addILPayment($data){
    				l.level,
    				l.total_duration,
    				DATE_FORMAT(l.date_release, '%d/%m/%Y') AS `date_release`,
+   				l.date_release AS loan_releate,
    				(SELECT date_pay FROM `ln_client_receipt_money` WHERE loan_id=$loan_number AND status=1 ORDER BY date_pay DESC LIMIT 1) AS last_pay_date,
    				 ld.*,
    				DATE_FORMAT(ld.date_payment, '%d-%m-%Y') AS `date_payments`,
@@ -894,50 +872,7 @@ public function addILPayment($data){
    					 AND ld.is_completed=0
    					 AND l.`loan_type`=1   					     					   
    					 AND l.`id` = ".$loan_number;
-    		//$where = 'lm.`loan_number`='."'".$loan_number."'";
-//     		$sql ="SELECT 
-//     				  (SELECT d.`date_payment` FROM `ln_client_receipt_money_detail` AS d WHERE d.`loan_number`='$loan_number' ORDER BY d.`date_payment` DESC LIMIT 1) AS installment_date ,
-//     				  (SELECT crm.`date_input` FROM `ln_client_receipt_money` AS crm , `ln_client_receipt_money_detail` AS crmd WHERE crm.`id`=crmd.`crm_id` AND crmd.`lfd_id`=lf.`id` AND crmd.`loan_number`=lm.`loan_number` ORDER BY `crm`.`date_input` DESC LIMIT 1) AS last_pay_date,
-// 					  lc.`client_id`,
-// 					  lc.`client_number`,
-// 					  lc.`name_kh`,
-// 					  lm.`total_capital`,
-// 					  lm.`loan_number`,
-// 					  lm.`currency_type`,
-// 					  lm.`pay_before`,
-// 					  lm.`pay_after`,
-// 					  lm.`branch_id`,
-// 					  lm.`interest_rate`,
-// 					  					      (SELECT
-//      `in_ln_interest`.`label`
-//    FROM `in_ln_interest`
-//    WHERE (`in_ln_interest`.`value` =   lm.`interest_rate` )
-//    LIMIT 1) AS `interest_rate_label`,
-// 			   		  lm.`collect_typeterm`,
-// 			   		  lm.`amount_collect_principal`,
-// 					  lg.`co_id`,
-// 					  lg.`total_duration`,
-// 					  lg.`payment_method`,
-// 					  lg.`payment_method`,
-// 					  DATE_FORMAT(lg.`date_release`, '%d-%m-%Y') AS `date_release`,
-// 					  lg.`level`, 
-// 					  lg.`date_release` AS release_date,
-// 					  lf.*,
-// 					  DATE_FORMAT(lf.date_payment, '%d-%m-%Y') AS `date_payments`
-// 					FROM
-// 					  `ln_client` AS lc,
-// 					  `ln_loan_member` AS lm ,
-// 					  `ln_loan_group` AS lg,
-// 					  `ln_loanmember_funddetail` AS lf
-// 					WHERE lg.`g_id`=lm.`group_id`
-// 					  AND lf.`member_id`=lm.`member_id`
-// 					  AND lm.`client_id`=lc.`client_id`
-// 					  AND lg.`loan_type`=1
-// 					  AND $where
-//     				AND lf.`is_completed`=0
-//     				 AND lf.`status`=1";
-    				
- 	}
+    		
     	return $db->fetchAll($sql);
    }
    
@@ -1028,17 +963,16 @@ public function addILPayment($data){
    }
    public function getLaonHasPayByLoanNumber($loan_number){
    	$db= $this->getAdapter();
-	$sql ="SELECT 
+	$sql="SELECT 
 			  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=crm.`client_id` LIMIT 1) AS client_name,
 			  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=crm.`client_id` LIMIT 1) AS client_code,
 			  crm.`receipt_no`,
-			  
 			  DATE_FORMAT(crm.date_pay, '%d-%m-%Y') AS `date_input`,
-			  SUM(crm.`principal_paid`) AS principal_paid,
-			  SUM(crm.`interest_paid`) AS interest_paid,
-			  SUM(crm.`penalize_paid`) AS penalize_paid,
-			  SUM(crm.`service_paid`) AS service_paid,
-			  SUM(crm.`total_paymentpaid`) AS total_paymentpaid,
+			  (crm.`principal_paid`) AS principal_paid,
+			  (crm.`interest_paid`) AS interest_paid,
+			  (crm.`penalize_paid`) AS penalize_paid,
+			  (crm.`service_paid`) AS service_paid,
+			  (crm.`total_paymentpaid`) AS total_paymentpaid,
 			  crm.`currency_type`,
 			  crm.is_completed,
 			  DATE_FORMAT(crmd.date_payment, '%d-%m-%Y') AS `date_payment`
@@ -1049,7 +983,7 @@ public function addILPayment($data){
 			  crm.status=1
 			  AND crm.`id` = crmd.`receipt_id` 
 			  AND crm.`loan_id` = '$loan_number' 
-			  GROUP BY crm.`id`";
+			  GROUP BY crm.`id` ORDER BY crm.`id` DESC";
    	return $db->fetchAll($sql);
    }
    

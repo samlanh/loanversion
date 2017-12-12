@@ -24,12 +24,12 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		}
 		
 		try{
-		
+// 		$client_code = $this->getClientCode($_data['branch_id']);
 		$client_code=$_data['client_no'];
 		/*if(!empty($_data['id'])){
 			$client_code=$_data['client_no'];
 		}else{
-			$client_code = $this->getClientCode($_data['branch_id']);
+			
 		}*/
 		
 		$_arr=array(
@@ -139,7 +139,7 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		client_number,name_kh,name_en,
 		(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND sex=key_code LIMIT 1) AS sex
 		,phone,house,street,
-			(SELECT village_name FROM `ln_village` WHERE vill_id= village_id) AS village_name
+		(SELECT village_name FROM `ln_village` WHERE vill_id=village_id) AS village_name
 		    ,spouse_name,
 		    create_date,
 		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
@@ -175,7 +175,6 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			$where.=" AND village_id= ".$search['village'];
 		}
 		$order=" ORDER BY client_id DESC";
- 		//echo $sql.$where.$order;
 		return $db->fetchAll($sql.$where.$order);	
 	}
 	public function getGroupCodeBYId($data){
@@ -208,8 +207,10 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 	}	
 	public function getClientCode($branch_id){//for get client by branch
 		$db = $this->getAdapter();
-			$sql = "SELECT COUNT(client_id) AS number FROM `ln_client`
-			WHERE branch_id = ".$branch_id;
+// 			$sql = "SELECT COUNT(client_id) AS number FROM `ln_client`
+// 			WHERE branch_id = ".$branch_id;
+			$sql = "SELECT (client_id) AS number FROM `ln_client`
+			WHERE branch_id = ".$branch_id." ORDER BY client_id DESC ";
 		$acc_no = $db->fetchOne($sql);
 		$new_acc_no= (int)$acc_no+1;
 		$acc_no= strlen((int)$acc_no+1);

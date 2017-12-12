@@ -52,7 +52,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     		$s_where = array();
     		$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
     		$s_where[] = "REPLACE(l.loan_number,' ','')  	LIKE '%{$s_search}%'";
-    		$s_where[] = "REPLACE(l.total_capital,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[] = "REPLACE(l.loan_amount,' ','')  LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE(l.interest_rate,' ','')  LIKE '%{$s_search}%'";
     		$where .=' AND ('.implode(' OR ',$s_where).')';
     	}

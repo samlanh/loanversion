@@ -6,6 +6,11 @@
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
 	$graiceperiod = $this->graiceperiod;
+	
+	$db_keycode = new Application_Model_DbTable_DbKeycode();
+	$keyvalue = $db_keycode->getKeyCodeMiniInv();
+	$interest_penalty = $keyvalue['interst_late'];
+	
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
    <script>
@@ -216,13 +221,13 @@ fieldset{padding:10px;}
 			    	<td><?php echo $tr->translate("TOTAL_INTEREST")?></td>
 					<td><?php echo $frm->getElement('total_interest');?><input type="hidden" dojoType="dijit.form.TextBox" name="saving_amount" id="saving_amount" value="0" /></td>
 			    </tr>
+			    <tr>
+					<td><?php echo $tr->translate("TOTAL_PENELIZE")?></td>
+					<td><?php echo $frm->getElement('penalize_amount');?><?php echo $frm->getElement('old_penelize');?><input type="hidden" name="new_penelize" id="new_penelize"></td>
+				</tr>
 				<tr>
 					<td><?php echo $tr->translate("TOTAL_SERVICE_CHARGE")?></td>
 					<td><?php echo $frm->getElement('service_charge');echo $frm->getElement('old_service_charge');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("TOTAL_PENELIZE")?></td>
-					<td><?php echo $frm->getElement('penalize_amount');?><?php echo $frm->getElement('old_penelize');?><input type="hidden" name="new_penelize" id="new_penelize"></td>
 				</tr>
 				<tr>
 					<td style="color:red;"><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT")?></td>
@@ -270,7 +275,7 @@ fieldset{padding:10px;}
 			   iconClass="dijitEditorIcon dijitEditorIconSave" onclick="submitDataClose()"  />
 			   <input type="submit" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint"  name="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" />
-			    <input type="submit" name="save_new" id="save_new" value="រក្សាទុក" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button"
+			    <input type="button" name="save_new" id="save_new" onclick="confirmBeforePrint();" value="រក្សាទុក" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" />
 			</td>
 		</tr>
@@ -426,9 +431,34 @@ fieldset{padding:10px;}
 	</div>
 </div>
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
-
+<div class="dijitHidden" style="padding: 0px; margin: 0px;">
+	<div id="alertBeforePrint" data-dojo-type="dijit.Dialog" style="width:10cm;height: 5cm ;" align="center" data-dojo-props="title:'<?php echo $tr->translate("បោះពុម្ពបង្កាន់ដៃ");?>'"  >
+		<table width="100%"  class="print" cellspacing="0"  cellpadding="0" style="height:4cm;color:red; font-family: 'Khmer OS Battambang' !important;font-size:15px !important;white-space:nowrap;">
+			<tr>
+				<td align="center" >
+					តើលោកអ្នកពិតជាចង់រក្សាទុក ទិន្នន័យនេះមែនទេ? <br />
+					Do you really want to save ?
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconCancel"
+						type="button" onclick="hideDialog1();"><?php echo $tr->translate("ទេ / No");?></button>
+					<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
+						type="button" onclick="submitData();"><?php echo $tr->translate("យល់ព្រម / Yes");?></button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
 <?php $baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();?>
 <script type="text/javascript">
+function confirmBeforePrint(){
+	dijit.byId('alertBeforePrint').show();
+}
+function hideDialog1(){
+	dijit.byId('alertBeforePrint').hide();
+}
 var graice_period = <?php echo $graiceperiod["value"] ?>;
 function submitDataClose(){
 	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'payment','action'=>'add')); ?>';
@@ -739,6 +769,7 @@ function getLaonPayment(type){//tab ទី1
 					principal_permonth=0;
 					interest=0;
 					payment=0;
+					collect_date = dijit.byId("collect_date").get('value');
 					for(i=0;i<respone.length;i++){
 						inx = i+1;
 						num++;
@@ -748,10 +779,18 @@ function getLaonPayment(type){//tab ទី1
 						curr =getCurrencyType(respone[i].currency_type);
 						id = respone[i].id;
 						pay_option = dijit.byId('option_pay').get('value');
+						if(is_set!=1){
+							getdataPaymentToForm(respone[i]);
+							is_set=1;
+						}
+						
 							if(pay_option==1){
+								date = new Date(date_pay);
+								date_now = new Date();
+								a = date-date_now;
 								checked='';
-								if(inx==1){
-								checked ="checked='checked'";
+								if(inx==1 || a<=0){
+									checked ="checked='checked'";
 								}
 							}else{
 								checked ="checked='checked'";
@@ -767,10 +806,7 @@ function getLaonPayment(type){//tab ទី1
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest_after)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+respone[i].total_interest_after+'" /></td>';
 							tem += '<td>&nbsp;<label id="lb_penelize_'+inx+'">'+dojo.number.format(respone[i].penelize_service)+' '+curr+'</label>&nbsp;<input type="hidden" name="penelize_'+inx+'" id="penelize_'+inx+'" value="'+respone[i].penelize_service+'" /></td>';
 						    tem += '<td>&nbsp;<label id="lb_payment_'+inx+'">'+dojo.number.format(respone[i].total_payment_after)+' '+curr+'</label>&nbsp;<input type="hidden" name="total_payment_after_'+inx+'" id="total_payment_after_'+inx+'" value="'+respone[i].total_payment_after+'" /></td>';
-							if(is_set!=1){
-								getdataPaymentToForm(respone[i]);
-								is_set=1;
-							}
+							
 						  tem += '</tr>';
 						if(inx!=1) {
 							var identity = dijit.byId('record_id').get('value');
@@ -784,6 +820,7 @@ function getLaonPayment(type){//tab ទី1
 				}
 				tem+='</table>';
 				dojo.byId('data_table').innerHTML = tem;
+				calculateTotal();
 				
 			},
 			error: function(e) {
@@ -801,16 +838,18 @@ function getdataPaymentToForm(data){//គណនាថ្ងៃយឺតអោយ
 	dijit.byId('paid_before').attr('value',principal_paid);
 	dijit.byId('priciple_amount').attr('value',data.outstanding_after);
 	dijit.byId('installment_no').attr('value',data.installment_amount);
+	
 	dijit.byId('payment_date').attr('value',data.date_payment);
 	dijit.byId('last_payment').attr('value',data.last_pay_date);
-
+	
 	payment_date = new Date(dijit.byId("collect_date").attr("value"));
 	date_installment = new Date(data.date_payment);
 	if(data.last_pay_date==null){
-		dijit.byId('last_payment').attr('value',date_installment);
+		dijit.byId('last_payment').attr('value',data.loan_releate);
+	}else{
+		var timeDiff = ( collect_date.getTime()-date_installment.getTime() );
+		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
 	}
-	var timeDiff = ( payment_date.getTime()-date_installment.getTime() );
-	var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
 	if(diffDays>0){
 		dijit.byId("amount_late").attr("value",diffDays)
 	}else{
@@ -847,24 +886,31 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		var payOption = dijit.byId('option_pay').get('value');//វិធីសាស្ត្របង់មកវិញ
 		var payment_term = dijit.byId('payment_term').get('value');//ខ្ចីជា =>3 month
 		var interest_rate = dijit.byId('interest_rate').get('value');
-
-		last_payment = new Date(dijit.byId("last_payment").attr("value"));
-		collect_date = new Date(dijit.byId("collect_date").attr("value"));
 		
-		var timeDiff = ( collect_date.getTime()-last_payment.getTime() );
+		collect_date = new Date(dijit.byId("collect_date").attr("value"));
+		last_payment = new Date(dijit.byId("last_payment").attr("value"));
+		payment_date = new Date(dijit.byId("payment_date").attr("value"));	
+				
+		var timeDiff = ( collect_date.getTime()-payment_date.getTime() );
 		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
 		dijit.byId("amount_late").attr("value",diffDays);
+
+		var timeDiff = ( collect_date.getTime()-last_payment.getTime() );
+		var interest_day = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
 		
 		var amount_lateday = dijit.byId('amount_late').get('value');
 		var amount_collect_term = dijit.byId('amount_payment_term').get('value');
 		var cu_type = dijit.byId('currency_type').get('value');
 		var amount_late = dijit.byId('amount_late').get('value');
 		graice_period = '<?php echo $graiceperiod["value"]?>';
+		interest_penalty = '<?php echo $interest_penalty?>';
+		
 		total_latedate = amount_late-graice_period;
 		principal_permonth = 0;
 		interest =0;
 		total_payment = 0;
 		total_penalty = 0;
+		principal_permonth_late = 0;
 		
 		var ids =dijit.byId('record_id').get('value');
 		var arrays = ids.split(',');
@@ -883,6 +929,8 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 				}else if(payOption==3){//បង់រំលោះប្រាក់ដើម
 					principal_permonth = principal_permonth+parseFloat($('#principal_permonth_'+arrays[i]).val());
 					interest = 0;
+				}else if(payOption==4){
+					principal_permonth_late = principal_permonth_late+parseFloat($('#principal_permonth_'+arrays[i]).val());
 				}
 			 }
 			if(payOption==4){////បង់ផ្តាច់
@@ -890,21 +938,29 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 				interest = 0;
 			}
 		}
-		if(payOption==4){
-			if(payment_term==1){
-			     amount_day = 1;
-			}else if(payment_term==2){
-				amount_day = 7;
-			}else{
-				amount_day = 30;
-			}
-			dijit.byId('total_interest').attr('readOnly',false);
-			interest = principal_permonth*(interest_rate/amount_day/100)*amount_lateday;
+		if(payment_term==1){
+		     amount_day = 1;
+		}else if(payment_term==2){
+			amount_day = 7;
+		}else{
+			amount_day = 30;
 		}
+		if(payOption==4){
+			dijit.byId('total_interest').attr('readOnly',false);
+			interest = principal_permonth*(interest_rate/amount_day/100)*interest_day;
+			if(total_latedate>0){
+				total_penalty = (principal_permonth_late+interest)*(interest_penalty*interest_rate/amount_day/100)*total_latedate;
+			}
+		}else if(payOption==1 && total_latedate>0){
+			total_penalty = (principal_permonth+interest)*(interest_penalty*interest_rate/amount_day/100)*total_latedate;
+		}
+		total_penalty= roundhundred(total_penalty);
 		interest= roundhundred(interest);
+		
+		dijit.byId("penalize_amount").attr("value",total_penalty);
 		dijit.byId("os_amount").attr("value",principal_permonth);
 		dijit.byId("total_interest").attr("value",interest);
-		dijit.byId("total_payment").attr("value",principal_permonth+interest);
+		dijit.byId("total_payment").attr("value",principal_permonth+interest+total_penalty);
 		calTotal();
 	}catch(err){
 	}
@@ -986,8 +1042,8 @@ function getLaonHasPayByLoanNumber(){//ប្រវត្តិបង់//tab3
 					+'<th class="tdheader"><?php echo $tr->translate('DATE_INPUT');?></th>'
 					+'<th class="tdheader"><?php echo $tr->translate('PAID_PRINCIPAL');?></th>'
 					+'<th class="tdheader"><?php echo $tr->translate('INTEREST');?></th>'
-					+'<th class="tdheader"><?php echo $tr->translate('SERVICE_CHARGE');?></th>'
 					+'<th class="tdheader"><?php echo $tr->translate('PENALIZE');?></th>'
+					+'<th class="tdheader"><?php echo $tr->translate('SERVICE_CHARGE');?></th>'
 					+'<th class="tdheader"><?php echo $tr->translate('RECEIVE_AMOUNT');?></th>'
 					+'</thead>';
 					nums=0;

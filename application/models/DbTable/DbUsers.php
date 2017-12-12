@@ -286,8 +286,10 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 		return $rows;
 	}
 	public function getAclReport($user_type_id){
+		$session_user=new Zend_Session_Namespace('authloan');
+		$user_type_id = $session_user->level;
 		$db = $this->getAdapter();
-		$sql = "SELECT aa.module, aa.controller, aa.action FROM rms_acl_user_access AS ua  INNER JOIN rms_acl_acl AS aa
+		$sql = "SELECT aa.module, aa.controller, aa.action,aa.label FROM rms_acl_user_access AS ua  INNER JOIN rms_acl_acl AS aa
 		ON (ua.acl_id=aa.acl_id) WHERE aa.status=1 AND aa.module='report' and aa.controller ='loan' AND ua.user_type_id='".$user_type_id."'
 		GROUP BY  aa.module ,aa.controller,aa.action
 		ORDER BY aa.module ,aa.rank ASC ";

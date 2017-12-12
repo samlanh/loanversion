@@ -119,9 +119,6 @@ function rptLoanDisburseAction(){//release all loan
   	
   	$this->view->loanlate_list =$db->getALLLoanlate($search);
   	 
-  	//$key = new Application_Model_DbTable_DbKeycode();
-  	//$this->view->data=$key->getKeyCodeMiniInv(TRUE);
-  	 
   	$this->view->list_end_dates = $search["end_date"];
   	$frm = new Loan_Form_FrmSearchLoan();
   	$frm = $frm->AdvanceSearch();
@@ -161,16 +158,12 @@ function rptLoanDisburseAction(){//release all loan
 		);
 	}
 	$this->view->loantotalcollect_list =$rs=$db->getALLLoanPayment($search);
-	
-// 	$this->view->list_end_date=$search;
-	
 	$this->view->list_end_date = $search;
 	$frm = new Loan_Form_FrmSearchLoan();
 	$frm = $frm->AdvanceSearch();
 	Application_Model_Decorator::removeAllDecorator($frm);
 	$this->view->frm_search = $frm;
   }
-  
   function rptCommissionAction(){
   	$db  = new Report_Model_DbTable_DbLoan();
   	$key = new Application_Model_DbTable_DbKeycode();
@@ -299,10 +292,12 @@ function rptLoanDisburseAction(){//release all loan
 	  	$this->view->fordate = $search['end_date'];
 	  	$rs= $db->getAllOutstadingLoan($search);
 	  	$frm = new Loan_Form_FrmSearchLoan();
+	  	
 	  	$frms = $frm->AdvanceSearch();
 	  	$key = new Application_Model_DbTable_DbKeycode();
 	  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	  	Application_Model_Decorator::removeAllDecorator($frms);
+	  	
 	  	$this->view->frm_search = $frms;
 	  	$this->view->outstandloan = $rs;
   }
@@ -641,7 +636,7 @@ function rptPaymentschedulesAction(){
 			
  	}
  	$this->view->LoanCollectionco_list =$db->getALLLoanIcome($search);
- 	$this->view->LoanFee_list =$db->getALLLFee($search);
+ 	$this->view->LoanFee_list =$db->getALLLTotalFee($search);
  	
  	$this->view->list_end_date=$search;
  	$frm = new Loan_Form_FrmSearchGroupPayment();
@@ -954,24 +949,125 @@ function rptLoanTrasferzoneAction(){//release all loan
  		$search['status']=-1;
  	}else{
  		$search = array(
- 		 	'adv_search' => '',
+ 		 	
  		 	'start_date'=> date('Y-m-d'),
  		 	'end_date'=>date('Y-m-d'),
  			'branch_id'		=>	-1,
- 			'status'=>-1,
- 			"currency_type"=>-1,
- 				);
- 			
+ 			"currency_type"=>0,);
  	}
  	
- 	$this->view->LoanFee_list =$db->getLoanadminFeeIcome($search);
- 	$this->view->LoanCollectionco_list =$db->getLoanCollectIcome($search);
- 	$this->view->rs = $db->getExpenseincomereport($search);
+ 	$income = array(
+ 			'interest_paidr'=>0,
+ 			'penalize_paidr'=>0,
+ 			'service_paidr'=>0,
+ 			
+ 			'interest_paidd'=>0,
+ 			'penalize_paidd'=>0,
+ 			'service_paidd'=>0,
+ 			
+ 			'interest_paidb'=>0,
+ 			'penalize_paidb'=>0,
+ 			'service_paidb'=>0,
+ 			
+ 			'adminfee_d'=>0,
+ 			'other_feed'=>0,
+ 			
+ 			'adminfee_r'=>0,
+ 			'other_feer'=>0,
+ 			
+ 			'adminfee_b'=>0,
+ 			'other_feeb'=>0,
+ 			
+ 			'other_incomer'=>0,
+ 			'other_incomed'=>0,
+ 			'other_incomeb'=>0,
+ 			
+ 			'expense_d'=>0,
+ 			'expense_r'=>0,
+ 			'expense_b'=>0,
+ 			
+ 			'badloan_d'=>0,
+ 			'badloan_r'=>0,
+ 			'badloan_b'=>0,
+ 			
+ 		);
+ 	$incomecollect = $db->getLoanCollectIcome($search);
+ 	if(!empty($incomecollect)){
+ 		foreach($incomecollect as $row){
+ 			if($row['currency_type']==1){//riel
+ 				$income['interest_paidr']=$row['interest_paid'];
+ 				$income['penalize_paidr']=$row["penalize_paid"];
+ 				$income['service_paidr']=$row["service_paid"];
+ 			}elseif($row['currency_type']==2){//dollar
+ 				$income['interest_paidd']=$row['interest_paid'];
+ 				$income['penalize_paidd']=$row["penalize_paid"];
+ 				$income['service_paidd']=$row["service_paid"];
+ 			}else{//bath
+ 				$income['interest_paidb']=$row['interest_paid'];
+ 				$income['penalize_paidb']=$row["penalize_paid"];
+ 				$income['service_paidb']=$row["service_paid"];
+ 			}
+ 		}
+ 	}
  	
- 	$this->view->rsincome= $db->getAllOtherIncomeReport($search);//call frome model
+ 	$rsotherfee = $db->getLoanadminFeeIcome($search);
+ 	if(!empty($rsotherfee)){
+ 		foreach($rsotherfee as $row){
+ 			if($row['curr_type']==1){//riel
+ 				$income['adminfee_r']=$row['admin_fee'];
+ 				$income['other_feer']=$row["other_fee"];
+ 			}elseif($row['curr_type']==2){//dollar
+ 				$income['adminfee_d']=$row['admin_fee'];
+ 				$income['other_feed']=$row["other_fee"];
+ 			}else{//bath
+ 				$income['adminfee_b']=$row['admin_fee'];
+ 				$income['other_feeb']=$row["other_fee"];
+ 			}
+ 		}
+ 	}
  	
+ 	$rsincome = $db->getAllOtherIncomeReport($search);
+ 	if(!empty($rsincome)){
+ 		foreach($rsincome as $row){
+ 			if($row['curr_type']==1){//riel
+ 				$income['other_incomer']=$row['total_amount'];
+ 			}elseif($row['curr_type']==2){//dollar
+ 				$income['other_incomed']=$row['total_amount'];
+ 			}else{//bath
+ 				$income['other_incomeb']=$row['total_amount'];
+ 			}
+ 		}
+ 	}
  	
+ 	$rsexpense = $db->getExpenseincomereport($search);
+ 	if(!empty($rsexpense)){
+ 		foreach($rsexpense as $row){
+ 			if($row['curr_type']==1){//riel
+ 				$income['expense_r']=$row['total_amount'];
+ 			}elseif($row['curr_type']==2){//dollar
+ 				$income['expense_d']=$row['total_amount'];
+ 			}else{//bath
+ 				$income['expense_b']=$row['total_amount'];
+ 			}
+ 		}
+ 	}
+ 	
+ 	$rsbadloan = $db->getALLTotalWritoff($search);
+ 	if(!empty($rsbadloan)){
+ 		foreach($rsbadloan as $row){
+ 			if($row['curr_type']==1){//riel
+ 				$income['badloan_r']=$row['total_amount'];
+ 			}elseif($row['curr_type']==2){//dollar
+ 				$income['badloan_d']=$row['total_amount'];
+ 			}else{//bath
+ 				$income['badloan_b']=$row['total_amount'];
+ 			}
+ 		}
+ 	}
+ 	
+	$this->view->rsincome=$income;
  	$this->view->list_end_date=$search;
+ 	
  	$frm = new Loan_Form_FrmSearchGroupPayment();
  	$fm = $frm->AdvanceSearch();
  	Application_Model_Decorator::removeAllDecorator($fm);
@@ -1086,8 +1182,8 @@ function rptLoanTrasferzoneAction(){//release all loan
  				'end_date'=>date('Y-m-d')
  		);
  	}
- 	$this->view->loantotalcollect_list =$rs=$db->getCollectDailyPayment($search);
- 	$this->view->rsincome= $db->getAllOtherIncomeReport($search);//call frome model
+ 	$this->view->loantotalcollect_list =$db->getCollectDailyPayment($search);
+ 	$this->view->rsincome= $db->getTotalOtherIncomeReport($search);//call frome model
  	$this->view->rsexpense= $db->getAllExpenseReport($search);//call frome model
  	$this->view->LoanFee_list =$db->getALLLFee($search);
  	

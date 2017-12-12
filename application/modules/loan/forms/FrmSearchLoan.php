@@ -119,6 +119,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
+				'class'=>'fullside',
 // 				'onchange'=>'popupCheckZone();'
 		));
 		
@@ -198,9 +199,9 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$client_name = new Zend_Dojo_Form_Element_FilteringSelect("client_name");
 		$opt_client = array(''=>'ជ្រើសរើស ឈ្មោះអតិថិជន');
 		$rows = $db->getAllClient();
-		if(!empty($rows))foreach($rows AS $row){
+		if(!empty($rows)){foreach($rows AS $row){
 			$opt_client[$row['id']]=$row['name'];
-		}
+		}}
 		$client_name->setMultiOptions($opt_client);
 		$client_name->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",
 				'queryExpr'=>'*${0}*','class'=>'fullside',));

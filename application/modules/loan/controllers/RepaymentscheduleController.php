@@ -34,7 +34,7 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","LOAN_AMOUNT","INTEREST_RATE","REPAYMENT_TYPE","TERM_BORROW","ZONE_NAME","CO_NAME",
-				"STATUS");
+				"STATUS","","" );
 			$link=array(
 					'module'=>'loan','controller'=>'repaymentschedule','action'=>'view',
 			);
@@ -58,11 +58,10 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 				$_dbmodel = new Loan_Model_DbTable_DbRepaymentSchedule();
 				$_dbmodel->addRepayMentSchedule($_data);
 				if(!empty($_data['saveclose'])){
-					//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/repaymentschedule");
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/repaymentschedule");
 				}else{
-					//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/repaymentschedule/add");
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/repaymentschedule/add");
 				}
-				//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/repaymentschedule/add");
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();

@@ -121,7 +121,6 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		$_clientno->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
- 				'readonly'=>'readonly',
 				'style'=>'color:red;'
 		));
  		$_clientno->setValue($id_client);

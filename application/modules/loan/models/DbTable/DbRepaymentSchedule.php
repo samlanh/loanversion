@@ -1010,7 +1010,6 @@ function round_up($value, $places)
     		}catch (Exception $e){
     			$db->rollBack();
     			$err =$e->getMessage();
-    			echo $err;exit();
     			Application_Model_DbTable_DbUserLog::writeMessageError($err);
     		}
     }
@@ -1056,8 +1055,9 @@ function round_up($value, $places)
     public function getLoanInfoBymemberId($id){
     	$db=$this->getAdapter();
     	$sql=" SELECT
-    	(SELECT SUM(d.principle_after) FROM `ln_loan_detail` AS d WHERE d. loan_id= l.id AND status=1 AND d.is_completed=0 LIMIT 1)  AS total_principal
-    	,l.customer_id,l.currency_type ,
+    	(SELECT SUM(d.principle_after) FROM `ln_loan_detail` AS d WHERE d. loan_id= l.id AND status=1 AND d.is_completed=0 LIMIT 1)  AS total_principal,
+    	(SELECT COUNT(d.ID) FROM `ln_loan_detail` AS d WHERE d. loan_id= l.id AND status=1 AND d.is_completed=0 LIMIT 1)  AS remaintimes,
+    	l.customer_id,l.currency_type ,
     	l.interest_rate ,l.loan_number,
     	l.payment_method,l.branch_id,
     	l.customer_id AS client_id,
@@ -1065,7 +1065,8 @@ function round_up($value, $places)
     	l.zone_id AS zone_id,
     	l.level
     	FROM 
-    	`ln_loan` AS l WHERE l.id=$id 
+    	`ln_loan` AS l WHERE 
+    		l.id=$id 
     		AND status=1 
     		AND l.is_completed=0 
     		AND l.is_badloan=0 ";

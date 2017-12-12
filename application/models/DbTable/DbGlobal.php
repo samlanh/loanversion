@@ -744,77 +744,71 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
  	}
  }
  public function getNextPayment($str_next,$next_payment,$amount_amount,$holiday_status=null,$first_payment=null){//code make slow
- $default_day = Date("d",strtotime($first_payment));
- $prev_month=$next_payment;
- for($i=0;$i<$amount_amount;$i++){
-		if($default_day>28){
-		   if($str_next!='+1 month'){
-		   	$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
-				$default_day='d';
-				if($str_next=='+1 day'){//if day
-				}else{
-					$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));//code here have problem
-				}
-			}else{
-				
-// 				$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));
-// 				$str_next='-1 month';
-// 				$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
-/*update*/
-				if($default_day==31){
-					// 		 		$next_payment = date("Y-m-t", strtotime("$next_payment +1 day"));//if many hear not work
-					$date= new DateTime($next_payment);
-					$date->modify('+1 day');
-					$next_payment = $date->format("Y-m-t");
-					return $next_payment;
-				}elseif($default_day==30 OR $default_day==29){
-					$date= new DateTime($prev_month);
-					$pre_month = $date->format("m");
-					$prev_month = $pre_month;
-					if($pre_month=='01'){
-						$date= new DateTime($next_payment);
-						$next_payment = $date->format("Y-02-20");
-						$date= new DateTime($next_payment);
-						$next_payment = $date->format("Y-m-t");
-					}//for Feb
-					else{
-						$date= new DateTime($next_payment);
-						$date->modify('+1 month');
-						$next_payment = $date->format("Y-m-$default_day");
-					}
-				}else{//for 29
-						 
-				}
-/*update new*/	
-				return $next_payment;
-				break;			
-			}
-		}else{
-			if($str_next!='+1 month'){
-				$default_day='d';
-			}
-	  		$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));
-		}
-  	}
-  	if($holiday_status==3){//normal
-  		if($str_next=='+1 day'){
-  			while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
-  				$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
-  			}
-  		}
-  		return $next_payment;//if normal day
-  	}else{//check for sat and sunday
-  		if($default_day<=28){
-  		while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
-  			$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
-  		}
-  	}
-//   		echo $next_payment;exit();
-  		return $next_payment;
-  	}
-  	
-  }
-  function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status=null,$first_payment=null){
+ 	$default_day = Date("d",strtotime($first_payment));
+ 	$prev_month=$next_payment;
+ 	for($i=0;$i<$amount_amount;$i++){
+ 		if($default_day>28){
+ 			if($str_next!='+1 month'){
+ 				$next_payment = date("Y-m-d", strtotime("$next_payment $str_next"));
+ 				$default_day='d';
+ 				if($str_next=='+1 day'){//if day
+ 				}else{
+ 					$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));//code here have problem
+ 				}
+ 			}else{
+ 				/*update*/
+ 				if($default_day==31){
+ 					$date= new DateTime($next_payment);
+ 					$date->modify('+1 day');
+ 					$next_payment = $date->format("Y-m-t");
+ 					return $next_payment;
+ 				}elseif($default_day==30 OR $default_day==29){
+ 					$date= new DateTime($prev_month);
+ 					$pre_month = $date->format("m");
+ 					$prev_month = $pre_month;
+ 					if($pre_month=='01'){
+ 						$date= new DateTime($next_payment);
+ 						$next_payment = $date->format("Y-02-20");
+ 						$date= new DateTime($next_payment);
+ 						$next_payment = $date->format("Y-m-t");
+ 					}//for Feb
+ 					else{
+ 						$date= new DateTime($next_payment);
+ 						$date->modify('+1 month');
+ 						$next_payment = $date->format("Y-m-$default_day");
+ 					}
+ 				}else{//for 29
+ 						
+ 				}
+ 				/*update new*/
+//  				return $next_payment;
+//  				break;
+ 			}
+ 		}else{
+ 			if($str_next!='+1 month'){
+ 				$default_day='d';
+ 			}
+ 			$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));
+ 		}
+ 	}
+ 	if($holiday_status==3){//normal
+ 		if($str_next=='+1 day'){
+ 			while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
+ 				$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
+ 			}
+ 		}
+ 		return $next_payment;//if normal day
+ 	}else{//check for sat and sunday
+ 		if($default_day<=28){
+ 			while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
+ 				$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
+ 			}
+ 		}
+ 		return $next_payment;
+ 	}
+ 	 
+ }
+function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status=null,$first_payment=null){
   	$default_day = Date("d",strtotime($first_payment));
   	for($i=0;$i<$amount_amount;$i++){
   		if($default_day>28){
@@ -1251,6 +1245,78 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	}
   	return $pre.$new_acc_no;
   }
+  function updateVillage(){
+//   	$sql="
+//   		SELECT n.vill_id,o.villageid,village 
+// 	  		FROM `tlb_village`  AS o,`ln_village` AS n
+// 			WHERE o.village = n.village_namekh 
+// 			GROUP BY n.village_namekh ";
+//   	$rs = $this->getAdapter()->fetchAll($sql);
+//   	if(!empty($rs)){
+//   		$this->_name="ln_client";
+//   		foreach($rs as $r){
+//   		    $data= array(
+//   		    		'village_id'=>$r['vill_id']
+//   		    		);
+//   		    $where=" village_id = ".$r['villageid'];
+//   		    $this->update($data, $where);
+//   		}
+//   	}
+
+//   		$sql="SELECT n.com_id,o.communeid,commune_namekh 
+//  	  		FROM `tbl_commune`  AS o,`ln_commune` AS n
+//  			WHERE o.commune = n.commune_namekh
+//  			GROUP BY n.commune_namekh  ";
+//   		$rs = $this->getAdapter()->fetchAll($sql);
+//   	  	if(!empty($rs)){
+//   	  		$this->_name="ln_client";
+//   	  		foreach($rs as $r){
+//   	  		    $data= array(
+//   	  		    		'com_id'=>$r['com_id']
+//   	  		    		);
+//   	  		    $where=" com_id = ".$r['communeid'];
+//   	  		    $this->update($data, $where);
+//   	  		}
+//   	  	}
+
+//   		$sql="SELECT n.dis_id,o.districtid,district_namekh 
+// 	  		FROM `tbl_district`  AS o,`ln_district` AS n
+// 			WHERE o.district = n.district_namekh
+// 			GROUP BY n.district_namekh ";
+  		
+//   		$rs = $this->getAdapter()->fetchAll($sql);
+//   		if(!empty($rs)){
+//   			$this->_name="ln_client";
+//   			foreach($rs as $r){
+//   				$data= array(
+//   						'dis_id'=>$r['dis_id']
+//   				);
+//   				$where=" dis_id = ".$r['districtid'];
+//   				$this->update($data, $where);
+//   			}
+//   		}
+  }
+  public function getupdateLoantoprefixed($data=array('branch_id'=>1)){//សម្រាប់ update preview old loan
+  	$this->_name='ln_loan';
+  	$db = $this->getAdapter();
   
+  	$sql="SELECT id FROM `ln_loan`";
+  	$rs = $db->fetchAll($sql);
+  	$prefixed = $this->getPrefixCode($data['branch_id'])."L";
+  	foreach($rs as $r){
+  		$pre = $prefixed;
+  		$loan_num=$r['id'];
+  		$acc_no= strlen((int)$loan_num);
+  		for($i = $acc_no;$i<4;$i++){
+  			$pre.='0';
+  		}
+//   		echo $pre.$loan_num;exit();
+  		$data = array(
+  			'loan_number'=>$pre.$loan_num
+  		); 
+  		$where = "id = ".$r['id'];
+  		$this->update($data, $where);
+  	}
+  }
 }
 ?>

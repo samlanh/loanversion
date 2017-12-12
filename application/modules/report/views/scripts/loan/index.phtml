@@ -62,92 +62,17 @@
   </style>
   <div style="background:#ccc; width: 100%;">
   	<ul class="link-rpt">
-  	<?php if(!empty($url_report)){
-		
+  	<?php
+  	$db_user=new Application_Model_DbTable_DbUsers();
+  	$url_report=$db_user->getAclReport(1);
+  	 if(!empty($url_report)){
   		foreach($url_report as $rs){
-  			//print_r($rs['action']);exit();
+  			if($rs['action']=='rpt-paymentschedules' || $rs['action']=='index'){continue;}
   		?>
-  		<?php if($rs['action']=='rpt-loan-disburse'){?>
-  			<li><a href="<?php echo $rpt_loanrelease;?>"><?php echo $tr->translate('LOAN_DISBURSE');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-dailyloan'){?>
-  			<li><a href="<?php echo $rpt_loandialy;?>"><?php echo $tr->translate('DIALYAMOUNT_LOAN');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-loan-disburse-co'){?>
-  			<li><a href="<?php echo $rpt_loandisburseco;?>"><?php echo $tr->translate('LOAN_DISBURSE_BY_CO');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-loancollect'){?>
-  			<li><a href="<?php echo $rpt_loancollect;?>"><?php echo $tr->translate('REPORT_LOAN_COLLECT');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-payment'){?>
-  			<li><a href="<?php echo $rpt_dailypayment;?>"><?php echo $tr->translate('RPT_CLIENT_PAYMENT');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-dailypayment'){?>
-  			<li><a href="<?php echo $rpt_dialypayment;?>"><?php echo $tr->translate('RPT_DAILY_PAYMENT');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-loan-collectionco'){?>
-  			<li><a href="<?php echo $rpt_collectfromco;?>"><?php echo $tr->translate('REPORT_COLLECT_BY_CO');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-loan-late'){?>
-  			<li><a href="<?php echo $rpt_loan_late;?>"><?php echo $tr->translate('LOAN_LATE');?></a></li>
-			<li><a href="<?php echo $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-loan-latedetail'), null, true); ?>"><?php echo $tr->translate('របាយការណ៍បង់យឺតលម្អិត');?></a></li>
-  		<?php }
-		elseif($rs['action']=='rpt-payment-history'){?>
-			<li><a href="<?php echo $rpt_paymenthistory;?>"><?php echo $tr->translate('REPORT_LOAN_PAYMENT');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-loan-expect-income'){?>
-  			<li><a href="<?php echo $rpt_expectincome;?>"><?php echo $tr->translate('REPORT_EXPECT_INCOME');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-writoff'){ ?>
-  			<li><a href="<?php echo $rpt_writoff;?>"><?php echo $tr->translate('REPORT_LOAN_WRITE_OFF');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-loan-outstanding'){?>
-  			<li><a href="<?php echo $rpt_loanoustading;?>"><?php echo $tr->translate('LOAN_OUTSTADING');?></a></li>
-		<?php }
-  		elseif($rs['action']=='rpt-outstandingvillage'){?>
-			<li><a href="<?php echo $rpt_loanoustadingvillage;?>"><?php echo $tr->translate('LOAN_OUTSTADING_VILLAGE');?></a></li>
-		<?php }
-  		elseif($rs['action']=='rpt-expense'){?>
-			<li><a href="<?php echo $rpt_expense;?>"><?php echo $tr->translate('REPORT_EXPENSE');?></a></li>
-		<?php }
-  		elseif($rs['action']=='rpt-commission'){?>
-			<li><a href="<?php echo $rpt_commission;?>"><?php echo $tr->translate('COMMISSION');?></a></li>
-		<?php }
-  		elseif($rs['action']=='rpt-loan-trasferzone'){?>
-			<li><a href="<?php echo $rpt_transferzone;?>"><?php echo $tr->translate('TRANSFERZONE');?></a></li>
-		<?php }
-  		elseif($rs['action']=='rpt-loan-payoff'){?>
-			<li><a href="<?php echo $rpt_payoff;?>"><?php echo $tr->translate('REPORT_LOAN_PAYOFF');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-reschedule-loan'){?>
-  			<li><a href="<?php echo $rpt_reschedule;?>"><?php echo $tr->translate('RESCHEDULE_RPT');?></a></li>
-  		<?php }
-  		elseif($rs['action']=='rpt-loan-npl'){?>
-  			<li><a href="<?php echo $rpt_npl;?>"><?php echo $tr->translate('REPORT_NPL');?></a></li>
-  		<!--<li><a href="<?php //echo $rpt_exchangemoney;?>"><?php //echo $tr->translate('REPORT_LOAN_XCHANGE');?></a></li>
-		<li><a href="<?php //echo $rpt_transfer;?>"><?php //echo $tr->translate('RPT_TRASFER');?></a></li> -->
-  		<?php }
-  		elseif($rs['action']=='rpt-loan-trasfer'){?>
-  			<li><a href="<?php echo $rpt_transferloan;?>"><?php echo $tr->translate('RPT_TRASFER_LOAN');?></a></li>
-  		<?php }
-  		if($rs['action']=='rpt-loan-clientco'){?>
-  			<li><a href="<?php echo $rpt_clientco;?>"><?php echo $tr->translate('Report Client Level');?></a></li> 
-  		<?php }
-  		elseif($rs['action']=='rpt-loanarea'){?>
-  			<li><a href="<?php echo $rpt_area;?>"><?php echo $tr->translate('REPORT_LOAN_AREA');?></a></li> 
-  		<?php }
-  		elseif($rs['action']=='rpt-parbyco'){?>
-  			<li><a href="<?php echo $rpt_parco;?>"><?php echo $tr->translate('PAR BY CO Report');?></a></li> 
-  		<?php } 
-		elseif($rs['action']=='rpt-incomestatement'){?>
-  			<li><a href="<?php echo $rpt_incomestatement;?>"><?php echo $tr->translate('REPORT_LOANINCOMESTAEMENT');?></a></li> 
-  		<?php } 
-		elseif($rs['action']=='rpt-loan-income'){?>
-  			<li><a href="<?php echo $rpt_revenue;?>"><?php echo $tr->translate('PROFIT');?></a></li> 
-  		<?php }
-
+  		<li><a href="<?php echo $this->url(array("module"=>'report',"controller"=>'loan','action'=>$rs['action']));?>"><?php echo $tr->translate(strtoupper($rs['label']));?></a></li>
+  		<?php 
 		}	
-	}		?>
+	}	?>
   	</ul>
   </div>
   <div style="clear: both;"></div>

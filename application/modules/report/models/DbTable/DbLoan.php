@@ -258,10 +258,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  co.`co_id`,
 				  c.`client_number`,
 				  c.`name_kh`,
-				(SELECT `ln_village`.`village_name` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) LIMIT 1) AS `village_name`,
-				(SELECT ln_commune.`commune_name` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
-				(SELECT `d`.`district_name` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
-				(SELECT province_en_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
+				(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) LIMIT 1) AS `village_name`,
+				(SELECT ln_commune.`commune_namekh` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
+				(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
+				(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
 				  c.`phone`,
 				  l.`loan_amount` as total_capital,
 				  l.`loan_number`,
@@ -275,12 +275,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  (SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
 				  (SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`pay_term`)) LIMIT 1) AS `Term Borrow`,
 				  (SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
-				  
 				  SUM(d.`principle_after`) AS principle_after,
 				  SUM(d.`total_interest_after`) AS total_interest_after,
 				  SUM(d.`total_payment_after`) AS total_payment_after,
 				  SUM(d.`penelize`) AS penelize,
-				 
 				  d.`date_payment` ,
 				  COUNT(l.`id`) AS amount_late,
 				 l.`branch_id`
@@ -288,16 +286,17 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  `ln_loan_detail` AS d,
 				  `ln_loan` AS l,
 				  `ln_co` AS co,
-				  `ln_client` AS c ,`ln_branch` AS b 
-				WHERE d.`is_completed` = 0 
+				  `ln_client` AS c ,
+				  `ln_branch` AS b 
+				WHERE 
+				  d.`is_completed` = 0 
 				  AND `l`.`is_badloan`=0
 				  AND l.`id` = d.`loan_id` 
 				  AND l.`status` = 1 
 				  AND d.`status`=1
 				  AND co.`co_id` = l.`co_id` 
 				  AND c.`client_id` = l.`customer_id` 
-				  AND b.`br_id`=l.branch_id
-				  ";
+				  AND b.`br_id`=l.branch_id ";
       	$where='';
       	if(!empty($search['adv_search'])){
       		$s_search = addslashes(trim($search['adv_search']));
@@ -321,7 +320,6 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$where.=" AND l.`branch_id` = ".$search['branch_id'];
       	}
         $group_by = " GROUP BY l.`id` ORDER BY d.`date_payment` ASC";
-//         echo $sql.$where.$group_by;exit();
         return $db->fetchAll($sql.$where.$group_by);
       }
       
@@ -492,23 +490,20 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " client_number LIKE '%{$s_search}%'";
       		$s_where[] = " client_name LIKE '%{$s_search}%'";
       		$s_where[] = " co_name LIKE '%{$s_search}%'";
-      		$s_where[] = " total_principal_permonth LIKE '%{$s_search}%'";
-      		$s_where[] = " total_interest LIKE '%{$s_search}%'";
+      		//$s_where[] = " total_principal_permonth LIKE '%{$s_search}%'";
+      		//$s_where[] = " total_interest LIKE '%{$s_search}%'";
       		//$s_where[] = " amount_payment LIKE '%{$s_search}%'";
-      		$s_where[] = " penalize_amount LIKE '%{$s_search}%'";
-      		$s_where[] = " service_charge LIKE '%{$s_search}%'";      		
-      		$s_where[] = " receipt_no LIKE '%{$s_search}%'";
+      		//$s_where[] = " penalize_amount LIKE '%{$s_search}%'";
+      		//$s_where[] = " service_charge LIKE '%{$s_search}%'";      		
       		$s_where[] = " receipt_no LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
 			
 			if($s_search=='បង់មុន'){
       			$where.=" AND payment_option = 2 ";
       		}
-		   echo $where;
       	}
       	$order=" ORDER BY id DESC ";
       	return $db->fetchAll($sql.$where.$order);
-      	 
       }
       public function getALLCommission($search=null){
       	$db = $this->getAdapter();
@@ -701,17 +696,40 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$groupby="  GROUP BY crmd.`receipt_id` ORDER BY crm.`co_id` ASC , crm.`date_input` DESC ";
       	return $db->fetchAll($sql.$where.$groupby);
       }
+      public function getALLLTotalFee($search=null){
+      	$start_date = $search['start_date'];
+      	$end_date = $search['end_date'];
+      
+      	$db = $this->getAdapter();
+      	$sql = "SELECT  SUM(admin_fee) AS admin_fee,SUM(other_fee) AS other_fee  FROM
+      	v_loanreleased WHERE (admin_fee> 0 OR other_fee>0 )";
+      	$where ='';
+      	if(!empty($search['advance_search'])){
+      		$s_where = array();
+      		$s_search = addslashes(trim($search['advance_search']));
+      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
+      		$s_where[] = " client_name LIKE '%{$s_search}%'";
+      		$s_where[] = " total_capital LIKE '%{$s_search}%'";
+      		$s_where[] = " admin_fee LIKE '%{$s_search}%'";
+      		$s_where[] = " other_fee LIKE '%{$s_search}%'";
+      		$where .=' AND ('.implode(' OR ',$s_where).')';
+      	}
+      	if($search['branch_id']>0){
+      		$where.=" AND `branch_id`= ".$search['branch_id'];
+      	}
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
+      	}
+      	$order = " GROUP BY curr_type ORDER BY currency_type";
+      	return $db->fetchRow($sql.$where.$order);
+      }
       public function getALLLFee($search=null){
       	$start_date = $search['start_date'];
       	$end_date = $search['end_date'];
-      	 
+    		
       	$db = $this->getAdapter();
-      	$sql = "SELECT * FROM 
-      				v_loanreleased WHERE 1 ";
-//       	$sql = "SELECT m.member_id,(SELECT branch_namekh FROM ln_branch WHERE br_id = m.branch_id LIMIT 1) AS branch,
-// 				m.loan_number,m.admin_fee,m.other_fee,m.currency_type,(SELECT symbol FROM `ln_currency` WHERE id =m.currency_type) AS currency_typeshow,
-// 				g.date_release
-// 				FROM ln_loan_member AS m, `ln_loan_group` AS g WHERE m.group_id = g.g_id AND m.`status`=1";
+      	$sql = "SELECT  * FROM 
+      				v_loanreleased WHERE status = 1 ";
 		$where ='';
       	if(!empty($search['advance_search'])){
       		$s_where = array();
@@ -726,14 +744,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['branch_id']>0){
       		$where.=" AND `branch_id`= ".$search['branch_id'];
       	}
-//       	if($search['status']!=""){
-//       		$where.= " AND status = ".$search['status'];
-//       	}
       	if(!empty($search['start_date']) or !empty($search['end_date'])){
       		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
       	}
-      	//$where='';
-      	$order = " ORDER BY currency_type";
+      	$order = " GROUP BY curr_type ORDER BY currency_type";
       	return $db->fetchAll($sql.$where.$order);
       }
       public function getALLLoanPayoff($search=null){
@@ -1223,18 +1237,20 @@ public function getAllinfoZone($search = null){
       	}
       	return $x;
       }
-	  public function getLoanCollectIcome($search=null){
+public function getLoanCollectIcome($search=null){
       	$start_date = $search['start_date'];
       	$end_date = $search['end_date'];
       	 
       	$db = $this->getAdapter();
-      	$sql = " SELECT * FROM v_getcollectmoney where status=1 ";
+      	$sql = " SELECT 
+      		SUM(principal_paid) AS principal_paid,
+      		SUM(interest_paid) AS interest_paid,
+      	    SUM(service_paid) AS service_paid,
+      	    SUM(penalize_paid) AS penalize_paid,
+      	    currency_type
+      	FROM v_getcollectmoney where status=1 ";
       	$where ='';
-      	if(!empty($search['advance_search'])){
-      		$s_where = array();
-      		$s_search = addslashes(trim($search['advance_search']));
-      	}
-      	 
+      	
       	if(!empty($search['start_date']) or !empty($search['end_date'])){
       		$where.=" AND date_input BETWEEN '$start_date' AND '$end_date'";
       	}
@@ -1244,16 +1260,15 @@ public function getAllinfoZone($search = null){
       	if($search['currency_type']>0){
       		$where.=" AND currency_type= ".$search['currency_type'];
       	}
-      	$order="";
-      	$order = " ORDER BY id DESC";
+      	$order = " Group by currency_type ORDER BY id DESC";
       	return $db->fetchAll($sql.$where.$order);
-      }
-      public function getLoanadminFeeIcome($search=null){
+}
+public function getLoanadminFeeIcome($search=null){
       	$start_date = $search['start_date'];
       	$end_date = $search['end_date'];
       
       	$db = $this->getAdapter();
-      	$sql = "SELECT * FROM
+      	$sql = "SELECT SUM(admin_fee) AS admin_fee,SUM(other_fee) AS other_fee,curr_type FROM
       	v_loanreleased WHERE 1 ";
       	$where ='';
       	if($search['branch_id']>0){
@@ -1265,31 +1280,31 @@ public function getAllinfoZone($search = null){
       	if($search['currency_type']>0){
       		$where.=" AND curr_type= ".$search['currency_type'];
       	}
-      	$order = " ORDER BY currency_type ";
+      	$order = " GROUP BY curr_type ORDER BY curr_type ";
       	return $db->fetchAll($sql.$where.$order);
-      }
+}
+      
       function getExpenseincomereport($search=null){
       	$this->_name='ln_income_expense';
       	$db = $this->getAdapter();
       	$session_user=new Zend_Session_Namespace('authloan');
       	$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
       	$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
+      	
       	$where = " WHERE ".$from_date." AND ".$to_date;
       
       	$sql=" SELECT id,
       	(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id = branch_id LIMIT 1) AS branch_name,
-      	account_id,
-      	(SELECT symbol FROM `ln_currency` WHERE ln_currency.id = curr_type) AS currency_type,invoice,
-      	curr_type,
-      	total_amount,disc,date,status FROM $this->_name ";
-      	if($search['currency_type']>-1){
+      	curr_type,SUM(total_amount) AS total_amount,disc,date,status 
+      	FROM $this->_name ";
+      	
+      	if($search['currency_type']>0){
       		$where.= " AND curr_type = ".$search['currency_type'];
       	}
       	if($search['branch_id']>0){
       		$where.=" AND `branch_id`= ".$search['branch_id'];
       	}
-      	$order=" order by id desc ";
-//       	echo $sql.$where.$order;exit();
+      	$order=" GROUP BY curr_type order by id desc ";
       	return $db->fetchAll($sql.$where.$order);
       }
 	  function getLoanByVillage(){
@@ -1335,6 +1350,29 @@ public function getAllinfoZone($search = null){
 				GROUP BY `l`.`id` ORDER BY 
                c.pro_id,c.dis_id,c.com_id,c.village_id  ";
       	return $db->fetchAll($sql);
+      }
+      public function getALLTotalWritoff($search=null){
+      	$db = $this->getAdapter();
+      	$sql = " SELECT
+      	curr_type,
+      	(v.total_amount) AS total_amount
+      		FROM  v_badloan AS v 
+      	WHERE v.status=1 ";
+      	$where='';
+      	$from_date =(empty($search['start_date']))? '1': " v.payof_date >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " v.payof_date <= '".$search['end_date']." 23:59:59'";
+      	 
+      	$where.= " AND ".$from_date." AND ".$to_date;
+      
+      	if(!empty($search['branch'])){
+      		$where.=" AND v.branch_id = ".$search['branch'];
+      	}
+      	
+      	if(!empty($search['currency_type'])){
+      		$where.=" AND v.`curr_type` = ".$search['currency_type'];
+      	}
+      	$order = ' GROUP BY v.`curr_type` ORDER BY v.co_name ';
+      	return $db->fetchAll($sql.$where.$order);
       }
       function getLoandisburseByMonth(){
       	$sql="SELECT
@@ -1588,10 +1626,28 @@ AND cl.client_id = $client_id )";
       
       	$sql=" SELECT id,
       	(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id =branch_id LIMIT 1) AS branch_name,
+      	account_id,SUM(total_amount) AS total_amount,
+      	disc,date,curr_type,status FROM ln_income ";
+      
+      	if($search['currency_type']>0){
+      		$where.= " AND curr_type = ".$search['currency_type'];
+      	}
+      	$order=" GROUP BY curr_type order by curr_type desc ";
+      	return $db->fetchAll($sql.$where.$order);
+      }
+      function getTotalOtherIncomeReport($search=null){
+      	$db = $this->getAdapter();
+      	$session_user=new Zend_Session_Namespace('authloan');
+      	$from_date =(empty($search['start_date']))? '1': " date >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " date <= '".$search['end_date']." 23:59:59'";
+      	$where = " WHERE ".$from_date." AND ".$to_date;
+      
+      	$sql=" SELECT id,
+      	(SELECT branch_namekh FROM `ln_branch` WHERE ln_branch.br_id =branch_id LIMIT 1) AS branch_name,
       	account_id,
       	(SELECT symbol FROM `ln_currency` WHERE ln_currency.id =curr_type) AS currency_type,invoice,
       	curr_type,
-      	total_amount,disc,date,status FROM ln_income ";
+      	SUM(total_amount) total_amount,disc,date,status FROM ln_income ";
       
       	if (!empty($search['adv_search'])){
       		$s_where = array();
@@ -1606,11 +1662,12 @@ AND cl.client_id = $client_id )";
       	if($search['status']>-1 ){
       		$where.= " AND status = ".$search['status'];
       	}
-//       	if($search['currency_type']>-1){
-//       		$where.= " AND curr_type = ".$search['currency_type'];
-//       	}
+      	if($search['currency_type']>-1){
+      	    $where.= " AND curr_type = ".$search['currency_type'];
+        }
       	$order=" order by id desc ";
-      	return $db->fetchAll($sql.$where.$order);
+      	echo$sql.$where.$order;exit();
+      	return $db->fetchRow($sql.$where.$order);
       }
       public function getCollectDailyPayment($search=null){
       	$db = $this->getAdapter();
@@ -1631,122 +1688,11 @@ AND cl.client_id = $client_id )";
 //       	if($search['currency_type']>-1){
 //       		$where.= " AND currency_type = ".$search['currency_type'];
 //         }
-      	if(!empty($search['adv_search'])){
-      		$s_where = array();
-      		$s_search = addslashes(trim($search['adv_search']));
-      		$s_where[] = " branch_name LIKE '%{$s_search}%'";
-      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_name LIKE '%{$s_search}%'";
-      		$s_where[] = " co_name LIKE '%{$s_search}%'";
-      		$s_where[] = " total_principal_permonth LIKE '%{$s_search}%'";
-      		$s_where[] = " total_interest LIKE '%{$s_search}%'";
-      		$s_where[] = " penalize_amount LIKE '%{$s_search}%'";
-      		$s_where[] = " service_charge LIKE '%{$s_search}%'";
-      		$s_where[] = " receipt_no LIKE '%{$s_search}%'";
-      		$s_where[] = " receipt_no LIKE '%{$s_search}%'";
-      		$where .=' AND ('.implode(' OR ',$s_where).')';
-      	}
+      	
       	$order=" ORDER BY id DESC ";
-      		return $db->fetchAll($sql.$where.$order);
-      
-      }
-      
-//       function getAmountReceiveByLoanNumber($loan_number,$from_date=null){
-//       	$db = $this->getAdapter();
-//       	$sql="
-// 		      	SELECT
-// 		      	crm.`payment_option`,
-// 		      	`crm`.`total_principal_permonth` AS `principle_amount`,
-// 		      	(crm.`total_interest`) AS interest,
-// 		      	(crm.`penalize_amount`) AS penelize,
-// 		      	(crm.`service_charge`) AS service,
-// 		      	crm.`return_amount` AS return_amount,
-// 		      	crm.`recieve_amount` AS amount_recieve,
-// 		      	(`crm`.`total_payment`) AS `payment`,
-// 		      	SUM(crmd.`principal_permonth`) AS total_principal_permonth,
-// 		      	SUM(crmd.`total_payment`) AS total_payment,
-// 		      	SUM(crmd.`total_interest`) AS total_interest,
-// 		      	SUM(crmd.`total_recieve`) AS recieve_amount,
-// 		      	SUM(crmd.`penelize_amount`) AS penelize_amount,
-// 		      	SUM(crmd.`service_charge`) AS service_charge
-// 		      	FROM
-// 		      	`ln_client_receipt_money` AS crm,
-// 		      	`ln_client_receipt_money_detail` AS crmd
-// 		      	WHERE crmd.`crm_id`=crm.`id` AND  crmd.`loan_number`='".$loan_number."'  ";
-//       	if($from_date!=null){
-//       		$to_date = (empty($from_date))? '1': " date_input <= '".$from_date." 23:59:59'";
-//       		$sql.=" AND $to_date ";
-//       	}
-//       	$sql.=" GROUP BY crmd.`crm_id` ";
-//       	$principle_amount=0;
-//       	$row =  $db->fetchAll($sql);
-//       	if(!empty($row)){
-      		 
-//       		$interest=0;
-//       		$alltotal=0;
-//       		foreach ($row as $rs){
-//       			if($rs["payment_option"]==4){
-//       				$principle= $rs["principle_amount"];
-//       				$total_pay = $rs["payment"];
-//       				$interest= $rs["interest"];
-//       				$recieve = $rs["amount_recieve"]-$rs["return_amount"];
-//       				$penelize = $rs["penelize"];
-//       				$service_charge =$rs["service"];
-//       				$is_set=1;
-//       				// 					}
-//       			}else{
-//       				$is_set=0;
-//       				$service_charge = $rs["service_charge"];
-//       				$interest = $rs["total_interest"];
-//       				$principle = $rs["total_principal_permonth"];
-//       				$penelize = $rs["penelize"];
-//       				$recieve = $rs["recieve_amount"]-$rs["return_amount"];
-//       				$total_pay = $rs["total_payment"];
-//       			}
-//       			$new_service = $recieve-$service_charge;
-//       			if($new_service>=0){
-//       				$service = $service_charge;
-//       				$new_penelize = $new_service - $penelize;
-//       				if($new_penelize>=0){
-//       					$penelize_amount =  $penelize;
-//       					$new_interest = $new_penelize - $interest;
-//       					if($new_interest>=0){
-//       						$interest_amount = $interest;
-//       						//echo $interest_amount;exit();
-//       						$new_printciple = $new_interest - $principle;
-//       						if($new_printciple>=0){
-//       							$principle_amount = $principle;
-//       							// 									exit();
-//       						}else{
-//       							$principle_amount = abs($new_interest);
-//       							// 									echo  $principle_amount;
-//       						}
-//       					}else{
-//       						$interest_amount = abs($new_penelize);
-//       						$principle_amount=0;
-      
-//       					}
-//       				}else{
-//       					$penelize_amount = abs($new_service);
-//       					$interest =0;
-//       					$principle_amount=0;
-      						
-//       				}
-//       			}else{
-//       				$service = abs($recieve);
-//       				$penelize_amount = 0;
-//       				$interest =0;
-//       				$principle_amount=0;
-//       			}
-//       			$alltotal = $alltotal+$principle_amount;
-//       		}
-//       	}else{
-//       		$alltotal=0;
-//       	}
-//       	return $alltotal;
-//       }
-      function getReceiveByLoanNumber($loan_number,$search){
+      	return $db->fetchAll($sql.$where.$order);
+      } 
+   function getReceiveByLoanNumber($loan_number,$search){
       	$db = $this->getAdapter();
       	$to_date = (empty($search['end_date']))? '1': " date_input < '".$search['end_date']." 23:59:59'";
       	$where = " AND ".$to_date;
