@@ -1,4 +1,6 @@
 <?php 
+// echo date("Y-m-29", strtotime("2017-12-29 +1 week"));//code here have problem
+// exit();
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("LOAN_IL"));
 $frm = $this->frm_search;

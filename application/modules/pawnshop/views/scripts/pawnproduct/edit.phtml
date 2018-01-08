@@ -22,25 +22,38 @@ $frm = $this->Form_Frmcallecterall;
 		<td>
 				<fieldset>
 					<legend><strong><?php echo $tr->translate("COLLECTERALL_TYPE")?></strong></legend>
-					<table cellspacing="10"  width="100%" >
+						
+						<table cellspacing="2"  width="100%" >
 						<tr>
-					        <td><?php echo $frm->getElement('id')?><?php echo $tr->translate("NAME_KH")?></td>
-							<td><?php echo $frm->getElement('title_kh')?></td>	
-							<td rowspan="4"><?php echo $tr->translate("ពត៍មានលម្អិត")?></td>
-							<td rowspan="4"><?php echo $frm->getElement('description')?></td>
-						</tr>
-						<tr>
-						    <td><?php echo $tr->translate("NAME_ENG")?></td>
-							<td><?php echo $frm->getElement('title_en')?></td>	
-					   </tr>
-					   <tr>
-					        <td><?php echo $tr->translate("DATE")?></td>
-							<td><?php echo $frm->getElement('date')?></td>
-					   </tr>
-					   <tr>
-					   		<td><?php echo $tr->translate("STATUS")?></td>
-							<td><?php echo $frm->getElement('status')?></td>
-					   </tr>
+							<td width="40%">
+								<table width="100%">
+									<tr>
+										<td><?php echo $tr->translate("NAME_KH")?></td>
+										<td><?php echo $frm->getElement('title_kh')?></td>	
+									</tr>
+									<tr>
+									    <td><?php echo $tr->translate("NAME_ENG")?></td>
+										<td><?php echo $frm->getElement('title_en')?></td>	
+								   </tr>
+								   <tr>
+								        <td><?php echo $tr->translate("DATE")?></td>
+										<td><?php echo $frm->getElement('date')?></td>
+								   </tr>
+								   <tr>
+								   		<td><?php echo $tr->translate("STATUS")?></td>
+										<td><?php echo $frm->getElement('status')?></td>
+								   </tr>
+								</table>							
+							</td>
+							<td width="60%">
+								<table width="100%">
+									<tr>					        
+										<td style="white-space:nowrap;"><?php echo $tr->translate("ពត៍មានលម្អិត")?></td>
+										<td><?php echo $frm->getElement('description')?></td>
+									</tr>
+								</table>
+							</td>
+						</tr>						
 					</table>
 					
 					</fieldset>

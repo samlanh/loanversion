@@ -77,31 +77,23 @@
 				<fieldset style="margin-top:0px">
 					<legend><strong>ព៌ត័មាន បង់រំលោះទ្រពដាក់បញ្ចាំ</strong></legend>
 	
-					<table class="center" cellspacing="10" >
+					<table class="center" cellspacing="2" >
 						<tr>
 							<td width="144"><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td width="210"><?php echo $frm->getElement('branch_id');?></td>
-                            
-                            
-						<td width="144"><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
+							<td width="144"><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
 							<td width="210"><?php echo $frm->getElement('total_amount_loan');?> </td>
-                            
-						<td width="144"><?php echo $tr->translate('START_DATE');?></td>
+							<td width="144"><?php echo $tr->translate('START_DATE');?></td>
 							<td width="210"><?php echo $frm->getElement('start_date');?></td>
-                            
 						</tr>                        
                        
                        <tr>
 							<td><?php echo $tr->translate("PAWN_CODE")?></td>
 							<td><?php //echo $frm->getElement('loan_number');?><input dojoType="dijit.form.TextBox" class="fullside" id="pawn_number" name="pawn_number" type="hidden"><input id="loan_number" /> </td>
-                            
-          		<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td><?php echo $frm->getElement('currency_type');?> </td>
-							
-                            
+          					<td><?php echo $tr->translate("CURRENCY")?></td>
+							<td><?php echo $frm->getElement('currency_type');?> </td>                            
 							<td><?php echo $tr->translate('END_DATE');?></td>
-							<td><?php  echo $frm->getElement('end_date');?></td>
-                            
+							<td><?php  echo $frm->getElement('end_date');?></td>                            
 						</tr>
                         
                         
@@ -114,25 +106,19 @@
 							<td><?php echo $frm->getElement('product_id');?></td>
 						</tr>
                         
-                   		<tr>
-                        
-                    <td><?php echo $tr->translate("CLIENT_NUM")?></td>
+                   		<tr>                        
+                    		<td><?php echo $tr->translate("CLIENT_NUM")?></td>
 							<td><?php //echo $frm->getElement('client_code');?> <input id="client_code"></td>
-						
-                        <td><?php echo $tr->translate("INTEREST_RATE")?></td>
-							<td><?php  echo $frm->getElement('interest_rate');?></td>
-						
+                        	<td><?php echo $tr->translate("INTEREST_RATE")?></td>
+							<td><?php  echo $frm->getElement('interest_rate');?></td>						
 							<td></td>
 							<td></td>
 						</tr>
-                          		<tr>
-                                
-                                	<td><?php echo $tr->translate("LOAN_DATE")?></td>
+                          <tr>                                
+                            <td><?php echo $tr->translate("LOAN_DATE")?></td>
 							<td><?php echo $frm->getElement('release_date');echo $frm->getElement('old_release_date');?></td>
-                            
-                        		<td><?php echo $tr->translate("LOAN_PERIOD")?></td>
-							<td><?php echo $frm->getElement('loan_period');?></td>
-                            
+                           	<td><?php echo $tr->translate("LOAN_PERIOD")?></td>
+							<td><?php echo $frm->getElement('loan_period');?></td>                            
 							<td></td>
 							<td></td>					
 						
@@ -141,59 +127,41 @@
 							<td colspan="6" style="border-bottom:1px solid #ccc; text-align:left;"><strong><?php echo $tr->translate("ព៌ត័មាន ពីការបង់ប្រាក់")?></strong></td>
 						</tr>
 						<tr>
-									<td><?php echo $tr->translate("COLLECT_DATE");?></td>
-							<td><?php echo $frm->getElement('collect_date');?></td>
-							
+							<td><?php echo $tr->translate("COLLECT_DATE");?></td>
+							<td><?php echo $frm->getElement('collect_date');?></td>							
 							<td><?php echo $tr->translate("RECIEPT_NO")?></td>
 							<td><?php echo $frm->getElement('reciept_no');?></td>
-                            <td colspan="2"><?php echo $tr->translate("NOTE")?></td>
-						
+                            <td colspan="2"><?php echo $tr->translate("NOTE")?></td>						
 						</tr>
-                        
-                        		<tr>
-								<td><?php echo $tr->translate("TOTAL_PRINCIPLE")?></td>
-							<td><?php echo $frm->getElement('os_amount');?></td>
-							
-						<td>ប្រាក់រំលស់ដើម</td>
+                        <tr>
+							<td><?php echo $tr->translate("TOTAL_PRINCIPLE")?></td>
+							<td><?php echo $frm->getElement('os_amount');?></td>							
+							<td>ប្រាក់រំលស់ដើម</td>
 							<td><?php echo $frm->getElement('rapture_amount');?></td>
-                            
                             <td colspan="2" rowspan="5" style="    vertical-align: top;"><?php echo $frm->getElement('note');?></td>
-					
-						</tr>
-                        
-                        	<tr>
-								<td><?php echo $tr->translate("PAYMENT_OPTION")?></td>
+						</tr>                        
+                        <tr>
+							<td><?php echo $tr->translate("PAYMENT_OPTION")?></td>
 							<td><?php  echo $frm->getElement('option_pay');?></td>  							
-											<td style="color:red;"><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT")?></td>
+							<td style="color:red;"><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT")?></td>
 							<td style="font-weight: bold;"><?php echo $frm->getElement('total_payment');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
-                          
 						</tr>
                           	<tr>
-														<td><?php echo $tr->translate("TOTAL_INTEREST")?></td>
-							<td><?php echo $frm->getElement('total_interest');?></td>
-							
-								<td style="color:red;"><?php echo $tr->translate("TOTAL_RECIEPT")?></td>
+							<td><?php echo $tr->translate("TOTAL_INTEREST")?></td>
+							<td><?php echo $frm->getElement('total_interest');?></td>							
+							<td style="color:red;"><?php echo $tr->translate("TOTAL_RECIEPT")?></td>
 							<td style="font-weight: bold;"><?php echo $frm->getElement('amount_receive');?></td>
-                            
-                          
 						</tr>
-                          	<tr>
-									<td><?php echo $tr->translate("TOTAL_PENELIZE")?></td>
+                        <tr>
+							<td><?php echo $tr->translate("TOTAL_PENELIZE")?></td>
 							<td><?php echo $frm->getElement('penalize_amount');?><?php echo $frm->getElement('old_penelize');?><input type="hidden" name="new_penelize" id="new_penelize"></td>
-                            							
-						<td><?php echo $tr->translate("RETURN_AMOUNT")?></td>
-							<td><?php  echo $frm->getElement('amount_return');?></td>
-                            
-                          
+							<td><?php echo $tr->translate("RETURN_AMOUNT")?></td>
+							<td><?php  echo $frm->getElement('amount_return');?></td>                          
 						</tr>
-                          	<tr>
-									<td><?php echo $tr->translate("SERVICE CHARGE")?></td>
-							<td align="left"><?php echo $frm->getElement('more_interest');?></td>							
-								<td><?php echo $tr->translate("REMAIN")?></td>
+                        <tr>
+							<td><?php echo $tr->translate("SERVICE CHARGE")?></td>
+							<td align="left"><?php echo $frm->getElement('more_interest');?></td>						<td><?php echo $tr->translate("REMAIN")?></td>
 							<td><?php echo $frm->getElement('remain');?></td>
-                          
-						                        
-					
 						<tr>
 							<td></td>
 							<td></td>

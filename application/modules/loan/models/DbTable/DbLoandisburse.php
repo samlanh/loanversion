@@ -219,12 +219,25 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     	}
     }
     
+    function getLoannumberbyCustomer($client_id){
+    	$db  = $this->getAdapter();
+    	$sql = " SELECT level
+    	FROM `ln_loan` WHERE status =1 AND customer_id = $client_id  ORDER BY level DESC LIMIT 1 ";
+    	$level  = $db->fetchOne($sql);
+    
+    	$sql = "SELECT client_number FROM `ln_client` WHERE ln_client.client_id=$client_id  LIMIT 1 ";
+    	$client_number  = $db->fetchOne($sql);
+    	return $client_number."-".($level+1);
+    }
     public function addNewLoanIL($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
     		$dbtable = new Application_Model_DbTable_DbGlobal();
-    		$loan_number = $dbtable->getLoanNumber($data);
+    		$loan_number =$this->getLoannumberbyCustomer($data['member']); //$dbtable->getLoanNumber($data);
+    		if($loan_number!=$data['loan_code']){
+    			$loan_number = $data['loan_code'];
+    		}
     		$datagroup = array(
     				'branch_id'=>$data['branch_id'],
     				'loan_number'=>$loan_number,

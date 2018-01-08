@@ -26,7 +26,7 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 					lcrm.`recieve_amount`,
 					lcrmd.`date_payment`,
 					lcrm.`date_input`,
-				    (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lcrm.`co_id`) AS co_name,
+				    (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lcrm.`co_id` LIMIT 1) AS co_name,
 				    'delete'
 				
 				FROM `ln_client_receipt_money` AS lcrm,
@@ -38,6 +38,7 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     		$s_search = str_replace(' ', '', addslashes(trim($search['advance_search'])));
     		//$s_where[] = "REPLACE(lcrmd.`loan_number`,' ','')  LIKE '%{$s_search}%'";
     		$s_where[] = "REPLACE(lcrm.`receipt_no`,' ','')    LIKE '%{$s_search}%'";
+    		$s_where[] = " (SELECT loan_number FROM `ln_loan` WHERE ln_loan.id=lcrm.loan_id AND loan_number ) LIKE '%{$s_search}%'";
     		
     		$where .=' AND ('.implode(' OR ',$s_where).')';
     	}
@@ -389,7 +390,9 @@ public function addILPayment($data){
 	    			$after_principal= $rsloan['principle_after'];//$data["principal_permonth_".$i];
 	    			$total_principal=$after_principal;
 	    			$after_interest = $rsloan['total_interest_after'];//$data["interest_".$i];
-		    		$total_interest = $after_interest;
+		    		if($option_pay!=4){
+	    				$total_interest = $after_interest;
+		    		}
 	    			$after_penalty = $rsloan['penelize_service'];//$data["penelize_".$i];
 	    			$date_payment = $rsloan['date_payment'];//$data["date_payment_".$i];
 	    			
@@ -401,6 +404,9 @@ public function addILPayment($data){
 	    			if($key!=0){
 	    				$penalize = 0;//ធ្លាប់បងហើយម្តង អោយ =0
 	    				$service_charge=0;
+	    				if($option_pay==4){
+	    					$total_interest=0;
+	    				}
 	    			}
 	    			
 	    			$record_id = $rsloan['id'];//$data["mfdid_".$i];
@@ -513,12 +519,16 @@ public function addILPayment($data){
 	    		$this->_name="ln_client_receipt_money";
 	    		$where = $db->quoteInto("id=?", $receipt_id);
 	    		$this->update($arr, $where);
+	    		
+	    		$arr = array('is_completed'=>1);
+	    		$this->_name="ln_loan";
+	    		$where = $db->quoteInto("id=?", $data['loan_number']);
+	    		$this->update($arr, $where);
 	    	}
 
     		$db->commit();
     	}catch (Exception $e){
     		$db->rollBack();
-    		echo $e->getMessage();exit();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }
@@ -855,9 +865,10 @@ public function addILPayment($data){
    				DATE_FORMAT(l.date_release, '%d/%m/%Y') AS `date_release`,
    				l.date_release AS loan_releate,
    				(SELECT date_pay FROM `ln_client_receipt_money` WHERE loan_id=$loan_number AND status=1 ORDER BY date_pay DESC LIMIT 1) AS last_pay_date,
+   				(SELECT date_payment FROM `ln_client_receipt_money` WHERE loan_id=$loan_number AND status=1 ORDER BY date_payment DESC LIMIT 1) AS prev_paymentdate,
    				 ld.*,
    				DATE_FORMAT(ld.date_payment, '%d-%m-%Y') AS `date_payments`,
-   			(SELECT SUM(principal_paid) FROM `ln_client_receipt_money` WHERE loan_id=l.id AND status=1) AS principal_paid
+   				(SELECT SUM(principal_paid) FROM `ln_client_receipt_money` WHERE loan_id=l.id AND status=1) AS principal_paid
    			   FROM
    					  `ln_client` AS lc,
    					  `ln_loan` AS l ,
@@ -966,7 +977,7 @@ public function addILPayment($data){
 	$sql="SELECT 
 			  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=crm.`client_id` LIMIT 1) AS client_name,
 			  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=crm.`client_id` LIMIT 1) AS client_code,
-			  crm.`receipt_no`,
+			  crm.`receipt_no`,crm.paid_times,
 			  DATE_FORMAT(crm.date_pay, '%d-%m-%Y') AS `date_input`,
 			  (crm.`principal_paid`) AS principal_paid,
 			  (crm.`interest_paid`) AS interest_paid,

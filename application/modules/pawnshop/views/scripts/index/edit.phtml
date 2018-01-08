@@ -58,68 +58,67 @@
 		<td>
 				<fieldset>
 					<legend><strong><?php echo $tr->translate("ព៌ត័មាន អតិថិជន​")?></strong></legend>
-					<table cellspacing="10"  width="100%" style="margin-top: -10px;">
-                    
-                   <tr>
-                   <td><?php echo $tr->translate("BRANCH_NAME")?></td>
-							<td><?php echo $frm->getElement('branch_id');?></td>
-                   	<td><?php echo $tr->translate("ប្រភេទ​​ទ្រព្យដាក់បញ្ចាំ")?></td>
-							<td><?php echo $frm->getElement('product_id');?></td>
-                  <td><?php echo $tr->translate("ចំនួនប្រាក់កម្ចី")?></td>
-							<td><?php echo $frm->getElement('total_amount');?></td>
-                   </tr>
-                        <tr>
-                  	<td><?php echo $tr->translate("PAWN_NO")?></td>
-							<td><?php echo $frm->getElement('loan_code');?></td>
-                		<td><?php echo $tr->translate("ពត៍មានលម្អិត​​ ទ្រព្យដាក់បញ្ចាំ")?></td>
-							<td><?php echo $frm->getElement('description');?></td>
-                							<td><?php echo $tr->translate("រយៈពេល​បញ្ចំា")?></td>
-							<td><?php echo $frm->getElement('period');?></td>
-
-                   </tr>
-                        <tr>
-                   		<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
-							<td><?php echo $frm->getElement('level');?></td>
-                <td><?php echo $tr->translate("តម្លៃប៉ាន់ស្មាន ទ្រព្យដាក់បញ្ចាំ")?></td>
-							<td><?php echo $frm->getElement('estimatevalue');?></td>
-                 	<td><?php echo $tr->translate("អត្រាការប្រាក់​")?></td>
-							<td><?php echo $frm->getElement('interest_rate');?></td>
-                   </tr>
-                        <tr>
-                   		<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-							<td><input id="customer_code" /></td>
-                 	<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-                   <td>&nbsp;</td>
-                   <td>&nbsp;</td>
-                   </tr>
-                        <tr>
-                   				<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-							<td><input id="member" /> </td>
-                   <td>&nbsp;</td>
-                   <td>&nbsp;</td>
-              	<td><?php // echo $tr->translate("រយះពេលដាក់បញ្ចាំ(គិតជា)")?></td>
-							<td><?php //echo $frm->getElement('pay_every');?></td>
-                   </tr>
-                        <tr>
-                   <td colspan="4" rowspan="4" align="center"><img style="max-height:170px" src="<?= $this->baseUrl() ?>/images/banner_money_exchange.jpg" /></td>
-                   <td><?php echo $tr->translate("ថ្ងៃដាក់បញ្ចាំ​")?></td>
-							<td><?php echo $frm->getElement('release_date');?></td>
-                   </tr>
-                        <tr>
-                   <td><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់ដំបូង​")?></td>
-							<td><?php echo $frm->getElement('first_payment');?></td>                   </tr>
-                        <tr>
-                   <td><?php echo $tr->translate("ថ្ងៃបញ្ចប់ប្រាក់បញ្ចាំ")?></td>
-							<td><?php echo $frm->getElement('date_line');?></td>                   </tr>
-                   <tr>
-                   <td><?php echo $tr->translate("បង្កាន់ដៃទទួលប្រាក់")?></td>
-							<td><?php echo $frm->getElement('receipt_num');?></td>
-                   </tr>
-						<tr>
-							<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
-						</tr>
-						
+					<table cellspacing="2"  width="100%" style="margin-top: -10px;">                    
+			                   <tr>
+				                   	<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+									<td><?php echo $frm->getElement('branch_id');?></td>
+				                   	<td><?php echo $tr->translate("ប្រភេទ​​ទ្រព្យដាក់បញ្ចាំ")?></td>
+									<td><?php echo $frm->getElement('product_id');?></td>
+				                 	<td><?php echo $tr->translate("ចំនួនប្រាក់កម្ចី")?></td>
+									<td><?php echo $frm->getElement('total_amount');?></td>
+			                   </tr>
+			                   <tr>
+			                  		<td><?php echo $tr->translate("PAWN_NO")?></td>
+									<td><?php echo $frm->getElement('loan_code');?></td>
+			                		<td><?php echo $tr->translate("ពត៍មានលម្អិត​​ ទ្រព្យដាក់បញ្ចាំ")?></td>
+									<td><?php echo $frm->getElement('description');?></td>
+			                		<td><?php echo $tr->translate("រយៈពេល​បញ្ចំា")?></td>
+									<td><?php echo $frm->getElement('period');?></td>
+			                   </tr>
+			                    <tr>
+			                   		<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
+								    <td><?php echo $frm->getElement('level');?></td>
+			                		<td><?php echo $tr->translate("តម្លៃប៉ាន់ស្មាន ទ្រព្យដាក់បញ្ចាំ")?></td>
+									<td><?php echo $frm->getElement('estimatevalue');?></td>
+			                 		<td><?php echo $tr->translate("អត្រាការប្រាក់​")?></td>
+									<td><?php echo $frm->getElement('interest_rate');?></td>
+			                   </tr>
+			                        <tr>
+			                   		<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+									<td><input id="customer_code" /></td>
+			                 		<td><?php echo $tr->translate("CURRENCY")?></td>
+									<td align="left"><?php echo $frm->getElement('currency_type');?></td>
+				                   <td>&nbsp;</td>
+				                   <td>&nbsp;</td>
+			                   </tr>
+			                   <tr>
+			                   	  <td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+								  <td><input id="member" /> </td>
+				                  <td>&nbsp;</td>
+				                  <td>&nbsp;</td>
+			              		  <td><?php // echo $tr->translate("រយះពេលដាក់បញ្ចាំ(គិតជា)")?></td>
+								<td><?php //echo $frm->getElement('pay_every');?></td>
+			                   </tr>
+			                    <tr>
+				                   <td colspan="4" rowspan="4" align="center" style="background:#dfd;border:1px solid #ccc;"><img style="max-height:126px" src="<?= $this->baseUrl() ?>/images/banner_money_exchange.jpg" /></td>
+				                   	<td><?php echo $tr->translate("ថ្ងៃដាក់បញ្ចាំ​")?></td>
+									<td><?php echo $frm->getElement('release_date');?></td>
+			                   </tr>
+			                    <tr>
+			                   		<td><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់ដំបូង​")?></td>
+									<td><?php echo $frm->getElement('first_payment');?></td>                  
+							   </tr>
+			                    <tr>
+			                   		<td><?php echo $tr->translate("ថ្ងៃបញ្ចប់ប្រាក់បញ្ចាំ")?></td>
+									<td><?php echo $frm->getElement('date_line');?></td>                   
+								</tr>
+			                   <tr>
+			                 		<td><?php echo $tr->translate("បង្កាន់ដៃទទួលប្រាក់")?></td>
+								    <td><?php echo $frm->getElement('receipt_num');?></td>
+			                   </tr>
+								<tr>
+									<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
+								</tr>						
 					</table>
 				</fieldset>
 		</td>

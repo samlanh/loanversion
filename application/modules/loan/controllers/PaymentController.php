@@ -71,11 +71,11 @@ class Loan_PaymentController extends Zend_Controller_Action {
 				}else {
 					$db->addILPayment($_data);
 					if(!empty($_data['save_close'])){
-			        	Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/index");
+			        	//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/index");
 					}else{
-						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/add");
+						//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/add");
 					}
-					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/add");
+					//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/add");
 				}
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");

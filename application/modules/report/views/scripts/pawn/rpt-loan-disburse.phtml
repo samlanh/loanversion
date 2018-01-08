@@ -90,45 +90,30 @@ dojo.require("dijit.form.DateTextBox");
                     <td><?php echo $tr->translate("CLIENT_NO");?></td>
                     <td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
                     <td><?php echo $tr->translate("LOAN_LEVEL");?></td>
-                    <td><?php echo $tr->translate("CO_NAME");?></td>
                     <td><?php echo $tr->translate("LOAN_AMOUNT");?></td>
-                    <td><?php echo $tr->translate("ADMIN_FEE");?></td>
-                    <td><?php echo $tr->translate("OTHER_FEE");?></td>
                     <td><?php echo $tr->translate("INTEREST RATE");?></td>
                     <td><?php echo $tr->translate("TERM_BORROW");?></td>
-                    <td><?php echo $tr->translate("PAMENT_METHOD");?></td>
                     <td><?php echo $tr->translate("RELEASED_DATE");?></td>
                     <td><?php echo $tr->translate("LIFE_LOAN");?></td>
-                    <td><?php echo $tr->translate("LOAN_TYPE");?></td>
+                    <td><?php echo $tr->translate("PRODUCT_NAME");?></td>
+                    <td><?php echo $tr->translate("EST_VALUE");?></td>
+                    <td><?php echo $tr->translate("DESCRIPTION");?></td>
                     <td><?php echo $tr->translate("EDIT");?></td>
                 </tr>
                 </thead>
                <?php 
-               $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
-               $other_fee_r=0; $other_fee_b=0; $other_fee_d=0;$total_r=0;$total_b=0;$total_d=0;
-               
+               $amt_r = 0;$amt_d = 0;$amt_b = 0; 
                $count_ld=0;$count_lr=0;$count_lb=0;
-               
                if(!empty($this->loanrelease_list)) foreach($this->loanrelease_list as $key =>$row){?>
                <?php 
               if($row['curr_type']==1){
                		$amt_r = $amt_r+$row['total_capital'];
-               		$amn_r = $amn_r+$row['admin_fee'];
-               		$other_fee_r=$other_fee_r+$row['other_fee'];
-               		$total_r=$amt_r+$amn_r+$other_fee_r;
-               		
                		$count_lr=$count_lr+1;
                }elseif($row['curr_type']==2){
                		$amt_d = $amt_d+$row['total_capital'];
-               		$amn_d = $amn_d+$row['admin_fee'];
-               		$other_fee_d=$other_fee_d+$row['other_fee'];
-               		$total_d=$amt_d+$amn_d+$other_fee_d;
                		$count_ld=$count_ld+1;
                }else{
                		$amt_b = $amt_b+$row['total_capital'];
-               		$amn_b = $amn_b+$row['admin_fee'];
-               		$other_fee_b=$other_fee_b+$row['other_fee'];
-               		$total_b=$amt_b+$amn_b+$other_fee_b;
                		$count_lb=$count_lb+1;
                }
                ?>
@@ -138,19 +123,17 @@ dojo.require("dijit.form.DateTextBox");
 					<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
 					<td align="left" style="line-height:15px;min-width:90px; ">&nbsp;
-					<a target="_blank" title="click here to preview payment schedule" style="color:#000; text-decoration: none;" href="<?php echo $url_client."/id/".$row['id'];?>">&nbsp;<?php echo $row['client_khname']; ?></a>&nbsp;
+						<a target="_blank" title="click here to preview payment schedule" style="color:#000; text-decoration: none;" href="<?php echo $url_client."/id/".$row['id'];?>">&nbsp;<?php echo $row['client_khname']; ?></a>&nbsp;
 					</td>	
 					<td>&nbsp;<?php echo $row['loan_level'];?>&nbsp;</td>
-					<td align="left" style="min-width:75px;"><span style="line-height:15px;">&nbsp;<?php echo $row['co_name']; ?></span>&nbsp;</td>	
 					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
-					<td style="white-space:nowrap;">&nbsp;<?php echo number_format($row['admin_fee'],2).' '.$row['currency_type']; ?>&nbsp;</td>
-					<td style="white-space:nowrap;">&nbsp;<?php echo number_format($row['other_fee'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 					<td style="white-space:nowrap;">&nbsp;<?php echo $row['interest_rate'];?>&nbsp;</td>
-					<td>&nbsp;<?php echo $row['total_duration'].$row['name_en'];?>&nbsp;</td>
-					<td>&nbsp;<?php echo $row['payment_name'];?>&nbsp;</td>
+					<td>&nbsp;<?php echo $row['total_duration'].$row['total_duration'];?>&nbsp;</td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_release']));?>&nbsp;</td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_line']));?>&nbsp;</td>
-					<td align="left">&nbsp;<?php echo $row['loan_type']; ?>&nbsp;</td>	
+					<td style="white-space:nowrap;">&nbsp;<?php echo $row['product_name']; ?>&nbsp;</td>
+					<td style="white-space:nowrap;">&nbsp;<?php echo $row['est_amount']; ?>&nbsp;</td>
+					<td style="white-space:nowrap;">&nbsp;<?php echo number_format($row['product_description'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 					<td align="left"><a target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"loan","action"=>'rpt-updatepayment','id'=>$row['id']))?>">កែប្រែ</a></td>	
 				</tr>
 				<?php }?>
@@ -161,32 +144,21 @@ dojo.require("dijit.form.DateTextBox");
                     <td><?php echo $tr->translate("CURRENT_TYPE");?></td>
                     <td><?php echo $tr->translate("ចំនួនកម្ចី");?></td>
                     <td><?php echo $tr->translate("TOTAL_AMOUNT");?></td>
-                    <td><?php echo $tr->translate("TOTAL_FEE");?></td>
-                    <td><?php echo $tr->translate("OTHER_FEE");?></td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:12px;">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td>&nbsp;<?php echo number_format($count_ld,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format($amn_d,2);?>&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format($other_fee_d,2);?>&nbsp;</td>
-                  <!--   <td>&nbsp;<?php echo number_format($total_d,2);?>&nbsp;</td> -->
                  </tr>
                  <tr class="style" style=" line-height: 24px; font-size:12px;">
                     <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
                     <td>&nbsp;<?php echo number_format($count_lr,2);?>&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format($amn_r,2);?>&nbsp;</td>
-                   	<td>&nbsp;<?php echo number_format($other_fee_r,2);?>&nbsp;</td>
-                   <!-- 	<td>&nbsp;<?php echo number_format($total_r,2);?>&nbsp;</td> -->
+                   <td>&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:12px;">
                     <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($count_lb,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amt_b,2);?>&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format($amn_b,2);?>&nbsp;</td>
-                    <td>&nbsp;<?php echo number_format($other_fee_b,2);?>&nbsp;</td>
-                  <!--  <td>&nbsp;<?php //echo number_format($total_b,2);?>&nbsp;</td> -->
                 </tr>
               </table>
               <br />

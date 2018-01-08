@@ -4,6 +4,10 @@
 	$frm = $this->frm_loan;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	//echo $this->frmPopupClient;
+	//echo $this->frmpupopinfoclient;
+	//echo $this->frmPopupCO;	
+	//echo $this->frmpupoploantype;
 ?>
 <div class="overlay">
 	<div class="overlay-load">
@@ -85,8 +89,8 @@
 							</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td><input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
+							<td> </td>
+							<td> <input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
 							</td>
 						</tr>
 						<tr>
@@ -396,7 +400,7 @@ function filterClient(){
 		dijit.byId('customer_code').reset();
 		getLoanByBranch();
 		getAllClientByBranch(branch_id);
-		getAllClientNumberByBranch(branch_id);
+		//getAllClientNumberByBranch(branch_id);
 }
 var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientbybranch')); ?>';
 function getAllClientByBranch(branch_id){
@@ -407,10 +411,12 @@ function getAllClientByBranch(branch_id){
 		},		    
 		handleAs:"json",
 		load: function(data) {
+			alert("data"+data);
 			client_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('member').set('store', client_store);
 		},
 		error: function(err) {
+			alert("err1"+err);
 		}
 	});
 }
@@ -431,6 +437,7 @@ function getAllCo(){
 }
 var url_getclientnum = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientnumberbybranch')); ?>';
 function getAllClientNumberByBranch(branch_id){
+	alert("branch_id"+branch_id);
 	dojo.xhrPost({
 		url:url_getclientnum,	
 		content:{ 
@@ -438,34 +445,28 @@ function getAllClientNumberByBranch(branch_id){
 		},		    
 		handleAs:"json",
 		load: function(data) {
+			alert("data"+data);
 			client_number_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('customer_code').set('store', client_number_store);
 		},
 		error: function(err) {
+			alert("err2"+err);
 		}
 	});
 }
 var url_getloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloannumber')); ?>';
 function getLoanByBranch(){
 	branch_id = dijit.byId('branch_id').get('value');
-	member = dijit.byId('member').get('value');
 	if(branch_id==''){
 		alert('Please Select Branch');
 		dijit.byId('branch_id').focus();
-		return false;
-	}
-	return false;
-	if(member=='' || member==-1){
-		alert('ជ្រើសរើសអតិថិជន');
-		dijit.byId('member').focus();
 		return false;
 	}
 	dojo.xhrPost({
 		url:url_getloan,	
 		content:{ 
 		    'branch_id':branch_id,
-		    'is_group':0,
-		    'member':member
+		    'is_group':0
 		},		    
 		handleAs:"json",
 		load: function(data) {
@@ -552,8 +553,6 @@ function getLoanLevel(client_id){
 		},	    
 		handleAs:"json", 
 		load: function(data) {	
-			customer_code = dijit.byId("customer_code").get("value");
-			dijit.byId('loan_code').attr('value',customer_code+'-'+data);
 			dijit.byId('level').attr('value',data);
 		},
 		error: function(err) {

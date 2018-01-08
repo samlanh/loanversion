@@ -4,7 +4,6 @@ $filter = $this->frm_search;
 $dayin_khmer = $this->day_inkhmer;
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();	
 $db = new Report_Model_DbTable_DbLoan();
-
 $tran = $this->tran_schedule;
 $client = $this->client;											
 ?>
@@ -51,14 +50,12 @@ $client = $this->client;
 }
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 th{padding: 5px;}
-
 table { page-break-inside:auto }
   tr{ page-break-inside:avoid; page-break-after:auto; }
 #header {
   display: table-header-group;
   page-break-inside:avoid; page-break-after:auto;
 }
-
 </style>
 <div >
 	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
@@ -76,8 +73,6 @@ table { page-break-inside:auto }
                     </td>
 	                    <td width="20%"><strong style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label id="lbl_customer"></label></strong></td>
 	                </tr>
-	                <?php 
-	                ?> 
 	                <tr>
 	                	<td colspan="3">
 	                		<table width="100%">
@@ -280,7 +275,6 @@ table { page-break-inside:auto }
                		<td>&nbsp;<?php echo $rs["total_duration"]." ".$rs["Term Borrow"];?>&nbsp;</td> -->
                		<td align="right" style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["principle_after"],2).' '.$rs['currency_type'];?>&nbsp;</td>
                		<td align="right" style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["total_interest_after"],2).' '.$rs['currency_type'];?>&nbsp;</td>
-               		<!-- <td align="right" style="white-space: nowrap;">&nbsp;<?php //echo $penelize.' '.$rs['currency_type'];?>&nbsp;</td> -->
                		<td align="right" style="white-space: nowrap;"><strong style="font-family:'arial';">&nbsp;<?php echo number_format($total_payment,2).' '.$rs['currency_type'];?></strong>&nbsp;</td>
                		<td align="center">&nbsp;&nbsp;<?php echo number_format($total_late_day,0)." Days";?> &nbsp;</td>
                		<td align="center">&nbsp;&nbsp;<?php echo $rs["amount_late"]." ដង";?> &nbsp;</td>

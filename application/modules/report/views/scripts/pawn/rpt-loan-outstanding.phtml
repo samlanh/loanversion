@@ -72,7 +72,9 @@ dojo.require("dijit.form.DateTextBox");
 									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
                 				<td width="65%"></td>
+                				
                 			</tr>
+			               
 		                </table>
 		              </td>
 		           </tr>   
@@ -89,14 +91,13 @@ dojo.require("dijit.form.DateTextBox");
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_NO");?>&nbsp;</td>
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CLIENT_NUM");?>&nbsp;</td>
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CO_NAME");?>&nbsp;</td>
+                    <td><?php echo $tr->translate("PRODUCT_NAME");?></td>
+                    <td><?php echo $tr->translate("EST_VALUE");?></td>
+                    <td><?php echo $tr->translate("DESCRIPTION");?></td>
                     <td style="padding:2px 0px;"> &nbsp;<?php echo $tr->translate("RELEASE_DATE");?>&nbsp;</td>
                     <td>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</td>
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</td>
                     <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_PERIOD");?>&nbsp;</td>
-                    <!--  <td style="padding:2px 0px;font-size: 8px;">&nbsp;<?php //echo $tr->translate("LOAN_TYPE");?>&nbsp;</td>
-                    <td style="padding:2px 0px;font-size: 8px;"><?php //echo $tr->translate("FOR_LOAN_TYPE");?></td>
-                    -->
                    	<td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("បានបង់");?>&nbsp;</td>
                    	<td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?>&nbsp;</td>
                    	<td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PERCENTAGE");?>&nbsp;</td>
@@ -108,13 +109,8 @@ dojo.require("dijit.form.DateTextBox");
                $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;$result_b=0;$result_r=0;$result_d=0;
 			   $count_d=0;$count_r=0;$count_b=0;
 			   $amt_loanmonth=0;$amt_loanweek=0;$amt_loanday=0;
-			   $i=0;
                if(!empty($this->outstandloan)) foreach($this->outstandloan as $key =>$row){?>
                <?php 
-                  if($row['total_principaid']==$row['total_capital']){
-                  	continue;
-                  }
-                  $i++;
                		if($row['termborrow']==1){
                			$amt_loanday=$amt_loanday+1;
                		}elseif($row['termborrow']==2){
@@ -142,20 +138,22 @@ dojo.require("dijit.form.DateTextBox");
 	               }
                ?>
 					<tr align="center" class="hover">
-						<td>&nbsp;<?php echo $i; ?>&nbsp;</td>
+						<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 						<td style="line-height: 12px; white-space: nowrap;">&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
-						<td align="left" style="font-size:12px; line-height: 13px; white-space: nowrap;">&nbsp;<?php echo $row['client_kh']; ?>&nbsp;</td>
-						<td>&nbsp;<?php echo $row['co_name'];?>&nbsp;</td>
+						<td align="left" style="font-size:12px; line-height: 13px; white-space: nowrap;">&nbsp;<?php echo $row['client_khname']; ?>&nbsp;</td>
+						<td style="white-space:nowrap;">&nbsp;<?php echo $row['product_name']; ?>&nbsp;</td>
+						<td style="white-space:nowrap;">&nbsp;<?php echo $row['est_amount']; ?>&nbsp;</td>
+						<td style="white-space:nowrap;">&nbsp;<?php echo number_format($row['product_description'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 						<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_release']));?>&nbsp;</td>
 						<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_line']));?>&nbsp;</td>
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
-						<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['total_duration']).$row['pay_term'];?>&nbsp;</td>
+						<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['total_duration']).$row['termborrow'];?>&nbsp;</td>
 						<td style="white-space:nowrap; text-align: center;">&nbsp;<?php echo $row['total_principaid'];?>&nbsp;</td>
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($total_receive,2).' '.$row['currency_type'];?>&nbsp;</td>
 						<td>&nbsp;<?php 
-							echo (round(($total_receive/$row['total_capital']),2)*100).' %';
+								echo (round(($total_receive/$row['total_capital']),2)*100).' %';
 						?>&nbsp;</td>
 						<td>&nbsp;<?php echo number_format(($row['total_capital']-$total_receive),2).' '.$row['currency_type'];?>&nbsp;</td>
 					</tr>

@@ -16,7 +16,7 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'txt_search'=>'',
-						'customer_code'=> -1,
+						'member'=> -1,
 						'repayment_method' => -1,
 						'branch_id' => -1,
 						'co_id' => -1,
@@ -28,16 +28,17 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 						 );
 			}
 			$db = new Pawnshop_Model_DbTable_DbPawnshop();
-			$rs_rows= $db->getAllIndividuleLoan($search);
+			$rs_rows= $db->getAllPawnshop($search);
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","COMUNE_NAME_EN","RECEIPT_NO","PAWN_AMOUNT","TERM_BORROW",
-					"INTEREST_RATE","TOTAL_INTEREST","PAWN_DATE","PAWN_ENDDATE","STATUS");
+			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECEIPT","PAWN_AMOUNT","TERM_BORROW",
+					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","STATUS");
 			
 			$link_info=array('module'=>'pawnshop','controller'=>'index','action'=>'edit',);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch'=>$link_info,'saving_number'=>$link_info,'payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
 		}catch (Exception $e){
+			echo $e->getMessage();exit();
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 		}	
@@ -52,9 +53,11 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try {
 				$_dbmodel = new Pawnshop_Model_DbTable_DbPawnshop();
+// 				$_dbmodel->addPawnshoptest($_data);
+// 				$_dbmodel = new Pawnshop_Model_DbTable_DbPawnshop();
 				$_dbmodel->addPawnshop($_data);
 				if(!empty($_data['saveclose'])){
-					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan");
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/pawnshop");
 				}else{
 					Application_Form_FrmMessage::message("INSERT_SUCCESS");
 				}
@@ -85,8 +88,8 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 	public function addloanAction(){
 		if($this->getRequest()->isPost()){
 			$data=$this->getRequest()->getPost();
-			$db = new Loan_Model_DbTable_DbLoan();
-			$id = $db->addNewLoanGroup($data);
+			$db = new Pawnshop_Model_DbTable_DbPawnshop();
+			$id = $db->addPawnshop($data);
 			$suc = array('sms'=>'ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
 			print_r(Zend_Json::encode($suc));
 			exit();

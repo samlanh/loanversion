@@ -1,5 +1,5 @@
 <?php
-class Report_LoanController extends Zend_Controller_Action {
+class Report_PawnController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
@@ -11,7 +11,7 @@ class Report_LoanController extends Zend_Controller_Action {
   	
   }
 function rptLoanDisburseAction(){//release all loan
-  	$db  = new Report_Model_DbTable_DbLoan();
+  	$db  = new Report_Model_DbTable_Dbpawn();
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
   	}
@@ -37,7 +37,7 @@ function rptLoanDisburseAction(){//release all loan
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
   function rptDailyloanAction(){//release all loan
-  	$db  = new Report_Model_DbTable_DbLoan();
+  	$db  = new Report_Model_DbTable_Dbpawn();
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
   	}
@@ -67,7 +67,7 @@ function rptLoanDisburseAction(){//release all loan
   }
   
   function rptLoanDisburseCoAction(){//realease by co
-	  $db  = new Report_Model_DbTable_DbLoan();
+	  $db  = new Report_Model_DbTable_Dbpawn();
 	  if($this->getRequest()->isPost()){
 	  		$search = $this->getRequest()->getPost();
 	  	}
@@ -97,7 +97,7 @@ function rptLoanDisburseAction(){//release all loan
   }
   
   function rptLoancollectAction(){//list payment that collect from client
-  	$dbs = new Report_Model_DbTable_DbloanCollect();
+  	$dbs = new Report_Model_DbTable_DbpawnCollect();
   	$frm = new Application_Form_FrmSearchGlobal();
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
@@ -111,7 +111,7 @@ function rptLoanDisburseAction(){//release all loan
   				'end_date'=>date('Y-m-d'),
   				'status' => -1,);
   	}
-  	$db  = new Report_Model_DbTable_DbLoan();
+  	$db  = new Report_Model_DbTable_Dbpawn();
   	$this->view->date_show=$search['end_date'];
   	$this->view->list_end_date=$search;
   	$row = $dbs->getAllLnClient($search);
@@ -129,18 +129,16 @@ function rptLoanDisburseAction(){//release all loan
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   }
   function rptGroupmemberAction(){
-  	$db  = new Report_Model_DbTable_DbLoan();
+  	$db  = new Report_Model_DbTable_Dbpawn();
   	$id = $this->getRequest()->getParam("id");
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if (!empty($id)){
   		$this->view->loanmember_list =$db->getALLGroupDisburse($id);
-  		//print_r($db->getALLGroupDisburse($id));
     }
   }
- 
-  function rptPaymentAction(){
-  	$db  = new Report_Model_DbTable_DbLoan();	
+function rptPaymentAction(){
+  	$db  = new Report_Model_DbTable_Dbpawn();	
 	$key = new Application_Model_DbTable_DbKeycode();
 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	if($this->getRequest()->isPost()){
@@ -165,7 +163,7 @@ function rptLoanDisburseAction(){//release all loan
 	$this->view->frm_search = $frm;
   }
   function rptCommissionAction(){
-  	$db  = new Report_Model_DbTable_DbLoan();
+  	$db  = new Report_Model_DbTable_Dbpawn();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
@@ -205,7 +203,7 @@ function rptLoanDisburseAction(){//release all loan
   				'co_id'=>0
   		);
   	}
-  	$db  = new Report_Model_DbTable_DbLoan();
+  	$db  = new Report_Model_DbTable_Dbpawn();
   	$this->view->loanlate_list =$db->getALLLoanlate($search);
   	
   	$key = new Application_Model_DbTable_DbKeycode();
@@ -233,7 +231,7 @@ function rptLoanDisburseAction(){//release all loan
   		);
   	}
   	 
-  	$db  = new Report_Model_DbTable_DbLoan();
+  	$db  = new Report_Model_DbTable_Dbpawn();
   	$this->view->loanlate_list =$db->getAllLoanlateDetail($search);
   	 
   	$key = new Application_Model_DbTable_DbKeycode();
@@ -247,7 +245,7 @@ function rptLoanDisburseAction(){//release all loan
   	$this->view->frm_search = $frm;
   }
   function rptLoanNplAction(){
-  	$db  = new Report_Model_DbTable_DbLoan();
+  	$db  = new Report_Model_DbTable_Dbpawn();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
@@ -275,7 +273,7 @@ function rptLoanDisburseAction(){//release all loan
   	$this->view->classified_loan = $db->ClassifiedLoan();
   }
   function rptLoanOutstandingAction(){//loand out standing with /collection
-	    $db  = new Report_Model_DbTable_DbLoan();
+	    $db  = new Report_Model_DbTable_Dbpawn();
 	  	if($this->getRequest()->isPost()){
 	  		$search = $this->getRequest()->getPost();
 	  	}else {
@@ -302,7 +300,7 @@ function rptLoanDisburseAction(){//release all loan
 	  	$this->view->outstandloan = $rs;
   }
   function rptUnpaidLoanByCoAction(){
-  	$db  = new Report_Model_DbTable_DbLoan();
+  	$db  = new Report_Model_DbTable_Dbpawn();
   	
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
@@ -349,7 +347,7 @@ function rptLoanDisburseAction(){//release all loan
 				'paymnet_type'	=> -1,
 				'status'=>"",);
 	}
-	$db  = new Report_Model_DbTable_DbLoan();
+	$db  = new Report_Model_DbTable_Dbpawn();
 	$key = new Application_Model_DbTable_DbKeycode();
 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	
@@ -362,7 +360,7 @@ function rptLoanDisburseAction(){//release all loan
   	$this->view->frm_search = $fm;
   }
 function rptLoanTotalCollectAction(){
-	$db  = new Report_Model_DbTable_DbLoan();	
+	$db  = new Report_Model_DbTable_Dbpawn();	
 	$key = new Application_Model_DbTable_DbKeycode();
 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	if($this->getRequest()->isPost()){
@@ -390,7 +388,7 @@ function rptLoanTotalCollectAction(){
 	$this->view->frm_search = $frm;
 }
 function rptRescheduleLoanAction(){
-	$db  = new Report_Model_DbTable_DbLoan();
+	$db  = new Report_Model_DbTable_Dbpawn();
 	$key = new Application_Model_DbTable_DbKeycode();
 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	if($this->getRequest()->isPost()){
@@ -613,7 +611,7 @@ function rptPaymentschedulesAction(){
  
  }
  function rptLoanIncomeAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	 
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
@@ -641,8 +639,7 @@ function rptPaymentschedulesAction(){
  	$this->view->frm_search = $fm;
  }
  function rptLoanPayoffAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
- 	//
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	 
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
@@ -650,7 +647,7 @@ function rptPaymentschedulesAction(){
  		$search = $this->getRequest()->getPost();
  	}else{
 	 	$search = array(
-	 	'advance_search'  => '',
+	 	'advance_search'=> '',
 	 	'client_name' => -1,
 	 	'start_date'  => date('Y-m-d'),
 	 	'end_date'    => date('Y-m-d'),
@@ -681,7 +678,7 @@ function rptPaymentschedulesAction(){
  				'status'=>"",);
  	}
  	$this->view->list_end_date=$search;
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	$this->view->LoanCollectionco_list =$db->getALLLoanExpectIncome($search);
  	
  	$frm = new Loan_Form_FrmSearchGroupPayment();
@@ -693,7 +690,7 @@ function rptPaymentschedulesAction(){
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  }
  function rptBadloanAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	if($this->getRequest()->isPost()){
@@ -718,7 +715,7 @@ function rptPaymentschedulesAction(){
 	$this->view->frm_loan = $frm;
  }
  function rptWritoffAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	if($this->getRequest()->isPost()){
  		$search = $this->getRequest()->getPost();
  		
@@ -746,7 +743,7 @@ function rptPaymentschedulesAction(){
  	//$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  }
  function rptLoanXchangeAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	if($this->getRequest()->isPost()){
@@ -773,20 +770,19 @@ function rptPaymentschedulesAction(){
  }
  
  function rptPaymentHistoryAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
- 
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	if($this->getRequest()->isPost()){
  		$search = $this->getRequest()->getPost();
  	}else {
  		$search = array(
- 				'adv_search' => '',
- 				'status_search' => -1,
- 				'status' => -1,
- 				'branch_id' => "",
- 				'client_name' => "",
- 				'co_id' => "",
- 				'start_date' =>date('Y-m-d'),
- 				'end_date' => date('Y-m-d'),
+ 			'adv_search' => '',
+ 			'status_search' => -1,
+ 			'status' => -1,
+ 			'branch_id' => "",
+ 			'client_name' => "",
+ 			'co_id' => "",
+ 			'start_date' =>date('Y-m-d'),
+ 			'end_date' => date('Y-m-d'),
  		);
  	}
  	$this->view->loantotalcollect_list =$db->getALLLoanPayment($search);
@@ -799,10 +795,9 @@ function rptPaymentschedulesAction(){
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	
-//  	print_r($db->getALLLoanPayment($search));
  }
  function rptLoanTrasferAction(){//release all loan
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	if($this->getRequest()->isPost()){
@@ -829,7 +824,7 @@ function rptPaymentschedulesAction(){
  
  
 function rptLoanTrasferzoneAction(){//release all loan
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	if($this->getRequest()->isPost()){
@@ -847,7 +842,7 @@ function rptLoanTrasferzoneAction(){//release all loan
 						'note'=>'',
  				);
  	}	
- 	$db = new Report_Model_DbTable_DbLoan();
+ 	$db = new Report_Model_DbTable_Dbpawn();
  	$rs_rows= $db->getAllinfoZone($search);//call frome model
  	$this->view->loantrasferzone=$db->getAllinfoZone($search);
  	$this->view->list_end_date=$search;
@@ -864,7 +859,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  
  function rptLoanClientcoAction()
  {
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	if($this->getRequest()->isPost()){
  		$search = $this->getRequest()->getPost();
  	}
@@ -936,7 +931,7 @@ function rptLoanTrasferzoneAction(){//release all loan
 	 	$this->view->frm_search = $frm;
  }
  function rptIncomestatementAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  		
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
@@ -1070,7 +1065,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$this->view->frm_search = $fm;
  }
  function rptOutstandingvillageAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	if($this->getRequest()->isPost()){
  		$search = $this->getRequest()->getPost();
  	}else {
@@ -1094,11 +1089,11 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$this->view->outstandloan = $rs;
  }
  function chartdisburseAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	$this->view->result = $db->getLoandisburseByMonth();
  }
  function rptParloanAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	if($this->getRequest()->isPost()){
@@ -1126,7 +1121,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$this->view->classified_loan = $db->ClassifiedLoan();
  }
  function rptParbycoAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	if($this->getRequest()->isPost()){
@@ -1152,7 +1147,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  function contractLetterAction(){
  		$db  = new Report_Model_DbTable_DbLnClient();
  		$id =$this->getRequest()->getParam('id');
- 		$db  = new Report_Model_DbTable_DbLoan();
+ 		$db  = new Report_Model_DbTable_Dbpawn();
  		$row = $db->getContractinfo($id);
  		$this->view->loaninfo = $row ;
  		$client_id = $row['client_id'];
@@ -1160,7 +1155,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  		//  		print_r($db->getCalleteralByClient($id));
  }
  function rptDailypaymentAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	if($this->getRequest()->isPost()){
@@ -1190,7 +1185,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$this->view->frm_search = $frm;
  }
  function rptLoanareaAction(){
- 	$db  = new Report_Model_DbTable_DbloanCollect();
+ 	$db  = new Report_Model_DbTable_DbpawnCollect();
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  	if($this->getRequest()->isPost()){
@@ -1215,7 +1210,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$this->view->frm_loan = $frm;
  }
  function rptSavingdiburseAction(){//release all loan
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  	if($this->getRequest()->isPost()){
  		$search = $this->getRequest()->getPost();
  	}
@@ -1242,7 +1237,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  }
  function rptProfitcoAction(){
- 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$db  = new Report_Model_DbTable_Dbpawn();
  
  	if($this->getRequest()->isPost()){
  		$search = $this->getRequest()->getPost();

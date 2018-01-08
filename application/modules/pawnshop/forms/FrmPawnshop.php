@@ -95,7 +95,8 @@ public function init()
 				'dojoType'=>'dijit.form.DateTextBox',
 				'required' =>'true',
 				'class'=>'fullside',
-				'onchange'=>'checkReleaseDate();'
+				'onchange'=>'checkReleaseDate();',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
 		));
 		$s_date = date('Y-m-d');
 		$_releasedate->setValue($s_date);
@@ -106,6 +107,7 @@ public function init()
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 				'required' =>'true',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
 		));
 		
 		$term_opt = $db->getVewOptoinTypeByType(14,1,3,1);
@@ -200,8 +202,9 @@ public function init()
 		*/
 		$_display = new Zend_Dojo_Form_Element_TextBox("description");
 		$_display->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
-				'class'=>'fullside',
+				'dojoType'=>'dijit.form.Textarea',
+				'class'=>'fullside height200',
+				'rows'=>'200'
 		));
 
 		$withdrawal = new Zend_Dojo_Form_Element_TextBox("withdrawal");
@@ -221,7 +224,8 @@ public function init()
 				'dojoType'=>'dijit.form.DateTextBox',
 				'required' =>'true',
 				'class'=>'fullside',
-				'onchange'=>'calCulateEndDate();'
+				'onchange'=>'calCulateEndDate();',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
 		));
 		
 		$_instalment_date = new Zend_Form_Element_Hidden("instalment_date");

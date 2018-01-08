@@ -63,7 +63,7 @@ function round_up($value, $places)
     		$where = " status=1 AND is_completed=0 AND loan_id =".$loan_id;
     		$this->delete($where);
     		
-    		$sql="  SELECT COUNT(id) FROM ln_loan_detail WHERE loan_id= ".$loan_id;
+    		$sql="SELECT COUNT(id) FROM ln_loan_detail WHERE status=1 AND loan_id= ".$loan_id;
     		$start_id = $db->fetchOne($sql);
     		
     		$sql="  SELECT co_id FROM ln_loan WHERE id= ".$loan_id." limit 1";

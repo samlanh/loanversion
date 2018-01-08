@@ -46,6 +46,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
   	    CONCAT( l.total_duration,' ',(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =l.pay_term )),
         (SELECT zone_name FROM `ln_zone` WHERE zone_id=l.zone_id LIMIT 1) AS zone_name,
         (SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_name,
+        l.date_release,
          l.status,'បោះពុម្ភ','Click Here'  FROM `ln_loan` AS l
 				WHERE loan_type =1 ";
     	if(!empty($search['adv_search'])){
@@ -182,29 +183,27 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
+    		
     		$this->_name='ln_loan';
     		$arr = array(
     				'loan_number'=>$data['loan_code']);
-    		$where=" member_id =".$data['id'];
+    		$where=" id =".$data['id'];
     		$this->update($arr, $where);
     		
     		$tranlist = explode(',',$data['indentity']);
-			$this->_name='ln_loanmember_funddetail';
+			$this->_name='ln_loan_detail';
     		foreach ($tranlist as $i) {
     			$arr = array(
     					'is_completed'=>$data['payment_option'.$i],
-    					'date_payment'=>$data['datepayment_'.$i],
-    					'principal_permonth'=>$data['principal_'.$i],
+//     					'date_payment'=>$data['datepayment_'.$i],
+//     					'principal_permonth'=>$data['principal_'.$i],
     					'principle_after'=>$data['principal_after'.$i],
-    					'total_interest'=>$data['interest_'.$i],
+//     					'total_interest'=>$data['interest_'.$i],
     					'total_interest_after'=>$data['interest_after'.$i],
-    					'total_payment'=>$data['interest_after'.$i]+$data['principal_after'.$i]+$data['saving_amount'.$i],
+//     					'total_payment'=>$data['interest_after'.$i]+$data['principal_after'.$i]+$data['saving_amount'.$i],
     					'total_payment_after'=>$data['interest_after'.$i]+$data['principal_after'.$i]+$data['saving_amount'.$i],
-    					'saving_amount'=>$data['saving_amount'.$i]
     					);
     			$where="id = ".$data['fundid_'.$i];
-//     			echo $data['fundid_'.$i];
-//     			exit();
     			$this->update($arr, $where);
     		}
     		$db->commit();
@@ -1245,14 +1244,11 @@ function getLoanPaymentByLoanNumber($data){
     }
 function getLoanLevelByClient($client_id,$type){
     	$db  = $this->getAdapter();
-    	if($type==1){
-    		$sql = " SELECT COUNT(id) FROM `ln_loan` WHERE status =1 AND customer_id = $client_id LIMIT 1 ";
-    	}else{
-    		$sql = "SELECT COUNT(id) FROM `ln_loan` WHERE status =1 AND customer_id = $client_id  LIMIT 1";
-    	} 
+    	$sql = " SELECT level FROM `ln_loan` WHERE status =1 AND customer_id = $client_id LIMIT 1 ";
     	$level  = $db->fetchOne($sql);
     	return ($level+1);
-    }
+}
+
    
     public function getLoanInfo($id){//when repayment shedule
     	$db=$this->getAdapter();

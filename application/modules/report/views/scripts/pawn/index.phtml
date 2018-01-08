@@ -1,0 +1,44 @@
+  <?php 
+	  $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	  $session_user=new Zend_Session_Namespace('authloan');
+	  $url_report=$session_user->report_url;
+  ?>
+  <style>
+  ul.link-rpt li a {
+	color: #3A3939;
+    height: 50px;
+  	width:180px;
+    display: block;
+    padding: 10px;
+    background: #D6D6D6;
+  	font-family: 'Kh Battambang','Khmer Battambang' !important;
+  	text-align: center;
+  	word-wrap: break-word;
+  } 
+    ul.link-rpt li {
+	float:left; margin:10px;
+    list-style: none;
+    border:1px solid #B1B0AF;
+    word-wrap: break-word;
+    
+  } 
+  .dijitReset, .dijitInline  ,.dijitButton {
+	width: 200px !important;
+  }
+  </style>
+  <div style="background:#ccc; width: 100%;">
+  	<ul class="link-rpt">
+  	<?php
+  	$db_user=new Application_Model_DbTable_DbUsers();
+  	$url_report=$db_user->getAclReport(1,'pawn');
+  	 if(!empty($url_report)){
+  		foreach($url_report as $rs){
+  			if($rs['action']=='rpt-paymentschedules' || $rs['action']=='index'){continue;}
+  		?>
+  		<li><a href="<?php echo $this->url(array("module"=>'report',"controller"=>'pawn','action'=>$rs['action']));?>"><?php echo $tr->translate(strtoupper($rs['label']));?></a></li>
+  		<?php 
+		}	
+	}	?>
+  	</ul>
+  </div>
+  <div style="clear: both;"></div>
