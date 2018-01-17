@@ -532,6 +532,61 @@ public function addILPayment($data){
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }
+    function deleteRecord($id){
+    	$db = $this->getAdapter();
+    	$db->beginTransaction();
+    	try{
+    		$sql = "SELECT
+    		crm.loan_id
+    		FROM ln_client_receipt_money AS crm
+    		WHERE  crm.`id` = $id ";
+    		$loan_id = $db->fetchOne($sql);
+    
+    		$arr = array('is_completed'=>0);
+    		$this->_name="ln_loan";
+    		$where = $db->quoteInto("id=?", $loan_id);
+    		$this->update($arr, $where);
+    		
+    		$sql = "SELECT
+    		crmd.*
+    		FROM
+    		`ln_client_receipt_money_detail` AS crmd,
+    		ln_client_receipt_money as crm
+    		WHERE
+    		crm.id = crmd.`receipt_id`
+    		and crmd.`receipt_id` = $id ";
+    		$receipt_money_detail = $db->fetchAll($sql);
+    
+    		$this->_name = "ln_loan_detail";
+    		if(!empty($receipt_money_detail)){
+    			foreach ($receipt_money_detail as $rs){
+    				$arra = array(
+    						'outstanding_after'=>$rs['capital'],
+    						'principle_after'=>$rs['principal_permonth'],
+    						'total_interest_after'=>$rs['total_interest'],
+    						'total_payment_after'=>$rs['total_payment'],
+    						'is_completed'=>0,
+    						'status'=>1,
+    				);
+    				$where = "id=".$rs['lfd_id'];
+    				$this->update($arra, $where);
+    			}
+    		}
+    
+    		$this->_name = "ln_client_receipt_money";
+    		$where = " id = $id ";
+    		$this->delete($where);
+    
+    		$this->_name = "ln_client_receipt_money_detail";
+    		$where = " receipt_id = $id ";
+    		$this->delete($where);
+    		$db->commit();
+    
+    	}catch (Exception $e){
+    		$db->rollBack();
+    
+    	}
+    }
     function getRemainSchedule($loan_id){
     	$db = $this->getAdapter();
     	$sql="SELECT *
@@ -2088,51 +2143,5 @@ public function cancelIlPayment($data){
 			return $db->fetchAll($sql);
 		}
 	}
-	
-	function deleteRecord($id){
-		$db = $this->getAdapter();
-	    $db->beginTransaction();
-	    try{
-		$sql = "SELECT 
-					crmd.*
-				FROM 
-					`ln_client_receipt_money_detail` AS crmd,
-					ln_client_receipt_money as crm 
-				WHERE 
-					crm.id = crmd.`receipt_id` 
-					and crmd.`receipt_id` = $id ";
-		$receipt_money_detail = $db->fetchAll($sql);
-		
-		$this->_name = "ln_loan_detail";
-		if(!empty($receipt_money_detail)){
-			foreach ($receipt_money_detail as $rs){
-			$arra = array(
-					'outstanding_after'=>$rs['capital'],
-					'principle_after'=>$rs['principal_permonth'],
-					'total_interest_after'=>$rs['total_interest'],
-					'total_payment_after'=>$rs['total_payment'],
-					'is_completed'=>0,
-					'status'=>1,
-					);
-			$where = "id=".$rs['lfd_id'];
-			$this->update($arra, $where);
-			}
-		}
-		
-		$this->_name = "ln_client_receipt_money";
-		$where = " id = $id ";
-		$this->delete($where);
-		
-		$this->_name = "ln_client_receipt_money_detail";
-		$where = " receipt_id = $id ";
-		$this->delete($where);
-		$db->commit();
-		
-	    }catch (Exception $e){
-	    	$db->rollBack();
-	    	
-	    }
-	}
-	
 }
 

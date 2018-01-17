@@ -236,22 +236,22 @@ table { page-break-inside:auto }
                <?php if(!empty($this->loanlate_list))foreach ($this->loanlate_list as $index => $rs){ ?>
                		<?php $end_dat = $this->list_end_dates;
 	               			$total_pay=($rs['principle_after']+$rs['total_interest_after']);
-	               			if ($rs['last_pay_date']==null or $rs['last_pay_date']==""){
+// 	               			if ($rs['last_pay_date']==null or $rs['last_pay_date']==""){
 	               				$total_day=strtotime($end_dat)-strtotime($rs['date_payment']);
 	               				$amount_lateday=$total_day/(60*60*24)-$free_day;
 	               				$total_late_day=$total_day/(60*60*24);
-	               			}else {
-	               				$total_day=strtotime($end_dat)-strtotime($rs['last_pay_date']);
-	               				$total_late_day=$total_day/(60*60*24);
-	               				$amount_lateday=$total_day/(60*60*24);
-	               			}
+// 	               			}else {
+// 	               				$total_day=strtotime($end_dat)-strtotime($rs['last_pay_date']);
+// 	               				$total_late_day=$total_day/(60*60*24);
+// 	               				$amount_lateday=$total_day/(60*60*24);
+// 	               			}
 	               			$currentlate =$total_day/(60*60*24);
 	               			$pay_term=$rs['collect_typeterm'];
 	               			if($amount_lateday<0){
 	               				$amount_lateday=0;
 	               				$result=0;
 	               			}
-	               			else {
+// 	               			else {
 	               				$total_late=($rs['principle_after']+$rs['total_interest_after']);
 	               				if ($pay_term==1){
 	               					$result=$total_pay*($interest_penalty*($rs['interest_rate']/100)/1)*($amount_lateday);
@@ -262,7 +262,7 @@ table { page-break-inside:auto }
 	               				if ($pay_term==3){
 	               					$result=$total_pay*($interest_penalty*(($rs['interest_rate']/100)/30))*($amount_lateday);
 	               				}
-	               			}
+// 	               			}
 	               			$penelize = $db->roundhundred($rs['penelize']+$result, $rs['curr_type']);
 	               			$total_payment =$rs['principle_after']+$rs['total_interest_after'];
                			?>

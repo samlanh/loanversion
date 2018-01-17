@@ -89,14 +89,31 @@ $free_day=$key_code['value'];
     <tr>
     	<td id="exportExcel">
             <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
+                <?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;
+                	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;
+                	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;
+                	 $pene_amr=0; $pene_amb=0;$pene_amd=0;
+                	 $serv_amr=0;$serv_amb=0;$serv_amd=0;
+                	 $result=0;$total_late_day=0;$co_id=0;
+                ?>
+                <?php $i=1;?>
+               <?php if(!empty($this->loanlate_list))foreach ($this->loanlate_list as $index => $rs){ ?>
+                <?php 
+                if($co_id!=$rs['co_id']){
+                	$num=1;
+                ?>
+                <?php if($index>0){?>
+                
                 <thead>
+                 <tr>
+                	<td colspan="13" class="style" style="background:#8494B5;">&nbsp;<span style="text-align:center;"><?php echo $tr->translate("CO_NAME");?> </span><?php  echo $rs['co_code'].' , '.$rs['co_name']; ?></td>
+                </tr>
                  <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 24px;font-size:9px; font-family: 'Khmer OS Content';white-space: nowrap;">
                     <td><?php echo $tr->translate("NUM");?></td>
                     <td><?php echo $tr->translate("BRANCH_NAME");?></td>
                     <td><?php echo $tr->translate("LOAN_NO");?></td>
                     <td><?php echo $tr->translate("CLIENT_NUM");?></td>
                     <td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-                    <td><?php echo $tr->translate("CO_NAME");?></td>
                     <td><?php echo $tr->translate("INTEREST RATE");?></td>
                     <td><?php echo $tr->translate("LOAN_PERIOD");?></td>
                     <td><?php echo $tr->translate("OS_AMOUNT");?></td>
@@ -107,23 +124,18 @@ $free_day=$key_code['value'];
                     <td><?php echo $tr->translate("PAY_DATE");?></td>
                 </tr>
                 </thead>
-                <?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;
-                	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;
-                	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;
-                	 $pene_amr=0; $pene_amb=0;$pene_amd=0;
-                	 $serv_amr=0;$serv_amb=0;$serv_amd=0;
-                	 $result=0;$total_late_day=0;
+                 </table>
+                    <br />
+                <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
+                <?php }}
+                $co_id=$rs['co_id'];
                 ?>
-                <?php $i=1;?>
-               <?php if(!empty($this->loanlate_list))foreach ($this->loanlate_list as $index => $rs){ ?>
-               
                 <tr class="style1" style=" line-height: 24px; font-size:12px; font-family: 'Khmer OS Content'; white-space: nowrap;">
                		<td style="text-align: center;"><?php echo $i++;?></td>
                		<td>&nbsp;<?php echo $rs["branch_namekh"];?>&nbsp;</td>
                		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
                		<td>&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>
                		<td style="white-space: nowrap;">&nbsp;<?php echo $rs["name_kh"];?>&nbsp;</td>
-               		<td style="white-space: nowrap;">&nbsp;<?php echo $rs["co_name"];?>&nbsp;</td>
                		<td>&nbsp;<?php echo $rs["interest_rate"];?>&nbsp;</td>
                		<td>&nbsp;<?php echo $rs["total_duration"]." ".$rs["Term Borrow"];?>&nbsp;</td>
                		<td align="right" style="white-space: nowrap;">&nbsp;<?php echo number_format($rs["principle_after"],2).' '.$rs['currency_type'];?>&nbsp;</td>
@@ -131,15 +143,15 @@ $free_day=$key_code['value'];
                		<td align="right" style="white-space: nowrap;">&nbsp;
                			<?php $end_dat = $this->list_end_date;
 	               			$total_pay=($rs['principle_after']+$rs['total_interest_after']);
-	               			if ($rs['last_pay_date']==null or $rs['last_pay_date']==""){
+// 	               			if ($rs['last_pay_date']==null or $rs['last_pay_date']==""){
 	               				$total_day=strtotime($end_dat)-strtotime($rs['date_payment']);
 	               				$amount_lateday=$total_day/(60*60*24)-$free_day;
 	               				$total_late_day=$total_day/(60*60*24);
-	               			}else {
-	               				$total_day=strtotime($end_dat)-strtotime($rs['last_pay_date']);
-	               				$total_late_day=$total_day/(60*60*24);
-	               				$amount_lateday=$total_day/(60*60*24);
-	               			}
+// 	               			}else {
+// 	               				$total_day=strtotime($end_dat)-strtotime($rs['last_pay_date']);
+// 	               				$total_late_day=$total_day/(60*60*24);
+// 	               				$amount_lateday=$total_day/(60*60*24);
+// 	               			}
 	               			
 	               			$pay_term=$rs['collect_typeterm'];
 	               			if($amount_lateday<0){
@@ -166,7 +178,6 @@ $free_day=$key_code['value'];
                		<td align="right" style="white-space: nowrap;">&nbsp;<?php echo number_format($total_payment,2).' '.$rs['currency_type'];?>&nbsp;</td>
                		<td align="center" style="background: rgba(255, 0, 0, 0.65);">&nbsp;&nbsp;<?php echo $total_late_day." Days";?> &nbsp;</td>
                		<td align="center">&nbsp;&nbsp;<?php echo date_format(date_create($rs["date_payment"]),'d-m-Y');?>&nbsp;</td>
-               		<!--<td align="center" style="width:100px;">&nbsp;<?php //echo  str_replace(' ', '', $rs["time_collect"]);?>&nbsp;</td> -->
                 </tr>
                 
                 <?php 

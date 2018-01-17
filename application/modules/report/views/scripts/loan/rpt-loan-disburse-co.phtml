@@ -21,10 +21,10 @@ dojo.require("dijit.form.DateTextBox");
 			<td><?php echo $filter->getElement('start_date');?></td>
 			<td><?php echo $filter->getElement('end_date');?></td>
 			<td>
-				<select name="status" id="status" dojoType="dijit.form.FilteringSelect" >
-					<option value="-1" <?php if($this->statusopt==-1){echo "selected";}?> >ជ្រើសរើសការបង់ប្រាក់</option>
-					<option value="1" <?php if($this->statusopt==1){echo "selected";}?> >បានបង់ដាច់</option>
-					<option value="0" <?php if($this->statusopt==0){echo "selected";}?> >មិនទាន់បង់ដាច់</option>
+				<select class='fullside' name="status" id="status" dojoType="dijit.form.FilteringSelect">
+					<option value="-1" <?php if($this->statusopt==-1){echo "selected";}?>>ជ្រើសរើសការបង់ប្រាក់</option>
+					<option value="1" <?php if($this->statusopt==1){echo "selected";}?>>បានបង់ដាច់</option>
+					<option value="0" <?php if($this->statusopt==0){echo "selected";}?>>មិនទាន់បង់ដាច់</option>
 				</select>
 			</td>
 			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
@@ -33,7 +33,7 @@ dojo.require("dijit.form.DateTextBox");
 	</form>
 <style>
 .style{
-	line-height: 20px;font-size: 10px !important;
+	line-height: 20px;font-size: 12px !important;
 	font-family: 'Khmer OS Battambang';
 }
 ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold; list-style-type: none;}
@@ -58,7 +58,7 @@ table { page-break-inside:auto }
                 	<td width="60%" valign="top">
                 		<ul>
                 			<li style="list-style:none; text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-                			<li style="list-style:none;text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LOAN_DISBURSE_BY_CO");?></li>
+                			<li style="list-style:none;text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LOAN_DISBURSE_BY_CO");?></li>
                 			<li style="list-style:none;text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
                 		</ul>
                     </td>
@@ -82,7 +82,7 @@ table { page-break-inside:auto }
     </tr>
     <tr>
     	<td>
-            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:10px;" width="100%" cellspacing="0">
+            <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                    <?php  
                     $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
                     $co_id='';$other_fee_r=0; $other_fee_b=0; $other_fee_d=0;$total_r=0;$total_b=0;$total_d=0;
@@ -92,7 +92,6 @@ table { page-break-inside:auto }
                ?>
                <?php if($row['curr_type']==1){
                	$all_total_r=$all_total_r+$row["total_capital"];
-               
                	$tcount_lr=$tcount_lr+1;
                	
                }elseif($row['curr_type']==2){
@@ -101,7 +100,6 @@ table { page-break-inside:auto }
                		$tcount_ld=$tcount_ld+1;
                }else{
                		$all_total_b=$all_total_b+$row["total_capital"];
-               		
                		$tcount_lb=$tcount_lb+1;
                };
                ?>
@@ -110,19 +108,19 @@ table { page-break-inside:auto }
                 	$num=1;
                 ?>
                 <?php if($key>0){?>
-               <thead>
+               
                 <tr>
                 	<td style="background: #8494B5;" class="style" colspan="11">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
                 </tr>
-	            <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:10px; padding:5px 0px;">
-	                    <td style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>
-	                    <td style="padding:5px 0px;">&nbsp;​<?php echo $tr->translate("ចំនួនកម្ចី");?>&nbsp;</td>
-	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_AMOUNT");?>&nbsp;</td>
-	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_FEE");?>&nbsp;</td>
-	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("OTHER_FEE");?>&nbsp;</td>
-	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
+	            <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px;">
+                    <td style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>
+                    <td style="padding:5px 0px;">&nbsp;​<?php echo $tr->translate("ចំនួនកម្ចី");?>&nbsp;</td>
+                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_AMOUNT");?>&nbsp;</td>
+                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_FEE");?>&nbsp;</td>
+                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("OTHER_FEE");?>&nbsp;</td>
+                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
 	            </tr>
-	            </thead>
+	           
                 <tr class="style" style="font-weight:bold; line-height: 24px;">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
                     <td>&nbsp;<?php echo $count_ld;?>&nbsp;</td>
@@ -149,17 +147,18 @@ table { page-break-inside:auto }
                 </tr>
                 </table>
                     <br />
-                <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:10px;" width="100%" cellspacing="0">
+                <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                 
                 <?php  $count_ld=0;$count_lr=0;$count_lb=0; } 
 	                $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
 	                $other_fee_r=0; $other_fee_b=0; $other_fee_d=0;$total_r=0;$total_b=0;$total_d=0;
                 ?>
              <?php ?>
+                <thead>
                 <tr>
                 	<td colspan="16" class="style" style="background:#8494B5;">&nbsp;<span style="text-align:center;"><?php //echo $tr->translate("CO_NAME");?> </span><?php  echo $row['co_code'].' , '.$row['co_name'].' - '.$row['co_name_en'].' '//.($row['sex']=1?'ភេទ ប្រុស':'ភេទ  ស្រី'); ?></td>
                 </tr>
-                 <tr bgcolor="#ccc" align="center" class="style" style="font-weight:bold; line-height: 18px; font-size:10px;white-space:nowrap;">
+                 <tr bgcolor="#ccc" align="center" class="style" style="font-weight:bold; line-height: 18px; font-size:12px;white-space:nowrap;">
                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
                    <td>&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
                    <td>&nbsp;<?php echo $tr->translate("LOAN_NO");?>&nbsp;</td>
@@ -167,22 +166,19 @@ table { page-break-inside:auto }
                    <td>&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
                    <td>&nbsp;<?php echo $tr->translate("LOAN_LEVEL");?>&nbsp;</td>
                    <td>&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</td>
-                   <td>&nbsp;<?php echo $tr->translate("INTEREST_RATE");?>&nbsp;</td>
+                   <td>&nbsp;<?php echo $tr->translate("INTEREST RATE");?>%&nbsp;</td>
                    <td>&nbsp;<?php echo $tr->translate("AMIN_FEE");?>&nbsp;</td>
-                   <td><?php echo $tr->translate("ADMIN_FEE");?>%</td>
-                   <td>&nbsp;<?php echo $tr->translate("OTHER_FEE");?>&nbsp;</td>
                    <td>&nbsp;<?php echo $tr->translate("LOAN_PERIOD");?>&nbsp;</td>
                    <td>&nbsp;<?php echo $tr->translate("RELEASED_DATE");?>&nbsp;</td>
                    <td>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</td>
                    <td>&nbsp;<?php echo $tr->translate("LOAN_TYPE");?>&nbsp;</td>
-                   <td>&nbsp;<?php echo $tr->translate("FOR_LOAN_TYPE");?>&nbsp;</td>  
                 </tr>
+                </thead>
                 <?php }
-                
+              
                 $co_id = $row['co_id'];
                 ?>
                <?php 
-  
                if($row['curr_type']==1){
                		$amt_r = $amt_r+$row['total_capital'];
                		$amn_r = $amn_r+$row['admin_fee'];
@@ -212,7 +208,7 @@ table { page-break-inside:auto }
                ?>
 					<tr align="center" class="hover">
 						<td>&nbsp;<?php echo $num; $num++;?>&nbsp;</td>
-						<td>&nbsp;<?php echo $row['branch_name'];?>&nbsp;</td>
+						<td style="white-space: nowrap;">&nbsp;<?php echo $row['branch_name'];?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 						<td align="left">&nbsp;<?php echo $row['client_number']; ?>&nbsp;</td>
 						<td align="left">&nbsp;<?php echo $row['client_khname']; ?>&nbsp;</td>
@@ -220,13 +216,10 @@ table { page-break-inside:auto }
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 						<td >&nbsp;<?php echo $row['interest_rate']; ?>&nbsp;</td>
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['admin_fee'],2).' '.$row['currency_type']?>&nbsp;</td>
-						<td style="white-space:nowrap;">&nbsp;<?php echo ((empty($row['admin_fee'])?0:$row['admin_fee'])/$row['total_capital']*100)."%"; ?>&nbsp;</td>
-						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['other_fee'],2).' '.$row['currency_type']?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['total_duration'].$row['name_en'];?>&nbsp;</td>
 						<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_release']));?>&nbsp;</td>
 						<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_line']));?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['loan_type'];?>&nbsp;</td>
-						<td>&nbsp;<?php echo ($row['for_loan_type']==1)?"indi":"Group";?>&nbsp;</td>
 						
 					</tr>
 				<?php } //echo $a;?>
@@ -241,7 +234,7 @@ table { page-break-inside:auto }
 	                    <td style="padding:5px 0px;"colspan="2">&nbsp;<?php echo $tr->translate("OTHER_FEE");?>&nbsp;</td>
 	                    <td style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
 	                </tr>
-                 <tr class="style" style=" font-weight:bold;line-height: 24px; font-size:10px;font-family: 'Khmer OS Content';">
+                 <tr class="style" style=" font-weight:bold;line-height: 24px; font-size:12px;font-family: 'Khmer OS Content';">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($count_ld,2);?>&nbsp;</td>
                     <td colspan="2">&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
@@ -249,7 +242,7 @@ table { page-break-inside:auto }
                     <td colspan="2">&nbsp;<?php echo number_format($other_fee_d,2);?>&nbsp;</td>
 					<td colspan="2">&nbsp;<?php echo number_format($total_d,2);?>&nbsp;</td> 
                 </tr>
-                 <tr class="style" style="font-weight:bold; line-height: 24px; font-size:10px;font-family: 'Khmer OS Content';">
+                 <tr class="style" style="font-weight:bold; line-height: 24px; font-size:12px;font-family: 'Khmer OS Content';">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($count_lr,2);?>&nbsp;</td>
                     <td colspan="2">&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
@@ -257,7 +250,7 @@ table { page-break-inside:auto }
                   	<td colspan="2">&nbsp;<?php echo number_format($other_fee_r,2);?>&nbsp;</td>
                   	<td colspan="2">&nbsp;<?php echo number_format($other_fee_r,2);?>&nbsp;</td>
                 </tr>
-                 <tr class="style" style=" font-weight:bold;line-height: 24px; font-size:10px;font-family: 'Khmer OS Content';">
+                 <tr class="style" style=" font-weight:bold;line-height: 24px; font-size:12px;font-family: 'Khmer OS Content';">
                    <td colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
                    <td>&nbsp;<?php echo number_format($count_lb,2);?>&nbsp;</td>
                    <td colspan="2">&nbsp;<?php echo number_format($amt_b,2);?>&nbsp;</td>
@@ -270,23 +263,23 @@ table { page-break-inside:auto }
     	</td>
     </tr>
      	<tr><td>
-              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:10px;" width="100%" cellspacing="0">
-              		 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:10px; " >
+              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
+              		 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:12px; " >
 	                    <td  style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</td>
 	                    <td style="padding:5px 0px;">&nbsp;​<?php echo $tr->translate("ចំនួនកម្ចី");?>&nbsp;</td>
 	                    <td  style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
 	                </tr>
-	                <tr class="style" style="font-weight:bold; line-height: 24px; font-size:10px;">
+	                <tr class="style" style="font-weight:bold; line-height: 24px; font-size:12px;">
                     	<td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
                     	<td>&nbsp;<?php echo ($tcount_ld);?>&nbsp;</td>
                    		 <td colspan="2">&nbsp;<?php echo number_format($all_total_d,2);?>&nbsp;</td>
                 	</tr>
-                	<tr class="style" style="font-weight:bold; line-height: 24px; font-size:10px;">
+                	<tr class="style" style="font-weight:bold; line-height: 24px; font-size:12px;">
                     	<td colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
                     	<td>&nbsp;<?php echo ($tcount_lr);?>&nbsp;</td>
                    		<td colspan="2">&nbsp;<?php echo number_format($all_total_r,2);?>&nbsp;</td>
                 	</tr>
-                	<tr class="style" style="font-weight:bold; line-height: 24px; font-size:10px;">
+                	<tr class="style" style="font-weight:bold; line-height: 24px; font-size:12px;">
                     	<td colspan="2">&nbsp;<?php echo $tr->translate("BATH");?></td>
                     	<td>&nbsp;<?php echo $tcount_lb;?>&nbsp;</td>
                    		<td colspan="2">&nbsp;<?php echo number_format($all_total_b,2);?>&nbsp;</td>

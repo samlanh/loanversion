@@ -177,7 +177,7 @@
 </style>
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'កាលវិភាគត្រូវបង់ប្រាក់', onCancel:hideDialog" id="lbl_schedule" style="width:1000px">
 		<div class="print" style="text-align:center;">
-		<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='save_close'  value='saveclose' dojoType="dijit.form.Button"
+		<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='save_close' id='save_closereceipt'  value='saveclose' dojoType="dijit.form.Button"
 					 iconClass="dijitIconDelete"/>
 		<input type="button" onclick="showReceipt();" label="<?php echo $tr->translate("SAVE_PRINT");?>"  name='saveprint' value='saveprint' dojoType="dijit.form.Button"
 		iconClass="dijitIconNewTask"/>
@@ -545,18 +545,17 @@ function submitDataClose(type){
 			alert('កម្ចីជាលុយរៀល ត្រូវតែធំជា 1ម៉ឺនរៀល!');
         }
     }
-    alert("here");
 	if(dijit.byId('frm_add_tran').validate()) {
 		dijit.byId('save_close').set('disabled',true);
-		//dijit.byId('savenew').set('disabled',true);
-		var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'pawnshop','action'=>'add')); ?>';
+		dijit.byId('save_closereceipt').set('disabled',true);
+		var url_submit = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'addloan')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	
 			form: dojo.byId("frm_add_tran"),	
 			handleAs:"json",	    
 			load: function(data) {
 				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-				window.location.href ="<?php echo $this->baseUrl();?>/pawnshop/index";
+				window.location.href ="<?php echo $this->baseUrl();?>/pawnshop/index/add";
 			},
 			error: function(e) {
 				alert(e);
@@ -642,6 +641,8 @@ function getDayName(day){
 	    window.frames["print_frame"].window.focus();
 	    window.frames["print_frame"].window.print();
 	    hideDialog();
+	    dijit.byId("frm_add_tran").submit();
+	    
 	}
 </script>
 <script type="text/javascript">

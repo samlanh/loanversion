@@ -246,7 +246,8 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
    		$end_date = $search['end_date'];
       	$db = $this->getAdapter();
 		$sql=" SELECT 
-				  CONCAT(`co_firstname`,' ',co.`co_lastname`) AS co_name ,
+				  `co_khname` AS co_name ,
+				  co_code,
 				  b.branch_namekh,
 				  co.`co_id`,
 				  c.`client_number`,
@@ -313,7 +314,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['branch_id']>0){
       		$where.=" AND l.`branch_id` = ".$search['branch_id'];
       	}
-        $group_by = " GROUP BY l.`id` ORDER BY d.`date_payment` ASC";
+        $group_by = " GROUP BY l.`id` ORDER BY co.`co_id` ASC ,d.`date_payment` ASC";
         return $db->fetchAll($sql.$where.$group_by);
       }
       
