@@ -533,6 +533,7 @@ public function addILPayment($data){
     	}
     }
     function deleteRecord($id){
+    	
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
@@ -541,12 +542,14 @@ public function addILPayment($data){
     		FROM ln_client_receipt_money AS crm
     		WHERE  crm.`id` = $id ";
     		$loan_id = $db->fetchOne($sql);
-    
-    		$arr = array('is_completed'=>0);
+
+    		$arr = array(
+			'is_completed'=>0
+			);
     		$this->_name="ln_loan";
-    		$where = $db->quoteInto("id=?", $loan_id);
+    		$where="id=".$loan_id;
     		$this->update($arr, $where);
-    		
+    		   
     		$sql = "SELECT
     		crmd.*
     		FROM
@@ -556,7 +559,7 @@ public function addILPayment($data){
     		crm.id = crmd.`receipt_id`
     		and crmd.`receipt_id` = $id ";
     		$receipt_money_detail = $db->fetchAll($sql);
-    
+
     		$this->_name = "ln_loan_detail";
     		if(!empty($receipt_money_detail)){
     			foreach ($receipt_money_detail as $rs){
@@ -583,6 +586,7 @@ public function addILPayment($data){
     		$db->commit();
     
     	}catch (Exception $e){
+			
     		$db->rollBack();
     
     	}
