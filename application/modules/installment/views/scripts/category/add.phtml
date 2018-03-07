@@ -1,0 +1,54 @@
+<?php 
+     $url_save = $this->url(array('module'=>'stock','controller'=>'productcategory','action'=>'add'));
+     $this->tr=Application_Form_FrmLanguages::getCurrentlanguage();
+     $status_view=$this->status_view;
+     $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+?>
+<title><?php echo $this->tr->translate("PRODUCT_CATEGORY")?></title>
+<form id="add_province" action="" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
+	 <script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+               dijit.byId("save_new").attr("disabled",true);
+				return true;
+			} else {
+				return false;
+			}
+	</script>
+	<table cellspacing="20" width="40%" style="margin: 0 auto;">
+		<tr>
+			<td>
+				<fieldset>
+					<legend align="center"><strong><?php echo $tr->translate("PRODUCT_CATEGORY");?></strong></legend>
+					<table cellspacing="20" width="100%" >
+						<tr>
+							<td align="center" valign="top">
+								<table style="margin: 0 auto; width:100%;" cellspacing="10">
+									<tr>
+										<td><?php echo $tr->translate("PRODUCT_CATEGORY");?></td>
+										<td><input dojoType="dijit.form.ValidationTextBox" class="fullside" id="cat_name" name="cat_name" value="" type="text" required="required" ></td>
+									</tr>
+									<tr>
+										<td><?php echo $tr->translate("STATUS");?></td>
+										<td><select name="status" id="status" dojoType="dijit.form.FilteringSelect" required="true" missingMessage="Invalid Module!" class="fullside">
+											        <option value="1"><?php echo $tr->translate("ACTIVE");?></option>
+											         <option value="0"><?php echo $tr->translate("DACTIVE");?></option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" align="center">
+											<input type="reset" value="Clear" label="<?php echo $tr->translate("CLEAR");?>" dojoType="dijit.form.Button" iconClass="dijitIconClear"/>
+										    <input type="submit" value="save_new" name="save_new" id="save_new" label="<?php echo $tr->translate("SAVENEW");?>" dojoType="dijit.form.Button" 
+												iconClass="dijitEditorIcon dijitEditorIconSave" />
+										</td>
+									</tr>					
+								</table>
+							</td>							
+						</tr>
+					</table>	
+				</fieldset>
+			</td>			
+		</tr>
+		
+	</table>	
+</form> 

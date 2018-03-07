@@ -1,0 +1,32 @@
+<?php
+$request = Zend_Controller_Front::getInstance ()->getRequest ();
+
+$tr = Application_Form_FrmLanguages::getCurrentlanguage ();
+echo $this->headTitle($tr->translate('PURCHASE'));
+$frm = $this->form_search;
+?>
+<title><?php echo $tr->translate("CATEGORY");?></title>
+<meta charset="utf-8">
+<form
+	action="<?php echo $this->url(array('module'=>'stock','controller'=>'purchase','action'=>'index')); ?>"
+	dojoType="dijit.form.Form" method="post">
+	<table style="width: 100%">
+<!-- 		<tr> -->
+			<td><?php //echo $frm->getElement("title");?></td>
+			<td><?php //echo $frm->getElement("supplier_id");?></td>
+			<td><?php //echo $frm->getElement("product");?></td>
+			<td><?php //echo $frm->getElement("start_date");?></td>
+			<td><?php //echo $frm->getElement("end_date");?></td>
+			<td> <?php //echo $frm->getElement("status_search");?></td>
+<!-- 			<td> -->
+<button iconclass="dijitIconSearch" dojoType="dijit.form.Button"  
+	showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+<!-- 			</td> -->
+<!-- 		</tr> -->
+<!-- 	</table> -->
+</form>
+<?php
+echo $this->list;
+?>
+
+ 
