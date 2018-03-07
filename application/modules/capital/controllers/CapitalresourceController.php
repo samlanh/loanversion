@@ -16,13 +16,15 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'search' => '',
-						'status' => -1);
+						'status' => -1,
+						'start_date'=> date('Y-m-d'),
+  						'end_date'=>date('Y-m-d'));
 			}
 			$rs_rows= $db->getAllCapitalDetail($search);
 			$glClass = new Application_Model_GlobalClass();//status
  			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL,true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("សាខា","ចំនួនប្រាក់ដុល្លា","ចំនួនប្រាក់រៀល","ចំនួនប្រាក់បាត","ចំនួនប្រាក់ដុល្លាពីមុន","ចំនួនប្រាក់រៀលពីមុន","ចំនួនប្រាក់បាតពីមុន","ប្រភេទដើមទុន","ថ្ងៃ","សម្គាល់","ស្ថានភាព");
+			$collumns = array("BRANCH_NAME","ចំនួនប្រាក់ដុល្លា","ចំនួនប្រាក់រៀល","ចំនួនប្រាក់បាត","ចំនួនប្រាក់ដុល្លាពីមុន","ចំនួនប្រាក់រៀលពីមុន","ចំនួនប្រាក់បាតពីមុន","ប្រភេទដើមទុន","DATE","NOTE","STATUS","BY_USER");
 			$link=array(
 					'module'=>'capital','controller'=>'capitalresource','action'=>'edit'
 			);
@@ -44,28 +46,24 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
 			$db_acc = new Capital_Model_DbTable_DbCapitalResource();
 			try {
 				$db = $db_acc->addCapitalResource($data);
-				if(isset($data["save"])){
-					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capitalresource/add');
-				}elseif (isset($data["save_close"])){
-					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capitalresource');
-				} 
-				Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capitalresource/add');
+				Application_Form_FrmMessage::message("INSERT_SUCCESS");
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
+		
 		$fm = new Capital_Form_FrmCapitale();
 		$frm = $fm->frmCapitalResource();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm= $frm;
 		
-		/*dddddddddddddddddddddd*/		
-	$db  = new Report_Model_DbTable_DbLoan();
- 	$key = new Application_Model_DbTable_DbKeycode();
- 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
- 	$search = array(
+		$db  = new Report_Model_DbTable_DbLoan();
+	 	$key = new Application_Model_DbTable_DbKeycode();
+	 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	 	
+	 	$search = array(
  				'adv_search' => '',
  				'status_search' => -1,
  				'status' => -1,
@@ -75,28 +73,22 @@ class Capital_CapitalResourceController extends Zend_Controller_Action {
  				'currency_type'=>-1,
  				'start_date'=> date('Y-m-d'),
  				'end_date'=>date('Y-m-d')
- 		);
+	 	);
  	
- 	$this->view->loantotalcollect_list =$rs=$db->getCollectDailyPayment($search);
- 
- 	$this->view->rsincome= $db->getAllOtherIncomeReport($search);//call frome model
- 	$this->view->rsexpense= $db->getAllExpenseReport($search);//call frome model
- 	$this->view->LoanFee_list =$db->getALLLFee($search);
-	}
+	 	$this->view->loantotalcollect_list =$rs=$db->getCollectDailyPayment($search);
+	 	$this->view->rsincome= $db->getAllOtherIncomeReport($search);//call frome model
+	 	$this->view->rsexpense= $db->getAllExpenseReport($search);//call frome model
+	 	$this->view->LoanFee_list =$db->getAdminFeeOnly($search);
+	 	$this->view->rsloandisburse =$db->getALLLLoanDisburseAmount($search);//get all loan amount 
+	 	
+}
 	function editAction(){
 		$db_deposite = new Capital_Model_DbTable_DbCapitalResource();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try{
-				if(isset($_data["save"])){
-					$db_deposite->updateCapitalResource($_data);
-					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capitalresource/add');
-				}elseif (isset($_data["save_close"])){
-					$db_deposite->updateCapitalResource($_data);
-					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capitalresource');
-				}else {
-					Application_Form_FrmMessage::redirectUrl("/capital/capitalresource");
-				}
+				$db_deposite->updateCapitalResource($_data);
+				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS",'/capital/capitalresource');
 			}catch(Exception $e){
 				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
 				$err =$e->getMessage();

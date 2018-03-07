@@ -12,6 +12,7 @@ $frm = $this->frm;
 				dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
+				dijit.byId("save_close").set("disabled",true);
 				return true;
 			}else {
 				return false;
@@ -55,7 +56,7 @@ $frm = $this->frm;
 	</tr>		
 	<tr>
 	
-			<td align="center"><input type="submit" value="រក្សាទុកថ្មី" label="រក្សាទុកថ្មី" name="save" id="save" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			<td align="center">
 			<input type="submit" value="បិទ" label="រក្សាទុកបិទ" name="save_close" id="save_close" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
 						
 	</tr>	

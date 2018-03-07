@@ -1,7 +1,7 @@
 <?php $filter = $this->frm_search;
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $url = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-groupmember'));
-$url_client = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-paymentschedules'));
+$url_client = $this->url(array('module'=>'report','controller'=>'pawn','action'=>'rpt-paymentschedules'));
 $url_contract = $this->url(array('module'=>'report','controller'=>'loan','action'=>'rpt-updatepayment'));
 $session_user=new Zend_Session_Namespace('authloan');
 $level = $session_user->level;
@@ -13,24 +13,23 @@ $level = $session_user->level;
 <script>
 dojo.require("dijit.form.DateTextBox");
 </script>
-<title><?php echo $tr->translate("LOAN_DISBURSE");?></title>
+<title><?php echo $tr->translate("PAWN_DISBURSE");?></title>
 <form method="post">
 	<table style="width:28.7cm; margin: 0 auto;">
 		<tr>
 			<td><?php echo $filter->getElement('adv_search');?></td>
 			<td><?php echo $filter->getElement('branch_id');?></td>
-			<td><?php echo $filter->getElement('client_name');?></td>
-			<td><?php echo $filter->getElement('co_id');?></td>
+			<td><?php echo $filter->getElement('members');?></td>
+			<td><?php echo $filter->getElement('product_id');?></td>
 		</tr>
 		<tr>
-		    <td><?php echo $filter->getElement('pay_every');?></td>
-		    <td><?php echo $filter->getElement('zone');?></td>
+		    <td><?php echo $filter->getElement('currency_type');?></td>
 			<td><?php echo $filter->getElement('start_date');?></td>
 			<td><?php echo $filter->getElement('end_date');?></td>
 			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
 		</tr>
 	</table>
-	</form>
+</form>
 <div style=" width:30cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 <div id="divPrint" style="width: 100%;">
 <style>
@@ -56,9 +55,9 @@ dojo.require("dijit.form.DateTextBox");
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
                 	<td width="60%" valign="top">
                 		<ul>
-                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-                			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LOAN_DISBURSE");?></li>
-                			<li style="text-align:center; font-size:14px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:18px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PAWN_DISBURSE");?></li>
+                			<li style="text-align:center; font-size:16px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
                 		</ul>
                 	</td>
                     <td width="20%"></td>
@@ -86,7 +85,7 @@ dojo.require("dijit.form.DateTextBox");
                  <tr bgcolor="#c1d0f3" class="style" align="center" style="font-weight:bold;line-height: 30px; font-size:12px; padding:1px 0px; white-space: nowrap; ">
                     <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
                     <td><?php echo $tr->translate("BRANCH_NAME");?></td>
-                    <td><?php echo $tr->translate("LOAN_NO");?></td>
+                    <td><?php echo $tr->translate("PAWN_CODE");?></td>
                     <td><?php echo $tr->translate("CLIENT_NO");?></td>
                     <td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
                     <td><?php echo $tr->translate("LOAN_LEVEL");?></td>
@@ -133,8 +132,8 @@ dojo.require("dijit.form.DateTextBox");
 					<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_line']));?>&nbsp;</td>
 					<td style="white-space:nowrap;">&nbsp;<?php echo $row['product_name']; ?>&nbsp;</td>
 					<td style="white-space:nowrap;">&nbsp;<?php echo $row['est_amount']; ?>&nbsp;</td>
-					<td style="white-space:nowrap;">&nbsp;<?php echo number_format($row['product_description'],2).' '.$row['currency_type']; ?>&nbsp;</td>
-					<td align="left"><a target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"loan","action"=>'rpt-updatepayment','id'=>$row['id']))?>">កែប្រែ</a></td>	
+					<td style="white-space:nowrap;">&nbsp;<?php echo $row['product_description']; ?>&nbsp;</td>
+					<td align="left"><a target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"pawn","action"=>'rpt-updatepayment','id'=>$row['id']))?>">កែប្រែ</a></td>	
 				</tr>
 				<?php }?>
             </table>
@@ -142,7 +141,7 @@ dojo.require("dijit.form.DateTextBox");
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                  <tr bgcolor="#c1d0f3" class="style" align="center" style="floafont-weight:bold; line-height: 30px; font-size:12px; padding:2px 0px; ">
                     <td><?php echo $tr->translate("CURRENT_TYPE");?></td>
-                    <td><?php echo $tr->translate("ចំនួនកម្ចី");?></td>
+                    <td><?php echo $tr->translate("REALEASE_AMOUNT");?></td>
                     <td><?php echo $tr->translate("TOTAL_AMOUNT");?></td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:12px;">

@@ -1,6 +1,6 @@
 <?php
 
-class RsvAcl_UserController extends Zend_Controller_Action
+class Rsvacl_UserController extends Zend_Controller_Action
 {
 	const REDIRECT_URL = '/rsvacl';
 	const MAX_USER = 20;

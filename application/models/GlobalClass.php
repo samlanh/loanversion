@@ -200,16 +200,16 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 // 			}
 // 			return $option;
 // 		}
-		public function getAllFacultyOption(){
-			$_db = new Application_Model_DbTable_DbGlobal();
-			$rows = $_db->getAllFecultyName();
-			array_unshift($rows, array('dept_id'=>-1,'en_name'=>"Add New"));
-			$options = '';
-			if(!empty($rows))foreach($rows as $value){
-				$options .= '<option value="'.$value['dept_id'].'" >'.htmlspecialchars($value['en_name'], ENT_QUOTES).'</option>';
-			}
-			return $options;
-		}
+// 		public function getAllFacultyOption(){
+// 			$_db = new Application_Model_DbTable_DbGlobal();
+// 			$rows = $_db->getAllFecultyName();
+// 			array_unshift($rows, array('dept_id'=>-1,'en_name'=>"Add New"));
+// 			$options = '';
+// 			if(!empty($rows))foreach($rows as $value){
+// 				$options .= '<option value="'.$value['dept_id'].'" >'.htmlspecialchars($value['en_name'], ENT_QUOTES).'</option>';
+// 			}
+// 			return $options;
+// 		}
 		
 		public function getImgActive($rows,$base_url, $case='',$degree=null,$display=null){
 			if($rows){
@@ -290,12 +290,15 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 				$options .= '<option value="2" >'.htmlspecialchars('អ្នកធានាជំនួស', ENT_QUOTES).'</option>';
 			return $options;
 		}
-		
-		
-		
-		
-	
-		
-		
+		public function getAllBranchOption(){
+			$db = new Application_Model_DbTable_DbGlobal();
+	        $rows = $db->getAllBranchName(null,null);
+			//array_unshift($rows, array('client_id'=>-1,'name_en'=>"Add New"));
+			$options = '';
+// 			print_r($rows);exit();
+			if(!empty($rows))foreach($rows as $value){
+				$options .= '<option value="'.$value['br_id'].'" >'.htmlspecialchars($value['branch_namekh'], ENT_QUOTES).'</option>';
+			}
+			return $options;
+		}
 }
-

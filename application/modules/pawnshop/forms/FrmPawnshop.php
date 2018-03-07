@@ -6,6 +6,15 @@ public function init()
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function FrmAddLoan($data=null){
+		
+		$request=Zend_Controller_Front::getInstance()->getRequest();
+		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
+		$_title->setAttribs(array('dojoType'=>'dijit.form.TextBox',
+				'onkeyup'=>'this.submit()','class'=>'fullside',
+				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")
+		));
+		$_title->setValue($request->getParam("adv_search"));
+		
 		$_loan_code = new Zend_Dojo_Form_Element_TextBox('loan_code');
 		$_loan_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -25,6 +34,7 @@ public function init()
 				'class'=>'fullside',
 				'style'=>'color:red; font-weight: bold;'
 		));
+
 		
 		$_client_code = new Zend_Dojo_Form_Element_TextBox('client_code');
 		$_client_code->setAttribs(array(
@@ -39,11 +49,16 @@ public function init()
 		));
 		
 		$dbs = new Loan_Model_DbTable_DbLoanIL();
-		$_members = new Zend_Dojo_Form_Element_TextBox('members');
+		$_members = new Zend_Dojo_Form_Element_FilteringSelect('members');
 		$_members->setAttribs(array(
-				'dojoType'=>'dijit.form.textbox',
+				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
+		
+		$dbc = new Saving_Model_DbTable_DbClient();
+		$opt=$dbc->getAllClient(null,1);
+		$_members->setMultiOptions($opt);
+		$_members->setValue($request->getParam("members"));
 		
 		$_level = new Zend_Dojo_Form_Element_NumberTextBox('level');
 		$_level->setAttribs(array(
@@ -58,9 +73,18 @@ public function init()
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
-		$opt = $db->getVewOptoinTypeByType(15,1,3,1);
+		$action = $request->getActionName();
+		
+		$display=1;
+		if($action!='add' AND $action!='edit'){
+			$display=null;
+		}
+		$opt = $db->getVewOptoinTypeByType(15,1,3,$display);
+		unset($opt['-1']);
 		$_currency_type->setMultiOptions($opt);
 		$_currency_type->setValue(2);
+		
+		$_currency_type->setValue($request->getParam("currency_type"));
 		
  		$dbs = new Loan_Model_DbTable_DbLoanss();
 		$_amount = new Zend_Dojo_Form_Element_NumberTextBox('total_amount');
@@ -73,13 +97,10 @@ public function init()
 		
 		$_rate =  new Zend_Dojo_Form_Element_NumberTextBox("interest_rate");
 		$_rate->setAttribs(array(
-				'data-dojo-Type'=>'dijit.form.NumberTextBox',
-				'data-dojo-props'=>"
-				'required':true,
-				'name':'interest_rate',
-				'value':3,
-				'class':'fullside',
-				'invalidMessage':'អាចបញ្ជូលពី 1 ដល់'"));
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'required'=>true,
+				'class'=>'fullside',
+				'invalidMessage'=>'អាចបញ្ជូលពី 1 ដល់'));
 				
 		$_period = new Zend_Dojo_Form_Element_NumberTextBox('period');
 		$_period->setAttribs(array(
@@ -123,12 +144,10 @@ public function init()
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required' =>'true',
 				'class'=>'fullside',
-				//'onchange'=>'changeCollectType();'
 				'onchange'=>'calCulatePeriod();'
 		));
 		$_pay_every->setValue(3);
 		$_pay_every->setMultiOptions($term_opt);
-		
 		
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
@@ -144,6 +163,7 @@ public function init()
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}
 		$_branch_id->setMultiOptions($options);
+		$_branch_id->setValue($request->getParam("branch_id"));
 		
 		$_repayment_method = new Zend_Dojo_Form_Element_FilteringSelect('repayment_method');
 		$_repayment_method->setAttribs(array(
@@ -155,19 +175,20 @@ public function init()
 		$options = $db->getAllPaymentMethod(null,1);
 		$_repayment_method->setMultiOptions($options);
 		
-		$account_type=new Zend_Dojo_Form_Element_FilteringSelect('product_id');
-		$account_type->setAttribs(array(
+		$pro_type=new Zend_Dojo_Form_Element_FilteringSelect('product_id');
+		$pro_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required' =>'true',
 				'class'=>'fullside',
 				'onchange'=>'calCulatePeriod()'
 		));
-		$options=array();
+		$options=array(-1=>"Select Product");
 		$rows = $db->getAllProduct();
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['id']]=$row['product_kh'];
 		}
-		$account_type->setMultiOptions($options);
+		$pro_type->setMultiOptions($options);
+		$pro_type->setValue($request->getParam("product_id"));
 		
 		
 		$_status = new Zend_Dojo_Form_Element_FilteringSelect('status_using');
@@ -194,14 +215,8 @@ public function init()
 		));
 		$_estimate->setValue(0);
 		
-		/*$_display=  new Zend_Form_Element_Textarea('description');
-		$_display->setAttribs(array(
-				//'dojoType'=>'dijit.form.Textarea',
-				'class'=>'fullside',
-				'style'=>'height:100px !important;'));
-		*/
-		$_display = new Zend_Dojo_Form_Element_TextBox("description");
-		$_display->setAttribs(array(
+		$description = new Zend_Dojo_Form_Element_TextBox("description");
+		$description->setAttribs(array(
 				'dojoType'=>'dijit.form.Textarea',
 				'class'=>'fullside height200',
 				'rows'=>'200'
@@ -233,27 +248,52 @@ public function init()
 		$_interest_rate = new Zend_Form_Element_Hidden("old_rate");
 		$_old_payterm = new Zend_Form_Element_Hidden("old_payterm");
 		
+		$_start_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
+		$_start_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'onchange'=>'CalculateDate();',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"));
+		$_date = $request->getParam("start_date");
+		
+		if(empty($_date)){
+		}
+		$_start_date->setValue($_date);
+		
+		$end_date = new Zend_Dojo_Form_Element_DateTextBox('end_date');
+		$end_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
+				'class'=>'fullside',
+		));
+		$_date = $request->getParam("end_date");
+		
+		if(empty($_date)){
+			$_date = date("Y-m-d");
+		}
+		$end_date->setValue($_date);
+		
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
 			$_branch_id->setValue($data['branch_id']);
-			$_loan_code->setValue($data['saving_number']);
-// 			$_loan_codes->setValue($data['loan_number']);
+			$_loan_code->setValue($data['loan_number']);
 			$_level->setValue($data['level']);
-			$_releasedate->setValue($data['saving_date']);
-			$_period->setValue($data['period']);
-			$_amount->setValue($data['release_amount']);
+			$_releasedate->setValue($data['date_release']);
+			$_first_payment->setValue($data['first_payment']);
+			$_dateline->setValue($data['date_line']);
+			$receipt_num->setValue($data['receipt_num']);
 			$_currency_type->setValue($data['currency_type']);
+			$_amount->setValue($data['release_amount']);
+			$_period->setValue($data['total_duration']);
 			$_rate->setValue($data['interest_rate']);//
-			$_rate->setAttribs(array(
-					'data-dojo-props'=>"
-					'value':'".$data['interest_rate']."'"));
-// 			$_repayment_method->setValue($data['payment_method']);
-			$_dateline->setValue($data['saving_close']);
+			
+			$pro_type->setValue($data['product_id']);
+			$description->setValue($data['product_description']);
+			$_estimate->setValue($data['est_amount']);
+			
 			$_pay_every->setValue($data['term_type']);
 			$_id->setValue($data['id']);
 			$_status->setValue($data['status']);
 		}
-		$this->addElements(array($_display,$_estimate,$_first_payment,$receipt_num,$withdrawal,$account_type,$_level,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,
+		$this->addElements(array($_start_date,$end_date,$_title,$description,$_estimate,$_first_payment,$receipt_num,$withdrawal,$pro_type,$_level,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,
 				$_interest,
 				$_client_codes,$_loan_codes,$_members,
 				$_client_code,$_branch_id,$_currency_type,$_amount,$_rate,$_releasedate

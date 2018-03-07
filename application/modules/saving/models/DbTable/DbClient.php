@@ -179,17 +179,18 @@ class Saving_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 // 				$id =$this->insert($_arr);
 // 				return array('id'=>$id,'client_code'=>$client_code);
 // 	}
-	function getAllClient($branch_id=null){//ajax
-		$db = $this->getAdapter();
-		$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
-		CONCAT(c.`name_en`,'-',c.`name_kh`) AS name , client_number
-		FROM `ln_clientsaving` AS c WHERE c.`name_en`!='' AND c.status=1  " ;
-		if($branch_id!=null){
-			$sql.=" AND c.`branch_id`= $branch_id ";
+	function getAllClient($branch_id=null,$option=null){//ajax
+// 		$db = $this->getAdapter();
+// 		$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
+// 		CONCAT(c.`name_en`,'-',c.`name_kh`) AS name , client_number
+// 		FROM `ln_clientsaving` AS c WHERE c.`name_en`!='' AND c.status=1  " ;
+// 		if($branch_id!=null){
+// 			$sql.=" AND c.`branch_id`= $branch_id ";
 	
-		}
-		//   	$sql.=" ORDER BY id DESC";
-		return $db->fetchAll($sql);
+// 		}
+// 		return $db->fetchAll($sql);
+		$db = new Application_Model_DbTable_DbGlobal();
+		return $db->getAllClientPawn($branch_id,$option);
 	}
 	function getAllClientNumber($branch_id=null){//ajax
 		$db = $this->getAdapter();

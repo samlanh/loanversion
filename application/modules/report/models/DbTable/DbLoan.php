@@ -718,7 +718,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$order = " GROUP BY curr_type ORDER BY currency_type";
       	return $db->fetchRow($sql.$where.$order);
       }
-      public function getALLLFee($search=null){
+    public function getALLLFee($search=null){
       	$start_date = $search['start_date'];
       	$end_date = $search['end_date'];
     		
@@ -726,6 +726,63 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$sql = "SELECT  * FROM 
       				v_loanreleased WHERE status = 1 ";
 		$where ='';
+      	if(!empty($search['advance_search'])){
+      		$s_where = array();
+      		$s_search = addslashes(trim($search['advance_search']));
+      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
+      		$s_where[] = " client_name LIKE '%{$s_search}%'";
+      		$s_where[] = " total_capital LIKE '%{$s_search}%'";
+      		$s_where[] = " admin_fee LIKE '%{$s_search}%'";
+      		$s_where[] = " other_fee LIKE '%{$s_search}%'";
+      		$where .=' AND ('.implode(' OR ',$s_where).')';
+      	}
+      	if($search['branch_id']>0){
+      		$where.=" AND `branch_id`= ".$search['branch_id'];
+      	}
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
+      	}
+      	$order = " GROUP BY curr_type ORDER BY currency_type";
+      	return $db->fetchAll($sql.$where.$order);
+      }
+      function getAdminFeeOnly($search){
+      	$start_date = $search['start_date'];
+      	$end_date = $search['end_date'];
+      	
+      	$db = $this->getAdapter();
+      	$sql = "SELECT  curr_type,
+	      		SUM(total_capital) AS total_capital,
+	      		SUM(admin_fee) AS admin_fee,
+	      		SUM(other_fee) AS other_fee FROM
+      		   v_loanreleased 
+      		WHERE status = 1 AND (admin_fee>0 OR other_fee>0) ";
+      	$where ='';
+      	if(!empty($search['advance_search'])){
+      		$s_where = array();
+      		$s_search = addslashes(trim($search['advance_search']));
+      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
+      		$s_where[] = " client_name LIKE '%{$s_search}%'";
+      		$s_where[] = " total_capital LIKE '%{$s_search}%'";
+      		$s_where[] = " admin_fee LIKE '%{$s_search}%'";
+      		$s_where[] = " other_fee LIKE '%{$s_search}%'";
+      		$where .=' AND ('.implode(' OR ',$s_where).')';
+      	}
+      	if($search['branch_id']>0){
+      		$where.=" AND `branch_id`= ".$search['branch_id'];
+      	}
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
+      	}
+      	$order = " GROUP BY curr_type ORDER BY currency_type";
+      	return $db->fetchAll($sql.$where.$order);
+      }
+      public function getALLLLoanDisburseAmount($search=null){
+      	$start_date = $search['start_date'];
+      	$end_date = $search['end_date'];
+      
+      	$db = $this->getAdapter();
+      	$sql = "SELECT SUM(total_capital) FROM v_loanreleased WHERE status = 1 ";
+      	$where ='';
       	if(!empty($search['advance_search'])){
       		$s_where = array();
       		$s_search = addslashes(trim($search['advance_search']));

@@ -157,7 +157,10 @@ class Capital_Model_DbTable_DbCapital extends Zend_Db_Table_Abstract
     	(SELECT name_en FROM `ln_view` WHERE type=28 AND key_code=account_id) as account_type,
     	brc.`date`,brc.note,
     	brc.`status`
-    	FROM ln_branch_capital AS brc,`ln_branch` AS br WHERE brc.`branch_id`=br.`br_id`";
+    	FROM 
+    		ln_branch_capital AS brc,
+    		`ln_branch` AS br WHERE 
+    		brc.`branch_id`=br.`br_id`";
     	$order=" order by id DESC";
     	$where = '';
     	

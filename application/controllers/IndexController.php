@@ -9,16 +9,9 @@ class IndexController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');  
-    	
     }
-
     public function indexAction()
     {
-        // action body
-    	$this->_helper->layout()->disableLayout();
-    	
-        /* set this to login page to change the character charset of browsers to Utf-8  ...*/    	  	
-		
     	$this->_helper->layout()->disableLayout();
 		$form=new Application_Form_FrmLogin();				
 		$form->setAction('index');		
@@ -27,13 +20,10 @@ class IndexController extends Zend_Controller_Action
 		$this->view->form=$form;
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);		
-		
         
 		if($this->getRequest()->isPost())		
 		{
-			
 			$formdata=$this->getRequest()->getPost();
-			
 			if($form->isValid($formdata))
 			{
 				$session_lang=new Zend_Session_Namespace('lang');
@@ -118,7 +108,7 @@ class IndexController extends Zend_Controller_Action
     }
     
     protected function sortMenu($menus){
-    	$menus_order = Array ( 'home','other','group','loan','pawnshop','tellerandexchange','capital','accounting','report','setting','rsvacl');
+    	$menus_order = Array ( 'home','other','group','loan','pawnshop','installment','tellerandexchange','capital','accounting','report','setting','rsvacl');
     	$temp_menu = Array();
     	$menus=array_unique($menus);
     	foreach ($menus_order as $i => $val){

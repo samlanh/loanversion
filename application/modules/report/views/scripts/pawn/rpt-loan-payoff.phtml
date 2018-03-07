@@ -9,22 +9,22 @@
 </script>
 <table style="font-family: 'Khmer OS Content';width:29cm;margin: 0 auto;" >
 	<tr>
-   			<td><?php echo $frm->getElement("advance_search");?></td>
-   			<td><?php echo $frm->getElement('client_name');?></td>
-   			<td><?php echo $frm->getElement('start_date');?></td>
-   			<td><?php echo $frm->getElement('end_date');?></td>
-   		</tr>
-   		<tr>
-   			<td><?php echo $frm->getElement('branch_id');?></td>
-   			<td><?php echo $frm->getElement('status');?></td>
-   			<td><?php echo $frm->getElement('co_id');?></td>
-   			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-   	</tr>
+		<td><?php echo $frm->getElement('adv_search');?></td>
+		<td><?php echo $frm->getElement('branch_id');?></td>
+		<td><?php echo $frm->getElement('members');?></td>
+		<td><?php echo $frm->getElement('product_id');?></td>
+	</tr>
+	<tr>
+	    <td><?php echo $frm->getElement('currency_type');?></td>
+		<td><?php echo $frm->getElement('start_date');?></td>
+		<td><?php echo $frm->getElement('end_date');?></td>
+		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+	</tr>
 </table>
 </form>
 <div style="clear:both;"></div>
-<div style="width:100%; margin:0 auto;">
-<div style="min-width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div style=" margin:0 auto;">
+<div style="min-width:29cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint">
 <style>
 .style{
@@ -71,11 +71,10 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
                 <tr class="style" bgcolor="#ccc" align="center" style="font-weight:bold; line-height: 14px; padding:3px 0px; ">
                     <th rowspan="2"><?php echo $tr->translate("NUM");?></th>
                     <th rowspan="2"><?php echo $tr->translate("BRANCH_NAME");?></th>
-                    <th rowspan="2"><?php echo $tr->translate("LOAN_NO");?></th>
+                    <th rowspan="2"><?php echo $tr->translate("PAWN_NUMBER");?></th>
                     <th rowspan="2"><?php echo $tr->translate("CLIENT_NUM");?></th> 
                     <th rowspan="2" ><?php echo $tr->translate("CUSTOMER_NAME");?></th>
                     <th rowspan="2" ><?php echo $tr->translate("LEVEL");?></th>
-                    <th rowspan="2" ><?php echo $tr->translate("CO_NAME");?></th>
                     <th rowspan="2" ><?php echo $tr->translate("LOAN_AMOUNT");?></th> 
                     <th rowspan="2" ><?php echo $tr->translate("INTEREST_RATE");?></th>
                     <th rowspan="2" ><?php echo $tr->translate("LOAN_PERIOD");?></th>
@@ -99,13 +98,13 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
                 ?>
                 <?php if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){ ?>
                 <?php 
-                		if($rs['pay_term']==1){
-                			$amt_loanday = $amt_loanday+1;
-                		}elseif($rs['pay_term']==2){
-                			$amt_loanweek = $amt_loanweek+1;
-                		}else{
+//                 		if($rs['pay_term']==1){
+//                 			$amt_loanday = $amt_loanday+1;
+//                 		}elseif($rs['pay_term']==2){
+//                 			$amt_loanweek = $amt_loanweek+1;
+//                 		}else{
                 			$amt_loanmonth = $amt_loanmonth+1;
-                		}
+//                 		}
 		               if($rs['curr_type']==1){
 		               		$amt_r1 = $amt_r1+$rs['principal_paid'];
 		               		$amt_r2 = $amt_r2+$rs['interest_paid'];
@@ -133,10 +132,9 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
                		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["client_number"];?></td>
                		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["client_name"];?></td>
                		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["loan_level"];?></td>
-               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["co_name"];?></td>
                		<td style="font:bolder 11px Arial ;text-align: center;​">&nbsp;&nbsp;<?php echo number_format($rs["total_capital"],2).''.$rs['currency_type'];?></td>
                		<td style="font-size: 12px;text-align: center;">&nbsp;&nbsp;<?php echo $rs["interest_rate"];?>&nbsp;</td>
-               		<td style="font-size: 12px;text-align: center;">&nbsp;<?php echo $rs['total_duration'].$rs['termborrow'];//$rs['pay_term'];?>&nbsp;</td>
+               		<td style="font-size: 12px;text-align: center;">&nbsp;<?php echo $rs['total_duration'];?>&nbsp;</td>
                		<td style="font-size: 12px;text-align: center; white-space:nowrap; ">&nbsp;<?php echo date("d-m-Y",strtotime($rs["date_release"]));?>&nbsp;</td>
                		<td style="font-size: 12px;text-align: center; white-space:nowrap;">&nbsp;<?php echo date("d-m-Y",strtotime($rs["date_line"]));?>&nbsp;</td>
                		<td style="font-size: 10px;">&nbsp;&nbsp;<?php echo number_format( $rs["principal_amount"],2).' '.$rs['currency_type'];?></td>               		

@@ -15,18 +15,18 @@ class Loan_IndexController extends Zend_Controller_Action {
  			}
 			else{
 				$search = array(
-						'txt_search'=>'',
-						'deposit'=>'',
-						'client_name'=> -1,
-						'repayment_method' => -1,
-						'branch_id' => -1,
-						'co_id' => -1,
-						'status' => -1,
-						'currency_type'=>-1,
-						'pay_every'=>-1,
-						'start_date'=> date('Y-m-d'),
-						'end_date'=>date('Y-m-d'),
-						 );
+					'txt_search'=>'',
+					'deposit'=>'',
+					'client_name'=> -1,
+					'repayment_method' => -1,
+					'branch_id' => -1,
+					'co_id' => -1,
+					'status' => -1,
+					'currency_type'=>-1,
+					'pay_every'=>-1,
+					'start_date'=> date('Y-m-d'),
+					'end_date'=>date('Y-m-d'),
+				);
 			}
 			$db = new Loan_Model_DbTable_DbLoanIL();
 			$rs_rows= $db->getAllIndividuleLoan($search);

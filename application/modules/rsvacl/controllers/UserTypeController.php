@@ -1,6 +1,6 @@
 <?php
 
-class RsvAcl_UserTypeController extends Zend_Controller_Action
+class Rsvacl_UsertypeController extends Zend_Controller_Action
 {
 	
 	const REDIRECT_URL = '/rsvacl/usertype';

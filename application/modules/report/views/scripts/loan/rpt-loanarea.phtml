@@ -137,11 +137,11 @@ table { page-break-inside:auto }
                 $amount_cust_late=0;
                 $total_dcustomer_late=0;$total_rcustomer_late=0;$total_bcustomer_late=0;
                 $all_amount_customerlate=0;
-                
+                $dbc = new Report_Model_DbTable_DbloanCollect();
                 if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){ ?>
                 <?php if($co_id!=$rs['co_id'] OR $old_currnecy!=$rs['curr_type']){
                 	$num=1;
-                	$dbc = new Report_Model_DbTable_DbloanCollect();
+                	
                 ?>
                 <?php if($key>0){?>
                 <?php 
@@ -281,20 +281,22 @@ table { page-break-inside:auto }
                 <?php }
                ?>
                <?php 
-                $rs_release = $dbc->getReleaseloanByCO($co_id,$rs['curr_type'],$this->search);
-                if($rs['curr_type']==1){
-                	$newloan_reil = $newloan_reil+$rs_release['new_loan'];
-                	$newloan_rrelease = $newloan_rrelease+$rs_release['total_release'];
-                	$newloan_rtotalintertest = $newloan_rtotalintertest+$rs_release['total_interest_rate'];
-                }else if($rs['curr_type']==2){
-                	$newloan_dollar = $newloan_dollar+$rs_release['new_loan'];
-                	$newloan_drelease = $newloan_drelease+$rs_release['total_release'];
-                	$newloan_dtotalintertest = $newloan_dtotalintertest+$rs_release['total_interest_rate'];
-                }else{
-                	$newloan_bath = $newloan_bath+$rs_release['new_loan'];
-                	$newloan_brelease = $newloan_brelease+$rs_release['total_release'];
-                	$newloan_btotalintertest = $newloan_btotalintertest+$rs_release['total_interest_rate'];
-                }
+               if(!empty($this->LoanCollectionco_list)){
+	                $rs_release = $dbc->getReleaseloanByCO($co_id,$rs['curr_type'],$this->search);
+	                if($rs['curr_type']==1){
+	                	$newloan_reil = $newloan_reil+$rs_release['new_loan'];
+	                	$newloan_rrelease = $newloan_rrelease+$rs_release['total_release'];
+	                	$newloan_rtotalintertest = $newloan_rtotalintertest+$rs_release['total_interest_rate'];
+	                }else if($rs['curr_type']==2){
+	                	$newloan_dollar = $newloan_dollar+$rs_release['new_loan'];
+	                	$newloan_drelease = $newloan_drelease+$rs_release['total_release'];
+	                	$newloan_dtotalintertest = $newloan_dtotalintertest+$rs_release['total_interest_rate'];
+	                }else{
+	                	$newloan_bath = $newloan_bath+$rs_release['new_loan'];
+	                	$newloan_brelease = $newloan_brelease+$rs_release['total_release'];
+	                	$newloan_btotalintertest = $newloan_btotalintertest+$rs_release['total_interest_rate'];
+	                }
+              
                 ?>
                <tr class="style hover" style="font-weight:bold; line-height: 24px;">
                    <td >&nbsp;<?php ?>&nbsp;</td>
@@ -318,6 +320,7 @@ table { page-break-inside:auto }
                     <td >&nbsp;<?php echo number_format($total_lateamount,2);?>&nbsp;</td>
                     <td >&nbsp;<?php echo number_format(empty($total_lateamount)?0:($total_lateamount/$total_capital),2); ?>&nbsp;</td>
                  </tr>
+                 <?php  }?>
                 </table>
             <br />
            <div style="border: 1px solid #000; margin-bottom: 10px;"></div>

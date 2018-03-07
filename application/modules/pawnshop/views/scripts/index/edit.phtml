@@ -14,7 +14,8 @@
 </div>	
 	<script src="<?php echo $baseurl;?>/js/help.js"></script>
    <script>
-		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog"]);
+		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog",
+			 		"dijit/form/Textarea"]);
    </script>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'edit')); ?>" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
@@ -45,7 +46,6 @@
                 }
 
             }
-			 dijit.byId('save_new').set('disabled',true); 
       		dijit.byId('save_close').set('disabled',true); 
 			 dijit.byId('save_view').set('disabled',true); 
 				return true;
@@ -55,87 +55,201 @@
 </script>
 <table width="100%" style="margin-top:0px;">
 	<tr>
-		<td>
+		<td width="33%" valign="top">
 				<fieldset>
-					<legend><strong><?php echo $tr->translate("ព៌ត័មាន អតិថិជន​")?></strong></legend>
-					<table cellspacing="2"  width="100%" style="margin-top: -10px;">                    
-			                   <tr>
-				                   	<td><?php echo $tr->translate("BRANCH_NAME")?></td>
-									<td><?php echo $frm->getElement('branch_id');?></td>
-				                   	<td><?php echo $tr->translate("ប្រភេទ​​ទ្រព្យដាក់បញ្ចាំ")?></td>
-									<td><?php echo $frm->getElement('product_id');?></td>
-				                 	<td><?php echo $tr->translate("ចំនួនប្រាក់កម្ចី")?></td>
-									<td><?php echo $frm->getElement('total_amount');?></td>
-			                   </tr>
-			                   <tr>
-			                  		<td><?php echo $tr->translate("PAWN_NO")?></td>
-									<td><?php echo $frm->getElement('loan_code');?></td>
-			                		<td><?php echo $tr->translate("ពត៍មានលម្អិត​​ ទ្រព្យដាក់បញ្ចាំ")?></td>
-									<td><?php echo $frm->getElement('description');?></td>
-			                		<td><?php echo $tr->translate("រយៈពេល​បញ្ចំា")?></td>
-									<td><?php echo $frm->getElement('period');?></td>
-			                   </tr>
-			                    <tr>
-			                   		<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
-								    <td><?php echo $frm->getElement('level');?></td>
-			                		<td><?php echo $tr->translate("តម្លៃប៉ាន់ស្មាន ទ្រព្យដាក់បញ្ចាំ")?></td>
-									<td><?php echo $frm->getElement('estimatevalue');?></td>
-			                 		<td><?php echo $tr->translate("អត្រាការប្រាក់​")?></td>
-									<td><?php echo $frm->getElement('interest_rate');?></td>
-			                   </tr>
-			                        <tr>
-			                   		<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-									<td><input id="customer_code" /></td>
-			                 		<td><?php echo $tr->translate("CURRENCY")?></td>
-									<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-				                   <td>&nbsp;</td>
-				                   <td>&nbsp;</td>
-			                   </tr>
-			                   <tr>
-			                   	  <td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-								  <td><input id="member" /> </td>
-				                  <td>&nbsp;</td>
-				                  <td>&nbsp;</td>
-			              		  <td><?php // echo $tr->translate("រយះពេលដាក់បញ្ចាំ(គិតជា)")?></td>
-								<td><?php //echo $frm->getElement('pay_every');?></td>
-			                   </tr>
-			                    <tr>
-				                   <td colspan="4" rowspan="4" align="center" style="background:#dfd;border:1px solid #ccc;"><img style="max-height:126px" src="<?= $this->baseUrl() ?>/images/banner_money_exchange.jpg" /></td>
-				                   	<td><?php echo $tr->translate("ថ្ងៃដាក់បញ្ចាំ​")?></td>
-									<td><?php echo $frm->getElement('release_date');?></td>
-			                   </tr>
-			                    <tr>
-			                   		<td><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់ដំបូង​")?></td>
-									<td><?php echo $frm->getElement('first_payment');?></td>                  
-							   </tr>
-			                    <tr>
-			                   		<td><?php echo $tr->translate("ថ្ងៃបញ្ចប់ប្រាក់បញ្ចាំ")?></td>
-									<td><?php echo $frm->getElement('date_line');?></td>                   
-								</tr>
-			                   <tr>
-			                 		<td><?php echo $tr->translate("បង្កាន់ដៃទទួលប្រាក់")?></td>
-								    <td><?php echo $frm->getElement('receipt_num');?></td>
-			                   </tr>
-								<tr>
-									<td colspan="6" style="border-bottom:1px solid #ccc;"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
-								</tr>						
+					<legend><strong><?php echo $tr->translate("CLIENT_INFO")?></strong></legend>
+						<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+		                   <tr>
+			                    <td><?php echo $tr->translate("BRANCH_NAME")?></td>
+							    <td><?php echo $frm->getElement('branch_id');?>
+							    	<input type="hidden" id="id" name="id" value="<?php echo $this->rs['id'];?>"/>
+							    </td>
+						    </tr>
+						    <tr>
+						    	<td><?php echo $tr->translate("PAWN_CODE")?></td>
+						   	    <td><?php echo $frm->getElement('loan_code');?></td>
+						    </tr>
+						    <tr>
+						    	<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
+								<td><?php echo $frm->getElement('level');?></td>
+						    </tr>
+						    <tr>
+						    	<td><strong><?php echo $tr->translate("CUSTOMER_NAME")?></strong></td>
+								<td><input id="member" /> </td>
+						    </tr>
+						    <tr>
+						   		<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
+								<td><input id="customer_code" /></td>
+						    </tr>
 					</table>
-				</fieldset>
+			</fieldset>
 		</td>
-	</tr>		
+		<td width="33%" valign="top">
+			<fieldset>
+				<legend><strong><?php echo $tr->translate("PRODUCT_DESCRIPTION")?></strong></legend>
+					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+						<tr>
+							<td><strong><?php echo $tr->translate("PRODUCT_NAME")?></strong></td>
+							<td><input id="product_id" /><?php //echo $frm->getElement('product_id');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("PRODUCT_DESCRIPTION")?></td>
+							<td><?php echo $frm->getElement('description');?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("EST_VALUE")?></td>
+							<td><?php echo $frm->getElement('estimatevalue');?></td>
+						</tr>
+					</table>
+			</fieldset>
+		</td>
+		<td width="33%" valign="top">
+			<fieldset>
+				<legend><strong><?php echo $tr->translate("ILLOAN_INFO")?></strong></legend>
+					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+						 <tr>
+		                 	<td><?php echo $tr->translate("CURRENCY")?></td>
+							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
+		                  </tr>
+		                   <tr>
+			                    <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
+								<td><?php echo $frm->getElement('total_amount');?></td>
+		                   </tr>
+		                    <tr>
+		                	   <td><strong><?php echo $tr->translate("TERM_BORROW")?></strong></td>
+							   <td><?php echo $frm->getElement('period');?></td>
+		                   </tr>
+		                   <tr>
+		                 		<td><?php echo $tr->translate("INTEREST RATE")?></td>
+								<td><?php echo $frm->getElement('interest_rate');?></td>
+		                   </tr>
+					</table>
+			</fieldset>
+		</td>
+	</tr>
 	<tr>
-		<td align="center">
+		<td colspan="3" style="border-bottom:1px solid #ccc; background:#8fbffd"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
+   </tr>	
+	<tr>
+		<td colspan="2" style="background:#dfd;border:1px solid #ccc;">
+			<img style="max-height:126px" src="<?= $this->baseUrl() ?>/images/banner_money_exchange.jpg" />
+		</td>
+		<td valign="top">
+               <fieldset>
+				<legend><strong><?php echo $tr->translate("INFO_FUND")?></strong></legend>
+					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+	                  <tr>
+	                   	  <td><?php echo $tr->translate("PAWN_DATE")?></td>
+				    	  <td><?php echo $frm->getElement('release_date');?></td>
+	                  </tr>
+	                  <tr>
+	                      <td><strong><?php echo $tr->translate("FIRST_PAYMENT")?></strong></td>
+					   	  <td><?php echo $frm->getElement('first_payment');?></td>                   
+					  </tr>
+	                  <tr>
+	                     <td><?php echo $tr->translate("PAWN_ENDDATE")?></td>
+					     <td><?php echo $frm->getElement('date_line');?></td>                   </tr>
+	                 <tr>
+	                    <td><?php echo $tr->translate("បង្កាន់ដៃទទួលប្រាក់")?></td>
+				    	<td><?php echo $frm->getElement('receipt_num');?></td>
+	                 </tr>
+	               </table>
+	              </fieldset>
+		</td>
+	</tr>	
+	<tr>
+		<td align="center" colspan="3">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
-			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" id="save_close" name='saveclose' value='saveclose' dojoType="dijit.form.Button"
+			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose'
+            id="save_close" value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
-			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id="save_new" value='savenew' dojoType="dijit.form.Button"
-				 iconClass="dijitIconNewTask"/>
-			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' id="save_view" value='savenew' dojoType="dijit.form.Button"
+			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' id="save_view"  value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
 		</td>
 	</tr>	
 </table>
+</form>
+<div class="dijitHidden">
+<style>
+.print tr td{
+	padding:5px 2px; 
+}
+<?php 
+$frm = $this->Form_Frmcallecterall;
+?>
+</style>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'<?php echo $tr->translate("COLLECTERALL_TYPE")?>', onCancel:hideDialog" id="frm_product" style="width:1000px">
+		<div class="print" style="text-align:center;">
+			<form id='frm_producttype' dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+				<table cellspacing="10" class='fullside'>
+					<tr>
+						<td>
+							<fieldset>
+								<legend><strong><?php echo $tr->translate("COLLECTERALL_TYPE")?></strong></legend>
+								<table cellspacing="2"  width="100%" >
+									<tr>
+										<td width="40%">
+											<table width="100%">
+												<tr>
+													<td><?php echo $tr->translate("NAME_KH")?></td>
+													<td><?php echo $frm->getElement('title_kh')?></td>	
+												</tr>
+												<tr>
+												    <td><?php echo $tr->translate("NAME_ENG")?></td>
+													<td><?php echo $frm->getElement('title_en')?></td>	
+											   </tr>
+											   <tr>
+											        <td><?php echo $tr->translate("DATE")?></td>
+													<td><?php echo $frm->getElement('date')?></td>
+											   </tr>
+											   <tr>
+											   		<td><?php echo $tr->translate("STATUS")?></td>
+													<td><?php echo $frm->getElement('status')?></td>
+											   </tr>
+											</table>							
+										</td>
+										<td width="60%">
+											<table width="100%">
+												<tr>					        
+													<td style="white-space:nowrap;"><?php echo $tr->translate("ពត៍មានលម្អិត")?></td>
+													<td><?php echo $frm->getElement('description')?></td>
+												</tr>
+											</table>
+										</td>
+									</tr>						
+								</table>
+							</fieldset>
+						</td>
+					</tr>		
+					<tr>
+						<td align="center">
+							<input type="button" onclick="addProductName();" value="save_proclose" name="save_proclose" id="save_proclose" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
+							iconClass="dijitEditorIcon dijitEditorIconSave" />
+						</td>
+					</tr>	
+				</table>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="dijitHidden">
+<style>
+.print tr td{
+	/*padding:5px 2px; */
+}
+</style>
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'កាលវិភាគត្រូវបង់ប្រាក់', onCancel:hideDialog" id="lbl_schedule" style="width:1000px">
+		<div class="print" style="text-align:center;">
+		<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='save_close' id='save_closereceipt'  value='saveclose' dojoType="dijit.form.Button"
+					 iconClass="dijitIconDelete"/>
+		<input type="button" onclick="showReceipt();" label="<?php echo $tr->translate("SAVE_PRINT");?>"  name='saveprint' value='saveprint' dojoType="dijit.form.Button"
+		iconClass="dijitIconNewTask"/>
+		
+		<div id="t_amountmoneytype" name="t_amountmoneytype"></div>
+		</div>
+	</div>
+</div>
 <div class="dijitHidden">
 <style>
 .print tr td{
@@ -166,7 +280,7 @@
 				   .khmerbold{font:bold 12px 'Khmer OS Battambang';}
 				   .khmer{font:12px 'Khmer OS Battambang';}
 				   .one{white-space:nowrap;}
-table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
+				   table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 				</style>	
 				<table class="print" bgcolor="fef7e4" cellspacing="0"  cellpadding="0" style="height: 12cm; font-size:12px; color:rgba(14, 0, 107, 1);  padding:25px 10px 0px 5px; margin: 0px;">
 					<tr>
@@ -241,8 +355,8 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
 				showLabel="false" type="button" onclick="hideDialog();">Cancel</button>
 </div>
 </div>
-</form>
-<?php echo $this->frmpupoploantype;?>
+
+<?php //echo $this->frmpupoploantype;?>
 <script type="text/javascript">	
 r=0;
 var url_previewloan = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'addpawnshoptest')); ?>';
@@ -262,155 +376,50 @@ function addPreviewLoan(){
 			dijit.byId('member').focus();
 			return false;
 		}
-		//rs = checkValidateDate();
-		//if(rs==false){
-         // return false;			
-       // }
-		
 		loading();
 		dojo.xhrPost({
 		    url: url_previewloan,	
 			form: dojo.byId("frm_add_tran"),		    
 			handleAs:"json", 
 			load: function(data) {
-				//alert(data);
 				document.getElementsByClassName("overlay")[0].style.display="none";
-				var d = dijit.byId("release_date").get('value');
-				 var day = d.getDate();
-				 var x = d.toDateString().substr(4,3);
-				 var year = d.getFullYear();
-				 dojo.byId("lb_start_date").innerHTML  = day+'-'+x+'-'+year;
-				 var d = dijit.byId("date_line").get('value');
-				 var day = d.getDate();
-				 var x = d.toDateString().substr(4,3);
-				 var year = d.getFullYear();
-				 dojo.byId("lb_end_date").innerHTML  = day+'-'+x+'-'+year;
-				 dojo.byId("lb_period").innerHTML = dijit.byId("period").get('value')+" "+dijit.byId('pay_every').attr('displayedValue');
-				 dojo.byId("lb_loanamount").innerHTML = dijit.byId("total_amount").get('value')+' '+dijit.byId('currency_type').attr('displayedValue');
-				 dojo.byId("lb_interest_rate").innerHTML = dijit.byId("interest_rate").get('value')+ ' %';
-				 dojo.byId("lb_producttype").innerHTML = dijit.byId("product_id").attr('displayedValue')+" : "+$("#description").val();
-				 dojo.byId("lb_receipt_no").innerHTML = dijit.byId("receipt_num").get('value');
-				 dojo.byId("lb_total_interest").innerHTML = data.total_interest;+' '+dijit.byId('currency_type').attr('displayedValue');
-				 dojo.byId("lb_customername").innerHTML =dijit.byId('member').attr('displayedValue');
-				 
-						/*
-				dojo.byId("lb_stu_id").innerHTML = dijit.byId("stu_id").value;
-				dojo.byId("lb_kh_name").innerHTML = dijit.byId("kh_name").get('value')+" - "+dijit.byId("en_name").get('value');
-				dojo.byId("lb_sex").innerHTML = dijit.byId("sex").attr('displayedValue');
-				dojo.byId("lb_session").innerHTML = dijit.byId('session').attr('displayedValue');
-				dojo.byId("lb_hour").innerHTML = dijit.byId('study_hour').attr('displayedValue');
-				dojo.byId("lb_dept").innerHTML = dijit.byId('dept').attr('displayedValue');
-				dojo.byId("lb_grade").innerHTML = dijit.byId("grade").attr('displayedValue');
-				dojo.byId("lb_tuitionfee").innerHTML ="$ "+dijit.byId('tuitionfee').get('value').toFixed(2);
-				dojo.byId("lb_payment_term").innerHTML = dijit.byId("payment_term").attr('displayedValue');
-				dojo.byId("lb_discount").innerHTML = dijit.byId("discount").get('value')+"%";
-				dojo.byId("lb_remark").innerHTML ="$ "+ dijit.byId('remark').attr('value').toFixed(2);
-				dojo.byId("lb_total").innerHTML ="$ "+dijit.byId('total').attr('value');
-				dojo.byId("lb_books").innerHTML = "$ "+dijit.byId("books").get('value').toFixed(2);
-				dojo.byId("lb_addmin_fee").innerHTML ="$ "+dijit.byId("addmin_fee").get('value').toFixed(2);
-				dojo.byId("lb_remaining").innerHTML = "$ "+dijit.byId("remaining").get('value');
-				
-				 dojo.byId("lb_note").innerHTML = dijit.byId("not").get('value');
-				 var d = dijit.byId("start_date").get('value');
-				 var day = d.getDate();
-				 var x = d.toDateString().substr(4,3);
-				 var year = d.getFullYear();
-				 dojo.byId("lb_start_date").innerHTML  = day+'-'+x+'-'+year;
-				 var d = dijit.byId("end_date").get('value');
-				 var day = d.getDate();
-				 var x = d.toDateString().substr(4,3);
-				 var year = d.getFullYear();
-				 dojo.byId("lb_end_date").innerHTML  = day+'-'+x+'-'+year;*/
-				//dijit.byId("terms").show();	
-				
-				//temp='';	
-			      //fund_title=0;thead='';fund_title=0;
-				 	/*	temp='<table class="collape tablesorter" style="font-size:13px; width:1000px !important; " id="table">'
-						temp+='<tr style="background:#ccc;"><th><?php //echo $tr->translate("NUM");?></th>';
-						//temp+='<th><?php //echo $tr->translate("ថ្ងៃបង់ប្រាក់");?></th>';
-						//temp+='<th><?php //echo $tr->translate("ចំនួន​ថ្ងៃ");?></th>';
-						//temp+='<th><?php //echo $tr->translate("ការប្រាក់​ប្រចាំ​ថ្ងៃ");?></th>';
-						//temp+='<th><?php //echo $tr->translate("ការប្រាក់​សរុប");?></th>';*/
-				/*for(i=0;i<data.length;i++){
+				temp='';	
+			     fund_title=0;thead='';fund_title=0;
+				 		temp='<table class="collape tablesorter" style="font-size:13px; width:970px !important; " id="table">'
+						temp+='<tr style="background:#ccc;"><th><?php echo $tr->translate("NUM");?></th>';
+						temp+='<th><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់");?></th>';
+					    temp+='<th><?php echo $tr->translate("ប្រាក់ដើមជំពាក់");?></th>';
+						temp+='<th><?php echo $tr->translate("ប្រាក់ដើម​");?></th>';
+						temp+='<th><?php echo $tr->translate("ការប្រាក់​");?></th>';
+						temp+='<th><?php echo $tr->translate("ត្រូវបង់សរុប​");?></th>';
+						 temp+='<th><?php echo $tr->translate("ចំនួន​ថ្ងៃ");?></th>';
+				for(i=0;i<data.length;i++){
 			        r++;
 					    temp+='<tr><td align="center">'+r+'</td>';
-						var myDate = new Date(data[i].date_payment);
 						d = new Date(data[i].date_name);
 						temp+='<td>'+getDayName(d.getDay())+'-'+data[i].date_payments+'</td>';
-						temp+='<td>'+data[i].amount_day+'</td>';
-						temp+='<td>'+dojo.number.format(data[i].dialy_amount,4)+'</td>';
-						temp+='<td>'+dojo.number.format(data[i].interest_amount,2)+'</td></tr>';
-				 }*/
-				//temp+='</table>';
-				//dojo.byId('t_amountmoneytype').innerHTML = temp;
-				dijit.byId("frm_client").show();
+						temp+='<td>'+data[i].total_principal+'</td>';
+						temp+='<td>'+dojo.number.format(data[i].principal_permonth,2)+'</td>';
+						temp+='<td>'+dojo.number.format(data[i].total_interest,2)+'</td>';
+						temp+='<td>'+dojo.number.format(data[i].total_payment,2)+'</td>';
+						temp+='<td>'+data[i].amount_day+'</td></tr>';
+				 }
+				temp+='</table>';
+				dojo.byId('t_amountmoneytype').innerHTML = temp;
+				dijit.byId("lbl_schedule").show();
 			},
 			error: function(err) {
-				alert(err);
-			document.getElementsByClassName("overlay")[0].style.display="none";
-			alert("You can not preview this loan number!");
+				document.getElementsByClassName("overlay")[0].style.display="none";
+				alert("You can not preview this loan number!");
 			}
 	   });
 	}else{
-		alert("You can not preview this loan numberssss!");
-	}
+		alert("You can not preview this loan number!");
+	}	
 }
     function checkValidateDate(){
-    	/*debt_term = dijit.byId('pay_every').get('value');
-		if(debt_term==1){
-			term_d =1; 
-		}else if(debt_term==2){
-			term_d =7; 
-		}else{
-			term_d =30; 
-		}
-		
-		collect_term = dijit.byId('collect_termtype').get('value');
-		if(collect_term==1){
-			term_c =1; 
-		}else if(collect_term==2){
-			term_c =7; 
-		}else{
-			term_c =30; 
-		}
-		debt_amount = dijit.byId('period').get('value');
-		collect_amount = dijit.byId('amount_collect').get('value');
-		if((collect_amount*term_c)>(debt_amount*term_d)){
-			alert('<?php //echo $tr->translate("SMS_BORROW_FUND")?>');
-			dijit.byId('collect_termtype').focus();
-			return false;
-		}
-		return true;*/
      }
     function setDefaultPaymentAmount(){
-    	/*amount_principal = dijit.byId('total_amount').get('value');
-    	debt_term = dijit.byId('pay_every').get('value');
-    	debt_amount = dijit.byId('period').get('value');
-    	if(debt_term==1){
-    		debt_term=1;
-    	}else if(debt_term==2){
-    		debt_term=7;
-    	}
-    	else{
-    		debt_term=30;
-    	}
-    	
-    	collect_term = dijit.byId('collect_termtype').get('value');
-		collect_amount = dijit.byId('amount_collect').get('value');
-		if(collect_term==1){
-			collect_term=1;
-    	}else if(collect_term==2){
-    		collect_term=7;
-    	}
-    	else{
-    		collect_term=30;
-    	}
-    	term = (debt_term*debt_amount)/(collect_term*collect_amount);
-		interest_rate=dijit.byId('interest_rate').get('value')/100;
-		top_pow = Math.pow((1+interest_rate),term);
-		bellow = Math.pow((1+interest_rate),(term))-1;
-		amount_payment = (amount_principal*interest_rate*top_pow)/(bellow);
-		dijit.byId('amount_collect_pricipal').attr('value',amount_payment);*/
 		}
 	function hideDialog() {		
 		dijit.byId("recript_dialog").hide();
@@ -431,19 +440,17 @@ dojo.require("dojo.html");
 
 var client_store  = getDataStorefromJSON('id','name', [] );
 var client_number_store  = getDataStorefromJSON('id','name', [] );//getDataStorefromJSON('id','name', <?php //print_r(Zend_Json::encode($this->recieverlist));?> );
-var co_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->co_name));?> );
+var product_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->product_store));?> );
 
 require(["dojo/ready"], function(ready){
 	 ready(function(){
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,12);
-		//changeCollectType();
+		filterClient();
+		dijit.byId("product_id").attr("value",'<?php echo $this->rs['product_id'];?>');
 	  });
 	new dijit.form.FilteringSelect({
-	store: client_store,//dojo.data.ObjectStore({objectStore: client_data}),
+	store: client_store,
 	autoComplete: true,
-	query: {
-		branch_id: "-1"
-	},            
 	required: false,		           
 	name: "member",
 	id: "member",
@@ -454,14 +461,13 @@ require(["dojo/ready"], function(ready){
 		if(member==-1){
 			showPopupclient();
 		}else{
-			getLoanLevel(member);
 			dijit.byId('customer_code').attr('value',member);
 		}
 }
 	}, "member");
 
 	new dijit.form.FilteringSelect({
-	store: client_number_store,//dojo.data.ObjectStore({objectStore: client_number}),
+	store: client_number_store,
 	autoComplete: true,
 	query: {
 		branch_id: "-1"
@@ -482,22 +488,21 @@ require(["dojo/ready"], function(ready){
 	}, "customer_code");
 
 	new dijit.form.FilteringSelect({
-		store: co_store,//dojo.data.ObjectStore({objectStore: client_number}),
+		store: product_store,
 		autoComplete: true,            
 		required: false,		           
-		name: "co_id",
-		id: "co_id",
+		name: "product_id",
+		id: "product_id",
 		searchAttr: "name",
 		class: 'fullside',
 		onChange: function() {
-			co_id = dijit.byId('co_id').get('value');
-			if(co_id==-1){
-				popupcreditofficer();
+			pro_id = dijit.byId('product_id').get('value');
+			if(pro_id==-1){
+				dijit.byId("frm_product").show();
 			}else{
 			}
 	    }
-		}, "co_id");
-	 
+		}, "product_id");
 	});
 </script>
 <script type="text/javascript">
@@ -510,6 +515,28 @@ function filterClient(){
 		getAllClientByBranch(branch_id);
 		getAllClientNumberByBranch(branch_id);
 }
+function addProductName(){
+	if(dijit.byId('frm_producttype').validate()) {
+		dijit.byId('save_proclose').set('disabled',true);
+		var url_submit = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'pawnproduct','action'=>'addprotype')); ?>';
+			dojo.xhrPost({
+			    url: url_submit,	
+				form: dojo.byId("frm_producttype"),	
+				handleAs:"json",	    
+				load: function(data){
+					dijit.byId("frm_product").hide();
+					var dataItem1 = {					
+							id: data,
+							name:dijit.byId("title_kh").get("value"),
+					};			
+					addDataToSelectbox(dijit.byId('product_id'), product_store, dataItem1, data);	
+				},
+				error: function(e) {
+					dijit.byId("frm_product").hide();
+				}
+			});
+	}
+}
 var url_getclient = '<?php echo $this->url(array('module'=>'saving','controller'=>'customer','action'=>'getclientbybranch')); ?>';
 function getAllClientByBranch(branch_id){
 	dojo.xhrPost({
@@ -521,9 +548,12 @@ function getAllClientByBranch(branch_id){
 		load: function(data) {
 			client_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('member').set('store', client_store);
+		    dijit.byId("member").attr("value",<?php echo $this->rs['customer_id'];?>);
+		    dijit.byId("customer_code").attr("value",<?php echo $this->rs['customer_id'];?>);
+		    
 		},
 		error: function(err) {
-			//alert(err);
+			alert(err);
 		}
 	});
 	
@@ -546,6 +576,7 @@ function getAllClientNumberByBranch(branch_id){
 }
 var url_getloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getloannumber')); ?>';
 function getLoanByBranch(){
+	return false;
 	branch_id = dijit.byId('branch_id').get('value');
 	if(branch_id==''){
 		alert('Please Select Branch');
@@ -560,67 +591,10 @@ function getLoanByBranch(){
 		},		    
 		handleAs:"json",
 		load: function(data) {
-			dijit.byId('loan_code').attr('value',data);
 		},
-		error: function(err) {
-			//alert(err);
+		error: function(err) {	
 		}
 	});
-}
-function showloantype(){
-}
-function calCulateAdminFee(){
-	/*p_income="<?php //echo $this->setting['adminfee']?>";
-	t_admin=dijit.byId('total_amount').get('value');
-	adminfee=(p_income*(t_admin/100));
-	dijit.byId('loan_fee').attr('value',adminfee);*/
-}
-function CompareGraicePariod(){
-	/*graice_pariod = dijit.byId('graice_pariod').get('value');
-	period = dijit.byId('period').get('value');
-	if(graice_pariod>=period){
-		alert('<?php //echo $tr->translate("AMOUNT_GRAICEPARIOD_THEN_AMOUNT_LOAN")?>');
-		dijit.byId('graice_pariod').attr('value',(period-1));
-	}*/
-}
-function chechPaymentMethod(){
-	/*method_id = dijit.byId('repayment_method').get('value');
-	dojo.byId('lbl_payment').innerHTML="<?php //echo $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?>";
-	/*dijit.byId('amount_collect_pricipal').attr('value',0);
-
-	dijit.byId("amount_collect").set('readOnly',false);
-	dijit.byId("collect_termtype").set('readOnly',false);
-	if(method_id==6){
-		dijit.byId("collect_termtype").set('readOnly',true);
-		dijit.byId('amount_collect_pricipal').set('readOnly',true);
-		dijit.byId('amount_collect').attr('value',1);
-		dijit.byId('amount_collect').set('readOnly',true);
-		
-	}else if(method_id==5){
-		dijit.byId('amount_collect_pricipal').set('readOnly',false);
-		dijit.byId('amount_collect_pricipal').focus();
-		dijit.byId('amount_collect_pricipal').attr('value',1);
-		dijit.byId("amount_collect").set('readOnly',true);
-		dijit.byId("collect_termtype").set('readOnly',true);
-		dijit.byId('amount_collect_pricipal').attr('value',2);
-	}else if(method_id==4){
-		dijit.byId('amount_collect_pricipal').attr('value',1);
-		dijit.byId('amount_collect_pricipal').set('readOnly',false);
-		dojo.byId('lbl_payment').innerHTML="<?php //echo $tr->translate("AMOUNT_GRAICE_PARIOD")?>";
-		dijit.byId('amount_collect_pricipal').attr('value','');
-		dijit.byId('amount_collect_pricipal').focus();
-		setDefaultPaymentAmount();
-	}else{
-		dijit.byId('amount_collect_pricipal').set('readOnly',true);
-	}
-	if(method_id==1){
-		dijit.byId('graice_pariod').set('readOnly',false);
-	}else{
-		dijit.byId('graice_pariod').attr('value',0);
-		dijit.byId('graice_pariod').set('readOnly',true);
-	}*/
-}
-function changeGraicePeroid(){
 }
 function clearTextBox(){
 	dijit.byId('member').set('value','');
@@ -634,9 +608,7 @@ function getClientInfo(type){
 		customer_code= dijit.byId('member').get('value');
 		dijit.byId('customer_code').attr('value',customer_code);
 	}
-	
 }
-
 var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'client','action'=>'add-newclient')); ?>';
 function addNewClient(){
 		dojo.xhrPost({
@@ -650,64 +622,10 @@ function addNewClient(){
 		error: function() {
 		alert("Your message could not be sent, please try again!.");
 		}
-	});
-}
-
-var url_submitdistrict = '<?php echo $this->url(array('module'=>'other','controller'=>'district','action'=>'add-newdistrict')); ?>';
-function addNewDistrict(){
-		dojo.xhrPost({
-	    url: url_submitdistrict,	
-		form: dojo.byId("form_district"),		    
-		handleAs:"json",
-		load: function(data) {	
-			dojo.byId('form_district').reset(); 
-			dijit.byId('frm_district').hide();
-		},
-		error: function(err) {
-		alert("Your message could not be sent, please try again!.");
-				        
-		}
-	});
-}
-var url_submitcommune = '<?php echo $this->url(array('module'=>'other','controller'=>'commune','action'=>'add-newcommune')); ?>';
-function addNewCommune(){
-		dojo.xhrPost({
-	    url: url_submitcommune,	
-		form: dojo.byId("form_commune"),		    
-		handleAs:"json",
-		load: function(data) {	
-			dojo.byId('form_commune').reset(); 
-			dijit.byId('frm_commune').hide();
-		},
-		error: function(err) {
-		alert("Your message could not be sent, please try again!.");
-				        
-		}
-	});
-}
-var url_submitvillage = '<?php echo $this->url(array('module'=>'other','controller'=>'village','action'=>'add-newvillage')); ?>';
-function addNewVillage(){
-		dojo.xhrPost({
-	    url: url_submitvillage,	
-		form: dojo.byId("form_village"),		    
-		handleAs:"json",
-		load: function(data) {	
-			dojo.byId('form_village').reset(); 
-			dijit.byId('frm_village').hide();
-		},
-		error: function(err) {
-		alert("Your message could not be sent, please try again!.");
-				        
-		}
-	});
+   });
 }
 </script>
 <?php 
-// echo $this->frmpupopclient;
- //echo $this->frmPopupZone;
- //echo $this->frmPopupCommune;
- //echo $this->frmPopupDistrict;
- //echo $this->frmPopupVillage;
 echo $this->frmpupoploantype;
 ?>
 <script>
@@ -728,13 +646,10 @@ function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
 	var y = a.getFullYear();
 	var epx_date = y + '-'+ mm + '-'+dd ;
 	dijit.byId('date_line').attr('value',epx_date);
-	//dijit.byId("first_payment").attr('value',epx_date);
 	CalculateWidthdraw();
 }
-function calCulateEndDate(){
-	
+function calCulateEndDate(){	
 }
-
 function CalculateDate(){
 	pay_term = dijit.byId('pay_every').get('value');
 	amount_date = dijit.byId('period').get('value');
@@ -757,18 +672,7 @@ function calCulatePeriod(){
     }
 }
 function CalculateWidthdraw(){
-	acount_type = dijit.byId("account_type").get("value");
-	dijit.byId("withdrawal").set("readOnly",false);
-	if(acount_type==1){
-      period_widthdraw = dijit.byId("period").get("value");
-      dijit.byId("withdrawal").attr("value",period_widthdraw);
-      dijit.byId("withdrawal").set("readOnly",true);
-	}else{
-	    dijit.byId("withdrawal").attr("value",1);
-	    getFirstPayment();
-	}
 }
-
 function getFirstPayment(){
 	daterelease=dijit.byId("release_date").get('value');
 	if(dijit.byId('account_type').get('value')==1){
@@ -776,7 +680,6 @@ function getFirstPayment(){
 		dijit.byId("first_payment").attr('value',dijit.byId('date_line').get('value'));
 	}else{
 		amount_date = dijit.byId('withdrawal').get("value");
-		//alert("date_release"+date_release);
 		var date = new Date(daterelease);
 		mm = date.getMonth()+amount_date;
 		 if(mm<10){
@@ -791,9 +694,6 @@ function getFirstPayment(){
          dijit.byId("first_payment").attr('value',first_date);
 	}
 }
-
-////add preview loan
-
 function getDayName(day){
 	 var weekday = new Array(7);
 	    weekday[0] = "អាទិត្យ";
@@ -808,7 +708,6 @@ function getDayName(day){
 function hideDialog() {		
 	dijit.byId("frm_client").hide();
 }
-
 function showPopupclient(){
 	if(dijit.byId('branch_id')!=''){
 		dijit.byId("frmpop_client").show();
@@ -817,48 +716,16 @@ function showPopupclient(){
 		dijit.byId('branch_id').focus();
 		}
 }
-
-var individual_client_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'insert-client'));?>';
-function addNewindividual(){
-	if(dijit.byId('addclient').validate()){
-	dojo.xhrPost({
-		url:individual_client_url,	
-		form:dojo.byId('addclient'),
-		content:{
-			'branch_id':dijit.byId('branch_id').get('value')
-			},
-		handleAs:"json",
-		load: function(response) {
-			dijit.byId('frmpop_client').hide();	
-			var myNewItem = {					
-					id: response.id,
-					name: dijit.byId('name_en').get('value')+' - '+dijit.byId('name_kh').get('value'),
-					branch_id: dijit.byId('branch_id').get('value'),
-			};			
-			addDataToSelectbox(dijit.byId('member'), client_store, myNewItem, response.id);
-
-			var myNewItem1 = {					
-					id: response.id,
-					name: response.client_code,
-					branch_id: dijit.byId('branch_id').get('value'),
-			};			
-			addDataToSelectbox(dijit.byId('customer_code'), client_number_store, myNewItem1, response.id);		
-			dijit.byId('addclient').reset();
-	
-		},
-		error: function(err) {
-		}
-	});
- }	
-}
-function popupCheckCO(){
-  
+function popupCheckCO(){ 
 }
 function loading(){
     document.getElementsByClassName("overlay")[0].style.display="block";
 }
 </script>
 <style>
+.height200 {
+    height: 105px !important;
+}
 .overlay {display: none;position: absolute;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}
 .overlay-load {width: 350px;height: 100px;margin: auto;top: 0px;bottom: 0px;position: absolute;left: 0px;right: 0px;
            border: solid 1px #060522;text-align: center;

@@ -21,8 +21,13 @@ class Capital_Model_DbTable_DbCapitalResource extends Zend_Db_Table_Abstract
     	br.`branch_namekh`,brc.amount_dollar,brc.amount_reil,brc.amount_bath,
     	brc.amount_dollarbefore,brc.amount_reilbefore,brc.amount_bathbefore,
     	(SELECT name_en FROM `ln_view` WHERE TYPE=28 AND key_code=account_id) AS account_type,
-    	brc.`date`,brc.note,brc.status
-    	FROM ln_capital_detail AS brc,`ln_branch` AS br WHERE brc.`branch_id`=br.`br_id`";
+    	brc.`date`,brc.note,brc.status,
+    	(SELECT  first_name FROM rms_users WHERE rms_users.id=brc.user_id )AS user_name,
+    	
+    	FROM 
+    		ln_capital_detail AS brc,
+    		`ln_branch` AS br 
+    		WHERE brc.`branch_id`=br.`br_id`";
     	$order=" order by id DESC";
     	$where = '';
     	 
@@ -231,32 +236,40 @@ class Capital_Model_DbTable_DbCapitalResource extends Zend_Db_Table_Abstract
    		$user_id = $session_user->user_id;
    		$branch = $_data["brance"];
    		try {
-	   		$row_capital = $this->getCapitalDetailById($_data['id']);
-	   		if(!empty($row_capital)){//update current to prev time
+	   		$row_capital = $this->getCapitalDetailById($_data['id']);//យកទិន្នន័យចាស់មកវិញ
+	   		if(!empty($row_capital)){
+	   			//update current to prev time
 	   			$current = $this->getCapiitalById($branch,$row_capital['account_id']);
+	   			if($_data['status']==0){//មិនអោយបូកចំនួនត្រូវកែចូល
+	   				$_data['usa']=0;
+	   				$_data['reil']=0;
+	   				$_data['bath']=0;
+	   			}
 	   			$update_arr= array(
-	   					'amount_dollar'	=>	$current['amount_dollar']-$row_capital['amount_dollar']+$_data['usa'],
+	   					'amount_dollar'	=>	$current['amount_dollar']-$row_capital['amount_dollar']+$_data['usa'],//យកចំនួនបច្ចុប្បន្ន ដកពីមុន ​បូកថ្មីចូល
 	   					'amount_riel'	=>	$current['amount_riel']-$row_capital['amount_reil']+$_data['reil'],
 	   					'amount_bath'	=>	$current['amount_bath']-$row_capital['amount_bath']+$_data['bath'],
 	   			);
+// 	   			print_r($update_arr);exit();
 	   			$this->_name = "ln_branch_capital";
 	   			$where = $this->getAdapter()->quoteInto("id=?", $current['id']);
 	   			$this->update($update_arr, $where);
 	   			
 	   			$arr_history = array(
 // 	   					'transation_id'	=>	$capital,
+   				// 	    'amount_dollarbefore'=>	0,
+	   			// 	    'amount_bathbefore'	=>	0,
+   					//  'amount_reilbefore'	=>	0,
 	   					'transation_type'	=>	1,
 	   					'amount_dollar'		=>	$_data['usa'],
 	   					'amount_bath'		=>	$_data['bath'],
 	   					'amount_reil'		=>	$_data['reil'],
-// 	   					'amount_dollarbefore'=>	0,
-// 	   					'amount_bathbefore'	=>	0,
-// 	   					'amount_reilbefore'	=>	0,
 	   					'date'				=>	$_data['date'],
 	   					'note'				=>	$_data['note'],
 	   					'user_id'			=>	$user_id,
 	   					'account_id'=>$row_capital['account_id'],
-	   					'branch_id'=>$branch
+	   					'branch_id'=>$branch,
+	   					'status'=>$_data['status']
 	   			);
 	   			$this->_name = "ln_capital_detail";
 	   			$where = $this->getAdapter()->quoteInto("id=?", $_data['id']);

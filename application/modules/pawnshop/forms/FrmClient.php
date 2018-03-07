@@ -69,9 +69,9 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 	
 		$_nameen = new Zend_Dojo_Form_Element_ValidationTextBox('name_en');
 		$_nameen->setAttribs(array(
-				'dojoType'=>'dijit.form.ValidationTextBox',
+				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				
 		));
 		
 		$_join_with = new Zend_Dojo_Form_Element_TextBox('join_with');

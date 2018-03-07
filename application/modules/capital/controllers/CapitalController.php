@@ -22,12 +22,10 @@ class Capital_CapitalController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();//status
  			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL,true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("សាខា","ចំនួនប្រាក់ដុល្លា","ចំនួនប្រាក់រៀល","ចំនួនប្រាក់បាត","ប្រភេទដើមទុន","ថ្ងៃ","សម្គាល់","ស្ថានភាព");
+			$collumns = array("BRANCH_NAME","ចំនួនប្រាក់ដុល្លា","ចំនួនប្រាក់រៀល","ចំនួនប្រាក់បាត","ប្រភេទដើមទុន","DATE","NOTE","STATUS");
 			$link=array(
 					'module'=>'capital','controller'=>'capital','action'=>'edit'
 			);
-// 			$this->view->list=$list->getCheckList(0,$collumns,$rs_rows,array('branch_namekh'=>$link,'amount_dollar'=>$link));
-		
 			$this->view->list=$list->getCheckList(0,$collumns,$rs_rows,array());
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
@@ -47,14 +45,7 @@ class Capital_CapitalController extends Zend_Controller_Action {
 			$db_acc = new Capital_Model_DbTable_DbCapital();
 			try {
 				$db = $db_acc->addCapital($accdata);
-				if(isset($accdata["save_close"])){
-					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital/');
-				}elseif (isset($accdata["save_close"])){
-					Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital');
-				}else {
-					Application_Form_FrmMessage::redirectUrl("/capital/capital/add");
-				}
-				Application_Form_FrmMessage::redirectUrl("/capital/capital/add");
+				Application_Form_FrmMessage::Sucessfull("ការ​បញ្ចូល​ជោគ​ជ័យ !",'/capital/capital/');
 			} catch (Exception $e) {
 				Application_Form_FrmMessage::message("ការ​បញ្ចូល​មិន​ជោគ​ជ័យ");
 				$err =$e->getMessage();

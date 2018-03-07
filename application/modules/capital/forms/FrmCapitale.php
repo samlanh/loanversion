@@ -467,11 +467,33 @@ Class Capital_Form_FrmCapitale extends Zend_Dojo_Form {
 		));
 		$date->setValue(date('Y-m-d'));
 		$search = new Zend_Dojo_Form_Element_TextBox("search");
-		$search->setAttribs(array('dojoType' => 'dijit.form.TextBox','placeHolder'   =>  'ឈ្មោះសាខា ជាភាសាខ្មែរ ឬ អង់គ្លេស',));
+		$search->setAttribs(array('dojoType' => 'dijit.form.TextBox','placeHolder'=> '',));
 		$search->setValue($request->getParam("search"));
 		
+		$_start_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
+		$_start_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'onchange'=>'CalculateDate();',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"));
+		$_date = $request->getParam("start_date");
 		
-		return $this->addElements(array($search,$brance_from,$brance_to,$_stutas,$btnSearch,$date));
+		if(empty($_date)){
+		}
+		$_start_date->setValue($_date);
+		
+		$end_date = new Zend_Dojo_Form_Element_DateTextBox('end_date');
+		$end_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
+				'class'=>'fullside',
+		));
+		$_date = $request->getParam("end_date");
+		
+		if(empty($_date)){
+			$_date = date("Y-m-d");
+		}
+		$end_date->setValue($_date);
+		
+		return $this->addElements(array($end_date,$_start_date,$search,$brance_from,$brance_to,$_stutas,$btnSearch,$date));
 	}
 	
 }

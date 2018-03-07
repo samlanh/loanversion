@@ -2,7 +2,6 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_search;
 $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលោះប្រាក់ដើម",4=>"បង់ផ្តាច់");
-//print_r($this->loantotalcollect_list);
 ?>
 <script>
      dojo.require("dijit.form.DateTextBox");
@@ -11,17 +10,17 @@ $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង
 <form method="post">
 <table style="font-family: 'Khmer OS Content';width:29cm; margin: 0 auto;" >
 	<tr>
-   			<td><?php echo $frm->getElement("adv_search");?></td>
-   			<td><?php echo $frm->getElement('branch_id');?></td>   			
-   			<td><?php echo $frm->getElement('client_name');?></td>
-   			<td><?php echo $frm->getElement('co_id');?></td>
-   		</tr>
-   		<tr>
-   			<td><?php echo $frm->getElement('start_date');?></td>
-   			<td><?php echo $frm->getElement('end_date');?></td>
-   			<td><?php echo $frm->getElement('status');?></td>   			
-   			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-   	</tr>
+		<td><?php echo $frm->getElement('adv_search');?></td>
+		<td><?php echo $frm->getElement('branch_id');?></td>
+		<td><?php echo $frm->getElement('members');?></td>
+		<td><?php echo $frm->getElement('product_id');?></td>
+	</tr>
+	<tr>
+	    <td><?php echo $frm->getElement('currency_type');?></td>
+		<td><?php echo $frm->getElement('start_date');?></td>
+		<td><?php echo $frm->getElement('end_date');?></td>
+		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+	</tr>
 </table>
 </form>
 <div style="width:100%; margin:0 auto;">

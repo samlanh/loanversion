@@ -278,10 +278,10 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 	 */
 	public function getArrAcl($user_type_id){
 		$db = $this->getAdapter();
-		$sql = "SELECT aa.module, aa.controller, aa.action FROM rms_acl_user_access AS ua  INNER JOIN rms_acl_acl AS aa 
+		$sql = "SELECT aa.module, aa.controller, aa.action,aa.label FROM rms_acl_user_access AS ua  INNER JOIN rms_acl_acl AS aa 
 		ON (ua.acl_id=aa.acl_id) WHERE aa.status=1 AND ua.user_type_id='".$user_type_id."' 
 		GROUP BY  aa.module ,aa.controller,aa.action 
-		ORDER BY aa.module ,aa.rank ASC ";
+		ORDER BY aa.module ,aa.is_menu ASC ,aa.rank ASC ";
 		$rows = $db->fetchAll($sql);
 		return $rows;
 	}
@@ -293,7 +293,6 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 		ON (ua.acl_id=aa.acl_id) WHERE aa.status=1 AND aa.module='report' AND aa.controller ='".$str_module."' AND ua.user_type_id='".$user_type_id."'
 		GROUP BY  aa.module ,aa.controller,aa.action
 		ORDER BY aa.module ,aa.rank ASC ";
-		//echo $sql;exit();
 		$rows = $db->fetchAll($sql);
 		return $rows;
 	}

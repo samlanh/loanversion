@@ -1,6 +1,6 @@
 <?php
 
-class RsvAcl_UserAccessController extends Zend_Controller_Action
+class Rsvacl_UseraccessController extends Zend_Controller_Action
 {
 	const REDIRECT_URL = '/rmsacl/useraccess';
     public function init()

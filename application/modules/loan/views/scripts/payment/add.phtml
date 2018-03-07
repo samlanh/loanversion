@@ -25,14 +25,12 @@
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">
 			if(this.validate()) {
-				
                	branch_id = dijit.byId('branch_id').get('value');
 		    	if (branch_id=='' || branch_id==-1){
 		  	  			alert('Please Select Branch Name!');
 			   			dijit.byId('branch_id').focus();
 			   			return false;
 		   		}
-
 				service_charge = dijit.byId('service_charge').get('value');
 				receive_amount = dijit.byId('amount_receive').get('value');
 				option_pay = dijit.byId('option_pay').get('value');
@@ -131,7 +129,7 @@ fieldset{padding:10px;}
 					<td><?php echo $frm->getElement('total_amount_loan');?></td>
 				</tr>
 				<tr>
-					<td><?php echo $tr->translate("INTEREST_RATE")?></td>
+					<td><?php echo $tr->translate("INTEREST RATE")?></td>
 					<td><?php  echo $frm->getElement('interest_ratelabel');?>
 						<input dojoType="dijit.form.TextBox"  id="interest_rate" name="interest_rate" type="hidden">
 					</td>
@@ -772,16 +770,17 @@ function getLaonPayment(type){//tab ទី1
 							is_set=1;
 						}
 						
-							if(pay_option==1){
-								date = new Date(date_pay);
+						if(pay_option==1){
+								date = new Date(respone[i].date_payment);
 								date_now = new Date();
 								a = date-date_now;
 								checked='';
 								if(inx==1 || a<=0){
+									
 									checked ="checked='checked'";
 								}
 							}else{
-								checked ="checked='checked'";
+								  checked ="checked='checked'";
 							}
 							tem+= '<tr id=tr_'+inx+' style="background-color:none">';
 							tem += '<td>&nbsp;'+num+'</td>';

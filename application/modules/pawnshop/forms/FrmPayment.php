@@ -12,7 +12,6 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
-		
 	
 		$_interest_rate = new Zend_Dojo_Form_Element_TextBox("interest_rate");
 		$_interest_rate->setAttribs(array(
@@ -20,8 +19,6 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 				'class'=>'fullside',
 				'required' =>'true'
 		));
-		
-
 
 		$term_opt = $db->getVewOptoinTypeByType(14,1,3);
 		$_payterm = new Zend_Dojo_Form_Element_FilteringSelect('payment_term');
@@ -71,11 +68,9 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		
 		$_display=  new Zend_Form_Element_Textarea('description');
 		$_display->setAttribs(array(
-// 				'dojoType'=>'dijit.form.Textarea',
 				'class'=>'fullside',
 				'readonly'=>true,
 				'style'=>'height:100px !important;'));
-		
 		
 		$dbpawnshop = new Pawnshop_Model_DbTable_DbPayment();
 		$row_loan_number = $dbpawnshop->getPawnAccountNumber();
@@ -111,7 +106,6 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 				'class'		=>	'fullside',				
 		));
 
-		
 		$old_amount_receive = new Zend_Form_Element_Text('old_amount_receive');
 		$old_amount_receive->setAttribs(array(
 				'dojoType'	=>	'dijit.form.TextBox',
@@ -208,7 +202,6 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		
 		$_note = new Zend_Form_Element_Textarea('note');
 		$_note->setAttribs(array(
-				//'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				'style'=>'height:100px !important;',
 		));
@@ -217,7 +210,8 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		$_start_date->setAttribs(array(
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
 		));
 
 		$_collect_date = new Zend_Dojo_Form_Element_DateTextBox('collect_date');
@@ -225,7 +219,8 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.DateTextBox',
 				'class'=>'fullside',
 				'required' =>'true',
-				'Onchange'	=>	'calculateTotal();'
+				'Onchange'	=>	'calculateTotal();',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
 		));
 		$c_date = date('Y-m-d');
 		$_collect_date->setValue($c_date);
@@ -242,9 +237,9 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		$reciept_no = new Zend_Dojo_Form_Element_TextBox("reciept_no");
 		$reciept_no->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside',
 				'style'=>'color:red; font-weight: bold;'));
-		$db_loan = new Loan_Model_DbTable_DbLoanILPayment();
+		$db_loan = new Pawnshop_Model_DbTable_DbPayment();
 		$loan_number = $db_loan->getIlPaymentNumber();
-// 		$reciept_no->setValue($loan_number);
+		$reciept_no->setValue($loan_number);
 		$id = new Zend_Form_Element_Hidden("id");
 		$id->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -312,6 +307,41 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 				//'required' =>true
 		));
 		
+		$_os_amount = new Zend_Dojo_Form_Element_NumberTextBox('os_amount');
+		$_os_amount->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'readOnly'=>'readOnly',
+				'required'=>true,
+		));
+		
+		$amount_paid = new Zend_Dojo_Form_Element_TextBox("paid_before");
+		$amount_paid->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside','readOnly'=>'readOnly'));
+		
+		$pricipleamount = new Zend_Dojo_Form_Element_NumberTextBox('priciple_amount');
+		$pricipleamount->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'readOnly'=>'readOnly'
+		));
+		
+		$installment_no = new Zend_Dojo_Form_Element_TextBox("installment_no");
+		$installment_no->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside','readOnly'=>'readOnly'));
+		
+		$payment_date = new Zend_Dojo_Form_Element_DateTextBox("payment_date");
+		$payment_date->setAttribs(array(
+				'dojoType'=>'dijit.form.DateTextBox',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
+				'class'=>'fullside',));
+		
+		$amount_late = new Zend_Dojo_Form_Element_TextBox("amount_late");
+		$amount_late->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside','readOnly'=>'readOnly'));
+		
+		$last_payment = new Zend_Dojo_Form_Element_DateTextBox("last_payment");
+		$last_payment->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
+				'class'=>'fullside','readOnly'=>'readOnly'));
+		
 		if($data!=""){
 			$id->setValue($data["id"]);
 // 			$_groupid->setValue($data["group_id"]);
@@ -341,7 +371,7 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 // 			$_collect_date->setValue($data["date_pay"]);
 // 			$old_tota_pay->setValue($data["total_payment"]-$data["service_charge"]);
 		}
-		$this->addElements(array($_display,$product,$old_amount_receive,$old_loan_number,$old_release_date,$old_penelize,$_last_payment_date,$using_date,$total_amount_loan,$loan_period,$candition_payment,$payment_method,$release_date,
+		$this->addElements(array($last_payment,$amount_late,$payment_date,$installment_no,$pricipleamount,$amount_paid,$_display,$product,$old_amount_receive,$old_loan_number,$old_release_date,$old_penelize,$_last_payment_date,$using_date,$total_amount_loan,$loan_period,$candition_payment,$payment_method,$release_date,
 				$loan_level,$remain,$old_tota_pay,$installment_date,$amount_payment_term,$_interest_rate,$_payterm,$_currency_type,$id,$option_pay,$date_input,$reciept_no,$reciever,$discount,$id,$_groupid
 				,$_priciple_amount,$_loan_fee,$_os_amount,$_rate,
 				$_penalize_amount,$_collect_date,$_total_payment,$_note,$_service_charge,$_amount_return,
@@ -522,7 +552,6 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		}
 		$_branch_id->setMultiOptions($options);
 		
-		
 		//$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
 		$rows = $db ->getAllCOName();
@@ -535,8 +564,6 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		 						//'onchange'=>'getLoan(1);'
 		));
 		$_coid->setMultiOptions($options);
-		
-		
 		
 		$_priciple_amount = new Zend_Dojo_Form_Element_NumberTextBox('priciple_amount');
 		$_priciple_amount->setAttribs(array(

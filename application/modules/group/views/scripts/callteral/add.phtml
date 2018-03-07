@@ -1,25 +1,20 @@
 <?php
-$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-$frm = $this->frm_callteral;
-echo $this->frm_popup_callecteral;
-echo $this->headTitle($tr->translate("CLIENT_COLLTERAL"));
-$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
-$row=$this->row;
-
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$frm = $this->frm_callteral;
+	echo $this->frm_popup_callecteral;
+	echo $this->headTitle($tr->translate("CLIENT_COLLTERAL"));
+	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	$row=$this->row;
 ?>
-
 <script type="text/javascript">
     dojo.require("dojo.NodeList-manipulate");
-	 
 </script>
-
 <script>
-dojo.require("dojo.data.ItemFileWriteStore");  
-dojo.require("dojo.data.ObjectStore");
-dojo.require("dijit.form.DateTextBox");
-dojo.require("dijit.form.CheckBox");
-dojo.require("dijit.Dialog");
-
+	dojo.require("dojo.data.ItemFileWriteStore");  
+	dojo.require("dojo.data.ObjectStore");
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.CheckBox");
+	dojo.require("dijit.Dialog");
 </script>
 <style>	
 .fullside {
@@ -27,7 +22,6 @@ dojo.require("dijit.Dialog");
 	height: 30px;
 }
 </style>
-
 <script src="<?php echo $this->baseUrl();?>/js/help.js"  type="text/javascript"></script>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'group','controller'=>'callteral','action'=>'add')); ?>" 
 dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
@@ -45,7 +39,6 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 						}
 					}
 				}
-
 				 if(dijit.byId('branch_id').get('value')==''){
 				     alert('Please Select Branch Name!');
                          dijit.byId('branch_id').focus();
@@ -63,8 +56,7 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
                          return false;
                  }
                   if(dijit.byId('record_row').get('value')==''){
-				         alert('Please Select collateral must be record!');
-                       //  addCollecteral();
+				         alert('Please Select collateral must be record!');                  
                          return false;
                  }
 
@@ -233,11 +225,9 @@ function filterClient(){
 	branch_id = dijit.byId('branch_id').get('value');
 	dijit.byId('client_name').query.branch_id = branch_id;
 	dijit.byId('client_code').query.branch_id = branch_id;
-	//dijit.byId('client_code').reset();
 }
 function getClientInfo(type){
 	if(type==1){
-		//alert(1);
 		customer_code= dijit.byId('client_code').get('value');
 		dijit.byId('client_name').attr('value',customer_code);
 		dojo.query("#test").append('');
@@ -262,9 +252,7 @@ function getClientInfo(type){
 		dijit.byId('client_code').attr('value',customer_code);
 	}
 	getClientInfomation(customer_code);
-	
 }
-
 var url_submitco = '<?php echo $this->url(array('module'=>'other','controller'=>'co','action'=>'add-newco')); ?>';
 function AddNewCo(){
 		dojo.xhrPost({
@@ -277,8 +265,7 @@ function AddNewCo(){
 		},
 		error: function(err) {
 			alert(err);
-		alert("Your message could not be sent, please try again!.");
-				        
+		alert("Your message could not be sent, please try again!.");	        
 		}
 	});
 }
@@ -298,8 +285,7 @@ function getClientInfomation(){
 			dijit.byId('and_name').attr('value',data.guarantor_with);
 		},
 		error: function(err) {
-			alert(err);
-				        
+			alert(err);        
 		}
 	});
 }
@@ -309,17 +295,14 @@ function popupCheckCO(){
 		 dijit.byId('frm_co').show();
 	}
 }
-
 function checkClientCode(){
 	client_name= dijit.byId('client_name').get('value');
 	dijit.byId('client_code').attr('value',client_name);
 }
-
 function getClient(){
 	client_name= dijit.byId('client_code').get('value');
 	dijit.byId('client_name').attr('value',client_name);
 }
-
 temp='';
 fund_title=0;
 r = 0;
@@ -347,7 +330,6 @@ function addCollecteral(){
 			var ids = dijit.byId("record_row").value;
 			dijit.byId("record_row").attr('value',ids+','+r);
 		} else { dijit.byId("record_row").attr('value',r);}
-		//setOwnerNameCollecteralById(r);
 		label = dijit.byId('client_name').attr('displayedValue');
 		dijit.byId('owner_name'+r).attr('value',label);
 }

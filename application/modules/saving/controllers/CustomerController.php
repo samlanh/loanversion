@@ -158,7 +158,6 @@ class Saving_CustomerController extends Zend_Controller_Action {
 			print_r(Zend_Json::encode($dataclient));
 			exit();
 		}
-	
 	}
 	function getclientnumberbybranchAction(){
 		if($this->getRequest()->isPost()){
