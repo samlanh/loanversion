@@ -1,0 +1,131 @@
+<?php
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$frm = $this->frm;
+?>
+<style>	
+.fullside {
+	width: 100%;
+	height: 30px;
+}
+</style>
+<form id='frm_add' action="<?php echo $this->url(array('module'=>'capital','controller'=>'capital','action'=>'add')); ?>" 
+				dojoType="dijit.form.Form" method="POST" enctype="application/x-www-form-urlencoded">
+<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				if(dijit.byId("brance").get('value')==''){
+					alert("Please Select Branch Name");
+					dijit.byId("branch_id").focus();
+					return false;
+					}
+				dijit.byId("save_new").set("disabled",true);
+				return true;
+			}else {
+				return false;
+			}
+</script>
+<fieldset>
+<table cellspacing="10" class='fullside'>
+	<legend class="mainblog"><strong><?php echo $tr->translate("ADD_CAPITAL")?></strong></legend>
+	<tr>
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" align="center"><strong><?php echo $tr->translate("BRANCH_INFO")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
+							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+							<td><?php echo $frm->getElement('brance')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("DATE")?></td>	
+							<td><?php echo $frm->getElement('date')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php echo $frm->getElement('status')?></td>
+						</tr>
+				</table>
+			</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+			 <fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("CASH_ON_HAND")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
+							<td><?php echo $tr->translate("DOLLARS")?></td>
+							<td><?php echo $frm->getElement('usa')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("REIL")?></td>
+							<td><?php echo $frm->getElement('reil')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("BATHS")?></td>	
+							<td><?php echo $frm->getElement('bath')?></td>
+						</tr>
+				</table>
+			</fieldset>	
+		</td>
+		<td width="33%;" valign="top">
+			<fieldset>
+				<legend align="center" ><strong><?php echo $tr->translate("CASH_IN_BANK")?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						<tr>
+							<td><?php echo $tr->translate("DOLLARS")?></td>
+							<td><?php echo $frm->getElement('usabank')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("REIL")?></td>
+							<td><?php echo $frm->getElement('reilbank')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("BATHS")?></td>	
+							<td><?php echo $frm->getElement('bathbank')?></td>
+						</tr>
+				</table>
+			</fieldset>	
+		</td>
+	</tr>
+	<tr>
+	 		  <td style="text-align: right;"><?php echo $tr->translate("NOTE")?></td>
+			  <td colspan="2"><?php echo $frm->getElement('note');echo $frm->getElement('id');?></td>
+	</tr>
+		
+	<tr>
+			<td align="center" colspan="3">
+				<input type="submit" value="បោះបង់" label="<?php echo $tr->translate("CANCEL")?>" name="cancel" id="cancel" dojoType="dijit.form.Button" iconClass="dijitIconDelete"/>
+				<input type="submit" value="រក្សាទុកថ្មី" label="<?php echo $tr->translate("SAVE_CLOSE")?>" name="save_new" id="save_new" dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconSave"/>
+			</td>
+	</tr>	
+</table>
+</fieldset>
+</form>
+<script type="text/javascript">
+dojo.require("dijit.form.Textarea");
+dojo.require("dijit.form.NumberTextBox");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.FilteringSelect");
+dojo.require("dijit.form.DateTextBox");
+
+function submitDataClose(){
+	if(dijit.byId("brance").get('value')==''){
+		alert("Please Select Branch Name");
+		dijit.byId("brance").focus();
+		return false;
+	}
+	if(dijit.byId('frm_add').validate()) {
+		dijit.byId("save_close").set("disabled",true);
+		dijit.byId("save_new").set("disabled",true);
+		var url_submit = '<?php echo $this->url(array('module'=>'capital','controller'=>'capital','action'=>'add')); ?>';
+		dojo.xhrPost({
+		    url: url_submit,	
+			form: dojo.byId("frm_add"),		    
+			load: function(data) {
+				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+				window.location.href ="<?php echo $this->baseUrl();?>/capital/capital";
+			},
+			error: function(e) {
+			}
+		});
+	}
+}
+</script>
