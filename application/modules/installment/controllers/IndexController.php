@@ -272,5 +272,15 @@ class Installment_IndexController extends Zend_Controller_Action {
 		}
 	}
 	
+	/* vandy get Client Installment Information for show on Invoice  */
+	function getclientinsinfoAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$db = new Loan_Model_DbTable_DbLoanIL();
+			$Client = $db->getInstallmentClientInfo($_data['clientID']);
+			print_r(Zend_Json::encode($Client));
+			exit();
+		}
+	}
 }
 

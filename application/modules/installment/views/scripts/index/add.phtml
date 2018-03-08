@@ -230,7 +230,8 @@
  
  <div class="dijitHidden">
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'វិក្ក័យបត្រ', onCancel:hideDialog" id="frmInvoice" style="width:1000px">
-		<div id="invoicePrint" class="print" style="text-align:center; width:15cm; height:21cm;">
+		<div style=" width:15cm; height:21cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+			<div id="invoicePrint" class="print" style="text-align:center; widht:100% ">
 			<style>
 				.style {
 					line-height: 18px;
@@ -249,115 +250,151 @@
 				#boder-td{
 					border: 1px solid #000;
 				}
+				span.labelBorderBottom {
+				    border-bottom: dashed 1px #00f;
+				    min-width: 30px;
+				    display: inline-block;
+					line-height: 9px;
+					text-align: center;
+				}
 				</style>
 				<!-- header -->
-				<table  style="font-family: 'Khmer OS Content'; text-align: center; margin:0 auto; width:15cm; height:21cm;">
+				<table  style="font-family: 'Times New Roman','Khmer OS Battambang'; text-align: center; margin:0 auto; width:100%; ">
 					<tbody>
-						<tr style="text-align:center; line-height:24px; font-size:15px; font-family:'Khmer OS Muol Light'; ">
-							  <td align="center" valign="top" width="20%"><span><img src="<?php echo $this->baseUrl()?>/images/Filed other.zip.png" style="width: 65%;"></span>
+						<tr style="text-align:center; line-height:16px; font-size:12px; font-family:'Khmer OS Muol Light'; ">
+							  <td align="center" valign="top" width="20%"><span><img src="<?php echo $this->baseUrl()?>/images/Filed other.zip.png" style="width: 80%;"></span>
 							  </td>
-							  <td align="center" valign="top" width="60%" ><span style="color: blue; line-height: 30px;">ព្រះរាជាណាចក្រកម្ពុជា<br>
+							  <td align="center" valign="top" width="60%" ><span style="color: blue;">ព្រះរាជាណាចក្រកម្ពុជា<br>
 							  ជាតិ សាសនា ព្រះមហាក្សត្រ</span><br>
-							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span style="color: red; font-size: 16px;">ហាងម៉ូតូ យុក សុខហួង</span>
+							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span style="color: red; font-size: 14px;">ហាងម៉ូតូ យុក សុខហួង</span>
 							  </td><p>
-							  <td align="center" valign="top" width="20%" ><span><img src="<?php echo $this->baseUrl()?>/images/honda_dream_2017.png" style="width: 65%;"></span>
+							  <td align="center" valign="top" width="20%" ><span><img src="<?php echo $this->baseUrl()?>/images/honda_dream_2017.png" style="width: 80%;"></span>
 							  </td>
 						</tr>
 						<tr>
 							<td colspan="3">
 								<table  style=" text-align: center; width:100%;">
 									<tbody>
-										<tr style="text-align:center; line-height:27px; font-size:14px; font-family:'Khmer OS Muol Light';" >
-											 <td align="left" valign="top" width="25%" >
+										<tr style="text-align:center; line-height:16px; font-size:10px; font-family:'Khmer OS Muol Light';" >
+											 <td align="left" valign="top" width="20%" >
 												<span><img src="<?php echo $this->baseUrl()?>/images/honda_motorycles_st_blazey_mx.png" style="width: 70%; margin-top: 0px;"></span>
 												<div>
-													<label style="line-height: 16px; color: red;">Tel:012 72 74 04<br>&nbsp;&nbsp;0888 72 74 04<br>&nbsp;&nbsp;095 75 38 44</label>
+													<label style="line-height: 12px; font-size:12px; color: red;">
+													Tel:&nbsp;012 72 74 04<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0888 72 74 04<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;095 75 38 44
+													</label>
 												</div>
 											 </td>
-											  <td width="50%" valign="top">
-												<span><p style="font-size: 12px; line-height: 20px;">មានលក់ម៉ូតូ គ្រប់ប្រភេទ នឹងមួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលួស ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</span></td>
-											  </td>
-											  <td align="center" valign="top" width="25%">
-												<span style="color: blue;">&nbsp;</span>
+											  <td width="60%" valign="top">
+												<span><p>មានលក់ម៉ូតូ គ្រប់ប្រភេទ នឹងមួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលស់ ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</p></span>
+											</td>
+											  <td align="center" valign="middle" width="20%">
+												<span style="color: red; font-size:16px; font-family:'Times New Roman','Khmer OS Battambang';" id="LBinvoice">&nbsp;00000</span>
 											</td>
 										</tr>
 										<tr style="text-align:center; line-height:20px; color: red; font-size:14px; font-family:'Times New Roman','Khmer OS Battambang';">
-											  <td align="left" align="top"><span>អាស័យដ្ឋាន: ភូមិស្លរក្រាម<br>សង្កាត់ស្លរក្រាម ក្រុងសៀមរាប<br>ស្ពានហ្រ្គងអូតែល, ផ្លូវមាត់ស្ទឹង<br>(ខាងកើតសណ្ឋាគារអាម៉ាន់សារ៉ា)</span>
-											  </td>
-											  <td align="center"  align="top"><span style="color: blue; font-size: 21px; text-decoration: underline; font-family: 'Khmer OS Muol Light';">វិក្ក័យបត្រ<p>INVOICE</td>
-											  <td align="center" align="top">
-												<table border="1" cellspacing="0px;" align="right">
-													<tr align="center"><td style="width: 10px; font-size: 12px;">សៀវភៅលេខ</td>
-														<td style="background-color: #D2B4DE  ; width: 85px;">&nbsp;</td>
-													</tr>
-													<tr align="center"><td style="width: 10px; font-size: 12px;">បង្កាន់ដៃពន្ឋលេខ</td>
-														<td style="background-color: #D2B4DE  ; width: 85px;">&nbsp;</td>
-													</tr>
-													<tr align="center"><td style="width: 10px; font-size: 12px;">ស្លាកលេខ</td>
-														<td style="background-color: #D2B4DE  ; width: 85px;"><x></x>&nbsp;</td>
+											 <td colspan="3">
+												<table  style=" text-align: left; width:100%;">
+													<tr>
+														<td width="35%" valign="top" style="line-height: 16px; font-size:12px; color: red;" >
+															<span>អាស័យដ្ឋាន: ភូមិស្លរក្រាម <br />សង្កាត់ស្លរក្រាម ក្រុងសៀមរាប <br /> ស្ពានហ្រ្គងអូតែល, ផ្លូវមាត់ស្ទឹង (ខាងកើតសណ្ឋាគារអាម៉ាន់សារ៉ា)</span>
+														</td>
+														<td align="center" valign="top"><span style="color: blue; font-size: 14px; text-decoration: underline; font-family: 'Khmer OS Muol Light';">វិក្កយបត្រ<br />INVOICE</span></td>
+														<td width="35%" valign="top">
+															<table width="100%" border="1" cellspacing="0" align="right" style=" border-collapse:collapse; border:solid 1px #000; font-size: 10px; color: #000; ">
+																<tr align="center">
+																	<td style="width: 30%; font-size: 12px;">សៀវភៅលេខ</td>
+																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
+																</tr>
+																<tr align="center">
+																	<td style="width: 30%; font-size: 12px;">បង្កាន់ដៃពន្ឋលេខ</td>
+																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
+																</tr>
+																<tr align="center">
+																	<td style="width: 30%; font-size: 12px;">ស្លាកលេខ</td>
+																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
+																</tr>
+															</table>
+														</td>
 													</tr>
 												</table>
-											  </td>
+											</td>
 										</tr>
 									</tbody>
 								</table>
 							</td>
 						</tr>
 						<tr>
+							<td colspan="3" align="left"  style="line-height: 16px; font-size:12px; color: blue;">
+							បានលក់ជូន អតិថិជនឈ្មោះ<span class="labelBorderBottom" style="min-width: 50%;"><span class="labelValue" id="LBclientName"></span></span>ភេទ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="LBclientGender">&nbsp;</span></span>អាយុ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="LBclientAge">&nbsp;</span></span>
+							លេខអត្តសញ្ញាណប័ណ្ណ<span class="labelBorderBottom" style="min-width: 40%;"><span class="labelValue" id="LBclientNationID"></span></span>ភូមិ<span class="labelBorderBottom" style="min-width: 35%;"><span class="labelValue" id="LBclientVillage"></span></span>
+							ឃុំ<span class="labelBorderBottom" style="min-width: 30%;"><span class="labelValue" id="LBclientComune"></span></span>ស្រុក<span class="labelBorderBottom" style="min-width: 30%;"><span class="labelValue" id="LBclientDistrict"></span></span>ខេត្ត<span class="labelBorderBottom" style="min-width: 27.5%;"><span class="labelValue" id="LBclientProvince"></span></span>
+							លេខទូរស័ព្ទ<span class="labelBorderBottom" style="min-width: 87.5%;"><span class="labelValue" id="LBclientPhone"></span></span>
+							</td>		
+						</tr>
+						<tr>
 							<td colspan="3" style="text-align:left;">
-								<span style="font-size: 14px; line-height: 25px; color: blue; font-family:'Times New Roman','Khmer OS Battambang';">បានលក់ជូន អតិថិជនឈ្មោះ............................................................................................&nbsp;ភេទ​.....................................................&nbsp;អាយុ...............................................<br>លេខអត្តសញ្ញាណប័ណ្ណ..............................................&nbsp;ភូមិ........................................&nbsp;ឃុំ.........................................&nbsp;ស្រុក..............................&nbsp;ខេត្ត..............................<br>លេខទូរស័ព្ទ..........................................................................................................................................................................................................................................</span>
-								<table id="exportExcel"  style="border-collapse: collapse;   font-size: 12px; white-space: normal;" width="100%" cellspacing="0">
-									<tbody>
-										<tr class="style" align="center" style=" font-family:'Khmer OS Muol Light'; background-color: #1E8449; color: #ffffff; font-weight: bold; padding: 2px 0px">
-											<th id="boder-td">&nbsp;បរិយាយ<br>DESCRIPTION&nbsp;</th>
-											<th id="boder-td">&nbsp;ប្រភេទ<br>MODEL&nbsp;</th>
-											<th id="boder-td">&nbsp;កម្លាំងម៉ាស៊ីន<br>POWER&nbsp;</th>
-											<th id="boder-td">&nbsp;ពណ៏<br>COLOR&nbsp;</th>
-											<th id="boder-td">&nbsp;លេខម៉ាស៊ីន<br>ENGNE N&nbsp;</th>
-											<th id="boder-td">&nbsp;លេខតូ<br>FRAME N&nbsp;</th>
-											<th id="boder-td">&nbsp;តម្លៃ<br>PRICE&nbsp;</th>
-										</tr>			
-										<tr style="line-height:16px; line-height: 38px; font-size:12px; " id="row_data">
-											<td align="center" id="boder-td">&nbsp;&nbsp;</td>
-											<td align="center" id="boder-td">&nbsp;&nbsp;</td>
-											<td id="boder-td">&nbsp;&nbsp;</td>
-											<td id="boder-td">&nbsp;&nbsp;</td>
-											<td align="center" id="boder-td">&nbsp;&nbsp;</td>
-											<td align="right" id="boder-td">&nbsp;&nbsp;</td>
-											<td align="right" id="boder-td">&nbsp;&nbsp;</td>
+								
+								<table id="exportExcel" border="1"  style="border-collapse: collapse; border:solid 1px #000;   font-size: 10px; white-space: normal;" width="100%" cellspacing="0">
+									<thead>
+										<tr class="style" align="center" style=" font-family:'Times New Roman','Khmer OS Muol Light'; background-color: #1E8449; color: #ffffff; padding: 2px 0px">
+											<td>&nbsp;បរិយាយ<br>DESCRIPTION&nbsp;</td>
+											<td>&nbsp;ប្រភេទ<br>MODEL&nbsp;</td>
+											<td>&nbsp;កម្លាំងម៉ាស៊ីន<br>POWER&nbsp;</td>
+											<td>&nbsp;ពណ៏<br>COLOR&nbsp;</td>
+											<td>&nbsp;លេខម៉ាស៊ីន<br>ENGNE N<sup>0</sup>&nbsp;</td>
+											<td>&nbsp;លេខតូ<br>FRAME N<sup>0</sup>&nbsp;</td>
+											<td style="min-width: 100px;">&nbsp;តម្លៃ<br>PRICE&nbsp;</td>
+										</tr>		
+									</thead>
+									<tbody>	
+										<tr style="line-height:16px; font-size:10px; ">
+											<td align="center">&nbsp;<span id="LBDescription"></span>&nbsp;</td>
+											<td align="center">&nbsp;<span id="LBModel"></span>&nbsp;</td>
+											<td>&nbsp;<span id="LBPower"></span>&nbsp;</td>
+											<td>&nbsp;<span id="LBColor"></span>&nbsp;</td>
+											<td align="center">&nbsp;<span id="LBEngineNo"></span>&nbsp;</td>
+											<td align="right" >&nbsp;<span id="LBFrameNo"></span>&nbsp;</td>
+											<td align="right">&nbsp;<span id="LBPrice"></span>&nbsp;</td>
 										</tr>
-										 <tr style="line-height:16px; line-height: 38px; font-size:12px; " id="row_data">
-											<td align="center" id="boder-td">&nbsp;&nbsp;</td>
-											<td align="center" id="boder-td">&nbsp;&nbsp;</td>
-											<td id="boder-td">&nbsp;&nbsp;</td>
-											<td id="boder-td">&nbsp;&nbsp;</td>
-											<td align="center" id="boder-td">&nbsp;&nbsp;</td>
-											<td align="right" id="boder-td">&nbsp;&nbsp;</td>
-											<td align="right" id="boder-td">&nbsp;&nbsp;</td>
+										 <tr style="line-height:16px; font-size:10px; " >
+											<td align="center">&nbsp;&nbsp;</td>
+											<td align="center">&nbsp;&nbsp;</td>
+											<td>&nbsp;&nbsp;</td>
+											<td>&nbsp;&nbsp;</td>
+											<td align="center">&nbsp;&nbsp;</td>
+											<td align="right">&nbsp;&nbsp;</td>
+											<td align="right">&nbsp;&nbsp;</td>
 										</tr>
-										<tr style="line-height:16px; line-height: 38px; font-size:12px; " id="row_data">
-											<td align="center" id="boder-td">&nbsp;&nbsp;</td>
-											<td align="center" id="boder-td">&nbsp;&nbsp;</td>
-											<td id="boder-td">&nbsp;&nbsp;</td>
-											<td id="boder-td">&nbsp;&nbsp;</td>
-											<td align="center" id="boder-td">&nbsp;&nbsp;</td>
-											<td align="right" id="boder-td">&nbsp;&nbsp;</td>
-											<td align="right" id="boder-td">&nbsp;&nbsp;</td>
+										<tr style="line-height:16px; font-size:10px; " >
+											<td align="center">&nbsp;&nbsp;</td>
+											<td align="center">&nbsp;&nbsp;</td>
+											<td>&nbsp;&nbsp;</td>
+											<td>&nbsp;&nbsp;</td>
+											<td align="center">&nbsp;&nbsp;</td>
+											<td align="right">&nbsp;&nbsp;</td>
+											<td align="right">&nbsp;&nbsp;</td>
 										</tr>
-										<tr style="line-height:16px; line-height: 38px; font-size:12px;" id="row_data">
-											<td colspan="6" rowspan="4" style="border-left: 1px solid #ffffff;">
-												<p style="font-size: 12px; text-align: left; line-height: 22px;  color: red;  font-family:'Khmer OS Muol Light';">
-												<strong style="text-decoration: underline;">ចំណាំៈ</strong><br>-អតិថិជនបានពិនិត្យ ត្រឹមត្រូវរួចហើយ<br>-ទំនិញទិញហើយមិនអាចដូរវិញបានទេ<br><b>-NO REFUND</p>
-												<p style="text-align: right; margin-top: -13%; font-family:'Khmer OS Muol Light';">
-												សរុប/TOTAL:&nbsp;&nbsp;<br>ប្រាក់កក់/DEPOSIT:&nbsp;&nbsp;<br>នៅខ្វះ/BALANCE DUE:&nbsp;&nbsp;</p>
+										<tr style="line-height:16px; font-size:12px; " >
+											<td valign="top" colspan="4" rowspan="3" style="border-left: 1px solid #ffffff; border-bottom:#fff solid 1px; padding: 5px 3px;">
+												<p style="font-size: 10px; text-align: left; line-height: 22px;  color: red;  font-family:'Times New Roman','Khmer OS Muol Light';">
+												<span style="text-decoration: underline;">ចំណាំៈ</span>
+												&nbsp;-អតិថិជនបានពិនិត្យ ត្រឹមត្រូវរួចហើយ
+												<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-ទំនិញទិញហើយមិនអាចដូរវិញបានទេ
+												<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-NO REFUND
+												</p>
 											</td>	
-											<td align="right" id="boder-td" style="background-color: #D2B4DE;">&nbsp;&nbsp;</td>
+											<td colspan="2" align="right" style="font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">សរុប/TOTAL:&nbsp;&nbsp;</td>
+											<td align="right"  style="font-size:14px; line-height:28px; background-color: #D2B4DE; " >&nbsp;<span id="LBTotal"></span>&nbsp;</td>
 										</tr>
-										<tr style="line-height:16px; line-height: 38px; font-size:12px; background-color: #D2B4DE;">
-											<td align="right" id="boder-td">&nbsp;&nbsp;</td>
+										<tr style="line-height:28px; font-size:14px;">
+											<td colspan="2" align="right" style=" font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">&nbsp;ប្រាក់កក់/DEPOSIT:&nbsp;</td>
+											<td align="right" style="background-color: #D2B4DE;" >&nbsp;<span id="LBDeposit"></span>&nbsp;</td>
 										</tr>	
-										<tr style="line-height:16px; line-height: 38px; font-size:12px; background-color: #D2B4DE;">
-											<td align="right" id="boder-td">&nbsp;&nbsp;</td>
+										<tr style="line-height:28px; font-size:14px; ">
+											<td colspan="2" align="right" style=" font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';" >&nbsp;នៅខ្វះ/BALANCE DUE:&nbsp;</td>
+											<td align="right" style="background-color: #D2B4DE;" >&nbsp;<span id="LBBalance"></span>&nbsp;</td>
 										</tr>
 									</tbody>
 								</table>
@@ -365,27 +402,28 @@
 						</tr>
 						<tr>
 							<td colspan="3" align="right">
-								<span style="color: blue; font-size: 14px; text-align: right; font-family:'Times New Roman','Khmer OS Battambang';"><p></p></span>
+								<span style="color: blue; font-size: 10px; text-align: right; font-family:'Times New Roman','Khmer OS Battambang';"><p></p></span>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="3" align="center">
 								<table  style=" text-align: center; width:100%;">
-									<tr style="font-size: 14px;">
+									<tr style="font-size: 10px;">
 										<td style="width:50%; color: blue; text-align:center; font-size: 12px; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;"><td>&nbsp;</td>
-										<td style=" width:50%; color: blue; text-align:center; font-size: 12px; font-family:'Khmer OS Muol Light';font-weight:200;">ថ្ងៃ ទី...................ខែ..................ឆ្នាំ ២០១.......</strong></td>
+										<td style=" width:50%; color: blue; text-align:center; font-size: 12px; font-weight:200;">ថ្ងៃ ទី<span class="labelBorderBottom" style="min-width: 25%;"><span class="labelValue" id="LBDate"></span></span>ខែ<span class="labelBorderBottom" style="min-width: 25%;"><span class="labelValue" id="LBMonth"></span></span>ឆ្នាំ <span class="labelBorderBottom" style="min-width: 15%;"><span class="labelValue" id="LBYear"></span></span></td>
 								   </tr>
-									<tr style="font-size: 14px;">
-										<td style="width:50%; color: blue; text-align:center; font-size: 12px; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap; ">ស្នាមមេដៃអ្នកទិញ<strong>CUSTOMER'S THUMB PRINT</strong><td>&nbsp;</td>
-										<td style=" width:50%; color: blue; text-align:center; font-size: 12px; font-family:'Khmer OS Muol Light';font-weight:200;">ហេត្ថលេខាអ្នកលក់<strong>SELLER'S SIGNATURE</strong></td>
+									<tr style="font-size: 10px;">
+										<td style="width:50%; color: blue; text-align:center; font-size: 10px; font-family:'Times New Roman','Khmer OS Muol Light';font-weight:200;white-space: nowrap; ">ស្នាមមេដៃអ្នកទិញ  / <strong>CUSTOMER'S THUMB PRINT</strong><td>&nbsp;</td>
+										<td style=" width:50%; color: blue; text-align:center; font-size: 10px; font-family:'Times New Roman','Khmer OS Muol Light';font-weight:200;">ហេត្ថលេខាអ្នកលក់ / <strong>SELLER'S SIGNATURE</strong></td>
 								   </tr>
 								</table>
 							</td>
 						</tr>
 					</tbody>
 				</table>
+			</div>
 		</div>
-		<input type="button" onclick="doPrintInvoice();" label="<?php echo $tr->translate("SAVE_PRINT");?>" id='saveprint' name='saveprint' value='saveprint' dojoType="dijit.form.Button"
+		<input type="button" onclick="doPrintInvoice();" label="<?php echo $tr->translate("SAVE_PRINT");?>" id='saveprintInvoice' name='saveprint' value='saveprint' dojoType="dijit.form.Button"
 	iconClass="dijitIconNewTask"/>
 	</div>
  </div>
@@ -409,6 +447,36 @@
 </form>
 <script type="text/javascript">	
 function showInvoice(){
+	dojo.byId('LBinvoice').innerHTML=dijit.byId('loan_code').get('value');
+	
+	dojo.byId('LBDescription').innerHTML=dijit.byId('loan_code').get('value');
+	dojo.byId('LBModel').innerHTML=dijit.byId('loan_code').get('value');
+	dojo.byId('LBPower').innerHTML=dijit.byId('loan_code').get('value');
+	dojo.byId('LBColor').innerHTML=dijit.byId('loan_code').get('value');
+	dojo.byId('LBEngineNo').innerHTML=dijit.byId('loan_code').get('value');
+	dojo.byId('LBFrameNo').innerHTML=dijit.byId('loan_code').get('value');
+	dojo.byId('LBPrice').innerHTML=dijit.byId('loan_code').get('value');
+
+	dojo.byId('LBTotal').innerHTML=dijit.byId('loan_code').get('value');
+	dojo.byId('LBDeposit').innerHTML=dijit.byId('loan_code').get('value');
+	dojo.byId('LBBalance').innerHTML=dijit.byId('loan_code').get('value');
+	release_date = dijit.byId('release_date').get('value');
+	var a = new Date(release_date);
+
+	var mm = a.getMonth() + 1;
+	var dd = a.getDate();
+	 if(dd<10){
+		 dd = "0"+dd;
+	}
+	 if(mm<10){
+		 mm = "0"+mm;
+	}
+	var y = a.getFullYear();
+	dojo.byId('LBDate').innerHTML=dd;
+	dojo.byId('LBMonth').innerHTML=mm;
+	dojo.byId('LBYear').innerHTML=y;
+
+	
 	dijit.byId("frmInvoice").show();
 }
 function hideInvoice(){
@@ -530,6 +598,7 @@ require(["dojo/ready"], function(ready){
 			}else{
 			getLoanLevel(member);
 			dijit.byId('customer_code').attr('value',member);
+			getClientInfo();
 		}
 }
 	}, "member");
@@ -553,6 +622,7 @@ require(["dojo/ready"], function(ready){
 			showPopupclient();
 		}else{
 			dijit.byId('member').attr('value',customer_code);
+			getClientInfo();
 		}
     }
 	}, "customer_code");
@@ -1113,6 +1183,34 @@ function loading(){
 function stopLoading(){
 	 document.getElementsByClassName("overlay")[0].style.display="none";
 }
+/* vandy get Client Installment Information for show on Invoice  */
+var urlClientInfo = '<?php echo $this->url(array('module'=>'installment','controller'=>'index','action'=>'getclientinsinfo')); ?>';
+function getClientInfo(){
+	clientID = dijit.byId('customer_code').get('value');
+	dojo.xhrPost({
+		url:urlClientInfo,	
+		content:{ 
+		    'clientID':clientID
+		},
+		handleAs:"json",
+		load: function(data) {
+			
+			dojo.byId('LBinvoice').innerHTML=dijit.byId('loan_code').get('value');
+			dojo.byId('LBclientName').innerHTML=data.name_kh;
+			dojo.byId('LBclientGender').innerHTML=data.sexKH;
+			dojo.byId('LBclientAge').innerHTML=data.ages;
+			dojo.byId('LBclientNationID').innerHTML=data.nation_id;
+			dojo.byId('LBclientVillage').innerHTML=data.villageKH;
+			dojo.byId('LBclientComune').innerHTML=data.communeKH;
+			dojo.byId('LBclientDistrict').innerHTML=data.districtKH;
+			dojo.byId('LBclientProvince').innerHTML=data.provinceKH;
+			dojo.byId('LBclientPhone').innerHTML=data.name_kh;
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
+  }
 </script>
 <style>
 .overlay {display: none;position: absolute;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}

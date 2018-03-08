@@ -1274,5 +1274,33 @@ function getLoanLevelByClient($client_id,$type){
     	//return $sql;
     	return $db->fetchOne($sql);
     }
+    
+    /* vandy get Client Installment Information for show on Invoice  */
+    function getInstallmentClientInfo($ID){
+    	$db = $this->getAdapter();
+    	$this->_name ="ln_ins_client";
+    	$sql="SELECT inClient.*,
+    		(SELECT vie.name_kh FROM `ln_view` AS vie WHERE vie.type=11 AND vie.key_code = inClient.`sex` LIMIT 1) AS sexKH,
+			(SELECT vie.name_en FROM `ln_view` AS vie WHERE vie.type=11 AND vie.key_code = inClient.`sex` LIMIT 1) AS sexEN,
+			(SELECT p.province_kh_name FROM `ln_province` AS p WHERE inClient.`pro_id` = p.province_id LIMIT 1) AS provinceKH,
+			(SELECT p.province_en_name FROM `ln_province` AS p WHERE inClient.`pro_id` = p.province_id LIMIT 1) AS provinceEN,
+			(SELECT d.district_namekh FROM `ln_district` AS d WHERE inClient.`dis_id` = d.dis_id LIMIT 1) AS districtKH,
+			(SELECT d.district_name FROM `ln_district` AS d WHERE inClient.`dis_id` = d.dis_id LIMIT 1) AS districtEN,
+			(SELECT c.commune_namekh FROM `ln_commune` AS c WHERE c.com_id = inClient.`com_id` LIMIT 1 ) AS communeKH,
+			(SELECT c.commune_name FROM `ln_commune` AS c WHERE c.com_id = inClient.`com_id` LIMIT 1 ) AS communeEM,
+			(SELECT v.village_namekh FROM `ln_village` AS v WHERE inClient.`village_id` = v.vill_id LIMIT 1) AS villageKH,
+			(SELECT v.village_name FROM `ln_village` AS v WHERE inClient.`village_id` = v.vill_id LIMIT 1) AS villageEN
+			FROM $this->_name AS inClient
+			WHERE inClient.`client_id` =1 LIMIT 1";
+    	$row = $db->fetchRow($sql);
+    	if (!empty($row)){
+    		$from = new DateTime($row['dob']);
+    		$to   = new DateTime('today');
+    		$age = $from->diff($to)->y;
+    		$row['ages'] = $age;
+    		return $row;
+    	}
+    	return "";
+    }
   
 }
