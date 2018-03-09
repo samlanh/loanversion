@@ -1,0 +1,31 @@
+<?php 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate("PAWN_SALE"));
+	$frm = $this->frm_search;
+	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
+<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+   <table width="100%">
+	   <tr>  
+	        <td><?php //echo $frm->getElement("adv_search");?></td>
+	        <td><?php //echo $frm->getElement('branch_id');?></td>
+	   		<td><?php //echo $frm->getElement('members');?></td>
+	   		<td><?php //echo $frm->getElement("product_id");?></td>
+	   </tr>
+	   <tr>
+	   		<td><?php //echo $frm->getElement('currency_type');?></td>
+	   		<td><?php //echo $frm->getElement('start_date');?></td>
+	   		<td><?php //echo $frm->getElement('end_date');?></td>
+	   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+	   </tr>
+	</table>
+</form>
+	<?php 
+	//echo $this->list;
+	?>
+<script>
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dojo.data.ItemFileWriteStore"); 
+	var client_store  = getDataStorefromJSON('id','name', [] );
+</script>
