@@ -61,20 +61,20 @@
 	</script>
 <fieldset style="background: #e0ebff">
 <table width="100%" style="margin-top:0px;" cellspacing="10">
-     <legend class="mainblog" ><strong><?php echo $tr->translate("IL_DISBURSE")?></strong></legend>
+     <legend class="mainblog" ><strong><?php echo $tr->translate("SALEINSTALLMENT_INFO")?></strong></legend>
 	<tr>
 		<td width="25%;" valign="top">
 			 <fieldset >
-				<legend align="center" ><strong><?php echo $tr->translate("INFO_INDILOAN")?></strong></legend>
+				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO")?></strong></legend>
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
 						<tr>
 					        <td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
 					    </tr>
 					    <tr>
-					    	<td><?php echo $tr->translate("LOAN_NO")?></td>
-							<td><?php echo $frm->getElement('loan_code');?></td>
-					    </tr>
+					 		<td><?php echo $tr->translate('SALE_NO');?></td>
+					 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="sale_no" id="sale_no" value="" type="text"></td>
+					 	</tr>
 					    <tr >
 							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
 							<td><input id="customer_code" /><?php //echo $frm->getElement('customer_code');?></td>
@@ -82,6 +82,12 @@
 						<tr>
 							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
 							<td><input id="member" /> <?php //echo $frm->getElement('member');?>
+							</td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("NOTE")?></td>
+							<td>
+								<input dojoType="dijit.form.TextBox" class="fullside" name="note" id="note" >
 							</td>
 						</tr>
 						<tr>
@@ -94,31 +100,31 @@
 		</td>
 		<td width="25%;" valign="top">
 			<fieldset>
-			<legend align="center" ><strong><?php echo $tr->translate("ពត៍មានទំនិញ")?></strong></legend>
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5" >
+			<legend align="center" ><strong><?php echo $tr->translate("ពត៌មានទំនិញ")?></strong></legend>
+			 <table style="margin: 0 auto; width: 100%;text-align: left;white-space: nowrap;" cellspacing="5" >
 			 	<tr>
 			 		<td><?php echo $tr->translate('MODEL');?></td>
-			 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="date_line" value="" type="text"></td>
+			 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="product_id" id="product_id" value="" type="text"></td>
 			 	</tr>
 			 	<tr>
 			 		<td><?php echo $tr->translate('Name');?></td>
-			 		<td><input dojoType="dijit.form.TextBox" class="fullside" required="true" name="date_line" value="" type="text"></td>
+			 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="product_name" id="product_name" value="" type="text"></td>
 			 	</tr>
 			 	<tr>
 			 		<td><?php echo $tr->translate('កម្លាំងម៉ាស៊ីន');?></td>
-			 		<td><input dojoType="dijit.form.TextBox" class="fullside" required="true" name="date_line" value="" type="text"></td>
+			 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="power" id="power" value="" type="text"></td>
 			 	</tr>
 			 	<tr>
 			 		<td><?php echo $tr->translate('ពណ៏');?></td>
-			 		<td><input dojoType="dijit.form.TextBox" class="fullside" required="true" name="date_line" value="" type="text"></td>
+			 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="color" id="color" value="" type="text"></td>
 			 	</tr>
 			 	<tr>
 			 		<td><?php echo $tr->translate('លេខម៉ាស៊ីន');?></td>
-			 		<td><input dojoType="dijit.form.TextBox" class="fullside"  name="date_line" value="" type="text"></td>
+			 		<td><input dojoType="dijit.form.TextBox" class="fullside"  name="engine" id="engine" value="" type="text"></td>
 			 	</tr>
 			 	<tr>
-			 		<td><?php echo $tr->translate('លេខតូ');?></td>
-			 		<td><input dojoType="dijit.form.TextBox" class="fullside"  name="date_line" value="" type="text"></td>
+			 		<td><?php echo $tr->translate('លេខតួ');?></td>
+			 		<td><input dojoType="dijit.form.TextBox" class="fullside"  name="frame" id="frame" value="" type="text"></td>
 			 	</tr>
 			 </table>
 			 
@@ -126,44 +132,40 @@
 		</td>
 		<td width="25%;" valign="top">
 			 <fieldset>
-				<legend align="center" ><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></legend>
+				<legend align="center" ><strong><?php echo $tr->translate("PAYMENT_INFO")?></strong></legend>
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+						
 						<tr>
-					        <td style="width: 41%;"><?php echo $tr->translate("LOAN_AMOUNT")?></td>
-							<td><?php echo $frm->getElement('total_amount');?></td>
-					    </tr>
-					    <tr>
-					    	<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-					    </tr>
-					    <tr>
-					    	<td><?php echo $tr->translate("AMIN_FEE")?></td>
-							<td><?php echo $frm->getElement('loan_fee');?></td>
-					    </tr>
-					    <tr>
-					    	<td><?php echo $tr->translate("OTHER_FEE")?></td>
-							<td><?php echo $frm->getElement('other_fee');?></td>
-					    </tr>
-					    <tr>
-					    	<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
-							<td><?php echo $frm->getElement('repayment_method');?></td>
-					    </tr>
-					    <tr >
-							<td style="width: 34%;"><?php echo $tr->translate("INTEREST_RATE")?></td>
-							<td><?php echo $frm->getElement('interest_rate');?></td>
-						</tr>
+					 		<td><?php echo $tr->translate('តម្លៃលក់');?></td>
+					 		<td><input dojoType="dijit.form.NumberTextBox" class="fullside"  name="selling_price" id="selling_price" value="" type="text"></td>
+					 	</tr>
+						
 						<tr>
-							<td><?php echo $tr->translate("TERM_INSTALL")?></td>
-							<td><?php echo $frm->getElement('pay_every');?></td>
-						</tr>
+					 		<td><?php echo $tr->translate('ប្រភេទទិញ');?></td>
+					 		<td>
+					 			<select dojoType="dijit.form.FilteringSelect" class="fullside"  name="selling_type" id="selling_type" >
+					 				<option value="1"><?php echo $tr->translate('ទិញដាច់');?></option>
+					 				<option value="2"><?php echo $tr->translate('បង់រំលស់');?></option>
+					 			</select>
+					 		</td>
+					 	</tr>
+					 	<tr>
+					 		<td><?php echo $tr->translate('បានបង់');?></td>
+					 		<td><input dojoType="dijit.form.NumberTextBox" class="fullside"  name="paid" id="paid" value="" type="text"></td>
+					 	</tr>
+					 	<tr>
+					 		<td><?php echo $tr->translate('BALANCE');?></td>
+					 		<td><input dojoType="dijit.form.NumberTextBox" class="fullside"  name="balance" id="balance" value="" type="text"></td>
+					 	</tr>
+					 	<tr>
+					 		<td><?php echo $tr->translate('លេខវិក័យបត្រ');?></td>
+					 		<td><input dojoType="dijit.form.TextBox" class="fullside"  name="invoice_no" id="invoice_no" ></td>
+					 	</tr>
+						
 						<tr>
-							<td><?php echo $tr->translate("TERM_BORROW")?></td>
-							<td><?php echo $frm->getElement('period');?></td>
-						</tr>
-						<tr>
-					  		<td style=" width: 40%;"><?php echo $tr->translate("LOAN_RELEASE")?></td>
-							<td><?php echo $frm->getElement('release_date');?></td>
-					    </tr>
+					 		<td><?php echo $tr->translate('ថ្ងៃបង់ប្រាក់');?></td>
+					 		<td><input dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="paid_date" id="paid_date" ></td>
+					 	</tr>
 					    
 				</table>
 			</fieldset>	
@@ -171,47 +173,40 @@
 		<td width="25%;" valign="top">
 			<fieldset>
 				<legend align="center" ><strong><?php echo $tr->translate("INFO_FUND")?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+				 <table style="margin: 0 auto; width: 100%;text-align: left;white-space: nowrap;" cellspacing="5"  >
+						 
 						 <tr>
-					        <td style="width: 41%;"><?php echo $tr->translate("TIME_COLLECION")?></td>
-							<td><?php echo $frm->getElement('time');?></td>
+					 		<td><?php echo $tr->translate('ថ្ងៃខ្ចីប្រាក់');?></td>
+					 		<td><input dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="installment_date" id="installment_date" ></td>
+					 	 </tr>
+					 	 <tr>
+					 		<td><?php echo $tr->translate('អាត្រាការប្រាក់(%)');?></td>
+					 		<td><input dojoType="dijit.form.TextBox" class="fullside"  name="interest" id="interest" ></td>
+					 	</tr>
+					 	<tr>
+					 		<td><?php echo $tr->translate('រយះពេលខ្ចី(ខែ)');?></td>
+					 		<td><input dojoType="dijit.form.TextBox" class="fullside"  name="duration" id="duration" ></td>
+					 	</tr>
+					 	<tr>
+					    	<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
+							<td><?php echo $frm->getElement('repayment_method');?></td>
 					     </tr>
-					     <tr>
-					    	<td><?php echo $tr->translate("TERM_FUND")?></td>
-							<td><?php echo $frm->getElement('collect_termtype');?></td>
-					     </tr>
-					     <tr>
-							<td><?php echo $tr->translate("TERM_GRAICE_PARIOD")?><br/>(<label style="font-size:10px;" id="graice_type"></label>)</td>
-							<td><?php echo $frm->getElement('graice_pariod');?></td>
-						</tr>
 					     
-					     <tr>
-					    	<td style="width: 34%;"><?php echo $tr->translate("AMOUNT_TERM_FUND")?></td>
-							<td><?php echo $frm->getElement('amount_collect');?></td>
-					     </tr>
-						 <tr>
-							<td><?php echo $tr->translate("HOLIDAY_STATUS")?></td>
-							<td><?php  echo $frm->getElement('every_payamount');?></td>
-						 </tr>
-					    <tr>
-					    	<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
-							<td><?php echo $frm->getElement('first_payment');?></td>
-					    </tr>
-					    <tr>
-					    	<td><?php echo $tr->translate("LIFE_LOAN")?></td>
-							<td><?php echo $frm->getElement('date_line');?></td>
-					    </tr>
-					    <tr>
-					    	<td><label id="lbl_payment"><?php echo $tr->translate("AMOUNT_FUND_GRAICE_PARIOD")?></label></td>
-							<td><?php echo $frm->getElement('amount_collect_pricipal');?></td>
-					    </tr>
+					 	<tr>
+					 		<td><?php echo $tr->translate('ថ្ងៃបង់ប្រាក់ដំបូង');?></td>
+					 		<td><input dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="first_payment" id="first_payment" ></td>
+					 	</tr>
+					 	<tr>
+					 		<td><?php echo $tr->translate('ថ្ងៃបញ្ចប់');?></td>
+					 		<td><input dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="date_line" id="date_line" ></td>
+					 	</tr>
 				</table>
 			</fieldset>	
 		</td>
 	</tr>
 	 
 	<tr>
-		<td align="center" colspan="3">
+		<td align="center" colspan="4">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
 			<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
