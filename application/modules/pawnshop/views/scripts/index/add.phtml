@@ -187,6 +187,8 @@
 	}
 	.myblog{display: none !important;}
 </style>
+
+
 <div class="dijitHidden" style="width: 23cm !important; height: 11cm ; padding: 0px; margin: 0px;">
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'បង្កាន់ដៃដាក់ទ្រពបញ្ចាំ ', onCancel:hideDialog" id="frm_receipt" style="width:24cm;">
 		<div style="padding:5px;width:100%">
@@ -653,21 +655,17 @@ function addProductName(){
 			});
 	}
 }
-function checkValidateDate(){
+
+function hideDialog() {		
+	dijit.byId("recript_dialog").hide();
 }
-function setDefaultPaymentAmount(){}
-	function hideDialog() {		
-		dijit.byId("recript_dialog").hide();
-	}
-	// Force them to provide an answer
-	function doPrint() {
-		window.frames["print_frame"].document.body.innerHTML=dojo.byId('rpt_print').innerHTML;
-	    window.frames["print_frame"].window.focus();
-	    window.frames["print_frame"].window.print();
-	    hideDialog();
-	    dijit.byId("frm_add_tran").submit();
-	    
-	}
+function doPrint() {
+	window.frames["print_frame"].document.body.innerHTML=dojo.byId('rpt_print').innerHTML;
+	window.frames["print_frame"].window.focus();
+	window.frames["print_frame"].window.print();
+	hideDialog();
+	dijit.byId("frm_add_tran").submit();
+}
 </script>
 <script type="text/javascript">
 dojo.require("dojo.data.ItemFileWriteStore"); 
