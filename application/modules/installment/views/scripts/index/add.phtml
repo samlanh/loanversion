@@ -177,7 +177,7 @@
 						 
 						 <tr>
 					 		<td><?php echo $tr->translate('ថ្ងៃខ្ចីប្រាក់');?></td>
-					 		<td><input dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="installment_date" id="installment_date" ></td>
+					 		<td><input dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="release_date" id="release_date" ></td>
 					 	 </tr>
 					 	 <tr>
 					 		<td><?php echo $tr->translate('អាត្រាការប្រាក់(%)');?></td>
@@ -442,19 +442,19 @@
 </form>
 <script type="text/javascript">	
 function showInvoice(){
-	dojo.byId('LBinvoice').innerHTML=dijit.byId('loan_code').get('value');
+	dojo.byId('LBinvoice').innerHTML=dijit.byId('sale_no').get('value');
 	
-	dojo.byId('LBDescription').innerHTML=dijit.byId('loan_code').get('value');
-	dojo.byId('LBModel').innerHTML=dijit.byId('loan_code').get('value');
-	dojo.byId('LBPower').innerHTML=dijit.byId('loan_code').get('value');
-	dojo.byId('LBColor').innerHTML=dijit.byId('loan_code').get('value');
-	dojo.byId('LBEngineNo').innerHTML=dijit.byId('loan_code').get('value');
-	dojo.byId('LBFrameNo').innerHTML=dijit.byId('loan_code').get('value');
-	dojo.byId('LBPrice').innerHTML=dijit.byId('loan_code').get('value');
+	dojo.byId('LBDescription').innerHTML=dijit.byId('sale_no').get('value');
+	dojo.byId('LBModel').innerHTML=dijit.byId('sale_no').get('value');
+	dojo.byId('LBPower').innerHTML=dijit.byId('sale_no').get('value');
+	dojo.byId('LBColor').innerHTML=dijit.byId('sale_no').get('value');
+	dojo.byId('LBEngineNo').innerHTML=dijit.byId('sale_no').get('value');
+	dojo.byId('LBFrameNo').innerHTML=dijit.byId('sale_no').get('value');
+	dojo.byId('LBPrice').innerHTML=dijit.byId('sale_no').get('value');
 
-	dojo.byId('LBTotal').innerHTML=dijit.byId('loan_code').get('value');
-	dojo.byId('LBDeposit').innerHTML=dijit.byId('loan_code').get('value');
-	dojo.byId('LBBalance').innerHTML=dijit.byId('loan_code').get('value');
+	dojo.byId('LBTotal').innerHTML=dijit.byId('sale_no').get('value');
+	dojo.byId('LBDeposit').innerHTML=dijit.byId('sale_no').get('value');
+	dojo.byId('LBBalance').innerHTML=dijit.byId('sale_no').get('value');
 	release_date = dijit.byId('release_date').get('value');
 	var a = new Date(release_date);
 
@@ -493,7 +493,7 @@ function doPrintInvoice() {
 			term_d =30; 
 		}
 		
-		collect_term = dijit.byId('collect_termtype').get('value');
+		collect_term = 3;
 		if(collect_term==1){
 			term_c =1; 
 		}else if(collect_term==2){
@@ -522,7 +522,7 @@ function doPrintInvoice() {
     	else{
     		debt_term=30;
     	}
-    	collect_term = dijit.byId('collect_termtype').get('value');
+    	collect_term = 3;
 		collect_amount = dijit.byId('amount_collect').get('value');
 		if(collect_term==1){
 			collect_term=1;
@@ -724,7 +724,7 @@ function getLoanByBranch(){
 		},		    
 		handleAs:"json",
 		load: function(data) {
-			dijit.byId('loan_code').attr('value',data);
+			dijit.byId('sale_no').attr('value',data);
 		},
 		error: function(err) {
 		}
@@ -808,7 +808,7 @@ function getLoanLevel(client_id){
 		handleAs:"json", 
 		load: function(data) {	
 			customer_code = dijit.byId("customer_code").get("value");
-			dijit.byId('loan_code').attr('value',customer_code+'-'+data);
+			dijit.byId('sale_no').attr('value',customer_code+'-'+data);
 			dijit.byId('level').attr('value',data);
 		},
 		error: function(err) {
@@ -910,7 +910,7 @@ function getFirstPayment(){
 	calCulateFirstPayment();
 }
 function calCulateFirstPayment(){
-	pay_term = dijit.byId('collect_termtype').get('value');
+	pay_term = 3;
 	amount_date = dijit.byId('amount_collect').get('value');
 	release_date = dijit.byId("release_date").get('value');
 	var a = new Date(release_date);
@@ -1190,7 +1190,7 @@ function getClientInfo(){
 		handleAs:"json",
 		load: function(data) {
 			
-			dojo.byId('LBinvoice').innerHTML=dijit.byId('loan_code').get('value');
+			dojo.byId('LBinvoice').innerHTML=dijit.byId('sale_no').get('value');
 			dojo.byId('LBclientName').innerHTML=data.name_kh;
 			dojo.byId('LBclientGender').innerHTML=data.sexKH;
 			dojo.byId('LBclientAge').innerHTML=data.ages;
