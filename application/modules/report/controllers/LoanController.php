@@ -1179,7 +1179,7 @@ function rptLoanTrasferzoneAction(){//release all loan
  		);
  	}
  	$this->view->loantotalcollect_list =$db->getCollectDailyPayment($search);
- 	$this->view->rsincome= $db->getTotalOtherIncomeReport($search);//call frome model
+ 	$this->view->rsincome= $db->getAllOtherIncomeReport($search);//call frome model
  	$this->view->rsexpense= $db->getAllExpenseReport($search);//call frome model
  	$this->view->LoanFee_list =$db->getALLLFee($search);
  	

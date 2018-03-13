@@ -232,7 +232,7 @@ table { page-break-inside:auto }
                 <?php $amt_d = 0;$amt_b3 = 0;
                 $total_rr=0;$total_dd=0;$total_bb=0;
                 ?>
-                <?php if(!empty($this->rsincome)) foreach ($this->rsincome as $key => $rs){ ?>
+                <?php if(!empty($this->rsincome))foreach($this->rsincome as $key => $rs){ ?>
                 <?php 
 	                if($rs['curr_type']==1){
 	                	$total_rr = $total_rr+$rs["total_amount"];
