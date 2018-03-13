@@ -1713,9 +1713,11 @@ AND cl.client_id = $client_id )";
       	if($search['status']>-1 ){
       		$where.= " AND status = ".$search['status'];
       	}
-      	if($search['currency_type']>-1){
-      	    $where.= " AND curr_type = ".$search['currency_type'];
-        }
+      	if(!empty($search['currency_type'])){
+	      	if($search['currency_type']>-1){
+	      	    $where.= " AND curr_type = ".$search['currency_type'];
+	        }
+      	}
       	$order=" order by id desc ";
 //       	echo$sql.$where.$order;exit();
       	return $db->fetchRow($sql.$where.$order);
