@@ -17,6 +17,9 @@
 			Application_Form_FrmMessage::redirectUrl("/home");
 		}
 	}
+	if (empty($session_user->user_id)){
+		Application_Form_FrmMessage::redirectUrl("/");
+	}
 	
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -150,12 +153,12 @@
 							$db = new Application_Model_DbTable_DbUsers();
 	            			$rs = $db->getAccessUrl($module,$controller,$action);
 	            			echo $this->layout()->content;
-	            			/*if(!empty($rs) OR $action=='changepassword'){
+	            			if(!empty($rs) OR $action=='changepassword'){
 	            				echo $this->layout()->content;
 	            			}else{
-	            				//echo $this->layout()->content;
+	            				echo $this->layout()->content;
 	            				echo $this->render('pagenotfund.phtml');
-	            			}*/
+	            			}
             			 ?>
             			 <?php 
 			               	if($module=='report' AND $action!='rpt-paymentschedules'){
