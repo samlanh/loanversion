@@ -9,7 +9,7 @@ class Installment_Form_FrmProduct extends Zend_Form
 //     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 //     	$request=Zend_Controller_Front::getInstance()->getRequest();
     	
-//     	$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
+    	$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	$this->filter = 'dijit.form.FilteringSelect';
     	$this->text = 'dijit.form.TextBox';
     	
@@ -28,7 +28,6 @@ class Installment_Form_FrmProduct extends Zend_Form
 				));
 		$_title->setValue($request->getParam("adv_search"));
 		
-		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_status->setAttribs(array('dojoType'=>$this->filter,'class'=>'fullside'));
 		$_status_opt = array(
@@ -46,13 +45,13 @@ class Installment_Form_FrmProduct extends Zend_Form
 		));
 		$dbg = new Application_Model_DbTable_DbGlobal();
 		$rows = $dbg->getAllBranchName();
-		$options_branch=array(''=>"---ជ្រើសរើសឈ្មោះសាខា---");
+		$options_branch=array(''=>$this->tr->translate("Choose Branch"));
 		if(!empty($rows))foreach($rows AS $row){
 			$options_branch[$row['br_id']]=$row['branch_namekh'];
 		}
 		$branch_id->setMultiOptions($options_branch);
 		$branch_id->setValue($request->getParam("branch_id"));
-		 
+		
 		$opt = array(''=>$tr->translate("PRODUCT_CATEGORY"),-1=>$tr->translate("ADD_NEW_CATEGORY"));
 		$category = new Zend_Form_Element_Select("category");
 		$category->setAttribs(array(
@@ -68,7 +67,7 @@ class Installment_Form_FrmProduct extends Zend_Form
 			}
 		}
 		$category->setMultiOptions($opt);
-		
+		$category->setValue($request->getParam("category"));
 		
 		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
 		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',

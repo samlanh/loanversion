@@ -34,11 +34,11 @@ dojo.require("dojo.NodeList-manipulate");
 				<legend align="center" ><strong><?php echo $tr->translate("PRODUCT_INFO")?></strong></legend>
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
 					    <tr>
-					    	<td><strong><?php echo $tr->translate("ឈ្មោះទំនិញ")?></strong></td>
+					    	<td><strong><?php echo $tr->translate("ITEM_NAME")?></strong></td>
 							<td><input class="fullside" dojoType="dijit.form.ValidationTextBox" required="1" id="name" name="name" value="" type="text"></td>
 					    </tr>
 					    <tr >
-							<td><?php echo $tr->translate("លេខកូដ")?></td>
+							<td><?php echo $tr->translate("ITEM_CODE")?></td>
 							<td><input class="fullside" dojoType="dijit.form.TextBox" id="pro_code" name="pro_code" value="" type="text"></td>
 						</tr>
 						<tr>
@@ -46,15 +46,15 @@ dojo.require("dojo.NodeList-manipulate");
 							<td><input id="product_type" /></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("ប្រភេទផលិតផល")?></td>
+							<td><?php echo $tr->translate("PRODUCT_CATEGORY")?></td>
 							<td><input id="category_id" /></td>
 						</tr>
 						<tr>
-					    	<td><strong><?php echo $tr->translate("ថ្លៃដើម")?></strong></td>
+					    	<td><strong><?php echo $tr->translate("COST_PRICE")?></strong></td>
 							<td><input class="fullside" dojoType="dijit.form.NumberTextBox" required="true" id="cost_price" name="cost_price" value="" type="text"></td>
 					    </tr>
 					     <tr>
-					  		<td ><strong><?php echo $tr->translate("ថ្លៃលក់")?></strong></td>
+					  		<td ><strong><?php echo $tr->translate("SOLD_PRICE")?></strong></td>
 							<td><input class="fullside" dojoType="dijit.form.NumberTextBox" required="true" id="selling_price" name="selling_price" value="" type="text"></td>
 					    </tr>
 				</table>
@@ -90,7 +90,7 @@ dojo.require("dojo.NodeList-manipulate");
 		<td align="center" colspan="3">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
-			<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
+			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"  
 				 iconClass="dijitIconNewTask"/>

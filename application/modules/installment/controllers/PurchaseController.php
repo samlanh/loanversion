@@ -18,12 +18,12 @@ class Installment_PurchaseController extends Zend_Controller_Action {
     		}
     		else{
     			$search=array(
-    				'title' => '',
-    				'product' => '',
-    				'supplier_id'=>'',
+    				'adv_search' => '',
+    				'supllier'=>'',
+    				'branch_id'=>'',
     				'start_date'=> date('Y-m-d'),
     				'end_date'=>date('Y-m-d'),
-    				'status_search'=>1,
+    				'status'=>-1,
     			);
     		}
 			$db =  new Installment_Model_DbTable_DbPurchase();
@@ -31,23 +31,22 @@ class Installment_PurchaseController extends Zend_Controller_Action {
 			$rs_rows=new Application_Model_GlobalClass();
 			$rs_rows=$rs_rows->getImgActive($rows, BASE_URL);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("PURCHASE_NO","SUPPLIER_NAME","SEX","TEL","EMAIL","PRODUCT_NAME","QTY",
-					"COST","TOTAL","DATE","STATUS");
+			$collumns = array("BRANCH","INVOICE_NO","SUPPLIER_NO","SUPPLIER_NAME","TEL","EMAIL","AMOUNT_DUE","DATE","STATUS");
 			$link=array(
 					'module'=>'stock','controller'=>'purchase','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('purchase_no'=>$link,'sup_name'=>$link,'sex'=>$link,));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('invoice_no'=>$link,'branch_namekh'=>$link,'sup_name'=>$link,'supplier_no'=>$link,));
 			}catch (Exception $e){
 				echo $e->getMessage();exit();
 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			}
-// 			$form=new Accounting_Form_FrmSearchProduct();
-// 			$form=$form->FrmSearchProduct();
-// 			Application_Model_Decorator::removeAllDecorator($form);
-// 			$this->view->form_search=$form;
+			$form=new Installment_Form_FrmPurchase();
+			$form=$form->searchPurchase();
+			Application_Model_Decorator::removeAllDecorator($form);
+			$this->view->form_search=$form;
 		
 	}
-public function addAction(){
+	public function addAction(){
 	if($this->getRequest()->isPost()){
 		$_data = $this->getRequest()->getPost();
 		try{

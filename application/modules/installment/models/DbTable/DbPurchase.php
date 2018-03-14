@@ -9,44 +9,43 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     }
     function getAllSupPurchase($search=null){
     	$db = $this->getAdapter();
-    	$sql=" SELECT s.id,s.sup_id,s.sup_name,
-    	 s.tel,invoice_no,sp.total_amount,sp.date,
+    	$sql=" SELECT s.id,
+    	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = sp.`branch_id` LIMIT 1) AS branch_namekh,
+    	sp.invoice_no, s.`supplier_no`,s.sup_name,
+    	 s.tel,s.`email`,sp.total_amount,sp.date,
     	 sp.status
 	    FROM 
 		ln_ins_supplier AS s,
 		ln_ins_purchase AS sp
 	     WHERE s.id=sp.supplier_id ";
-    	$where="";
     	$from_date =(empty($search['start_date']))? '1': " sp.date >= '".$search['start_date']." 00:00:00'";
     	$to_date = (empty($search['end_date']))? '1': " sp.date <= '".$search['end_date']." 23:59:59'";
-    	$where = " AND ".$from_date." AND ".$to_date;
+    	$sql.= " AND ".$from_date." AND ".$to_date;
     	if(!empty($search['title'])){
     		$s_where=array();
     		$s_search=addslashes(trim($search['title']));
-    		$s_where[]= " sp.supplier_no LIKE '%{$s_search}%'";
+    		$s_where[]= " s.invoice_no LIKE '%{$s_search}%'";
+    		$s_where[]= " s.tel LIKE '%{$s_search}%'";
     		$s_where[]="  s.sup_name LIKE '%{$s_search}%'";
     		$s_where[]= " s.tel LIKE '%{$s_search}%'";
     		$s_where[]= " s.email LIKE '%{$s_search}%'";
-    		$s_where[]= " spd.qty LIKE '%{$s_search}%'";
-    		$s_where[]= " spd.cost LIKE '%{$s_search}%'";
-    		$s_where[]= " spd.amount LIKE '%{$s_search}%'";
-    		 
-    		$where.=' AND ('.implode(' OR ', $s_where).')';
+    		$s_where[]= " sp.total_amount LIKE '%{$s_search}%'";
+    		$sql.=' AND ('.implode(' OR ', $s_where).')';
     	}
-    	if(!empty($search['product'])){
-    		$where.=" AND spd.pro_id=".$search['product'];
+    	if(!empty($search['branch_id'])){
+    		$sql.=" AND sp.branch_id=".$search['branch_id'];
     	}
-    	if(!empty($search['supplier_id'])){
-    		$where.=" AND s.id=".$search['supplier_id'];
+    	if(!empty($search['supllier'])){
+    		$sql.=" AND sp.supplier_id=".$search['supllier'];
     	}
-    	if($search['status_search']==1 OR $search['status_search']==0){
-    		$where.=" AND sp.status=".$search['status_search'];
+    	if($search['status']>-1){
+    		$sql.=" AND sp.status=".$search['status'];
     	}
     	
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->getAccessPermission('branch_id');
     	$order=" ORDER BY id DESC";
-    	return $db->fetchAll($sql.$where.$order);
+    	return $db->fetchAll($sql.$order);
     }
     
     function updateStock($pro_id,$location_id,$qty_order){

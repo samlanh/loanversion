@@ -136,7 +136,7 @@
             			<?php }?>
             		</td>
             		<td valign="top">
-            			<?php if($module=='report' AND $action!='index'){?>
+            			<?php if($module=='report' OR $module=='reports' AND $action!='index'){?>
 							<div class="menureport">
 								<ul>
 									<li class="preview"><a title="Preview" href="#" onclick="preview();"></a></li>
@@ -167,7 +167,7 @@
     </body>
 
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
-<?php if($module=='report' AND $action!='index'){?>
+<?php if($module=='report' OR $module=='reports' AND $action!='index'){?>
 <script type="text/javascript">
 function doPrint() {
 	window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
