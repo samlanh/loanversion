@@ -85,7 +85,7 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$from_date =(empty($search['start_date']))? '1': "create_date >= '".$search['start_date']." 00:00:00'";
 		$to_date = (empty($search['end_date']))? '1': "create_date <= '".$search['end_date']." 23:59:59'";
-		$where = " WHERE (name_kh!='' AND  name_en!='') AND ".$from_date." AND ".$to_date;		
+		$where = " WHERE (name_kh!='' OR  name_en!='') AND ".$from_date." AND ".$to_date;		
 		$sql = "
 		SELECT client_id,
 		(SELECT branch_nameen FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch_name ,
@@ -126,7 +126,6 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		}
 		$where.=" AND client_type = 1 ";
 		$order=" ORDER BY client_id DESC";
-//  		echo $sql.$where.$order;
 		return $db->fetchAll($sql.$where.$order);	
 	}
 	
@@ -184,7 +183,7 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
 		CONCAT(c.`name_en`,'-',c.`name_kh`) AS name , client_number
-		FROM `ln_clientsaving` AS c WHERE c.`name_en`!='' AND c.status=1  " ;
+		FROM `ln_clientsaving` AS c WHERE (c.`name_en`!='' OR name_kh!='')  AND c.status=1  " ;
 		if($branch_id!=null){
 			$sql.=" AND c.`branch_id`= $branch_id ";
 	
@@ -195,7 +194,7 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 	function getAllClientNumber($branch_id=null){//ajax
 		$db = $this->getAdapter();
 		$sql = " SELECT c.`client_id` AS id  ,c.client_number AS name, c.`branch_id`
-		FROM `ln_clientsaving` AS c WHERE c.`name_en`!='' AND c.client_number !='' AND c.status=1  " ;
+		FROM `ln_clientsaving` AS c WHERE (c.`name_en`!='' OR name_kh!='') AND c.client_number !='' AND c.status=1  " ;
 		if($branch_id!=null){
 			$sql.=" AND c.`branch_id`= $branch_id ";
 		}

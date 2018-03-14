@@ -241,8 +241,6 @@ class Group_indexController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$data['status']=1;
 			$data['display_by']=1;
-			//$data['type']=24;
-			
 			$db = new Other_Model_DbTable_DbLoanType();
 			$id = $db->addViewType($data);
 			print_r(Zend_Json::encode($id));
@@ -270,13 +268,31 @@ class Group_indexController extends Zend_Controller_Action {
 		}
 	}
 	
-	function getclientbybranchAction(){//At callecteral when click client
+	function getclientbybranchAction(){//At callecteral when click client /loan customer
 		if($this->getRequest()->isPost()){
 			 $data = $this->getRequest()->getPost();
 			 $db = new Application_Model_DbTable_DbGlobal();
              $dataclient=$db->getAllClient($data['branch_id']);
              //array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>'---Add New Client---') );
 			 print_r(Zend_Json::encode($dataclient));
+			exit();
+		}
+	}
+	function getclieninstallmentAction(){//At callecteral when click client
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db = new Application_Model_DbTable_DbGlobal();
+			$dataclient=$db->getAllClientinstallment($data['branch_id']);
+			print_r(Zend_Json::encode($dataclient));
+			exit();
+		}
+	}
+	function getcliencodeinstallmentAction(){//At callecteral when click client
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db = new Application_Model_DbTable_DbGlobal();
+			$dataclient=$db->getAllClientcodeinstallment($data['branch_id']);
+			print_r(Zend_Json::encode($dataclient));
 			exit();
 		}
 	}

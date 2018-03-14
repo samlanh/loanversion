@@ -79,7 +79,17 @@ class Installment_IndexController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
 		
-//         $db = new Application_Model_DbTable_DbGlobal();
+		$db = new Installment_Model_DbTable_DbProduct();
+		$row_cat = $db->getCategory();
+			
+        array_unshift($row_cat,array(
+        'id' => -1,
+        'name' => 'Add New',
+        ) );
+        $this->view->rs_cate=$row_cat;
+//         print_r($row_cat);exit();
+		
+//        $db = new Application_Model_DbTable_DbGlobal();
 //        $client=$db->getAllClient();
 //        // $client_type = $db->getclientdtype();
 //         array_unshift($client,array(
@@ -97,22 +107,22 @@ class Installment_IndexController extends Zend_Controller_Action {
 //         ) );
 //         $this->view->allclient_number=$client_number;
 
-		$frmpopup = new Application_Form_FrmPopupGlobal();
-		$this->view->frmpupoploantype = $frmpopup->frmPopupLoanTye();
-		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
-		$this->view->frmpupopinfoclient = $frmpopup->frmPopupindividualclient();
-		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
+// 		$frmpopup = new Application_Form_FrmPopupGlobal();
+// 		$this->view->frmpupoploantype = $frmpopup->frmPopupLoanTye();
+// 		$this->view->frmPopupZone = $frmpopup->frmPopupZone();
+// 		$this->view->frmpupopinfoclient = $frmpopup->frmPopupindividualclient();
+// 		$this->view->frmPopupCO = $frmpopup->frmPopupCO();
 		
 		$db = new Setting_Model_DbTable_DbLabel();
 		$this->view->setting=$db->getAllSystemSetting();
 		
-		$db = new Application_Model_DbTable_DbGlobal();
-		$co_name = $db->getAllCoNameOnly();
-		array_unshift($co_name,array(
-		        'id' => -1,
-		        'name' => '---Add New ---',
-		) );
-	    $this->view->co_name=$co_name;
+// 		$db = new Application_Model_DbTable_DbGlobal();
+// 		$co_name = $db->getAllCoNameOnly();
+// 		array_unshift($co_name,array(
+// 		        'id' => -1,
+// 		        'name' => '---Add New ---',
+// 		) );
+// 	    $this->view->co_name=$co_name;
 	}
 	public function submitloanAction(){
 		if($this->getRequest()->isPost()){
@@ -282,5 +292,6 @@ class Installment_IndexController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	
 }
 

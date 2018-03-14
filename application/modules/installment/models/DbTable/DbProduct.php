@@ -13,71 +13,13 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 		return Application_Model_DbTable_DbGlobal::GlobalgetUserId();
 	}
     
-	 public function getProductCoded(){
-		$db =$this->getAdapter();
-		$sql=" SELECT id FROM tb_sale_agent ";
-		$acc_no = $db->fetchAll($sql);
-		$count = count($acc_no);
-		$i=0;
-		foreach($acc_no as $rs){ $i++;
-			$new_acc_no= $rs["id"];
-			$acc_no= strlen($rs["id"]);
-			$pre = "EID";
-			$id = 32+$i;
-			$sqls = "UPDATE tbl_user_copys SET id = "."'".$id."'"." WHERE id=".$rs["id"];
-			$db->query($sqls);
-			/*for($i = $acc_no;$i<5;$i++){
-				$pre.='0';
-				$code = $pre.$new_acc_no;
-				$sqls = "UPDATE tb_sale_agent SET id = "."'".$code."'"." WHERE id=".$rs["id"];
-				//echo $sqls;
-				$db->query($sqls);
-			}*/
-		}
-		
-		
-  }
-//   public function getBrand(){
-//   	$db = $this->getAdapter();
-//   	$sql = "SELECT b.`id`,b.`name` FROM `tb_brand` AS b WHERE b.`status`=1";
-//   	return $db->fetchAll($sql);
-//   }
-  
-  public function getModel(){
-  	$db = $this->getAdapter();
-  	$sql = "SELECT v.`id`,v.`name_en` as name,v.`status`,v.`key_code`,`type` FROM `ln_view` AS v WHERE v.`type` = 2";
-  	return $db->fetchAll($sql);
-  }
-  
+	
   public function getCategory(){
   	$db = $this->getAdapter();
   	$sql = "SELECT b.`id`,b.`name` FROM `ln_ins_category` AS b WHERE b.`status`=1 AND b.`name`!='' ";
   	return $db->fetchAll($sql);
   }
-//   public function getMeasure(){
-//   	$db = $this->getAdapter();
-//   	$sql = "SELECT b.`id`,b.`name` FROM `tb_measure` AS b WHERE b.`status`=1";
-//   	return $db->fetchAll($sql);
-//   }
-  public function getSize(){
-  	$db = $this->getAdapter();
-  	$sql = "SELECT v.`id`,v.`name_en` as name,v.`status`,v.`key_code`,`type` FROM `ln_view` AS v WHERE v.`type` = 3";
-  	return $db->fetchAll($sql);
-  }
-  
-  public function getColor(){
-  	$db = $this->getAdapter();
-  	$sql = "SELECT v.`id`,v.`name_en` as name,v.`status`,v.`key_code`,`type` FROM `ln_view` AS v WHERE v.`type` = 4";
-  	return $db->fetchAll($sql);
-  }
-  
-  function getBranch(){
-  	$db = $this->getAdapter();
-  	$db_globle = new Application_Model_DbTable_DbGlobal();
-  	$sql = "SELECT l.br_id as id,l.`branch_namekh` as name FROM `ln_branch` AS l WHERE l.`status`=1";
-  	$location = $db_globle->getAccessPermission('l.`id`');
-  	return $db->fetchAll($sql.$location);
-  }
+
   public function getProductCode(){
   	$db =$this->getAdapter();
   	$sql=" SELECT id FROM $this->_name ORDER BY id DESC LIMIT 1 ";
@@ -101,14 +43,12 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
   		$pre.='0';
   	}
   	return $pre.$new_acc_no;
-  }
+ }
   
   function getAllProduct($data){
   	$db = $this->getAdapter();
   	$db_globle = new Application_Model_DbTable_DbGlobal();
 	$user_id = $this->getUserId();
-	//(SELECT v.`name_en` FROM ln_view AS v WHERE v.`type`=4  AND p.`color_id`=v.`key_code` LIMIT 1) AS color,
-	//(SELECT b.`name` FROM `tb_brand` AS b WHERE b.`id`=p.`brand_id` LIMIT 1) AS brand,
   	$sql ="SELECT 
 			  p.`id`,
 			  (SELECT branch_namekh FROM `ln_branch` AS b WHERE b.br_id=pl.`location_id` LIMIT 1) AS branch,
@@ -157,180 +97,175 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
   	}
   	$location = $db_globle->getAccessPermission('pl.`location_id`');
   	$group_by = " GROUP BY p.id";
-//   	echo $sql.$where.$location.$group_by;exit();
   	return $db->fetchAll($sql.$where.$location.$group_by);
   	
   }
-  function getAllProductForAdmin($data){
-  	$db = $this->getAdapter();
-  		$db_globle = new Application_Model_DbTable_DbGlobal();
-		$user_id = $this->getUserId();
-  	$sql ="SELECT 
-			  p.`id`,
-			  (SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id=pl.`location_id` LIMIT 1) AS branch,
-			  p.`item_code`,
-			  p.`item_name` ,
-			  (SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS cat,
-			  SUM(pl.`qty`) AS qty,
-			  p.cost_price,p.selling_price,
-			  (SELECT `first_name` FROM `rms_users` WHERE rms_users.`id`=p.`user_id` LIMIT 1) AS user_name,
-  			  (SELECT v.`name_en` FROM ln_view AS v WHERE v.`type`=3  AND p.`status`=v.`key_code` LIMIT 1) AS status
-			FROM
-			  `ln_ins_product` AS p ,
-			  `ln_ins_prolocation` AS pl
-			WHERE p.`id`=pl.`pro_id` ";
-  		$where = '';
-	  	if($data["adv_search"]!=""){
-			$string = str_replace(' ','',$data['adv_search']);
-	  		$s_where=array();
-	  		$s_search = addslashes(trim($string));
-	  		$s_where[]=" REPLACE(p.item_name,' ','') LIKE '%{$s_search}%'";
-	  		$s_where[]=" REPLACE(p.item_code,' ','') LIKE '%{$s_search}%'";
-	  		$where.=' AND ('.implode(' OR ', $s_where).')';
-	  	}
-	  	if($data["branch_id"]>0){
-	  		$where.=' AND pl.`location_id`='.$data["branch_id"];
-	  	}
-	  	if($data["category"]>0){
-	  		$where.=' AND p.cate_id='.$data["category"];
-	  	}
-	  	if($data["status"]>0){
-	  		$where.=' AND p.status='.$data["status"];
-	  	}
-	  	$location = $db_globle->getAccessPermission('pl.`location_id`');
-	  	$group_by = " GROUP BY p.id DESC ";
-  		return $db->fetchAll($sql.$where.$location.$group_by);
-  }
-  function getAllProductOutStock($data){
-  	$db = $this->getAdapter();
-  	$db_globle = new Application_Model_DbTable_DbGlobal();
-  	$sql ="SELECT 
-			  p.`id`,
-			  p.`barcode`,
-			  p.`item_code`,
-			  p.`item_name` ,
-  			  p.`serial_number`,
-			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=5  AND p.`status`=v.`key_code` LIMIT 1) AS status,
-			  (SELECT b.`name` FROM `tb_brand` AS b WHERE b.`id`=p.`brand_id` LIMIT 1) AS brand,
-			  (SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS cat,
-			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=2  AND p.`model_id`=v.`key_code` LIMIT 1) AS model,
-			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=3  AND p.`model_id`=v.`key_code` LIMIT 1) AS size,
-			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=4  AND p.`model_id`=v.`key_code` LIMIT 1) AS color,
-			  (SELECT branch_namekh FROM `ln_branch` AS b WHERE b.br_id=pl.`location_id` LIMIT 1) AS branch,
-			  SUM(pl.`qty`) AS qty,
-			  pl.`qty_warning`
+//   function getAllProductForAdmin($data){
+//   	$db = $this->getAdapter();
+//   		$db_globle = new Application_Model_DbTable_DbGlobal();
+// 		$user_id = $this->getUserId();
+//   	$sql ="SELECT 
+// 			  p.`id`,
+// 			  (SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id=pl.`location_id` LIMIT 1) AS branch,
+// 			  p.`item_code`,
+// 			  p.`item_name` ,
+// 			  (SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS cat,
+// 			  SUM(pl.`qty`) AS qty,
+// 			  p.cost_price,p.selling_price,
+// 			  (SELECT `first_name` FROM `rms_users` WHERE rms_users.`id`=p.`user_id` LIMIT 1) AS user_name,
+//   			  (SELECT v.`name_en` FROM ln_view AS v WHERE v.`type`=3  AND p.`status`=v.`key_code` LIMIT 1) AS status
+// 			FROM
+// 			  `ln_ins_product` AS p ,
+// 			  `ln_ins_prolocation` AS pl
+// 			WHERE p.`id`=pl.`pro_id` ";
+//   		$where = '';
+// 	  	if($data["adv_search"]!=""){
+// 			$string = str_replace(' ','',$data['adv_search']);
+// 	  		$s_where=array();
+// 	  		$s_search = addslashes(trim($string));
+// 	  		$s_where[]=" REPLACE(p.item_name,' ','') LIKE '%{$s_search}%'";
+// 	  		$s_where[]=" REPLACE(p.item_code,' ','') LIKE '%{$s_search}%'";
+// 	  		$where.=' AND ('.implode(' OR ', $s_where).')';
+// 	  	}
+// 	  	if($data["branch_id"]>0){
+// 	  		$where.=' AND pl.`location_id`='.$data["branch_id"];
+// 	  	}
+// 	  	if($data["category"]>0){
+// 	  		$where.=' AND p.cate_id='.$data["category"];
+// 	  	}
+// 	  	if($data["status"]>0){
+// 	  		$where.=' AND p.status='.$data["status"];
+// 	  	}
+// 	  	$location = $db_globle->getAccessPermission('pl.`location_id`');
+// 	  	$group_by = " GROUP BY p.id DESC ";
+//   		return $db->fetchAll($sql.$where.$location.$group_by);
+//   }
+//   function getAllProductOutStock($data){
+//   	$db = $this->getAdapter();
+//   	$db_globle = new Application_Model_DbTable_DbGlobal();
+//   	$sql ="SELECT 
+// 			  p.`id`,
+// 			  p.`barcode`,
+// 			  p.`item_code`,
+// 			  p.`item_name` ,
+//   			  p.`serial_number`,
+// 			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=5  AND p.`status`=v.`key_code` LIMIT 1) AS status,
+// 			  (SELECT b.`name` FROM `tb_brand` AS b WHERE b.`id`=p.`brand_id` LIMIT 1) AS brand,
+// 			  (SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS cat,
+// 			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=2  AND p.`model_id`=v.`key_code` LIMIT 1) AS model,
+// 			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=3  AND p.`model_id`=v.`key_code` LIMIT 1) AS size,
+// 			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=4  AND p.`model_id`=v.`key_code` LIMIT 1) AS color,
+// 			  (SELECT branch_namekh FROM `ln_branch` AS b WHERE b.br_id=pl.`location_id` LIMIT 1) AS branch,
+// 			  SUM(pl.`qty`) AS qty,
+// 			  pl.`qty_warning`
 			  
-			FROM
-			  `ln_ins_product` AS p ,
-			  `ln_ins_prolocation` AS pl
-			WHERE p.`id`=pl.`pro_id` AND pl.qty<=0";
-  	$where = '';
-  	if($data["ad_search"]!=""){
-  		$s_where=array();
-  		$s_search = addslashes(trim($data['ad_search']));
-  		$s_where[]= " p.item_name LIKE '%{$s_search}%'";
-  		$s_where[]=" p.barcode LIKE '%{$s_search}%'";
-  		$s_where[]= " p.item_code LIKE '%{$s_search}%'";
-  		$s_where[]= " p.serial_number LIKE '%{$s_search}%'";
-  		//$s_where[]= " cate LIKE '%{$s_search}%'";
-  		$where.=' AND ('.implode(' OR ', $s_where).')';
-  	}
-  	if($data["branch"]!=""){
-  		$where.=' AND pl.`location_id`='.$data["branch"];
-  	}
-  	if($data["brand"]!=""){
-  		$where.=' AND p.brand_id='.$data["brand"];
-  	}
-  	if($data["category"]!=""){
-  		$where.=' AND p.cate_id='.$data["category"];
-  	}
-  	if($data["category"]!=""){
-  		$where.=' AND p.cate_id='.$data["category"];
-  	}
-  	if($data["model"]!=""){
-  		$where.=' AND p.model_id='.$data["model"];
-  	}
-  	if($data["size"]!=""){
-  		$where.=' AND p.size_id='.$data["size"];
-  	}
-  	if($data["color"]!=""){
-  		$where.=' AND p.color_id='.$data["color"];
-  	}
-  	if($data["status"]!=""){
-  		$where.=' AND p.status='.$data["status"];
-  	}
-  	$location = $db_globle->getAccessPermission('pl.`location_id`');
-  	$group_by = " GROUP BY p.id";
-//   	echo $sql.$where.$location.$group_by;exit();
-  	return $db->fetchAll($sql.$where.$location.$group_by);
-  	
-  }
+// 			FROM
+// 			  `ln_ins_product` AS p ,
+// 			  `ln_ins_prolocation` AS pl
+// 			WHERE p.`id`=pl.`pro_id` AND pl.qty<=0";
+//   	$where = '';
+//   	if($data["ad_search"]!=""){
+//   		$s_where=array();
+//   		$s_search = addslashes(trim($data['ad_search']));
+//   		$s_where[]= " p.item_name LIKE '%{$s_search}%'";
+//   		$s_where[]=" p.barcode LIKE '%{$s_search}%'";
+//   		$s_where[]= " p.item_code LIKE '%{$s_search}%'";
+//   		$s_where[]= " p.serial_number LIKE '%{$s_search}%'";
+//   		//$s_where[]= " cate LIKE '%{$s_search}%'";
+//   		$where.=' AND ('.implode(' OR ', $s_where).')';
+//   	}
+//   	if($data["branch"]!=""){
+//   		$where.=' AND pl.`location_id`='.$data["branch"];
+//   	}
+//   	if($data["brand"]!=""){
+//   		$where.=' AND p.brand_id='.$data["brand"];
+//   	}
+//   	if($data["category"]!=""){
+//   		$where.=' AND p.cate_id='.$data["category"];
+//   	}
+//   	if($data["category"]!=""){
+//   		$where.=' AND p.cate_id='.$data["category"];
+//   	}
+//   	if($data["model"]!=""){
+//   		$where.=' AND p.model_id='.$data["model"];
+//   	}
+//   	if($data["size"]!=""){
+//   		$where.=' AND p.size_id='.$data["size"];
+//   	}
+//   	if($data["color"]!=""){
+//   		$where.=' AND p.color_id='.$data["color"];
+//   	}
+//   	if($data["status"]!=""){
+//   		$where.=' AND p.status='.$data["status"];
+//   	}
+//   	$location = $db_globle->getAccessPermission('pl.`location_id`');
+//   	$group_by = " GROUP BY p.id";
+//   	return $db->fetchAll($sql.$where.$location.$group_by);
+//   }
   
-  function getAllProductLowStock($data){
-  	$db = $this->getAdapter();
-  	$db_globle = new Application_Model_DbTable_DbGlobal();
+//   function getAllProductLowStock($data){
+//   	$db = $this->getAdapter();
+//   	$db_globle = new Application_Model_DbTable_DbGlobal();
 	
-  	$sql ="SELECT 
-			  p.`id`,
-			  p.`barcode`,
-			  p.`item_code`,
-			  p.`item_name` ,
-  			  p.`serial_number`,
-			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=5  AND p.`status`=v.`key_code` LIMIT 1) AS status,
-			  (SELECT b.`name` FROM `tb_brand` AS b WHERE b.`id`=p.`brand_id` LIMIT 1) AS brand,
-			  (SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS cat,
-			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=2  AND p.`model_id`=v.`key_code` LIMIT 1) AS model,
-			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=3  AND p.`model_id`=v.`key_code` LIMIT 1) AS size,
-			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=4  AND p.`model_id`=v.`key_code` LIMIT 1) AS color,
-			  (SELECT branch_namekh FROM `ln_branch` AS b WHERE b.br_id=pl.`location_id` LIMIT 1) AS branch,
-			  SUM(pl.`qty`) AS qty,
-			  pl.`qty_warning`
+//   	$sql ="SELECT 
+// 			  p.`id`,
+// 			  p.`barcode`,
+// 			  p.`item_code`,
+// 			  p.`item_name` ,
+//   			  p.`serial_number`,
+// 			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=5  AND p.`status`=v.`key_code` LIMIT 1) AS status,
+// 			  (SELECT b.`name` FROM `tb_brand` AS b WHERE b.`id`=p.`brand_id` LIMIT 1) AS brand,
+// 			  (SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS cat,
+// 			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=2  AND p.`model_id`=v.`key_code` LIMIT 1) AS model,
+// 			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=3  AND p.`model_id`=v.`key_code` LIMIT 1) AS size,
+// 			  (SELECT v.`name_kh` FROM ln_view AS v WHERE v.`type`=4  AND p.`model_id`=v.`key_code` LIMIT 1) AS color,
+// 			  (SELECT branch_namekh FROM `ln_branch` AS b WHERE b.br_id=pl.`location_id` LIMIT 1) AS branch,
+// 			  SUM(pl.`qty`) AS qty,
+// 			  pl.`qty_warning`
 			  
-			FROM
-			  `ln_ins_product` AS p ,
-			  `ln_ins_prolocation` AS pl
-			WHERE p.`id`=pl.`pro_id` AND (pl.`qty`>0 AND pl.qty<pl.qty_warning)";
-  	$where = '';
-  	if($data["ad_search"]!=""){
-  		$s_where=array();
-  		$s_search = addslashes(trim($data['ad_search']));
-  		$s_where[]= " p.item_name LIKE '%{$s_search}%'";
-  		$s_where[]=" p.barcode LIKE '%{$s_search}%'";
-  		$s_where[]= " p.item_code LIKE '%{$s_search}%'";
-  		$s_where[]= " p.serial_number LIKE '%{$s_search}%'";
-  		//$s_where[]= " cate LIKE '%{$s_search}%'";
-  		$where.=' AND ('.implode(' OR ', $s_where).')';
-  	}
-  	if($data["branch"]!=""){
-  		$where.=' AND pl.`location_id`='.$data["branch"];
-  	}
-  	if($data["brand"]!=""){
-  		$where.=' AND p.brand_id='.$data["brand"];
-  	}
-  	if($data["category"]!=""){
-  		$where.=' AND p.cate_id='.$data["category"];
-  	}
-  	if($data["category"]!=""){
-  		$where.=' AND p.cate_id='.$data["category"];
-  	}
-  	if($data["model"]!=""){
-  		$where.=' AND p.model_id='.$data["model"];
-  	}
-  	if($data["size"]!=""){
-  		$where.=' AND p.size_id='.$data["size"];
-  	}
-  	if($data["color"]!=""){
-  		$where.=' AND p.color_id='.$data["color"];
-  	}
-  	if($data["status"]!=""){
-  		$where.=' AND p.status='.$data["status"];
-  	}
-  	$location = $db_globle->getAccessPermission('pl.`location_id`');
-  	$group_by = " GROUP BY p.id";
-  	//echo $sql.$where.$location;
-  	return $db->fetchAll($sql.$where.$location.$group_by);
-  	
-  }
+// 			FROM
+// 			  `ln_ins_product` AS p ,
+// 			  `ln_ins_prolocation` AS pl
+// 			WHERE p.`id`=pl.`pro_id` AND (pl.`qty`>0 AND pl.qty<pl.qty_warning)";
+//   	$where = '';
+//   	if($data["ad_search"]!=""){
+//   		$s_where=array();
+//   		$s_search = addslashes(trim($data['ad_search']));
+//   		$s_where[]= " p.item_name LIKE '%{$s_search}%'";
+//   		$s_where[]=" p.barcode LIKE '%{$s_search}%'";
+//   		$s_where[]= " p.item_code LIKE '%{$s_search}%'";
+//   		$s_where[]= " p.serial_number LIKE '%{$s_search}%'";
+//   		//$s_where[]= " cate LIKE '%{$s_search}%'";
+//   		$where.=' AND ('.implode(' OR ', $s_where).')';
+//   	}
+//   	if($data["branch"]!=""){
+//   		$where.=' AND pl.`location_id`='.$data["branch"];
+//   	}
+//   	if($data["brand"]!=""){
+//   		$where.=' AND p.brand_id='.$data["brand"];
+//   	}
+//   	if($data["category"]!=""){
+//   		$where.=' AND p.cate_id='.$data["category"];
+//   	}
+//   	if($data["category"]!=""){
+//   		$where.=' AND p.cate_id='.$data["category"];
+//   	}
+//   	if($data["model"]!=""){
+//   		$where.=' AND p.model_id='.$data["model"];
+//   	}
+//   	if($data["size"]!=""){
+//   		$where.=' AND p.size_id='.$data["size"];
+//   	}
+//   	if($data["color"]!=""){
+//   		$where.=' AND p.color_id='.$data["color"];
+//   	}
+//   	if($data["status"]!=""){
+//   		$where.=' AND p.status='.$data["status"];
+//   	}
+//   	$location = $db_globle->getAccessPermission('pl.`location_id`');
+//   	$group_by = " GROUP BY p.id";
+//   	return $db->fetchAll($sql.$where.$location.$group_by);
+//   }
   
   function getProductById($id){
   	$db = $this->getAdapter();
@@ -467,75 +402,34 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
     		echo $e->getMessage();exit();
     	}
     }
-    public function getOrderItemVeiw($id){
-    	$db = $this->getAdapter();
-    	$user = $this->GetuserInfo();
-    	    	$itemSql = "SELECT 
-							  lo.Name,
-							  p.pro_id,
-							  p.cate_id,
-							  p.item_name,
-							  p.`qty_onhand`,
-							  p.`qty_available`,
-							  p.`qty_onorder`,
-							  p.`qty_onsold`,
-  							  pl.`qty_warn`,
-							  pl.ProLocationID,
-							  pl.pro_id,
-							  pl.LocationId,
-							  pl.qty,
-							  pl.`qty_avaliable`,
-							  pl.`qty_onorder` AS plqty_order,
-							  pl.`qty_onsold` AS plqty_onsold
-							
-							FROM
-							  ln_ins_product AS p 
-							  INNER JOIN ln_ins_prolocation AS pl 
-							    ON pl.pro_id = p.pro_id 
-							  INNER JOIN ln_ins_prolocation AS lo 
-							    ON lo.LocationId = pl.LocationId 
-							WHERE p.pro_id =".$id;
-    	    	
-//     	    	$itemSql = "SELECT lo.Name, p.pro_id, p.cate_id, p.item_name,pl.ProLocationID, pl.pro_id, pl.LocationId, pl.qty,
-//     	    				pt.QuantityOnHand,pt.QuantityOnOrder,pt.QuantitySold
-//     						FROM ln_ins_product AS p
-//     						INNER JOIN ln_ins_prolocation AS pl ON  pl.pro_id  = p.pro_id
-//     						INNER JOIN tb_inventorytotal AS pt ON  pt.ProdId  = p.pro_id
-//     						INNER JOIN ln_ins_prolocation AS lo ON  lo.LocationId = pl.LocationId
-//     						WHERE p.pro_id =".$id;
-    	    	if($user["level"]!=1){
-    	    		$itemSql.= " AND pl.LocationId = ".$user["location_id"];
-    	    	}
-    	$rows = $db->fetchAll($itemSql);
-    	return $rows;
-    }
+    
     //get product info 22/8/13
-    public function getProductInfo($id){
-    	$db=$this->getAdapter();
-    	$sql = "SELECT 
-					  p.pro_id,
-					  p.cate_id,
-					  p.brand_id,
-					  p.stock_type,
-					  p.item_name,
-					  p.item_code,
-					  p.item_size,
-					  p.purchase_tax,
-					  p.sale_tax,
-					  measure_id,
-					  label,
-					  qty_perunit,
-					  p.unit_sale_price,
-					  qty_onhand,
-					  p.photo,
-					  p.is_avaliable,
-					  p.remark 
-					FROM
-					  ln_ins_product AS p 
-					WHERE p.pro_id =".$db->quote($id)." LIMIT 1";
-    	$rows = $db->fetchRow($sql);
-    	return ($rows);
-    }
+//     public function getProductInfo($id){
+//     	$db=$this->getAdapter();
+//     	$sql = "SELECT 
+// 					  p.pro_id,
+// 					  p.cate_id,
+// 					  p.brand_id,
+// 					  p.stock_type,
+// 					  p.item_name,
+// 					  p.item_code,
+// 					  p.item_size,
+// 					  p.purchase_tax,
+// 					  p.sale_tax,
+// 					  measure_id,
+// 					  label,
+// 					  qty_perunit,
+// 					  p.unit_sale_price,
+// 					  qty_onhand,
+// 					  p.photo,
+// 					  p.is_avaliable,
+// 					  p.remark 
+// 					FROM
+// 					  ln_ins_product AS p 
+// 					WHERE p.pro_id =".$db->quote($id)." LIMIT 1";
+//     	$rows = $db->fetchRow($sql);
+//     	return ($rows);
+//     }
     public function getProductInfoDetail($id){//for view item detail
     	$db=$this->getAdapter();
     	$sql = "SELECT p.pro_id,p.cate_id,p.stock_type,p.item_name,p.item_code,p.price_per_qty,p.brand_id,
@@ -548,13 +442,13 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
     	return ($rows);
     }
     // for get product info 8/22/13
-    public function getProductStock($id){
-    	$db= $this->getAdapter();
-    	$sql_inventory="SELECT qty_onhand, qty_available,qty_onorder,qty_onsold
-    	FROM ln_ins_product WHERE pro_id= ".$id." LIMIT 1";
-    	$rows = $db->fetchRow($sql_inventory);
-    	return $rows;
-    }
+//     public function getProductStock($id){
+//     	$db= $this->getAdapter();
+//     	$sql_inventory="SELECT qty_onhand, qty_available,qty_onorder,qty_onsold
+//     	FROM ln_ins_product WHERE pro_id= ".$id." LIMIT 1";
+//     	$rows = $db->fetchRow($sql_inventory);
+//     	return $rows;
+//     }
     //select before 10-7-13
 //     public function getSaleHistory($id){
 //     	$db= $this->getAdapter();
@@ -566,52 +460,52 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 //     	return $rows;
 //     }
     // for get product order history 8/22/13
-    public function getSaleHistory($id){
-    	$db= $this->getAdapter();
-    	$sql_sale="SELECT os.history_id, os.type, r.order, cus.cust_name, os.date, os.status, os.order_total, os.qty, os.unit_price, os.sub_total
-		 FROM tb_order_history AS os
-		 INNER JOIN tb_customer AS cus ON 
-		 	cus.customer_id = os.customer_id
-		 LEFT JOIN tb_sales_order AS r ON os.order = r.order_id
-    	 WHERE pro_id=".$id." ORDER BY os.history_id  DESC ";
-    	$rows = $db->fetchAll($sql_sale);
-    	return $rows;
-    }
+//     public function getSaleHistory($id){
+//     	$db= $this->getAdapter();
+//     	$sql_sale="SELECT os.history_id, os.type, r.order, cus.cust_name, os.date, os.status, os.order_total, os.qty, os.unit_price, os.sub_total
+// 		 FROM tb_order_history AS os
+// 		 INNER JOIN tb_customer AS cus ON 
+// 		 	cus.customer_id = os.customer_id
+// 		 LEFT JOIN tb_sales_order AS r ON os.order = r.order_id
+//     	 WHERE pro_id=".$id." ORDER BY os.history_id  DESC ";
+//     	$rows = $db->fetchAll($sql_sale);
+//     	return $rows;
+//     }
     //for select purchase history
-    public function getPurchaseHistory($id){
-    	$db= $this->getAdapter();
-    	$sql_purchase="SELECT ph.history_id, ph.type, pur.order, v.v_name, ph.date, ph.status, ph.order_total, ph.qty, ph.unit_price, ph.sub_total
-					FROM tb_purchase_order_history AS ph
-					INNER JOIN tb_vendor AS v ON v.vendor_id = ph.customer_id
-					LEFT JOIN tb_purchase_order AS pur ON ph.order = pur.order_id
-					WHERE pro_id =".$id."
-					ORDER BY ph.history_id DESC ";
-    	$rows = $db->fetchAll($sql_purchase);
-    	return $rows;
-    }
-    public function moveproduct($id){
-    	$db=$this->getAdapter();
-    	$user = $this->GetuserInfo();
-    	$sql_move = "SELECT h.history_id, h.transaction_type, h.date, l.Name,
-    	h.qty_edit, h.qty_before, h.qty_after,h.Remark, u.username FROM tb_move_history AS h
-    	INNER JOIN ln_ins_prolocation AS l ON l.LocationId = h.location_id
-    	INNER JOIN rsv_acl_user as u ON u.user_id=h.user_mod
-    	WHERE pro_id=".$id;
-    	if($user["level"]!=1){
-    		$sql_move.=" AND h.location_id = ".$user["location_id"];
-    	}
-    	$sql_move.=" ORDER BY h.history_id DESC ";
-    	$rows=$db->fetchAll($sql_move);
-    	return $rows;
-    }
+//     public function getPurchaseHistory($id){
+//     	$db= $this->getAdapter();
+//     	$sql_purchase="SELECT ph.history_id, ph.type, pur.order, v.v_name, ph.date, ph.status, ph.order_total, ph.qty, ph.unit_price, ph.sub_total
+// 					FROM tb_purchase_order_history AS ph
+// 					INNER JOIN tb_vendor AS v ON v.vendor_id = ph.customer_id
+// 					LEFT JOIN tb_purchase_order AS pur ON ph.order = pur.order_id
+// 					WHERE pro_id =".$id."
+// 					ORDER BY ph.history_id DESC ";
+//     	$rows = $db->fetchAll($sql_purchase);
+//     	return $rows;
+//     }
+//     public function moveproduct($id){
+//     	$db=$this->getAdapter();
+//     	$user = $this->GetuserInfo();
+//     	$sql_move = "SELECT h.history_id, h.transaction_type, h.date, l.Name,
+//     	h.qty_edit, h.qty_before, h.qty_after,h.Remark, u.username FROM tb_move_history AS h
+//     	INNER JOIN ln_ins_prolocation AS l ON l.LocationId = h.location_id
+//     	INNER JOIN rsv_acl_user as u ON u.user_id=h.user_mod
+//     	WHERE pro_id=".$id;
+//     	if($user["level"]!=1){
+//     		$sql_move.=" AND h.location_id = ".$user["location_id"];
+//     	}
+//     	$sql_move.=" ORDER BY h.history_id DESC ";
+//     	$rows=$db->fetchAll($sql_move);
+//     	return $rows;
+//     }
 
-    public function getProductVendor($id){
-    	$db=$this->getAdapter();
-    	$sql_move = "SELECT pro_id FROM tb_purchase_order_item
-        WHERE pro_id =".$id;
-    	$rows=$db->fetchAll($sql_move);
-    	return $rows;
-    }
+//     public function getProductVendor($id){
+//     	$db=$this->getAdapter();
+//     	$sql_move = "SELECT pro_id FROM tb_purchase_order_item
+//         WHERE pro_id =".$id;
+//     	$rows=$db->fetchAll($sql_move);
+//     	return $rows;
+//     }
     /**
     * Update Order item
     * @param array $itemsData
@@ -653,60 +547,58 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 // 	    	$this->insert($data);
 // 	    }
 //     }
-    public function addAjaxProduct($data){
-    	//print_r($data);exit();
-    	$db = $this->getAdapter();
-    	$db->beginTransaction();
-    	try {
-    		$arr = array(
-    				'item_name'		=>	$data["name"],
-    				'item_code'		=>	$data["pro_code"],
-    				'barcode'		=>	$data["barcode"],
-    				'cate_id'		=>	$data["category"],
-    				'brand_id'		=>	$data["brand"],
-    				//'model_id'		=>	$data["model"],
-    				'color_id'		=>	$data["color"],
-    				'measure_id'	=>	$data["measure"],
-    				'size_id'		=>	$data["size"],
-    				'serial_number'	=>	$data["serial"],
-    				'qty_perunit'	=>	$data["qty_unit"],
-    				'unit_label'	=>	$data["label"],
-    				'user_id'		=>	$this->getUserId(),
-    				'note'			=>	$data["description"],
-    				//'status'		=>	$data["status"],
-    		);
-    		$this->_name="ln_ins_product";
-    		$id = $this->insert($arr);
+//     public function addAjaxProduct($data){
+//     	//print_r($data);exit();
+//     	$db = $this->getAdapter();
+//     	$db->beginTransaction();
+//     	try {
+//     		$arr = array(
+//     				'item_name'		=>	$data["name"],
+//     				'item_code'		=>	$data["pro_code"],
+//     				'barcode'		=>	$data["barcode"],
+//     				'cate_id'		=>	$data["category"],
+//     				'brand_id'		=>	$data["brand"],
+//     				'color_id'		=>	$data["color"],
+//     				'measure_id'	=>	$data["measure"],
+//     				'size_id'		=>	$data["size"],
+//     				'serial_number'	=>	$data["serial"],
+//     				'qty_perunit'	=>	$data["qty_unit"],
+//     				'unit_label'	=>	$data["label"],
+//     				'user_id'		=>	$this->getUserId(),
+//     				'note'			=>	$data["description"],
+//     				//'status'		=>	$data["status"],
+//     		);
+//     		$this->_name="ln_ins_product";
+//     		$id = $this->insert($arr);
     		
-    		$arr1 = array(
-    				'pro_id'			=>	$id,
-    				'location_id'		=>	$data["branch_id"],
-    				'qty'				=>	0,
-    				'qty_warning'		=>	0,
-    				'last_mod_userid'	=>	$this->getUserId(),
-    				'last_mod_date'		=>	new Zend_Date(),
-    		);
-    		$this->_name = "ln_ins_prolocation";
-    		$this->insert($arr1);
-    		$db->commit();
-    		return $id;
-    	}catch (Exception $e){
-    		$db->rollBack();
-    		Application_Model_DbTable_DbUserLog::writeMessageError($e);
+//     		$arr1 = array(
+//     				'pro_id'			=>	$id,
+//     				'location_id'		=>	$data["branch_id"],
+//     				'qty'				=>	0,
+//     				'qty_warning'		=>	0,
+//     				'last_mod_userid'	=>	$this->getUserId(),
+//     				'last_mod_date'		=>	new Zend_Date(),
+//     		);
+//     		$this->_name = "ln_ins_prolocation";
+//     		$this->insert($arr1);
+//     		$db->commit();
+//     		return $id;
+//     	}catch (Exception $e){
+//     		$db->rollBack();
+//     		Application_Model_DbTable_DbUserLog::writeMessageError($e);
     		
-    	}
-    }
-	public function getTransferInfo($id){
+//     	}
+//     }
+// 	public function getTransferInfo($id){
+// 		$db=$this->getAdapter();
+// 		$sql = "SELECT * FROM tb_stocktransfer WHERE transfer_id = ".$id." LIMIT 1";
+// 		$row = $db->fetchRow($sql);
+// 		return $row;
+// 	}
+	public function getallProductbycate($cate_id){
 		$db=$this->getAdapter();
-		$sql = "SELECT * FROM tb_stocktransfer WHERE transfer_id = ".$id." LIMIT 1";
-		$row = $db->fetchRow($sql);
-		return $row;
-	}
-	public function getTransferItem($id){
-		$db=$this->getAdapter();
-		$sql = "SELECT * FROM tb_transfer_item WHERE transfer_id = ".$id;
-		$rows = $db->fetchAll($sql);
-		return $rows;
+		$sql = "SELECT id ,item_name AS name FROM `ln_ins_product` WHERE cate_id=".$cate_id;
+		return $db->fetchAll($sql);
 	}
     
 }

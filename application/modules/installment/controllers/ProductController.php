@@ -120,135 +120,128 @@ public function init()
 		$this->view->rsbranch = $db->getAllBranchOption();
 	}
 	
-	public function addBrandAction(){
+	function getproductbycateAction(){
 		if($this->getRequest()->isPost()){
-			try {
-				$post=$this->getRequest()->getPost();
-				$db = new Product_Model_DbTable_DbBrand();
-				$brand_id =$db->addNew($post);
-				$result = array('brand_id'=>$brand_id);
-				echo Zend_Json::encode($result);
-				exit();
-			}catch (Exception $e){
-				$result = array('err'=>$e->getMessage());
-				echo Zend_Json::encode($result);
-				exit();
-			}
+			$post=$this->getRequest()->getPost();
+			$db = new Installment_Model_DbTable_DbProduct();
+			$result =$db->getallProductbycate($post['category_id']);
+			print_r(Zend_Json::encode($result));
+			exit();
 		}
 	}
-	public function addCategoryAction(){
-		if($this->getRequest()->isPost()){
-			try {
-				$post=$this->getRequest()->getPost();
-				$db = new Product_Model_DbTable_DbCategory();
-				$cat_id =$db->addNew($post);
-				$result = array('cat_id'=>$cat_id);
-				echo Zend_Json::encode($result);
-				exit();
-			}catch (Exception $e){
-				$result = array('err'=>$e->getMessage());
-				echo Zend_Json::encode($result);
-				exit();
-			}
-		}
-	}
+// 	public function addCategoryAction(){
+// 		if($this->getRequest()->isPost()){
+// 			try {
+// 				$post=$this->getRequest()->getPost();
+// 				$db = new Product_Model_DbTable_DbCategory();
+// 				$cat_id =$db->addNew($post);
+// 				$result = array('cat_id'=>$cat_id);
+// 				echo Zend_Json::encode($result);
+// 				exit();
+// 			}catch (Exception $e){
+// 				$result = array('err'=>$e->getMessage());
+// 				echo Zend_Json::encode($result);
+// 				exit();
+// 			}
+// 		}
+// 	}
 
-	public function addMeasureAction(){
-		if($this->getRequest()->isPost()){
-			try {
-				$post=$this->getRequest()->getPost();
-				$db = new Product_Model_DbTable_DbMeasure();
-				if(empty($post['measure_name'])){
-					$post['measure_name']=$post['name'];
-				}
-				$measure_id =$db->addNew($post);
-				$result = array('measure_id'=>$measure_id);
-				echo Zend_Json::encode($result);
-				exit();
-			}catch (Exception $e){
-				$result = array('err'=>$e->getMessage());
-				echo Zend_Json::encode($result);
-				exit();
-			}
-		}
-	}
+// 	public function addMeasureAction(){
+// 		if($this->getRequest()->isPost()){
+// 			try {
+// 				$post=$this->getRequest()->getPost();
+// 				$db = new Product_Model_DbTable_DbMeasure();
+// 				if(empty($post['measure_name'])){
+// 					$post['measure_name']=$post['name'];
+// 				}
+// 				$measure_id =$db->addNew($post);
+// 				$result = array('measure_id'=>$measure_id);
+// 				echo Zend_Json::encode($result);
+// 				exit();
+// 			}catch (Exception $e){
+// 				$result = array('err'=>$e->getMessage());
+// 				echo Zend_Json::encode($result);
+// 				exit();
+// 			}
+// 		}
+// 	}
 	
-	public function addOtherAction(){
-		if($this->getRequest()->isPost()){
-			try {
-				$post=$this->getRequest()->getPost();
-				$db = new Product_Model_DbTable_DbOther();
-				$other_id =$db->addNew($post);
-				$result = array('other_id'=>$other_id);
-				echo Zend_Json::encode($result);
-				exit();
-			}catch (Exception $e){
-				$result = array('err'=>$e->getMessage());
-				echo Zend_Json::encode($result);
-				exit();
-			}
-		}
-	}
-	public function addNewproudctAction(){
-		if($this->getRequest()->isPost()){
-			try {
-				$post=$this->getRequest()->getPost();
-				$db = new Installment_Model_DbTable_DbProduct();
-				$pro_id =$db->addAjaxProduct($post);
-				$result = array('pro_id'=>$pro_id);
-				echo Zend_Json::encode($result);
-				exit();
-			}catch (Exception $e){
-				$result = array('err'=>$e->getMessage());
-				echo Zend_Json::encode($result);
-				exit();
-			}
-		}
-	}
+// 	public function addOtherAction(){
+// 		if($this->getRequest()->isPost()){
+// 			try {
+// 				$post=$this->getRequest()->getPost();
+// 				$db = new Product_Model_DbTable_DbOther();
+// 				$other_id =$db->addNew($post);
+// 				$result = array('other_id'=>$other_id);
+// 				echo Zend_Json::encode($result);
+// 				exit();
+// 			}catch (Exception $e){
+// 				$result = array('err'=>$e->getMessage());
+// 				echo Zend_Json::encode($result);
+// 				exit();
+// 			}
+// 		}
+// 	}
+// 	public function addNewproudctAction(){
+// 		if($this->getRequest()->isPost()){
+// 			try {
+// 				$post=$this->getRequest()->getPost();
+// 				$db = new Installment_Model_DbTable_DbProduct();
+// 				$pro_id =$db->addAjaxProduct($post);
+// 				$result = array('pro_id'=>$pro_id);
+// 				echo Zend_Json::encode($result);
+// 				exit();
+// 			}catch (Exception $e){
+// 				$result = array('err'=>$e->getMessage());
+// 				echo Zend_Json::encode($result);
+// 				exit();
+// 			}
+// 		}
+// 	}
 	
-	function outstockAction(){
-		$db = new Installment_Model_DbTable_DbProduct();
-    	if($this->getRequest()->isPost()){
-    		$data = $this->getRequest()->getPost();
-    	}else{
-    		$data = array(
-    			'ad_search'	=>	'',
-    			'branch'	=>	'',
-    			'brand'		=>	'',
-    			'category'	=>	'',
-    			'model'		=>	'',
-    			'color'		=>	'',
-    			'size'		=>	'',
-    			'status'	=>	1
-    		);
-    	}
-    	$this->view->product = $db->getAllProductOutStock($data);
-    	$formFilter = new Installment_Form_FrmProduct();
-    	$this->view->formFilter = $formFilter->productFilter();
-    	Application_Model_Decorator::removeAllDecorator($formFilter);
-	}
+// 	function outstockAction(){
+// 		$db = new Installment_Model_DbTable_DbProduct();
+//     	if($this->getRequest()->isPost()){
+//     		$data = $this->getRequest()->getPost();
+//     	}else{
+//     		$data = array(
+//     			'ad_search'	=>	'',
+//     			'branch'	=>	'',
+//     			'brand'		=>	'',
+//     			'category'	=>	'',
+//     			'model'		=>	'',
+//     			'color'		=>	'',
+//     			'size'		=>	'',
+//     			'status'	=>	1
+//     		);
+//     	}
+//     	$this->view->product = $db->getAllProductOutStock($data);
+//     	$formFilter = new Installment_Form_FrmProduct();
+//     	$this->view->formFilter = $formFilter->productFilter();
+//     	Application_Model_Decorator::removeAllDecorator($formFilter);
+// 	}
 	
-	function lowstockAction(){
-		$db = new Installment_Model_DbTable_DbProduct();
-    	if($this->getRequest()->isPost()){
-    		$data = $this->getRequest()->getPost();
-    	}else{
-    		$data = array(
-    			'ad_search'	=>	'',
-    			'branch'	=>	'',
-    			'brand'		=>	'',
-    			'category'	=>	'',
-    			'model'		=>	'',
-    			'color'		=>	'',
-    			'size'		=>	'',
-    			'status'	=>	1
-    		);
-    	}
-    	$this->view->product = $db->getAllProductLowStock($data);
-    	$formFilter = new Installment_Form_FrmProduct();
-    	$this->view->formFilter = $formFilter->productFilter();
-    	Application_Model_Decorator::removeAllDecorator($formFilter);
-	}
+// 	function lowstockAction(){
+// 		$db = new Installment_Model_DbTable_DbProduct();
+//     	if($this->getRequest()->isPost()){
+//     		$data = $this->getRequest()->getPost();
+//     	}else{
+//     		$data = array(
+//     			'ad_search'	=>	'',
+//     			'branch'	=>	'',
+//     			'brand'		=>	'',
+//     			'category'	=>	'',
+//     			'model'		=>	'',
+//     			'color'		=>	'',
+//     			'size'		=>	'',
+//     			'status'	=>	1
+//     		);
+//     	}
+//     	$this->view->product = $db->getAllProductLowStock($data);
+//     	$formFilter = new Installment_Form_FrmProduct();
+//     	$this->view->formFilter = $formFilter->productFilter();
+//     	Application_Model_Decorator::removeAllDecorator($formFilter);
+// 	}
 	
 }
 

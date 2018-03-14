@@ -1276,7 +1276,7 @@ function getLoanLevelByClient($client_id,$type){
     }
     
     /* vandy get Client Installment Information for show on Invoice  */
-    function getInstallmentClientInfo($ID){
+    function getInstallmentClientInfo($client_id){
     	$db = $this->getAdapter();
     	$this->_name ="ln_ins_client";
     	$sql="SELECT inClient.*,
@@ -1291,7 +1291,7 @@ function getLoanLevelByClient($client_id,$type){
 			(SELECT v.village_namekh FROM `ln_village` AS v WHERE inClient.`village_id` = v.vill_id LIMIT 1) AS villageKH,
 			(SELECT v.village_name FROM `ln_village` AS v WHERE inClient.`village_id` = v.vill_id LIMIT 1) AS villageEN
 			FROM $this->_name AS inClient
-			WHERE inClient.`client_id` =1 LIMIT 1";
+			WHERE inClient.`client_id` =$client_id LIMIT 1";
     	$row = $db->fetchRow($sql);
     	if (!empty($row)){
     		$from = new DateTime($row['dob']);
