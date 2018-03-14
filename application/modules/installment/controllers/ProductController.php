@@ -34,7 +34,7 @@ public function init()
     	}
     	$columns=array("BRANCH_NAME","ITEM_CODE","ITEM_NAME",
     			"PRODUCT_CATEGORY","CURRENT_QTY","COST_PRICE","SOLD_PRICE","USER","STATUS");
-    	$rows = $db->getAllProductForAdmin($data);
+    	$rows = $db->getAllProduct($data);
 		$link=array(
 				'module'=>'installment','controller'=>'product','action'=>'edit',);
 	
@@ -63,7 +63,8 @@ public function init()
 				  }
 			}
 			$rs_branch = $db->getBranch();
-			$this->view->branch = $rs_branch;
+			$dbc = new Application_Model_GlobalClass();
+			$this->view->branch = $dbc->getAllBranchOption();
 			
 			$formCat = new Installment_Form_FrmCategory();
 			$frmCat = $formCat->cat();
@@ -100,8 +101,10 @@ public function init()
 		$this->view->rspro =  $db->getProductById($id);
 		
 		
-		$rs_branch = $db->getBranch();
-		$this->view->branch = $rs_branch;
+// 		$rs_branch = $db->getBranch();
+// 		$this->view->branch = $rs_branch;
+		$dbc = new Application_Model_GlobalClass();
+		$this->view->branch = $dbc->getAllBranchOption();
 			
 		$formCat = new Installment_Form_FrmCategory();
 		$frmCat = $formCat->cat();
