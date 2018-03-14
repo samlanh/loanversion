@@ -12,7 +12,7 @@ class IndexController extends Zend_Controller_Action
     }
     public function indexAction()
     {
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	$username = $session_user->first_name;
     	$user_id = $session_user->user_id;
     	if (!empty($user_id)){
