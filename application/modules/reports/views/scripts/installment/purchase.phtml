@@ -32,7 +32,10 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase"));
 				table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 				th{padding: 5px;}
 				.hover:hover{ background:#ccc;}
-				
+				a.repLink{
+					color: #000;
+					text-decoration: none;
+				}
 				table { page-break-inside:auto }
 				  tr{ page-break-inside:avoid; page-break-after:auto; }
 				#header {
@@ -91,9 +94,9 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase"));
 			                    <?php }$location = $rs['branch_id'];?>
 				                <tr class="style hover" style="line-height:20px; ">
 				               		<td style="font-size: 12px; text-align: center;">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
-				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["invoice_no"];?></td>
-				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["supplier_no"];?></td>
-				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["sup_name"];?></td>
+				               		<td style="font-size: 12px;">&nbsp;&nbsp;<a class="repLink" target="_blank" href="<?php echo $this->baseUrl()."/reports/installment/purchasedetail/id/".$rs["id"];?>"><?php echo $rs["invoice_no"];?></a></td>
+				               		<td style="font-size: 12px;">&nbsp;&nbsp;<a class="repLink" target="_blank" href="<?php echo $this->baseUrl()."/reports/installment/purchasedetail/id/".$rs["id"];?>"><?php echo $rs["supplier_no"];?></a></td>
+				               		<td style="font-size: 12px;">&nbsp;&nbsp;<a class="repLink" target="_blank" href="<?php echo $this->baseUrl()."/reports/installment/purchasedetail/id/".$rs["id"];?>"><?php echo $rs["sup_name"];?></a></td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["tel"];?>&nbsp;</td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["email"];?>&nbsp;</td>
 				               		<td align="right">&nbsp;<?php echo number_format($rs["total_amount"],2);?>&nbsp;</td>
@@ -102,7 +105,7 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase"));
 			                <?php }?>
 			                	<tr style="font-weight: 600;border-bottom: solid 1px #fff;border-left: solid 1px #fff;border-right: solid 1px #fff;">
 			                		<td colspan="6" align="right"><?php echo $tr->translate("TOTAL");?>&nbsp;</td>
-			                		<td colspan="2" align="right"><?php echo number_format($gTotalPurchase,2)?>&nbsp;</td>
+			                		<td colspan="2" align="right"><?php echo "$ ".number_format($gTotalPurchase,2)?>&nbsp;</td>
 			                	</tr>
 			             </table>
 			    	</td>

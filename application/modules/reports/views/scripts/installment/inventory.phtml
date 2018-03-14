@@ -110,11 +110,11 @@ echo $this->headTitle($tr->translate("Report Inventory"));
 			                <?php }?>
 			                	<tr style="font-weight: 600;border-bottom: solid 1px #fff;border-left: solid 1px #fff;border-right: solid 1px #fff;">
 			                		<td colspan="9" align="right"><?php echo $tr->translate("Grand Total Cost");?>&nbsp;</td>
-			                		<td colspan="2" align="right"><?php echo number_format($gTotalCost,2)?>&nbsp;</td>
+			                		<td colspan="2" align="right"><?php echo "$ ".number_format($gTotalCost,2)?>&nbsp;</td>
 			                	</tr>
 			                	<tr style="font-weight: 600;border-bottom: solid 1px #fff;border-left: solid 1px #fff;border-right: solid 1px #fff;">
 			                		<td colspan="9" align="right"><?php echo $tr->translate("Grand Total Price");?>&nbsp;</td>
-			                		<td colspan="2" align="right"><?php echo number_format($gTotalPrice,2)?>&nbsp;</td>
+			                		<td colspan="2" align="right"><?php echo "$ ".number_format($gTotalPrice,2)?>&nbsp;</td>
 			                	</tr>
 			             </table>
 			    	</td>

@@ -56,5 +56,16 @@ class Reports_InstallmentController extends Zend_Controller_Action {
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	}
+	function purchasedetailAction(){
+		$id=$this->getRequest()->getParam('id');
+		$id = empty($id)?0:$id;
+		$db  = new Reports_Model_DbTable_DbInventory();
+		$row = $db->getPurchaseById($id);
+		if (empty($row)){
+			Application_Form_FrmMessage::Sucessfull("Don't have record","/reports/installment/");
+		}
+		$this->view->purchase = $row;
+		$this->view->purchaseDetail = $db->getPurchseDetail($id);
+	}
 }
 

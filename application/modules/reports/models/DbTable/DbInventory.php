@@ -83,5 +83,33 @@ class Reports_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	$sql.=" ORDER BY sp.`id` DESC";
     	return $db->fetchAll($sql);
     }
+    public function getPurchaseById($id){
+    	$db = $this->getAdapter();
+    	$sql="
+    	 SELECT (SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = sp.`branch_id` LIMIT 1) AS branch_namekh,
+			 sp.*, s.`supplier_no`,s.`sup_name`,s.`tel`,s.`email`
+			FROM 
+			ln_ins_supplier AS s,
+			ln_ins_purchase AS sp
+			WHERE s.id=sp.supplier_id
+			AND s.`status`=1 AND s.`id`=$id LIMIT 1
+    	";
+    	return $db->fetchRow($sql);
+    }
+    public function getPurchseDetail($PurchaseId){
+    	$db = $this->getAdapter();
+    	$sql="
+    	SELECT 
+			p.`item_code`,p.`item_name`,p.`cate_id`,
+			(SELECT c.name FROM `ln_ins_category` AS c WHERE c.id = p.`cate_id` LIMIT 1) AS categoryName,
+			pd.* 
+			FROM 
+			`ln_ins_purchase_detail` AS pd,
+			`ln_ins_product` AS p
+			WHERE pd.`po_id` =$PurchaseId
+			AND pd.`pro_id` = p.`id`
+    	";
+    	return $db->fetchAll($sql);
+    }
 }
 
