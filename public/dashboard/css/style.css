@@ -260,7 +260,7 @@ File: Main file css
 
 #page-right-content {
   border-left: 6px solid #f5f5f5;
-    padding: 0px 5px 50px 5px;
+    padding: 0px 5px 0 5px;
     /* margin-top: -70px; */
     /* margin-left: 240px; */
     /* min-height: 1050px; */
@@ -343,10 +343,10 @@ File: Main file css
   top: 10px;
   color: #ffffff; }
 
-body {
+ body {
   background-color: #f5f5f5;
   font-family: "Noto Sans", sans-serif,'Khmer OS Battambang';
-  color: #676a6c; }
+   /*color: #676a6c; */} 
 
 #page-wrapper {
   width: 100%;
@@ -2445,3 +2445,15 @@ table.saleInfo td {
 .text-muted.baht {
     color: #0f575b;
 }
+#menu ul {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+#menu a {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+ 
