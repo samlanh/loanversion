@@ -15,14 +15,10 @@ class Pawnshop_SaleController extends Zend_Controller_Action {
 			else{
 				$search = array(
 						'txt_search'=>'',
-						'members'=> -1,
-						'product_id' => -1,
 						'branch_id' => -1,
-						'co_id' => -1,
-						'status' => -1,
-						'currency_type'=>-1,
 						'start_date'=> date('Y-m-d'),
-						'end_date'=>date('Y-m-d'),);
+						'end_date'=>date('Y-m-d'),
+					);
 			}
 			$db = new Pawnshop_Model_DbTable_DbSale();
 			$rs_rows= $db->getAllPawnSale($search);
@@ -30,7 +26,7 @@ class Pawnshop_SaleController extends Zend_Controller_Action {
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","INVOICE_NO","CUSTOMER_NAME","SEX","PHONE",
-					"ADDRESS","PRODUCT_NAME","SELLING_DATE","USER","STATUS");
+					"ADDRESS","PRODUCT_NAME","SELLING_PRICE","DESCRIPTION","SELLING_DATE","USER","STATUS");
 			
 			$link_info=array('module'=>'pawnshop','controller'=>'sale','action'=>'edit',);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch_name'=>$link_info,'invoice_no'=>$link_info,'customer_name'=>$link_info,'pawn_name'=>$link_info),0);
@@ -70,8 +66,8 @@ class Pawnshop_SaleController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try {
-				$_dbmodel = new Pawnshop_Model_DbTable_DbPawnshop();
-				$_dbmodel->updatePawnshop($_data);
+				$_dbmodel = new Pawnshop_Model_DbTable_DbSale();
+				$_dbmodel->updateSalePawn($_data,$id);
 				Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/pawnshop/sale");
 	
 			}catch (Exception $e) {

@@ -5,7 +5,7 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
 
     protected $_name = 'ln_pawn_sale';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     }
     
@@ -29,7 +29,8 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
 						'(',product_description,')',
 						'(',(select name_kh from ln_clientsaving where client_id = customer_id),')'
 					) as pawn_name,
-			    	
+			    	selling_price,
+			    	description,
 			    	ps.selling_date,
 			    	(SELECT CONCAT(first_name,' ', last_name) FROM rms_users as u WHERE u.id=ps.user_id )AS user_name,
 			    	ps.status
@@ -43,18 +44,19 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
     	if(!empty($search['adv_search'])){
 	    	$s_where = array();
 	    	$s_search = $search['adv_search'];
-	    	$s_where[] = " client_number LIKE '%{$s_search}%'";
-	    	$s_where[] = " name_en LIKE '%{$s_search}%'";
-	    	$s_where[] = " name_kh LIKE '%{$s_search}%'";
-	    	$s_where[] = "join_with LIKE '%{$s_search}%'";
-	    	$s_where[] = "join_nation_id LIKE '%{$s_search}%'";
-	    	$s_where[] = " phone LIKE '%{$s_search}%'";
-	    	$s_where[] = " house LIKE '%{$s_search}%'";
-	    	$s_where[] = " street LIKE '%{$s_search}%'";
+	    	$s_where[] = " customer_name LIKE '%{$s_search}%'";
+	    	$s_where[] = " invoice_no LIKE '%{$s_search}%'";
+	    	$s_where[] = " (select product_en from ln_pawnshopproduct as pspro where pspro.id = psp.product_id) LIKE '%{$s_search}%'";
+	    	$s_where[] = " product_description LIKE '%{$s_search}%'";
+	    	$s_where[] = " (select name_kh from ln_clientsaving where client_id = customer_id) LIKE '%{$s_search}%'";
+	    	
+	    	$s_where[] = " CONCAT(
+						(select product_en from ln_pawnshopproduct as pspro where pspro.id = psp.product_id),
+						'(',product_description,')',
+						'(',(select name_kh from ln_clientsaving where client_id = customer_id),')'
+					) LIKE '%{$s_search}%'";
+	    	
 	    	$where .=' AND ('.implode(' OR ',$s_where).')';
-    	}
-    	if($search['status']>-1){
-    		$where.= " AND status = ".$search['status'];
     	}
     	$order=" ORDER BY ps.id DESC";
     	return $db->fetchAll($sql.$where.$order);
@@ -96,63 +98,56 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
 			echo $e->getMessage();
 		}
 	}
+	
+	public function updateSalePawn($_data,$id){
+	
+		try{
+			$_arr=array(
+					'branch_id'	  	=> $_data['branch_id'],
+					'customer_name'	=> $_data['customer_name'],
+					'tel'	  		=> $_data['tel'],
+					'gender'	  	=> $_data['gender'],
+					'dob'	  		=> $_data['dob'],
+					'address'		=> $_data['address'],
+					'nationid_no'	=> $_data['nation_id'],
+						
+					'invoice_no'	=> $_data['invoice_no'],
+					'pawn_id'	    => $_data['product_id'],
+					'qty'		    => 1,
+					'selling_price' => $_data['unit_price'],
+					'description'  	=> $_data['description'],
+					'selling_date'  => $_data['selling_date'],
+						
+					'user_id'	  	=> $this->getUserId(),
+					'status'	 	=> $_data['status'],
+			);
+			$where = " id = $id ";
+			$this->update($_arr, $where);
+				
+			$this->_name = "ln_pawnshop";
+			if($_data['status']==1){
+				$is_sold = 1;
+			}else{
+				$is_sold = 0;
+			}
+			$array = array(
+					'is_sold'	=> $is_sold,
+			);
+			$where = " id = ".$_data['product_id'];
+			$this->update($array, $where);
+				
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+	
+	
+	
 	public function getPawnSaleById($id){
 		$db = $this->getAdapter();
 		$sql = "SELECT * FROM ln_pawn_sale WHERE id = $id LIMIT 1 ";
 		return $db->fetchRow($sql);
 	}
-	
-	function getPrefixCode($branch_id){
-		$db  = $this->getAdapter();
-		$sql = " SELECT prefix FROM `ln_branch` WHERE br_id = $branch_id  LIMIT 1";
-		return $db->fetchOne($sql);
-	}	
-	public function getClientCode($branch_id){//for get client by branch
-		$db = $this->getAdapter();
-			$sql = "SELECT COUNT(client_id) AS number FROM $this->_name
-			WHERE branch_id = ".$branch_id;
-		$acc_no = $db->fetchOne($sql);
-		$new_acc_no= (int)$acc_no+1;
-		$acc_no= strlen((int)$acc_no+1);
-		$pre =$this->getPrefixCode($branch_id);
-		for($i = $acc_no;$i<6;$i++){
-			$pre.='0';
-		}
-		return $pre.$new_acc_no;
-	}
-// 	public function addIndividaulClient($_data){
-// 		$client_code = $this->getClientCode($_data['branch_id']);
-// 			$_arr=array(
-// 					'is_group'=>0,
-// 					'group_code'=>'',
-// 					'parent_id'=>0,
-// 					'client_number'=>$client_code,
-// 					'name_kh'	  => $_data['name_kh'],
-// 					'name_en'	  => $_data['name_en'],
-// 					'sex'	      => $_data['sex'],
-// 					'sit_status'  => $_data['situ_status'],
-// 					'dis_id'      => $_data['district'],
-// 					'village_id'  => $_data['village'],
-// 					'street'	  => $_data['street'],
-// 					'house'	      => $_data['house'],
-// 					'branch_id'  => $_data['branch_id'],
-// 					'job'        =>$_data['job'],
-// 					'phone'	      => $_data['phone'],
-// 					'create_date' => date("Y-m-d"),
-// 					'client_d_type'      => $_data['client_d_type'],
-// 					'user_id'	  => $this->getUserId(),
-// 					'dob'			=>$_data['dob_client'],	
-// 					'pro_id'      => $_data['province'],
-// 					'com_id'      => $_data['commune'],
-					
-			
-// 			);
-			
-// 				$this->_name = "ln_client";
-// 				$id =$this->insert($_arr);
-// 				return array('id'=>$id,'client_code'=>$client_code);
-// 	}
-
 	
 	function getProductIdByBranch($branch_id){
 		$db=$this->getAdapter();

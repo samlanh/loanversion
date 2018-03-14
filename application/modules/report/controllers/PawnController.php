@@ -580,5 +580,28 @@ function rptPaymentHistoryAction(){
  	$this->view->frm_loan = $frm;
  }
  
+ function rptPawnSaleAction(){
+ 	if($this->getRequest()->isPost()){
+ 		$search = $this->getRequest()->getPost();
+ 	}else{
+ 		$search = array(
+ 				'adv_search'=>'',
+ 				'status' =>-1,
+ 				'start_date'=>date('Y-m-d'),
+ 				'end_date'=>date('Y-m-d'));
+ 	}
+ 	$db  = new Report_Model_DbTable_DbPawnSale();
+ 	$this->view->rs = $db->getAllPawnSale($search);
+ 	
+ 	
+ 	$this->view->search=$search;
+ 	
+ 	$frm = new Loan_Form_FrmSearchLoan();
+ 	$frms = $frm->AdvanceSearch();
+ 	Application_Model_Decorator::removeAllDecorator($frm);
+ 	$this->view->frm_loan = $frm;
+ }
+ 
+ 
 }
 

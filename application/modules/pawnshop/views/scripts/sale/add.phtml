@@ -1,7 +1,7 @@
 <?php	
-	$this->headTitle('PAWN_SALE'); 
-	echo $this->headTitle();
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('PAWN_SALE')); 
+	echo $this->headTitle();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$frm = $this->frm_loan;
 ?>
@@ -82,7 +82,7 @@
 							<td><input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" id="invoice_no" name="invoice_no" value="" type="text"></td>
 					    </tr>
 						<tr>
-							<td><strong><?php echo $tr->translate("PAWN_ID")?></strong></td>
+							<td><strong><?php echo $tr->translate("PRODUCT_NAME")?></strong></td>
 							<td><input id="product_id" /><?php ////echo $frm->getElement('product_id');?></td>
 						</tr>
 						<tr>

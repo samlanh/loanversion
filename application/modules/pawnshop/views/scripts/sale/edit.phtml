@@ -1,8 +1,9 @@
 <?php	
-	$this->headTitle('Edit Pawn'); 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('PAWN_SALE'));
 	echo $this->headTitle();
 	$frm = $this->frm_loan;
-	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	echo $this->frmpupopinfoclient;
 ?>
@@ -85,7 +86,7 @@
 								<td><input dojoType="dijit.form.ValidationTextBox" required="1" class="fullside" id="invoice_no" name="invoice_no" value="<?php echo $this->row['invoice_no'];?>" type="text"></td>
 							</tr>
 							<tr>
-								<td><strong><?php echo $tr->translate("PAWN_ID")?></strong></td>
+								<td><strong><?php echo $tr->translate("PRODUCT_NAME")?></strong></td>
 								<td><input id="product_id" /><?php ////echo $frm->getElement('product_id');?></td>
 							</tr>
 							<tr>
@@ -100,13 +101,24 @@
 								<td><?php echo $tr->translate("SELLING_DATE")?></td>
 								<td><input constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" id="selling_date" name="selling_date" value="<?php echo $this->row['selling_date'];?>" type="text"></td>
 							</tr>
+							
+							<tr>
+								<td><?php echo $tr->translate("STATUS")?></td>
+								<td>
+									<select dojoType="dijit.form.FilteringSelect" class="fullside" name="status" id="status" >
+										<option value="1" <?php if($this->row['status']==1){echo "selected='selected'";}?>>Active</option>
+										<option value="0" <?php if($this->row['status']==0){echo "selected='selected'";}?>>Deactive</option>
+									</select>
+								</td>
+							</tr>
+							
 						</table>
 				</fieldset>
 			</td>
 		</tr>
 		<tr>
 			<td align="center" colspan="2">
-				<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id="save_new" value='savenew' dojoType="dijit.form.Button"
+				<input type="submit" label="<?php echo $tr->translate("GO_EDIT")?>" name='savenew' id="save_new" value='savenew' dojoType="dijit.form.Button"
 					 iconClass="dijitIconNewTask"/>
 				<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' id="save_view"  value='savenew' dojoType="dijit.form.Button"
 					 iconClass="dijitIconNewTask"/>
@@ -149,12 +161,13 @@ require(["dojo/ready"], function(ready){
 
 function setReadOnly(){
 	dijit.byId("branch_id").set('readOnly',true);
-	dijit.byId("customer_name").set('readOnly',true);
-	dijit.byId("tel").set('readOnly',true);
-	dijit.byId("gender").set('readOnly',true);
-	dijit.byId("dob").set('readOnly',true);
-	dijit.byId("address").set('readOnly',true);
-	dijit.byId("nation_id").set('readOnly',true);
+	//dijit.byId("customer_name").set('readOnly',true);
+	//dijit.byId("tel").set('readOnly',true);
+	//dijit.byId("gender").set('readOnly',true);
+	//dijit.byId("dob").set('readOnly',true);
+	//dijit.byId("address").set('readOnly',true);
+	//dijit.byId("nation_id").set('readOnly',true);
+	
 	dijit.byId("invoice_no").set('readOnly',true);
 	dijit.byId("product_id").set('readOnly',true);
 	dijit.byId("unit_price").set('readOnly',true);
@@ -196,8 +209,9 @@ function getProductDetail(pawn_id){
 			handleAs:"json",
 			load: function(data) {
 				if(data){
-					dijit.byId("unit_price").attr('value',data.est_amount);
+					//dijit.byId("unit_price").attr('value',data.est_amount);
 				}
+				//dijit.byId("unit_price").attr("value",'<?php echo $this->row['selling_price'];?>');
 			},
 			error: function(err) {
 				alert(err);
