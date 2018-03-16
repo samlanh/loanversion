@@ -8,7 +8,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 	public static function getUserId(){
 		$session_user=new Zend_Session_Namespace('authloan');
 		return $session_user->user_id;
-	
 	}
  function getAllLocationByUser($user_id,$branch_name='id'){
 //     	$db = $this->getAdapter();
@@ -29,7 +28,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
     	return $where;
     }
 	public function getUserInfo(){
-		$session_user=new Zend_Session_Namespace('auth');
+		$session_user=new Zend_Session_Namespace('authloan');
 		$userName=$session_user->user_name;
 		$GetUserId= $session_user->user_id;
 		$level = $session_user->level;

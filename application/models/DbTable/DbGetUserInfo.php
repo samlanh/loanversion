@@ -4,7 +4,7 @@ class Application_Model_DbTable_DbGetUserInfo extends Zend_Db_Table_Abstract
 {
 
     public function getUserInfo(){
-    $session_user=new Zend_Session_Namespace('auth');
+    $session_user=new Zend_Session_Namespace('authloan');
     	$userName=$session_user->user_name;
     	$GetUserId= $session_user->user_id;
     	$level = $session_user->level;
