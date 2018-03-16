@@ -132,6 +132,15 @@ public function init()
 			exit();
 		}
 	}
+	function getpriceAction(){
+		if($this->getRequest()->isPost()){
+			$post=$this->getRequest()->getPost();
+			$db = new Installment_Model_DbTable_DbProduct();
+			$result =$db->getProductById($post['product_id']);
+			print_r(Zend_Json::encode($result));
+			exit();
+		}
+	}
 // 	public function addCategoryAction(){
 // 		if($this->getRequest()->isPost()){
 // 			try {
@@ -149,42 +158,6 @@ public function init()
 // 		}
 // 	}
 
-// 	public function addMeasureAction(){
-// 		if($this->getRequest()->isPost()){
-// 			try {
-// 				$post=$this->getRequest()->getPost();
-// 				$db = new Product_Model_DbTable_DbMeasure();
-// 				if(empty($post['measure_name'])){
-// 					$post['measure_name']=$post['name'];
-// 				}
-// 				$measure_id =$db->addNew($post);
-// 				$result = array('measure_id'=>$measure_id);
-// 				echo Zend_Json::encode($result);
-// 				exit();
-// 			}catch (Exception $e){
-// 				$result = array('err'=>$e->getMessage());
-// 				echo Zend_Json::encode($result);
-// 				exit();
-// 			}
-// 		}
-// 	}
-	
-// 	public function addOtherAction(){
-// 		if($this->getRequest()->isPost()){
-// 			try {
-// 				$post=$this->getRequest()->getPost();
-// 				$db = new Product_Model_DbTable_DbOther();
-// 				$other_id =$db->addNew($post);
-// 				$result = array('other_id'=>$other_id);
-// 				echo Zend_Json::encode($result);
-// 				exit();
-// 			}catch (Exception $e){
-// 				$result = array('err'=>$e->getMessage());
-// 				echo Zend_Json::encode($result);
-// 				exit();
-// 			}
-// 		}
-// 	}
 // 	public function addNewproudctAction(){
 // 		if($this->getRequest()->isPost()){
 // 			try {
@@ -200,50 +173,6 @@ public function init()
 // 				exit();
 // 			}
 // 		}
-// 	}
-	
-// 	function outstockAction(){
-// 		$db = new Installment_Model_DbTable_DbProduct();
-//     	if($this->getRequest()->isPost()){
-//     		$data = $this->getRequest()->getPost();
-//     	}else{
-//     		$data = array(
-//     			'ad_search'	=>	'',
-//     			'branch'	=>	'',
-//     			'brand'		=>	'',
-//     			'category'	=>	'',
-//     			'model'		=>	'',
-//     			'color'		=>	'',
-//     			'size'		=>	'',
-//     			'status'	=>	1
-//     		);
-//     	}
-//     	$this->view->product = $db->getAllProductOutStock($data);
-//     	$formFilter = new Installment_Form_FrmProduct();
-//     	$this->view->formFilter = $formFilter->productFilter();
-//     	Application_Model_Decorator::removeAllDecorator($formFilter);
-// 	}
-	
-// 	function lowstockAction(){
-// 		$db = new Installment_Model_DbTable_DbProduct();
-//     	if($this->getRequest()->isPost()){
-//     		$data = $this->getRequest()->getPost();
-//     	}else{
-//     		$data = array(
-//     			'ad_search'	=>	'',
-//     			'branch'	=>	'',
-//     			'brand'		=>	'',
-//     			'category'	=>	'',
-//     			'model'		=>	'',
-//     			'color'		=>	'',
-//     			'size'		=>	'',
-//     			'status'	=>	1
-//     		);
-//     	}
-//     	$this->view->product = $db->getAllProductLowStock($data);
-//     	$formFilter = new Installment_Form_FrmProduct();
-//     	$this->view->formFilter = $formFilter->productFilter();
-//     	Application_Model_Decorator::removeAllDecorator($formFilter);
 // 	}
 	
 }

@@ -128,7 +128,7 @@
 						
 						<tr>
 					 		<td><strong><?php echo $tr->translate('តម្លៃលក់');?></strong></td>
-					 		<td><input onkeyup="calCulateBalane();" dojoType="dijit.form.NumberTextBox" class="fullside"  name="selling_price" id="selling_price" value="" type="text"></td>
+					 		<td><input onkeyup="calCulateBalane();" required="1" dojoType="dijit.form.NumberTextBox" class="fullside"  name="selling_price" id="selling_price" value="" type="text"></td>
 					 	</tr>
 						
 						<tr>
@@ -142,7 +142,7 @@
 					 	</tr>
 					 	<tr>
 					 		<td><strong><?php echo $tr->translate('បានបង់');?></strong></td>
-					 		<td><input dojoType="dijit.form.NumberTextBox" class="fullside"  name="paid" id="paid" value="" type="text" onkeyup="calCulateBalane();" ></td>
+					 		<td><input dojoType="dijit.form.NumberTextBox" required="1" class="fullside"  name="paid" id="paid" value="" type="text" onkeyup="calCulateBalane();" ></td>
 					 	</tr>
 					 	<tr>
 					 		<td><?php echo $tr->translate('BALANCE');?></td>
@@ -150,7 +150,7 @@
 					 	</tr>
 					 	<tr>
 					 		<td><?php echo $tr->translate('លេខវិក័យបត្រ');?></td>
-					 		<td><input dojoType="dijit.form.TextBox" class="fullside"  name="invoice_no" id="invoice_no" ></td>
+					 		<td><input dojoType="dijit.form.ValidationTextBox" class="fullside" required="1" name="invoice_no" id="invoice_no" ></td>
 					 	</tr>
 						
 						<tr>
@@ -580,7 +580,7 @@ require(["dojo/ready"], function(ready){
 	query: {
 		branch_id: "-1"
 	},            
-	required: false,		           
+	required: true,		           
 	name: "member",
 	id: "member",
 	searchAttr: "name",
@@ -639,7 +639,7 @@ require(["dojo/ready"], function(ready){
 
 	new dijit.form.FilteringSelect({
 		store: pro_store,
-		required: false,		           
+		required: true,		           
 		name: "product_name",
 		id: "product_name",
 		searchAttr: "name",
@@ -647,6 +647,7 @@ require(["dojo/ready"], function(ready){
 		queryExpr: "*${0}*",
 		class: 'fullside',
 		onChange: function() {
+			getProductInfo();
 		}
 	}, "product_name");
 	 
@@ -1116,6 +1117,24 @@ function getClientInfo(){
 			dojo.byId('LBclientDistrict').innerHTML=data.districtKH;
 			dojo.byId('LBclientProvince').innerHTML=data.provinceKH;
 			dojo.byId('LBclientPhone').innerHTML=data.name_kh;
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
+}
+var urlproductInfo = '<?php echo $this->url(array('module'=>'installment','controller'=>'product','action'=>'getprice')); ?>';
+function getProductInfo(){
+	product_id = dijit.byId('product_name').get('value');
+	if(product_id==''){return false;}
+	dojo.xhrPost({
+		url:urlproductInfo,	
+		content:{ 
+		    'product_id':product_id
+		},
+		handleAs:"json",
+		load: function(data) {
+			dijit.byId("selling_price").attr("value",data.selling_price);
 		},
 		error: function(err) {
 			alert(err);
