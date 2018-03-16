@@ -73,8 +73,7 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     		);
     		$this->insert($_arrs);
     	}else {}
-    }
-    
+}
     public function addPurchase($_data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();

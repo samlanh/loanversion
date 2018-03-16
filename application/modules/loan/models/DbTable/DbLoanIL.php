@@ -1248,9 +1248,7 @@ function getLoanLevelByClient($client_id,$type){
     	$level  = $db->fetchOne($sql);
     	return ($level+1);
 }
-
-   
-    public function getLoanInfo($id){//when repayment shedule
+public function getLoanInfo($id){//when repayment shedule
     	$db=$this->getAdapter();
     	$sql="SELECT  (SELECT lf.total_principal FROM `ln_loanmember_funddetail` AS lf WHERE lf. member_id= l.member_id AND STATUS=1 AND lf.is_completed=0 LIMIT 1)  AS total_principal
     	,l.currency_type FROM `ln_loan_member` AS l WHERE l.client_id=$id AND status=1 AND l.is_completed=0

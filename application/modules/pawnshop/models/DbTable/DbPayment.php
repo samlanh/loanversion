@@ -5,7 +5,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
 
     protected $_name = 'ln_pawn_receipt_money';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     	 
     }

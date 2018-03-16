@@ -500,6 +500,26 @@
 	</div>
 </div>
 <script type="text/javascript">	
+var getloan_level = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'get-loanlevel')); ?>';
+function getLoanLevel(client_id){
+	   if(client_id==''){
+		   return false;}
+		dojo.xhrPost({
+	    url: getloan_level,	
+	    content : { 
+	    	'client_id': client_id,
+	    	'type':1
+		},	    
+		handleAs:"json", 
+		load: function(data) {	
+			customer_code = dijit.byId("customer_code").attr('displayedValue');
+			dijit.byId('loan_code').attr('value',customer_code+'-'+data);
+			dijit.byId('level').attr('value',data);
+		},
+		error: function(err) {
+		}
+	});
+}
 r=0;
 var url_previewloan = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'addpawnshoptest')); ?>';
 function addPreviewLoan(){
@@ -698,6 +718,7 @@ require(["dojo/ready"], function(ready){
 		if(member==-1){
 			showPopupclient();
 		}else{
+			getLoanLevel(member);
 			dijit.byId('customer_code').attr('value',member);
 		}
 }
@@ -801,7 +822,8 @@ function getLoanByBranch(){
 		},		    
 		handleAs:"json",
 		load: function(data) {
-			dijit.byId('loan_code').attr('value',data);
+			customer_code = dijit.byId("customer_code").get("value");
+			dijit.byId('loan_code').attr('value',customer_code+'-'+data);
 		},
 		error: function(err) {
 			//alert(err);

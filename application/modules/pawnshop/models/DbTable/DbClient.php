@@ -5,7 +5,7 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 
     protected $_name = 'ln_clientsaving';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     }
 	public function addClient($_data){
@@ -21,7 +21,6 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		else{
 			$_data['photo']="";
 		}
-		
 		try{
 		
 		if(!empty($_data['id'])){

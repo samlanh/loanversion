@@ -19,14 +19,20 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 		));
 		
 		$clienttype_nameen= new Zend_Dojo_Form_Element_DateTextBox('clienttype_nameen');
-		$clienttype_nameen->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside'
+		$clienttype_nameen->setAttribs(array('dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
 		));
 		$clienttype_namekh= new Zend_Dojo_Form_Element_DateTextBox('clienttype_namekh');
-		$clienttype_namekh->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside'
+		$clienttype_namekh->setAttribs(array('dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
 		));
 		
 		$_dob= new Zend_Dojo_Form_Element_DateTextBox('dob_client');
-		$_dob->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','class'=>'fullside',
+		$_dob->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
 		));
 		
 		
@@ -216,7 +222,9 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 		$_status->setMultiOptions($_status_opt);
 		
 		$dob_join_acc= new Zend_Dojo_Form_Element_DateTextBox('dob_join_acc');
-		$dob_join_acc->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','class'=>'fullside',
+		$dob_join_acc->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
 		));
 		
 		if($data!=null){

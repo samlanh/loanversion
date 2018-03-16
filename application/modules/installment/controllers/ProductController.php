@@ -62,7 +62,6 @@ public function init()
 				  	Application_Form_FrmMessage::messageError("INSERT_ERROR",$err = $e->getMessage());
 				  }
 			}
-			$rs_branch = $db->getBranch();
 			$dbc = new Application_Model_GlobalClass();
 			$this->view->branch = $dbc->getAllBranchOption();
 			

@@ -141,7 +141,6 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 	}
 	
 	public function viewAction(){
-// 		$this->_helper->layout()->disableLayout();
 		$id = $this->getRequest()->getParam('id');
 		$db_g = new Application_Model_DbTable_DbGlobal();
 		if(empty($id)){

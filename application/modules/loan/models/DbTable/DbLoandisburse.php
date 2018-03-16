@@ -2,14 +2,11 @@
 
 class Loan_Model_DbTable_DbLoandisburse extends Zend_Db_Table_Abstract
 {
-
     protected $_name = 'ln_loan';
     public function getUserId(){
     	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
-    	 
     }
-    
     public function getClient($type){
     	$this->_name='ln_client';
     	$sql ="SELECT
@@ -1225,7 +1222,6 @@ function getLoanLevelByClient($client_id,$type){
     	$level  = $db->fetchOne($sql);
     	return ($level+1);
     }
-   
     public function getLoanInfo($id){//when repayment shedule
     	$db=$this->getAdapter();
     	$sql="SELECT  (SELECT d.outstanding_after FROM `ln_loan_detail` AS d 
@@ -1250,13 +1246,11 @@ function getLoanLevelByClient($client_id,$type){
     	$db = $this->getAdapter();
     	$sql ="SELECT cd.`date_payment` 
 			FROM `ln_client_receipt_money_detail` AS cd,
-				`ln_client_receipt_money` AS c 
-					WHERE 
-					c.status=1
-					AND c.`id` = cd.`crm_id` 
-						AND c.`loan_number`='$loanNumber' ORDER BY cd.`id` DESC";
-    	//return $sql;
+			`ln_client_receipt_money` AS c 
+				WHERE 
+				c.status=1
+				AND c.`id` = cd.`crm_id` 
+				AND c.`loan_number`='$loanNumber' ORDER BY cd.`id` DESC";
     	return $db->fetchOne($sql);
     }
-  
 }

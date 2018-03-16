@@ -5,7 +5,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 
     protected $_name = 'ln_pawnshop';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('auth');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     	 
     }
@@ -394,5 +394,11 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	}
     	$db = $this->getAdapter();
     	return $db->fetchAll($sql.$where);
+    }
+    function getLoanLevelByClient($client_id,$type){
+    	$db  = $this->getAdapter();
+    	$sql = " SELECT level FROM `ln_pawnshop` WHERE status =1 AND customer_id = $client_id LIMIT 1 ";
+    	$level  = $db->fetchOne($sql);
+    	return ($level+1);
     }
 }

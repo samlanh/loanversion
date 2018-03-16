@@ -38,7 +38,7 @@ class Pawnshop_CustomerController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","CUSTOMER_CODE","CLIENTNAME_KH","CLIENTNAME_EN","SEX","PHONE","HOUSE","STREET","VILLAGE","SPOUSE_NAME",
+			$collumns = array("BRANCH_NAME","CLIENT_NUM","CLIENTNAME_KH","CLIENTNAME_EN","SEX","PHONE","HOUSE","STREET","VILLAGE","SPOUSE_NAME",
 					"DATE","BY_USER","STATUS");
 			$link=array(
 					'module'=>'pawnshop','controller'=>'customer','action'=>'edit',
@@ -91,23 +91,15 @@ class Pawnshop_CustomerController extends Zend_Controller_Action {
 		
 		$client_type = $db->getclientdtype();
 		array_unshift($client_type,array(
-		'id' => -1,
-		'name' => '---Add New ---',
+			'id' => -1,
+			'name' => '---Add New ---',
 		 ) );
 		$this->view->clienttype = $client_type;
 		
 		$fm = new Pawnshop_Form_FrmClient();
-		
 		$frm = $fm->FrmAddClient();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_client = $frm;
-		
-		$dbpop = new Application_Form_FrmPopupGlobal();
-		$this->view->frm_popup_village = $dbpop->frmPopupVillage();
-// 		$this->view->frm_popup_comm = $dbpop->frmPopupCommune();
-// 		$this->view->frm_popup_district = $dbpop->frmPopupDistrict();
-// 		$this->view->frm_popup_clienttype = $dbpop->frmPopupclienttype();
-		
 	}
 	public function editAction(){
 		$db = new Pawnshop_Model_DbTable_DbClient();

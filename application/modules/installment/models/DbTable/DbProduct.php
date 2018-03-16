@@ -111,7 +111,7 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 		
 		$user_info = new Application_Model_DbTable_DbGetUserInfo();
 		$result = $user_info->getUserInfo();
-		$session_user=new Zend_Session_Namespace('auth');
+		$session_user=new Zend_Session_Namespace('authloan');
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		 $level = $result["level"];
     	try {

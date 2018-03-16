@@ -6,8 +6,6 @@ public function init()
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function FrmAddLoan($data=null){
-		
-		
 		$_loan_code = new Zend_Dojo_Form_Element_TextBox('loan_code');
 		$_loan_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -215,6 +213,12 @@ public function init()
 				'queryExpr'=>'*${0}*',
 		));
 		$options = $db->getAllPaymentMethod(null,1);
+		$request=Zend_Controller_Front::getInstance()->getRequest();
+		if($request->getModuleName()=='installment'){
+			unset($options['3']);unset($options['5']);
+			unset($options['6']);
+		}
+		
 		$_repayment_method->setMultiOptions($options);
 		
 		$_status = new Zend_Dojo_Form_Element_FilteringSelect('status_using');

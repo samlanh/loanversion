@@ -25,7 +25,7 @@ class Pawnshop_PawnproductController extends Zend_Controller_Action
     		$glClass = new Application_Model_GlobalClass();
     		$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
     		$list = new Application_Form_Frmtable();
-    		$collumns = array("NAME_EN","NAME_KH","ពត៍មានលម្អិត","STATUS");
+    		$collumns = array("NAME_EN","NAME_KH","NOTE","STATUS");
     		$link=array(
     				'module'=>'pawnshop','controller'=>'pawnproduct','action'=>'edit',
     		);
