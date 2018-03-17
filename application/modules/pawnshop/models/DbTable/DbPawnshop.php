@@ -27,8 +27,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	CONCAT(total_duration,(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code = term_type )) term_type,
 		interest_rate,
 		(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=ln_pawnshop.product_id limit 1) as product_name,
-		date_release,date_line,'".$dach."' ,status FROM `ln_pawnshop` WHERE 1 ";
-
+		date_release,date_line,'".$dach."' ,
+        (SELECT first_name FROM `rms_users` WHERE id=user_id) As user_name,
+    	status FROM `ln_pawnshop` WHERE 1 ";
     	if(!empty($search['adv_search'])){
     		$s_where = array();
     		$s_search = $search['adv_search'];

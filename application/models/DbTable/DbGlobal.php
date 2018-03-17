@@ -1408,14 +1408,19 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	$db = $this->getAdapter();
   	return $db->fetchAll($sql);
   }
-  public function getPawnshoNumber($data=array('branch_id'=>1,'is_group'=>0)){
+  public function getPawnshoNumber($customer_id=1){
   	$db = $this->getAdapter();
-  	$sql=" SELECT COUNT(id)  FROM ln_pawnshop WHERE branch_id=".$data['branch_id']." LIMIT 1 ";
-  	$pre = $this->getPrefixCode($data['branch_id'])."PS";
+  	$sql=" SELECT level FROM ln_pawnshop WHERE customer_id=".$customer_id." LIMIT 1 ";
+  	$level = $db->fetchOne($sql);
+  	return $level;
+  }
+  public function getPawnReceipt($branch_id){
+  	$db = $this->getAdapter();
+  	$sql=" SELECT COUNT(id) FROM ln_pawnshop WHERE branch_id=".$branch_id." LIMIT 1 ";
+  	$pre = $this->getPrefixCode($branch_id)."PS";
   	$acc_no = $db->fetchOne($sql);
   	$new_acc_no= (int)$acc_no+1;
   	$acc_no= strlen((int)$acc_no+1);
-  
   	for($i = $acc_no;$i<5;$i++){
   		$pre.='0';
   	}

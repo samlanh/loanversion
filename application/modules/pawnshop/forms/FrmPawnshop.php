@@ -23,8 +23,8 @@ public function init()
 				'style'=>'color:red; font-weight: bold;'
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
-		$loan_number = $db->getPawnshoNumber();
-		$_loan_code->setValue($loan_number);
+// 		$loan_number = $db->getPawnshoNumber();
+// 		$_loan_code->setValue($loan_number);
 		
 		
 		$_loan_codes = new Zend_Dojo_Form_Element_TextBox('loan_codes');
