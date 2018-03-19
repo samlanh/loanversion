@@ -38,6 +38,23 @@ class Reports_InstallmentController extends Zend_Controller_Action {
 	function saleinvoiceAction(){
 		$id=$this->getRequest()->getParam('id');
 		$id = empty($id)?0:$id;
+		$db  = new Reports_Model_DbTable_DbInventory();
+		$row = $db->getSaleInventoryById($id);
+		if (empty($row)){
+			$this->_redirect("/reports");
+		}
+		$this->view->sale = $row;
+		
+	}
+	function salescheduleAction(){
+		$id=$this->getRequest()->getParam('id');
+		$id = empty($id)?0:$id;
+		$db  = new Reports_Model_DbTable_DbInventory();
+		$row = $db->getSaleInventoryById($id);
+		if (empty($row)){
+			$this->_redirect("/reports");
+		}
+		$this->view->sale = $row;
 	}
 	function inventoryAction(){
 		$db  = new Reports_Model_DbTable_DbInventory();
