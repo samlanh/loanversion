@@ -89,6 +89,15 @@ class Installment_IndexController extends Zend_Controller_Action {
 		$db = new Setting_Model_DbTable_DbLabel();
 		$this->view->setting=$db->getAllSystemSetting();
 	}
+	function getreceiptnumberAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db = new Application_Model_DbTable_DbGlobal();
+			$loan_number = $db->getInvoiceReceipt($data['branch_id']);
+			print_r(Zend_Json::encode($loan_number));
+			exit();
+		}
+	}
 // 	public function submitloanAction(){
 // 		if($this->getRequest()->isPost()){
 // 			$data=$this->getRequest()->getPost();
@@ -196,8 +205,8 @@ class Installment_IndexController extends Zend_Controller_Action {
 	function addloantestAction(){
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
-				$_dbmodel = new Loan_Model_DbTable_DbLoanILtest();
-				$rows_return=$_dbmodel->addNewLoanILTest($_data);
+				$_dbmodel = new Installment_Model_DbTable_DbInstallment();
+				$rows_return=$_dbmodel->previewschedule($_data);
 				print_r(Zend_Json::encode($rows_return));
 				exit();
 		}

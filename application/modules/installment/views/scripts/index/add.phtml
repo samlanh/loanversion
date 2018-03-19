@@ -31,17 +31,7 @@
 				dijit.byId('member').focus();
 				return false;
 			}
-			rs = checkValidateDate();
-			if(rs==false){
-              return false;			
-            }
-			currency_type = dijit.byId('currency_type').get('value');
-			if(currency_type==1){
-				amount_loan = dijit.byId('total_amount').get('value');
-				if(amount_loan<10000){
-					alert('Loan Amount Must Than 10000 for Riel Currency!');
-                }
-            }
+			
 				dijit.byId('savenew').set('disabled',true);
 			    dijit.byId('saveclose').set('disabled',true);
 				return true;
@@ -105,7 +95,7 @@
 			 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="power" id="power" value="" type="text"></td>
 			 	</tr>
 			 	<tr>
-			 		<td><?php echo $tr->translate('ពណ៏');?></td>
+			 		<td><?php echo $tr->translate('ពណ៌');?></td>
 			 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="color" id="color" value="" type="text"></td>
 			 	</tr>
 			 	<tr>
@@ -150,7 +140,7 @@
 					 	</tr>
 					 	<tr>
 					 		<td><?php echo $tr->translate('លេខវិក័យបត្រ');?></td>
-					 		<td><input dojoType="dijit.form.ValidationTextBox" class="fullside" required="1" name="invoice_no" id="invoice_no" ></td>
+					 		<td><input readonly dojoType="dijit.form.ValidationTextBox" class="fullside" required="1" name="invoice_no" id="invoice_no" ></td>
 					 	</tr>
 						<tr>
 					 		<td><strong><?php echo $tr->translate('ថ្ងៃបង់ប្រាក់');?></strong></td>
@@ -203,16 +193,16 @@
 				 iconClass="dijitIconDelete"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"  
 				 iconClass="dijitIconNewTask"/>
-			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW_SCHEDULE")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
-		 <input type="button" onclick="showInvoice();" label="<?php echo $tr->translate("PREVIEW INVOICE")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
+		 <input type="button" onclick="showInvoice();" label="<?php echo $tr->translate("PREVIEW_INVOICE")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
 		</td>
 	</tr>	
 </table>
 </fieldset>
  <div class="dijitHidden">
-	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'វិក្ក័យបត្រ', onCancel:hideDialog" id="frmInvoice" style="width:1000px">
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'វិក្ក័យបត្រ', onCancel:hideDialog" id="frmInvoice">
 		<div style=" width:15cm; height:21cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 			<div id="invoicePrint" class="print" style="text-align:center; widht:100% ">
 			<style>
@@ -243,12 +233,12 @@
 				</style>
 				<table  style="font-family: 'Times New Roman','Khmer OS Battambang'; text-align: center; margin:0 auto; width:100%; ">
 					<tbody>
-						<tr style="text-align:center; line-height:16px; font-size:12px; font-family:'Khmer OS Muol Light'; ">
+						<tr style="text-align:center; line-height:16px; font-size:11px; font-family:'Khmer OS Muol Light'; ">
 							  <td align="center" valign="top" width="20%"><span><img src="<?php echo $this->baseUrl()?>/images/Filed other.zip.png" style="width: 80%;"></span>
 							  </td>
 							  <td align="center" valign="top" width="60%" ><span style="color: blue;">ព្រះរាជាណាចក្រកម្ពុជា<br>
 							  ជាតិ សាសនា ព្រះមហាក្សត្រ</span><br>
-							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span style="color: red; font-size: 14px;">ហាងម៉ូតូ យុក សុខហួង</span>
+							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span style="color: red; font-size: 12px;">ហាងម៉ូតូ យុក សុខហួង</span>
 							  </td>
 							  <td align="center" valign="top" width="20%" ><span><img src="<?php echo $this->baseUrl()?>/images/honda_dream_2017.png" style="width: 80%;"></span>
 							  </td>
@@ -262,38 +252,38 @@
 												<span><img src="<?php echo $this->baseUrl()?>/images/honda_motorycles_st_blazey_mx.png" style="width: 70%; margin-top: 0px;"></span>
 												<div>
 													<label style="line-height: 12px; font-size:12px; color: red;">
-													Tel:&nbsp;012 72 74 04<br>
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0888 72 74 04<br>
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;095 75 38 44
+													<span style="white-space:nowrap;">Tel:&nbsp;012 72 74 04</span><br>
+													<span style="white-space:nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0888 72 74 04</span><br>
+													<span style="white-space:nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;095 75 38 44</span>
 													</label>
 												</div>
 											 </td>
 											  <td width="60%" valign="top">
-												<span><p>មានលក់ម៉ូតូ គ្រប់ប្រភេទ នឹងមួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលស់ ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</p></span>
+												<span><p>មានលក់ម៉ូតូ គ្រប់ប្រភេទ និង មួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលស់ ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</p></span>
 											</td>
 											  <td align="center" valign="middle" width="20%">
-												<span style="color: red; font-size:16px; font-family:'Times New Roman','Khmer OS Battambang';" id="LBinvoice">&nbsp;00000</span>
+												<span style="color: red; font-size:12px; font-family:'Times New Roman','Khmer OS Battambang';" id="LBinvoice">&nbsp;00000</span>
 											</td>
 										</tr>
-										<tr style="text-align:center; line-height:20px; color: red; font-size:14px; font-family:'Times New Roman','Khmer OS Battambang';">
+										<tr style="text-align:center; line-height:20px; color: red; font-size:12px; font-family:'Times New Roman','Khmer OS Battambang';">
 											 <td colspan="3">
 												<table  style=" text-align: left; width:100%;">
 													<tr>
-														<td width="35%" valign="top" style="line-height: 16px; font-size:12px; color: red;" >
+														<td width="35%" valign="top" style="line-height: 16px; font-size:10px !important; color: red;" >
 															<span>អាស័យដ្ឋាន: ភូមិស្លរក្រាម <br />សង្កាត់ស្លរក្រាម ក្រុងសៀមរាប <br /> ស្ពានហ្រ្គងអូតែល, ផ្លូវមាត់ស្ទឹង (ខាងកើតសណ្ឋាគារអាម៉ាន់សារ៉ា)</span>
 														</td>
-														<td align="center" valign="top"><span style="color: blue; font-size: 14px; text-decoration: underline; font-family: 'Khmer OS Muol Light';">វិក័យប័ត្រ<br />INVOICE</span></td>
+														<td align="center" valign="top"><span style="color: blue; font-size: 12px; text-decoration: underline; font-family: 'Khmer OS Muol Light';">វិក័យប័ត្រ<br />INVOICE</span></td>
 														<td width="35%" valign="top">
 															<table width="100%" border="1" cellspacing="0" align="right" style=" border-collapse:collapse; border:solid 1px #000; font-size: 10px; color: #000; ">
-																<tr align="center">
+																<tr align="left">
 																	<td style="width: 30%; font-size: 12px;">សៀវភៅលេខ</td>
 																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
 																</tr>
-																<tr align="center">
+																<tr align="left">
 																	<td style="width: 30%; font-size: 12px;">បង្កាន់ដៃពន្ឋលេខ</td>
 																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
 																</tr>
-																<tr align="center">
+																<tr align="left">
 																	<td style="width: 30%; font-size: 12px;">ស្លាកលេខ</td>
 																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
 																</tr>
@@ -308,7 +298,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="3" align="left"  style="line-height: 16px; font-size:12px; color: blue;">
+							<td colspan="3" align="left"  style="line-height: 16px; font-size:11px; color: blue;">
 							បានលក់ជូន អតិថិជនឈ្មោះ<span class="labelBorderBottom" style="min-width: 50%;"><span class="labelValue" id="LBclientName"></span></span>ភេទ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="LBclientGender">&nbsp;</span></span>អាយុ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="LBclientAge">&nbsp;</span></span>
 							លេខអត្តសញ្ញាណប័ណ្ណ<span class="labelBorderBottom" style="min-width: 40%;"><span class="labelValue" id="LBclientNationID"></span></span>ភូមិ<span class="labelBorderBottom" style="min-width: 35%;"><span class="labelValue" id="LBclientVillage"></span></span>
 							ឃុំ<span class="labelBorderBottom" style="min-width: 30%;"><span class="labelValue" id="LBclientComune"></span></span>ស្រុក<span class="labelBorderBottom" style="min-width: 30%;"><span class="labelValue" id="LBclientDistrict"></span></span>ខេត្ត<span class="labelBorderBottom" style="min-width: 27.5%;"><span class="labelValue" id="LBclientProvince"></span></span>
@@ -320,12 +310,12 @@
 								<table id="exportExcel" border="1"  style="border-collapse: collapse; border:solid 1px #000;   font-size: 10px; white-space: normal;" width="100%" cellspacing="0">
 									<thead>
 										<tr class="style" align="center" style=" font-family:'Times New Roman','Khmer OS Muol Light'; background-color: #1E8449; color: #ffffff; padding: 2px 0px">
-											<td>&nbsp;បរិយាយ<br>DESCRIPTION&nbsp;</td>
+											<td style="font-size:11px !important;">&nbsp;បរិយាយ<br>DESCRIPTION&nbsp;</td>
 											<td>&nbsp;ប្រភេទ<br>MODEL&nbsp;</td>
-											<td>&nbsp;កម្លាំងម៉ាស៊ីន<br>POWER&nbsp;</td>
-											<td>&nbsp;ពណ៏<br>COLOR&nbsp;</td>
-											<td>&nbsp;លេខម៉ាស៊ីន<br>ENGNE N<sup>0</sup>&nbsp;</td>
-											<td>&nbsp;លេខតូ<br>FRAME N<sup>0</sup>&nbsp;</td>
+											<td>&nbsp;<span style="white-space: nowrap;">កម្លាំងម៉ាស៊ីន</span><br>POWER&nbsp;</td>
+											<td>&nbsp;ពណ៌<br>COLOR&nbsp;</td>
+											<td>&nbsp;<span style="white-space: nowrap;">លេខម៉ាស៊ីន</span><br>ENGNE N<sup>0</sup>&nbsp;</td>
+											<td>&nbsp;លេខតួ<br><span style="white-space: nowrap;">FRAME N<sup>0</sup></span>&nbsp;</td>
 											<td style="min-width: 100px;">&nbsp;តម្លៃ<br>PRICE&nbsp;</td>
 										</tr>		
 									</thead>
@@ -357,7 +347,7 @@
 											<td align="right">&nbsp;&nbsp;</td>
 											<td align="right">&nbsp;&nbsp;</td>
 										</tr>
-										<tr style="line-height:16px; font-size:12px; " >
+										<tr style="line-height:16px; font-size:11px; " >
 											<td valign="top" colspan="4" rowspan="3" style="border-left: 1px solid #ffffff; border-bottom:#fff solid 1px; padding: 5px 3px;">
 												<p style="font-size: 10px; text-align: left; line-height: 22px;  color: red;  font-family:'Times New Roman','Khmer OS Muol Light';">
 												<span style="text-decoration: underline;">ចំណាំៈ</span>
@@ -367,15 +357,15 @@
 												</p>
 											</td>	
 											<td colspan="2" align="right" style="font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">សរុប/TOTAL:&nbsp;&nbsp;</td>
-											<td align="right"  style="font-size:14px; line-height:28px; background-color: #D2B4DE; " >&nbsp;<span id="LBTotal"></span>&nbsp;</td>
+											<td align="right"  style="font-size:12px; line-height:28px; background-color: #D2B4DE;font-size: 12px;font-weight: bold;" >$&nbsp;<span id="LBTotal"></span>&nbsp;</td>
 										</tr>
-										<tr style="line-height:28px; font-size:14px;">
+										<tr style="line-height:28px; font-size:12px;">
 											<td colspan="2" align="right" style=" font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">&nbsp;ប្រាក់កក់/DEPOSIT:&nbsp;</td>
-											<td align="right" style="background-color: #D2B4DE;" >&nbsp;<span id="LBDeposit"></span>&nbsp;</td>
+											<td align="right" style="background-color: #D2B4DE;font-size: 12px;font-weight: bold;" >$&nbsp;<span id="LBDeposit"></span>&nbsp;</td>
 										</tr>	
-										<tr style="line-height:28px; font-size:14px; ">
+										<tr style="line-height:28px; font-size:12px; ">
 											<td colspan="2" align="right" style=" font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';" >&nbsp;នៅខ្វះ/BALANCE DUE:&nbsp;</td>
-											<td align="right" style="background-color: #D2B4DE;" >&nbsp;<span id="LBBalance"></span>&nbsp;</td>
+											<td align="right" style="background-color: #D2B4DE;font-size: 12px;font-weight: bold;" >$&nbsp;<span id="LBBalance"></span>&nbsp;</td>
 										</tr>
 									</tbody>
 								</table>
@@ -403,9 +393,9 @@
 					</tbody>
 				</table>
 			</div>
+			<div style="text-align: center;"><input type="button" onclick="doPrintInvoice();" label="<?php echo $tr->translate("SAVE_PRINT");?>" id='saveprintInvoice' name='saveprint' value='saveprint' dojoType="dijit.form.Button"
+				iconClass="dijitIconNewTask"/></div>
 		</div>
-		<input type="button" onclick="doPrintInvoice();" label="<?php echo $tr->translate("SAVE_PRINT");?>" id='saveprintInvoice' name='saveprint' value='saveprint' dojoType="dijit.form.Button"
-	iconClass="dijitIconNewTask"/>
 	</div>
  </div>
 <div class="dijitHidden">
@@ -418,7 +408,7 @@
 	<div id="rpt_print" class="print" style="text-align:center;">
 		<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='save_close' id='save_close' value='saveclose' dojoType="dijit.form.Button"
 					 iconClass="dijitIconDelete"/>
-		<input type="button" onclick="submitDataClose(2);" label="<?php echo $tr->translate("SAVE_PRINT");?>" id='saveprint' name='saveprint' value='saveprint' dojoType="dijit.form.Button"
+		<input type="button" onclick="showInvoice();" label="<?php echo $tr->translate("PREVIEW_INVOICE");?>" id='saveprint' name='saveprint' value='saveprint' dojoType="dijit.form.Button"
 		iconClass="dijitIconNewTask"/>
 		<div id="t_amountmoneytype" name="t_amountmoneytype"></div>
 	</div>
@@ -443,74 +433,49 @@ function calCulateBalane(){
 		}else{
 			dijit.byId("balance").attr("value",selling_price-paid);
 		}
-		
 	}
 }
 function showInvoice(){
-	dojo.byId('LBinvoice').innerHTML=dijit.byId('sale_no').get('value');
-	dojo.byId('LBDescription').innerHTML=dijit.byId('product_name').get('value');
-	dojo.byId('LBModel').innerHTML=dijit.byId('category_id').get('value');
-	dojo.byId('LBPower').innerHTML=dijit.byId('power').get('value');
-	dojo.byId('LBColor').innerHTML=dijit.byId('color').get('value');
-	dojo.byId('LBEngineNo').innerHTML=dijit.byId('engine').get('value');
-	dojo.byId('LBFrameNo').innerHTML=dijit.byId('frame').get('value');
-	dojo.byId('LBPrice').innerHTML=dijit.byId('selling_price').get('value');
-	dojo.byId('LBTotal').innerHTML=dijit.byId('selling_price').get('value');
-	dojo.byId('LBDeposit').innerHTML=dijit.byId('paid').get('value');
-	dojo.byId('LBBalance').innerHTML=dijit.byId('balance').get('value');
-	release_date = dijit.byId('paid_date').get('value');
-	var a = new Date(release_date);
-
-	var mm = a.getMonth() + 1;
-	var dd = a.getDate();
-	 if(dd<10){
-		 dd = "0"+dd;
+	if(dijit.byId('frm_add_tran').validate()) {
+		dojo.byId('LBinvoice').innerHTML=dijit.byId('sale_no').get('value');
+		dojo.byId('LBDescription').innerHTML=dijit.byId('product_name').attr('displayedValue');
+		dojo.byId('LBModel').innerHTML=dijit.byId('category_id').attr('displayedValue');
+		dojo.byId('LBPower').innerHTML=dijit.byId('power').get('value');
+		dojo.byId('LBColor').innerHTML=dijit.byId('color').get('value');
+		dojo.byId('LBEngineNo').innerHTML=dijit.byId('engine').get('value');
+		dojo.byId('LBFrameNo').innerHTML=dijit.byId('frame').get('value');
+		dojo.byId('LBPrice').innerHTML=dijit.byId('selling_price').get('value');
+		dojo.byId('LBTotal').innerHTML=dijit.byId('selling_price').get('value');
+		dojo.byId('LBDeposit').innerHTML=dijit.byId('paid').get('value');
+		dojo.byId('LBBalance').innerHTML=dijit.byId('balance').get('value');
+		release_date = dijit.byId('paid_date').get('value');
+		var a = new Date(release_date);
+	
+		var mm = a.getMonth() + 1;
+		var dd = a.getDate();
+		 if(dd<10){
+			 dd = "0"+dd;
+		}
+		 if(mm<10){
+			 mm = "0"+mm;
+		}
+		var y = a.getFullYear();
+		dojo.byId('LBDate').innerHTML=dd;
+		dojo.byId('LBMonth').innerHTML=mm;
+		dojo.byId('LBYear').innerHTML=y;
+		dijit.byId("frmInvoice").show();
 	}
-	 if(mm<10){
-		 mm = "0"+mm;
-	}
-	var y = a.getFullYear();
-	dojo.byId('LBDate').innerHTML=dd;
-	dojo.byId('LBMonth').innerHTML=mm;
-	dojo.byId('LBYear').innerHTML=y;
-	dijit.byId("frmInvoice").show();
 }
 function hideInvoice(){
 	dijit.byId("frmInvoice").hide();
 }
 function doPrintInvoice() {
-	window.frames["print_frame"].document.body.innerHTML=dojo.byId('invoicePrint').innerHTML;
-	window.frames["print_frame"].window.focus();
-	window.frames["print_frame"].window.print();
-	hideInvoice();
+		window.frames["print_frame"].document.body.innerHTML=dojo.byId('invoicePrint').innerHTML;
+		window.frames["print_frame"].window.focus();
+		window.frames["print_frame"].window.print();
+		 dijit.byId('frm_add_tran').submit();
+		hideInvoice();
 }
-    function checkValidateDate(){
-    	debt_term = dijit.byId('pay_every').get('value');
-		if(debt_term==1){
-			term_d =1; 
-		}else if(debt_term==2){
-			term_d =7; 
-		}else{
-			term_d =30; 
-		}
-		
-		collect_term = 3;
-		if(collect_term==1){
-			term_c =1; 
-		}else if(collect_term==2){
-			term_c =7; 
-		}else{
-			term_c =30; 
-		}
-		debt_amount = dijit.byId('period').get('value');
-		collect_amount = dijit.byId('amount_collect').get('value');
-		if((collect_amount*term_c)>(debt_amount*term_d)){
-			alert('<?php echo $tr->translate("SMS_BORROW_FUND")?>');
-			dijit.byId('collect_termtype').focus();
-			return false;
-		}
-		return true;
-     }
     function setDefaultPaymentAmount(){
     	amount_principal = dijit.byId('balance').get('value');
     	//debt_term = dijit.byId('pay_every').get('value');
@@ -523,9 +488,6 @@ function doPrintInvoice() {
 		top_pow = Math.pow((1+interest_rate),term);
 		bellow = Math.pow((1+interest_rate),(term))-1;
 		amount_payment = (amount_principal*interest_rate*top_pow)/(bellow);
-		/*if(dijit.byId("currency_type").get('value')==1){
-			amount_payment = amount_payment%100 > 0 ? (amount_payment-(amount_payment%100)+100) : amount_payment;
-		}*/
 		amount_payment = parseInt(amount_payment);
 		dijit.byId('fixed_payment').attr('value',amount_payment);
 	}
@@ -537,8 +499,31 @@ function doPrintInvoice() {
 		window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
 	    window.frames["print_frame"].window.focus();
 	    window.frames["print_frame"].window.print();
+	    dijit.byId('frm_add_tran').submit();
 	    hideDialog();
 	}
+var url_getreceipt = '<?php echo $this->url(array('module'=>'installment','controller'=>'index','action'=>'getreceiptnumber')); ?>';
+function getReceiptbybranch(){
+	branch_id = dijit.byId('branch_id').get('value');
+	if(branch_id==''){
+		alert('Please Select Branch');
+		dijit.byId('branch_id').focus();
+		return false;
+	}
+	dojo.xhrPost({
+		url:url_getreceipt,	
+		content:{ 
+			    'branch_id':branch_id,
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			dijit.byId('invoice_no').attr('value',data);
+		},
+		error: function(err) {
+			alert("eror receipt");
+		}
+	});
+}
 </script>
 <script type="text/javascript">
 dojo.require("dojo.html");
@@ -652,9 +637,11 @@ function filterClient(){
 		dijit.byId('member').query.branch_id = branch_id;
 		dijit.byId('customer_code').query.branch_id = branch_id;
 		dijit.byId('customer_code').reset();
+		
 		getLoanByBranch();
 		getAllClientByBranch(branch_id);
 		getAllClientNumberByBranch(branch_id);
+		getReceiptbybranch();
 }
 var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclieninstallment')); ?>';
 function getAllClientByBranch(branch_id){
@@ -881,12 +868,10 @@ function calCulateFirstPayment(){
 	var epx_date = y + '-'+ mm + '-'+dd ;
 	dijit.byId('first_payment').attr('value',epx_date);
 }
-var url_previewloan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'addloantest')); ?>';
+var url_previewloan = '<?php echo $this->url(array('module'=>'installment','controller'=>'index','action'=>'addloantest')); ?>';
 function addPreviewLoan(){
 	r=0;
 	if(dijit.byId('frm_add_tran').validate()) {
-		zone = dijit.byId('zone').get('value');
-		co_id = dijit.byId('co_id').get('value');
 		client = dijit.byId('member').get('value');
 		branch_id = dijit.byId('branch_id').get('value');
 		if (branch_id=='' || branch_id==-1){
@@ -898,19 +883,7 @@ function addPreviewLoan(){
 			alert('Please Select Client Name !');
 			dijit.byId('member').focus();
 			return false;
-		}if(co_id=='' || co_id==-1){
-			alert('Please Select CO Name !');
-			dijit.byId('co_id').focus();
-			return false;
-		}if(zone=='' || zone==-1){
-			alert('Please Select Zone !');
-			dijit.byId('zone').focus();
-			return false;
 		}
-		rs = checkValidateDate();
-		if(rs==false){
-          return false;			
-        }
 		loading();
 		dojo.xhrPost({
 		    url: url_previewloan,	
@@ -934,11 +907,11 @@ function addPreviewLoan(){
 						var myDate = new Date(data[i].date_payment);
 						d = new Date(data[i].date_name);
 						temp+='<td>'+getDayName(d.getDay())+'-'+data[i].date_payments+'</td>';
-						temp+='<td>'+dojo.number.format(data[i].total_principal,2)+'</td>';
+						temp+='<td>'+dojo.number.format(data[i].outstanding,2)+'</td>';
 						temp+='<td>'+dojo.number.format(data[i].principal_permonth,2)+'</td>';
 						temp+='<td>'+dojo.number.format(data[i].total_interest,2)+'</td>';
 						temp+='<td><b>'+dojo.number.format(data[i].total_payment,2)+'<b></td>';
-						temp+='<td><b>'+dojo.number.format((data[i].total_principal-data[i].principal_permonth),2)+'<b></td>';
+						temp+='<td><b>'+dojo.number.format((data[i].outstanding-data[i].principal_permonth),2)+'<b></td>';
 						temp+='<td>'+data[i].amount_day+'</td></tr>';
 				 }
 				temp+='</table>';
@@ -991,10 +964,7 @@ function submitDataClose(type){
 		dijit.byId('member').focus();
 		return false;
 	}
-	rs = checkValidateDate();
-	if(rs==false){
-      return false;			
-    }
+	
 	currency_type = dijit.byId('currency_type').get('value');
 	if(currency_type==1){
 		amount_loan = dijit.byId('total_amount').get('value');
@@ -1026,9 +996,7 @@ function submitDataClose(type){
 	}
 }
 function getRefreshGroup(){
-	var co_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->co_name));?> );
 	filterClient();
-	getAllCo();
 	loading();
 	setTimeout(stopLoading, 1000);
 }
