@@ -42,6 +42,72 @@ class Reports_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	$sql.=$dbp->getAccessPermission('branch_id');
     	return $db->fetchAll($sql);
     }
+    function getSaleInventory($search=null){
+    	$db= $this->getAdapter();
+    	$sql="
+    		SELECT 
+    			(SELECT client_number FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) AS client_number,
+				(SELECT name_kh FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) AS client_name_kh,
+				(SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS catName,
+				(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_namekh,
+				p.item_name,
+				p.`item_code`,
+				(SELECT name_en FROM `ln_view` WHERE TYPE = 29 AND key_code =s.selling_type LIMIT 1) AS sellingTypeTitle,
+				(SELECT payment_nameen FROM `ln_payment_method` WHERE id = s.payment_method LIMIT 1) AS paymentMethodTitle,
+				s.* 
+			FROM `ln_ins_sales_install` AS s,
+				`ln_ins_product` AS p 
+			WHERE 
+				s.product_id = p.id 
+				AND s.`status` =1
+    	";
+    	$from_date =(empty($search['start_date']))? '1': " s.date_sold >= '".$search['start_date']." 00:00:00'";
+    	$to_date = (empty($search['end_date']))? '1': " s.date_sold <= '".$search['end_date']." 23:59:59'";
+    	$sql.= " AND ".$from_date." AND ".$to_date;
+    	if(!empty($search['adv_search'])){
+    		$s_where = array();
+    		$s_search = addslashes(trim($search['adv_search']));
+    		$s_search = str_replace(' ', '',$s_search);
+    		$s_where[] = " REPLACE(s.`sale_no`,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[]= " s.invoice_no LIKE '%{$s_search}%'";
+    		$s_where[]= " s.color LIKE '%{$s_search}%'";
+    		$s_where[]="  s.power LIKE '%{$s_search}%'";
+    		$s_where[]= " s.engine LIKE '%{$s_search}%'";
+    		$s_where[]= " s.selling_price LIKE '%{$s_search}%'";
+    		$sql .=' AND ( '.implode(' OR ',$s_where).')';
+    	}
+    	if(!empty($search['branch_id'])){
+    		$sql.=" AND s.branch_id=".$search['branch_id'];
+    	}
+    	if(!empty($search['customer'])){
+    		$sql.=" AND s.customer_id=".$search['customer'];
+    	}
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->getAccessPermission('branch_id');
+    	$sql.=" ORDER BY s.`id` DESC";
+    	return $db->fetchAll($sql);
+    }
+    function getSaleInventoryById($id){
+    	$db= $this->getAdapter();
+    	$sql="
+    	SELECT
+    	(SELECT client_number FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) AS client_number,
+    	(SELECT name_kh FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) AS client_name_kh,
+    	(SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS catName,
+    	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_namekh,
+    	p.item_name,
+    	p.`item_code`,
+    	(SELECT name_en FROM `ln_view` WHERE TYPE = 29 AND key_code =s.selling_type LIMIT 1) AS sellingTypeTitle,
+    	(SELECT payment_nameen FROM `ln_payment_method` WHERE id = s.payment_method LIMIT 1) AS paymentMethodTitle,
+    	s.*
+    	FROM `ln_ins_sales_install` AS s,
+    	`ln_ins_product` AS p
+    	WHERE
+    	s.product_id = p.id
+    	AND s.`status` =1 AND s.id = $id limit 1
+    	";
+    	return $db->fetchRow($sql);
+    }
     function getAllInventoryPurchase($search=null){
     	$db= $this->getAdapter();
     	$sql=" 
@@ -111,5 +177,25 @@ class Reports_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	";
     	return $db->fetchAll($sql);
     }
+   function getSumaryStock($search= null){
+   		$db  = $this->getAdapter();
+   		$from_date =(empty($search['start_date']))? '1': $search['start_date']." 00:00:00";
+   		$to_date = (empty($search['end_date']))? '1': $search['end_date']." 23:59:59";
+//    		$sql.= " AND ".$from_date." AND ".$to_date;
+	   	$sql="SELECT pl.`location_id`,
+		(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = pl.`location_id` LIMIT 1) AS branch_namekh,
+		(SELECT b.branch_nameen FROM `ln_branch` AS b WHERE b.br_id = pl.`location_id` LIMIT 1) AS branch_nameen,
+		(SELECT c.name FROM `ln_ins_category` AS c WHERE c.id = p.`cate_id` LIMIT 1) AS categoryName,
+		(SELECT SUM(pd.`qty`) FROM `ln_ins_purchase_detail` AS pd,`ln_ins_purchase` AS pu WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND pu.`date` <='$to_date' GROUP BY pd.`pro_id` LIMIT 1) AS purchaseQty,
+		(SELECT COUNT(l.id) FROM `ln_ins_sales_install` AS l WHERE l.product_id = p.`id` AND l.`date_sold` >='$from_date' AND l.`date_sold` <='$to_date'  GROUP BY l.product_id LIMIT 1) AS stockOut,
+		p.*,
+		pl.`qty`,pl.`qty_warning` FROM 
+		`ln_ins_product` AS p,
+		`ln_ins_prolocation` AS pl
+		WHERE 
+		pl.`pro_id` = p.`id`";
+	   	return $db->fetchAll($sql);
+   	
+   }
 }
 
