@@ -48,7 +48,6 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 				  page-break-inside:avoid; page-break-after:auto;
 				}
 				a.repLink.btn {
-				    padding: 10px;
 				    color: #008;
 				    font-weight: 600;
 				}
@@ -105,6 +104,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 				                		$schedule=$tr->translate("Schedule Payment");
 				                		$link='<a title="'.$tr->translate("INVOICE").'" class="repLink btn" target="_blank" href="'.$this->baseUrl()."/reports/installment/saleinvoice/id/".$rs["id"].'">'.$tr->translate("INVOICE").'</a>';
 				                		$link.='&nbsp;/&nbsp;<a title="'.$schedule.'" class="repLink btn" target="_blank" href="'.$this->baseUrl()."/reports/installment/saleschedule/id/".$rs["id"].'">'.$schedule.'</a>';
+										$link.='&nbsp;/&nbsp;<a title="'.$tr->translate("AGREEMENT").'" class="repLink btn" target="_blank" href="'.$this->baseUrl()."/reports/installment/agreement/id/".$rs["id"].'">'.$tr->translate("AGREEMENT").'</a>';
 				                	}
 			                    ?>
 			                    <?php 
