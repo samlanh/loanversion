@@ -1,155 +1,160 @@
+<?php 
+$sale = $this->sale;
+$sex="";
+if ($sale['sex']==1){ $sex="ប្រុស";}else if ($sale['sex']==2){ $sex="ស្រី";} 
+$age="";
+if (!empty($sale['dob'])){
+	$from = new DateTime($sale['dob']);
+	$to   = new DateTime('today');
+	$age = $from->diff($to)->y;
+}
+$month = array("01"=>"មករា","02"=>"កុម្ភៈ","03"=>"មីនា","04"=>"មេសា","05"=>"ឧសភា","06"=>"មិថុនា","07"=>"កក្កដា","08"=>"សីហា","09"=>"កញ្ញា","10"=>"តុលា","11"=>"វិច្ឆិកា","12"=>"ធ្នូ",);
+
+?>
 <script src="<?php echo $this->baseUrl();?>/js/pdbs_js.js"  type="text/javascript"></script>
 <meta charset="utf-8">
 <title>Agreement</title>
-<style>
-	.reff{ font-size: 20px !important; line-height:34px !important;}
-	tr td h2,p,pre,span{ font-size: 17px !important; line-height:34px !important;}
-	#padding-left-p-2{
-	 padding-left: 105px !important;	
-	}
-	.padding-buttom{
-		margin-top: -5px !important;
-	}
-	#printfooter{display: none !important;}
-</style>
-<div  id="exportword" style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
-<div id="divPrint">
 
-<table style="font-family: 'Khmer OS Content'; width:100%;"  >
-	<tr>
-    	<td align="center">
-    	 	<style>		
-			    #padding-left-p-2{
-				 padding-left: 105px !important;	
-				}
-				.padding-buttom{
-					margin-top: -5px !important;
-				}
- 				.reff{ font-size: 14px !important; line-height:34px !important;}
-				tr td h2,p,pre,span{ font-size: 15px ; line-height:30px;}
-				#padding-left{
-				padding-left: 18px;
-				}
-				#bold-padding-right{
-					margin-right: 15px;
-					font-family: khmer os battambang;
-					font-size:19px;
-				}						
-				#padding-left-2{
-				/*margin-top: -10px;*/
-				padding-left:15px;
-				}
-				.padding-buttom{
-					margin-top: -5px;
-				}
-				#padding-left-p-2{
-				 margin-top:-1px; 
-				 padding-left: 85px;	
-				}
-				#padding-left-p{
-			    padding-left: 105px;
-				}
-				th{padding: 5px;}
-				span.value{ line-height:12px;display: inline-block; text-align: center;}
-				span.child {display:block; margin-left:25px; line-height: 25px;}
-				span{line-height: 26px;}					
-			
-	body {
-	    position: relative;
-	}
-		#printfooter {
-		    position: absolute;
-		    bottom: 0;
-		    position: fixed;
-		    display: block ;
-		}
-    </style>
-    	<div>
-        	<table width="100%" style="font-family:'Times New Roman','Khmer OS Battambang';" style="padding:0;margin:0;border:0px;" >
-        		<span style=" line-height:28px; font-size:20px; text-decoration: underline; font-family:'Khmer OS Muol Light';">ព្រះរាជាណាចក្រកម្ពុជា<p>ជាតិសាសនា ព្រះមហាក្សត្រ</p></span><br>
-        	<tr>
-                <td width="30%" valign="top"></td>
-                <td width="40%" >
-                <span style="text-align:center; line-height:28px; font-size:18px;font-family:'Khmer OS Muol Light';">កិច្ចសន្យាបង់រំលោះ</span>
-             </tr> 
-             <tr>
-             	<td colspan="3">
-             		<p style="font-family:'Khmer OS Battambang','Times New Roman',; text-align:justify; line-height:24px; font-size:12px; font-weight: normal !important;">
-							<span style="width: 100%; display: block; line-height: 32px;"><span id="padding-left">ភាគី “ក” ម្ចាស់ហាងលក់ម៉ូតូឈ្មោះ យុក សុខហុង មានទីតាំងភូមិស្លក្រាម សង្កាត់ស្លក្រាម ក្រុងសៀបរាប ខេត្តសៀបរាប។
-							នឹង ភាគី “ខ” អ្នកបង់រំលស់ម៉ូតូឈ្មោះ អ៊ិក ថន ភេទ ស្រី អាយុ ២៣ឆ្នាំ ថ្ងៃខែឆ្នាំកំណើត៖ 08-07-1997។ កាន់អត្តសញ្ញាណប័ណ្ណលេខ៖ ១៨០៥១០៨១៦។
-							អាស័យដ្ឋានបច្ចុប្បន្ន ភូមិ តាត្រាវ ឃុំ/សង្កាត់ សាយចេក ស្រុក អង្គរធំ ខេត្ត សៀបរាប។ ទូរស័ព្ទ៖ ០៧៨ ៣៣៦ ៥១១, ០៩៦ ៤៥៦ ២២៦៤
-							</span>
-							</span>           		
-	             			<p style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">ភាគីទាំងពីរបានព្រមព្រៀងគ្នាដូចខាងក្រោម</p>
-	             			<span id="padding-left">ភាគី “ក” យល់ព្រមអោយ ភាគី “ខ” ខ្ចីប្រាក់បង់អស់ ម៉ូតូចំនួន ២៦០$។ ហើយ ភាគី “ខ” យល់ព្រម បង់រំលស់ តាមតារាងខាងក្រោម។
-							</span>
-							<p style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">បញ្ជាក់</p>					
-		             		<span style="width: 100%; display: block; line-height: 30px;">
-		             			<table width="100%" border="0"> 
-								  <tr>
-									    <td align="justify" style="vertical-align:top; text-align:right;width:9%;
-									"><b>១.</b></td>
-									    <td align="justify" style="padding-left:5px">ភាគី “ខ” ត្រូបតែបង់រំលោះនៅទីតាំងហាងលក់ ម៉ូតូ នឹងភ្ជាប់មកជាមួយនូវឯងសារបង់រំលោះ។យល់ព្រម និង ឯកភាព ទាំងស្រុង។</td>  
-								  </tr>
-								   <tr>
-									    <td align="justify" style="vertical-align:top; text-align:right;"><b>២.<b></td>
-									    <td align="justify" style="padding-left:5px">ភាគី “ខ” យល់ព្រមមិនកែប្រែ លក់ ផ្ទេរ ឫ ដាក់បន្ទុកណាមួយលើម៉ូតូអោយទៅភាគីណាមួយ (ផ្សេងក្រៅពីភាគី “ខ” ខ្លួនឯង) ឡើយ ហើយភាគី “ខ” យល់ព្រមរក្សា ម៉ូតូ អោយបានល្អរហូតដល់ពេលបង់រំលស់ចប់សព្វគ្រប់ទាំងស្រុង។</td>  
-								  </tr> 
-								    <tr>
-									    <td align="justify" style="vertical-align:top; text-align:right;"><b>៣.<b></td>
-									    <td align="justify" style="padding-left:5px">ក្នុងករណី ភាគី “ខ” ខកខាន មិនបានមកបង់ប្រាក់នៅ ថ្ងៃខែឆ្នាំ ដែលបានកំណត់ក្នុង កិច្ចសន្យា ដែលបានព្រមព្រៀងគ្នានោះ មានន័យថាហួសរយៈ ពេល១ថ្ងៃភាគី “ខ” ត្រូវបានផាក់ពិន័យជាទឹកប្រាក់ចំនួន ១$។ ហើយបើ ភាគី “ខ” នៅតែបន្តសកម្មភាពបែបនេះទៀតរហូតហួសរយៈពេល១ខែមាន ន័យថាភាគី “ខ” អស់សិទ្ធភាព បង់រំលស់ ដូច្នេះ ភាគី “ខ” ត្រូវតែយកម៉ូតូមកលក់អោយភាគី “ក” ដាច់ខាតដើម្បីកាត់ខាតទៅតាមតម្លៃទីផ្សារម៉ូតូ។</td>  
-								  </tr> 
-								    <tr>
-									    <td align="justify" style="vertical-align:top; text-align:right;"><b>៤.<b></td>
-									    <td align="justify" style="padding-left:5px">ក្នុងការណីភាគី “ខ” មិនមកបង់ប្រាក់អោយភាគី “ក” នៅថ្ងៃដែលបានកំណត់នោះ ភាគី “ក” មានសិទ្ធប្ដឹងទៅសមត្ថកិច្ច ដើម្បីដកហូតយកម៉ូតូវិញដោយឥតល័ក្ខ័ណ្ឌ។</td>  
-								  </tr>
-								    <tr>
-									    <td align="justify" style="vertical-align:top; text-align:right;"><b>៥.<b></td>
-									    <td align="justify" style="padding-left:5px">ភាគី “ក” និង ភាគី “ខ” យល់ព្រមតាមបញ្ញាតិទាំងឡាយនៃកិច្ចព្រមព្រៀងនេះ។ ក្នុងករណីដែលមានការបំពានបញ្ញាតិណាមួយ នៃកិច្ចព្រមព្រៀង ភាគីដែលបំពាន ត្រូវ ទទួលខុសត្រូវចំពោះមុខច្បាប់នៃព្រះរាជាណាចក្រកម្ពុជា។</td>  
-								  </tr>
-								  <tr>
-									    <td align="justify" style="vertical-align:top; text-align:right;"><b>៦.<b></td>
-									    <td align="justify" style="padding-left:5px">ដើម្បីជាសក្ខីភាពនៃកិច្ចព្រមព្រៀងគ្នាននេភាគី “ខ” យល់ព្រមផ្ដិតមេដៃនឹងភាគី “ក” យល់ព្រមចុះហេត្ថលេខាលើកិច្ចសន្យាព្រមព្រៀងនេះនៅកាលបរិច្ជេទដែលបានកំណត់។</td> 
-								  </tr>
+<div  id="exportword" style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+		<table style="font-family: 'Khmer OS Content'; width:100%;"  >
+			<tr>
+		    	<td align="center">
+		    		<div id="divPrint">
+			    	 	<style>		
+						    #padding-left-p-2{
+							 padding-left: 105px !important;	
+							}
+							.padding-buttom{
+								margin-top: -5px !important;
+							}
+	    	 				.reff{ font-size: 16px !important; line-height:34px !important;}
+							tr td h2,p,pre,span{ font-size: 15px ; line-height:24px;}
+							#padding-left{
+							padding-left: 18px;
+							}
+							#bold-padding-right{
+								margin-right: 15px;
+								font-family: khmer os battambang;
+								font-size:19px;
+							}
+							
+							#padding-left-2{
+							/*margin-top: -10px;*/
+							padding-left:15px;
+							}
+							.padding-buttom{
+								margin-top: -5px;
+							}
+							#padding-left-p-2{
+							 margin-top:-1px; 
+							 padding-left: 85px;	
+							}
+							#padding-left-p{
+						    	padding-left: 105px;
+							}
+							th{padding: 5px;}
+							span.value{ line-height:12px;display: inline-block; text-align: center; padding: 0 2px;}
+							span.child {display:block; margin-left:25px; line-height: 20px;}
+							div.pages-break{
+								page-break-inside:auto; page-break-after:auto; 
+							}
+							body {
+							    position: relative;
+							}
+							#printfooter {
+							    position: absolute;
+							    bottom: 0;
+							    position: fixed;
+							    display: block ;
+							}
+							span.border_bt.value {
+							    border-bottom: dashed 1px #000; padding: 0 10px;
+							}
+						    </style>
+			    	<div class="pages-break">
+			        	<table width="100%" style="font-family:'Times New Roman','Khmer OS Battambang'; padding:0; margin:0; border:0px;" >
+			        	<tr>
+			                <td width="30%" valign="top"></td>
+			                <td width="40%" align="center" >
+			                	<span style=" line-height:28px; font-size:20px; text-decoration: underline; font-family:'Khmer OS Muol Light';">ព្រះរាជាណាចក្រកម្ពុជា <br /><span>ជាតិសាសនា ព្រះមហាក្សត្រ</span></span><br>
+			               		<span style="text-align:center; line-height:28px; font-size:18px;font-family:'Khmer OS Muol Light';">កិច្ចសន្យាបង់រំលស់</span>
+			                </td>
+			                <td width="30%" valign="top"></td>
+			             </tr> 
+			             <tr>
+			             	<td colspan="3">
+			             		<p style="font-family:'Khmer OS Battambang','Times New Roman',; text-align:justify; line-height:24px; font-size:12px; font-weight: normal !important;">
+										<span style="width: 100%; display: block; line-height: 32px;"><span id="padding-left">ភាគី “ក” ម្ចាស់ហាងលក់ម៉ូតូឈ្មោះ យុក សុខហុង មានទីតាំងភូមិស្លក្រាម សង្កាត់ស្លក្រាម ក្រុងសៀបរាប ខេត្តសៀបរាប។
+										នឹង ភាគី “ខ” អ្នកបង់រំលស់ម៉ូតូឈ្មោះ <span class="value" style="min-width: 80px;"><?php echo $sale['client_name_kh'];?></span> ភេទ  <span class="value" style="min-width: 20px;"><?php echo $sex;?></span> អាយុ <span class="value" style="min-width: 20px;"><?php echo $age?></span>ឆ្នាំ ថ្ងៃខែឆ្នាំកំណើត៖  <span class="value" style="min-width: 20px;"><?php echo date("d",strtotime($sale['dob']))." ".$month[date("m",strtotime($sale['dob']))]." ".date("Y",strtotime($sale['dob']));?></span>។ កាន់អត្តសញ្ញាណប័ណ្ណលេខ៖ <span class="value" style="min-width: 60px;"><?php echo $sale['nation_id'];?></span>។
+										អាស័យដ្ឋានបច្ចុប្បន្ន ភូមិ <span class="value" style="min-width: 60px;"><?php echo $sale['village_name'];?></span> ឃុំ/សង្កាត់ <span class="value" style="min-width: 60px;"><?php echo $sale['commune_name'];?></span> ស្រុក <span class="value" style="min-width: 60px;"><?php echo $sale['district_name'];?></span> ខេត្ត <span class="value" style="min-width: 60px;"><?php echo $sale['province_kh_name'];?></span>។ ទូរស័ព្ទ៖ <span class="value" style="min-width: 60px;"><?php echo $sale['phone'];?></span>
+										</span>
+										</span>           		
+				             			<p style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">ភាគីទាំងពីរបានព្រមព្រៀងគ្នាដូចខាងក្រោម</p>
+				             			<span id="padding-left">ភាគី “ក” យល់ព្រមអោយ ភាគី “ខ” ខ្ចីប្រាក់បង់អស់ ម៉ូតូចំនួន ២៦០$។ ហើយ ភាគី “ខ” យល់ព្រម បង់រំលស់ តាមតារាងខាងក្រោម។
+										</span>
+										<p style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">បញ្ជាក់</p>					
+					             		<span style="width: 100%; display: block; line-height: 28px;">
+					             			<table width="100%" border="0"> 
+											  <tr>
+												    <td align="justify" style="vertical-align:top; text-align:right;width:9%;
+												"><b>១.</b></td>
+												    <td align="justify" style="padding-left:5px">ភាគី “ខ” ត្រូបតែបង់រំលស់នៅទីតាំងហាងលក់ ម៉ូតូ នឹងភ្ជាប់មកជាមួយនូវឯងសារបង់រំលស់។យល់ព្រម និង ឯកភាព ទាំងស្រុង។</td>  
+											  </tr>
+											   <tr>
+												    <td align="justify" style="vertical-align:top; text-align:right;"><b>២.<b></td>
+												    <td align="justify" style="padding-left:5px">ភាគី “ខ” យល់ព្រមមិនកែប្រែ លក់ ផ្ទេរ ឫ ដាក់បន្ទុកណាមួយលើម៉ូតូអោយទៅភាគីណាមួយ (ផ្សេងក្រៅពីភាគី “ខ” ខ្លួនឯង) ឡើយ ហើយភាគី “ខ” យល់ព្រមរក្សា ម៉ូតូ អោយបានល្អរហូតដល់ពេលបង់រំលស់ចប់សព្វគ្រប់ទាំងស្រុង។</td>  
+											  </tr> 
+											    <tr>
+												    <td align="justify" style="vertical-align:top; text-align:right;"><b>៣.<b></td>
+												    <td align="justify" style="padding-left:5px">ក្នុងករណី ភាគី “ខ” ខកខាន មិនបានមកបង់ប្រាក់នៅ ថ្ងៃខែឆ្នាំ ដែលបានកំណត់ក្នុង កិច្ចសន្យា ដែលបានព្រមព្រៀងគ្នានោះ មានន័យថាហួសរយៈ ពេល១ថ្ងៃភាគី “ខ” ត្រូវបានផាក់ពិន័យជាទឹកប្រាក់ចំនួន ១$។ ហើយបើ ភាគី “ខ” នៅតែបន្តសកម្មភាពបែបនេះទៀតរហូតហួសរយៈពេល១ខែមាន ន័យថាភាគី “ខ” អស់សិទ្ធភាព បង់រំលស់ ដូច្នេះ ភាគី “ខ” ត្រូវតែយកម៉ូតូមកលក់អោយភាគី “ក” ដាច់ខាតដើម្បីកាត់ខាតទៅតាមតម្លៃទីផ្សារម៉ូតូ។</td>  
+											  </tr> 
+											    <tr>
+												    <td align="justify" style="vertical-align:top; text-align:right;"><b>៤.<b></td>
+												    <td align="justify" style="padding-left:5px">ក្នុងការណីភាគី “ខ” មិនមកបង់ប្រាក់អោយភាគី “ក” នៅថ្ងៃដែលបានកំណត់នោះ ភាគី “ក” មានសិទ្ធប្ដឹងទៅសមត្ថកិច្ច ដើម្បីដកហូតយកម៉ូតូវិញដោយឥតល័ក្ខ័ណ្ឌ។</td>  
+											  </tr>
+											    <tr>
+												    <td align="justify" style="vertical-align:top; text-align:right;"><b>៥.<b></td>
+												    <td align="justify" style="padding-left:5px">ភាគី “ក” និង ភាគី “ខ” យល់ព្រមតាមបញ្ញាតិទាំងឡាយនៃកិច្ចព្រមព្រៀងនេះ។ ក្នុងករណីដែលមានការបំពានបញ្ញាតិណាមួយ នៃកិច្ចព្រមព្រៀង ភាគីដែលបំពាន ត្រូវ ទទួលខុសត្រូវចំពោះមុខច្បាប់នៃព្រះរាជាណាចក្រកម្ពុជា។</td>  
+											  </tr>
+											  <tr>
+												    <td align="justify" style="vertical-align:top; text-align:right;"><b>៦.<b></td>
+												    <td align="justify" style="padding-left:5px">ដើម្បីជាសក្ខីភាពនៃកិច្ចព្រមព្រៀងគ្នាននេភាគី “ខ” យល់ព្រមផ្ដិតមេដៃនឹងភាគី “ក” យល់ព្រមចុះហេត្ថលេខាលើកិច្ចសន្យាព្រមព្រៀងនេះនៅកាលបរិច្ជេទដែលបានកំណត់។</td> 
+											  </tr>
+											</table>
+											<p style="text-align: right; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ស.រ ថ្ងៃទី ០១ខែ ០១ ឆ្នាំ ២០១៨</p>
+					             		</span>
+			  			           		</p>    		       
+					           		  <tr>	  	
+			             		<td colspan="3">
+			             			<table align="center" width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';">
+									    <tr>
+									    	<td class="reff" style="width:25%;text-align:center; text-decoration:underline; font-family:'Khmer OS Muol Light';font-weight:200;"></td>
+									        <td>&nbsp;</td>
+									        <td class="reff" style="width:25%;text-align:center; text-decoration:underline; font-family:'Khmer OS Muol Light';font-weight:200;"></td>
+									        <td>&nbsp;</td>
+									        <td class="reff" style="width:25%;text-align:center; text-decoration:underline; font-family:'Khmer OS Muol Light';font-weight:200;"></td>
+									    </tr> 
+									   <tr style="font-size: 14px;">
+									        <td class="reff" style="width:23%;text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;">ស្នាមមេដៃ ភាគី“ខ”</td>
+									         <td>&nbsp;</td>
+									         <td class="reff" style="width:23%;text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;">ស្នាមមេដៃប្រធាន ភាគី“ខ”</td>
+									        <td>&nbsp;</td>
+									        <td class="reff" style="text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;">ស្នាមមេដៃ ភាគី“ក”</td>
+									   </tr>
+									   <tr height="90px">
+							             	<td>&nbsp;</td>
+							           </tr>			         
 								</table>
-								<p style="text-align: right; font-family:'Khmer OS Muol Light'; font-weight:200;white-space: nowrap;">ស.រ ថ្ងៃទី ០១ខែ ០១ ឆ្នាំ ២០១៨</p>
-		             		</span>
-  			           		</p>    		       
-		           		  <tr>	  	
-             		<td colspan="3">
-             		<table align="center" width="100%" style="font-family: 'Times New Roman','Khmer OS Battambang';">
-						        <td class="reff" style="width:20%;text-align:center; text-decoration:underline; font-family:'Khmer OS Muol Light';font-weight:200;"></td>
-						        <td>&nbsp;</td>
-						        <td class="reff" style="width:20%;text-align:center; text-decoration:underline; font-family:'Khmer OS Muol Light';font-weight:200;"></td>
-						        <td>&nbsp;</td>
-						        <td class="reff" style="width:20%;text-align:center; text-decoration:underline; font-family:'Khmer OS Muol Light';font-weight:200;"></td>
-						   </tr> 
-						   <tr style="font-size: 14px;">
-						        <td class="reff" style="width:23%;text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;">ស្នាមមេដៃ<strong>ភាគី“ខ”</strong></td>
-						         <td>&nbsp;</td><td>&nbsp;</td>
-						         <td class="reff" style="width:23%;text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;">ស្នាមមេដៃប្រធាន<strong>ភាគី“ខ”</strong></td>
-						        <td>&nbsp;</td>
-						        <td colspan="2" class="reff" style="text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;">ស្នាមមេដៃ<strong>ភាគី“ក”</strong></td>
-						   </tr>
-						   <tr height="90px">
-				             	<td>&nbsp;</td>
-				           </tr>			         
-					</table>
-             	</td>
-             </tr>
-             <tr height="19px">
-				    <td colspan="3">&nbsp;</td>
+			             	</td>
+			             </tr>
+			             <tr height="19px">
+							    <td colspan="3">&nbsp;</td>
+						</tr>
+			        </table>
+		        	 </td>	
+		        </div>
 			</tr>
-             <tfoot>
-             <tr height="90px">
-				    <td colspan="3">&nbsp;</td>
-			</tr>
-			</tfoot>
-        </table>
-        </div>
-    </td>	
-</tr>
-</table>
+		</table>
 
 </div>
 

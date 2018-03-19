@@ -41,7 +41,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			$this->_redirect("/reports");
+			$this->_redirect("/report");
 		}
 		$this->view->sale = $row;
 		
@@ -52,7 +52,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			$this->_redirect("/reports");
+			$this->_redirect("/report");
 		}
 		$this->view->sale = $row;
 	}
@@ -62,7 +62,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			$this->_redirect("/reports");
+			$this->_redirect("/report");
 		}
 		$this->view->sale = $row;
 	}
