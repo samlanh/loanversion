@@ -108,6 +108,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	p.`item_code`,
     	(SELECT name_en FROM `ln_view` WHERE TYPE = 29 AND key_code =s.selling_type LIMIT 1) AS sellingTypeTitle,
     	(SELECT payment_nameen FROM `ln_payment_method` WHERE id = s.payment_method LIMIT 1) AS paymentMethodTitle,
+    	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = s.user_id LIMIT 1) AS user_name,
     	s.*
     	FROM `ln_ins_sales_install` AS s,
     	`ln_ins_product` AS p
@@ -116,6 +117,14 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	AND s.`status` =1 AND s.id = $id limit 1
     	";
     	return $db->fetchRow($sql);
+    }
+    function getSaleInventorySchedule($saleID){
+    	$db= $this->getAdapter();
+    	$sql="SELECT 
+			sd.*
+		FROM `ln_ins_sales_installdetail` AS sd 
+		WHERE sd.`sale_id`=$saleID";
+    	return $db->fetchAll($sql);
     }
     function getAllInventoryPurchase($search=null){
     	$db= $this->getAdapter();

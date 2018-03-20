@@ -65,6 +65,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 			$this->_redirect("/report");
 		}
 		$this->view->sale = $row;
+		$this->view->schedule = $db->getSaleInventorySchedule($id);
 	}
 	function inventoryAction(){
 		$db  = new Report_Model_DbTable_DbInventory();
