@@ -15,14 +15,12 @@ class Installment_IndexController extends Zend_Controller_Action {
 			else{
 				$search = array(
 					'txt_search'=>'',
-					'deposit'=>'',
-					'client_name'=> -1,
+					'member'=> -1,
 					'repayment_method' => -1,
 					'branch_id' => -1,
-					'co_id' => -1,
+					'category_id' => -1,
 					'status' => -1,
-					'currency_type'=>-1,
-					'pay_every'=>-1,
+					'selling_type'=>-1,
 					'start_date'=> date('Y-m-d'),
 					'end_date'=>date('Y-m-d'),
 				);
@@ -51,6 +49,15 @@ class Installment_IndexController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
 		$db = new Application_Model_DbTable_DbGlobal();
+		$this->view->rs = $search;
+		
+		$db = new Installment_Model_DbTable_DbProduct();
+		$row_cat = $db->getCategory();
+		array_unshift($row_cat,array(
+				'id' => -1,
+				'name' => 'ជ្រើសរើសប្រភេទ',
+		) );
+		$this->view->rs_cate=$row_cat;
   }
   function addAction()
   {

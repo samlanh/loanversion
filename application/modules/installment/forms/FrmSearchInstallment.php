@@ -6,9 +6,7 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function AdvanceSearch($data=null){
-		
 		$db = new Application_Model_DbTable_DbGlobal();
-		
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",
@@ -60,41 +58,32 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*','class'=>'fullside',
 		));
-		$options = $db->getGroupCodeById(2,0,1);
+		$options = $db->getAllClientinstallment(null,1);
 		$_member->setMultiOptions($options);
 		$_member->setValue($request->getParam("member"));
 		
-// 		$_groupid = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
-// 		$_groupid->setAttribs(array(
+// 		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
+// 		$_coid->setAttribs(array(
 // 				'dojoType'=>'dijit.form.FilteringSelect',
-//  				'onchange'=>'popupCheckClient();'
-// 				));
-// 		$options = $db ->getGroupCodeById(2,1,1);//show name,show group,show option
-// 		$_groupid->setMultiOptions($options);
-// 		$_groupid->setValue($request->getParam("group_id"));
+// 				'onchange'=>'popupCheckCO();',
+// 				'class'	  =>'fullside',
+// 				'autoComplete'=>"false",
+// 				'queryExpr'=>'*${0}*',
+// 		));
+// 		$options = $db ->getAllCOName(1);
+// 		$_coid->setMultiOptions($options);
+// 		$_coid->setValue($request->getParam("co_id"));
 		
-		$_coid = new Zend_Dojo_Form_Element_FilteringSelect('co_id');
-		$_coid->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'onchange'=>'popupCheckCO();',
-				'class'	  =>'fullside',
-				'autoComplete'=>"false",
-				'queryExpr'=>'*${0}*',
-		));
-		$options = $db ->getAllCOName(1);
-		$_coid->setMultiOptions($options);
-		$_coid->setValue($request->getParam("co_id"));
-		
-		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
-		$_currency_type->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'   =>'fullside',
-				'autoComplete'=>"false",
-				'queryExpr'=>'*${0}*',
-		));
-		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
-		$_currency_type->setMultiOptions($opt);
-		$_currency_type->setValue($request->getParam("currency_type"));
+// 		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
+// 		$_currency_type->setAttribs(array(
+// 				'dojoType'=>'dijit.form.FilteringSelect',
+// 				'class'   =>'fullside',
+// 				'autoComplete'=>"false",
+// 				'queryExpr'=>'*${0}*',
+// 		));
+// 		$opt = array(-1=>"--Select Currency Type--",2=>"Dollar",1=>'Khmer',3=>"Bath");
+// 		$_currency_type->setMultiOptions($opt);
+// 		$_currency_type->setValue($request->getParam("currency_type"));
 		
 		$_repayment_method = new Zend_Dojo_Form_Element_FilteringSelect('repayment_method');
 		$_repayment_method->setAttribs(array(
@@ -114,19 +103,17 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 		}
 		$_repayment_method->setValue($opt_method);
 		
-		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
-		$_zone->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'autoComplete'=>"false",
-				'queryExpr'=>'*${0}*',
-				'class'=>'fullside',
-// 				'onchange'=>'popupCheckZone();'
-		));
+// 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');
+// 		$_zone->setAttribs(array(
+// 				'dojoType'=>'dijit.form.FilteringSelect',
+// 				'autoComplete'=>"false",
+// 				'queryExpr'=>'*${0}*',
+// 				'class'=>'fullside',
+// 		));
 		
-		$options = $db ->getZoneList(1);
-// 		        array_unshift($options,array(-1 => '--ជ្រើសរើសតំបន់---' ));
-		$_zone->setMultiOptions($options);
-		$_zone->setValue($request->getParam("zone"));
+// 		$options = $db ->getZoneList(1);
+// 		$_zone->setMultiOptions($options);
+// 		$_zone->setValue($request->getParam("zone"));
 		
 		$_releasedate = new Zend_Dojo_Form_Element_DateTextBox('start_date');
 		$_releasedate->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
@@ -136,11 +123,9 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 		$_date = $request->getParam("start_date");
 		
 		if(empty($_date)){
-			//$_date = date('Y-m-d');
 		}
 		$_releasedate->setValue($_date);
-		
-		
+				
 		$_dateline = new Zend_Dojo_Form_Element_DateTextBox('end_date');
 		$_dateline->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
@@ -152,8 +137,6 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 			$_date = date("Y-m-d");
 		}
 		$_dateline->setValue($_date);
-		
-		
 		$_payterm = new Zend_Dojo_Form_Element_FilteringSelect('payment_term');
 		$_payterm->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
@@ -211,104 +194,16 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 			//print_r($data);
 // 			$_branch_id->setValue($data['member_id']);
 // 			$_member->setValue($data['client_id']);
-			$_coid->setValue($data['co_id']);
 // 			$_zone->setValue($data['zone_id']);
-			$_releasedate->setValue($data['date_release']);
-			$_currency_type->setValue($data['payment_method']);
 // 			$client_name->setValue($data['client_name']);
 		}
 		$this->addElements(array(
-				$client_name,$_zone,
+				$client_name,
 // 		$_groupid,$_group_code,$_customer_code,$_zone
 				$_member,
-				$_pay_every,$_title,$_branch_id,$_coid,$_currency_type,$_releasedate
+				$_pay_every,$_title,$_branch_id,$_releasedate
 				,$_payterm,$_dateline,$_status,$_btn_search,$_repayment_method));
 		return $this;
 		
 	}	
-	function JurnalSearch($data=null){
-		
-		
-		$db = new Application_Model_DbTable_DbGlobal();
-		$request=Zend_Controller_Front::getInstance()->getRequest();
-		
-		$_currency_type = new Zend_Dojo_Form_Element_FilteringSelect('currency_type');
-		$_currency_type->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'class'=>'fullside',
-				'autoComplete'=>"false",
-				'queryExpr'=>'*${0}*',
-		));
-		$opt = $db->getVewOptoinTypeByType(15,1,3,1);
-		$opt['-1']=("--Select Currency Type--");
-		$_currency_type->setMultiOptions($opt);
-		
-		$_valuecurr=$request->getParam("currency_type");
-		if(empty($_valuecurr) AND $_valuecurr!=-1){
-			$_currency_type->setValue(-1);
-		}else{
-			$_currency_type->setValue($_valuecurr);
-		}
-		
-		
-		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
-		$_title->setAttribs(array('dojoType'=>'dijit.form.TextBox',
-				'onkeyup'=>'this.submit()',
-				'placeholder'=>$this->tr->translate("ADVANCE_SEARCH")
-		));
-		$_title->setValue($request->getParam("adv_search"));
-		
-		
-		$_releasedate = new Zend_Dojo_Form_Element_DateTextBox('start_date');
-		$_releasedate->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
-		// 				'class'=>'fullside',
-				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
-				'onchange'=>'CalculateDate();'));
-		$_date = $request->getParam("start_date");
-		
-		if(empty($_date)){
-			$_date = date('Y-m-d');
-		}
-		$_releasedate->setValue($_date);
-		
-		
-		$_dateline = new Zend_Dojo_Form_Element_DateTextBox('end_date');
-		$_dateline->setAttribs(array('dojoType'=>'dijit.form.DateTextBox','required'=>'true',
-				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
-				'class'=>'fullside',
-		));
-		$_date = $request->getParam("end_date");
-		
-		if(empty($_date)){
-			$_date = date("Y-m-d");
-		}
-		$_dateline->setValue($_date);
-		
-		
-		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
-		$_branch_id->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
-				'autoComplete'=>"false",
-				'queryExpr'=>'*${0}*',
-		));
-		
-		$rows = $db->getAllBranchName();
-		$options=array(-1=>'---Select Branch---');
-		if(!empty($rows))foreach($rows AS $row){
-			$options[$row['br_id']]=$row['branch_namekh'];
-		}
-		$_branch_id->setMultiOptions($options);
-		$_branch_id->setValue($request->getParam("branch_id"));
-		
-		
-		if($data!=null){
-			//print_r($data);
-			$_branch_id->setValue($data['member_id']);
-			$_releasedate->setValue($data['date_release']);
-			$_currency_type->setValue($data['payment_method']);
-		}
-		$this->addElements(array($_title,$_branch_id,$_currency_type,$_releasedate,$_dateline));
-		return $this;
-		
-	}
 }

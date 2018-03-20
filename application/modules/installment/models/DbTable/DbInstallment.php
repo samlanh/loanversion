@@ -54,38 +54,33 @@ public function getAllSale($search,$reschedule =null){
 		if(!empty($search['adv_search'])){
 			$s_where = array();
 			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
-			$s_where[] = "REPLACE(lm.loan_number,' ','')  	LIKE '%{$s_search}%'";
-			$s_where[] = "REPLACE(lm.total_capital,' ','')  LIKE '%{$s_search}%'";
-			$s_where[] = "REPLACE(lm.interest_rate,' ','')  LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(l.sale_no,' ','')  	LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(l.invoice_no,' ','')  LIKE '%{$s_search}%'";
+			
+			$s_where[] = "REPLACE(l.power,' ','')  LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(l.engine,' ','')  LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(l.frame,' ','')  LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(l.sell_remark,' ','')  LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
 // 		if($search['status']>-1){
 // 			$where.= " AND l.status = ".$search['status'];
 // 		}
-// 		if(($search['client_name'])>0){
-// 			$where.= " AND l.customer_id=".$search['client_name'];
-// 		}
-// 		if(($search['repayment_method'])>0){
-// 			$where.= " AND l.payment_method = ".$search['repayment_method'];
-// 		}
-// 		if(($search['branch_id'])>0){
-// 			$where.= " AND l.branch_id = ".$search['branch_id'];
-// 		}
-// 		if(($search['co_id'])>0){
-// 			$where.= " AND l.co_id=".$search['co_id'];
-// 		}
-// 		if(($search['currency_type'])>0){
-// 			$where.= " AND l.currency_type=".$search['currency_type'];
-// 		}
-// 		if(($search['pay_every'])>0){
-// 			$where.= " AND l.pay_term=".$search['pay_every'];
-// 		}
-// 		if($reschedule!=null){
-// 			$where.= ' AND l.is_reschedule=1 ';
-// 		}else{
-// 			$where.= ' AND l.is_reschedule !=2 ';
-// 		}
-	
+		if(($search['member'])>0){
+			$where.= " AND l.customer_id=".$search['member'];
+		}
+		if(($search['repayment_method'])>0){
+			$where.= " AND l.payment_method = ".$search['repayment_method'];
+		}
+		if(($search['branch_id'])>0){
+			$where.= " AND l.branch_id = ".$search['branch_id'];
+		}
+		if(($search['category_id'])>0){
+			$where.= " AND l.cate_id=".$search['category_id'];
+		}
+		if(($search['selling_type'])>0){
+			$where.= " AND l.selling_type=".$search['selling_type'];
+		}
 		$order = " ORDER BY l.id DESC";
 		$db = $this->getAdapter();
 		return $db->fetchAll($sql.$where.$order);

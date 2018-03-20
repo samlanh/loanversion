@@ -1,16 +1,15 @@
 <?php
-class Loan_PaymentController extends Zend_Controller_Action {
+class Installment_PaymentController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
-     /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
 	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
 		try{
-			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$db = new Installment_Model_DbTable_DbLoanILPayment();
 		if($this->getRequest()->isPost()){
 				$formdata=$this->getRequest()->getPost();
 				$search = array(
@@ -35,7 +34,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 					'paymnet_type'	=> -1,
 					'status'=>"",);
 			}
-			$rs_rows= $db->getAllIndividuleLoan($search);
+			$rs_rows= $db->getAllinstallmentpayment($search);
 			$result = array();
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","RECIEPT_NO","TOTAL_PRINCEPLE","TOTAL_INTEREST","PENALIZE AMOUNT","SERVICE_CHARGE","RECEIVE_AMOUNT","PAY_DATE","DATE","CO_NAME","DELETE"
@@ -60,7 +59,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
   }
   function addAction()
   {
-  	$db = new Loan_Model_DbTable_DbLoanILPayment();
+  	$db = new Installment_Model_DbTable_DbLoanILPayment();
   	$db_global = new Application_Model_DbTable_DbGlobal();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
@@ -71,11 +70,8 @@ class Loan_PaymentController extends Zend_Controller_Action {
 				}else {
 					$db->addILPayment($_data);
 					if(!empty($_data['save_close'])){
-			        	//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/index");
 					}else{
-						//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/add");
 					}
-					//Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/payment/add");
 				}
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -121,7 +117,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 	{
 		$id = $this->getRequest()->getParam("id");
 		$db_global = new Application_Model_DbTable_DbGlobal();
-		$db = new Loan_Model_DbTable_DbLoanILPayment();
+		$db = new Installment_Model_DbTable_DbLoanILPayment();
 		$db1 = new Loan_Model_DbTable_DbGroupPayment();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
@@ -178,7 +174,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		$module=$request->getModuleName();
 		
 		$id = $this->getRequest()->getParam("id");
-		$db = new Loan_Model_DbTable_DbLoanILPayment();
+		$db = new Installment_Model_DbTable_DbLoanILPayment();
 		try {
 			$dbacc = new Application_Model_DbTable_DbUsers();
 			$rs = $dbacc->getAccessUrl($module,$controller,$action);
@@ -194,7 +190,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 	
 	
 	function cancelIlPayment(){
-// 		$db = new Loan_Model_DbTable_DbLoanILPayment();
+// 		$db = new Installment_Model_DbTable_DbLoanILPayment();
 		$db = new Loan_Model_DbTable_DbGroupPayment();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
@@ -210,7 +206,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		}
 	}
 	function ilQuickPaymentAction(){
-		$db = new Loan_Model_DbTable_DbLoanILPayment();
+		$db = new Installment_Model_DbTable_DbLoanILPayment();
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
 			//print_r($data);
@@ -232,7 +228,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
 			
-			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$db = new Installment_Model_DbTable_DbLoanILPayment();
 			$row = $db->getAllLoanByCoId($data);
 			print_r(Zend_Json::encode($row));
 			exit();
@@ -251,7 +247,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 	function getLastPayDateAction(){// get last payment date in loan fundetail by for caculate interest in payoff for client 
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
-			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$db = new Installment_Model_DbTable_DbLoanILPayment();
 			$row = $db->getLastPayDate($data);
 			print_r(Zend_Json::encode($row));
 			exit();
@@ -261,7 +257,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 	function getLastPaymentDateByLoanAction(){// get last payment in client reciept money for caculate penalize for client 
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
-			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$db = new Installment_Model_DbTable_DbLoanILPayment();
 			$row = $db->getLastPaymentDate($data);
 			print_r(Zend_Json::encode($row));
 			exit();
@@ -305,7 +301,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 	function getIlLoanDetailAction(){//តារាងត្រូវបង់អីឡូវ
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
-			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$db = new Installment_Model_DbTable_DbLoanILPayment();
 			$row = $db->getLoanPaymentByLoanNumber($data);
 			print_r(Zend_Json::encode($row));
 			exit();
@@ -314,7 +310,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 	function getAllIlLoanDetailAction(){
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
-			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$db = new Installment_Model_DbTable_DbLoanILPayment();
 			$row = $db->getAllLoanPaymentByLoanNumber($data);
 			print_r(Zend_Json::encode($row));
 			exit();
@@ -324,7 +320,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 	function getLoanHasPayByLoanNumberAction(){
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
-			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$db = new Installment_Model_DbTable_DbLoanILPayment();
 			$loan_number = $data["loan_number"];
 			$row = $db->getLaonHasPayByLoanNumber($loan_number);
 			print_r(Zend_Json::encode($row));
@@ -334,7 +330,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 	function getrpnumberAction(){//get receipt by co
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
-			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$db = new Installment_Model_DbTable_DbLoanILPayment();
 			$co_id = $data["co_id"];
 			$row = $db->getIlPaymentRPNumber($co_id);
 			print_r(Zend_Json::encode($row));
