@@ -1149,16 +1149,16 @@ function rptLoanTrasferzoneAction(){//release all loan
  	Application_Model_Decorator::removeAllDecorator($frm);
  	$this->view->frm_loan = $frm;
  }
- function contractLetterAction(){
- 		$db  = new Report_Model_DbTable_DbLnClient();
- 		$id =$this->getRequest()->getParam('id');
- 		$db  = new Report_Model_DbTable_DbLoan();
- 		$row = $db->getContractinfo($id);
- 		$this->view->loaninfo = $row ;
- 		$client_id = $row['client_id'];
- 		$this->view->calleteral_list = $db->getCalleteralByClient($client_id);
- 		//  		print_r($db->getCalleteralByClient($id));
- }
+//  function contractLetterAction(){
+//  		$db  = new Report_Model_DbTable_DbLnClient();
+//  		$id =$this->getRequest()->getParam('id');
+//  		$db  = new Report_Model_DbTable_DbLoan();
+//  		$row = $db->getContractinfo($id);
+//  		$this->view->loaninfo = $row ;
+//  		$client_id = $row['client_id'];
+//  		$this->view->calleteral_list = $db->getCalleteralByClient($client_id);
+//  		//  		print_r($db->getCalleteralByClient($id));
+//  }
  function rptDailypaymentAction(){
  	$db  = new Report_Model_DbTable_DbLoan();
  	$key = new Application_Model_DbTable_DbKeycode();
@@ -1271,6 +1271,30 @@ function rptLoanTrasferzoneAction(){//release all loan
  	//  	print_r($db->getALLLoanPayment($search));
  }
  
- 
+ function agreementAction(){
+ 	$db = new Application_Model_DbTable_DbAgreement();
+	$id =$this->getRequest()->getParam('id');
+	$row = $db->getLoanById($id);
+	$this->view->loanInfo=$row;
+	if(empty($row)){
+		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
+	}
+	
+	$rs = $db->getClientLoanInfo($row['customer_id']);
+	$this->view->client =$rs;
+	
+	$collateral = $db->getLoanCollateral($id);
+	$this->view->collateral = $collateral;
+	
+	$frm = new Application_Form_FrmSearchGlobal();
+	$form = $frm->FrmSearchLoadSchedule();
+	Application_Model_Decorator::removeAllDecorator($form);
+	$this->view->form_filter = $form;
+// 	$day_inkhmer = $db->getDayInkhmerBystr(null);
+// 	$this->view->day_inkhmer = $day_inkhmer;
+	
+	$key = new Application_Model_DbTable_DbKeycode();
+	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ }
 }
 
