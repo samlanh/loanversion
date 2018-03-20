@@ -41,7 +41,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			$this->_redirect("/report");
+			$this->_redirect("/report/installments");
 		}
 		$this->view->sale = $row;
 		
@@ -52,7 +52,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			$this->_redirect("/report");
+			$this->_redirect("/report/installments");
 		}
 		$this->view->sale = $row;
 	}
@@ -62,7 +62,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getSaleInventoryById($id);
 		if (empty($row)){
-			$this->_redirect("/report");
+			$this->_redirect("/report/installments");
 		}
 		$this->view->sale = $row;
 		$this->view->schedule = $db->getSaleInventorySchedule($id);
@@ -120,7 +120,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$db  = new Report_Model_DbTable_DbInventory();
 		$row = $db->getPurchaseById($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull("Don't have record","/reports/installment/");
+			Application_Form_FrmMessage::Sucessfull("Don't have record","/report/installments");
 		}
 		$this->view->purchase = $row;
 		$this->view->purchaseDetail = $db->getPurchseDetail($id);

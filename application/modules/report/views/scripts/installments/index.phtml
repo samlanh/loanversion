@@ -31,12 +31,12 @@
   	<ul class="link-rpt">
   	<?php
   	$db_user=new Application_Model_DbTable_DbUsers();
-  	$url_report=$db_user->getAclReport(1,'reports');
+  	$url_report=$db_user->getAclReport(1,'installments');
   	 if(!empty($url_report)){
   		foreach($url_report as $rs){
-  			if($rs['action']=='rpt-paymentschedules' || $rs['action']=='index'){continue;}
+  			if($rs['action']=='agreement' || $rs['action']=='index'){continue;}
   		?>
-  		<li><a href="<?php echo $this->url(array("module"=>'report',"controller"=>'pawn','action'=>$rs['action']));?>"><?php echo $tr->translate(strtoupper($rs['label']));?></a></li>
+  		<li><a href="<?php echo $this->url(array("module"=>'report',"controller"=>'installments','action'=>$rs['action']));?>"><?php echo $tr->translate(strtoupper($rs['label']));?></a></li>
   		<?php 
 		}	
 	}	?>
