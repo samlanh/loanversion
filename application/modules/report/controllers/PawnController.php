@@ -602,6 +602,27 @@ function rptPaymentHistoryAction(){
  	$this->view->frm_loan = $frm;
  }
  
+ function agreementAction(){
+ 	$db = new Application_Model_DbTable_DbAgreement();
+ 	$id =$this->getRequest()->getParam('id');
+ 	$row = $db->getPawnShopInfo($id);
+ 	$this->view->pawnShop = $row;
+ 	if(empty($row)){
+ 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/pawn/rpt-loan-disburse');
+ 	}
  
+ 	$rs = $db->getClientPawnShopInfo($row['customer_id']);
+ 	$this->view->client =$rs;
+ 
+ 	$frm = new Application_Form_FrmSearchGlobal();
+ 	$form = $frm->FrmSearchLoadSchedule();
+ 	Application_Model_Decorator::removeAllDecorator($form);
+ 	$this->view->form_filter = $form;
+ 	// 	$day_inkhmer = $db->getDayInkhmerBystr(null);
+ 	// 	$this->view->day_inkhmer = $day_inkhmer;
+ 
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ }
 }
 

@@ -4,6 +4,7 @@ $filter = $this->form_filter;
 $dayin_khmer = $this->day_inkhmer;
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $sale = $this->sale;
+$data = $this->data;
 ?>
 <title><?php echo $tr->translate('Schedule Payment');?></title>
 <style>
@@ -28,8 +29,8 @@ td p{ margin-top:0px !important;}
 	        	<table width="100%" style="font-family:khmer;margin:0 auto;padding:0px; border:none;">
 					<tr>
 	                	  <td style=" " valign="top"><img src="<?php echo $this->baseUrl();?>/images/letterhead.jpg" /> </td>
-	                	  <td colspan="2" align="left" ><h2 style="text-align:left; font-size:16px; font-family:'Khmer os battambang';"><?php echo $tr->translate("ADDRESS_COMPANY");?>
-	                	  	<br /><?php echo $tr->translate("TEL_COMPANY");?>
+	                	  <td colspan="2" align="left" ><h2 style="text-align:left; font-size:16px; font-family:'Khmer os battambang';"><?php echo $data['branch-add-client'];?><?php //echo $tr->translate("ADDRESS_COMPANY");?>
+	                	  	<br /><?php echo $data['client_company_name'];?>
 	                	  </h2></td>
 	                </tr>
 	                <tr>

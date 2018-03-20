@@ -162,7 +162,7 @@ a.repLink.btn {
 					<td align="left">&nbsp;<?php echo $row['loan_type']; ?>&nbsp;</td>	
 					<td class="noneprint" style="display: none;" align="left">
 						<a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"loan","action"=>'rpt-updatepayment','id'=>$row['id']))?>" title="<?php echo $tr->translate("EDIT");?>"><?php echo $tr->translate("EDIT");?></a>
-						/<a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"loan","action"=>'agreement','id'=>$row['id']))?>" title="<?php echo $tr->translate("AGREEMENT");?>"><?php echo $tr->translate("AGREEMENT");?></a>
+						/ <a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"loan","action"=>'agreement','id'=>$row['id']))?>" title="<?php echo $tr->translate("AGREEMENT");?>"><?php echo $tr->translate("AGREEMENT");?></a>
 					</td>	
 				</tr>
 				<?php }?>

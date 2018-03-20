@@ -9,7 +9,7 @@ if (!empty($sale['dob'])){
 	$age = $from->diff($to)->y;
 }
 $month = array("01"=>"មករា","02"=>"កុម្ភៈ","03"=>"មីនា","04"=>"មេសា","05"=>"ឧសភា","06"=>"មិថុនា","07"=>"កក្កដា","08"=>"សីហា","09"=>"កញ្ញា","10"=>"តុលា","11"=>"វិច្ឆិកា","12"=>"ធ្នូ",);
-
+$data = $this->data;
 ?>
 <script src="<?php echo $this->baseUrl();?>/js/pdbs_js.js"  type="text/javascript"></script>
 <meta charset="utf-8">
@@ -84,7 +84,7 @@ $month = array("01"=>"មករា","02"=>"កុម្ភៈ","03"=>"មីន�
 			             <tr>
 			             	<td colspan="3">
 			             		<p style="font-family:'Khmer OS Battambang','Times New Roman',; text-align:justify; line-height:24px; font-size:12px; font-weight: normal !important;">
-										<span style="width: 100%; display: block; line-height: 32px;"><span id="padding-left">ភាគី “ក” ម្ចាស់ហាងលក់<span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>ឈ្មោះ យុក សុខហុង មានទីតាំងភូមិស្លក្រាម សង្កាត់ស្លក្រាម ក្រុងសៀមរាប ខេត្តសៀមរាប។
+										<span style="width: 100%; display: block; line-height: 32px;"><span id="padding-left">ភាគី “ក” ម្ចាស់ហាងលក់<span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>ឈ្មោះ យុក សុខហុង មានទីតាំង <?php echo $data['branch-add-client'];?>។
 										នឹង ភាគី “ខ” អ្នកបង់រំលស់<span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>ឈ្មោះ <span class="value" style="min-width: 80px;"><?php echo $sale['client_name_kh'];?></span> ភេទ  <span class="value" style="min-width: 20px;"><?php echo $sex;?></span> អាយុ <span class="value" style="min-width: 20px;"><?php echo $age?></span>ឆ្នាំ ថ្ងៃខែឆ្នាំកំណើត៖  <span class="value" style="min-width: 20px;"><?php echo date("d",strtotime($sale['dob']))." ".$month[date("m",strtotime($sale['dob']))]." ".date("Y",strtotime($sale['dob']));?></span>។ កាន់អត្តសញ្ញាណប័ណ្ណលេខ៖ <span class="value" style="min-width: 60px;"><?php echo $sale['nation_id'];?></span>។
 										អាស័យដ្ឋានបច្ចុប្បន្ន ភូមិ <span class="value" style="min-width: 60px;"><?php echo $sale['village_name'];?></span> ឃុំ/សង្កាត់ <span class="value" style="min-width: 60px;"><?php echo $sale['commune_name'];?></span> ស្រុក <span class="value" style="min-width: 60px;"><?php echo $sale['district_name'];?></span> ខេត្ត <span class="value" style="min-width: 60px;"><?php echo $sale['province_kh_name'];?></span>។ ទូរស័ព្ទ៖ <span class="value" style="min-width: 60px;"><?php echo $sale['phone'];?></span>
 										</span>

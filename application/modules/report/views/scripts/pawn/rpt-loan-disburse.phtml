@@ -30,6 +30,11 @@ dojo.require("dijit.form.DateTextBox");
 		</tr>
 	</table>
 </form>
+<style>
+.noneprint{
+	display: table-cell !important; 
+}
+</style>
 <div style=" width:30cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 <div id="divPrint" style="width: 100%;">
 <style>
@@ -45,6 +50,10 @@ dojo.require("dijit.form.DateTextBox");
 		#header {
 		  display: table-header-group;
 		  page-break-inside:avoid; page-break-after:auto;
+		}
+		a.repLink.btn {
+		    color: #008;
+		    font-weight: 600;
 		}
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;">
@@ -97,7 +106,7 @@ dojo.require("dijit.form.DateTextBox");
                     <td><?php echo $tr->translate("PRODUCT_NAME");?></td>
                     <td><?php echo $tr->translate("EST_VALUE");?></td>
                     <td><?php echo $tr->translate("DESCRIPTION");?></td>
-                    <td><?php echo $tr->translate("EDIT");?></td>
+                    <td class="noneprint" style="display: none;"><?php echo $tr->translate("EDIT");?></td>
                 </tr>
                 </thead>
                <?php 
@@ -133,7 +142,10 @@ dojo.require("dijit.form.DateTextBox");
 					<td style="white-space:nowrap;">&nbsp;<?php echo $row['product_name']; ?>&nbsp;</td>
 					<td style="white-space:nowrap;">&nbsp;<?php echo $row['est_amount']; ?>&nbsp;</td>
 					<td style="white-space:nowrap;">&nbsp;<?php echo $row['product_description']; ?>&nbsp;</td>
-					<td align="left"><a target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"pawn","action"=>'rpt-updatepayment','id'=>$row['id']))?>">កែប្រែ</a></td>	
+					<td class="noneprint" style="display: none;" align="left">
+						<a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"pawn","action"=>'rpt-updatepayment','id'=>$row['id']))?>" title="<?php echo $tr->translate("EDIT");?>"><?php echo $tr->translate("EDIT");?></a>
+						/ <a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"pawn","action"=>'agreement','id'=>$row['id']))?>" title="<?php echo $tr->translate("AGREEMENT");?>"><?php echo $tr->translate("AGREEMENT");?></a>
+					</td>	
 				</tr>
 				<?php }?>
             </table>

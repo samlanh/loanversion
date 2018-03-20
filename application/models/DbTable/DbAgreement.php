@@ -57,5 +57,45 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 		FROM $this->_name AS c WHERE c.`client_id` = $clientID LIMIT 1";
 		return $db->fetchRow($sql);
 	}
+	function getClientPawnShopInfo($clientID){
+		$db = $this->getAdapter();
+		$this->_name ="ln_clientsaving";
+		$sql = "
+		SELECT
+		c.*,
+		(SELECT branch_namekh FROM `ln_branch` WHERE br_id = c.branch_id LIMIT 1) AS branch_name ,
+		(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND c.sex=key_code LIMIT 1) AS sexEN,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE =11 AND c.sex=key_code LIMIT 1) AS sexKH,
+		(SELECT village_name FROM `ln_village` WHERE vill_id=c.village_id) AS village_name,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE =23 AND c.`client_d_type`=id LIMIT 1) AS docTypKH,
+		(SELECT name_en FROM `ln_view` WHERE TYPE =23 AND c.`client_d_type`=id LIMIT 1) AS docTypEN,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE =23 AND c.`join_d_type`=id LIMIT 1) AS joinDocTypKH,
+		(SELECT name_en FROM `ln_view` WHERE TYPE =23 AND c.`join_d_type`=id LIMIT 1) AS joinDocTypEN,
+		(SELECT cm.`commune_namekh` FROM ln_commune AS cm WHERE cm.com_id = c.`com_id` LIMIT 1 ) AS communeName,
+		(SELECT `d`.`district_namekh` FROM `ln_district` AS `d` WHERE (`d`.`dis_id` = c.dis_id ) LIMIT 1) AS `district_name`,
+		(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id LIMIT 1) AS province_kh_name,
+		(SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=c.user_id )AS user_name
+		FROM $this->_name AS c WHERE c.`client_id` = $clientID LIMIT 1";
+		// 		(SELECT name_kh FROM `ln_view` WHERE TYPE =23 AND c.`guarantor_d_type`=id LIMIT 1) AS guarantorDocTypKH,
+		// 		(SELECT name_en FROM `ln_view` WHERE TYPE =23 AND c.`guarantor_d_type`=id LIMIT 1) AS guarantorDocTypEN,
+		return $db->fetchRow($sql);
+	}
+	function getPawnShopInfo($pawnID){
+		$db = $this->getAdapter();
+		$this->_name ="ln_pawnshop";
+		$sql = " SELECT s.*,
+			(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch,
+			(SELECT name_kh FROM `ln_clientsaving` WHERE client_id = s.customer_id LIMIT 1) AS client_name_kh,
+			CONCAT(release_amount,(SELECT symbol FROM `ln_currency` WHERE id =s.currency_type LIMIT 1)) AS amountWithCurrency,
+			(SELECT curr_namekh FROM `ln_currency` WHERE id = s.currency_type LIMIT 1) AS currencyType,
+			CONCAT(total_duration,(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code = term_type )) term_type,
+			(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=s.product_id LIMIT 1) AS product_name,
+			(SELECT name_en FROM `ln_view` WHERE TYPE =14 AND s.term_type=key_code LIMIT 1) AS payTermEN,
+    	(SELECT name_kh FROM `ln_view` WHERE TYPE =14 AND s.term_type=key_code LIMIT 1) AS payTermKH,
+			(SELECT first_name FROM `rms_users` WHERE id=user_id) AS user_name
+		 FROM $this->_name AS s
+		WHERE s.`id` = $pawnID LIMIT 1";
+		return $db->fetchRow($sql);
+	}
 }
 

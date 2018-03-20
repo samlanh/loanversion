@@ -35,6 +35,15 @@
   	 if(!empty($url_report)){
   		foreach($url_report as $rs){
   			if($rs['action']=='agreement' || $rs['action']=='index'){continue;}
+  			if($rs['action']=='purchasedetail' || $rs['action']=='index'){
+  				continue;
+  			}
+  			if($rs['action']=='saleinvoice' || $rs['action']=='index'){
+  				continue;
+  			}
+  			if($rs['action']=='saleschedule' || $rs['action']=='index'){
+  				continue;
+  			}
   		?>
   		<li><a href="<?php echo $this->url(array("module"=>'report',"controller"=>'installments','action'=>$rs['action']));?>"><?php echo $tr->translate(strtoupper($rs['label']));?></a></li>
   		<?php 

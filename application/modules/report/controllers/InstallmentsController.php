@@ -55,6 +55,9 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 			$this->_redirect("/report/installments");
 		}
 		$this->view->sale = $row;
+		
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	}
 	function salescheduleAction(){
 		$id=$this->getRequest()->getParam('id');
@@ -66,6 +69,9 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		}
 		$this->view->sale = $row;
 		$this->view->schedule = $db->getSaleInventorySchedule($id);
+		
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	}
 	function inventoryAction(){
 		$db  = new Report_Model_DbTable_DbInventory();
