@@ -8,6 +8,16 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 	public function AdvanceSearch($data=null){
 		$db = new Application_Model_DbTable_DbGlobal();
 		$request=Zend_Controller_Front::getInstance()->getRequest();
+		
+		$payment_type = new Zend_Dojo_Form_Element_FilteringSelect("paymnet_type");
+		$payment_type->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect',
+				'autoComplete'=>"false",
+				'queryExpr'=>'*${0}*',
+		));
+		$options= array(''=>'ប្រភេទបង់ប្រាក់',1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម');
+		$payment_type->setMultiOptions($options);
+		$payment_type->setValue($request->getParam("paymnet_type"));
+		
 		$_status=  new Zend_Dojo_Form_Element_FilteringSelect('status');
 		$_status->setAttribs(array('dojoType'=>'dijit.form.FilteringSelect','autoComplete'=>"false",
 				'queryExpr'=>'*${0}*','class'=>'fullside',));
@@ -198,7 +208,7 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 // 			$client_name->setValue($data['client_name']);
 		}
 		$this->addElements(array(
-				$client_name,
+				$client_name,$payment_type,
 // 		$_groupid,$_group_code,$_customer_code,$_zone
 				$_member,
 				$_pay_every,$_title,$_branch_id,$_releasedate

@@ -1,8 +1,8 @@
 <?php 
-$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("Client List"));
-$frm = $this->frm_search;
-$frms=$this->frm_client;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate("Client List"));
+	$frm = $this->frm_search;
+	$frms=$this->frm_client;
 ?>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
 <table width="100%">
@@ -19,7 +19,6 @@ $frms=$this->frm_client;
       <td><?php echo $frm->getElement('status');?></td>
       <td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
 	  </td>
-   	   
    </tr>
 </table>  
 <?php echo $this->list;?> 
@@ -27,7 +26,6 @@ $frms=$this->frm_client;
 <script type="text/javascript">
 dojo.require("dojo.data.ObjectStore");
 dojo.require("dijit.form.DateTextBox");
-
 dojo.ready(function(){
 	dijit.byId('province').attr('value',<?php echo $this->result['province_id'];?>);	
 	var district_data = new dojo.store.Memory({
@@ -53,8 +51,6 @@ dojo.ready(function(){
 				filterCommune();
 	    }
 	}, "district");
-	
-
 	var commune_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->commune_name));?>
 	});
@@ -63,7 +59,6 @@ dojo.ready(function(){
 	store: dojo.data.ObjectStore({objectStore: commune_data}),
 	autoComplete: true,
 	query: {
-		//district_id: "-1"
 		district_id: "<?php echo $this->result['district_id'];?>"
 	},            
 	required: false,		           
@@ -79,11 +74,9 @@ dojo.ready(function(){
 			filterVillage();
   }
 	}, "commune");
-
 	var village_data = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->village_name));?>
 	});
-	 
 	new dijit.form.FilteringSelect({
 	store: dojo.data.ObjectStore({objectStore: village_data}),
 	autoComplete: true,
@@ -101,10 +94,7 @@ dojo.ready(function(){
 	missingMessage:"អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះសាខា​កូន!",	
 		onChange: function() {
 }
-	}, "village");
-
-	
-	
+	}, "village");	
 });
 function filterDistrict(){
 	dijit.byId('district').query.pro_id = dijit.byId('province').get('value');
@@ -116,5 +106,4 @@ function filterVillage(){
 	id =dijit.byId('commune').get('value');
 	dijit.byId('village').query.commune_id = dijit.byId('commune').get('value');
 }
-
 </script>

@@ -90,7 +90,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 			
         array_unshift($row_cat,array(
         'id' => -1,
-        'name' => 'Add New',
+        'name' => 'ជ្រើសរើសប្រភេទផលិតផល',
         ) );
         $this->view->rs_cate=$row_cat;
 		$db = new Setting_Model_DbTable_DbLabel();
@@ -105,16 +105,16 @@ class Installment_IndexController extends Zend_Controller_Action {
 			exit();
 		}
 	}
-// 	public function submitloanAction(){
-// 		if($this->getRequest()->isPost()){
-// 			$data=$this->getRequest()->getPost();
-// 			$_dbmodel = new Loan_Model_DbTable_DbLoandisburse();//new
-// 			$loan_id = $_dbmodel->addNewLoanIL($data);
-// 			$suc = array('sms'=>'ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
-// 			print_r(Zend_Json::encode($loan_id));
-// 			exit();
-// 		}
-// 	}	
+	public function submitloanAction(){//ajax submit installment
+		if($this->getRequest()->isPost()){
+			$data=$this->getRequest()->getPost();
+			$_dbmodel = new Installment_Model_DbTable_DbInstallment();//new
+			$loan_id = $_dbmodel->addSaleInstallment($data);
+			$suc = array('sms'=>'ប្រាក់ឥណទានត្រូវបានបញ្ចូលដោយជោគជ័យ !');
+			print_r(Zend_Json::encode($loan_id));
+			exit();
+		}
+	}	
 	
 // 	public function addloanAction(){
 // 		if($this->getRequest()->isPost()){
@@ -132,7 +132,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 			try{
 				$_dbmodel = new Loan_Model_DbTable_DbLoandisburse();
 				$_dbmodel->updateLoanById($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/loan/index/index");
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/installment/index");
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				Application_Model_DbTable_DbUserLog::writeMessageError($err =$e->getMessage());
@@ -140,26 +140,30 @@ class Installment_IndexController extends Zend_Controller_Action {
 		}
 		$id = $this->getRequest()->getParam('id');
 		$db_g = new Application_Model_DbTable_DbGlobal();
-		$rs = $db_g->getLoanFundExist($id);
-		if($rs==true){ 	Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/loan/index/index");}
-		$db = new Loan_Model_DbTable_DbLoandisburse();
-		$row = $db->getTranLoanByIdWithBranch($id,1);
+// 		$rs = $db_g->getLoanFundExist($id);
+		//if($rs==true){ 	Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/installment/index");}
+		$db = new Installment_Model_DbTable_DbInstallmentPayment();
+		$row = $db->getSaleinstallbyid($id);
+		print_r($row);
 		$frm = new Installment_Form_FrmLoan();
-		$frm_loan=$frm->FrmAddLoan($row);
+		$frm_loan=$frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_loan = $frm_loan;
 		$this->view->datarow = $row;
 		
-		$db = new Application_Model_DbTable_DbGlobal();
-		$this->view->allclient = $db->getAllClient();
-		$this->view->allclient_number = $db->getAllClientNumber();
-		$db = new Application_Model_DbTable_DbGlobal();
-		$co_name = $db->getAllCoNameOnly();
-		array_unshift($co_name,array(
+		$db = new Installment_Model_DbTable_DbProduct();
+		$row_cat = $db->getCategory();
+			
+		array_unshift($row_cat,array(
 				'id' => -1,
-				'name' => '---Add New ---',
+				'name' => 'ជ្រើសរើសប្រភេទផលិតផល',
 		) );
-		$this->view->co_name=$co_name;
+		$this->view->rs_cate=$row_cat;
+		
+// 		$db = new Application_Model_DbTable_DbGlobal();
+// 		$this->view->allclient = $db->getAllClient();
+// 		$this->view->allclient_number = $db->getAllClientNumber();
+// 		$db = new Application_Model_DbTable_DbGlobal();
 	}
 	public function viewAction(){
 		$id = $this->getRequest()->getParam('id');
