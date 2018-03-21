@@ -9,7 +9,7 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     }
     function getAllSupPurchase($search=null){
     	$db = $this->getAdapter();
-    	$sql=" SELECT s.id,
+    	$sql=" SELECT sp.id,
     	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = sp.`branch_id` LIMIT 1) AS branch_namekh,
     	sp.invoice_no, s.`supplier_no`,s.sup_name,
     	 s.tel,s.`email`,sp.total_amount,sp.date,
@@ -164,17 +164,12 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     		$this->_name = "ln_ins_product";
     		$where = " id = ".$result['id'];
 			$this->update($array, $where);
-			
     	}
-    	
     }
     
     
-    
     function updateStockBack($id){
-    	
     	//echo $id;exit();
-    	
     	$db = $this->getAdapter();
     	$sql = "SELECT 
 				  sp.branch_id,
@@ -404,6 +399,11 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     	$this->_name='rms_program_name';
     	$this->insert($array);
     	return $pro_id;
+    }
+    function getPurchaseByID($purchaseID){
+    	$db = $this->getAdapter();
+    	$sql="SELECT * FROM ln_ins_purchase WHERE id=$purchaseID";
+    	return $db->fetchRow($sql);
     }
     
 }

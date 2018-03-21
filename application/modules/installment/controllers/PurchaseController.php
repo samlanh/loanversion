@@ -33,7 +33,7 @@ class Installment_PurchaseController extends Zend_Controller_Action {
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH","INVOICE_NO","SUPPLIER_NO","SUPPLIER_NAME","TEL","EMAIL","AMOUNT_DUE","DATE","STATUS");
 			$link=array(
-					'module'=>'stock','controller'=>'purchase','action'=>'edit',
+					'module'=>'installment','controller'=>'purchase','action'=>'edit',
 			);
 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('invoice_no'=>$link,'branch_namekh'=>$link,'sup_name'=>$link,'supplier_no'=>$link,));
 			}catch (Exception $e){
@@ -99,9 +99,9 @@ class Installment_PurchaseController extends Zend_Controller_Action {
 				$row = $db->updateProduct($_data,$id);
 		
 				if(isset($_data['save_close'])){
-					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/stock/purchase");
+					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/installment/purchase");
 				}else{
-					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/stock/purchase");
+					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/installment/purchase");
 				}
 		
 				Application_Form_FrmMessage::message("INSERT_SUCCESS");
@@ -112,21 +112,23 @@ class Installment_PurchaseController extends Zend_Controller_Action {
 			}
 		}
 		$_pur = new Installment_Model_DbTable_DbPurchase();
-		$this->view->product= $_pur->getProductNames();
+		$row = $_pur->getPurchaseByID($id);
+		if (empty($row)){
+			$this->_redirect("/installment/purchase");
+		}
+		$this->view->purchase = $row;
+		
 		$pro=$_pur->getProductName();
 		array_unshift($pro, array ( 'id' => -1,'name' =>$this->tr->translate("ADD_NEW")));
-		$this->view->products= $pro;
+		$this->view->product= $pro;
+		
 		$this->view->pu_code=$_pur->getPurchaseCode();
 		$this->view->sup_ids=$_pur->getSuplierName();
-		$this->view->row_sup=$_pur->getSupplierById($id);
-		$this->view->row_pur_detai=$_pur->getSupplierProducts($id);		
-		$this->view->bran_name=$_pur->getAllBranch();
 		
-		$_pro = new Accounting_Model_DbTable_DbProduct();
-		$this->view->pro_code=$_pro->getProCode();
-		$pro_cate = $_pro->getProductCategory();
-		array_unshift($pro_cate, array('id'=>'-1' , 'name'=>$this->tr->translate("ADD_NEW")));
-		$this->view->cat_rows = $pro_cate;
+		$model = new Application_Model_DbTable_DbGlobal();
+		$branch = $model->getAllBranchName();
+		array_unshift($branch, array ( 'id' => -1,'name' =>$this->tr->translate("ADD_NEW")));
+		$this->view->bran_name = $branch;
 	}
 
     function getSupplierInfoAction(){
