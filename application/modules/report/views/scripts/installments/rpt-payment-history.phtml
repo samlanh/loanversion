@@ -2,6 +2,7 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $frm = $this->frm_search;
 $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលោះប្រាក់ដើម",4=>"បង់ផ្តាច់");
+$data = $this->data;
 ?>
 <script>
      dojo.require("dijit.form.DateTextBox");
@@ -57,7 +58,7 @@ table { page-break-inside:auto }
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
                 	<td width="60%" valign="top">
                          <ul>
-                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $data['client_company_name'];?><?php //echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_PAYMENT");?></li>
                 			<li style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
                 		</ul>
@@ -69,8 +70,8 @@ table { page-break-inside:auto }
                 		<table width="100%">
                 			<tr>
                 				<td  style="font-size: 10px;">
-                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
-									<br /><?php echo $tr->translate("TEL_COMPANY");?>
+                					<?php echo $data['branch-add-client']."<br />".$data['tel-client'];?>
+									<?php //echo $tr->translate("ADDRESS_COMPANY")."<br />".$tr->translate("TEL_COMPANY");?>
                 				</td>
                 				<td width="65%"></td>
                 			</tr>
