@@ -93,17 +93,15 @@ class Installment_PurchaseController extends Zend_Controller_Action {
 		$id=$this->getRequest()->getParam('id');
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
-			$_data['id']=$id;
+// 			$_data['id']=$id;
 			try{
 				$db = new Installment_Model_DbTable_DbPurchase();
-				$row = $db->updateProduct($_data,$id);
-		
+				$row = $db->updatePurchase($_data);
 				if(isset($_data['save_close'])){
 					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/installment/purchase");
 				}else{
 					Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/installment/purchase");
 				}
-		
 				Application_Form_FrmMessage::message("INSERT_SUCCESS");
 			}catch(Exception $e){
 				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -117,6 +115,7 @@ class Installment_PurchaseController extends Zend_Controller_Action {
 			$this->_redirect("/installment/purchase");
 		}
 		$this->view->purchase = $row;
+		$this->view->purchaseDetail = $_pur->getPurchaseDetailByID($id);
 		
 		$pro=$_pur->getProductName();
 		array_unshift($pro, array ( 'id' => -1,'name' =>$this->tr->translate("ADD_NEW")));

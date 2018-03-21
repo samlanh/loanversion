@@ -56,6 +56,7 @@ fieldset{  background:none;}
 		id: "branch",
 		name: "branch",           
 		class: "fullside", 
+		value:'<?php echo $purchase['branch_id'];?>',
 		placeHolder:"<?php echo $tr->translate("SELECT_LOCATION");?>​",          
 		onChange: function() {  
 			branch_id = dijit.byId('branch').get('value');
@@ -82,18 +83,16 @@ fieldset{  background:none;}
 		   }
 		}, "category_id");
 		isNewCustomer();
+		getSuplierInfo();
+		initailize();
 	});	
 </script>
-<form id='suspend_service' action="<?php echo $this->url(array('module'=>'installment','controller'=>'purchase','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
+<form id='suspend_service' action="" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
- 				pro_id=dijit.byId("pro_id").get('value');
-				if(pro_id=='' || pro_id==null){
-					dijit.byId("pro_id").focus();
-					return false;
-				}
+ 				
                 dijit.byId("save_close").attr("disabled",true);
-				dijit.byId("save_new").attr("disabled",true);
+			//	dijit.byId("save_new").attr("disabled",true);
 				return true;
 			} else {
 				return false;
@@ -107,7 +106,9 @@ fieldset{  background:none;}
 					<table style="margin: 0 auto;" cellspacing="5">
 						<tr>
 							<td><strong><?php echo $tr->translate("OLD_SUPPLIER")?>:</strong></td>
-							<td><input type="checkbox" checked="checked" name="is_new_cu" id="is_new_cu" value="1" onClick="isNewCustomer()" ></td>
+							<td><input type="checkbox" checked="checked" name="is_new_cu" id="is_new_cu" value="1" onClick="isNewCustomer()" >
+							<input type="hidden" dojoType="dijit.form.TextBox" name="id"  id="id" value="<?php echo $purchase['id'] ?>" class="fullside" />
+							</td>
 						</tr>
 							<tr>
 							   <td><?php echo $tr->translate("SUPPLIER_NAME")?>*</td>
@@ -159,7 +160,7 @@ fieldset{  background:none;}
 							</tr>
 							<tr>
 								<td><?php echo $tr->translate("INVOICE_NO")?></td>
-								<td><input type="text" dojoType="dijit.form.TextBox"   name="purchase_no"  id="purchase_no" value="<?php echo $purchase['invoice_no'];;?>" class="fullside" ></td>
+								<td><input type="text" dojoType="dijit.form.TextBox"  readonly="readonly" name="purchase_no"  id="purchase_no" value="<?php echo $purchase['invoice_no'];;?>" class="fullside" ></td>
 							</tr>
 							<tr>
 								<td><strong><?php echo $tr->translate("AMOUNT_DUE")?></strong></td>
@@ -176,11 +177,10 @@ fieldset{  background:none;}
 		  <tr>
 			<td colspan="2" align="center">
 				<input iconClass="dijitIconClear" type="reset" value="clear" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button"/>
-				<input type="button" onclick="submitDataClose();" name="save_close" id="save_close" value="រក្សាទុក" label="<?php echo $tr->translate('SAVECLOSE');?>"  dojoType="dijit.form.Button" 
+				<input type="submit"  name="save_close" id="save_close" value="រក្សាទុក" label="<?php echo $tr->translate('SAVECLOSE');?>"  dojoType="dijit.form.Button" 
 				 iconClass="dijitEditorIcon dijitEditorIconSave" />
-				 <input type="submit" name="save_new" id="save_new" value="រក្សាទុក" label="<?php echo $tr->translate('SAVENEW');?>"  dojoType="dijit.form.Button" 
-						 iconClass="dijitEditorIcon dijitEditorIconSave" />
 				</td>
+				<!--onclick="submitDataClose();"  -->
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -330,6 +330,43 @@ function addRow() {
 		});
  }
 
+ function initailize(){
+	 <?php if (!empty($this->purchaseDetail)) foreach ($this->purchaseDetail as $pud){?>
+	 col++;no++;
+	 template='';
+	 if(title!=1){
+			temp+='<th><?php echo $tr->translate("DEL");?></th>';
+			temp+='<th><?php echo $tr->translate("N_O");?></th>';
+			temp+='<th id="lbl_titlemetion" width="100px"><?php echo $tr->translate("ITEM_NAME");?></th>';
+			temp+='<th id="lbl_titlemetion" width="100px"><?php echo $tr->translate("QTY");?></th>';
+			temp+='<th id="lbl_titlemetion" width="100px"><?php echo $tr->translate("UNIT_PRICE");?></th>';
+			temp+='<th id="lbl_titlemetion" width="100px"><?php echo $tr->translate("AMT_PAY");?></th>';
+			temp+='<th id="lbl_titlemetion" width="100px"><?php echo $tr->translate("NOTE");?></th>';
+			dojo.query("#head-title").append(temp);
+			title=1;
+		}
+			template+='<td width="47px" align="center"><img onclick="deleteRecord('+col+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
+			template+='<td width="15px" align="center"  >'+no+'</td>';
+			template+='<td width="20%">&nbsp;<?php echo $pud['item_name']?><input type="hidden" dojoType="dijit.form.TextBox" required="true" id="product_name_'+col+'" name="product_name_'+col+'" value="<?php echo $pud['pro_id']?>" /></td>';
+			//template+='<td><select style="width:100%;"  dojoType="dijit.form.FilteringSelect" id="product_name_'+col+'" name="product_name_'+col+'" onChange="sumAmountDue();">'+''+'</select></td>';			
+
+			template+='<td> <input type="text" required="true" value="<?php echo $pud['qty']?>" name="qty_'+col+'" id="qty_'+col+'" dojoType="dijit.form.NumberTextBox" style="width:100%;" onKeyup="getTotalePricePro('+col+');sumAmountDue();"/></td>';
+			template+='<td> <input type="text" value="<?php echo $pud['cost']?>" required="true" name="cost_'+col+'" id="cost_'+col+'" dojoType="dijit.form.NumberTextBox" style="width:100%;" onKeyup="getTotalePricePro('+col+');sumAmountDue();"/></td>';
+			template+='<td> <input type="text"  value="<?php echo $pud['amount']?>" name="amount_'+col+'" id="amount_'+col+'" dojoType="dijit.form.NumberTextBox" style="width:100%;"  readOnly="true"/></td>';
+			template+='<td> <input type="text"  name="note_'+col+'" id="note_'+col+'" value="<?php echo $pud['note']?>" dojoType="dijit.form.TextBox" style="width:100%;" /><input type="hidden" dojoType="dijit.form.TextBox" name="iddetail'+col+'"  id="iddetail'+col+'" value="<?php echo $pud['id'] ?>" class="fullside" /></td>';
+		tmp='<tr id="row'+col+'">';
+		tmp+="</tr>";
+		dojo.query("#table_row").append(tmp);
+
+		if($("#identity").val()!="") {
+			var identity = $("#identity").val();
+			$("#identity").val(identity+','+col);
+		} else {$("#identity").val(col);}
+		dojo.html.set(dojo.byId("row"+col),template , {
+		     parseContent: true,
+		});
+	 <?php }?>
+ }
 var url_getsuplier = "<?php echo $this->url(array('module'=>'installment','controller'=>'purchase','action'=>'get-supplier-info')); ?>";
 function getSuplierInfo(){
 			sup_id = dijit.byId('sup_id').get('value');
