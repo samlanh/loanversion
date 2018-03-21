@@ -156,5 +156,34 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	}
+	function rptPaymentAction(){
+		$db  = new Report_Model_DbTable_DbInventory();
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		if($this->getRequest()->isPost()){
+			$search = $this->getRequest()->getPost();
+		}else {
+			$search = array(
+					'adv_search' => '',
+					'status_search' => -1,
+					'status' => -1,
+					'branch_id' => -1,
+					'members' => -1,
+					'start_date'=> date('Y-m-d'),
+					'end_date'=>date('Y-m-d'),
+					'orderBy'=>''
+					);
+		}
+		$this->view->loantotalcollect_list =$rs=$db->getALLInstallmentPayment($search);
+		$this->view->list_end_date = $search;
+	
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		
+		$frm = new Pawnshop_Form_FrmPawnshop();
+		$frm = $frm->FrmAddLoan();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_search = $frm;
+	}
 }
 

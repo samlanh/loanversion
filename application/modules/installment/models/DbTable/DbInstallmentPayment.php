@@ -14,7 +14,7 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
     	$sql ="SELECT lcrm.`id`,
     				(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lcrm.`branch_id` LIMIT 	1) AS branch,
 					(SELECT sale_no FROM ln_ins_sales_install l WHERE l.id=lcrm.loan_id LIMIT 1) AS loan_number,
-					(SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=lcrm.`client_id` LIMIT 1) AS team_group ,
+					(SELECT c.`name_kh` FROM `ln_ins_client` AS c WHERE c.`client_id`=lcrm.`client_id` LIMIT 1) AS team_group ,
 					lcrm.`receipt_no`,
 					lcrm.`principal_paid`,
 					lcrm.`interest_paid`,

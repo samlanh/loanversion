@@ -153,12 +153,12 @@
 							$db = new Application_Model_DbTable_DbUsers();
 	            			$rs = $db->getAccessUrl($module,$controller,$action);
 	            			echo $this->layout()->content;
-	            			if(!empty($rs) OR $action=='changepassword'){
-	            				echo $this->layout()->content;
-	            			}else{
-	            				echo $this->layout()->content;
-	            				echo $this->render('pagenotfund.phtml');
-	            			}
+// 	            			if(!empty($rs) OR $action=='changepassword'){
+// 	            				echo $this->layout()->content;
+// 	            			}else{
+// 	            				echo $this->layout()->content;
+// 	            				echo $this->render('pagenotfund.phtml');
+// 	            			}
             			 ?>
             			 <?php 
 			               	if($module=='report' AND $action!='rpt-paymentschedules'){

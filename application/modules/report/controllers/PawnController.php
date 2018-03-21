@@ -89,6 +89,9 @@ function rptPaymentAction(){
 	$this->view->loantotalcollect_list =$rs=$db->getALLLoanPayment($search);
 	$this->view->list_end_date = $search;
 	
+	$key = new Application_Model_DbTable_DbKeycode();
+	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	
 	$frm = new Pawnshop_Form_FrmPawnshop();
 	$frm = $frm->FrmAddLoan();
 	Application_Model_Decorator::removeAllDecorator($frm);

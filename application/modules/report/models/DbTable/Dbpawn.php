@@ -529,9 +529,9 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				  (SELECT `ln_currency`.`symbol`
 				   FROM `ln_currency`
 				   WHERE (`ln_currency`.`id` = `crm`.`currency_type`) LIMIT 1) AS `currency_typeshow`,
-				  (SELECT `l`.`loan_number` FROM `ln_loan` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `loan_number`,
+				  (SELECT `l`.`loan_number` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `loan_number`,
 				  (SELECT `c`.`name_kh` FROM `ln_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
-				  (SELECT  `c`.`client_number` FROM `ln_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
+				  (SELECT  `c`.`client_number` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
 				  (SELECT `u`.`first_name` FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
 				  `crm`.`id`                   AS `id`,
 				  `crm`.`receipt_no`           AS `receipt_no`,
