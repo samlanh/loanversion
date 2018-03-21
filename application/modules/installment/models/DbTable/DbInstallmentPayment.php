@@ -29,9 +29,9 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
     				 WHERE  lcrm.id=lcrmd.`receipt_id` 
     				AND lcrm.status=1";
     	$where ='';
-    	if(!empty($search['advance_search'])){
+    	if(!empty($search['adv_search'])){
     		$s_where = array();
-    		$s_search = str_replace(' ', '', addslashes(trim($search['advance_search'])));
+    		$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
     		$s_where[] = "REPLACE(lcrm.`receipt_no`,' ','')    LIKE '%{$s_search}%'";
     		$s_where[] = " (SELECT sale_no FROM `ln_ins_sales_install` WHERE ln_ins_sales_install.id=lcrm.loan_id AND sale_no LIMIT 1 ) LIKE '%{$s_search}%'";
     		$where .=' AND ('.implode(' OR ',$s_where).')';
@@ -42,8 +42,8 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
     	if(!empty($search['start_date']) or !empty($search['end_date'])){
     		$where.=" AND lcrm.`date_input` BETWEEN '$start_date' AND '$end_date'";
     	}
-    	if($search['client_name']>0){
-    		$where.=" AND lcrm.`client_id`= ".$search['client_name'];
+    	if($search['member']>0){
+    		$where.=" AND lcrm.`client_id`= ".$search['member'];
     	}
     	if($search['branch_id']>0){
     		$where.=" AND lcrm.`branch_id`= ".$search['branch_id'];
@@ -277,6 +277,20 @@ public function addILPayment($data){
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }
+public function getIlPaymentNumber(){
+    $this->_name='ln_ins_receipt_money';
+	    $db = $this->getAdapter();
+	    $sql=" SELECT id  FROM $this->_name ORDER BY id DESC LIMIT 1 ";
+	    $acc_no = $db->fetchOne($sql);
+	    $new_acc_no= (int)$acc_no+1;
+	    $acc_no= strlen((int)$acc_no+1);
+	    $pre = "";
+	    $pre_fix="IP-";
+	    for($i = $acc_no;$i<5;$i++){
+	    	$pre.='0';
+	    }
+    return $pre_fix.$pre.$new_acc_no;
+}
    function getSaleinstallbyid($id){//group id
     	$sql ="SELECT s.* FROM 
 			    	`ln_ins_sales_install` AS s

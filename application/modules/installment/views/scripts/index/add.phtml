@@ -184,7 +184,7 @@
 		<td align="center" colspan="4">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
-			<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
+			<input type="submit"  label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"  
 				 iconClass="dijitIconNewTask"/>
@@ -876,13 +876,7 @@ function submitDataClose(type){
 		return false;
 	}
 	
-	currency_type = dijit.byId('currency_type').get('value');
-	if(currency_type==1){
-		amount_loan = dijit.byId('total_amount').get('value');
-		if(amount_loan<10000){
-			alert('កម្ចីជាលុយរៀល ត្រូវតែធំជា 1ម៉ឺនរៀល!');
-        }
-    }
+	
 	if(dijit.byId('frm_add_tran').validate()) {
 		dijit.byId('saveprint').set('disabled',true);
 		dijit.byId('saveclose').set('disabled',true);
@@ -898,7 +892,6 @@ function submitDataClose(type){
 				if(type==1){
 					window.location.href ="<?php echo $this->baseUrl();?>/installment/index";
 				}else{
-					//window.location.href ='<?php echo $this->baseUrl().'/report/loan/rpt-paymentschedules/id/'?>'+data;
 				}
 			},
 			error: function(e) {

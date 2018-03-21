@@ -130,8 +130,8 @@ class Installment_IndexController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			try{
-				$_dbmodel = new Loan_Model_DbTable_DbLoandisburse();
-				$_dbmodel->updateLoanById($_data);
+				$_dbmodel = new Installment_Model_DbTable_DbInstallment();
+				$_dbmodel->updateInstallmentById($_data);
 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/installment/index");
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
@@ -140,8 +140,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 		}
 		$id = $this->getRequest()->getParam('id');
 		$db_g = new Application_Model_DbTable_DbGlobal();
-// 		$rs = $db_g->getLoanFundExist($id);
-		//if($rs==true){ 	Application_Form_FrmMessage::Sucessfull("LOAN_FUND_EXIST","/installment/index");}
+
 		$db = new Installment_Model_DbTable_DbInstallmentPayment();
 		$row = $db->getSaleinstallbyid($id);
 		print_r($row);
@@ -159,11 +158,6 @@ class Installment_IndexController extends Zend_Controller_Action {
 				'name' => 'ជ្រើសរើសប្រភេទផលិតផល',
 		) );
 		$this->view->rs_cate=$row_cat;
-		
-// 		$db = new Application_Model_DbTable_DbGlobal();
-// 		$this->view->allclient = $db->getAllClient();
-// 		$this->view->allclient_number = $db->getAllClientNumber();
-// 		$db = new Application_Model_DbTable_DbGlobal();
 	}
 	public function viewAction(){
 		$id = $this->getRequest()->getParam('id');

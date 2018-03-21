@@ -13,8 +13,8 @@ class Installment_PaymentController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 				$formdata=$this->getRequest()->getPost();
 				$search = array(
-					'advance_search' => $formdata['advance_search'],
-					'client_name'=>$formdata['client_name'],
+					'adv_search' => $formdata['adv_search'],
+					'member'=>$formdata['member'],
 					'start_date'=>$formdata['start_date'],
 					'end_date'=>$formdata['end_date'],
 					'status'=>$formdata['status'],
@@ -25,7 +25,7 @@ class Installment_PaymentController extends Zend_Controller_Action {
 			else{
 				$search = array(
 					'adv_search' => '',
-					'client_name' => -1,
+					'member' => -1,
 					'start_date'=> date('Y-m-d'),
 					'end_date'=>date('Y-m-d'),
 					'branch_id'		=>	-1,
