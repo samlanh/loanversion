@@ -148,13 +148,13 @@ public function addSaleInstallment($data){
 			$this->_name='ln_ins_sales_installdetail';
 			$datapayment = array(
 					'sale_id'=>$loan_id,
-					'outstanding'=>$data['selling_price'],//good
-					'outstanding_after'=>$data['selling_price'],//good
-					'principal_permonth'=>$data['selling_price'],//good
+					'outstanding'=>$data['paid'],//good
+					'outstanding_after'=>$data['paid'],//good
+					'principal_permonth'=>$data['paid'],//good
 					'principle_after'=> 0,//good
 					'total_interest'=>0,//good
 					'total_interest_after'=>0,//good
-					'total_payment'=>$data['selling_price'],//good
+					'total_payment'=>$data['paid'],//good
 					'total_payment_after'=>0,//good
 					'date_payment'=>$data['date_sold'],//good
 					'is_completed'=>1,
@@ -401,7 +401,8 @@ function updateInstallmentById($data){
 		unset($datagroup);
 		
 		$dbpo = new Installment_Model_DbTable_DbPurchase();
-		$dbpo->updateStock($data['product_name'],$data['branch_id'],-1);
+		$dbpo->updateStock($data['old_prodcut'],$data['branch_id'],-1);
+		$dbpo->updateStock($data['product_name'],$data['branch_id'],1);
 		
 		$this->_name = "ln_ins_receipt_money";
 		$arr = array("status"=>1);
@@ -417,13 +418,13 @@ function updateInstallmentById($data){
 			$this->_name='ln_ins_sales_installdetail';
 			$datapayment = array(
 					'sale_id'=>$loan_id,
-					'outstanding'=>$data['selling_price'],//good
-					'outstanding_after'=>$data['selling_price'],//good
-					'principal_permonth'=>$data['selling_price'],//good
+					'outstanding'=>$data['paid'],//good
+					'outstanding_after'=>$data['paid'],//good
+					'principal_permonth'=>$data['paid'],//good
 					'principle_after'=> 0,//good
 					'total_interest'=>0,//good
 					'total_interest_after'=>0,//good
-					'total_payment'=>$data['selling_price'],//good
+					'total_payment'=>$data['paid'],//good
 					'total_payment_after'=>0,//good
 					'date_payment'=>$data['date_sold'],//good
 					'is_completed'=>1,

@@ -89,7 +89,9 @@
 			 	</tr>
 			 	<tr>
 			 		<td><strong><?php echo $tr->translate('ITEM_NAME');?></strong></td>
-			 		<td><input id="product_name" /></td>
+			 		<td><input id="product_name" />
+			 			<input type="hidden" name="old_prodcut" value="<?php echo $this->datarow['product_id'];?>" />
+			 		</td>
 			 	</tr>
 			 	<tr>
 			 		<td><?php echo $tr->translate('កម្លាំងម៉ាស៊ីន');?></td>
