@@ -646,13 +646,13 @@ function submitDataClose(){
 	if(dijit.byId('add_client').validate()) {
 		dijit.byId('save_close').set('disabled',true);
 		dijit.byId('save_new').set('disabled',true);
-		var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add')); ?>';
+		var url_submit = '<?php echo $this->url(array('module'=>'installment','controller'=>'customer','action'=>'add')); ?>';
 		dojo.xhrPost({
 		    url: url_submit,	
 			form: dojo.byId("add_client"),		    
 			load: function(data) {
 				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-				window.location.href ="<?php echo $this->baseUrl();?>/group/index";
+				window.location.href ="<?php echo $this->baseUrl();?>/installment/customer";
 			},
 			error: function(e) {
 			}
