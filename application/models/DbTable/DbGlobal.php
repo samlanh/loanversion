@@ -90,7 +90,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 	}
 	public function getLoanNumberByBranch($type){
 		$db = $this->getAdapter();
-// 		if($type==1){
 			$sql="SELECT l.`id` AS id,
 				CONCAT((SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1),'-',l.`loan_number`) AS `name`,
 				l.`branch_id` 
@@ -100,10 +99,18 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 			  		AND l.status=1 
 			  		AND l.is_badloan=0 ORDER BY l.loan_number DESC ";
 			return $db->fetchAll($sql);
-// 		}else{
-// 			$sql="SELECT m.`loan_number` AS id,m.`loan_number` AS `name`,g.`branch_id` FROM `ln_loan_member` AS m,`ln_loan_group` AS g WHERE m.`group_id`= g.`g_id` AND m.`is_completed`=0 AND g.`loan_type`=2 AND m.status=1 AND g.status=1 GROUP BY m.`loan_number` ";
-// 			return $db->fetchAll($sql);
-// 		}
+	}
+	public function getSaleinstallmentByBranch($type){
+		$db = $this->getAdapter();
+		$sql="SELECT l.`id` AS id,
+				CONCAT((SELECT name_kh FROM `ln_ins_client` WHERE client_id = l.customer_id LIMIT 1),'-',l.`sale_no`) AS `name`,
+				l.`branch_id`
+				FROM `ln_ins_sales_install` AS l
+				WHERE
+				l.`is_completed` = 0
+				AND l.status=1
+				 ORDER BY l.sale_no DESC ";
+		return $db->fetchAll($sql);
 	}
 	public function getGlobalDb($sql)
   	{
@@ -1426,6 +1433,18 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	}
   	return $pre.$new_acc_no;
   }
+  public function getInvoiceReceipt($branch_id){
+  	$db = $this->getAdapter();
+  	$sql="SELECT COUNT(id) FROM ln_ins_sales_install WHERE branch_id=".$branch_id." LIMIT 1";
+  	$pre = $this->getPrefixCode($branch_id)."IN";
+  	$acc_no = $db->fetchOne($sql);
+  	$new_acc_no= (int)$acc_no+1;
+  	$acc_no= strlen((int)$acc_no+1);
+  	for($i = $acc_no;$i<5;$i++){
+  		$pre.='0';
+  	}
+  	return $pre.$new_acc_no;
+  }
   function updateVillage(){
 //   	$sql="
 //   		SELECT n.vill_id,o.villageid,village 
@@ -1690,7 +1709,7 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
 	  		return $result;
 	  	}
   }
-  function getAllClientinstallment($branch_id=null){//installment
+ function getAllClientinstallment($branch_id=null,$opt=null){//installment
   	$db = $this->getAdapter();
   	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
   	c.`name_kh` AS name , client_number
@@ -1700,8 +1719,17 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   
   	}
   	$sql.="  order BY c.`client_id` DESC ";
-  	return $db->fetchAll($sql);
-  }
+  	$result =  $db->fetchAll($sql);
+  	if($opt!=null){
+  		$options=array(''=>"Select Customer");
+  		if(!empty($result))foreach($result AS $row){
+  			$options[$row['id']]= $row['name'];
+  		}
+  		return $options;
+  	}else{
+  		return $result;
+  	} 
+}
   function getAllClientcodeinstallment($branch_id=null){//installment
   	$db = $this->getAdapter();
   	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
