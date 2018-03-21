@@ -94,6 +94,27 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	}
+	function nearlyourstockAction(){
+		$db  = new Report_Model_DbTable_DbInventory();
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+		}else{
+			$data = array(
+					'adv_search'=>	'',
+					'branch_id'	=>	-1,
+					'category'	=>	-1,
+					'status'	=>  -1
+			);
+		}
+		$row = $db->productNearlyOutStock($data);
+		$this->view->inventory = $row;
+		$formFilter = new Installment_Form_FrmProduct();
+		$this->view->formFilter = $formFilter->add();
+		Application_Model_Decorator::removeAllDecorator($formFilter);
+		
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	}
 	function purchaseAction(){
 		$db  = new Report_Model_DbTable_DbInventory();
 		if($this->getRequest()->isPost()){
