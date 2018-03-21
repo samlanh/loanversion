@@ -170,9 +170,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 					'branch_id' => -1,
 					'members' => -1,
 					'start_date'=> date('Y-m-d'),
-					'end_date'=>date('Y-m-d'),
-					'orderBy'=>''
-					);
+					'end_date'=>date('Y-m-d'));
 		}
 		$this->view->loantotalcollect_list =$rs=$db->getALLInstallmentPayment($search);
 		$this->view->list_end_date = $search;
@@ -184,6 +182,30 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$frm = $frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
+	}
+	function rptPaymentHistoryAction(){
+		$db  = new Report_Model_DbTable_DbInventory();
+		if($this->getRequest()->isPost()){
+			$search = $this->getRequest()->getPost();
+		}else {
+			$search = array(
+					'adv_search' => "",
+					'branch_id'	  => -1,
+					'members'=>-1,
+		 		'currency_type'=>-1,
+			 	'start_date'  => date('Y-m-d'),
+			 	'end_date'    => date('Y-m-d'),
+					'paymnet_type'=> -1,);
+		}
+		$search['orderBy']="1";
+		$this->view->loantotalcollect_list =$db->getALLInstallmentPayment($search);
+		$this->view->list_end_date=$search;
+	
+		$frm = new Pawnshop_Form_FrmPawnshop();
+		$frm = $frm->FrmAddLoan();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_search = $frm;
+	
 	}
 }
 

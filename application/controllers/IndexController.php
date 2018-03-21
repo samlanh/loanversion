@@ -132,7 +132,7 @@ class IndexController extends Zend_Controller_Action
     public function logoutAction()
     {
         // action body
-        $this->_redirect("/index");
+//         $this->_redirect("/index");
         if($this->getRequest()->getParam('value')==1){        	
         	$aut=Zend_Auth::getInstance();
         	$aut->clearIdentity();        	

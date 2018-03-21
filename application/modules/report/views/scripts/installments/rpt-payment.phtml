@@ -24,15 +24,6 @@
 			<td><?php echo $frm->getElement('end_date');?></td>
 			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
 		</tr>
-		<tr>
-			<td><?php echo $tr->translate("Order BY");?></td>
-			<td>
-				<select dojoType='dijit.form.FilteringSelect' id="orderBy" name="orderBy" class="fullside">
-					<option value=""><?php echo $tr->translate("Default");?></option>
-					<option value="1" <?php if($this->list_end_date['orderBy']==1){echo 'selected=selected';}?>><?php echo $tr->translate("Customers");?></option>
-				</select>
-			</td>
-		</tr>
 	</table>
 </form>
 <style>
