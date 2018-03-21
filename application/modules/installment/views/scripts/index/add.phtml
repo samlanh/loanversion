@@ -1,5 +1,5 @@
 <?php
-	$this->headTitle('Add Loan IL'); 
+	$this->headTitle('Add Installment'); 
 	echo $this->headTitle();
 	$frm = $this->frm_loan;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -166,7 +166,7 @@
 					     </tr>
 					     <tr>
 					    	<td><?php echo $tr->translate("AMOUNT_GRAICE_PARIOD")?></td>
-							<td><input dojoType="dijit.form.NumberTextBox" class="fullside" name="fixed_payment" id="fixed_payment" ></td>
+							<td><input readonly dojoType="dijit.form.NumberTextBox" class="fullside" name="fixed_payment" id="fixed_payment" ></td>
 					     </tr>
 					 	<tr>
 					 		<td><?php echo $tr->translate('ថ្ងៃបង់ប្រាក់ដំបូង');?></td>
@@ -184,7 +184,7 @@
 		<td align="center" colspan="4">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
-			<input type="submit"  label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
+			<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
 			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"  
 				 iconClass="dijitIconNewTask"/>
@@ -474,16 +474,14 @@ function showInvoice(){
     function setDefaultPaymentAmount(){
     	amount_principal = dijit.byId('balance').get('value');    	
     	term = dijit.byId('duration').get('value');
-    	/*debt_term=30;
-    	collect_term = 3;
-		collect_term=30;
-    	term =debt_amount;*/
+    
 		interest_rate=dijit.byId('interest_rate').get('value')/100;
 		top_pow = Math.pow((1+interest_rate),term);
 		bellow = Math.pow((1+interest_rate),(term))-1;
 		amount_payment = (amount_principal*interest_rate*top_pow)/(bellow);
 		amount_payment = parseInt(amount_payment);
 		dijit.byId('fixed_payment').attr('value',amount_payment);
+		dijit.byId("fixed_payment").set('readOnly',false);
 	}
 	function hideDialog() {		
 		dijit.byId("recript_dialog").hide();
@@ -668,6 +666,8 @@ function getAllClientNumberByBranch(branch_id){
 }
 function chechPaymentMethod(){
 	method_id = dijit.byId('repayment_method').get('value');
+	dijit.byId("fixed_payment").set('readOnly',true);
+	dijit.byId("fixed_payment").attr('value',0);
 	if(method_id==4){
 		setDefaultPaymentAmount();
 	}else{

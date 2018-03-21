@@ -1,5 +1,5 @@
 <?php
-	$this->headTitle('Add Loan IL'); 
+	$this->headTitle('Edit Installment'); 
 	echo $this->headTitle();
 	$frm = $this->frm_loan;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -168,7 +168,7 @@
 					     </tr>
 					     <tr>
 					    	<td><?php echo $tr->translate("AMOUNT_GRAICE_PARIOD")?></td>
-							<td><input dojoType="dijit.form.NumberTextBox" class="fullside" name="fixed_payment" id="fixed_payment" ></td>
+							<td><input readonly dojoType="dijit.form.NumberTextBox" class="fullside" name="fixed_payment" id="fixed_payment" ></td>
 					     </tr>
 					 	<tr>
 					 		<td><?php echo $tr->translate('ថ្ងៃបង់ប្រាក់ដំបូង');?></td>
@@ -482,6 +482,7 @@ function showInvoice(){
 		amount_payment = (amount_principal*interest_rate*top_pow)/(bellow);
 		amount_payment = parseInt(amount_payment);
 		dijit.byId('fixed_payment').attr('value',amount_payment);
+		dijit.byId("fixed_payment").set('readOnly',false);
 	}
 	function hideDialog() {		
 		dijit.byId("recript_dialog").hide();
@@ -695,6 +696,8 @@ function getAllClientNumberByBranch(branch_id){
 }
 function chechPaymentMethod(){
 	method_id = dijit.byId('repayment_method').get('value');
+	dijit.byId("fixed_payment").set('readOnly',true);
+	dijit.byId("fixed_payment").attr('value',0);
 	if(method_id==4){
 		setDefaultPaymentAmount();
 	}else{
