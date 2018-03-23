@@ -52,7 +52,7 @@ class Installment_Form_FrmProduct extends Zend_Form
 		$branch_id->setMultiOptions($options_branch);
 		$branch_id->setValue($request->getParam("branch_id"));
 		
-		$opt = array(''=>$tr->translate("PRODUCT_CATEGORY"),-1=>$tr->translate("ADD_NEW_CATEGORY"));
+		$opt = array(''=>$tr->translate("PRODUCT_CATEGORY"));
 		$category = new Zend_Form_Element_Select("category");
 		$category->setAttribs(array(
 				'class'=>'form-control select2me',
@@ -69,9 +69,27 @@ class Installment_Form_FrmProduct extends Zend_Form
 		$category->setMultiOptions($opt);
 		$category->setValue($request->getParam("category"));
 		
+		
+		
+		$opt = array(''=>$tr->translate("PRODUCT_TYPE"));
+		$product_type = new Zend_Form_Element_Select("product_type");
+		$product_type->setAttribs(array(
+				'class'=>'form-control select2me',
+				'onChange'=>'',
+				'class'=>'fullside',
+				'dojoType'=>'dijit.form.FilteringSelect',
+		));
+		$row_cat = $db->getProducttype();
+		if(!empty($row_cat)){
+			foreach ($row_cat as $rs){
+				$opt[$rs["id"]] = $rs["name"];
+			}
+		}
+		$product_type->setMultiOptions($opt);
+		$product_type->setValue($request->getParam("product_type"));
+		
 		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
 		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
-				//'required'=>'true',
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
 				'class'=>'fullside',
 				'onchange'=>'CalculateDate();'));
@@ -94,19 +112,7 @@ class Installment_Form_FrmProduct extends Zend_Form
 		}
 		$to_date->setValue($_date);
 		
-// 		if($data!=null){
-// 			$name->setValue($data["item_name"]);
-// 			$pro_code->setValue($data["item_code"]);
-// 			$barcode->setValue($data["barcode"]);
-// 			$serial->setValue($data["serial_number"]);
-// 			$category->setValue($data["cate_id"]);
-// 			$size->setValue($data["size_id"]);
-// 			$description->setValue($data["note"]);
-// 			$status->setValue($data["status"]);
-// 			$price->setValue($data["price"]);
-// 		}
-		
-		$this->addElements(array($to_date,$from_date,$category,$branch_id,$_title,$_status,$category));
+		$this->addElements(array($product_type,$to_date,$from_date,$category,$branch_id,$_title,$_status,$category));
 		return $this;
 		
 	}

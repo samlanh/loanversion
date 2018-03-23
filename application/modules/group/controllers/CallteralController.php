@@ -90,6 +90,9 @@ class Group_CallteralController extends Zend_Controller_Action {
 		$rs=$db->getCollteralType();
 		array_unshift($rs, array ( 'id' => -1,'name' => $this->tr->translate("ADD_NEW")));
 		$this->view->call_all= $rs;
+		
+		$db_global = new Application_Model_DbTable_DbGlobal();
+		$this->view->loan_number = $db_global->getLoanNumberByBranch(1);
 	}
 	
 	public function editAction()

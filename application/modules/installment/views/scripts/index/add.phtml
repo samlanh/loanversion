@@ -676,7 +676,7 @@ function chechPaymentMethod(){
 function changeCollectType(){
 	CalculateDate();
 }
-var getloan_level = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-loanlevel')); ?>';
+var getloan_level = '<?php echo $this->url(array('module'=>'installment','controller'=>'index','action'=>'get-loanlevel')); ?>';
 function getLoanLevel(client_id){
 	   if(client_id==''){
 		   return false;}

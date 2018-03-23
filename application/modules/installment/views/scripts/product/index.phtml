@@ -6,19 +6,19 @@
 	dojo.require("dijit.form.DateTextBox");
 </script>
 <form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
-   <table width="90%">
-   <tr>  
-        <td><?php echo $frm->getElement("adv_search");?></td>
-   		<td> <?php echo $frm->getElement('branch_id');?></td>
-   		<td><?php echo $frm->getElement("category");?></td>
-   </tr>
-   <tr>
-   		<td><?php echo $frm->getElement('start_date');?></td>
-   		<td><?php echo $frm->getElement('end_date');?></td>
-   		<td><?php echo $frm->getElement('status');?></td>
-   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-   
-   </tr>
-</table>
+   <table width="100%">
+	   <tr>  
+	        <td><?php echo $frm->getElement("adv_search");?></td>
+	   		<td> <?php echo $frm->getElement('branch_id');?></td>
+	   		<td><?php echo $frm->getElement("product_type");?></td>
+	   		<td><?php echo $frm->getElement("category");?></td>
+	   </tr>
+	   <tr>
+	   		<td><?php echo $frm->getElement('start_date');?></td>
+	   		<td><?php echo $frm->getElement('end_date');?></td>
+	   		<td><?php echo $frm->getElement('status');?></td>
+	   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+	   </tr>
+	</table>
 </form>
 <?php echo $this->list; ?>

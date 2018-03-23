@@ -12,7 +12,12 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 	}
   public function getCategory(){
   	$db = $this->getAdapter();
-  	$sql = "SELECT b.`id`,b.`name` FROM `ln_ins_category` AS b WHERE b.`status`=1 AND b.`name`!='' ";
+  	$sql = "SELECT b.`id`,b.`name` FROM `ln_ins_category` AS b WHERE b.`status`=1 AND b.`name`!='' ORDER BY b.`name` ASC ";
+  	return $db->fetchAll($sql);
+  }
+  public function getProducttype(){
+  	$db = $this->getAdapter();
+  	$sql = "SELECT b.`id`,b.`name` FROM `ln_ins_producttype` AS b WHERE b.`status`=1 AND b.`name`!='' ";
   	return $db->fetchAll($sql);
   }
   public function getProductCode(){
@@ -48,6 +53,7 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 			  (SELECT branch_namekh FROM `ln_branch` AS b WHERE b.br_id=pl.`location_id` LIMIT 1) AS branch,
 			  p.`item_code`,
 			  p.`item_name` ,
+			  (SELECT c.name FROM `ln_ins_producttype` AS  c WHERE c.id=p.`product_type` LIMIT 1) AS product_type,
 			  (SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS cat,
 			  SUM(pl.`qty`) AS qty,cost_price,selling_price,
 			  (SELECT `first_name` FROM `rms_users` WHERE rms_users.`id`=p.`user_id` LIMIT 1) AS user_name,
@@ -56,7 +62,9 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 			  `ln_ins_product` AS p ,
 			  `ln_ins_prolocation` AS pl
 			WHERE p.`id`=pl.`pro_id` ";
-  	$where = '';
+  	$from_date =(empty($data['start_date']))? '1': " p.create_date >= '".$data['start_date']." 00:00:00'";
+  	$to_date = (empty($data['end_date']))? '1': " p.create_date <= '".$data['end_date']." 23:59:59'";
+  	$where = " AND ".$from_date." AND ".$to_date;
   	if($data["adv_search"]!=""){
 		$string = str_replace(' ','',$data['adv_search']);
   		$s_where=array();
@@ -65,17 +73,20 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
   		$s_where[]=" REPLACE(p.item_code,' ','') LIKE '%{$s_search}%'";
   		$where.=' AND ('.implode(' OR ', $s_where).')';
   	}
-  	if($data["branch_id"]!=""){
+  	if($data["branch_id"]>0){
   		$where.=' AND pl.`location_id`='.$data["branch_id"];
   	}
-  	if($data["category"]!=""){
+  	if($data["category"]>0){
   		$where.=' AND p.cate_id='.$data["category"];
+  	}
+  	if($data["product_type"]>0){
+  		$where.=' AND p.product_type='.$data["product_type"];
   	}
   	if($data["status"]!=-1){
   		$where.=' AND p.status='.$data["status"];
   	}
   	$location = $db_globle->getAccessPermission('pl.`location_id`');
-  	$group_by = " GROUP BY p.id";
+  	$group_by = " GROUP BY p.id DESC ";
   	return $db->fetchAll($sql.$where.$location.$group_by);
   }  
   function getProductById($id){
@@ -108,14 +119,12 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
     public function add($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
-		
 		$user_info = new Application_Model_DbTable_DbGetUserInfo();
 		$result = $user_info->getUserInfo();
 		$session_user=new Zend_Session_Namespace('authloan');
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		 $level = $result["level"];
     	try {
-			
     		$arr = array(
     			'item_name'		=>	$data["name"],
     			'item_code'		=>	$data["pro_code"],
@@ -126,7 +135,8 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
     			'selling_price'=>$data["selling_price"],
     			'user_id'		=>	$this->getUserId(),
     			'note'			=>	$data["description"],
-//     			'status'		=>	$data["status"],
+    			'create_date'		=>	date("Y-m-d"),
+    				
     		);
     		$this->_name="ln_ins_product";
     		$id = $this->insert($arr);
@@ -154,7 +164,6 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }
-    
     public function edit($data){
 	    	$db = $this->getAdapter();
 	    	$db->beginTransaction();

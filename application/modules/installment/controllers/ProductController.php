@@ -27,19 +27,20 @@ public function init()
     			'adv_search'=>	'',
     			'branch_id'	=>	-1,
     			'category'	=>	-1,
+    			'product_type'=>-1,
     			'start_date'=>	date("Y-m-d"),
     			'end_date'	=>	date("Y-m-d"),
     			'status'	=>  -1
     		);
     	}
-    	$columns=array("BRANCH_NAME","ITEM_CODE","ITEM_NAME",
-    			"PRODUCT_CATEGORY","CURRENT_QTY","COST_PRICE","SOLD_PRICE","USER","STATUS");
+    	$columns=array("BRANCH_NAME","ITEM_CODE","ITEM_NAME","TYPE",
+    			"PRODUCT_CATEGORY","CURRENT_QTY","COST_PRICE","SOLD_PRICE","BY_USER","STATUS");
     	$rows = $db->getAllProduct($data);
 		$link=array(
 				'module'=>'installment','controller'=>'product','action'=>'edit',);
 	
 		$list = new Application_Form_Frmlist();
-		$this->view->list=$list->getCheckList(0, $columns, $rows,array('item_name'=>$link,'item_code'=>$link,'barcode'=>$link,'branch'=>$link));
+		$this->view->list=$list->getCheckList(0, $columns, $rows,array('item_name'=>$link,'product_type'=>$link,'item_code'=>$link,'barcode'=>$link,'branch'=>$link));
 		
     	$formFilter = new Installment_Form_FrmProduct();
     	$this->view->formFilter = $formFilter->add();
@@ -75,9 +76,17 @@ public function init()
 			
 	        array_unshift($row_cat,array(
 	        'id' => -1,
-	        'name' => 'Add New',
+	        'name' => 'បន្ថែមថ្មី',
 	        ) );
 	        $this->view->rs_cate=$row_cat;
+	        
+	        $row_protype = $db->getProducttype();
+	        array_unshift($row_cat,array(
+	        		'id' => -1,
+	        		'name' => 'Add New',
+	        ) );
+	        $this->view->rs_protype=$row_protype;
+	        
 	        $db = new Application_Model_GlobalClass();
 	        $this->view->rsbranch = $db->getAllBranchOption();
 	}
@@ -96,12 +105,8 @@ public function init()
 				  }
 		}
 		$this->view->rs_location = $db->getProductLocation($id);
-// 		$this->view->rs_price = $db->getProductPrcie($id);
 		$this->view->rspro =  $db->getProductById($id);
 		
-		
-// 		$rs_branch = $db->getBranch();
-// 		$this->view->branch = $rs_branch;
 		$dbc = new Application_Model_GlobalClass();
 		$this->view->branch = $dbc->getAllBranchOption();
 			
@@ -140,39 +145,21 @@ public function init()
 			exit();
 		}
 	}
-// 	public function addCategoryAction(){
-// 		if($this->getRequest()->isPost()){
-// 			try {
-// 				$post=$this->getRequest()->getPost();
-// 				$db = new Product_Model_DbTable_DbCategory();
-// 				$cat_id =$db->addNew($post);
-// 				$result = array('cat_id'=>$cat_id);
-// 				echo Zend_Json::encode($result);
-// 				exit();
-// 			}catch (Exception $e){
-// 				$result = array('err'=>$e->getMessage());
-// 				echo Zend_Json::encode($result);
-// 				exit();
-// 			}
-// 		}
-// 	}
-
-// 	public function addNewproudctAction(){
-// 		if($this->getRequest()->isPost()){
-// 			try {
-// 				$post=$this->getRequest()->getPost();
-// 				$db = new Installment_Model_DbTable_DbProduct();
-// 				$pro_id =$db->addAjaxProduct($post);
-// 				$result = array('pro_id'=>$pro_id);
-// 				echo Zend_Json::encode($result);
-// 				exit();
-// 			}catch (Exception $e){
-// 				$result = array('err'=>$e->getMessage());
-// 				echo Zend_Json::encode($result);
-// 				exit();
-// 			}
-// 		}
-// 	}
-	
+	public function addCategoryAction(){
+		if($this->getRequest()->isPost()){
+			try {
+				$post=$this->getRequest()->getPost();
+				$db = new Installment_Model_DbTable_DbCategory();
+				$cat_id =$db->addNew($post);
+				//$result = array('cat_id'=>$cat_id);
+				echo Zend_Json::encode($cat_id);
+				exit();
+			}catch (Exception $e){
+				$result = array('err'=>$e->getMessage());
+				echo Zend_Json::encode($result);
+				exit();
+			}
+		}
+	}
 }
 

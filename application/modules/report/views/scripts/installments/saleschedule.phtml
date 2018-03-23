@@ -1,5 +1,4 @@
 <?php $tran = $this->schedule;
-// $client = $this->client;
 $filter = $this->form_filter;
 $dayin_khmer = $this->day_inkhmer;
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -38,28 +37,24 @@ td p{ margin-top:0px !important;}
 	                		<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><?php echo $tr->translate('Schedule Payment');?> <?php //echo ($client['loan_type']==1)?$tr->translate('RPT_ILLOAN'):$tr->translate('RPT_GROULOAN') ;?></h2>
 	               		</td>
 	                </tr> 
-	                <?php //$db = new Application_Model_DbTable_DbGlobal();
-// 	                	  $row = $db->getClientByType(null,$client['client_id'],1);
-	                ?> 
 	                <tr>
 	                	<td colspan="3">
 	                		<table width="100%" style="font-family:">
 			                	<tr style="font-size:15px;line-height: 25px;font-family:'Khmer OS Battambang'" >
 				                   <td width="35%">
-				                   		<p> <?php echo "<strong>". $tr->translate('CLIENT_NO')."</strong> : ".$sale['client_number']?></p>
-				                	    <p><b><?php echo $tr->translate('CUSTOMER_NAME');?></b>: <?php echo $sale['client_name_kh'];//echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?> </p>
+				                   		<p><?php echo "<strong>". $tr->translate('CLIENT_NO')."</strong> : ".$sale['client_number']?></p>
+				                	    <p><b><?php echo $tr->translate('CUSTOMER_NAME');?></b>: <?php echo $sale['client_name_kh'];?></p>
 				                		<p><?php echo "<strong>",$tr->translate("TEL")."</strong>";?> : <?php echo $sale['phone'];?></p>
 				                	</td>
 				                    <td valign="top" style="" width="33%">
-				                        <p><?php echo $tr->translate("AMOUNT_TERM_FUND");?> : <?php  echo $sale['duration']." ខែ";//echo $client['total_duration']." ".Application_Model_DbTable_DbGlobal::getPaymentTermById($client['pay_term']); ?></p>
+				                        <p><?php echo $tr->translate("AMOUNT_TERM_FUND");?> : <?php  echo $sale['duration']." ខែ"; ?></p>
 				                        <p><?php echo $tr->translate("ថ្ងៃចាប់ផ្តើម ");?> : <?php echo date('d-m-Y',strtotime($sale['date_sold']));?> </p>
 				                    	<p><?php echo $tr->translate("FIRST_PAYMENT");?> : <?php echo date('d-m-Y',strtotime($sale['first_payment'])); ?></p>
 				                     </td>
 				                    <td valign="top">
 				                   	  <p><?php echo $tr->translate("LOAN_NO");?> : <b><?php echo $sale['sale_no'];?></b></p>
 				                      <p><?php echo $tr->translate("INTEREST")." : ".$sale['interest_rate']." %"?> </p>
-				                      <p><?php echo $tr->translate("LOAN_AMOUNT");?>  : <?php echo number_format($sale['balance'],(!strrpos($sale['balance'],". "))? 0 : 2);echo '&nbsp;'." $";//$client['currency_type'];?></p>
-				                      <p><?php echo $tr->translate("LEVEL");?> : <?php //echo $client['level'];?></p>
+				                      <p><?php echo $tr->translate("LOAN_AMOUNT");?>  : <?php echo number_format($sale['balance'],(!strrpos($sale['balance'],". "))? 0 : 2);echo '&nbsp;'." $";?></p>
 				                    </td>
 				                </tr>
 				                <tr style="font-size:15px;font-family:'Khmer OS Battambang'" >
@@ -129,7 +124,7 @@ td p{ margin-top:0px !important;}
 	            </table>
 	            <table>
 	            	<tr>
-	            		<td align="left" style="font-size: 12px;" ><u></u> <?php echo $tr->translate("NOTED_SCHEDULE");?></td>
+	            		<td align="left" style="font-size: 12px;" ><?php echo $tr->translate("NOTED_SCHEDULE");?></td>
 	            	</tr>
 	            </table>
 	            <table width="100%" cellpadding="3">
@@ -141,7 +136,6 @@ td p{ margin-top:0px !important;}
 	            	<tr class="font_bold">
 	            		<td align="center" height="80px" valign="bottom" style="font-size:15px;font-family:'Khmer OS Battambang'"><?php echo $sale['user_name'];?></td>
 	            		<td align="center"  valign="bottom" style="font-size:15px;line-height: 30px;font-family:'Khmer OS Battambang'" >
-	            			<?php //echo $client['co_khname'];?>
 	            			<p><?php echo $tr->translate("TEL");?>  : <?php //echo $client['tel'];?></p>   
 	            		</td>
 	            		<td align="center" height="75px" valign="bottom" style="font-size:15px;font-family:'Khmer OS Battambang'">

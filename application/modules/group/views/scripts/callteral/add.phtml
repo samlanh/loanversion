@@ -13,7 +13,7 @@
 	dojo.require("dojo.data.ItemFileWriteStore");  
 	dojo.require("dojo.data.ObjectStore");
 	dojo.require("dijit.form.DateTextBox");
-	dojo.require("dijit.form.CheckBox");
+	//dojo.require("dijit.form.CheckBox");
 	dojo.require("dijit.Dialog");
 </script>
 <style>	
@@ -44,7 +44,6 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
                          dijit.byId('branch_id').focus();
                          return false;
                  }
-
 				if(dijit.byId('co_name').get('value')==''){
 				         alert('Please Select Staff Name!');
                          dijit.byId('co_name').focus();
@@ -59,7 +58,6 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 				         alert('Please Select collateral must be record!');                  
                          return false;
                  }
-
                 dijit.byId('save_new').set('disabled',true);
 			    dijit.byId('save_close').set('disabled',true);
 				return true;
@@ -74,11 +72,15 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 		<td width="33%;" valign="top">
 			 <fieldset>
 				<legend align="center" ><strong><?php echo $tr->translate("BRANCH_INFO")?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="8"  >
 						<tr>
 							<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
 						</tr>
+						<tr>
+					    	<td><?php echo $tr->translate("LOAN_NO")?></td>
+							<td><input id="loan_number" /> </td>
+					    </tr>
 						<tr>
 							<td><?php echo $tr->translate("COLLTERAL_CODE")?></td>
 							<td><?php echo $frm->getElement('cod_cal');?></td>
@@ -97,14 +99,14 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 		<td width="33%;" valign="top">
 			 <fieldset>
 				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO")?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="8" >
 						<tr>
 							<td ><?php echo $tr->translate("CLIENT_NO")?></td>
-							<td><input id="client_code" /><?php //echo $frm->getElement('client_code');?></td>
+							<td><input id="client_code" /></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-						    <td><input id="client_name" /><?php //echo $frm->getElement('client_name')?></td>
+						    <td><input id="client_name" /></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("DATE")?></td>
@@ -120,7 +122,7 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 		<td width="33%;" valign="top">
 			<fieldset>
 				<legend align="center" ><strong><?php echo $tr->translate("GUARANTOR_INFO")?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="8"  >
 						<tr>
 							<td><?php echo $tr->translate("AND_NAME")?></td>
 							<td><?php echo $frm->getElement('name')?></td>
@@ -163,12 +165,11 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 </fieldset>
 </form>
 <?php 
-echo $this->frmpupopclient;
-echo $this->frmPopupCO;
+//echo $this->frmpupopclient;
+//echo $this->frmPopupCO;
 ?>
 <script type="text/javascript">
-
-
+var loan_data  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->loan_number));?> );
 require(["dojo/ready"], function(ready){
 	ready(function(){
 	 var client_data = new dojo.store.Memory({
@@ -192,7 +193,6 @@ require(["dojo/ready"], function(ready){
 		getClientInfo(2);
 }
 	}, "client_name");
-	
 	 var client_number = new dojo.store.Memory({
 	       data: <?php print_r(Zend_Json::encode($this->allclient_number));?>
 	});
@@ -214,13 +214,22 @@ require(["dojo/ready"], function(ready){
 		}
 	
 	}, "client_code");
+	new dijit.form.FilteringSelect({
+		store: loan_number,
+		required: false,		           
+		name: "loan_number",
+		id: "loan_number",
+		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
+		class: 'fullside',
+		onChange: function() {
+		}
+	}, "loan_number");
+	
 	getClientInfo(1);
-	//dijit.byId('co_id').attr('value','co_name');
 	});
 });
-
-
-
 function filterClient(){
 	branch_id = dijit.byId('branch_id').get('value');
 	dijit.byId('client_name').query.branch_id = branch_id;
@@ -243,7 +252,6 @@ function getClientInfo(type){
 		thead+='<th><?php echo $tr->translate("SIGN_DATE");?></th>';
 		thead+='<th><?php echo $tr->translate("ISSUE_BY");?> </th>';
 		fund_title=1;
-		
 		dojo.query("#head_title").append(thead);	
 		dijit.byId('record_row').attr('value','');
 		addCollecteral();
@@ -265,11 +273,10 @@ function AddNewCo(){
 		},
 		error: function(err) {
 			alert(err);
-		alert("Your message could not be sent, please try again!.");	        
+			alert("Your message could not be sent, please try again!.");	        
 		}
 	});
 }
-
 var url_clientinfo = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclientinfo')); ?>';
 function getClientInfomation(){
 		dojo.xhrPost({
@@ -289,7 +296,6 @@ function getClientInfomation(){
 		}
 	});
 }
-
 function popupCheckCO(){
 	if(dijit.byId('co_name').get('value')==-1){
 		 dijit.byId('frm_co').show();
@@ -321,10 +327,8 @@ function addCollecteral(){
 		temp+='<td><input style=" width:90%;" type="text"  name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox" class="fullside"/></td>';
 		temp+='<td><input constraints='+'{datePattern:"dd/MM/yyyy"}'+' style=" width:90%;" type="text"  name="issue_date'+r+'" value="<?php echo date('Y-m-d'); ?>" id="issue_date'+r+'" dojoType="dijit.form.DateTextBox" class="fullside"/></td>';
 		temp+='<td><input type="text" name="note'+r+'" id="note'+r+'" dojoType="dijit.form.TextBox" class="fullside"/></td>';
-		
-			dojo.html.set(dojo.byId("row_capital"+r),temp, {
-		    parseContent: true,
-		     
+		dojo.html.set(dojo.byId("row_capital"+r),temp, {
+	    parseContent: true,
 		});
 		if(dijit.byId("record_row").get('value')!="") {
 			var ids = dijit.byId("record_row").value;
@@ -358,19 +362,16 @@ function setOwnerNameCollecteralById(index){
 	}
 	dijit.byId('owner_name'+index).attr('value',label);
 }
-
 function showPopCallecteral(r){
     if(dijit.byId('collect_type'+r).get("value")==-1){
     	dijit.byId('call_pop').show();
     	$("#row_value").val(r);
     }
 }
-
 var data_store  = getDataStorefromJSON('id','name',<?php print_r(Zend_Json::encode($this->call_all));?> );
 var url_add_service =  '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add-callteral-type'));?>';
 function addCallteral(){
 if(dijit.byId('frm_call_add').validate()){
-	//language = dijit.byId('add_title').get('value');
 	dojo.xhrPost({
 			url:url_add_service,
 			form: dojo.byId("frm_call_add"),
@@ -382,7 +383,6 @@ if(dijit.byId('frm_call_add').validate()){
 		         };
 			num=$("#row_value").val();
 		    addDataToSelectbox(dijit.byId('collect_type'+num), data_store, Itemmake, data);
-			//dijit.byId("").
 		    dijit.byId('frm_call_add').reset();
 		  	dijit.byId("call_pop").hide();
 			},
@@ -392,7 +392,6 @@ if(dijit.byId('frm_call_add').validate()){
 		});
 	}
 }
-
 function submitDataClose(){
 	var rowId = $('#record_row').val();
 	if(rowId!=''){ 
@@ -405,29 +404,27 @@ function submitDataClose(){
 				return false;
 			}
 		}
-	}
-	
-	 if(dijit.byId('branch_id').get('value')==''){
-	     alert('Please Select Branch Name!');
-             dijit.byId('branch_id').focus();
-             return false;
-     }
-
+    }
+    if(dijit.byId('branch_id').get('value')==''){
+	  alert('Please Select Branch Name!');
+      dijit.byId('branch_id').focus();
+      return false;
+    }
 	if(dijit.byId('co_name').get('value')==''){
-	         alert('Please Select Staff Name!');
-             dijit.byId('co_name').focus();
-             return false;
+	       alert('Please Select Staff Name!');
+           dijit.byId('co_name').focus();
+           return false;
      }
      if(dijit.byId('client_name').get('value')==''){
-	         alert('Please Select Client Name!');
-             dijit.byId('client_name').focus();
-             return false;
+	      alert('Please Select Client Name!');
+          dijit.byId('client_name').focus();
+          return false;
      }
       if(dijit.byId('record_row').get('value')==''){
-	         alert('Please Select collateral must be record!');
-             return false;
+	      alert('Please Select collateral must be record!');
+          return false;
      }
-	if(dijit.byId('frm_add_tran').validate()) {
+if(dijit.byId('frm_add_tran').validate()) {
 		dijit.byId('save_close').set('disabled',true);
 		dijit.byId('save_new').set('disabled',true);
 		var url_submit = '<?php echo $this->url(array('module'=>'group','controller'=>'callteral','action'=>'add')); ?>';
@@ -443,5 +440,4 @@ function submitDataClose(){
 		});
 	}
 }
-
 </script>

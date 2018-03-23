@@ -142,7 +142,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 		(SELECT `c`.`commune_namekh` FROM `ln_commune` `c` WHERE (`c`.`com_id` = (SELECT com_id FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1)) LIMIT 1) AS `commune_name`,
 		(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = (SELECT dis_id FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1)) LIMIT 1) AS `district_name`,
 		(SELECT province_kh_name FROM `ln_province` WHERE province_id= (SELECT pro_id FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) LIMIT 1) AS province_kh_name,
-    	(SELECT c.name FROM `ln_ins_category` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS catName,
+    	(SELECT c.name FROM `ln_ins_producttype` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS catName,
     	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_namekh,
     	p.item_name,
     	p.`item_code`,

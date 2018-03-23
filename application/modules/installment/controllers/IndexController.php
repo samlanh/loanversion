@@ -168,15 +168,15 @@ class Installment_IndexController extends Zend_Controller_Action {
 		$row = $db->getLoanviewById($id);
 		$this->view->tran_rs = $row;
 	}
-// 	function getLoanlevelAction(){
-// 		if($this->getRequest()->isPost()){
-// 				$data = $this->getRequest()->getPost();
-// 				$db = new Loan_Model_DbTable_DbLoanIL();
-// 				$row = $db->getLoanLevelByClient($data['client_id'],$data['type']);
-// 				print_r(Zend_Json::encode($row));
-// 			    exit();
-// 		}
-// 	}
+	function getLoanlevelAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db = new Installment_Model_DbTable_DbInstallment();
+			$row = $db->getLoanLevelByClient($data['client_id']);
+			print_r(Zend_Json::encode($row));
+		    exit();
+		}
+	}
 // 	public function getLoaninfoAction(){//from repayment schedule
 // 		if($this->getRequest()->isPost()){
 // 			$data=$this->getRequest()->getPost();

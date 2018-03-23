@@ -35,11 +35,9 @@ class Installment_Model_DbTable_DbCategory extends Zend_Db_Table_Abstract
 	public function addNew($data){
 		$db = $this->getAdapter();
 		$arr = array(
-				'name'			=>	$data["cat_name"],
-				'parent_id'		=>	$data["parent"],
+				'name'			=>	$data['cat_name'],
 				'date'			=>	new Zend_Date(),
-				'status'		=>	$data["status"],
-				'remark'		=>	$data["remark"],
+				'status'		=>	1,
 		);
 		$this->_name = "ln_ins_category";
 		return $this->insert($arr);
@@ -51,7 +49,7 @@ class Installment_Model_DbTable_DbCategory extends Zend_Db_Table_Abstract
 				c.`status`,
 				(SELECT first_name FROM `rms_users` WHERE id=user_id ) AS user_id
 			FROM `ln_ins_category` 
-			AS c WHERE c.`status` =1 ";
+			AS c WHERE c.`status` =1 ORDER BY id desc ";
 		return $db->fetchAll($sql);
 	}
 	public function getCategory($id){

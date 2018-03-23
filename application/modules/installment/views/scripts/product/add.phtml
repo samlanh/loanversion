@@ -1,7 +1,6 @@
 <?php 
 	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	//$frm=$this->form;
 	$user_info = new Application_Model_DbTable_DbGetUserInfo();
 	$result = $user_info->getUserInfo();
 	$session_user=new Zend_Session_Namespace('authloan');
@@ -13,6 +12,8 @@
 dojo.require("dojo.data.ItemFileWriteStore"); 
 require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog"]);
 dojo.require("dojo.NodeList-manipulate");
+dojo.require("dijit.form.Form");
+
 </script>
 <form id='frm_add_tran' action="" 
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
@@ -98,17 +99,37 @@ dojo.require("dojo.NodeList-manipulate");
 	</tr>	
 </table>
 </fieldset>
-<div class="dijitHidden">
-<style>
-.print tr td{
-	padding:5px 2px; 
-}
-</style>
-</div>
 </form>
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" style="width:30%;" id="popup_pro_cate" >
+		<form id='frm_add_pro_cate' dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+			<table cellspacing="10" width="100%" style="margin: 0 auto;">
+				<tr>
+					<td>
+						<fieldset >
+						<legend align="center" >Add Product Category</legend>
+						<table style="margin: 0 auto; width: 95%;" cellspacing="5">
+							<tr>
+								<td style="width:100px">Name</td>
+								<td><input class="fullside"  dojoType="dijit.form.ValidationTextBox" name="cat_name" id="cat_name" type="text" required="required" /></td>
+							</tr>
+							<tr>
+								<td colspan="2" align="center">
+									<input type="button" value="save" name="save" label="<?php echo $tr->translate("SAVE_CLOSE");?>" dojoType="dijit.form.Button" 
+										iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addProCate();"/>
+								</td>
+							</tr>
+						</table>
+						</fieldset>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
 <script>
 var cate_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->rs_cate));?> );
-
+protype_store = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->rs_protype));?> );
 $('#product_id').submit(function() {
 	category = $("#category").val();
     if(category==''){
@@ -135,12 +156,15 @@ dojo.ready(function(){
 		queryExpr: "*${0}*",
 		class: 'fullside',
 		onChange: function() {
-			//member = dijit.byId('member').get('value');
-			
+			category_id = dijit.byId('category_id').get('value');
+		    if(category_id==-1){
+		   		dijit.byId("popup_pro_cate").show();
+		    }
+		
 	}
 		}, "category_id");
 	new dijit.form.FilteringSelect({
-		store: cate_store,
+		store: protype_store,
 		required: false,		           
 		name: "product_type",
 		id: "product_type",
@@ -153,10 +177,8 @@ dojo.ready(function(){
 	    }
 		}, "product_type");
 	addNewProLocation();
-	
 });
 	index = 0;
-	
 	function totalQty(index){
 		o_measure = $('#qty_unit').val();
 		unit_qty = $('#current_qty_'+index).val();
@@ -238,23 +260,24 @@ function deleteRecord(index,type) {
 			$('#categorypopup').modal('show');
 		}
 	}
-	<?php $url_add_category =  $this->url(array('module'=>'product','controller'=>'index','action'=>'add-category')); ?>
-	function addNewCategory(){
-		var cat_name  = $("#cat_name").val();
-		$.ajax({
-			url: "<?php echo $url_add_category;?>",
-			type: "post",
-			data: $('#frmCat').serialize(),
-			success: function(data){
-				rs = $.parseJSON(data);
-				 $('#category').append($("<option></option>").attr("value",rs['cat_id']).attr("selected",true).text(cat_name));                       
-				 $("#category").select2();
-				$('#categorypopup').modal('hide');
+	var url_addcate = '<?php echo $this->url(array('module'=>'installment','controller'=>'product','action'=>'add-category')); ?>';
+	function addProCate(){
+		dojo.xhrPost({
+			url:url_addcate,
+			form: dojo.byId("frm_add_pro_cate"),
+			handleAs:"json",
+			load: function(data) {
+				var Itemmake = { 
+					     id: data,
+						 name: dijit.byId('cat_name').get('value')
+					};
+			 	addDataToSelectbox(dijit.byId('category_id'), cate_store, Itemmake, data);
+			    dijit.byId('frm_add_pro_cate').reset();
+			    dijit.byId("popup_pro_cate").hide();
 			},
-			error:function(err){
-				alert("faile insert");
+			error: function(err) {
+				  dijit.byId("popup_pro_cate").hide();
 			}
 		});
 	}
-	
 </script>

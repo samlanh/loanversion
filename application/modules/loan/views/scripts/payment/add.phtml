@@ -588,9 +588,6 @@ dojo.ready(function(){
 		});
 		new dijit.form.FilteringSelect({
 			store: dojo.data.ObjectStore({objectStore: loan_data}),
-			query: {
-				branch_id: "-1"
-			},            
 			required: false,		           
 			name: "loan_number",
 			id: "loan_number",
@@ -667,6 +664,7 @@ dojo.ready(function(){
 	
 });
 function filterLoanNumber(){
+	alert(dijit.byId('branch_id').get('value'));
 	 dijit.byId('loan_number').query.branch_id = dijit.byId('branch_id').get('value');
 }
 is_change=0;
@@ -685,14 +683,11 @@ function print(){
 	window.frames["print_frame"].document.body.innerHTML=dojo.byId('rpt_print').innerHTML;
     window.frames["print_frame"].window.focus();
     window.frames["print_frame"].window.print();
-	//dijit.byId("frm_add_group_pay").submit();
 	submitData();
-   // hideDialog();
 }
 function hideDialog() {		
 	dijit.byId("frm_client").hide();
 	//submitData()
-	//window.location.href ="<?php //echo $this->baseUrl();?>/loan/il-payment";
 }
 function doPrint() {
 	window.frames["print_frame"].document.body.innerHTML=dojo.byId('frm_client').innerHTML;
@@ -715,12 +710,8 @@ dojo.ready(function(){
 function payOption(){
 	var ids =dijit.byId('record_id').get('value');
 	var arrays = ids.split(',');
-	//for(var i=0;i<arrays.length;i++){
-		//trRow(arrays[i]);
-	//}
 	calculateTotal();
 }
-
 var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'payment','action'=>'get-il-loan-Detail')); ?>';
 function getLaonPayment(type){//tab ទី1
 	dijit.byId('option_pay').attr('value',1);
