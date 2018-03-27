@@ -1,6 +1,12 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("Report Inventory Purchase Detail"));
+$rs = $this->sale;
+$gender=array(
+		1=>'ប្រុស',
+		2=>'ស្រី',
+		3=>'ផ្សេងៗ',
+		);
 ?>
 <script>
 	dojo.require("dijit.form.DateTextBox");
@@ -36,12 +42,12 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase Detail"));
 				</style>
 				<table  style="font-family: 'Times New Roman','Khmer OS Battambang'; text-align: center; margin:0 auto; width:100%; ">
 					<tbody>
-						<tr style="text-align:center; line-height:16px; font-size:12px; font-family:'Khmer OS Muol Light'; ">
+						<tr style="text-align:center; line-height:16px; font-size:11px; font-family:'Khmer OS Muol Light'; ">
 							  <td align="center" valign="top" width="20%"><span><img src="<?php echo $this->baseUrl()?>/images/Filed other.zip.png" style="width: 80%;"></span>
 							  </td>
 							  <td align="center" valign="top" width="60%" ><span style="color: blue;">ព្រះរាជាណាចក្រកម្ពុជា<br>
 							  ជាតិ សាសនា ព្រះមហាក្សត្រ</span><br>
-							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span style="color: red; font-size: 14px;">ហាងម៉ូតូ យុក សុខហួង</span>
+							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span style="color: red; font-size: 12px;">ហាងម៉ូតូ យុក សុខហួង</span>
 							  </td>
 							  <td align="center" valign="top" width="20%" ><span><img src="<?php echo $this->baseUrl()?>/images/honda_dream_2017.png" style="width: 80%;"></span>
 							  </td>
@@ -55,27 +61,27 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase Detail"));
 												<span><img src="<?php echo $this->baseUrl()?>/images/honda_motorycles_st_blazey_mx.png" style="width: 70%; margin-top: 0px;"></span>
 												<div>
 													<label style="line-height: 12px; font-size:12px; color: red;">
-													Tel:&nbsp;012 72 74 04<br>
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0888 72 74 04<br>
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;095 75 38 44
+													<span style="white-space:nowrap;">Tel:&nbsp;012 72 74 04</span><br>
+													<span style="white-space:nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0888 72 74 04</span><br>
+													<span style="white-space:nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;095 75 38 44</span>
 													</label>
 												</div>
 											 </td>
 											  <td width="60%" valign="top">
-												<span><p>មានលក់ម៉ូតូ គ្រប់ប្រភេទ នឹងមួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលស់ ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</p></span>
+												<span><p>មានលក់ម៉ូតូ គ្រប់ប្រភេទ និង មួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលស់ ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</p></span>
 											</td>
 											  <td align="center" valign="middle" width="20%">
-												<span style="color: red; font-size:16px; font-family:'Times New Roman','Khmer OS Battambang';" id="LBinvoice">&nbsp;00000</span>
+												<span style="color: red; font-size:12px; font-family:'Times New Roman','Khmer OS Battambang';" id="LBinvoice">&nbsp;<?php echo $rs['sale_no'];?></span>
 											</td>
 										</tr>
-										<tr style="text-align:center; line-height:20px; color: red; font-size:14px; font-family:'Times New Roman','Khmer OS Battambang';">
+										<tr style="text-align:center; line-height:20px; color: red; font-size:12px; font-family:'Times New Roman','Khmer OS Battambang';">
 											 <td colspan="3">
 												<table  style=" text-align: left; width:100%;">
 													<tr>
-														<td width="35%" valign="top" style="line-height: 16px; font-size:12px; color: red;" >
+														<td width="35%" valign="top" style="line-height: 16px; font-size:10px; color: red;" >
 															<span>អាស័យដ្ឋាន: ភូមិស្លរក្រាម <br />សង្កាត់ស្លរក្រាម ក្រុងសៀមរាប <br /> ស្ពានហ្រ្គងអូតែល, ផ្លូវមាត់ស្ទឹង (ខាងកើតសណ្ឋាគារអាម៉ាន់សារ៉ា)</span>
 														</td>
-														<td align="center" valign="top"><span style="color: blue; font-size: 14px; text-decoration: underline; font-family: 'Khmer OS Muol Light';">វិក័យប័ត្រ<br />INVOICE</span></td>
+														<td align="center" valign="top"><span style="color: blue; font-size: 12px; text-decoration: underline; font-family: 'Khmer OS Muol Light';">វិក័យប័ត្រ<br />INVOICE</span></td>
 														<td width="35%" valign="top">
 															<table width="100%" border="1" cellspacing="0" align="right" style=" border-collapse:collapse; border:solid 1px #000; font-size: 10px; color: #000; ">
 																<tr align="center">
@@ -88,7 +94,7 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase Detail"));
 																</tr>
 																<tr align="center">
 																	<td style="width: 30%; font-size: 12px;">ស្លាកលេខ</td>
-																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
+																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;<?php echo $rs['frame_no'];?></td>
 																</tr>
 															</table>
 														</td>
@@ -101,11 +107,11 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase Detail"));
 							</td>
 						</tr>
 						<tr>
-							<td colspan="3" align="left"  style="line-height: 16px; font-size:12px; color: blue;">
-							បានលក់ជូន អតិថិជនឈ្មោះ<span class="labelBorderBottom" style="min-width: 50%;"><span class="labelValue" id="LBclientName"></span></span>ភេទ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="LBclientGender">&nbsp;</span></span>អាយុ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="LBclientAge">&nbsp;</span></span>
-							លេខអត្តសញ្ញាណប័ណ្ណ<span class="labelBorderBottom" style="min-width: 40%;"><span class="labelValue" id="LBclientNationID"></span></span>ភូមិ<span class="labelBorderBottom" style="min-width: 35%;"><span class="labelValue" id="LBclientVillage"></span></span>
-							ឃុំ<span class="labelBorderBottom" style="min-width: 30%;"><span class="labelValue" id="LBclientComune"></span></span>ស្រុក<span class="labelBorderBottom" style="min-width: 30%;"><span class="labelValue" id="LBclientDistrict"></span></span>ខេត្ត<span class="labelBorderBottom" style="min-width: 27.5%;"><span class="labelValue" id="LBclientProvince"></span></span>
-							លេខទូរស័ព្ទ<span class="labelBorderBottom" style="min-width: 87.5%;"><span class="labelValue" id="LBclientPhone"></span></span>
+							<td colspan="3" align="left"  style="line-height: 16px; font-size:11px; color: blue;">
+							បានលក់ជូន អតិថិជនឈ្មោះ<span class="labelBorderBottom" style="min-width:40%;"><span class="labelValue" id="LBclientName"><?php echo $rs['client_name_kh'];?></span></span>ភេទ​<span class="labelBorderBottom" style="min-width: 8%;"><?php echo $gender[$rs['sex']];?><span class="labelValue" id="LBclientGender">&nbsp;</span></span>អាយុ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="LBclientAge">&nbsp;</span></span>
+							<?php echo $rs['document_type'];?><span class="labelBorderBottom" style="min-width: 40%;"> លេខ<?php echo $rs['nation_id'];?><span class="labelValue" id="LBclientNationID"></span></span>ភូមិ<span class="labelBorderBottom" style="min-width: 35%;"><?php echo $rs['village_name'];?><span class="labelValue" id="LBclientVillage"></span></span>
+							ឃុំ<span class="labelBorderBottom" style="min-width: 30%;"><?php echo $rs['commune_name'];?><span class="labelValue" id="LBclientComune"></span></span>ស្រុក<span class="labelBorderBottom" style="min-width: 30%;"><?php echo $rs['district_name'];?><span class="labelValue" id="LBclientDistrict"></span></span>ខេត្ត<span class="labelBorderBottom" style="min-width: 27.5%;"><?php echo $rs['province_kh_name'];?><span class="labelValue" id="LBclientProvince"></span></span>
+							លេខទូរស័ព្ទ<span class="labelBorderBottom" style="min-width: 87.5%;"><span class="labelValue" id="LBclientPhone"><?php echo $rs['phone'];?></span></span>
 							</td>		
 						</tr>
 						<tr>
@@ -113,24 +119,24 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase Detail"));
 								<table id="exportExcel" border="1"  style="border-collapse: collapse; border:solid 1px #000;   font-size: 10px; white-space: normal;" width="100%" cellspacing="0">
 									<thead>
 										<tr class="style" align="center" style=" font-family:'Times New Roman','Khmer OS Muol Light'; background-color: #1E8449; color: #ffffff; padding: 2px 0px">
-											<td>&nbsp;បរិយាយ<br>DESCRIPTION&nbsp;</td>
+											<td style="font-size:11px !important;">&nbsp;បរិយាយ<br>DESCRIPTION&nbsp;</td>
 											<td>&nbsp;ប្រភេទ<br>MODEL&nbsp;</td>
-											<td>&nbsp;កម្លាំងម៉ាស៊ីន<br>POWER&nbsp;</td>
-											<td>&nbsp;ពណ៏<br>COLOR&nbsp;</td>
-											<td>&nbsp;លេខម៉ាស៊ីន<br>ENGNE N<sup>0</sup>&nbsp;</td>
-											<td>&nbsp;លេខតូ<br>FRAME N<sup>0</sup>&nbsp;</td>
+											<td>&nbsp;<span style="white-space: nowrap;">កម្លាំងម៉ាស៊ីន</span><br>POWER&nbsp;</td>
+											<td>&nbsp;ពណ៌<br>COLOR&nbsp;</td>
+											<td>&nbsp;<span style="white-space: nowrap;">លេខម៉ាស៊ីន</span><br>ENGNE N<sup>0</sup>&nbsp;</td>
+											<td>&nbsp;លេខតួ<br><span style="white-space: nowrap;">FRAME N<sup>0</sup></span>&nbsp;</td>
 											<td style="min-width: 100px;">&nbsp;តម្លៃ<br>PRICE&nbsp;</td>
 										</tr>		
 									</thead>
 									<tbody>	
 										<tr style="line-height:16px; font-size:10px; ">
-											<td align="center">&nbsp;<span id="LBDescription"></span>&nbsp;</td>
-											<td align="center">&nbsp;<span id="LBModel"></span>&nbsp;</td>
-											<td>&nbsp;<span id="LBPower"></span>&nbsp;</td>
-											<td>&nbsp;<span id="LBColor"></span>&nbsp;</td>
-											<td align="center">&nbsp;<span id="LBEngineNo"></span>&nbsp;</td>
-											<td align="right" >&nbsp;<span id="LBFrameNo"></span>&nbsp;</td>
-											<td align="right">&nbsp;<span id="LBPrice"></span>&nbsp;</td>
+											<td align="center">&nbsp;<?php echo $rs['item_name'];?>&nbsp;</td>
+											<td align="center">&nbsp;<?php echo $rs['cate_name'];?>&nbsp;</td>
+											<td>&nbsp;<?php echo $rs['power'];?>&nbsp;</td>
+											<td>&nbsp;<?php echo $rs['color'];?>&nbsp;</td>
+											<td align="center">&nbsp;<?php echo $rs['engine'];?>&nbsp;</td>
+											<td align="right" >&nbsp;<?php echo $rs['frame'];?>&nbsp;</td>
+											<td align="right">&nbsp;<strong><?php echo number_format($rs['selling_price'],2);?></strong>&nbsp;</td>
 										</tr>
 										 <tr style="line-height:16px; font-size:10px; " >
 											<td align="center">&nbsp;&nbsp;</td>
@@ -150,7 +156,7 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase Detail"));
 											<td align="right">&nbsp;&nbsp;</td>
 											<td align="right">&nbsp;&nbsp;</td>
 										</tr>
-										<tr style="line-height:16px; font-size:12px; " >
+										<tr style="line-height:16px; font-size:11px; " >
 											<td valign="top" colspan="4" rowspan="3" style="border-left: 1px solid #ffffff; border-bottom:#fff solid 1px; padding: 5px 3px;">
 												<p style="font-size: 10px; text-align: left; line-height: 22px;  color: red;  font-family:'Times New Roman','Khmer OS Muol Light';">
 												<span style="text-decoration: underline;">ចំណាំៈ</span>
@@ -159,16 +165,16 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase Detail"));
 												<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-NO REFUND
 												</p>
 											</td>	
-											<td colspan="2" align="right" style="font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">សរុប/TOTAL:&nbsp;&nbsp;</td>
-											<td align="right"  style="font-size:14px; line-height:28px; background-color: #D2B4DE; " >&nbsp;<span id="LBTotal"></span>&nbsp;</td>
+											<td colspan="2" align="right" style="font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">សរុប/TOTAL:$&nbsp;&nbsp;</td>
+											<td align="right"  style="font-size:12px; line-height:28px; background-color: #D2B4DE; " >&nbsp;<?php echo number_format($rs['selling_price'],2);?>&nbsp;</td>
 										</tr>
-										<tr style="line-height:28px; font-size:14px;">
-											<td colspan="2" align="right" style=" font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">&nbsp;ប្រាក់កក់/DEPOSIT:&nbsp;</td>
-											<td align="right" style="background-color: #D2B4DE;" >&nbsp;<span id="LBDeposit"></span>&nbsp;</td>
+										<tr style="line-height:28px; font-size:12px;">
+											<td colspan="2" align="right" style=" font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';">&nbsp;ប្រាក់កក់/DEPOSIT:$&nbsp;</td>
+											<td align="right" style="background-color: #D2B4DE;" >&nbsp;<?php echo number_format($rs['paid'],2);?>&nbsp;</td>
 										</tr>	
-										<tr style="line-height:28px; font-size:14px; ">
-											<td colspan="2" align="right" style=" font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';" >&nbsp;នៅខ្វះ/BALANCE DUE:&nbsp;</td>
-											<td align="right" style="background-color: #D2B4DE;" >&nbsp;<span id="LBBalance"></span>&nbsp;</td>
+										<tr style="line-height:28px; font-size:12px; ">
+											<td colspan="2" align="right" style=" font-size:10px; border-bottom:#fff solid 1px; border-left:#fff solid 1px; color: blue; font-family:'Times New Roman','Khmer OS Muol Light';" >&nbsp;នៅខ្វះ/BALANCE DUE:$&nbsp;</td>
+											<td align="right" style="background-color: #D2B4DE;font-size: 12px;font-weight: bold;" >&nbsp;<?php echo number_format($rs['balance'],2);?>&nbsp;</td>
 										</tr>
 									</tbody>
 								</table>
@@ -184,7 +190,7 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase Detail"));
 								<table  style=" text-align: center; width:100%;">
 									<tr style="font-size: 10px;">
 										<td style="width:50%; color: blue; text-align:center; font-size: 12px; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;"><td>&nbsp;</td>
-										<td style=" width:50%; color: blue; text-align:center; font-size: 12px; font-weight:200;">ថ្ងៃ ទី<span class="labelBorderBottom" style="min-width: 25%;"><span class="labelValue" id="LBDate"></span></span>ខែ<span class="labelBorderBottom" style="min-width: 25%;"><span class="labelValue" id="LBMonth"></span></span>ឆ្នាំ <span class="labelBorderBottom" style="min-width: 15%;"><span class="labelValue" id="LBYear"></span></span></td>
+										<td style=" width:50%; color: blue; text-align:center; font-size: 12px; font-weight:200;">ថ្ងៃ ទី<span class="labelBorderBottom" style="min-width: 25%;"><?php echo date("d",strtotime($rs['date_sold']));?></span>ខែ<span class="labelBorderBottom" style="min-width: 25%;"><?php echo date("m",strtotime($rs['date_sold']));?></span>ឆ្នាំ <span class="labelBorderBottom" style="min-width: 15%;"><?php echo date("Y",strtotime($rs['date_sold']));?></span></td>
 								   </tr>
 									<tr style="font-size: 10px;">
 										<td style="width:50%; color: blue; text-align:center; font-size: 10px; font-family:'Times New Roman','Khmer OS Muol Light';font-weight:200;white-space: nowrap; ">ស្នាមមេដៃអ្នកទិញ  / <strong>CUSTOMER'S THUMB PRINT</strong><td>&nbsp;</td>

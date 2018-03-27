@@ -31,7 +31,6 @@
 				dijit.byId('member').focus();
 				return false;
 			}
-				dijit.byId('savenew').set('disabled',true);
 			    dijit.byId('saveclose').set('disabled',true);
 				return true;
 			}else {
@@ -49,7 +48,7 @@
 						<tr>
 					        <td><?php echo $tr->translate("BRANCH_NAME")?></td>
 							<td><?php echo $frm->getElement('branch_id');?>
-								<input type="hidden" value="<?php echo $this->datarow['id'];?>" />
+								<input type="hidden" name="id" id="id" value="<?php echo $this->datarow['id'];?>" />
 							</td>
 					    </tr>
 					    <tr>
@@ -73,7 +72,16 @@
 						</tr>
 						<tr>
 							<td></td>
-							<td><input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
+							<td><input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td>
+								<select name="status_using" id="status_using" dojoType="dijit.form.FilteringSelect" class="fullside" required="true" autoComplete="false" queryExpr="*${0}*">
+								    <option value="1" label="Active" selected="selected"><?php echo $tr->translate("ACTIVE")?></option>
+								    <option value="0" label="Cancel"><?php echo $tr->translate("DEACTIVE")?></option>
+								</select>
+								<input type="hidden" name="old_status" id="old_status" dojoType="dijit.form.TextBox" />
 							</td>
 						</tr>
 				</table>
@@ -109,6 +117,10 @@
 			 		<td><?php echo $tr->translate('លេខតួ');?></td>
 			 		<td><input dojoType="dijit.form.TextBox" class="fullside"  name="frame" id="frame" value="" type="text"></td>
 			 	</tr>
+			 	<tr>
+			 		<td><strong><?php echo $tr->translate('ស្លាកលេខ');?></strong></td>
+			 		<td><input dojoType="dijit.form.TextBox" class="fullside"  name="frame_no" id="frame_no" value="" type="text"></td>
+			 	</tr>
 			 </table>			 
 			</fieldset>
 		</td>
@@ -118,7 +130,7 @@
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
 						<tr>
 					 		<td><strong><?php echo $tr->translate('ថ្ងៃលក់');?></strong></td>
-					 		<td><input constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="date_sold" id="date_sold" ></td>
+					 		<td><input onchange="setFirstPaymentAndDateLine();" constraints="{datePattern:'dd/MM/yyyy'}" dojoType="dijit.form.DateTextBox" class="fullside" value="now" name="date_sold" id="date_sold" ></td>
 					 	</tr>
 						<tr>
 					 		<td><strong><?php echo $tr->translate('តម្លៃលក់');?></strong></td>
@@ -162,7 +174,7 @@
 					 	</tr>
 					 	<tr>
 					 		<td><?php echo $tr->translate('រយះពេលខ្ចី(ខែ)');?></td>
-					 		<td><input onkeyup="calCulateEndDate();" dojoType="dijit.form.NumberTextBox" class="fullside"  name="duration" id="duration" ></td>
+					 		<td><input onkeyup="calCulateFirstPayment();" dojoType="dijit.form.NumberTextBox" class="fullside"  name="duration" id="duration" ></td>
 					 	</tr>
 					 	<tr>
 					    	<td><strong><?php echo $tr->translate("REPAYMENT_TYPE")?></strong></td>
@@ -188,10 +200,8 @@
 		<td align="center" colspan="4">
 			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
 				 iconClass="dijitIconClear"/>
-			<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
+			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
 				 iconClass="dijitIconDelete"/>
-			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"  
-				 iconClass="dijitIconNewTask"/>
 			<input type="button" onclick="addPreviewLoan();" label="<?php echo $tr->translate("PREVIEW_SCHEDULE")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
 				 iconClass="dijitIconNewTask"/>
 		 <input type="button" onclick="showInvoice();" label="<?php echo $tr->translate("PREVIEW_INVOICE")?>" name='savenew' value='savenew' dojoType="dijit.form.Button"
@@ -284,7 +294,7 @@
 																</tr>
 																<tr align="left">
 																	<td style="width: 30%; font-size: 12px;">ស្លាកលេខ</td>
-																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;</td>
+																	<td style="background-color: #D2B4DE  ; width: 70%;">&nbsp;<span id="lblframe_no"></span></td>
 																</tr>
 															</table>
 														</td>
@@ -405,7 +415,7 @@
 </style>
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'កាលវិភាគត្រូវបង់ប្រាក់', onCancel:hideDialog" id="frm_client" style="width:1000px">
 	<div id="rpt_print" class="print" style="text-align:center;">
-		<input type="button" onclick="submitDataClose(1);" label="<?php echo $tr->translate("SAVECLOSE");?>" name='save_close' id='save_close' value='saveclose' dojoType="dijit.form.Button"
+		<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='save_close' id='save_close' value='saveclose' dojoType="dijit.form.Button"
 					 iconClass="dijitIconDelete"/>
 		<input type="button" onclick="showInvoice();" label="<?php echo $tr->translate("PREVIEW_INVOICE");?>" id='saveprint' name='saveprint' value='saveprint' dojoType="dijit.form.Button"
 		iconClass="dijitIconNewTask"/>
@@ -447,6 +457,8 @@ function showInvoice(){
 		dojo.byId('LBTotal').innerHTML=dijit.byId('selling_price').get('value');
 		dojo.byId('LBDeposit').innerHTML=dijit.byId('paid').get('value');
 		dojo.byId('LBBalance').innerHTML=dijit.byId('balance').get('value');
+		dojo.byId('lblframe_no').innerHTML=dijit.byId('frame_no').get('value');
+		
 		release_date = dijit.byId('paid_date').get('value');
 		var a = new Date(release_date);
 	
@@ -527,11 +539,11 @@ var client_number_store  = getDataStorefromJSON('id','name', [] );
 var pro_store  = getDataStorefromJSON('id','name');
 require(["dojo/ready"], function(ready){
 	 ready(function(){
-		//setFirstPaymentAndDateLine(3,<?php //echo date('Y-m-d');?>,1);
 		changeCollectType();
 		dijit.byId("branch_id").attr("value",<?php echo $this->datarow['branch_id'];?>);
 		dijit.byId("sale_no").attr("value",'<?php echo $this->datarow['sale_no'];?>');
-		
+		dijit.byId("status_using").attr("value",'<?php echo $this->datarow['status'];?>');
+		dijit.byId("old_status").attr("value",'<?php echo $this->datarow['status'];?>');
 		dijit.byId("note").attr("value",<?php echo $this->datarow['sell_remark'];?>);
 		dijit.byId("category_id").attr("value",<?php echo $this->datarow['cate_id'];?>);
 		dijit.byId("product_name").attr("value",<?php echo $this->datarow['product_id'];?>);
@@ -539,7 +551,8 @@ require(["dojo/ready"], function(ready){
 		dijit.byId("color").attr("value",'<?php echo $this->datarow['color'];?>');
 		dijit.byId("engine").attr("value",'<?php echo $this->datarow['engine'];?>');
 		dijit.byId("frame").attr("value",'<?php echo $this->datarow['frame'];?>');
-
+		dijit.byId("frame_no").attr("value",'<?php echo $this->datarow['frame_no'];?>');
+		
 		dijit.byId("date_sold").attr("value",'<?php echo $this->datarow['date_sold'];?>');
 		dijit.byId("selling_price").attr("value",'<?php echo $this->datarow['selling_price'];?>');
 		dijit.byId("selling_type").attr("value",'<?php echo $this->datarow['selling_type'];?>');
@@ -710,22 +723,7 @@ function changeCollectType(){
 }
 var getloan_level = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'get-loanlevel')); ?>';
 function getLoanLevel(client_id){
-	   if(client_id==''){
-		   return false;}
-		dojo.xhrPost({
-	    url: getloan_level,	
-	    content : { 
-	    	'client_id': client_id,
-	    	'type':1
-		},	    
-		handleAs:"json", 
-		load: function(data) {	
-			customer_code = dijit.byId("customer_code").attr('displayedValue');
-			dijit.byId('sale_no').attr('value',customer_code+'-'+data);
-		},
-		error: function(err) {
-		}
-	});
+	   return false;
 }
 </script>
 <?php 
@@ -894,50 +892,6 @@ function showPopupclient(){
 function loading(){
     document.getElementsByClassName("overlay")[0].style.display="block";
 }
-function submitDataClose(type){
-	client = dijit.byId('member').get('value');
-   branch_id = dijit.byId('branch_id').get('value');
-    if (branch_id=='' || branch_id==-1){
-  	   alert('Please Select Branch Name!');
-	   dijit.byId('branch_id').focus();
-	   return false;
-    }
-	if (client=='' || client==-1){
-		alert('Please Select Client Name !');
-		dijit.byId('member').focus();
-		return false;
-	}
-	
-	currency_type = dijit.byId('currency_type').get('value');
-	if(currency_type==1){
-		amount_loan = dijit.byId('total_amount').get('value');
-		if(amount_loan<10000){
-			alert('កម្ចីជាលុយរៀល ត្រូវតែធំជា 1ម៉ឺនរៀល!');
-        }
-    }
-	if(dijit.byId('frm_add_tran').validate()) {
-		dijit.byId('saveprint').set('disabled',true);
-		dijit.byId('saveclose').set('disabled',true);
-		dijit.byId('save_close').set('disabled',true);
-		dijit.byId('savenew').set('disabled',true);
-		var url_submit = '<?php echo $this->url(array('module'=>'installment','controller'=>'index','action'=>'submitloan')); ?>';
-		dojo.xhrPost({
-		    url: url_submit,	
-			form: dojo.byId("frm_add_tran"),	
-			handleAs:"json",	    
-			load: function(data) {
-				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-				if(type==1){
-					window.location.href ="<?php echo $this->baseUrl();?>/installment/index";
-				}else{
-					//window.location.href ='<?php echo $this->baseUrl().'/report/loan/rpt-paymentschedules/id/'?>'+data;
-				}
-			},
-			error: function(e) {
-			}
-		});
-	}
-}
 function getRefreshGroup(){
 	filterClient();
 	loading();
@@ -993,7 +947,7 @@ function getProductInfo(){
 			alert(err);
 		}
 	});
-  }
+ }
 </script>
 <style>
 .overlay {display: none;position: absolute;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}

@@ -208,10 +208,8 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
     	}catch (Exception $e){
     		$db->rollBack();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e);
-    		echo $e->getMessage();exit();
     	}
     }
-    
     public function getProductInfoDetail($id){//for view item detail
     	$db=$this->getAdapter();
     	$sql = "SELECT p.pro_id,p.cate_id,p.stock_type,p.item_name,p.item_code,p.price_per_qty,p.brand_id,

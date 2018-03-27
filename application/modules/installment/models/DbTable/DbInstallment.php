@@ -65,8 +65,7 @@ public function getAllSale($search,$reschedule =null){
 			`ln_ins_sales_install` AS l,
 			`ln_ins_product` AS p 
 			WHERE 
-		    l.product_id = p.id
-			AND l.status=1 ";
+		    	l.product_id = p.id ";
 		if(!empty($search['adv_search'])){
 			$s_where = array();
 			$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
@@ -79,9 +78,9 @@ public function getAllSale($search,$reschedule =null){
 			$s_where[] = "REPLACE(l.sell_remark,' ','')  LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
 		}
-// 		if($search['status']>-1){
-// 			$where.= " AND l.status = ".$search['status'];
-// 		}
+		if($search['status']>-1){
+			$where.= " AND l.status = ".$search['status'];
+		}
 		if(($search['member'])>0){
 			$where.= " AND l.customer_id=".$search['member'];
 		}
@@ -121,6 +120,7 @@ public function addSaleInstallment($data){
 				'color'=>$data['color'],
 				'engine'=>$data['engine'],
 				'frame'=>$data['frame'],
+				'frame_no'=>$data['frame_no'],
 				'cost_price'=>$rsproduct['cost_price'],
 				'selling_price'=>$data['selling_price'],
 				'paid'=>$data['paid'],
@@ -136,6 +136,7 @@ public function addSaleInstallment($data){
 				'duration'=>$data['duration'],
 				'user_id'=>$this->getUserId(),
 				'date_sold'=>$data['date_sold'],
+				'paid_date'=>$data['paid_date'],
 		);
 		$this->_name='ln_ins_sales_install';
 		$loan_id = $this->insert($datagroup);//add group loan
@@ -235,7 +236,7 @@ public function addSaleInstallment($data){
 			for($i=1;$i<=$loop_payment;$i++){
 				$amount_collect = $data['amount_collect'];
 				if($payment_method==1){//decline//completed
-					$pri_permonth = $data['total_amount']/($borrow_term);
+					$pri_permonth = $data['total_amount']/($data['duration']);
 					$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
 					if($i!=1){
 						$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា}
@@ -350,18 +351,24 @@ function updateInstallmentById($data){
 	$db = $this->getAdapter();
 	$db->beginTransaction();
 	try{
+		$dbpo = new Installment_Model_DbTable_DbPurchase();
 		if($data['status_using']==0){
-		// 		$arr_update = array(
-		// 				'status'=>0
-		// 		);
-		// 		$where = ' status = 1 AND id = '.$data['id'];
-		// 		$this->update($arr_update, $where);
-		
-		// 		$this->_name='ln_loan_detail';
-		// 		$where = ' loan_id = '.$data['id'];
-		// 		$this->update($arr_update, $where);
-		// 		$db->commit();
-				return 1;
+			if($data['old_status']==1){
+					$arr_update = array(
+							'status'=>0
+					);
+					$where = ' status = 1 AND id = '.$data['id'];
+					$this->update($arr_update, $where);
+					
+					$dbpo->updateStock($data['old_prodcut'],$data['branch_id'],1);
+					
+					$this->_name='ln_ins_sales_installdetail';
+					$where = ' sale_id = '.$data['id'];
+					$this->update($arr_update, $where);
+					$db->commit();
+					
+			}
+			return 1;
 		}
 		
 		$dbtable = new Application_Model_DbTable_DbGlobal();
@@ -378,6 +385,7 @@ function updateInstallmentById($data){
 				'color'=>$data['color'],
 				'engine'=>$data['engine'],
 				'frame'=>$data['frame'],
+				'frame_no'=>$data['frame_no'],
 				'cost_price'=>$rsproduct['cost_price'],
 				'selling_price'=>$data['selling_price'],
 				'paid'=>$data['paid'],
@@ -399,7 +407,7 @@ function updateInstallmentById($data){
 		$this->update($datagroup, $where);
 		unset($datagroup);
 		
-		$dbpo = new Installment_Model_DbTable_DbPurchase();
+		
 		$dbpo->updateStock($data['old_prodcut'],$data['branch_id'],-1);
 		$dbpo->updateStock($data['product_name'],$data['branch_id'],1);
 		
@@ -504,7 +512,7 @@ function updateInstallmentById($data){
 			for($i=1;$i<=$loop_payment;$i++){
 				$amount_collect = $data['amount_collect'];
 				if($payment_method==1){//decline//completed
-					$pri_permonth = $data['total_amount']/($borrow_term);
+					$pri_permonth = $data['total_amount']/($data['duration']);
 					$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
 					if($i!=1){
 						$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា}
@@ -644,7 +652,7 @@ public function previewschedule($data){
 			for($i=1;$i<=$loop_payment;$i++){
 				$amount_collect = $data['amount_collect'];
 				if($payment_method==1){//decline//completed
-					$pri_permonth = $data['total_amount']/($borrow_term);
+					$pri_permonth = $data['total_amount']/($data['duration']);
 					$pri_permonth = $this->round_up_currency($curr_type, $pri_permonth);
 					if($i!=1){
 							$remain_principal = $remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា}

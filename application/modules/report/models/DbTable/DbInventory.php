@@ -131,31 +131,34 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     function getSaleInventoryById($id){
     	$db= $this->getAdapter();
     	$sql="
-    	SELECT
-    	(SELECT client_number FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) AS client_number,
-    	(SELECT name_kh FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) AS client_name_kh,
-    	(SELECT phone FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) AS phone,
-    	(SELECT sex FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) AS sex,
-    	(SELECT dob FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) AS dob,
-    	(SELECT nation_id FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) AS nation_id,
-    	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = (SELECT village_id FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) ) limit 1) AS `village_name`,
-		(SELECT `c`.`commune_namekh` FROM `ln_commune` `c` WHERE (`c`.`com_id` = (SELECT com_id FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1)) LIMIT 1) AS `commune_name`,
-		(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = (SELECT dis_id FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1)) LIMIT 1) AS `district_name`,
-		(SELECT province_kh_name FROM `ln_province` WHERE province_id= (SELECT pro_id FROM `ln_ins_client` WHERE client_id = s.customer_id LIMIT 1) LIMIT 1) AS province_kh_name,
-    	(SELECT c.name FROM `ln_ins_producttype` AS  c WHERE c.id=p.`cate_id` LIMIT 1) AS catName,
-    	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_namekh,
-    	p.item_name,
-    	p.`item_code`,
-    	(SELECT name_en FROM `ln_view` WHERE TYPE = 29 AND key_code =s.selling_type LIMIT 1) AS sellingTypeTitle,
-    	(SELECT payment_nameen FROM `ln_payment_method` WHERE id = s.payment_method LIMIT 1) AS paymentMethodTitle,
-    	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = s.user_id LIMIT 1) AS user_name,
-    	s.*
-    	FROM `ln_ins_sales_install` AS s,
-    	`ln_ins_product` AS p
-    	WHERE
-    	s.product_id = p.id
-    	AND s.`status` =1 AND s.id = $id limit 1
-    	";
+	    	SELECT
+	    	c.client_number AS client_number,
+	    	c.name_kh AS client_name_kh,
+	    	c.phone AS phone,
+	    	c.sex AS sex,
+	    	c.dob AS dob,
+	    	(SELECT name_kh FROM `ln_view` WHERE TYPE = 23 AND id =c.client_d_type LIMIT 1) AS document_type,
+	    	c.nation_id AS nation_id,
+	    	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE `ln_village`.`vill_id` = c.village_id Limit 1) AS `village_name`,
+			(SELECT `c`.`commune_namekh` FROM `ln_commune` `c` WHERE `c`.`com_id` = c.com_id  LIMIT 1) AS `commune_name`,
+			(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE `d`.`dis_id` = c.dis_id LIMIT 1) AS `district_name`,
+			(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id LIMIT 1) AS province_kh_name,
+	    	(SELECT cc.name FROM `ln_ins_producttype` AS  cc WHERE cc.id=p.`cate_id` LIMIT 1) AS catName,
+	    	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_namekh,
+	    	p.item_name,
+	    	(SELECT cate.name FROM `ln_ins_category` AS cate WHERE cate.id=p.cate_id LIMIT 1) as cate_name,
+	    	p.`item_code`,
+	    	(SELECT name_en FROM `ln_view` WHERE TYPE = 29 AND key_code =s.selling_type LIMIT 1) AS sellingTypeTitle,
+	    	(SELECT payment_nameen FROM `ln_payment_method` WHERE id = s.payment_method LIMIT 1) AS paymentMethodTitle,
+	    	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = s.user_id LIMIT 1) AS user_name,
+	    	s.*
+	    	FROM `ln_ins_sales_install` AS s,
+	    	`ln_ins_product` AS p,
+	    	ln_ins_client AS c
+	    	WHERE
+	    	s.product_id = p.id
+	    	AND c.client_id = s.customer_id
+	    	AND s.`status` =1 AND s.id = $id limit 1";
     	return $db->fetchRow($sql);
     }
     function getSaleInventorySchedule($saleID){

@@ -120,7 +120,7 @@ public function init()
 			
 		array_unshift($row_cat,array(
 				'id' => -1,
-				'name' => 'Add New',
+				'name' => 'បន្ថែមថ្មី',
 		) );
 		$this->view->rs_cate=$row_cat;
 		$db = new Application_Model_GlobalClass();

@@ -13,23 +13,19 @@
 function createTable() {
     // Get the data
 	var excelData = document.getElementById('csv').value;
-	
     // split into rows
     excelRow = excelData.split(String.fromCharCode(10));
     // split rows into columns
     for (i=0; i<excelRow.length; i++) {
         excelRow[i] = excelRow[i].split(String.fromCharCode(9));
     }
-	
 	// start to create the HTML table
 	var myTable = document.createElement("table");
 	var myTbody = document.createElement("tbody");
-	
 	// Loop over the rows
     for (i=0; i<excelRow.length - 1; i++) {
 		// create a row in the HTML table
 		var myRow = document.createElement("tr");
-		
 		// Loop over the columns and add TD to the TR
 		for (j=0; j<excelRow[i].length; j++) {
 			// Loop over the row columns
@@ -48,7 +44,6 @@ function createTable() {
 	}
 	myTable.appendChild(myTbody);
     document.body.appendChild(myTable);
-	
 }
 </script>
 <textarea id="csv" placeholder="Paste XLSX content here" style="width: 300px; height: 100px;"></textarea><br/>

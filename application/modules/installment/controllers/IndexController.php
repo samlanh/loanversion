@@ -96,6 +96,38 @@ class Installment_IndexController extends Zend_Controller_Action {
 		$db = new Setting_Model_DbTable_DbLabel();
 		$this->view->setting=$db->getAllSystemSetting();
 	}
+	public function editAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			try{
+				$_dbmodel = new Installment_Model_DbTable_DbInstallment();
+				$_dbmodel->updateInstallmentById($_data);
+				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/installment/index");
+			}catch (Exception $e) {
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				Application_Model_DbTable_DbUserLog::writeMessageError($err =$e->getMessage());
+			}
+		}
+		$id = $this->getRequest()->getParam('id');
+		$db_g = new Application_Model_DbTable_DbGlobal();
+	
+		$db = new Installment_Model_DbTable_DbInstallmentPayment();
+		$row = $db->getSaleinstallbyid($id);
+		$frm = new Installment_Form_FrmLoan();
+		$frm_loan=$frm->FrmAddLoan();
+		Application_Model_Decorator::removeAllDecorator($frm_loan);
+		$this->view->frm_loan = $frm_loan;
+		$this->view->datarow = $row;
+	
+		$db = new Installment_Model_DbTable_DbProduct();
+		$row_cat = $db->getCategory();
+			
+		array_unshift($row_cat,array(
+				'id' => -1,
+				'name' => 'ជ្រើសរើសប្រភេទផលិតផល',
+		) );
+		$this->view->rs_cate=$row_cat;
+	}
 	function getreceiptnumberAction(){
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
@@ -126,38 +158,6 @@ class Installment_IndexController extends Zend_Controller_Action {
 // 			exit();
 // 		}
 // 	}
-	public function editAction(){
-		if($this->getRequest()->isPost()){
-			$_data = $this->getRequest()->getPost();
-			try{
-				$_dbmodel = new Installment_Model_DbTable_DbInstallment();
-				$_dbmodel->updateInstallmentById($_data);
-				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/installment/index");
-			}catch (Exception $e) {
-				Application_Form_FrmMessage::message("INSERT_FAIL");
-				Application_Model_DbTable_DbUserLog::writeMessageError($err =$e->getMessage());
-			}
-		}
-		$id = $this->getRequest()->getParam('id');
-		$db_g = new Application_Model_DbTable_DbGlobal();
-
-		$db = new Installment_Model_DbTable_DbInstallmentPayment();
-		$row = $db->getSaleinstallbyid($id);
-		$frm = new Installment_Form_FrmLoan();
-		$frm_loan=$frm->FrmAddLoan();
-		Application_Model_Decorator::removeAllDecorator($frm_loan);
-		$this->view->frm_loan = $frm_loan;
-		$this->view->datarow = $row;
-		
-		$db = new Installment_Model_DbTable_DbProduct();
-		$row_cat = $db->getCategory();
-			
-		array_unshift($row_cat,array(
-				'id' => -1,
-				'name' => 'ជ្រើសរើសប្រភេទផលិតផល',
-		) );
-		$this->view->rs_cate=$row_cat;
-	}
 	public function viewAction(){
 		$id = $this->getRequest()->getParam('id');
 		$db_g = new Application_Model_DbTable_DbGlobal();
