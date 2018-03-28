@@ -39,7 +39,7 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllIndividuleLoan($search);
 			$result = array();
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","RECIEPT_NO","TOTAL_PRINCEPLE","TOTAL_INTEREST","PENALIZE AMOUNT","SERVICE_CHARGE","RECEIVE_AMOUNT","PAY_DATE","DATE","CO_NAME","DELETE"
+			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","RECIEPT_NO","TOTAL_PRINCEPLE","TOTAL_INTEREST","PENALIZE AMOUNT","SERVICE_CHARGE","RECEIVE_AMOUNT","PAY_DATE","DATE","CO_NAME","DELETE","PAYMENT_RECEIPT"
 				);
 			$link=array(
 					'module'=>'loan','controller'=>'payment','action'=>'edit',
@@ -47,7 +47,13 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			$link1=array(
 					'module'=>'loan','controller'=>'payment','action'=>'delete',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('delete'=>$link1));
+			$link2=array(
+					'module'=>'report','controller'=>'loan','action'=>'recieptpayment',
+			);
+			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+			$delete = $tr->translate("DELETE");
+			$reciept = $tr->translate("PAYMENT_RECEIPT");
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array($delete=>$link1,$reciept=>$link2));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();

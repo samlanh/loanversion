@@ -2031,7 +2031,13 @@ AND cl.client_id = $client_id )";
       		return $db->fetchAll($sql.$where.$order);
       
       }
-      
+      public function getLoanPaymentById($id){
+      	$db = $this->getAdapter();
+      	$sql="SELECT v.* FROM v_getcollectmoney AS v WHERE v.status=1
+		AND v.`id` = $id LIMIT 1";
+      	return $db->fetchRow($sql);
+      }
+      		
       
  }
 

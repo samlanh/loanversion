@@ -25,6 +25,11 @@ $level =$session_user->level;
    	</tr>
 </table>
 </form>
+<style>
+.noneprint{
+	display: table-cell !important; 
+}
+</style>
 <div style="width:100%; margin:0 auto;">
 <div style="min-width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 <div id="divPrint">
@@ -42,7 +47,10 @@ table { page-break-inside:auto }
   display: table-header-group;
   page-break-inside:avoid; page-break-after:auto;
 }
-
+				a.repLink.btn {
+				    color: #008;
+				    font-weight: 600;
+				}
 </style>
 <table width="100%">
 	<tr>
@@ -86,6 +94,7 @@ table { page-break-inside:auto }
 	                    <td rowspan="2"><?php echo $tr->translate("CLIENT_NUM");?></td>                  
 	                    <td rowspan="2"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
 	                    <td rowspan="2"><?php echo $tr->translate("CO_NAME");?></td>
+	                    
 	                    <?php 
 							$colspan=5;
 						?>
@@ -96,6 +105,7 @@ table { page-break-inside:auto }
 	                    <td rowspan="2"><?php echo $tr->translate("RECIEPT_NO");?></td>
 	                    <td rowspan="2"><?php echo $tr->translate("PAYMENT_OPTION");?></td>
 	                    <td rowspan="2"><?php echo $tr->translate("BY_USER");?></td>
+	                    <td rowspan="2" class="noneprint" style="display: none;"><?php //echo $tr->translate("EDIT");?></td>
 	                </tr>
 	                <tr class="style" style="white-space: nowrap;">
 	                	<td align="center"><?php echo $tr->translate("PAID_PRINCIPAL");?></td> 
@@ -157,6 +167,10 @@ table { page-break-inside:auto }
                		<td>&nbsp;<?php echo $rs["receipt_no"];?>&nbsp;</td>
                		<td style="font-site:9px; <?php if($rs["payment_option"]==4){echo " background:#ccc";} ?>" align="center" >&nbsp;<?php echo @$opt[$rs["payment_option"]];?>&nbsp;</td>
                		<td>&nbsp;<?php echo $rs["user_name"]; ?>&nbsp;</td>
+               		
+               		<td class="noneprint" style="display: none;" align="left">
+						<a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"loan","action"=>'recieptpayment','id'=>$rs['id']))?>" title="<?php echo $tr->translate("PAYMENT_RECEIPT");?>"><?php echo $tr->translate("PAYMENT_RECEIPT");?></a>
+					</td>
                 </tr>
                 <?php }?>
             </table>

@@ -1296,5 +1296,13 @@ function rptLoanTrasferzoneAction(){//release all loan
 	$key = new Application_Model_DbTable_DbKeycode();
 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  }
+ function recieptpaymentAction(){
+ 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	$id =$this->getRequest()->getParam('id');
+ 	$id = empty($id)?0:$id;
+ 	$this->view->loanPayment = $db->getLoanPaymentById($id);
+ }
 }
 

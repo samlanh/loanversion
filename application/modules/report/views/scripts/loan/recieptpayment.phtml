@@ -1,0 +1,218 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$frm = $this->frm_search;
+$opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលោះប្រាក់ដើម",4=>"បង់ផ្តាច់");
+$session_user=new Zend_Session_Namespace('authloan');
+$level =$session_user->level;
+$loanPayment = $this->loanPayment;
+$data = $this->data;
+// print_r($loanPayment);
+?>
+<title><?php echo $tr->translate("PAYMENT_RECEIPT");?></title>
+<script>
+     dojo.require("dijit.form.DateTextBox");
+</script>
+
+<div style="width:100%; margin:0 auto;">
+	<div style="min-width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+		<div id="divPrint">
+			<style type="text/css">
+				
+				td.bgBorderColor {
+				    height: 5px;
+				    border-top: solid 1px #133b84;
+				}
+				span.lbtitle {
+				    min-width: 100px;
+				    display: inline-block;
+				}
+				span.value{ line-height:12px; min-width:80px; display: inline-block; text-align: center; padding: 0 2px;}
+				span.border_bt.value {
+				    border-bottom: dashed 1px #000; padding: 0 10px;
+				}
+				span.borderCo.value {
+				    border: 1px solid #133b84;
+				    min-height: 35px;
+				    width: 100%;
+				}
+				td.lbtitlev {
+				    padding-left: 14px;
+				}
+				span.borderCo.value label {
+				    line-height: 34px;
+				}
+				table tr td{
+					color: #133b84 !important;
+				}
+		         table table tr td ul li{text-align: center;list-style: none;line-height: 20px; font-weight: bold;}
+			</style>
+			<table width="100%">
+				<tr>
+			    	<td align="center" valign="top">
+					<table  cellspacing="10" style=" color: #133b84 !important; width:25cm; max-height:14.85cm; white-space:nowrap; font-family:'Khmer OS Battambang'; font-size: 10px; ">
+						 <tr valign="top">
+							<td align="center" colspan="6" valign="top" height="80">	
+								   <table  cellpadding="0" cellspacing="0" style="font-family: 'Times New Roman','Khmer OS Battambang';padding:0; width:100%;white-space:nowrap;">
+								   		<tr style="line-height:10px;">
+								   			<td width="28%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" style="padding-left: 8px;height: 90px;"></td>
+								   			<td valign="top">
+									   			<ul style="padding-top: 5px; ">
+						                			<li style=" line-height: 25px; text-align:center; font-size:18px !important; font-family:'Times New Roman','Khmer MEF2'"><?php echo $data['client_company_name'];//$tr->translate("BRAND_TITLE");?></li>
+						                			<li style=" line-height: 25px; text-align:center; font-size:16px !important; font-family:'Times New Roman','Khmer MEF2'"><?php echo $tr->translate("PAYMENT_RECEIPT");?></li>
+						                			<li style=" line-height: 25px; text-align:center; font-size:16px !important;font-family:'Times New Roman'; font-weight: bold;">PAYMENT RECEIPT</li>
+						                		</ul>
+							                </td>
+							                <td width="28%" valign="bottom">
+							                	<ul style="padding-top: 5px;">
+						                			<li style="text-align:left; font-size:14px !important; font-family:'Times New Roman','Khmer OS Battambang'"><span class="lbtitle">កាលបរិច្ឆេទ</span> : <span class=" value"><strong class="fonttel" style="font-size:12px;"><?php echo date('d/m/Y H:i:s');?></strong></span></li>
+						                			<li style="text-align:left; font-size:14px !important; font-family:'Times New Roman','Khmer OS Battambang'"><span class="lbtitle">បង្កាន់ដៃលេខ</span> : <span class=" value"><label style="color:#f90909" id="lbl_reciept_no"><?php echo $loanPayment['receipt_no'];?></label></span></li>
+						                		</ul>
+							                </td>
+										</tr>
+										<tr>
+			                				<td colspan="3">
+			<!--                 			  <table width="100%"> -->
+			<!-- 	                			<tr class='style'> 
+				                				<td class="style" style="font-size: 10px;" colspan="2">
+				                					<?php //echo $tr->translate("ADDRESS_COMPANY");?>
+													<?php //echo $tr->translate("TEL_COMPANY");?>
+			<!-- 	                				</td> -->
+			<!-- 	                				<td width="50%"></td> -->
+			<!-- 	                			</tr> -->
+			<!-- 		               			 </table> -->
+					                    	</td>
+					                   </tr>  
+								</table>
+							</td>
+				   		 </tr> 
+				    	<tr>
+				    		<td align="center" colspan="6" valign="top" height="80">	
+							   <table  cellpadding="2" style=" line-height: 30px;  font-family: 'Times New Roman','Khmer OS Battambang' ;font-size:16px !important;white-space:nowrap; width:24cm; margin: 0 auto;">
+									<tr class="fontsize">
+											<td class="lbtitlev" valign="top" width="17%">សាខា </td>
+											<td ><span class="borderCo value" ><label id="lbl_branch_id">&nbsp;<?php echo $loanPayment['branch_name'];?>&nbsp;</label></span></td>
+											<td class="lbtitlev">ប្រាក់ដើមគ្រានៅសល់ </td>
+											<td >
+												<span class="borderCo value" >
+													<label style="color:red" id="lbl_priciple_amount">&nbsp;<?php echo number_format($loanPayment['begining_balance'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+												</span>
+											</td>
+											<td class="lbtitlev">ចំនួនប្រាក់ត្រូវបង់សរុប</td>
+											<td >
+												<span class="borderCo value">
+													<label style="color:red" id="lbl_total_payment">&nbsp;<?php echo number_format($loanPayment['total_paymentpaid'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+												</span>
+											</td>
+									</tr>
+									<tr >
+											<td class="lbtitlev">លេខឥណទាន</td>
+											<td >
+												<span class="borderCo value">
+													<strong class="fonttel" ><label  id="lbl_loan_number">&nbsp;<?php echo $loanPayment['loan_number'];?>&nbsp;</label></strong>
+												</span>
+											</td>
+											<td class="lbtitlev">ប្រាក់ដើម ត្រូវបង់</td>
+											<td >
+												<span class="borderCo value" >
+													<label style="color:red" id="lbl_os_amount">&nbsp;<?php echo number_format($loanPayment['principal_amount'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+												</span>
+											</td>
+											<td class="lbtitlev">ប្រាក់បានទទួល</td>
+											<td >
+												<span class="borderCo value">
+													<label style="color:red" id="lbl_amount_receive">&nbsp;<?php echo number_format($loanPayment['amount_recieve'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+												</span>
+											</td>
+									</tr>
+									<tr>
+											<td class="lbtitlev">ឈ្មោះអតិថិជន</td>
+											<td >
+												<span class="borderCo value" >
+													<label id="lbl_group_member">&nbsp;<?php echo $loanPayment['client_name'];?>&nbsp;</label>
+												</span>
+											</td>
+											<td class="lbtitlev">បង់លើកទី</td>
+											<td >
+												<span class="borderCo value" >
+													<label id="lbl_paidTime">&nbsp;<?php echo $loanPayment['paid_times'];?>&nbsp;</label>
+												</span>
+											</td>
+											
+											<td class="lbtitlev">ការប្រាក់បានបង់</td>
+											<td >
+												<span class="borderCo value">
+													<label style="color:red" id="lbl_total_interest">&nbsp;<?php echo number_format($loanPayment['interest_paid'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+												</span>
+											</td>
+											
+									</tr>
+									<tr class="fontsize">
+											<td class="lbtitlev">ឈ្មោះមន្រ្តីឥណទាន</td>
+											<td >
+												<span class="borderCo value" >
+													<label id="lbl_co_id">&nbsp;<?php echo $loanPayment['co_name'];?>&nbsp;</label>
+												</span>
+											</td>
+											<td class="lbtitlev">ថ្ងៃបានបង់ប្រាក់</td>
+											<td >
+												<span class="borderCo value">
+													<label style="color:red" id="lbl_collect_date">&nbsp;<?php echo date("d/M/Y",strtotime($loanPayment['date_payment']));?>&nbsp;</label>
+												</span>
+											</td>
+											<td class="lbtitlev">ប្រាក់អាប់ </td>
+											<td >
+												<span class="borderCo value" style="min-width: 100px;">
+													<label style="color:red" id="lbl_amount_return">&nbsp;<?php echo number_format($loanPayment['return_amount'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+												</span>
+											</td>
+																
+									</tr>
+									<tr >
+											
+											<td class="lbtitlev">សំគាល់</td>
+											<td colspan="5">
+												<span class="borderCo value">
+													<label id="lbl_note">&nbsp;<?php echo $loanPayment['note'];?>&nbsp;</label>
+												</span>
+											</td>
+											
+									</tr >
+									<tr class="fontsize">
+										<td colspan="2"></td>
+										<td colspan="4" align="center" >
+											<table  width="100%" style="text-align:center; font-family: 'Times New Roman','Khmer MEF2'" >
+												<tr>
+													<td width="50%">បេឡាករ</td>
+													<td width="50%">ហត្ថលេខា និងឈ្មោះអតិថិជន</td>
+												</tr>
+												<tr>
+													<td colspan="2" style="height: 40px;"></td>
+												</tr>
+												<tr>
+													<td><span class=" value" style="min-width: 100px;" id="CurrentUserLBL"><?php echo $loanPayment['user_name'];?></span></td>
+													<td><span class=" value" style="min-width: 100px;" id="ClientLbl"><?php echo $loanPayment['client_name'];?></span></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="8" class="bgBorderColor"></td>
+									</tr>
+									<tr style="line-height: 20px;font-size: 11px;">
+										<td valign="top">
+											<span style="text-decoration:underline;font-size: 14px;">បញ្ជាក់ ៖</span>
+										</td>
+										<td colspan="5">
+											<span style="white-space: pre-line;font-size: 13px;"><?php echo $data['comment'];?></span>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</div>
+</div>
