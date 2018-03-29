@@ -533,6 +533,7 @@ public function addILPayment($data){
 	    	}
 
     		$db->commit();
+    		return $receipt_id;
     	}catch (Exception $e){
     		$db->rollBack();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -2152,6 +2153,13 @@ public function cancelIlPayment($data){
 			$sql="SELECT m.`loan_number` AS id,m.`loan_number` AS `name`,g.`branch_id` FROM `ln_loan_member` AS m,`ln_loan_group` AS g WHERE m.`group_id`= g.`g_id` AND g.`loan_type`=2 AND m.status=1 AND m.is_reschedule!=1 GROUP BY m.`loan_number` ";
 			return $db->fetchAll($sql);
 		}
+	}
+	
+	public function getLoanPaymentById($id){ //for add payment reciept get payment by reciept id
+		$db = $this->getAdapter();
+		$sql="SELECT v.* FROM v_getcollectmoney AS v WHERE v.status=1
+		AND v.`id` = $id LIMIT 1";
+		return $db->fetchRow($sql);
 	}
 }
 

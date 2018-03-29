@@ -255,7 +255,7 @@ fieldset{padding:10px;}
 			<td align="center" colspan="3">
 			  <input type="button" value="រក្សាទុក & បិទ" label="<?php echo $tr->translate('SAVECLOSE');?>" id="save_close" name="save_close" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" onclick="submitDataClose()"  />
-			   <input type="button" onClick="showReciept();" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVE_PRINT');?>" id="saveprint"  name="saveprint" dojoType="dijit.form.Button" 
+			   <input type="button" onClick="addPaymentByAjax();" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVE_PRINT');?>" id="saveprint"  name="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" />
 			    <input type="button" name="save_new" id="save_new" onclick="confirmBeforePrint();" value="រក្សាទុក" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" />
@@ -364,16 +364,16 @@ fieldset{padding:10px;}
 									<tr class="fontsize">
 											<td class="lbtitlev" valign="top" width="17%">សាខា </td>
 											<td ><span class="borderCo value" ><label id="lbl_branch_id">&nbsp;<?php //echo $loanPayment['branch_name'];?>&nbsp;</label></span></td>
-											<td class="lbtitlev">ប្រាក់ដើមគ្រានៅសល់ </td>
+											<td class="lbtitlev">ប្រាក់ដើមមុនបង់ </td>
 											<td >
 												<span class="borderCo value" >
 													<label style="color:red" id="lbl_priciple_amount">&nbsp;<?php //echo number_format($loanPayment['total_payment'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
 												</span>
 											</td>
-											<td class="lbtitlev">ចំនួនប្រាក់ត្រូវបង់សរុប</td>
+											<td class="lbtitlev">ប្រាក់ដើមបានបង់</td>
 											<td >
-												<span class="borderCo value">
-													<label style="color:red" id="lbl_total_payment">&nbsp;<?php //echo number_format($loanPayment['total_paymentpaid'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+												<span class="borderCo value" >
+													<label style="color:red" id="lbl_os_amount">&nbsp;<?php //echo number_format($loanPayment['principal_paid'],2);?>&nbsp;</label>
 												</span>
 											</td>
 									</tr>
@@ -384,13 +384,13 @@ fieldset{padding:10px;}
 													<strong class="fonttel" ><label  id="lbl_loan_number">&nbsp;<?php //echo $loanPayment['loan_number'];?>&nbsp;</label></strong>
 												</span>
 											</td>
-											<td class="lbtitlev">ប្រាក់ដើម ត្រូវបង់</td>
+											<td class="lbtitlev">ចំនួនប្រាក់ត្រូវបង់សរុប</td>
 											<td >
-												<span class="borderCo value" >
-													<label style="color:red" id="lbl_os_amount">&nbsp;<?php //echo number_format($loanPayment['principal_amount'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+												<span class="borderCo value">
+													<label style="color:red" id="lbl_total_payment">&nbsp;<?php //echo number_format($loanPayment['total_paymentpaid'],2);?>&nbsp;</label>
 												</span>
 											</td>
-											<td class="lbtitlev">ប្រាក់បានទទួល</td>
+											<td class="lbtitlev">ការប្រាក់បានបង់</td>
 											<td >
 												<span class="borderCo value">
 													<label style="color:red" id="lbl_amount_receive">&nbsp;<?php //echo number_format($loanPayment['amount_recieve'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
@@ -411,7 +411,7 @@ fieldset{padding:10px;}
 												</span>
 											</td>
 											
-											<td class="lbtitlev">ការប្រាក់បានបង់</td>
+											<td class="lbtitlev">ប្រាក់ពិន័យបានបង់</td>
 											<td >
 												<span class="borderCo value">
 													<label style="color:red" id="lbl_total_interest">&nbsp;<?php //echo number_format($loanPayment['interest_paid'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
@@ -432,9 +432,9 @@ fieldset{padding:10px;}
 													<label style="color:red" id="lbl_collect_date">&nbsp;<?php //echo date("d/M/Y",strtotime($loanPayment['date_payment']));?>&nbsp;</label>
 												</span>
 											</td>
-											<td class="lbtitlev">ប្រាក់អាប់ </td>
+											<td class="lbtitlev"style="min-width: 100px;font-weight: bold;">ប្រាក់បានបង់សរុប  </td>
 											<td >
-												<span class="borderCo value" style="min-width: 100px;">
+												<span class="borderCo value" style="min-width: 100px; font-weight: bold;">
 													<label style="color:red" id="lbl_amount_return">&nbsp;<?php //echo number_format($loanPayment['return_amount'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
 												</span>
 											</td>
@@ -612,62 +612,54 @@ function submitData(){
 			}
 		}
 }
-function showReciept(){
-	var client_id = dijit.byId('client_id').get('value');
-	service_charge = dijit.byId('service_charge').get('value');
-	receive_amount = dijit.byId('amount_receive').get('value');
-	option_pay = dijit.byId('option_pay').get('value');
-	//dijit.byId('total_payment').attr('value',total_amount);
-	total_payments = dijit.byId('total_payment').get('value');
-	
-	if(receive_amount<0){
-		alert('Please fill Recieve Amount');
-		dijit.byId('amount_receive').focus();
-	}else{
-		//if(option_pay==2 || option_pay==3 || option_pay==4){
-			
-			if(receive_amount<total_payments){
-				
-				alert('You Can not paymnet in this option! Please Input Recieve Amount more than or squar Total Paymnet!');
-				dijit.byId('amount_receive').focus();
-			}else{
-				if(client_id==""){
-					alert("No Result To Show! Please Choose Client and Try again");
-				}else{
-					curr_type = dijit.byId('currency_type').get('value');
-					if(curr_type==1){
-						symbal =" ៛";
-					}else if(curr_type==2){
-						symbal =" $";
-					}else{
-						symbal =" B";
-					}
-					var returnAmount = dijit.byId('amount_return').attr('displayedValue');
-					if(returnAmount==''){returnAmount=0;}
-					document.getElementById('lbl_group_member').innerHTML = dijit.byId('client_id').attr('displayedValue');
-					document.getElementById('ClientLbl').innerHTML = dijit.byId('client_id').attr('displayedValue');
-					document.getElementById('lbl_reciept_no').innerHTML = dijit.byId('reciept_no').attr('displayedValue');
-					document.getElementById('lbl_loan_number').innerHTML = dijit.byId('loan_number').attr('displayedValue');
-					document.getElementById('lbl_branch_id').innerHTML = dijit.byId('branch_id').attr('displayedValue');
-					document.getElementById('lbl_co_id').innerHTML = dijit.byId('co_id').attr('displayedValue');
-					document.getElementById('lbl_collect_date').innerHTML = dijit.byId('collect_date').attr('displayedValue');
-					document.getElementById('lbl_priciple_amount').innerHTML = dijit.byId('priciple_amount').attr('displayedValue')+symbal;
-					document.getElementById('lbl_os_amount').innerHTML = dijit.byId('os_amount').attr('displayedValue')+symbal;
-					//document.getElementById('lbl_total_interest').innerHTML = dijit.byId('total_interest').attr('displayedValue')+symbal;
-					//document.getElementById('lbl_penalize_amount').innerHTML = dijit.byId('penalize_amount').attr('displayedValue')+symbal;
-					document.getElementById('lbl_total_payment').innerHTML = dijit.byId('total_payment').attr('displayedValue')+symbal;
-					document.getElementById('lbl_note').innerHTML = dijit.byId('note').attr('displayedValue');
-					//document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue')+symbal;
-					document.getElementById('lbl_amount_receive').innerHTML = dijit.byId('amount_receive').attr('displayedValue')+symbal;
-					document.getElementById('lbl_amount_return').innerHTML = returnAmount+symbal;
-					document.getElementById('lbl_total_interest').innerHTML = dijit.byId('total_interest').attr('displayedValue')+symbal;
-					document.getElementById('lbl_paidTime').innerHTML = dijit.byId('installment_no').attr('displayedValue');
-					dijit.byId('frm_client').show();
-					//submitData();
-				}
-			}
-		//}
+function showReciept(data){
+	//curr_type = dijit.byId('currency_type').get('value');
+	//if(curr_type==1){
+		//symbal =" ៛";
+	//}else if(curr_type==2){
+		//symbal =" $";
+	//}else{
+		//symbal =" B";
+	//}
+	//var returnAmount = dijit.byId('amount_return').attr('displayedValue');
+	//if(returnAmount==''){returnAmount=0;}
+	date = new Date(data.date_payment);
+	var month = date.getMonth()+1;
+	var noDate = date.getDate();
+	var year = date.getFullYear()
+	if(noDate<=9){
+		noDate="0"+noDate;
 	}
+	if(month<=9){
+		month="0"+month;
+	}
+	var monthNames = [
+	                  "Jan", "Feb", "Mar",
+	                  "Apr", "May", "Jun", "Jul",
+	                  "Aug", "September", "Oct",
+	                  "Nov", "Dec"
+	                ];
+	
+	document.getElementById('lbl_group_member').innerHTML = data.client_name;
+	document.getElementById('ClientLbl').innerHTML = data.client_name;
+	document.getElementById('lbl_reciept_no').innerHTML = data.receipt_no;
+	document.getElementById('lbl_loan_number').innerHTML = data.loan_number;
+	document.getElementById('lbl_branch_id').innerHTML = data.branch_name;
+	document.getElementById('lbl_co_id').innerHTML = data.co_name;
+	document.getElementById('lbl_collect_date').innerHTML = noDate+"/"+monthNames[date.getMonth()]+"/"+year;
+	document.getElementById('lbl_priciple_amount').innerHTML = data.begining_balance;
+	document.getElementById('lbl_os_amount').innerHTML = data.principal_paid;
+	//document.getElementById('lbl_total_interest').innerHTML = dijit.byId('total_interest').attr('displayedValue')+symbal;
+	//document.getElementById('lbl_penalize_amount').innerHTML = dijit.byId('penalize_amount').attr('displayedValue')+symbal;
+	document.getElementById('lbl_total_payment').innerHTML = dojo.number.format(data.total_paymentpaid,{places:2});
+	document.getElementById('lbl_note').innerHTML = data.note;
+	//document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue')+symbal;
+	document.getElementById('lbl_amount_receive').innerHTML = data.interest_paid;
+	document.getElementById('lbl_amount_return').innerHTML = data.currency_typeshow+" "+dojo.number.format(data.total_paymentpaid,{places:2});
+	document.getElementById('lbl_total_interest').innerHTML = data.penalize_paid;
+	document.getElementById('lbl_paidTime').innerHTML = data.paid_times;
+	//dijit.byId('frm_client').show();
+	printReciept();
 }
 dojo.ready(function(){	
 		var loan_data = new dojo.store.Memory({
@@ -1246,6 +1238,64 @@ function roundhundred(n){
 	dijit.byId('amount_receive').attr('value',total_pay.toFixed(2));
 	totalReturn();
 }
+  var url_addsaleprint = '<?php echo $this->url(array('module'=>'loan','controller'=>'payment','action'=>'addpaymentajax')); ?>';
+  function addPaymentByAjax(){
+	  if(dijit.byId('frm_add_group_pay').validate()){
+		branch_id = dijit.byId('branch_id').get('value');
+    	if (branch_id=='' || branch_id==-1){
+  	  			alert('Please Select Branch Name!');
+	   			dijit.byId('branch_id').focus();
+	   			return false;
+   		}
+		service_charge = dijit.byId('service_charge').get('value');
+		receive_amount = dijit.byId('amount_receive').get('value');
+		option_pay = dijit.byId('option_pay').get('value');
+		
+			co_id = dijit.byId('co_id').get('value');
+			client = dijit.byId('client_id').get('value');
+			if (client=='' || client==-1){
+				alert('Please Select Client Name !');
+				dijit.byId('client_id').focus();
+				return false;
+			}if(co_id=='' || co_id==-1){
+				alert('Please Select CO Name !');
+				dijit.byId('co_id').focus();
+				return false;
+			}
+			if(receive_amount<0){
+				alert('Please fill Recieve Amount');
+				dijit.byId('amount_receive').focus();
+				return false;
+			}
+			total_payments = dijit.byId('total_payment').get('value');
+			if(receive_amount<total_payments){
+				alert('You Can not paymnet in this option! Please Input Recieve Amount more than or squar Total Paymnet!');
+				dijit.byId('amount_receive').focus();
+				return false;
+			}	
+		    dijit.byId("save_close").set("disabled",true);
+			dijit.byId("save_new").set("disabled",true);
+			dijit.byId("saveprint").set("disabled",true);
+			dojo.xhrPost({
+				url: url_addsaleprint,
+				form: dojo.byId("frm_add_group_pay"),
+				handleAs:"json",
+				load: function(data) {
+					showReciept(data);
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});
+		}
+  }
+  function printReciept(){
+		window.frames["print_frame"].document.body.innerHTML=dojo.byId('rpt_print').innerHTML;
+	    window.frames["print_frame"].window.focus();
+	    window.frames["print_frame"].window.print();
+	    loading();
+	    window.location.href = "<?php echo $this->baseUrl()."/loan/payment"?>";
+	}
 </script>
 <style>
 .hover:hover{background: #eee;}

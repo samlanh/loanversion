@@ -348,5 +348,16 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			exit();
 		}
 	}
+	
+	function addpaymentajaxAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$db = new Loan_Model_DbTable_DbLoanILPayment();
+			$receipt_id = $db->addILPayment($_data);
+			$row = $db->getLoanPaymentById($receipt_id);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
 }
 
