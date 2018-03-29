@@ -66,7 +66,7 @@ dojo.require("dijit.form.DateTextBox");
                 		<ul>
                 			<li style="text-align:center; font-size:18px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("PAWN_DISBURSE");?></li>
-                			<li style="text-align:center; font-size:16px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:16px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
                 	</td>
                     <td width="20%"></td>
@@ -92,27 +92,27 @@ dojo.require("dijit.form.DateTextBox");
             <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                <thead>
                  <tr bgcolor="#c1d0f3" class="style" align="center" style="font-weight:bold;line-height: 30px; font-size:12px; padding:1px 0px; white-space: nowrap; ">
-                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
-                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
-                    <td><?php echo $tr->translate("PAWN_CODE");?></td>
-                    <td><?php echo $tr->translate("CLIENT_NO");?></td>
-                    <td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-                    <td><?php echo $tr->translate("LOAN_LEVEL");?></td>
-                    <td><?php echo $tr->translate("LOAN_AMOUNT");?></td>
-                    <td><?php echo $tr->translate("INTEREST RATE");?></td>
-                    <td><?php echo $tr->translate("TERM_BORROW");?></td>
-                    <td><?php echo $tr->translate("RELEASED_DATE");?></td>
-                    <td><?php echo $tr->translate("LIFE_LOAN");?></td>
-                    <td><?php echo $tr->translate("PRODUCT_NAME");?></td>
-                    <td><?php echo $tr->translate("EST_VALUE");?></td>
-                    <td><?php echo $tr->translate("DESCRIPTION");?></td>
-                    <td class="noneprint" style="display: none;"><?php echo $tr->translate("EDIT");?></td>
+                    <th>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
+                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
+                    <th><?php echo $tr->translate("PAWN_CODE");?></th>
+                    <th><?php echo $tr->translate("CLIENT_NO");?></th>
+                    <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+                    <th><?php echo $tr->translate("LOAN_LEVEL");?></th>
+                    <th><?php echo $tr->translate("LOAN_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("INTEREST RATE");?></th>
+                    <th><?php echo $tr->translate("TERM_BORROW");?></th>
+                    <th><?php echo $tr->translate("RELEASED_DATE");?></th>
+                    <th><?php echo $tr->translate("LIFE_LOAN");?></th>
+                    <th><?php echo $tr->translate("PRODUCT_NAME");?></th>
+                    <th><?php echo $tr->translate("EST_VALUE");?></th>
+                    <th><?php echo $tr->translate("DESCRIPTION");?></th>
+                    <th class="noneprint" style="display: none;"><?php echo $tr->translate("EDIT");?></th>
                 </tr>
                 </thead>
                <?php 
                $amt_r = 0;$amt_d = 0;$amt_b = 0; 
                $count_ld=0;$count_lr=0;$count_lb=0;
-               if(!empty($this->loanrelease_list)) foreach($this->loanrelease_list as $key =>$row){?>
+               if(!empty($this->loanrelease_list))foreach($this->loanrelease_list as $key =>$row){?>
                <?php 
               if($row['curr_type']==1){
                		$amt_r = $amt_r+$row['total_capital'];
@@ -151,10 +151,10 @@ dojo.require("dijit.form.DateTextBox");
             </table>
             <br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
-                 <tr bgcolor="#c1d0f3" class="style" align="center" style="floafont-weight:bold; line-height: 30px; font-size:12px; padding:2px 0px; ">
-                    <td><?php echo $tr->translate("CURRENT_TYPE");?></td>
-                    <td><?php echo $tr->translate("REALEASE_AMOUNT");?></td>
-                    <td><?php echo $tr->translate("TOTAL_AMOUNT");?></td>
+                 <tr bgcolor="#c1d0f3" class="style" align="center" style="font-weight:bold; line-height: 30px; font-size:12px; padding:2px 0px; ">
+                    <th><?php echo $tr->translate("CURRENT_TYPE");?></th>
+                    <th><?php echo $tr->translate("REALEASE_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("TOTAL_AMOUNT");?></th>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:12px;">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>

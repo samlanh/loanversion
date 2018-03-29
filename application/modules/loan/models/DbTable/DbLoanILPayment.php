@@ -309,13 +309,17 @@ public function addILPayment($data){
     	$user_id = $session_user->user_id;
     	try{
     	$reciept_no = $data['reciept_no'];
-    	$sql="SELECT id  FROM ln_client_receipt_money WHERE receipt_no='$reciept_no' ORDER BY id DESC LIMIT 1 ";
+    	$sql="SELECT receipt_no  FROM ln_client_receipt_money WHERE receipt_no='$reciept_no' ORDER BY id DESC LIMIT 1 ";
     	$acc_no = $db->fetchOne($sql);    	
+    	//getIlPaymentRPNumber
+    	
     	if($acc_no){
-    		$reciept_no=$this->getIlPaymentNumber();
+    		$reciept_no=$this->getIlPaymentRPNumber($data['co_id']);
+    		//$reciept_no=$this->getIlPaymentNumber();
     	}else{
     		$reciept_no = $data['reciept_no'];
-    	}			
+    	}
+    				
 		$amount_receive = $data["amount_receive"];//ប្រាក់ទទួលបាន
 		$remain_money = $amount_receive;
 		$total_payment = $data["total_payment"];//ត្រូវបង់សរុប

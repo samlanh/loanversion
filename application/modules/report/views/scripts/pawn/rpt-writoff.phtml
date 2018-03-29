@@ -54,7 +54,7 @@ table { page-break-inside:auto }
                 	    <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_PAWN_WRITE_OFF");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
                     </td>
                     <td width="20%"></td>
@@ -86,24 +86,24 @@ table { page-break-inside:auto }
                 ?>
                 <thead>
 	               <tr bgcolor="#c1d0f3" class="style" align="center" style="font-weight:bold; line-height: 25px; font-size:12px; padding:10px 0px; ">
-	                    <td><?php echo $tr->translate("NUM");?></td>
-	                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
-	                    <td><?php echo $tr->translate("PAWN_CODE");?></td>
-	                    <td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-						<td><?php echo $tr->translate("PHONE");?> / <?php echo $tr->translate("ADDRESS");?></td> 
-	                    <td><?php echo $tr->translate("LOAN_AMOUNT");?></td> 
-	                    <td><?php echo $tr->translate("INTEREST RATE");?></td>
-	                    <td><?php echo $tr->translate("LOAN_PERIOD");?></td>
-	                    <td>&nbsp;<?php echo $tr->translate("PAWN_DATE");?>&nbsp;</td>
-	                    <td>&nbsp;<?php echo $tr->translate("PAWN_ENDDATE");?>&nbsp;</td>
-	                    <td><?php echo $tr->translate("PRODUCT_NAME");?></td> 
-	                    <td><?php echo $tr->translate("EST_VALUE");?></td>
-	                    <td><?php echo $tr->translate("DATE");?></td>
-	                    <td><?php echo $tr->translate("NOTE");?></td> 
+	                    <th><?php echo $tr->translate("NUM");?></th>
+	                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
+	                    <th><?php echo $tr->translate("PAWN_CODE");?></th>
+	                    <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+						<th><?php echo $tr->translate("PHONE");?> / <?php echo $tr->translate("ADDRESS");?></th> 
+	                    <th><?php echo $tr->translate("LOAN_AMOUNT");?></th> 
+	                    <th><?php echo $tr->translate("INTEREST RATE");?></th>
+	                    <th><?php echo $tr->translate("LOAN_PERIOD");?></th>
+	                    <th>&nbsp;<?php echo $tr->translate("PAWN_DATE");?>&nbsp;</th>
+	                    <th>&nbsp;<?php echo $tr->translate("PAWN_ENDDATE");?>&nbsp;</th>
+	                    <th><?php echo $tr->translate("PRODUCT_NAME");?></th> 
+	                    <th><?php echo $tr->translate("EST_VALUE");?></th>
+	                    <th><?php echo $tr->translate("DATE");?></th>
+	                    <th><?php echo $tr->translate("NOTE");?></th> 
 	                </tr>
                 </thead>
                 <?php 
-                    $record = 0; if(!empty($this->LoanCollectionco_list)) 
+                    $record = 0; if(!empty($this->LoanCollectionco_list))
                 	foreach ($this->LoanCollectionco_list as $key => $rs){ ?>
                 <?php 
                   if($rs["curr_type"]==1){//reil
@@ -138,8 +138,8 @@ table { page-break-inside:auto }
 		                <td colspan="14">
 			               <br /><table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
 			                <tr bgcolor="#c1d0f3" class="style" style="font-weight:bold; line-height: 24px; text-align: center;">
-			                    <td><?php echo $tr->translate("CURRENT_TYPE");?></td>
-			                    <td>&nbsp;<?php echo $tr->translate("PAWN_NUMBER");?></td>                 
+			                    <th><?php echo $tr->translate("CURRENT_TYPE");?></th>
+			                    <th>&nbsp;<?php echo $tr->translate("PAWN_NUMBER");?></th>                 
 			                    <th><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>
 			                </tr>
 			                <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">

@@ -33,6 +33,12 @@
 }
 .style1:hover{ background: #ccc;}
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
 </style>
 <table width="100%">
 	<tr>
@@ -44,7 +50,7 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
                 	   <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_PAYOFF");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
                 	</td>
                     <td width="20%"></td>
@@ -68,7 +74,8 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
     <tr>
     	<td id="exportExcel">
             <table width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; white-space: nowrap;" cellspacing="0">
-                <tr class="style" bgcolor="#ccc" align="center" style="font-weight:bold; line-height: 14px; padding:3px 0px; ">
+                <thead>
+				<tr class="style" bgcolor="#ccc" align="center" style="font-weight:bold; background:#ccd9ff; line-height: 14px; padding:3px 0px; ">
                     <th rowspan="2"><?php echo $tr->translate("NUM");?></th>
                     <th rowspan="2"><?php echo $tr->translate("BRANCH_NAME");?></th>
                     <th rowspan="2"><?php echo $tr->translate("PAWN_NUMBER");?></th>
@@ -85,7 +92,7 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
                     <th rowspan="2"><?php echo $tr->translate("TOTAL_PAYMENTED");?></th>
                     <th rowspan="2"><?php echo $tr->translate("DAY_PAYMENT");?></th>
                 </tr>
-                <tr class="style" bgcolor="#ccc" >
+                <tr class="style" bgcolor="#ccc" style="background:#ccd9ff;">
                 	<th><?php echo $tr->translate("OS_AMOUNT");?></th>                    
                     <th><?php echo $tr->translate("INTEREST");?></th>
                     <th><?php echo $tr->translate("PENALIZE AMOUNT");?></th>                    
@@ -147,10 +154,11 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
                		<td style="font-size: 10px;text-align: center; white-space:nowrap;"><?php echo date("d-M-Y",strtotime($rs["date_payment"]));?></td>
                 </tr>
                 <?php }?>
+				</thead>
             </table>
             <br /><br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr class="style style1" bgcolor="#ccc"  style="font-weight:bold; line-height: 24px; text-align: center;">
+                 <tr class="style style1" bgcolor="#ccc"  style="font-weight:bold; background:#ccd9ff; line-height: 24px; text-align: center;">
                     <th><?php echo $tr->translate("FOR_LOAN_TYPE");?></th>
                     <th><?php echo $tr->translate("CURRENT_TYPE");?></th>
                     <th><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>                    

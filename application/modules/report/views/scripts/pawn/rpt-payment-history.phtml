@@ -34,14 +34,12 @@ $opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង
 .stylehover:hover{background: #ccc;}
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 th{padding: 5px;}
-
-table { page-break-inside:auto }
-  tr{ page-break-inside:avoid; page-break-after:auto; }
-#header {
-  display: table-header-group;
-  page-break-inside:avoid; page-break-after:auto;
-}
-
+table {page-break-inside:auto }
+      tr{ page-break-inside:avoid; page-break-after:auto; }
+      #header {
+        display: table-header-group;
+        page-break-inside:avoid; page-break-after:auto;
+      }
 </style>
 <?php $client_id = null;?>
 <?php $principle_r = 0;$interst_r = 0;$penalize_r = 0;$service_charge_r = 0;$balane_r = 0;
@@ -50,6 +48,7 @@ table { page-break-inside:auto }
                 	 $i=1;
                 	?>
 <table width="100%">
+	<div id="divPrint">
 	<tr>
     	<td align="center">
         	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
@@ -59,7 +58,7 @@ table { page-break-inside:auto }
                          <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_PAYMENT");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
                  </td>
                     <td width="20%"></td>
@@ -81,7 +80,6 @@ table { page-break-inside:auto }
         </td>
     </tr>
     <tr>
-    	<td class="mymy">
     	<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
             	<?php if(!empty($this->loantotalcollect_list)) {
 	              	foreach ($this->loantotalcollect_list as $index => $rs){
@@ -104,7 +102,7 @@ table { page-break-inside:auto }
 	              			?>
 	              	</td>
 	              	</tr>
-	                <tr bgcolor="#ccc" class="style" align="center" style="padding:5px 0;height: 20px; white-space: nowrap;">
+	                <tr bgcolor="#ccc" class="style" align="center" style="padding:5px 0;height: 20px; white-space: nowrap; background: #ccd9ff;">
 	                    <td><?php echo $tr->translate("NUM");?></td>
 	                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
 	                    <td><?php echo $tr->translate("PAID_PRINCIPAL");?></td>                   
@@ -156,19 +154,58 @@ table { page-break-inside:auto }
                 <tr>
                 	<td colspan="14" style="border-left:1px solid #fff;border-right:1px solid #fff;">&nbsp;</td>
                 </tr>
-               <table  width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
+            <table  width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
                  <thead>
-                  <tr bgcolor="#ccc" class="style stylehover" style="font-weight:bold; line-height: 24px; text-align: center;" >
+                  <tr bgcolor="#ccc" class="style stylehover" style="font-weight:bold; background: #ccd9ff; line-height: 24px; text-align: center;" >
 	                    <th style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</th>
 	                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_PRINCIPLE");?>&nbsp;</th>
 	                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_INTEREST");?>&nbsp;</th>
 	                    <th style="padding:5px 0px;"colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_PENELIZE");?>&nbsp;</th>
 	                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_SERVICE_CHARGE");?>&nbsp;</th>
-	                    <th style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("TOTAL_PAYMENTED");?>&nbsp;</th>
-	                    
+	                    <th style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("TOTAL_PAYMENTED");?>&nbsp;</th>	                    
 	                </tr>
-	                </thead>
-                 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+	              </thead>               
+                <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+                    <td colspan="2">&nbsp;<?php echo $tr->translate("BATH");?></td>
+                    <td colspan="2">&nbsp;<?php echo number_format($principle_b,2);?>&nbsp;</td>
+                    <td colspan="2">&nbsp;<?php echo number_format($interst_b,2);?>&nbsp;</td>
+                    <td colspan="2">&nbsp;<?php echo number_format($penalize_b,2);?>&nbsp;</td>
+					<td colspan="2">&nbsp;<?php echo number_format($service_charge_b,2);?>&nbsp;</td>
+					<td colspan="4">&nbsp;<?php echo number_format($principle_b+$interst_b+$penalize_b+$service_charge_b,2);?>&nbsp;</td>
+                </tr>
+				 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+                    <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
+                    <td colspan="2">&nbsp;<?php echo number_format($principle_d,2);?>&nbsp;</td>
+                    <td colspan="2">&nbsp;<?php echo number_format($interst_d,2);?>&nbsp;</td>
+                    <td colspan="2">&nbsp;<?php echo number_format($penalize_d,2);?>&nbsp;</td>
+					<td colspan="2">&nbsp;<?php echo number_format($service_charge_d,2);?>&nbsp;</td>
+					<td colspan="4">&nbsp;<?php echo number_format($principle_d+$interst_d+$penalize_d+$service_charge_d,2);?>&nbsp;</td>
+                </tr>
+                <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+                    <td colspan="2">&nbsp;<?php echo $tr->translate("REILS");?></td>
+                    <td colspan="2">&nbsp;<?php echo number_format($principle_r,2);?>&nbsp;</td>
+                    <td colspan="2">&nbsp;<?php echo number_format($interst_r,2);?>&nbsp;</td>
+                    <td colspan="2">&nbsp;<?php echo number_format($penalize_r,2);?>&nbsp;</td>
+					<td colspan="2">&nbsp;<?php echo number_format($service_charge_r,2);?>&nbsp;</td>
+					<td colspan="4">&nbsp;<?php echo number_format($principle_r+$interst_r+$penalize_r+$service_charge_r,2);?>&nbsp;</td>
+                </tr>
+                <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+                    <td colspan="2">&nbsp;<?php echo $tr->translate("BATH");?></td>
+                    <td colspan="2">&nbsp;<?php echo number_format($principle_b,2);?>&nbsp;</td>
+                    <td colspan="2">&nbsp;<?php echo number_format($interst_b,2);?>&nbsp;</td>
+                    <td colspan="2">&nbsp;<?php echo number_format($penalize_b,2);?>&nbsp;</td>
+					<td colspan="2">&nbsp;<?php echo number_format($service_charge_b,2);?>&nbsp;</td>
+					<td colspan="4">&nbsp;<?php echo number_format($principle_b+$interst_b+$penalize_b+$service_charge_b,2);?>&nbsp;</td>
+                </tr>
+				 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
+                    <td colspan="2">&nbsp;<?php echo $tr->translate("BATH");?></td>
+                    <td colspan="2">&nbsp;<?php echo number_format($principle_b,2);?>&nbsp;</td>
+                    <td colspan="2">&nbsp;<?php echo number_format($interst_b,2);?>&nbsp;</td>
+                    <td colspan="2">&nbsp;<?php echo number_format($penalize_b,2);?>&nbsp;</td>
+					<td colspan="2">&nbsp;<?php echo number_format($service_charge_b,2);?>&nbsp;</td>
+					<td colspan="4">&nbsp;<?php echo number_format($principle_b+$interst_b+$penalize_b+$service_charge_b,2);?>&nbsp;</td>
+                </tr>
+				 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td colspan="2">&nbsp;<?php echo number_format($principle_d,2);?>&nbsp;</td>
                     <td colspan="2">&nbsp;<?php echo number_format($interst_d,2);?>&nbsp;</td>
@@ -205,6 +242,7 @@ table { page-break-inside:auto }
 			</table>
     	</td>
     </tr>
+	</div>
 </table>
 </div>
 </div>

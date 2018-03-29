@@ -10,7 +10,6 @@
 	$db_keycode = new Application_Model_DbTable_DbKeycode();
 	$keyvalue = $db_keycode->getKeyCodeMiniInv();
 	$interest_penalty = $keyvalue['interst_late'];
-	
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
    <script>
@@ -46,7 +45,6 @@
 				dijit.byId('co_id').focus();
 				return false;
 			}
-
             dijit.byId("save_close").set("disabled",true);
 			dijit.byId("save_new").set("disabled",true);
 			dijit.byId("saveprint").set("disabled",true);
@@ -257,7 +255,7 @@ fieldset{padding:10px;}
 			<td align="center" colspan="3">
 			  <input type="button" value="រក្សាទុក & បិទ" label="<?php echo $tr->translate('SAVECLOSE');?>" id="save_close" name="save_close" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" onclick="submitDataClose()"  />
-			   <input type="button" onClick="showReciept();" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint"  name="saveprint" dojoType="dijit.form.Button" 
+			   <input type="button" onClick="showReciept();" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVE_PRINT');?>" id="saveprint"  name="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" />
 			    <input type="button" name="save_new" id="save_new" onclick="confirmBeforePrint();" value="រក្សាទុក" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" />

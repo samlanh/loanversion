@@ -58,8 +58,8 @@ $data = $this->data;
 								   			<td valign="top">
 									   			<ul style="padding-top: 5px; ">
 						                			<li style=" line-height: 25px; text-align:center; font-size:18px !important; font-family:'Times New Roman','Khmer MEF2'"><?php echo $data['client_company_name'];//$tr->translate("BRAND_TITLE");?></li>
-						                			<li style=" line-height: 25px; text-align:center; font-size:16px !important; font-family:'Times New Roman','Khmer MEF2'"><?php echo $tr->translate("PAYMENT_RECEIPT");?></li>
-						                			<li style=" line-height: 25px; text-align:center; font-size:16px !important;font-family:'Times New Roman'; font-weight: bold;">PAYMENT RECEIPT</li>
+						                			<li style=" line-height: 25px; text-align:center; font-size:17px !important; font-family:'Times New Roman','Khmer MEF2'"><?php echo $tr->translate("PAYMENT_RECEIPT");?></li>
+						                			<li style=" line-height: 25px; text-align:center; font-size:17px !important;font-family:'Times New Roman'; font-weight: bold;">PAYMENT RECEIPT</li>
 						                		</ul>
 							                </td>
 							                <td width="28%" valign="bottom">
@@ -71,15 +71,6 @@ $data = $this->data;
 										</tr>
 										<tr>
 			                				<td colspan="3">
-			<!--                 			  <table width="100%"> -->
-			<!-- 	                			<tr class='style'> 
-				                				<td class="style" style="font-size: 10px;" colspan="2">
-				                					<?php //echo $tr->translate("ADDRESS_COMPANY");?>
-													<?php //echo $tr->translate("TEL_COMPANY");?>
-			<!-- 	                				</td> -->
-			<!-- 	                				<td width="50%"></td> -->
-			<!-- 	                			</tr> -->
-			<!-- 		               			 </table> -->
 					                    	</td>
 					                   </tr>  
 								</table>
@@ -91,16 +82,16 @@ $data = $this->data;
 									<tr class="fontsize">
 											<td class="lbtitlev" valign="top" width="17%">សាខា </td>
 											<td ><span class="borderCo value" ><label id="lbl_branch_id">&nbsp;<?php echo $loanPayment['branch_name'];?>&nbsp;</label></span></td>
-											<td class="lbtitlev">ប្រាក់ដើមគ្រានៅសល់ </td>
+											<td class="lbtitlev">ប្រាក់ដើមមុនបង់ </td>
 											<td >
 												<span class="borderCo value" >
-													<label style="color:red" id="lbl_priciple_amount">&nbsp;<?php echo number_format($loanPayment['begining_balance'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+													<label style="color:red" id="lbl_priciple_amount">&nbsp;<?php echo number_format($loanPayment['begining_balance'],2);?>&nbsp;</label>
 												</span>
 											</td>
-											<td class="lbtitlev">ចំនួនប្រាក់ត្រូវបង់សរុប</td>
+											<td class="lbtitlev">ប្រាក់ដើមបានបង់</td>
 											<td >
-												<span class="borderCo value">
-													<label style="color:red" id="lbl_total_payment">&nbsp;<?php echo number_format($loanPayment['total_paymentpaid'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+												<span class="borderCo value" >
+													<label style="color:red" id="lbl_os_amount">&nbsp;<?php echo number_format($loanPayment['principal_paid'],2);?>&nbsp;</label>
 												</span>
 											</td>
 									</tr>
@@ -111,16 +102,16 @@ $data = $this->data;
 													<strong class="fonttel" ><label  id="lbl_loan_number">&nbsp;<?php echo $loanPayment['loan_number'];?>&nbsp;</label></strong>
 												</span>
 											</td>
-											<td class="lbtitlev">ប្រាក់ដើម ត្រូវបង់</td>
-											<td >
-												<span class="borderCo value" >
-													<label style="color:red" id="lbl_os_amount">&nbsp;<?php echo number_format($loanPayment['principal_amount'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
-												</span>
-											</td>
-											<td class="lbtitlev">ប្រាក់បានទទួល</td>
+											<td class="lbtitlev">ចំនួនប្រាក់ត្រូវបង់សរុប</td>
 											<td >
 												<span class="borderCo value">
-													<label style="color:red" id="lbl_amount_receive">&nbsp;<?php echo number_format($loanPayment['amount_recieve'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+													<label style="color:red" id="lbl_total_payment">&nbsp;<?php echo number_format($loanPayment['total_paymentpaid'],2);?>&nbsp;</label>
+												</span>
+											</td>
+											<td class="lbtitlev">ការប្រាក់បានបង់</td>
+											<td >
+												<span class="borderCo value">
+													<label style="color:red" id="lbl_amount_receive">&nbsp;<?php echo number_format($loanPayment['interest_paid'],2);?>&nbsp;</label>
 												</span>
 											</td>
 									</tr>
@@ -138,10 +129,10 @@ $data = $this->data;
 												</span>
 											</td>
 											
-											<td class="lbtitlev">ការប្រាក់បានបង់</td>
+											<td class="lbtitlev">ប្រាក់ពិន័យបានបង់</td>
 											<td >
 												<span class="borderCo value">
-													<label style="color:red" id="lbl_total_interest">&nbsp;<?php echo number_format($loanPayment['interest_paid'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+													<label style="color:red" id="lbl_total_interest">&nbsp;<?php echo number_format($loanPayment['penalize_paid'],2);?>&nbsp;</label>
 												</span>
 											</td>
 											
@@ -159,17 +150,17 @@ $data = $this->data;
 													<label style="color:red" id="lbl_collect_date">&nbsp;<?php echo date("d/M/Y",strtotime($loanPayment['date_payment']));?>&nbsp;</label>
 												</span>
 											</td>
-											<td class="lbtitlev">ប្រាក់អាប់ </td>
+											<td class="lbtitlev" style="min-width: 100px;font-weight: bold;">ប្រាក់បានបង់សរុប </td>
 											<td >
-												<span class="borderCo value" style="min-width: 100px;">
-													<label style="color:red" id="lbl_amount_return">&nbsp;<?php echo number_format($loanPayment['return_amount'],2)." ".$loanPayment['currency_typeshow'];?>&nbsp;</label>
+												<span class="borderCo value" style="min-width: 100px;font-weight: bold;">
+													<label style="color:red" id="lbl_amount_return">&nbsp;<?php echo $loanPayment['currency_typeshow'].' '.number_format($loanPayment['total_paymentpaid'],2);?>&nbsp;</label>
 												</span>
 											</td>
 																
 									</tr>
 									<tr >
 											
-											<td class="lbtitlev">សំគាល់</td>
+											<td class="lbtitlev">សម្គាល់</td>
 											<td colspan="5">
 												<span class="borderCo value">
 													<label id="lbl_note">&nbsp;<?php echo $loanPayment['note'];?>&nbsp;</label>
