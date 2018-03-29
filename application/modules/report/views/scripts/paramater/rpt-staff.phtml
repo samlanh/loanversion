@@ -47,8 +47,11 @@ dojo.require("dijit.form.DateTextBox");
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_II");?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_STAFF");?></h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_STAFF");?></h2>
+					<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo date("d-M-Y",strtotime($this->search['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->search['end_date']));?></h2>
+					</td>	
                     <td width="20%"></td>
+					
                 </tr> 
                 <tr>
                 	<td colspan="3">
@@ -65,7 +68,7 @@ dojo.require("dijit.form.DateTextBox");
             </table>
 			<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse;font-size: 12px;" bordercolor="black">  
 		    	 <thead> 
-		    	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; " >
+		    	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; background: #ccd9ff; font-size:12px; padding:5px 0px; " >
 		        	<th ><?php echo $tr->translate("NUM");?></th>
 		            <th><?php echo $tr->translate("BRANCH_NAME");?></th>
 		            <th ><?php echo $tr->translate("STAFF_ID");?></th>
@@ -85,7 +88,7 @@ dojo.require("dijit.form.DateTextBox");
 		         </tr>
 		        </thead> 
 		       <?php if(!empty($this->staff_list))foreach($this->staff_list as $key =>$row){?>
-				   <tr style="font-size: 10px;" align="left">
+				   <tr style="font-size: 12px;" align="left">
 				     <td>&nbsp;<?php echo $key+1; ?></td>
 				     <td>&nbsp;<?php echo $row['branch_name']?></td>
 				     <td>&nbsp;<?php echo $row['co_code']?></td>
@@ -110,6 +113,7 @@ dojo.require("dijit.form.DateTextBox");
 </table>
 		<br />
 		   <table align="center" width="100%">
+		   <thead>
 				   <tr style="font-size: 12px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
@@ -117,5 +121,6 @@ dojo.require("dijit.form.DateTextBox");
 				        <th></th>
 				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
+				</thead>
 			</table>
 </div>

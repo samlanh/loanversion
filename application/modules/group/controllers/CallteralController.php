@@ -118,6 +118,7 @@ class Group_CallteralController extends Zend_Controller_Action {
 		
 		$this->view->client_id = $row['client_id'];
 		$this->view->branch_id = $row['branch_id'];
+		$this->view->loan_id = $row['loan_id'];
 		$this->view->rows = $db->getCallecteralDetailById($id);
 		
 		$fm = new Group_Form_Frmcallterals();

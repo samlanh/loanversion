@@ -64,26 +64,26 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 			            <table width="100%" border="1" style="font-family: 'Khmer OS Content';font-size:12px;  border-collapse:collapse; border:1px solid #000; white-space: nowrap;" cellspacing="0">
 			                <thead>
 				               <tr bgcolor="#c1d0f3" class="style" align="center" style=" font-weight:bold; line-height: 25px; font-size:12px; padding:10px 0px; ">
-				                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("PRODUCT_CATEGORY");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("STOCK_IN");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("STOCK_OUT");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("CURRENT_QTY");?>&nbsp;</td> 
-				                    <td>&nbsp;<?php echo $tr->translate("NOTE");?>&nbsp;</td>
+				                    <th>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("PRODUCT_CATEGORY");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("STOCK_IN");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("STOCK_OUT");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("CURRENT_QTY");?>&nbsp;</th> 
+				                    <th>&nbsp;<?php echo $tr->translate("NOTE");?>&nbsp;</th>
 				                </tr>
 			                </thead>
 			                <?php 
 			                	$location="";
-			                    if(!empty($this->sumaryStok)) 
+			                    if(!empty($this->sumaryStok))
 			                	foreach ($this->sumaryStok as $key => $rs){ 
 			                    ?>
 			                    <?php 
 			                    if ($location != $rs['location_id']){
 			                    ?>
 			                     <tr class="style hover" style=" line-height:20px; ">
-			                     	<td colspan="11" align="center" style="font-weight: 600; "><?php echo $rs["branch_namekh"];?></td>
+			                     	<th colspan="11" align="center" style="font-weight: 600; "><?php echo $rs["branch_namekh"];?></th>
 			                     </tr>
 			                    <?php }$location = $rs['location_id'];?>
 				                <tr class="style hover" style="line-height:20px; ">

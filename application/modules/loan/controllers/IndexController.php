@@ -281,6 +281,14 @@ class Loan_IndexController extends Zend_Controller_Action {
 			exit();
 		}
 	}
-	
+	function getallloanbybranchAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$db = new Application_Model_DbTable_DbGlobal();
+			$rs = $db->getAllLoanbybranch($_data['branch_id']);
+			print_r(Zend_Json::encode($rs));
+			exit();
+		}
+	}
 }
 

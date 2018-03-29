@@ -13,7 +13,6 @@
 	dojo.require("dojo.data.ItemFileWriteStore");  
 	dojo.require("dojo.data.ObjectStore");
 	dojo.require("dijit.form.DateTextBox");
-	//dojo.require("dijit.form.CheckBox");
 	dojo.require("dijit.Dialog");
 </script>
 <style>	
@@ -69,7 +68,7 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 <table cellspacing="10" class='fullside'>
  <legend class="mainblog"><strong><?php echo $tr->translate("CLIENT_COLETERAL");?></strong></legend>
 	<tr>
-		<td width="33%;" valign="top">
+		<td width="40%;" valign="top">
 			 <fieldset>
 				<legend align="center" ><strong><?php echo $tr->translate("BRANCH_INFO")?></strong></legend>
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="8"  >
@@ -96,7 +95,7 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 				</table>
 			</fieldset>	
 		</td>
-		<td width="33%;" valign="top">
+		<td width="30%;" valign="top">
 			 <fieldset>
 				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO")?></strong></legend>
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="8" >
@@ -119,7 +118,7 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 				</table>
 			</fieldset>	
 		</td>
-		<td width="33%;" valign="top">
+		<td width="30%;" valign="top">
 			<fieldset>
 				<legend align="center" ><strong><?php echo $tr->translate("GUARANTOR_INFO")?></strong></legend>
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="8"  >
@@ -142,15 +141,12 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 				</table>
 			</fieldset>	
 		</td>
-	</tr>
-
- 
+	</tr> 
 	<tr>
 		<td align="center" colspan="3">
-				<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
-				<div  id="test"></div>
-				<input iconClass="dijitIconClear" type="button" onClick="addCollecteral();" label="<?php echo $tr->translate('ADD');?>" dojoType="dijit.form.Button"/></td>
-		</td>
+			<input type="hidden" dojoType="dijit.form.TextBox" id="record_row" name="record_row" />
+			<div  id="test"></div>
+			<input iconClass="dijitIconClear" type="button" onClick="addCollecteral();" label="<?php echo $tr->translate('ADD');?>" dojoType="dijit.form.Button"/></td>
 	<tr>	
 	<tr>
 		<td align="center" colspan="3">
@@ -164,12 +160,8 @@ dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlenco
 </table>
 </fieldset>
 </form>
-<?php 
-//echo $this->frmpupopclient;
-//echo $this->frmPopupCO;
-?>
 <script type="text/javascript">
-var loan_data  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->loan_number));?> );
+var loan_store  = getDataStorefromJSON('id','name',);
 require(["dojo/ready"], function(ready){
 	ready(function(){
 	 var client_data = new dojo.store.Memory({
@@ -214,8 +206,9 @@ require(["dojo/ready"], function(ready){
 		}
 	
 	}, "client_code");
+	
 	new dijit.form.FilteringSelect({
-		store: loan_number,
+		store: loan_store,
 		required: false,		           
 		name: "loan_number",
 		id: "loan_number",
@@ -226,14 +219,14 @@ require(["dojo/ready"], function(ready){
 		onChange: function() {
 		}
 	}, "loan_number");
-	
-	getClientInfo(1);
-	});
+		getClientInfo(1);
+    });
 });
 function filterClient(){
 	branch_id = dijit.byId('branch_id').get('value');
 	dijit.byId('client_name').query.branch_id = branch_id;
 	dijit.byId('client_code').query.branch_id = branch_id;
+	getloanbyBranch();
 }
 function getClientInfo(type){
 	if(type==1){
@@ -318,8 +311,7 @@ function addCollecteral(){
 		r++;
 		tmp='<tr style="border:1px solid #ccc; font-size:12px;" id="row_capital'+r+'">'
 		tmp+="</tr>";
-			dojo.query("#t_amountmoneytype").append(tmp);
-			
+		dojo.query("#t_amountmoneytype").append(tmp);			
 		temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" onclick="deleteRecord('+r+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
 		temp+='<td width="200px"><select style=" width:98%;background:#fff; padding-left:5px;" id="collect_type'+r+'" name="collect_type'+r+'"  dojoType="dijit.form.FilteringSelect" onchange="showPopCallecteral('+r+')" ​autoComplete="false" queryExpr="*${0}*" >'+collect_option+'</select></td>';
 	    temp+='<td><select style=" width:90%; background:#fff; padding-left:5px;" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+');" class="fullside">'+owner_option+'</select></td>';
@@ -439,5 +431,24 @@ if(dijit.byId('frm_add_tran').validate()) {
 			}
 		});
 	}
+}
+var url_loan = '<?php echo $this->url(array('module'=>'loan','controller'=>'index','action'=>'getallloanbybranch')); ?>';
+function getloanbyBranch(){
+	branch_id = dijit.byId('branch_id').get('value');
+	if(branch_id=='' || branch_id==null){return false;}
+	dojo.xhrPost({
+		url:url_loan,	
+		content:{ 
+		    'branch_id':dijit.byId('branch_id').get('value'),
+		},
+		handleAs:"json",
+		load: function(data) {
+			loan_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('loan_number').set('store', loan_store);
+		},
+		error: function(err) {
+			
+		}
+	});
 }
 </script>

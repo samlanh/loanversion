@@ -62,24 +62,24 @@ echo $this->headTitle($tr->translate("Report Inventory"));
 			            <table width="100%" border="1" style="font-family: 'Khmer OS Content';font-size:12px;  border-collapse:collapse; border:1px solid #000; white-space: nowrap;" cellspacing="0">
 			                <thead>
 				               <tr bgcolor="#c1d0f3" class="style" align="center" style=" font-weight:bold; line-height: 25px; font-size:12px; padding:10px 0px; ">
-				                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("PRODUCT_CATEGORY");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("CURRENT_QTY");?>&nbsp;</td> 
-				                    <td>&nbsp;<?php echo $tr->translate("COST_PRICE");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("SOLD_PRICE");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("NOTE");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("STATUS");?>&nbsp;</td>
+				                    <th>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("PRODUCT_CATEGORY");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("CURRENT_QTY");?>&nbsp;</th> 
+				                    <th>&nbsp;<?php echo $tr->translate("COST_PRICE");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("SOLD_PRICE");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("NOTE");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("STATUS");?>&nbsp;</th>
 				                </tr>
 			                </thead>
 			                <?php 
 			                	$location="";
 			                	$gTotalCost=0;
 			                	$gTotalPrice=0;
-			                    if(!empty($this->inventory)) 
+			                    if(!empty($this->inventory))
 			                	foreach ($this->inventory as $key => $rs){ 
 				                	$totalCost = $rs["cost_price"] * $rs["qty"];
 				                	$totalSoldPrice = $rs["selling_price"] * $rs["qty"];

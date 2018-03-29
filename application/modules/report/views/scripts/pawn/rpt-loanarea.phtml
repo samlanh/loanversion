@@ -49,8 +49,8 @@ table { page-break-inside:auto }
                 	    <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_PAWN_AREA");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date("D-d-m-Y",strtotime($this->search['start_date']));?> To <?php echo date("d-m-Y",strtotime($this->search['end_date']));?></li>
-                		</ul> 
+							<li style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+						</ul> 
                 	</td>
                     <td width="20%"></td>
                 </tr> 
@@ -84,29 +84,29 @@ table { page-break-inside:auto }
                 	$old_currnecy = '';$total_collectprince=0;
                 ?>
                <thead>
-                  <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:10px; padding:5px 0px;">
-	                <td style="padding:5px 0px;" rowspan="2">&nbsp;​<?php echo $tr->translate("NUM");?>&nbsp;</td>
-	                <td style="padding:5px 0px;" rowspan="2">&nbsp;​<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
-	                <td style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("ឥណទានបានបញ្ចេញក្នុងគ្រា");?>&nbsp;</td>
-	                <td style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("សមតុល្យឥណទានគិតដល់ចុងគ្រា");?>&nbsp;</td>
-	                <td style="padding:5px 0px;" colspan="3">&nbsp;<?php echo $tr->translate("ចំណូលឥណទានក្នុងគ្រា");?>&nbsp;</td>
-	            	<td style="padding:5px 0px;" colspan="3">&nbsp;<?php echo $tr->translate("ហានិភ័យឥណទានដល់ចុងគ្រា");?>&nbsp;</td>
+                  <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; background:#ccd9ff; font-size:10px; padding:5px 0px;">
+	                <th style="padding:5px 0px;" rowspan="2">&nbsp;​<?php echo $tr->translate("NUM");?>&nbsp;</th>
+	                <th style="padding:5px 0px;" rowspan="2">&nbsp;​<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</th>
+	                <th style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("ឥណទានបានបញ្ចេញក្នុងគ្រា");?>&nbsp;</th>
+	                <th style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("សមតុល្យឥណទានគិតដល់ចុងគ្រា");?>&nbsp;</th>
+	                <th style="padding:5px 0px;" colspan="3">&nbsp;<?php echo $tr->translate("ចំណូលឥណទានក្នុងគ្រា");?>&nbsp;</th>
+	            	<th style="padding:5px 0px;" colspan="3">&nbsp;<?php echo $tr->translate("ហានិភ័យឥណទានដល់ចុងគ្រា");?>&nbsp;</th>
 	             </tr>
-	             <tr class="style" style="font-weight:bold; line-height: 24px;">
-                    <td>&nbsp;ចំនួន&nbsp;</td>
-                    <td>&nbsp;ទំហំឥណទាន&nbsp;</td>
-                    <td>&nbsp;ទំហំឥណទានជាមធ្យម&nbsp;</td>
-                    <td>&nbsp;អាត្រាការជាមធ្យម&nbsp;</td>
-                    <td>&nbsp;ចំនួន&nbsp;</td>
-                    <td>&nbsp;សមតុល្យ&nbsp;</td>
-                    <td>&nbsp;សមតុល្យមធ្យម&nbsp;</td>
-                    <td>&nbsp;អាត្រាការជាមធ្យម&nbsp;</td>
-                    <td>&nbsp;ប្រាក់ដើម&nbsp;</td>
-                    <td>&nbsp;ការប្រាក់&nbsp;</td>
-                    <td>&nbsp;ប្រាក់ពិន័យ&nbsp;</td>
-                    <td>&nbsp;ចំនួន&nbsp;</td>
-                    <td>&nbsp;សមតុល្យ&nbsp;</td>
-                    <td>&nbsp;ភាគរយ&nbsp;</td>
+	             <tr class="style" style="font-weight:bold; line-height: 24px; background:#ccd9ff;">
+                    <th>&nbsp;ចំនួន&nbsp;</th>
+                    <th>&nbsp;ទំហំឥណទាន&nbsp;</th>
+                    <th>&nbsp;ទំហំឥណទានជាមធ្យម&nbsp;</th>
+                    <th>&nbsp;អាត្រាការជាមធ្យម&nbsp;</th>
+                    <th>&nbsp;ចំនួន&nbsp;</th>
+                    <th>&nbsp;សមតុល្យ&nbsp;</th>
+                    <th>&nbsp;សមតុល្យមធ្យម&nbsp;</th>
+                    <th>&nbsp;អាត្រាការជាមធ្យម&nbsp;</th>
+                    <th>&nbsp;ប្រាក់ដើម&nbsp;</th>
+                    <th>&nbsp;ការប្រាក់&nbsp;</th>
+                    <th>&nbsp;ប្រាក់ពិន័យ&nbsp;</th>
+                    <th>&nbsp;ចំនួន&nbsp;</th>
+                    <th>&nbsp;សមតុល្យ&nbsp;</th>
+                    <th>&nbsp;ភាគរយ&nbsp;</th>
                 </tr>
                 </thead>
                 <?php  $loan_new = 0;
@@ -311,31 +311,31 @@ table { page-break-inside:auto }
             <br />
            <div style="border: 1px solid #000; margin-bottom: 10px;"></div>
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;text-align: center;" width="100%" cellspacing="0">
-                 
-                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:10px; padding:5px 0px;">
-	                <td rowspan="2"><?php echo $tr->translate("CURRENT_TYPE");?></td> 
-	                <td style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("ឥណទានបានបញ្ចេញក្នុងគ្រា");?>&nbsp;</td>
-	                <td style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("សមតុល្យឥណទានគិតដល់ចុងគ្រា");?>&nbsp;</td>
-	                <td style="padding:5px 0px;" colspan="3">&nbsp;<?php echo $tr->translate("ចំណូលឥណទានក្នុងគ្រា");?>&nbsp;</td>
-	            	<td style="padding:5px 0px;" colspan="3">&nbsp;<?php echo $tr->translate("ហានិភ័យឥណទានដល់ចុងគ្រា");?>&nbsp;</td>
+                 <thead>
+                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; background:#ccd9ff; font-size:10px; padding:5px 0px;">
+	                <th rowspan="2"><?php echo $tr->translate("CURRENT_TYPE");?></td> 
+	                <th style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("ឥណទានបានបញ្ចេញក្នុងគ្រា");?>&nbsp;</th>
+	                <th style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("សមតុល្យឥណទានគិតដល់ចុងគ្រា");?>&nbsp;</th>
+	                <th style="padding:5px 0px;" colspan="3">&nbsp;<?php echo $tr->translate("ចំណូលឥណទានក្នុងគ្រា");?>&nbsp;</th>
+	            	<th style="padding:5px 0px;" colspan="3">&nbsp;<?php echo $tr->translate("ហានិភ័យឥណទានដល់ចុងគ្រា");?>&nbsp;</th>
 	            </tr>
-	             <tr class="style" style="font-weight:bold; line-height: 24px;">
-                    <td>&nbsp;ចំនួន&nbsp;</td>
-                    <td>&nbsp;ទំហំឥណទាន&nbsp;</td>
-                    <td>&nbsp;ទំហំឥណទានជាមធ្យម&nbsp;</td>
-                    <td>&nbsp;អាត្រាការជាមធ្យម&nbsp;</td>
-                    <td>&nbsp;ចំនួន&nbsp;</td>
-                    <td>&nbsp;សមតុល្យ&nbsp;</td>
-                    <td>&nbsp;សមតុល្យមធ្យម&nbsp;</td>
-                    <td>&nbsp;អាត្រាការជាមធ្យម&nbsp;</td>
-                    <td>&nbsp;ប្រាក់ដើម&nbsp;</td>
-                    <td>&nbsp;ការប្រាក់&nbsp;</td>
-                    <td>&nbsp;ប្រាក់ពិន័យ&nbsp;</td>
-                    <td>&nbsp;ចំនួន&nbsp;</td>
-                    <td>&nbsp;សមតុល្យ&nbsp;</td>
-                    <td>&nbsp;ភាគរយ&nbsp;</td>
+	             <tr class="style" style="font-weight:bold; line-height: 24px; background:#ccd9ff;">
+                    <th>&nbsp;ចំនួន&nbsp;</th>
+                    <th>&nbsp;ទំហំឥណទាន&nbsp;</th>
+                    <th>&nbsp;ទំហំឥណទានជាមធ្យម&nbsp;</th>
+                    <th>&nbsp;អាត្រាការជាមធ្យម&nbsp;</th>
+                    <th>&nbsp;ចំនួន&nbsp;</th>
+                    <th>&nbsp;សមតុល្យ&nbsp;</th>
+                    <th>&nbsp;សមតុល្យមធ្យម&nbsp;</th>
+                    <th>&nbsp;អាត្រាការជាមធ្យម&nbsp;</th>
+                    <th>&nbsp;ប្រាក់ដើម&nbsp;</th>
+                    <th>&nbsp;ការប្រាក់&nbsp;</th>
+                    <th>&nbsp;ប្រាក់ពិន័យ&nbsp;</th>
+                    <th>&nbsp;ចំនួន&nbsp;</th>
+                    <th>&nbsp;សមតុល្យ&nbsp;</th>
+                    <th>&nbsp;ភាគរយ&nbsp;</th>
                 </tr>
-                
+                </thead>
                 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
                     <td><?php echo number_format($newloan_reil ,2);?></td>

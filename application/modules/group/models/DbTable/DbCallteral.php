@@ -12,6 +12,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 	    			'branch_id'		 	=>$data['branch_id'],
 					'collecteral_code'	=>$data['cod_cal'],
 	    			'co_id'				=>$data['co_name'],
+	    			'loan_id'			=>$data['loan_number'],
 	    			'client_id'			=>$data['client_name'],
 	    			'join_with'			=>$data['name'],
 	    			'relative'			=>$data['names'],
@@ -54,6 +55,7 @@ class Group_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 			$arr = array(
 					'branch_id'=>$format['branch_id'],
 					'collecteral_code'=>$format['cod_cal'],
+					'loan_id'=>$format['loan_number'],
 					'co_id'=>$format['co_name'],
 					'client_id'=>$format['client_name'],
 					'join_with'=>$format['name'],

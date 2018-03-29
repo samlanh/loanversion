@@ -36,8 +36,8 @@ public function init()
 	   $frm = $fm->Frmcallecterall(); 
 	   Application_Model_Decorator::removeAllDecorator($frm);
 	   $this->view->Form_Frmcallecterall = $frm;
-	   $dbpop = new Application_Form_FrmPopupGlobal();
-	   $this->view->frm_popup_callecterall= $dbpop->frmPopupCallecterallType();
+// 	   $dbpop = new Application_Form_FrmPopupGlobal();
+// 	   $this->view->frm_popup_callecterall= $dbpop->frmPopupCallecterallType();
     }
     public function indexAction()
     {

@@ -1742,5 +1742,16 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	$sql.="  order BY c.`client_id` DESC ";
   	return $db->fetchAll($sql);
   }
+  public function getAllLoanbybranch($branch_id){
+  	$db = $this->getAdapter();
+  	$sql="SELECT l.id,
+	  	CONCAT(loan_number,(SELECT name_kh FROM `ln_client` WHERE ln_client.client_id=l.customer_id LIMIT 1)) AS name
+	  	FROM `ln_loan` AS l 
+  			WHERE l.status=1 
+  				AND l.is_completed = 0 
+  				AND l.branch_id=$branch_id
+  				ORDER BY l.id DESC ";
+  	return $db->fetchAll($sql);
+  }
 }
 ?>

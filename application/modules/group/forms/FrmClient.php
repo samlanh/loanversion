@@ -61,13 +61,13 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		
-		$_group = new Zend_Dojo_Form_Element_CheckBox('is_group');
+		$_group = new Zend_Form_Element_Hidden('is_group');
 		$_group->setAttribs(array(
-				'dojoType'=>'dijit.form.CheckBox',
+				'dojoType'=>'dijit.form.TextBox',
 				'onClick'=>'getGroupCode();',
 				));
 		
-		$_group_code = new Zend_Dojo_Form_Element_TextBox('group_code');
+		$_group_code = new Zend_Form_Element_Hidden('group_code');
 		$_group_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
@@ -94,9 +94,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 	
 		
 		
-		$_member = new Zend_Dojo_Form_Element_FilteringSelect('group_id');
+		$_member = new Zend_Form_Element_Hidden('group_id');
 		$_member->setAttribs(array(
-				'dojoType'=>'dijit.form.FilteringSelect',
+				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 				'onchange'=>'getGroupCode();',
 				'autoComplete'=>"false",
@@ -104,10 +104,9 @@ Class Group_Form_FrmClient extends Zend_Dojo_Form {
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
 		$rows = $db->getClientByType(1);
-		//print_r($rows);exit();
-		$options=array(''=>"---Select Group Name---");
-		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
-		$_member->setMultiOptions($options);
+// 		$options=array(''=>"---Select Group Name---");
+// 		if(!empty($rows))foreach($rows AS $row) $options[$row['client_id']]=$row['name_en'];
+// 		$_member->setMultiOptions($options);
 		
 		$_namekh = new Zend_Dojo_Form_Element_TextBox('name_kh');
 		$_namekh->setAttribs(array(

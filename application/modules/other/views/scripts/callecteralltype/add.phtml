@@ -7,71 +7,69 @@ $frm = $this->Form_Frmcallecterall;
 </script>
 <title> <?php echo $tr->translate("COLLECTERALL_TYPE")?></title>
 <form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'other','controller'=>'callecteralltype','action'=>'add')); ?>" 
-				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-<script type="dojo/method" event="onSubmit">			
+	dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
-				//return false;
                 dijit.byId("save_new").set("disabled",true);
 				dijit.byId("save_close").set("disabled",true);
 				return true;
 			}else {
 				return false;
 			}
-</script>
-<table cellspacing="10" width="45%" style="margin: 0 auto;">
-	<tr>
-		<td>
-		<fieldset>
-		<legend align="center" ><strong><?php echo $tr->translate("CALLECTERALLTYPE")?></strong></legend>
-		<table style="margin: 0 auto; width: 100%;" cellspacing="10" >
-					​<tr>
-						<td><?php echo $tr->translate("NAME_KH")?></td>
-						<td><?php echo $frm->getElement('title_kh')?></td>								
-					</tr>
-					<tr>
-						<td><?php echo $tr->translate("NAME_ENG")?></td>
-						<td><?php echo $frm->getElement('title_en')?></td>	
-					</tr>
-					<tr>
-						<td><?php echo $tr->translate("DATE")?></td>
-						<td><?php echo $frm->getElement('date')?></td>
-					</tr>
-					<tr>
-						<td><?php echo $tr->translate("STATUS")?></td>
-						<td><?php echo $frm->getElement('status')?></td>
-					</tr>
-					<tr>
-						<td align="center" colspan="2">
-							<input type="reset" iconClass="dijitIconClear" label="<?php echo $tr->translate('CLEAR');?>"dojoType="dijit.form.Button"/>
-							<input type="button" onclick="submitDataClose();" value="save_close" name="save_close" id="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
-								iconClass="dijitEditorIcon dijitEditorIconSave" />
-							<input type="submit" value="save_new" name="save_new"  id="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
-								iconClass="dijitEditorIcon dijitEditorIconSave" />
-						</td>
-					</tr>	
-				</table>	
-		</fieldset>		
-		</td>
-	</tr>
-</table>
+	</script>
+	<table cellspacing="10" width="45%" style="margin: 0 auto;">
+		<tr>
+			<td>
+			<fieldset>
+			<legend align="center" ><strong><?php echo $tr->translate("CALLECTERALLTYPE")?></strong></legend>
+			<table style="margin: 0 auto; width: 100%;" cellspacing="10" >
+						​<tr>
+							<td><?php echo $tr->translate("NAME_KH")?></td>
+							<td><?php echo $frm->getElement('title_kh')?></td>								
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("NAME_ENG")?></td>
+							<td><?php echo $frm->getElement('title_en')?></td>	
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("DATE")?></td>
+							<td><?php echo $frm->getElement('date')?></td>
+						</tr>
+						<tr>
+							<td><?php echo $tr->translate("STATUS")?></td>
+							<td><?php echo $frm->getElement('status')?></td>
+						</tr>
+						<tr>
+							<td align="center" colspan="2">
+								<input type="reset" iconClass="dijitIconClear" label="<?php echo $tr->translate('CLEAR');?>"dojoType="dijit.form.Button"/>
+								<input type="button" onclick="submitDataClose();" value="save_close" name="save_close" id="save_close" label="<?php echo $tr->translate('SAVECLOSE');?>" dojoType="dijit.form.Button" 
+									iconClass="dijitEditorIcon dijitEditorIconSave" />
+								<input type="submit" value="save_new" name="save_new"  id="save_new" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button" 
+									iconClass="dijitEditorIcon dijitEditorIconSave" />
+							</td>
+						</tr>	
+					</table>	
+			</fieldset>		
+			</td>
+		</tr>
+	</table>
 </form>
 <script>
-function submitDataClose(){
-	if(dijit.byId('frm_add_tran').validate()) {
-		dijit.byId("save_new").set("disabled",true);
-		dijit.byId("save_close").set("disabled",true);
-		var url_submit = '<?php echo $this->url(array('module'=>'other','controller'=>'callecteralltype','action'=>'add')); ?>';
-		dojo.xhrPost({
-		    url: url_submit,	
-			form: dojo.byId("frm_add_tran"),		    
-			load: function(data) {
-				alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-				window.location.href ="<?php echo $this->baseUrl();?>/other/callecteralltype";
-			},
-			error: function(e) {
-			}
-		});
+	function submitDataClose(){
+		if(dijit.byId('frm_add_tran').validate()) {
+			dijit.byId("save_new").set("disabled",true);
+			dijit.byId("save_close").set("disabled",true);
+			var url_submit = '<?php echo $this->url(array('module'=>'other','controller'=>'callecteralltype','action'=>'add')); ?>';
+			dojo.xhrPost({
+			    url: url_submit,	
+				form: dojo.byId("frm_add_tran"),		    
+				load: function(data) {
+					alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
+					window.location.href ="<?php echo $this->baseUrl();?>/other/callecteralltype";
+				},
+				error: function(e) {
+				}
+			});
+		}
 	}
-}
-
 </script>

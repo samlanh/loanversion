@@ -155,7 +155,8 @@ table { page-break-inside:auto }
             </table>
             <br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr bgcolor="#c1d0f3" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:12px;font-family: 'Khmer OS Content';">
+                <thead>
+				<tr bgcolor="#c1d0f3" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:12px;font-family: 'Khmer OS Content';">
                  	<th rowspan="2">&nbsp;<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</th>
                  	<th colspan="3" style="font-size: 12px;"><?php echo $tr->translate("ប្រាក់ត្រូវប្រមូល");?></th>
                     <th colspan="3" style="font-size: 12px;"><?php echo $tr->translate("តារាងប្រាក់មិនទាន់បង់");?></th>
@@ -168,6 +169,7 @@ table { page-break-inside:auto }
                     <th>&nbsp;<?php echo $tr->translate("TOTAL_INTEREST");?>&nbsp;</th>
                     <th>&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</th>
                 </tr>
+				</thead>
                  <tr class="style" style=" line-height: 24px; font-size:12px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($p_d,2);?>$&nbsp;</td>

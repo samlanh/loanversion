@@ -77,19 +77,19 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			            <table width="100%" border="1" style="font-family: 'Khmer OS Content';font-size:12px;  border-collapse:collapse; border:1px solid #000; white-space: nowrap;" cellspacing="0">
 			                <thead>
 				               <tr bgcolor="#c1d0f3" class="style" align="center" style=" font-weight:bold; line-height: 25px; font-size:12px; padding:10px 0px; ">
-				                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("SALE_NO");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("CUSTOMER_CODE");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("CATEGORY");?>&nbsp;</td> 
-				                     <td>&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("Buy Type");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("SELLING_PRICE");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("PAYMENTED");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("BALANCE");?>&nbsp;</td>
-				                    <td>&nbsp;<?php echo $tr->translate("DATE");?>&nbsp;</td>
-				                    <td class="noneprint" style="display: none;">&nbsp;<?php echo $tr->translate("");?>&nbsp;</td>
+				                    <th>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("SALE_NO");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("CUSTOMER_CODE");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("CATEGORY");?>&nbsp;</th> 
+				                     <th>&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("Buy Type");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("SELLING_PRICE");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("PAYMENTED");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("BALANCE");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("DATE");?>&nbsp;</th>
+				                    <th class="noneprint" style="display: none;">&nbsp;<?php echo $tr->translate("");?>&nbsp;</th>
 				                </tr>
 			                </thead>
 			                <?php 
@@ -140,6 +140,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			</table>
 			<br />
 			 <table align="center" width="100%">
+			 <thead>
 			   <tr style="font-size: 14px;">
 			        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 			        <th></th>
@@ -147,6 +148,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			        <th></th>
 			        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 			   </tr>
+			  </thead>
 			</table>
 		</div>
 	</div>
