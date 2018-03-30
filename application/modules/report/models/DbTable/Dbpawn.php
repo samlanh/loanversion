@@ -530,7 +530,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				   FROM `ln_currency`
 				   WHERE (`ln_currency`.`id` = `crm`.`currency_type`) LIMIT 1) AS `currency_typeshow`,
 				  (SELECT `l`.`loan_number` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `loan_number`,
-				  (SELECT `c`.`name_kh` FROM `ln_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
+				  (SELECT `c`.`name_kh` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
 				  (SELECT  `c`.`client_number` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
 				  (SELECT `u`.`first_name` FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
 				  `crm`.`id`                   AS `id`,
@@ -2327,6 +2327,114 @@ AND cl.client_id = $client_id )";
       
       }
       
+      public function getPawnShopByID($id){
+      	$db = $this->getAdapter();
+      	$sql = "SELECT
+      	`l`.`id`             AS `id`,
+      	`l`.`loan_number`    AS `loan_number`,
+      	`l`.`branch_id`      AS `branch_id`,
+      	`l`.`customer_id`    AS `client_id`,
+      	`l`.`release_amount`    AS `total_capital`,
+      	`l`.`interest_rate`  AS `interest_rate`,
+      	`l`.`level`          AS `loan_level`,
+      	`l`.`currency_type`  AS `curr_type`,
+      	`l`.`is_completed`   AS `is_completed`,
+      	`l`.`total_duration` AS `total_duration`,
+      	`l`.`date_release`   AS `date_release`,
+      	`l`.`first_payment`   AS `first_payment`,
+      	`l`.`date_line`      AS `date_line`,
+      	`l`.`status`         AS `status`,
+      	`c`.`client_number` AS  `client_number`,
+      	`c`.`name_en`  AS `client_name`,
+      	`c`.`phone` AS `phone`,
+      	`c`.`name_kh` AS `client_khname`,
+      	(SELECT
+      	`db_loannewversion`.`ln_branch`.`branch_namekh`
+      	FROM `db_loannewversion`.`ln_branch`
+      	WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
+      	LIMIT 1) AS `branch_name`,
+      	(SELECT
+      	`ln_currency`.`symbol`
+      	FROM `ln_currency`
+      	WHERE (`ln_currency`.`id` = `l`.`currency_type`)
+      	LIMIT 1) AS `currency_type`,
+      	(SELECT
+      	`ln_view`.`name_en`
+      	FROM `ln_view`
+      	WHERE ((`ln_view`.`type` = 14)
+      	AND (`ln_view`.`key_code` = `l`.`term_type`))
+      	LIMIT 1) AS `termborrow`,
+      	(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=l.product_id) as product_name,
+      	product_description,
+      	est_amount,
+      	(SELECT CONCAT(u.last_name,' ',u.first_name) FROM `rms_users` AS u WHERE u.id = l.`user_id` LIMIT 1) AS user_name
       
+      	FROM
+      	`db_loannewversion`.`ln_pawnshop` AS  `l`,
+      	ln_clientsaving As c
+      	WHERE (`l`.`status` = 1)
+      	AND `c`.`client_id` = `l`.`customer_id` AND `l`.`id` = $id";
+      	$where ='';
+      	$where.=" ORDER BY `l`.`branch_id`,`l`.`currency_type` LIMIT 1";
+      	return $db->fetchRow($sql.$where);
+      }
+      
+      public function getPawnShopPaymentBYId($id){
+      	$db = $this->getAdapter();
+      	$sql="SELECT
+      	(SELECT
+      	`ln_branch`.`branch_namekh`
+      	FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`)
+      	LIMIT 1) AS `branch_name`,
+      	(SELECT `ln_currency`.`symbol`
+      	FROM `ln_currency`
+      	WHERE (`ln_currency`.`id` = `crm`.`currency_type`) LIMIT 1) AS `currency_typeshow`,
+      	(SELECT `l`.`loan_number` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `loan_number`,
+      	(SELECT `c`.`name_kh` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
+      	(SELECT  `c`.`client_number` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
+      	(SELECT `u`.`first_name` FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
+      	`crm`.`id`                   AS `id`,
+      	`crm`.`receipt_no`           AS `receipt_no`,
+      	`crm`.`branch_id`            AS `branch_id`,
+      	`crm`.`date_pay`             AS `date_pay`,
+      	`crm`.`date_payment`         AS `date_payment`,
+      	`crm`.`date_input`           AS `date_input`,
+      	`crm`.`note`                 AS `note`,
+      	`crm`.`user_id`              AS `user_id`,
+      	`crm`.`status`               AS `status`,
+      	`crm`.`payment_option`       AS `payment_option`,
+      	`crm`.`currency_type`        AS `currency_type`,
+      	`crm`.`is_payoff`            AS `is_payoff`,
+      	`crm`.`total_payment`        AS `total_payment`,
+      	`crm`.`principal_amount`     AS `principal_amount`,
+      	`crm`.`interest_amount`      AS `interest_amount`,
+      	`crm`.`principal_paid`       AS `principal_paid`,
+      	`crm`.`interest_paid`        AS `interest_paid`,
+      	`crm`.`service_paid`         AS `service_paid`,
+      	`crm`.`penalize_paid`        AS `penalize_paid`,
+      	`crm`.`total_paymentpaid`    AS `total_paymentpaid`,
+      	`crm`.`recieve_amount`       AS `amount_recieve`,
+      	`crm`.`return_amount`        AS `return_amount`,
+      	`crm`.`penalize_amount`      AS `penelize`,
+      	`crm`.`service_chargeamount` AS `service_charge`,
+      	`crm`.`client_id`            AS `client_id`,
+      	`crm`.`paid_times`           AS `paid_times`,
+      	ps.`product_id`         AS `product_id`,
+      	(SELECT p.product_en FROM `ln_pawnshopproduct` AS p WHERE p.id = ps.`product_id` LIMIT 1) AS proTitle,
+      	(SELECT p.product_kh FROM `ln_pawnshopproduct` AS p WHERE p.id = ps.`product_id` LIMIT 1) AS proTitleKh,
+      	ps.`product_description`        AS `product_description`
+      	FROM `ln_pawn_receipt_money` `crm`,
+      	`ln_pawn_receipt_money_detail` `d`,
+		`ln_pawnshop` `ps`
+      	WHERE (`crm`.`status` = 1)
+      	AND (`crm`.`id` = `d`.`receipt_id`)
+      	AND (`crm`.`loan_id` = ps.id)
+      	AND (`crm`.`status` = 1)
+      	AND crm.id = $id
+      	GROUP BY `crm`.`id` ";
+      
+      	$sql.=" ORDER BY `crm`.`id` DESC LIMIT 1";
+      	return $db->fetchRow($sql);
+      }
  }
 

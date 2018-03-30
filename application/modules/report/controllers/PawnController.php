@@ -627,5 +627,25 @@ function rptPaymentHistoryAction(){
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
  }
+ function pawnticketreceiptAction(){
+ 	$id =$this->getRequest()->getParam('id');
+ 	$id = empty($id)?0:$id;
+ 	$db  = new Report_Model_DbTable_Dbpawn();
+ 	$row = $db->getPawnShopByID($id);
+ 	if (empty($row)){
+ 		$this->_redirect("/report/pawn/rpt-loan-disburse");
+ 	}
+ 	$this->view->pawnshop =$row;
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ }
+ function recieptpaymentAction(){
+ 	$db  = new Report_Model_DbTable_Dbpawn();
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	$id =$this->getRequest()->getParam('id');
+ 	$id = empty($id)?0:$id;
+ 	$this->view->loanPayment = $db->getPawnShopPaymentBYId($id);
+ }
 }
 

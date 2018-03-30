@@ -69,7 +69,7 @@ $free_day=$key_code['value'];
                 	    <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_COLLECT_BY_CO");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date("D-d-M-Y",strtotime($this->start_date)).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->date_show));?></li>
+                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->date_show['start_date'])){?><?php echo date("D-d-M-Y",strtotime($this->start_date)).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->date_show));}?></li>
                 		</ul>
                 	</td>
                     <td width="20%"></td>
@@ -95,23 +95,23 @@ $free_day=$key_code['value'];
 <div id="exportExcel">
 <table  width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
 		    <thead>
-		        <tr class="style" bgcolor="#ccc" align="center" style="font-weight:bold; line-height: 24px; font-size:12px; white-space: nowrap; ">
-			      <td rowspan="2"><?php echo $tr->translate("NUM");?></td>
-	                    <td rowspan="2"><?php echo $tr->translate("BRANCH_NAME");?></td>
-	                    <td rowspan="2"><?php echo $tr->translate("LOAN_NO");?></td>	  
-	                    <td rowspan="2"><?php echo $tr->translate("CLIENT_NUM");?></td>                  
-	                    <td rowspan="2"><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-	                    <td rowspan="2"><?php echo $tr->translate("INTEREST_RATE");?></td>
+		        <tr class="style" bgcolor="#ccc" align="center" style="font-weight:bold; line-height: 24px; background:#ccd9ff;  font-size:12px; white-space: nowrap; ">
+			      <td rowspan="2"><?php echo $tr->translate("NUM");?></th>
+	                    <th rowspan="2"><?php echo $tr->translate("BRANCH_NAME");?></th>
+	                    <th rowspan="2"><?php echo $tr->translate("LOAN_NO");?></th>	  
+	                    <th rowspan="2"><?php echo $tr->translate("CLIENT_NUM");?></th>                  
+	                    <th rowspan="2"><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+	                    <th rowspan="2"><?php echo $tr->translate("INTEREST_RATE");?></th>
 	                    <?php 
 							$colspan=5;
 	                    if($level==1){$colspan=5;}?>
-	                    <td colspan="<?php echo $colspan;?>"><?php echo $tr->translate("TOTAL_PAYMENT");?></td>    
-	                    <td rowspan="2" style="white-space:nowrap; border-right:3px double black; "><?php echo $tr->translate("PAY_DATE");?></td>
-	                    <td rowspan="2"><?php echo $tr->translate("INPUT_DATE");?></td>
-	                    <td rowspan="2"><?php echo $tr->translate("RECIEPT_NO");?></td>
-	                    <!-- <td rowspan="2"><?php //echo $tr->translate("PAYMENTED");?></td> -->
-	                    <!--<td><?php //echo $tr->translate("RETURN_AMOUNT");?></td>-->
-	                    <td rowspan="2"><?php echo $tr->translate("BALANCE");?></td>
+	                    <th colspan="<?php echo $colspan;?>"><?php echo $tr->translate("TOTAL_PAYMENT");?></th>    
+	                    <th rowspan="2" style="white-space:nowrap; border-right:3px double black; "><?php echo $tr->translate("PAY_DATE");?></th>
+	                    <th rowspan="2"><?php echo $tr->translate("INPUT_DATE");?></th>
+	                    <th rowspan="2"><?php echo $tr->translate("RECIEPT_NO");?></th>
+	                    <!-- <th rowspan="2"><?php //echo $tr->translate("PAYMENTED");?></th> -->
+	                    <!--<th><?php //echo $tr->translate("RETURN_AMOUNT");?></th>-->
+	                    <th rowspan="2"><?php echo $tr->translate("BALANCE");?></th>
 			   	</tr>
 			   	<tr class="style" style="white-space: nowrap;text-align: center;">
 	                	<td ><?php echo $tr->translate("PRINCIPLE");?></td>                   
@@ -174,16 +174,18 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
 <?php  }?>
 </table><br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr class="style" bgcolor="#ccc" style="font-weight:bold; line-height: 24px; text-align: center; font-size:12px;font-family: 'Khmer OS Content';">
-                    <td style="font-size: 12px;">ប្រភេទប្រាក់</td>
+                <thead>
+				<tr class="style" bgcolor="#ccc" style="font-weight:bold; line-height: 24px;background:#ccd9ff;  text-align: center; font-size:12px;font-family: 'Khmer OS Content';">
+                    <th style="font-size: 12px;">ប្រភេទប្រាក់</th>
                    <?php if($level==1){?>    
-	                    <td><?php echo $tr->translate("PRINCIPAL");?></td>                    
-	                    <td><?php echo $tr->translate("TOTAL_INTEREST");?></td>
+	                    <th><?php echo $tr->translate("PRINCIPAL");?></th>                    
+	                    <th><?php echo $tr->translate("TOTAL_INTEREST");?></th>
                     <?php }?>
-                    <td style="font-size: 12px;"><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
-                    <td style="font-size: 12px;"><?php echo $tr->translate("SERVICE_CHARGE");?></td>
-                    <td style="font-size: 12px;"><?php echo $tr->translate("TOTAL");?></td>
+                    <th style="font-size: 12px;"><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
+                    <th style="font-size: 12px;"><?php echo $tr->translate("SERVICE_CHARGE");?></th>
+                    <th style="font-size: 12px;"><?php echo $tr->translate("TOTAL");?></th>
                 </tr>
+				</thead>
                  <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <?php if($level==1){?>   

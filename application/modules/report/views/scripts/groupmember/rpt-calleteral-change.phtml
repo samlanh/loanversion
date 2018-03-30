@@ -59,7 +59,7 @@ dojo.require("dijit.form.DateTextBox");
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("REPORT_CHANGE_CALLETERAL");?></h2>
-                	<h2 style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->result['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->result['end_date']));?></h2></td>
+                	<h2 style="text-align:center; font-size:13px;"><?php if(!empty($this->result['start_date'])){?><?php echo date("d-M-Y",strtotime($this->result['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->result['end_date']));}?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -82,10 +82,11 @@ dojo.require("dijit.form.DateTextBox");
     	<td>
             <table  id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                 <?php if(empty($this->calleteral_list)){?>
+				<thead>
                 <tr>
                 	<td colspan="6">&nbsp;<span class="style"><?php echo $tr->translate("CUSTOMER_NAME");?> </span></td>
                 </tr>
-            	<tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
+            	<tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; background: #ccd9ff; font-size:11px; padding:5px 0px; ">
                     <th ><?php echo $tr->translate("NUM");?> </th>
                     <th ><?php echo $tr->translate("BRANCH_NAME");?> </th>
                     <th ><?php echo $tr->translate("COLLTERAL_CODE");?> </th>
@@ -97,6 +98,7 @@ dojo.require("dijit.form.DateTextBox");
                     <th ><?php echo $tr->translate("DATE");?> </th>
                     <th ><?php echo $tr->translate("NOTE");?> </th>
                 </tr>
+				</thead>
             	<?php }?>
                    <?php  
                     $id='';
@@ -119,7 +121,8 @@ dojo.require("dijit.form.DateTextBox");
                 	<td colspan="6" align="center" bgcolor="#ccc">&nbsp;<span class="style"><?php  echo $tr->translate("FROM_COLL"); ?></td>
                 	<td colspan="7" align="center" bgcolor="#ccc" style="border-left:3px double #000; ">&nbsp;<span class="style"><?php echo $tr->translate("TO_COLL");?> </span></td>
                 </tr>
-                 <tr bgcolor="#ccc" class="style"  align="center" style="font-weight:bold; line-height: 18px; ">
+				<thead>
+                 <tr  class="style"  align="center" style="font-weight:bold; line-height: 18px; background: #ccd9ff; ">
                     <td><?php echo $tr->translate("NUM");?> </td>
                     <td><?php echo $tr->translate("BRANCH_NAME");?> </td>
                     <td><?php echo $tr->translate("COLLTERAL_CODE");?> </td>
@@ -134,6 +137,7 @@ dojo.require("dijit.form.DateTextBox");
                     <td><?php echo $tr->translate("DATE");?> </td>
                     <th ><?php echo $tr->translate("NOTE");?> </th>
                 </tr>
+				</thead>
                 <?php }
                 ?>
 					<tr class="style" >
@@ -152,13 +156,12 @@ dojo.require("dijit.form.DateTextBox");
 						<td>&nbsp;<?php echo $row['note']?>&nbsp;</td>
 					</tr>
 				<?php 
-				$id = $row['client_id'];
-}?>
-            
+				$id = $row['client_id'];}?>       
             <br />
               </table>
               <br />
              <table align="center" width="100%">
+			 <thead>
 				   <tr style="font-size: 12px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
@@ -166,6 +169,7 @@ dojo.require("dijit.form.DateTextBox");
 				        <th></th>
 				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
+			</thead>
 			</table>
     	</td>
     </tr>

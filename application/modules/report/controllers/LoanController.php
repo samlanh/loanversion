@@ -1304,5 +1304,14 @@ function rptLoanTrasferzoneAction(){//release all loan
  	$id = empty($id)?0:$id;
  	$this->view->loanPayment = $db->getLoanPaymentById($id);
  }
+ function exchangereceiptAction(){
+ 	$key = new Application_Model_DbTable_DbKeycode();
+ 	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+ 	$db  = new Report_Model_DbTable_DbLoan();
+ 	$id =$this->getRequest()->getParam('id');
+ 	$id = empty($id)?0:$id;
+ 	$row = $db->getAllxchangeBYID($id);
+ 	$this->view->Exchange = $row;
+ }
 }
 

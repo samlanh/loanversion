@@ -56,7 +56,7 @@ table { page-break-inside:auto }
                 		<ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DIALYAMOUNT_LOAN");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
                 	</td>
                     <td width="20%"></td>
@@ -83,25 +83,25 @@ table { page-break-inside:auto }
     	<td id="exportExcel">
             <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:10px;" width="100%" cellspacing="0">
                 <thead>
-                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 20px; font-size:12px; padding:1px 0px; white-space: nowrap; ">
-                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
-                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
-                    <td><?php echo $tr->translate("LOAN_NO");?></td>
-                    <td><?php echo $tr->translate("CLIENT_NO");?></td>
-                    <td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-                    <td><?php echo $tr->translate("TEL");?></td>
-                    <td><?php echo $tr->translate("LOAN_LEVEL");?></td>
-                    <td><?php echo $tr->translate("CO_NAME");?></td>
-                    <td><?php echo $tr->translate("LOAN_AMOUNT");?></td>
-                    <td><?php echo $tr->translate("INTEREST RATE");?></td>
-                    <td><?php echo $tr->translate("TERM_BORROW");?></td>
-                    <td><?php echo $tr->translate("PAMENT_METHOD");?></td>
-                    <td><?php echo $tr->translate("RELEASED_DATE");?></td>
-                    <td><?php echo $tr->translate("LIFE_LOAN");?></td>
-                    <td><?php echo $tr->translate("INSTALL_PAID");?></td>
-                    <td><?php echo $tr->translate("INSTALL_REMAIN");?></td>
-                    <td><?php echo $tr->translate("ចំនួនដង់យឺត");?></td>
-                    <td><?php echo $tr->translate("ទឹកប្រាក់យឺត");?></td>
+                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 20px;background: #ccd9ff; font-size:12px; padding:1px 0px; white-space: nowrap; ">
+                    <th>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
+                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
+                    <th><?php echo $tr->translate("LOAN_NO");?></th>
+                    <th><?php echo $tr->translate("CLIENT_NO");?></th>
+                    <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+                    <th><?php echo $tr->translate("TEL");?></th>
+                    <th><?php echo $tr->translate("LOAN_LEVEL");?></th>
+                    <th><?php echo $tr->translate("CO_NAME");?></th>
+                    <th><?php echo $tr->translate("LOAN_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("INTEREST RATE");?></th>
+                    <th><?php echo $tr->translate("TERM_BORROW");?></th>
+                    <th><?php echo $tr->translate("PAMENT_METHOD");?></th>
+                    <th><?php echo $tr->translate("RELEASED_DATE");?></th>
+                    <th><?php echo $tr->translate("LIFE_LOAN");?></th>
+                    <th><?php echo $tr->translate("INSTALL_PAID");?></th>
+                    <th><?php echo $tr->translate("INSTALL_REMAIN");?></th>
+                    <th><?php echo $tr->translate("ចំនួនដង់យឺត");?></th>
+                    <th><?php echo $tr->translate("ទឹកប្រាក់យឺត");?></th>
                 </tr>
                 </thead>
                <?php 
@@ -135,11 +135,11 @@ table { page-break-inside:auto }
                	if($key>0){
                	?>
                	 <tr align="center" style="line-height: 25px; white-space: nowrap;" class="hover">
-					<td colspan="18" style="text-align:center; font-size:14px; font-family:'Khmer MEF2'">សរុបចំនួនទាំងអស់ <?php echo $amount_loan; ?></td>
+					<td colspan="18" style="text-align:center; font-size:14px;  font-family:'Khmer MEF2'">សរុបចំនួនទាំងអស់ <?php echo $amount_loan; ?></td>
 			    </tr>
                	<?php } $amount_loan=0;?>
                <tr align="center" style="line-height: 25px; white-space: nowrap;" class="hover">
-					<td colspan="18" style="background:#ccc;text-align:center; font-size:14px; font-family:'Khmer MEF2'">តារាងបង់ប្រាក់សំរាប់ថ្ងៃ<?php echo $day_as_khmer; ?></td>
+					<td colspan="18" style="background:#ccc;text-align:center; background: #ccd9ff; font-size:14px; font-family:'Khmer MEF2'">តារាងបង់ប្រាក់សំរាប់ថ្ងៃ<?php echo $day_as_khmer; ?></td>
 			   </tr>
                <?php } 
                $amount_loan=$amount_loan+1;
@@ -173,6 +173,7 @@ table { page-break-inside:auto }
             </table>
               <br />
               <table align="center" width="100%">
+			  <thead>
 				   <tr style="font-size: 11px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
@@ -180,6 +181,7 @@ table { page-break-inside:auto }
 				        <th></th>
 				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
+				  </thead>
 			</table>	
     	</td>
     </tr>

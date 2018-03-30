@@ -26,6 +26,11 @@
 		</tr>
 	</table>
 </form>
+<style>
+.noneprint{
+	display: table-cell !important; 
+}
+</style>
 <div style="width:100%; margin:0 auto;">
 <div style="min-width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 <div id="divPrint">
@@ -41,6 +46,10 @@
 	#header {
 	  display: table-header-group;
 	  page-break-inside:avoid; page-break-after:auto;
+	}
+	a.repLink.btn {
+	    color: #008;
+	    font-weight: 600;
 	}
 </style>
 <table width="100%">
@@ -94,6 +103,7 @@
 	                    <th rowspan="2"><?php echo $tr->translate("RECIEPT_NO");?></th>
 	                    <th rowspan="2"><?php echo $tr->translate("PAYMENT_OPTION");?></th>
 	                    <th rowspan="2"><?php echo $tr->translate("BY_USER");?></th>
+	                    <th rowspan="2" class="noneprint" style="display: none;"><?php //echo $tr->translate("EDIT");?></th>
 	                </tr>
 	                <tr bgcolor="#bcd5f0"  class="style" style=" font-weight:bold; white-space: nowrap;">
 	                	<th align="center"><?php echo $tr->translate("PAID_PRINCIPAL");?></th> 
@@ -155,6 +165,9 @@
                		<td>&nbsp;<?php echo $rs["receipt_no"];?>&nbsp;</td>
                		<td style="font-site:9px; <?php if($rs["payment_option"]==4){echo " background:#ccc";} ?>" align="center" >&nbsp;<?php echo @$opt[$rs["payment_option"]];?>&nbsp;</td>
                		<td>&nbsp;<?php echo $rs["user_name"]; ?>&nbsp;</td>
+               		<td class="noneprint" style="display: none;" align="left">
+               			<a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"pawn","action"=>'recieptpayment','id'=>$rs['id']))?>" title="<?php echo $tr->translate("PAYMENT_RECEIPT");?>"><?php echo $tr->translate("PAYMENT_RECEIPT");?></a>
+               		</td>
                 </tr>
                 <?php }?>
             </table>

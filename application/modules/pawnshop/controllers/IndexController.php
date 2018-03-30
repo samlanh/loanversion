@@ -30,12 +30,16 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECEIPT","PAWN_AMOUNT","TERM_BORROW",
-					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","DACH_PRODUCT","BY_USER","STATUS");
+					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","DACH_PRODUCT","BY_USER","STATUS","PAYMENT_RECEIPT");
 			
 			$link_info=array('module'=>'pawnshop','controller'=>'index','action'=>'edit',);
 			$link_dach=array('module'=>'pawnshop','controller'=>'dach','action'=>'index',);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array(
-					'ដាច់បញ្ចាំ'=>$link_dach,'Expired'=>$link_dach,'branch'=>$link_info,'loan_number'=>$link_info,'receipt_num'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
+			$receiptLink=array('module'=>'report','controller'=>'pawn','action'=>'pawnticketreceipt',);
+			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+			$dach = $tr->translate("DACH_PRODUCT");
+			$receipt = $tr->translate("PAYMENT_RECEIPT");
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array("$receipt"=>$receiptLink,
+					"$dach"=>$link_dach,'Expired'=>$link_dach,'branch'=>$link_info,'loan_number'=>$link_info,'receipt_num'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -85,6 +89,12 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 	    $frm = $fm->FrmViewType();
 	    Application_Model_Decorator::removeAllDecorator($frm);
 	    $this->view->Form_Frmcallecterall = $frm;
+	    
+	    $session_user=new Zend_Session_Namespace('authloan');
+	    $this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+	    
+	    $key = new Application_Model_DbTable_DbKeycode();
+	    $this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	}
 public function editAction(){
 	if($this->getRequest()->isPost()){

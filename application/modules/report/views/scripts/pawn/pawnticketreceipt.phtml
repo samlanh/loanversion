@@ -1,0 +1,167 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលោះប្រាក់ដើម",4=>"បង់ផ្តាច់");
+$session_user=new Zend_Session_Namespace('authloan');
+$data = $this->data;
+$pawnshop = $this->pawnshop;
+$curType="រៀល";
+if ($pawnshop['curr_type']==2){
+	$curType="ដុល្លា";
+}else if ($pawnshop['curr_type']==3){
+	$curType="បាត";
+}
+$interetPayment = ($pawnshop['total_capital'] * $pawnshop['interest_rate'])/100;
+?>
+<title><?php echo $tr->translate("PAWN TICKET RECEIPT");?></title>
+<script>
+     dojo.require("dijit.form.DateTextBox");
+</script>
+<div style="width:100%; margin:0 auto;">
+	<div style="min-width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+		<div id="divPrint">
+			<style>
+							.myblog{display: table;}
+							.fontbig{
+								font-size: 15px;	
+							}
+							.fonttel{
+								font-size: 18px;	
+							}
+							.pleft{
+								width: 110px;	
+							}
+							.label{ font-weight: bold;font-size: 22px;}
+							.lblvalue{ font:bold 16px 'Khmer OS Battambang';
+									border: 1px solid #000; 
+									padding: 1px;
+								    line-height: 25px;
+								    text-align: left;
+							       min-width:200px;
+							}
+							.lblsubvalue{
+									font:bold 16px 'Khmer OS Battambang';
+									border: 1px solid #000; 
+									padding: 1px 0px;
+								    line-height: 25px;
+								    text-align: left;
+							        width:34%;
+							}
+							.h{ margin-top:0px; line-height: 15px;
+							  font-family: Arial Black;font-family:'Khmer MEF2';
+		                      }
+			​​               .print td{ font:bold 12px 'Khmer OS Battambang';}
+						   .khmer{font:12px 'Khmer OS Battambang';}
+						   .one{white-space:nowrap;}
+							table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
+						</style>
+						<?php for ($i=0; $i<=1; $i++){?>	
+						<table class="print" cellspacing="0"  cellpadding="0" style="width:100%;height: 10cm;font-family:'Khmer OS Battambang';font-size:16px;color:#000; padding:15px 10px 0px 5px; margin: 0px;">
+							<tr>
+								<td colspan="3">
+									<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+						            	<tr>
+						                	<td width="35%" valign="top"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+						                	<td valign="top" align="center">
+						                		<div class="h" ><?php echo $tr->translate("បង្កាន់ដៃដាក់ទ្រពបញ្ចាំ");?></div> 
+						                		<div class="h" style="padding-top:10px;"><?php echo $tr->translate("PAWN TICKET RECEIPT");?></div> 
+						                	</td>
+						                    <td width="35%">
+						                    	
+						                    </td>
+						                </tr> 
+						            </table>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3" valign="top">
+									<table width="100%">
+										<tr>
+											<td width="50%" valign="top">
+												<table width="100%" style="text-align:left !important; " >
+													<tr>
+														<td>&nbsp;<?php echo $tr->translate("PAWN_CODE");?></td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_receipt_no" ><?php echo $pawnshop['loan_number'];?></label></strong></td>
+													</tr>
+													<tr>
+														<td>&nbsp;កាលបរិច្ឆេទ</td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<?php  $today = date("F j, Y, g:i a");echo $today; ?></strong></td>
+													</tr>
+													<tr>
+														<td>&nbsp;ឈ្មោះអតិថិជន</td>
+														<td class="lblvalue one khmerbold"><label id="lb_customername" ><?php echo $pawnshop['client_khname'];?></label></td>
+													</tr>
+													<tr>
+														<td style="white-space: nowrap;">&nbsp;ប្រភេទទ្រព្យបញ្ចាំ</td>
+														<td class="lblvalue one khmerbold" style="height:105px; white-space: normal;max-width: 100%;" valign="top"><strong> &nbsp;<label id="lb_producttype" ><?php echo $pawnshop['product_name']; echo empty($pawnshop['product_description'])?"":" : ".$pawnshop['product_description'];?></label></strong></td>
+													</tr>
+												</table>
+											</td>
+											<td width="50%" valign="top">
+												<table width="100%">
+													<tr>
+														<td width="120px">&nbsp;ចំនួនប្រាក់ខ្ចី</td>
+														<td class="lblvalue one khmerbold"><strong> &nbsp;<label id="lb_loanamount"><?php echo number_format($pawnshop['total_capital'],2)." ".$curType;?></label></strong></td>
+													</tr>
+													<tr>
+														<td>&nbsp;អាត្រាការប្រាក់</td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_interest_rate"><?php echo $pawnshop['interest_rate'];?></label></strong></td>
+													</tr>
+													<tr>
+														<td>&nbsp;<strong>ការប្រាក់ត្រូវបង់</strong></td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_total_interest"><?php echo number_format($interetPayment,2)." ".$curType;?></label></strong></td>
+													</tr>
+													<tr>
+														<td>&nbsp;ថ្ងៃបញ្ចាំ </td>
+														<td class="one khmerbold">
+															<table width="100%">
+																<tr>
+																	<td width="50%" class="lblsubvalue one khmerbold"><label id="lb_start_date"><?php echo date("d/M/Y",strtotime($pawnshop['date_release']));?></label></td>
+																	<td style="white-space: nowrap;">&nbsp;រយៈពេលបញ្ចាំ</td>
+																	<td class="lblsubvalue one khmerbold"><strong>&nbsp;<label id="lb_period" style="white-space:nowrap;"><?php echo $pawnshop['total_duration'];?> ខែ</label></strong></td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+													<tr>
+														<td style="white-space: nowrap;">&nbsp;ថ្ងៃបង់ប្រាក់ដំបូង</td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_firstpayment" style="white-space:nowrap;"><?php echo date("d/M/Y",strtotime($pawnshop['first_payment']));?></label></strong></td>
+													</tr>
+													<tr>
+														<td>&nbsp;ផុតកំណត់</td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_end_date" style="white-space:nowrap;"><?php echo date("d/M/Y",strtotime($pawnshop['date_line']));?></label></strong></td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr height="120px">
+							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer MEF2';white-space: nowrap;">គណនេយ្យករ  <div class="h" style="margin-left:7px !important;">ACCOUNTANT</div> </td>
+								<td width="30%" class="one khmerbold" align="center" valign="top" style="font-family:'Khmer MEF2';border-left: 1px solid #fff !important; border-right: 1px solid #fff !important;">អ្នកធានា <div class="h" style="margin-left:7px !important;">GUARANTOR</div></td>
+							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer MEF2';">អ្នកដាក់ទ្រព្យ <div class="h" style="margin-left:7px !important;">PAWNER OF LOAN</div>
+							    </td>
+							</tr>
+							<tr >
+							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer OS Battambang';white-space: nowrap;"><label id="lblAccountName">&nbsp;<?php echo $pawnshop['user_name'];?></label> </td>
+								<td width="30%" class="one khmerbold" align="center" valign="top" style="font-family:'Khmer OS Battambang';border-left: 1px solid #fff !important; border-right: 1px solid #fff !important;"><label id="lblGuarantor">&nbsp;</label></td>
+							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer OS Battambang';"><?php echo $pawnshop['client_khname'];?>
+							    </td>
+							</tr>
+							<tr style="font-size: 10px;border:1px solid #000;">
+							    <td class="khmerbold" valign="top" style=""><strong><?php echo $data['client_company_name'];//$tr->translate("BRAND_TITLE");?></strong></td>
+							    <td class="khmerbold" valign="top" colspan="2" style="">
+								    <div style="font-family:'Khmer OS Battambang';">
+								    	<?php echo $data['branch-add-client'];//$tr->translate("ADDRESS_COMPANY");?>
+								    </div>
+								    <?php echo $data['tel-client'];//$tr->translate("TEL_COMPANY");?>
+							    </td>
+							</tr>
+					</table>
+					<?php if ($i==0){?>
+					<div style="border:1px dotted #000;margin: 20px 0px;"></div>
+					<?php }?>
+					<?php }?>
+		</div>
+	</div>
+</div>

@@ -2037,7 +2037,11 @@ AND cl.client_id = $client_id )";
 		AND v.`id` = $id LIMIT 1";
       	return $db->fetchRow($sql);
       }
-      		
+      public function getAllxchangeBYID($id){
+      	$db = $this->getAdapter();
+      	$sql = "SELECT * FROM `v_xchange` AS v WHERE v.`id`=$id LIMIT 1";
+      	return $db->fetchRow($sql);
+      }	
       
  }
 

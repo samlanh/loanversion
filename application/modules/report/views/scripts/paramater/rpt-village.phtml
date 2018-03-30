@@ -129,7 +129,8 @@ $frm = $this->frm_village;
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
-                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_VILLAGE");?><?php //echo $this->data['village'];?></h2></td>
+                	<h2 style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_VILLAGE");?><?php //echo $this->data['village'];?></h2>
+					<h2 style="text-align:center; font-size:13px;"><?php if(!empty($this->result['start_date'])){?><?php echo date("d-M-Y",strtotime($this->result['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->result['end_date']));}?></h2></td>					
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -151,15 +152,14 @@ $frm = $this->frm_village;
             </table>
         	<table id="exportExcel" align="center" border="1" width="100%" style="border-collapse:collapse;font-size: 12px;" bordercolor="black" >
 				    <thead>
-				    <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
+				    <tr class="style" align="center" style="floafont-weight:bold;  background: #ccd9ff; line-height: 14px; font-size:12px; padding:5px 0px; ">
 				        <th ><?php echo $tr->translate("NUM");?></th>
 				        <th ><?php echo $tr->translate("VILLAGE_NAME");?></th>
 				        <th ><?php echo $tr->translate("VILLAGE_NAME");?></th>
 				        <th ><?php echo $tr->translate("COMMUNE");?></th>
 				        <th ><?php echo $tr->translate("DISTRICT_NAME");?></th>
 				        <th ><?php echo $tr->translate("PROVINCE_NAME");?></th>
-				        <th ><?php echo $tr->translate("DATE");?></th>
-				        
+				        <th ><?php echo $tr->translate("DATE");?></th>				        
 				    </tr>
 				    </thead>
 					<?php 
@@ -182,6 +182,7 @@ $frm = $this->frm_village;
 </table>
 		<br />
 		  <table align="center" width="100%">
+		  <thead>
 				   <tr style="font-size: 12px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
@@ -189,6 +190,7 @@ $frm = $this->frm_village;
 				        <th></th>
 				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
+			</thead>
 			</table>
  </div>
  

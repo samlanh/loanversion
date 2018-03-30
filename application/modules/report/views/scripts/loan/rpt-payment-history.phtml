@@ -60,7 +60,7 @@ table { page-break-inside:auto }
                          <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_PAYMENT");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
                  </td>
                     <td width="20%"></td>
@@ -84,7 +84,7 @@ table { page-break-inside:auto }
     <tr>
     	<td class="mymy">
     	<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
-            	<?php if(!empty($this->loantotalcollect_list)) {
+            	<?php if(!empty($this->loantotalcollect_list)){
 	              	foreach ($this->loantotalcollect_list as $index => $rs){
 	              		if ($client_id!=$rs["client_id"]) {
 	              		?>
@@ -105,20 +105,22 @@ table { page-break-inside:auto }
 	              			?>
 	              	</td>
 	              	</tr>
-	                <tr bgcolor="#ccc" class="style" align="center" style="padding:5px 0;height: 20px; white-space: nowrap;">
-	                    <td><?php echo $tr->translate("NUM");?></td>
-	                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
-	                    <td><?php echo $tr->translate("PAID_PRINCIPAL");?></td>                   
-	                    <td><?php echo $tr->translate("INTEREST");?></td>
-	                    <td><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
-	                    <td><?php echo $tr->translate("SERVICE CHARGE");?></td>	 
-	                    <td><?php echo $tr->translate("TOTAL");?></td>                   
-	                    <td><?php echo $tr->translate("PAY_DATE");?></td>
-	                    <td bgcolor="#999"><?php echo $tr->translate("RECIEPT_NO");?></td>
-	                    <td bgcolor="#999"><?php echo $tr->translate("PAYMENTED");?></td>
-	                    <td bgcolor="#999"><?php echo $tr->translate("INPUT_DATE");?></td>
-	                    <td bgcolor="#999"><?php echo $tr->translate("PAYMENT_OPTION");?></td>
+					<thead>
+	                <tr bgcolor="#ccc" class="style" align="center" style="padding:5px 0;height: 20px; background:#ccd9ff; white-space: nowrap;">
+	                    <th><?php echo $tr->translate("NUM");?></th>
+	                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
+	                    <th><?php echo $tr->translate("PAID_PRINCIPAL");?></th>                   
+	                    <th><?php echo $tr->translate("INTEREST");?></th>
+	                    <th><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
+	                    <th><?php echo $tr->translate("SERVICE CHARGE");?></th>	 
+	                    <th><?php echo $tr->translate("TOTAL");?></th>                   
+	                    <th><?php echo $tr->translate("PAY_DATE");?></th>
+	                    <th bgcolor="#ccd9ff"><?php echo $tr->translate("RECIEPT_NO");?></th>
+	                    <th bgcolor="#ccd9ff"><?php echo $tr->translate("PAYMENTED");?></th>
+	                    <th bgcolor="#ccd9ff"><?php echo $tr->translate("INPUT_DATE");?></th>
+	                    <th bgcolor="#ccd9ff"><?php echo $tr->translate("PAYMENT_OPTION");?></th>
 	                </tr>
+					</thead>
 	                <?php }?>              
              <?php 
 		               if($rs['currency_type']==1){
@@ -159,16 +161,15 @@ table { page-break-inside:auto }
                 </tr>
                <table  width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
                  <thead>
-                  <tr bgcolor="#ccc" class="style stylehover" style="font-weight:bold; line-height: 24px; text-align: center;" >
+                  <tr bgcolor="#ccc" class="style stylehover" style="font-weight:bold; line-height: 24px; background:#ccd9ff; text-align: center;" >
 	                    <th style="padding:5px 0px;" colspan="2">&nbsp;​<?php echo $tr->translate("CURRENT_TYPE");?>&nbsp;</th>
 	                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_PRINCIPLE");?>&nbsp;</th>
 	                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_INTEREST");?>&nbsp;</th>
 	                    <th style="padding:5px 0px;"colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_PENELIZE");?>&nbsp;</th>
 	                    <th style="padding:5px 0px;" colspan="2">&nbsp;<?php echo $tr->translate("TOTAL_SERVICE_CHARGE");?>&nbsp;</th>
 	                    <th style="padding:5px 0px;" colspan="4">&nbsp;<?php echo $tr->translate("TOTAL_PAYMENTED");?>&nbsp;</th>
-	                    
 	                </tr>
-	                </thead>
+	             </thead>
                  <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td colspan="2">&nbsp;<?php echo number_format($principle_d,2);?>&nbsp;</td>
@@ -196,6 +197,7 @@ table { page-break-inside:auto }
             </table>
               <br />
                <table align="center" width="100%">
+			   <thead>
 				   <tr style="font-size: 12px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
@@ -203,10 +205,11 @@ table { page-break-inside:auto }
 				        <th></th>
 				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
+				</thead>
 			</table>
     	</td>
-    </tr>
-</table>
+		</tr>
+	</table>
 </div>
 </div>
 </div>

@@ -55,7 +55,7 @@ table { page-break-inside:auto }
                 		<ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_EXPENSE");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
                 </td>
                     <td width="20%"></td>
@@ -80,15 +80,15 @@ table { page-break-inside:auto }
     	<td id="exportExcel">
             <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:10px; white-space: nowrap;" width="100%" cellspacing="0">
                  <thead>
-                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; border:1px solid #000; line-height: 20px; font-size:10px; padding:5px 0px; ">
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("EXPENTITLETITLE");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></td>
-					<td style="padding:5px 0px;"><?php echo $tr->translate("Invoice No.");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("​AMT_PAY");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("EXPENSE_DATE");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("NOTE");?></td>
+                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; border:1px solid #000; background:#ccd9ff; line-height: 20px; font-size:10px; padding:5px 0px; ">
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("EXPENTITLETITLE");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></th>
+					<th style="padding:5px 0px;"><?php echo $tr->translate("Invoice No.");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("​AMT_PAY");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("EXPENSE_DATE");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("NOTE");?></th>
                 </tr>
                 </thead>
                 <?php $amt_r = 0;$amt_d = 0;$amt_b3 = 0;
@@ -116,13 +116,14 @@ table { page-break-inside:auto }
                 <?php }?>
             </table>
             <br />
-
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
-                 <tr bgcolor="#ccc" style="font-weight:bold; line-height: 30px; font-size:14px; padding:5px 0px; ">
-                    <td align="center"><?php echo $tr->translate("DOLLAR");?></td>
-                    <td align="center"><?php echo $tr->translate("REILS");?></td>
-                    <td align="center"><?php echo $tr->translate("BATH");?></td>
+                <thead>
+				<tr bgcolor="#ccc" style="font-weight:bold; background:#ccd9ff;  line-height: 30px; font-size:14px; padding:5px 0px; ">
+                    <th align="center"><?php echo $tr->translate("DOLLAR");?></th>
+                    <th align="center"><?php echo $tr->translate("REILS");?></th>
+                    <th align="center"><?php echo $tr->translate("BATH");?></th>
                 </tr>
+				</thead>
                  <tr style="font-weight:bold; line-height: 30px; font-size:14px; padding:5px 0px; ">
                     <td align="center"><?php echo number_format($amt_d,2);?></td>
                     <td align="center"><?php echo number_format($amt_r,2);?></td>
@@ -134,6 +135,7 @@ table { page-break-inside:auto }
 </table>
 <br />
  <table align="center" width="100%">
+			<thead>
 				   <tr style="font-size: 12px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
@@ -141,7 +143,8 @@ table { page-break-inside:auto }
 				        <th></th>
 				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
-			</table>
+			  </thead>
+		</table>
 </div>
 </div>
 </div>

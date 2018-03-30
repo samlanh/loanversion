@@ -17,6 +17,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	
     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	$dach = $tr->translate("DACH_PRODUCT");
+    	$receipt = $tr->translate("PAYMENT_RECEIPT");
     	$db = $this->getAdapter();
     	$sql = " SELECT id,
     	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch,
@@ -29,7 +30,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 		(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=ln_pawnshop.product_id limit 1) as product_name,
 		date_release,date_line,'".$dach."' ,
         (SELECT first_name FROM `rms_users` WHERE id=user_id) As user_name,
-    	status FROM `ln_pawnshop` WHERE 1 ";
+    	status,'$receipt' FROM `ln_pawnshop` WHERE 1 ";
     	if(!empty($search['adv_search'])){
     		$s_where = array();
     		$s_search = $search['adv_search'];

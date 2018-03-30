@@ -52,7 +52,7 @@ table { page-break-inside:auto }
                 	<td width="60%" valign="top">
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("REPORT_RETURN_CALLETERAL");?></h2>
-                	<h2 style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->result['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->result['end_date']));?></h2>
+                	<h2 style="text-align:center; font-size:13px;"><?php if(!empty($this->result['start_date'])){?><?php echo date("d-M-Y",strtotime($this->result['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->result['end_date']));}?></h2>
                 	</td>
                     <td width="20%"></td>
                 </tr> 
@@ -82,7 +82,7 @@ table { page-break-inside:auto }
                 <tr>
                 	<td colspan="5">&nbsp;<span ><?php echo $tr->translate("CUSTOMER_NAME");?> </span></td>
                 </tr>
-                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; background: #ccd9ff;  font-size:11px; padding:5px 0px; ">
                     <th><?php echo $tr->translate("NUM");?> </th>
                     <th><?php echo $tr->translate("BRANCH_NAME");?> </th>
                     <th><?php echo $tr->translate("GIVER_NAME");?> </th>   
@@ -115,7 +115,8 @@ table { page-break-inside:auto }
                 <tr>
                 	<td colspan="9">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_code']." - ".$row['owner_name']; ?></td>
                 </tr>
-                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:11px; padding:5px 0px; ">
+				<thead>
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; background: #ccd9ff;  font-size:11px; padding:5px 0px; ">
                     <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?> </td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?> </td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("GIVER_NAME");?> </td>                   
@@ -126,6 +127,7 @@ table { page-break-inside:auto }
                     <td style="padding:5px 0px;"><?php echo $tr->translate("DATE");?> </td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("NOTE");?> </td>
                 </tr>
+				</thead>
                 <?php }
                
                 ?>
@@ -147,6 +149,7 @@ table { page-break-inside:auto }
               </table>
               <br />
               <table align="center" width="100%">
+			  <thead>
 				   <tr style="font-size: 12px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
@@ -154,6 +157,7 @@ table { page-break-inside:auto }
 				        <th></th>
 				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
+				</thead>
 			</table>
     	</td>
     </tr>

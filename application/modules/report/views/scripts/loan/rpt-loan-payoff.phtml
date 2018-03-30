@@ -33,6 +33,12 @@
 }
 .style1:hover{ background: #ccc;}
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
+table { page-break-inside:auto }
+  tr{ page-break-inside:avoid; page-break-after:auto; }
+#header {
+  display: table-header-group;
+  page-break-inside:avoid; page-break-after:auto;
+}
 </style>
 <table width="100%">
 	<tr>
@@ -44,7 +50,7 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
                 	   <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_PAYOFF");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
                 	</td>
                     <td width="20%"></td>
@@ -68,7 +74,8 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
     <tr>
     	<td id="exportExcel">
             <table width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; white-space: nowrap;" cellspacing="0">
-                <tr class="style" bgcolor="#ccc" align="center" style="font-weight:bold; line-height: 14px; padding:3px 0px; ">
+                <thead>
+				<tr class="style" bgcolor="#ccc" align="center" style="font-weight:bold; line-height: 14px; background:#ccd9ff; padding:3px 0px; ">
                     <th rowspan="2"><?php echo $tr->translate("NUM");?></th>
                     <th rowspan="2"><?php echo $tr->translate("BRANCH_NAME");?></th>
                     <th rowspan="2"><?php echo $tr->translate("LOAN_NO");?></th>
@@ -86,13 +93,14 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
                     <th rowspan="2"><?php echo $tr->translate("TOTAL_PAYMENTED");?></th>
                     <th rowspan="2"><?php echo $tr->translate("DAY_PAYMENT");?></th>
                 </tr>
-                <tr class="style" bgcolor="#ccc" >
+                <tr class="style" bgcolor="#ccd9ff" >
                 	<th><?php echo $tr->translate("OS_AMOUNT");?></th>                    
                     <th><?php echo $tr->translate("INTEREST");?></th>
                     <th><?php echo $tr->translate("PENALIZE AMOUNT");?></th>                    
                     <th><?php echo $tr->translate("SERVICE CHARGE");?></th>
                     <th><?php echo $tr->translate("PAYMENT");?></th>
                 </tr>
+				</thead>
                 <?php $amt_r1 = 0;$amt_r2 = 0;$amt_r3 = 0;$amt_r4 = 0;$amt_r5 = 0;$amt_r6 = 0;$amt_loanday = 0;
                 	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;$amt_d6 = 0;$amt_loanweek = 0;
                 	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;$amn_b6 = 0;$amt_loanmonth = 0;
@@ -152,7 +160,8 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
             </table>
             <br /><br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr class="style style1" bgcolor="#ccc"  style="font-weight:bold; line-height: 24px; text-align: center;">
+                 <thead>
+				 <tr class="style style1"  style="font-weight:bold; line-height: 24px; text-align: center; background:#ccd9ff;">
                     <th><?php echo $tr->translate("FOR_LOAN_TYPE");?></th>
                     <th><?php echo $tr->translate("CURRENT_TYPE");?></th>
                     <th><?php echo $tr->translate("TOTAL_PRINCEPLE");?></th>                    
@@ -162,6 +171,7 @@ table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-we
                     <th><?php echo $tr->translate("TOTAL_PAYMENTED");?></th>
                    <!--  <th><?php //echo $tr->translate("TOTAL_PAYMENT");?></th> -->
                 </tr>
+				</thead>
                  <tr class="style style1" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
                      <td>&nbsp;<?php echo $tr->translate("DAY")." = ".$amt_loanday;?></td>
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>

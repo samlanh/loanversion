@@ -145,6 +145,7 @@ dojo.require("dijit.form.DateTextBox");
 					<td class="noneprint" style="display: none;" align="left">
 						<a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"pawn","action"=>'rpt-updatepayment','id'=>$row['id']))?>" title="<?php echo $tr->translate("EDIT");?>"><?php echo $tr->translate("EDIT");?></a>
 						/ <a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"pawn","action"=>'agreement','id'=>$row['id']))?>" title="<?php echo $tr->translate("AGREEMENT");?>"><?php echo $tr->translate("AGREEMENT");?></a>
+						/ <a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"pawn","action"=>'pawnticketreceipt','id'=>$row['id']))?>" title="<?php echo $tr->translate("PAWN TICKET RECEIPT");?>"><?php echo $tr->translate("PAWN TICKET RECEIPT");?></a>
 					</td>	
 				</tr>
 				<?php }?>

@@ -50,7 +50,7 @@ table { page-break-inside:auto }
                 	   <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RESCHEDULE_RPT");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
                 	</td>
                     <td width="20%"></td>
@@ -75,7 +75,7 @@ table { page-break-inside:auto }
     	<td id="exportExcel">
             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;white-space: nowrap; " width="100%" cellspacing="0">
                 <thead>
-                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
+                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; background:#ccd9ff; font-size:12px; padding:5px 0px; ">
                     <th>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
                     <th><?php echo $tr->translate("BRANCH_NAME");?></th>
                     <th><?php echo $tr->translate("LOAN_NO");?></th>
@@ -131,10 +131,12 @@ table { page-break-inside:auto }
             </table>
             <br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 14px; font-size:12px; padding:5px 0px; ">
+                 <thead>
+				 <tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; background:#ccd9ff; line-height: 14px; font-size:12px; padding:5px 0px; ">
                     <th><?php echo $tr->translate("CURRENT_TYPE");?></th>
                     <th><?php echo $tr->translate("TOTAL_AMOUNT");?></th>
                 </tr>
+				</thead>
                  <tr class="style" style=" line-height: 24px; font-size:11px;">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td>&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>

@@ -33,12 +33,17 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllPawnPayment($search);
 			$result = array();
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECIEPT_NO","PAID_PRINCIPAL","INTERREST_AMOUNT","TOTAL_PENELIZE","RECEIVE_AMOUNT","PAY_DATE","DAY_PAYMENT"
+			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECIEPT_NO","PAID_PRINCIPAL","INTERREST_AMOUNT","TOTAL_PENELIZE","RECEIVE_AMOUNT","PAY_DATE","DAY_PAYMENT","PAYMENT_RECEIPT"
 				);
 			$link=array(
 					'module'=>'pawnshop','controller'=>'payment','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('team_group'=>$link,'loan_number'=>$link,'client_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
+			$linkpawn=array(
+					'module'=>'report','controller'=>'pawn','action'=>'recieptpayment',
+			);
+			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+			$reciept = $tr->translate("PAYMENT_RECEIPT");
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array($reciept =>$linkpawn,'team_group'=>$link,'loan_number'=>$link,'client_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -143,8 +148,8 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 		$this->view->client = $db_global->getClientNamebyBranch();
 		$this->view->clientCode = $db_global->getClientCodebyBranch();
 		
-// 		$session_user=new Zend_Session_Namespace('authloan');
-// 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+		$session_user=new Zend_Session_Namespace('authloan');
+		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 		$this->view->loan_number = $db_global->getPawnAccountNumber(1);
 	}	
 	function editAction()
@@ -249,7 +254,16 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 			exit();
 		}
 	}
-	
+	function addpaymentajaxAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$db = new Pawnshop_Model_DbTable_DbPayment();
+			$receipt_id = $db->addPawnpayment($_data);
+			$row = $db->getPawnPaymentByIdForPrint($receipt_id);
+			print_r(Zend_Json::encode($row));
+			exit();
+		}
+	}
 	
 }
 

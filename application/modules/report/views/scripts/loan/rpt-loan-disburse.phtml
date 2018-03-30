@@ -67,7 +67,7 @@ a.repLink.btn {
                 		<ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LOAN_DISBURSE");?></li>
-                			<li style="text-align:center; font-size:14px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:14px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
                 	</td>
                     <td width="20%"></td>
@@ -92,24 +92,24 @@ a.repLink.btn {
     	<td id="exportExcel">
             <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                <thead>
-                 <tr bgcolor="#c1d0f3" class="style" align="center" style="font-weight:bold;line-height: 30px; font-size:12px; padding:1px 0px; white-space: nowrap; ">
-                    <td>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
-                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
-                    <td><?php echo $tr->translate("LOAN_NO");?></td>
-                    <td><?php echo $tr->translate("CLIENT_NO");?></td>
-                    <td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-                    <td><?php echo $tr->translate("LOAN_LEVEL");?></td>
-                    <td><?php echo $tr->translate("CO_NAME");?></td>
-                    <td><?php echo $tr->translate("LOAN_AMOUNT");?></td>
-                    <td><?php echo $tr->translate("ADMIN_FEE");?></td>
-                    <td><?php echo $tr->translate("OTHER_FEE");?></td>
-                    <td><?php echo $tr->translate("INTEREST RATE");?></td>
-                    <td><?php echo $tr->translate("TERM_BORROW");?></td>
-                    <td><?php echo $tr->translate("PAMENT_METHOD");?></td>
-                    <td><?php echo $tr->translate("RELEASED_DATE");?></td>
-                    <td><?php echo $tr->translate("LIFE_LOAN");?></td>
-                    <td><?php echo $tr->translate("LOAN_TYPE");?></td>
-                    <td class="noneprint" style="display: none;"><?php echo $tr->translate("EDIT");?></td>
+                 <tr bgcolor="#c1d0f3" class="style" align="center" style="font-weight:bold;line-height: 30px;background: #ccd9ff; font-size:12px; padding:1px 0px; white-space: nowrap; ">
+                    <th>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
+                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
+                    <th><?php echo $tr->translate("LOAN_NO");?></th>
+                    <th><?php echo $tr->translate("CLIENT_NO");?></th>
+                    <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+                    <th><?php echo $tr->translate("LOAN_LEVEL");?></th>
+                    <th><?php echo $tr->translate("CO_NAME");?></th>
+                    <th><?php echo $tr->translate("LOAN_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("ADMIN_FEE");?></th>
+                    <th><?php echo $tr->translate("OTHER_FEE");?></th>
+                    <th><?php echo $tr->translate("INTEREST RATE");?></th>
+                    <th><?php echo $tr->translate("TERM_BORROW");?></th>
+                    <th><?php echo $tr->translate("PAMENT_METHOD");?></th>
+                    <th><?php echo $tr->translate("RELEASED_DATE");?></th>
+                    <th><?php echo $tr->translate("LIFE_LOAN");?></th>
+                    <th><?php echo $tr->translate("LOAN_TYPE");?></th>
+                    <th class="noneprint" style="display: none;"><?php echo $tr->translate("EDIT");?></th>
                 </tr>
                 </thead>
                <?php 
@@ -118,7 +118,7 @@ a.repLink.btn {
                
                $count_ld=0;$count_lr=0;$count_lb=0;
                
-               if(!empty($this->loanrelease_list)) foreach($this->loanrelease_list as $key =>$row){?>
+               if(!empty($this->loanrelease_list))foreach($this->loanrelease_list as $key =>$row){?>
                <?php 
               if($row['curr_type']==1){
                		$amt_r = $amt_r+$row['total_capital'];
@@ -169,13 +169,15 @@ a.repLink.btn {
             </table>
             <br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
-                 <tr bgcolor="#c1d0f3" class="style" align="center" style="floafont-weight:bold; line-height: 30px; font-size:12px; padding:2px 0px; ">
-                    <td><?php echo $tr->translate("CURRENT_TYPE");?></td>
-                    <td><?php echo $tr->translate("ចំនួនកម្ចី");?></td>
-                    <td><?php echo $tr->translate("TOTAL_AMOUNT");?></td>
-                    <td><?php echo $tr->translate("TOTAL_FEE");?></td>
-                    <td><?php echo $tr->translate("OTHER_FEE");?></td>
+                 <thead>
+				 <tr bgcolor="#c1d0f3" class="style" align="center" style="floafont-weight:bold; line-height: 30px; font-size:12px; padding:2px 0px; ">
+                    <th><?php echo $tr->translate("CURRENT_TYPE");?></th>
+                    <th><?php echo $tr->translate("ចំនួនកម្ចី");?></th>
+                    <th><?php echo $tr->translate("TOTAL_AMOUNT");?></th>
+                    <th><?php echo $tr->translate("TOTAL_FEE");?></th>
+                    <th><?php echo $tr->translate("OTHER_FEE");?></th>
                 </tr>
+				</thead>
                  <tr class="style" style=" line-height: 24px; font-size:12px;">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td>&nbsp;<?php echo number_format($count_ld,2);?>&nbsp;</td>
@@ -203,6 +205,7 @@ a.repLink.btn {
               </table>
               <br />
               <table align="center" width="100%">
+			  <thead>
 				   <tr style="font-size: 14px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
@@ -210,6 +213,7 @@ a.repLink.btn {
 				        <th></th>
 				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
+				</thead>
 			</table>	
     	</td>
     </tr>

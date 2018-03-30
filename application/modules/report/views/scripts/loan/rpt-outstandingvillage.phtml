@@ -79,25 +79,25 @@ table { page-break-inside:auto }
     	<td id="exportExcel">
             <table border="1"? style="border-collapse:collapse;border:1px solid #000; font-size:12px; white-space: nowrap;" width="100%" cellspacing="0">
                <thead>
-                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 20px; padding: 2px 0px;background:#ccc;">
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_NO");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CLIENT_NUM");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CO_NAME");?>&nbsp;</td>
-                    <td style="padding:2px 0px;"> &nbsp;<?php echo $tr->translate("RELEASE_DATE");?>&nbsp;</td>
-                    <td>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_PERIOD");?>&nbsp;</td>
-                    <td style="padding:2px 0px;font-size: 8px;"><?php echo $tr->translate("FOR_LOAN_TYPE");?></td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PERCENTAGE");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NOT_TO_REPAY");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PROVINCE_NAME");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("DISTRICT_NAME");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("COMMUNE_NAME");?>&nbsp;</td>
-                    <td style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("VILLAGE_NAME");?>&nbsp;</td>
+                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 20px; background: #ccd9ff; padding: 2px 0px;">
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_NO");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CLIENT_NUM");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CO_NAME");?>&nbsp;</th>
+                    <th style="padding:2px 0px;"> &nbsp;<?php echo $tr->translate("RELEASE_DATE");?>&nbsp;</th>
+                    <th>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_PERIOD");?>&nbsp;</th>
+                    <th style="padding:2px 0px;font-size: 8px;"><?php echo $tr->translate("FOR_LOAN_TYPE");?></th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PERCENTAGE");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NOT_TO_REPAY");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PROVINCE_NAME");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("DISTRICT_NAME");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("COMMUNE_NAME");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("VILLAGE_NAME");?>&nbsp;</th>
                 </tr>
                </thead>
                <?php 
@@ -154,13 +154,15 @@ table { page-break-inside:auto }
             </table>
             <br />
              <table border="1"? style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
-                 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center; font-size:11px;">
-                    <td style="padding:2px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></td>
-                    <td style="padding:2px 0px;"><?php echo $tr->translate("LOAN_AMOUNT");?></td>
-                    <td style="padding:2px 0px;"><?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?></td>
-                    <td style="padding:2px 0px;"><?php echo $tr->translate("PERCENTAGE");?></td>
-                    <td style="padding:2px 0px;"><?php echo $tr->translate("NOT_TO_REPAY");?></td>
+                <thead>
+				<tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; background: #ccd9ff; text-align: center; font-size:11px;">
+                    <th style="padding:2px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></th>
+                    <th style="padding:2px 0px;"><?php echo $tr->translate("LOAN_AMOUNT");?></th>
+                    <th style="padding:2px 0px;"><?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?></th>
+                    <th style="padding:2px 0px;"><?php echo $tr->translate("PERCENTAGE");?></th>
+                    <th style="padding:2px 0px;"><?php echo $tr->translate("NOT_TO_REPAY");?></th>
                 </tr>
+				</thead>
                  <tr class="style" style=" line-height: 24px; font-size:11px;">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                     <td>&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>

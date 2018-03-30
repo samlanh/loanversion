@@ -4,6 +4,7 @@
 	$frm = $this->frm_loan;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	$data = $this->data;
 ?>
 <div class="overlay">
 	<div class="overlay-load">
@@ -249,7 +250,7 @@
 									<table width="100%">
 										<tr>
 											<td width="50%" valign="top">
-												<table width="100%" style="text-align:left !important;border:1px solid #00;border-collapse: collapse;" >
+												<table width="100%" style="text-align:left !important;" >
 													<tr>
 														<td>&nbsp;<?php echo $tr->translate("PAWN_CODE");?></td>
 														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_receipt_no" ></label></strong></td>
@@ -308,20 +309,25 @@
 									</table>
 								</td>
 							</tr>
-							<tr height="120px">
+							<tr height="110px">
 							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer MEF2';white-space: nowrap;">គណនេយ្យករ  <div class="h" style="margin-left:7px !important;">ACCOUNTANT</div> </td>
 								<td width="30%" class="one khmerbold" align="center" valign="top" style="font-family:'Khmer MEF2';border-left: 1px solid #fff !important; border-right: 1px solid #fff !important;">អ្នកធានា <div class="h" style="margin-left:7px !important;">GUARANTOR</div></td>
 							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer MEF2';">អ្នកដាក់ទ្រព្យ <div class="h" style="margin-left:7px !important;">PAWNER OF LOAN</div>
 							    </td>
 							</tr>
-							
+							<tr >
+							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer OS Battambang';white-space: nowrap;"><label id="lblAccountName">&nbsp;<?php echo $this->user_name;?></label> </td>
+								<td width="30%" class="one khmerbold" align="center" valign="top" style="font-family:'Khmer OS Battambang';border-left: 1px solid #fff !important; border-right: 1px solid #fff !important;"><label id="lblGuarantor">&nbsp;</label></td>
+							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer OS Battambang';"><label id="lblClient">&nbsp;</label>
+							    </td>
+							</tr>
 							<tr style="font-size: 10px;border:1px solid #000;">
-							    <td class="khmerbold" valign="top" style=""><strong><?php echo $tr->translate("BRAND_TITLE");?></strong></td>
+							    <td class="khmerbold" valign="top" style=""><strong><?php echo $data['client_company_name'];//$tr->translate("BRAND_TITLE");?></strong></td>
 							    <td class="khmerbold" valign="top" colspan="2" style="">
 								    <div style="font-family:'Khmer OS Battambang';">
-								    	<?php echo $tr->translate("ADDRESS_COMPANY");?>
+								    	<?php echo $data['branch-add-client'];//$tr->translate("ADDRESS_COMPANY");?>
 								    </div>
-								    <?php echo $tr->translate("TEL_COMPANY");?>
+								    <?php echo $data['tel-client'];//$tr->translate("TEL_COMPANY");?>
 							    </td>
 							</tr>
 					</table>
@@ -347,7 +353,7 @@
 									<table width="100%">
 										<tr>
 											<td width="50%" valign="top">
-												<table width="100%" style="text-align:left !important;border:1px solid #00;border-collapse: collapse;" >
+												<table width="100%" style="text-align:left !important;" >
 													<tr>
 														<td>&nbsp;<?php echo $tr->translate("PAWN_CODE");?></td>
 														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_receipt_no1" ></label></strong></td>
@@ -398,7 +404,7 @@
 													</tr>
 													<tr>
 														<td>&nbsp;ផុតកំណត់</td>
-														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_end_date1" style="font-size: 11px;white-space:nowrap;">dara</label></strong></td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_end_date1" style="white-space:nowrap;">dara</label></strong></td>
 													</tr>
 												</table>
 											</td>
@@ -406,19 +412,25 @@
 									</table>
 								</td>
 							</tr>
-							<tr height="120px">
+							<tr height="110px">
 							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer MEF2';white-space: nowrap;">គណនេយ្យករ  <div class="h" style="margin-left:7px !important;">ACCOUNTANT</div> </td>
 								<td width="30%" class="one khmerbold" align="center" valign="top" style="font-family:'Khmer MEF2';border-left: 1px solid #fff !important; border-right: 1px solid #fff !important;">អ្នកធានា <div class="h" style="margin-left:7px !important;">GUARANTOR</div></td>
 							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer MEF2';">អ្នកដាក់ទ្រព្យ <div class="h" style="margin-left:7px !important;">PAWNER OF LOAN</div>
 							    </td>
 							</tr>
+							<tr >
+							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer OS Battambang';white-space: nowrap;"><label id="lblAccountName1">&nbsp;<?php echo $this->user_name;?></label> </td>
+								<td width="30%" class="one khmerbold" align="center" valign="top" style="font-family:'Khmer OS Battambang';border-left: 1px solid #fff !important; border-right: 1px solid #fff !important;"><label id="lblGuarantor1">&nbsp;</label></td>
+							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer OS Battambang';"><label id="lblClient1">&nbsp;</label>
+							    </td>
+							</tr>
 							<tr style="font-size: 10px;border:1px solid #000;">
-							    <td class="khmerbold" valign="top" style=""><strong><?php echo $tr->translate("BRAND_TITLE");?></strong></td>
+							    <td class="khmerbold" valign="top" style=""><strong><?php echo $data['client_company_name'];//$tr->translate("BRAND_TITLE");?></strong></td>
 							    <td class="khmerbold" valign="top" colspan="2" style="">
 								    <div style="font-family:'Khmer OS Battambang';">
-								    	<?php echo $tr->translate("ADDRESS_COMPANY");?>
+								    	<?php echo $data['branch-add-client'];//$tr->translate("ADDRESS_COMPANY");?>
 								    </div>
-								    <?php echo $tr->translate("TEL_COMPANY");?>
+								    <?php echo $data['tel-client'];//$tr->translate("TEL_COMPANY");?>
 							    </td>
 							</tr>
 					</table>
@@ -604,6 +616,8 @@ function showReceipt(){
 	 dojo.byId("lb_period1").innerHTML =dijit.byId("period").attr('displayedValue')+" ខែ";
 	 dojo.byId("lb_firstpayment1").innerHTML =dijit.byId("first_payment").attr('displayedValue');
 	 dojo.byId("lb_end_date1").innerHTML =dijit.byId("date_line").attr('displayedValue');
+	 dojo.byId("lblClient").innerHTML =dijit.byId('member').attr('displayedValue');
+	 dojo.byId("lblClient1").innerHTML =dijit.byId('member').attr('displayedValue');
 	 dijit.byId("frm_receipt").show();
 	
 }

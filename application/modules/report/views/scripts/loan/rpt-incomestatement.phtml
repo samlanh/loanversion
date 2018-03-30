@@ -48,6 +48,8 @@ th{padding: 5px;}
                 	<td width="60%" valign="top">
                 		<ul>
 	                		<li style="text-align:center; font-size:18px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
+							<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOANINCOMESTAEMENT");?></li>
+	                		<li style="text-align:center; font-size:14px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
 	                </td>
                     <td width="20%"></td>
@@ -57,32 +59,24 @@ th{padding: 5px;}
                 		<?php echo $tr->translate("ADDRESS_COMPANY");?>
 						<br /><?php echo $tr->translate("TEL_COMPANY");?>
 		              </td>
-		           </tr>  
-		           <tr>
-		           		<td colspan="3" valign="bottom">
-		           			<ul>
-	                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOANINCOMESTAEMENT");?></li>
-	                			<li style="text-align:center; font-size:14px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
-	                		</ul>
-		           		</td>
-		           </tr>
+		        </tr>  
             </table>
         </td>
     </tr>    
     <tr>
     	<td id="exportExcel">
     	<div>
-            <table style=" font-size:14px; white-space: nowrap;" width="100%" cellspacing="0">
+            <table border="1" style="border-collapse:collapse; font-size:14px; white-space: nowrap;" width="100%" cellspacing="0">
                 <?php 
                 	 $rsincome = $this->rsincome;
                 ?>
                 <thead style="font-family:'Khmer MEF2'">
-                	<tr>
-	                	<td>ប្រភេទគណនី</td>
-	                	<td></td>
-						<td>ដុល្លារ-USD</td>
-						<td>រៀល-KHR</td>
-						<td>បាត-BTH</td>
+                	<tr style="background:#ccd9ff">
+	                	<th>ប្រភេទគណនី</th>
+	                	<th></td>
+						<th>ដុល្លារ-USD</th>
+						<th>រៀល-KHR</th>
+						<th>បាត-BTH</th>
 					<tr>
                 </thead>
                 <tr class="styleover" >
@@ -174,6 +168,7 @@ th{padding: 5px;}
 </table>
 <br />
  <table align="center" width="100%">
+	<thead>
 	  <tr style="font-size: 14px;">
         <td style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></td>
         <td></td>
@@ -181,6 +176,7 @@ th{padding: 5px;}
         <td></td>
         <td style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></td>
 	  </tr>
+	</thead>
 </table>
 </div>
 </div>

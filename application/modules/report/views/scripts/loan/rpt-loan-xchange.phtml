@@ -23,6 +23,11 @@ dojo.require("dijit.form.DateTextBox");
    	</tr>
 </table>
 </form>
+<style>
+.noneprint{
+	display: table-cell !important; 
+}
+</style>
 <div style=" width:26cm;min-height:20cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
 <div id="divPrint">
 <style>
@@ -32,6 +37,10 @@ dojo.require("dijit.form.DateTextBox");
 }
 table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
 th{padding: 5px;}
+		a.repLink.btn {
+		    color: #008;
+		    font-weight: 600;
+		}
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;"  >
 	<tr>
@@ -43,7 +52,7 @@ th{padding: 5px;}
                 	     <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_LOAN_XCHANGE");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));?></li>
+                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->list_end_date['start_date'])){?><?php echo date("d-M-Y",strtotime($this->list_end_date['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->list_end_date['end_date']));}?></li>
                 		</ul>
                 	</td>
                 	
@@ -71,21 +80,23 @@ th{padding: 5px;}
     <tr>
     	<td id="exportExcel">
             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; white-space: nowrap; " width="100%" cellspacing="0">
-                 <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 24px;font-size:10px; font-family: 'Khmer OS Content'">
-                    <td ><?php echo $tr->translate("NUM");?></td>
-                    <td ><?php echo $tr->translate("BRANCH_NAME");?></td>
-                    <td ><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-                    <td ><?php echo $tr->translate("RECIEPT_NO");?></td>
-                    <td ><?php echo $tr->translate("FROM_AMOUNT");?></td>
-                    <td ><?php echo $tr->translate("TO_AMOUNT");?></td>
-                    <td ><?php echo $tr->translate("EXCHANGE_RATE");?></td>
-                    <td ><?php echo $tr->translate("RECIEVED_AMOUNT");?></td>
-                    <td ><?php echo $tr->translate("RETURN_AMOUNT");?></td>
-                    <td ><?php echo $tr->translate("DATE");?></td>
-                    <td ><?php echo $tr->translate("FROM_TO");?></td>
-                    <td ><?php echo $tr->translate("IS_SPACIAL_CUSTOMER");?></td>
-                    
+                 <thead>
+				 <tr class="style" align="center" style="font-weight:bold; background:#ccd9ff; line-height: 24px;font-size:10px; font-family: 'Khmer OS Content'">
+                    <th ><?php echo $tr->translate("NUM");?></th>
+                    <th ><?php echo $tr->translate("BRANCH_NAME");?></th>
+                    <th ><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+                    <th ><?php echo $tr->translate("RECIEPT_NO");?></th>
+                    <th ><?php echo $tr->translate("FROM_AMOUNT");?></th>
+                    <th ><?php echo $tr->translate("TO_AMOUNT");?></th>
+                    <th ><?php echo $tr->translate("EXCHANGE_RATE");?></th>
+                    <th ><?php echo $tr->translate("RECIEVED_AMOUNT");?></th>
+                    <th ><?php echo $tr->translate("RETURN_AMOUNT");?></th>
+                    <th ><?php echo $tr->translate("DATE");?></th>
+                    <th ><?php echo $tr->translate("FROM_TO");?></th>
+                    <th ><?php echo $tr->translate("IS_SPACIAL_CUSTOMER");?></th>   
+                    <th class="noneprint" style="display: none;"><?php //echo $tr->translate("EDIT");?></th>                 
                 </tr>
+				</thead>
                 <?php foreach ($xchange as $row){ $i=1;?>
                <tr style="font-size: 11px;" align="left">
                		<td style="text-align: center;"><?php echo $i++;?></td>
@@ -100,12 +111,15 @@ th{padding: 5px;}
                		<td>&nbsp;<?php echo date('d-m-Y',strtotime($row['statusDate']))?>&nbsp;</td>
                		<td>&nbsp;<?php echo $row['from_to']?>&nbsp;</td>
                		<td>&nbsp;<?php echo ($row['specail_customer']==1)?"Yes":"No"?>&nbsp;</td>
-               		
+               		<td class="noneprint" style="display: none;" align="left">
+               			<a class="repLink btn" target="_blank" href="<?php echo $this->url(array("module"=>'report',"controller"=>"loan","action"=>'exchangereceipt','id'=>$row['id']))?>" title="<?php echo $tr->translate("Exchange Receipt");?>"><?php echo $tr->translate("Exchange Receipt");?></a>
+               		</td>
                </tr>
                <?php }?>
             </table>
        		<br />
        		 <table align="center" width="100%">
+			 <thead>
 				   <tr style="font-size: 12px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
@@ -113,6 +127,7 @@ th{padding: 5px;}
 				        <th></th>
 				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
+			</thead>
 			</table>
     	</td>
     </tr>

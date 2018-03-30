@@ -36,11 +36,17 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_row, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("DATE","EXCHANGE","FROM_AMOUNT","អត្រាប្តូរប្រាក់","ចំនួនទឹកប្រាក់បានប្តូររួច​","ប្រាក់ទទួលបាន","ប្រាក់​អាប់","STATUS");
+			
+			$collumns = array("DATE","EXCHANGE","FROM_AMOUNT","អត្រាប្តូរប្រាក់","ចំនួនទឹកប្រាក់បានប្តូររួច​","ប្រាក់ទទួលបាន","ប្រាក់​អាប់","STATUS","RECEIPT");
 			$link=array(
 					'module'=>'tellerandexchange','controller'=>'xchanges','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('statusDate'=>$link,'from_to'=>$link,'fromAmount'=>$link));
+			$linkXcreceipt=array(
+					'module'=>'report','controller'=>'loan','action'=>'exchangereceipt',
+			);
+			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+			$exchange=$tr->translate("Exchange Receipt");
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('statusDate'=>$link,'from_to'=>$link,'fromAmount'=>$link,$exchange=>$linkXcreceipt));
 		  
 			$usr_mod = new Application_Model_DbTable_DbUsers();
 			$this->view->users = $usr_mod->getUserListSelect();

@@ -88,6 +88,8 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 	}
 	function getAllSigleExchange($search){
 		$db = $this->getAdapter();
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$exchange=$tr->translate("Exchange Receipt");
 		$from_date =(empty($search['from_date']))? '1': "e.statusDate >= '".$search['from_date']." 00:00:00'";
 		$to_date = (empty($search['to_date']))? '1': "e.statusDate <= '".$search['to_date']." 23:59:59'";
 		$where = " WHERE ".$from_date." AND ".$to_date;
@@ -103,7 +105,7 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 		e.`toAmount`,
 		e.`recievedAmount`,
 		e.`changedAmount`,
-		e.status
+		e.status,'$exchange'
 		FROM
 		`ln_xchange` AS e ";
 		

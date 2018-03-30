@@ -80,26 +80,26 @@ table { page-break-inside:auto }
     	<td id="exportExcel">
             <table width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; white-space: nowrap;" cellspacing="0">
               <thead>
-                <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 18px; font-size:11px; padding:10px 0px; ">
-                    <td ><?php echo $tr->translate("NUM");?></td>
-                    <td ><?php echo $tr->translate("BRANCH_NAME");?></th>
-                    <td ><?php echo $tr->translate("LOAN_NO");?></td>
-                    <td><!-- <svg width="17"><text transform="rotate(270, 12, 0) translate(-70,-2)"> -->
+                <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 18px; background: #ccd9ff; font-size:11px; padding:10px 0px; ">
+                    <th ><?php echo $tr->translate("NUM");?></th>
+                    <th ><?php echo $tr->translate("BRANCH_NAME");?></th>
+                    <th ><?php echo $tr->translate("LOAN_NO");?></th>
+                    <th><!-- <svg width="17"><text transform="rotate(270, 12, 0) translate(-70,-2)"> -->
 							<?php echo $tr->translate("CLIENT_NUM");?> 
 						<!--</text></svg> -->
-					</td> 
-                    <td><?php echo $tr->translate("CUSTOMER_NAME");?></td>
-                    <td><?php echo $tr->translate("LOAN_AMOUNT");?></td> 
-                    <td><?php echo $tr->translate("INTEREST_RATE");?></td>
-                    <td><?php echo $tr->translate("LOAN_PERIOD");?></td>
-                    <td>&nbsp;<?php echo $tr->translate("RELEASED_DATE");?>&nbsp;</td>
-                    <td>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</td>
-                    <td><?php echo $tr->translate("LOANOUTSTADING");?></td> 
-                    <td><?php echo $tr->translate("LATE_DAY");?></td> 
-                    <td><?php echo $tr->translate("Classified Loan");?></td>
-                    <td><?php echo $tr->translate("Rate of Provision");?></td>
-                    <td><?php echo $tr->translate("Type of Provision");?></td>
-                    <td><?php echo $tr->translate("Provion Amount");?></td>
+					</th> 
+                    <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+                    <th><?php echo $tr->translate("LOAN_AMOUNT");?></th> 
+                    <th><?php echo $tr->translate("INTEREST_RATE");?></th>
+                    <th><?php echo $tr->translate("LOAN_PERIOD");?></th>
+                    <th>&nbsp;<?php echo $tr->translate("RELEASED_DATE");?>&nbsp;</th>
+                    <th>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</th>
+                    <th><?php echo $tr->translate("LOANOUTSTADING");?></th> 
+                    <th><?php echo $tr->translate("LATE_DAY");?></th> 
+                    <th><?php echo $tr->translate("Classified Loan");?></th>
+                    <th><?php echo $tr->translate("Rate of Provision");?></th>
+                    <th><?php echo $tr->translate("Type of Provision");?></th>
+                    <th><?php echo $tr->translate("Provion Amount");?></th>
                 </tr>
                 </thead>
                 <?php
@@ -200,15 +200,17 @@ table { page-break-inside:auto }
             </table>
             <br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;text-align: center;" width="100%" cellspacing="0">
-                 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; text-align: center;">
-                    <td><?php echo $tr->translate("CURRENT_TYPE");?></td>  
+                <thead>
+				<tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; background: #ccd9ff; text-align: center;">
+                    <th><?php echo $tr->translate("CURRENT_TYPE");?></th>  
                     <?php if(!empty($this->classified_loan))foreach($this->classified_loan as $row){?>               
-                    <td><?php echo $row;?></td>
+                    <th><?php echo $row;?></th>
                     <?php }?>
-                    <td style="border-left:3px double #000; ">&nbsp;General Provion&nbsp;</td>
-                    <td>&nbsp;Specifit Provion&nbsp;</td>
-                    <td>&nbsp;<?php echo $tr->translate('TOTAL');?>&nbsp;</td>
+                    <th style="border-left:3px double #000; ">&nbsp;General Provion&nbsp;</th>
+                    <th>&nbsp;Specifit Provion&nbsp;</td>
+                    <th>&nbsp;<?php echo $tr->translate('TOTAL');?>&nbsp;</th>
                 </tr>
+				</thead>
                  <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
                    <?php if(!empty($this->classified_loan))foreach($this->classified_loan as $key =>$row){?>               
@@ -252,12 +254,14 @@ table { page-break-inside:auto }
               </table>
               <span style="color:red;">Note*</span>
                <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;text-align: center;" width="100%" cellspacing="0">
-                 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 15px;">
-                    <td>Classified Loan</td>  
-                    <td>Number of Day Overdue</td>
-                    <td>&nbsp;Provision Rate&nbsp;</td>
-                    <td>&nbsp;Type&nbsp;</td>
+                 <thead>
+				 <tr bgcolor="#ccc" class="style" style="font-weight:bold; background: #ccd9ff; line-height: 15px;">
+                    <th>Classified Loan</th>  
+                    <th>Number of Day Overdue</th>
+                    <th>&nbsp;Provision Rate&nbsp;</th>
+                    <th>&nbsp;Type&nbsp;</th>
                 </tr>
+				</thead>
                 <tr class="style" style="font-weight:bold; line-height: 15px;" >
                     <td align="left">Standard</td>  
                     <td><= 10 days</td>
@@ -290,6 +294,7 @@ table { page-break-inside:auto }
 </table>
 <br />
  <table align="center" width="100%">
+	<thead>
 	<tr style="font-size: 12px;">
 		<th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 		<th></th>
@@ -297,6 +302,7 @@ table { page-break-inside:auto }
 		<th></th>
 		<th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 	</tr>
+	</thead>
  </table>
 </div>
 </div>

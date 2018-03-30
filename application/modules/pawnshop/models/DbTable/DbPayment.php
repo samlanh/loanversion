@@ -17,7 +17,8 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     	$from_date =(empty($search['start_date']))? '1': " cm.date_input >= '".$search['start_date']." 00:00:00'";
     	$to_date = (empty($search['end_date']))? '1': " cm.date_input <= '".$search['end_date']." 23:59:59'";
     	$where = " AND ".$from_date." AND ".$to_date;
-    	
+    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+    	$reciept = $tr->translate("PAYMENT_RECEIPT");
     	$db = $this->getAdapter(); 
     	$sql = " SELECT cm.`id`,
 					(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=cm.`branch_id` LIMIT 1) AS branch,
@@ -29,7 +30,8 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
 					cm.`penalize_paid`,
 					cm.`recieve_amount`,
 					cm.`date_pay`,
-					cm.`date_input`
+					cm.`date_input`,
+					'$reciept'
 				FROM 
 					`ln_pawn_receipt_money` AS cm,
 					ln_pawnshop AS pp 
@@ -276,6 +278,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     		}
     
     		$db->commit();
+    		return $receipt_id;
     	}catch (Exception $e){
     		$db->rollBack();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -436,6 +439,62 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
 		GROUP BY crm.`id` ORDER BY crm.`id` DESC";
 		return $db->fetchAll($sql);
 	}
-	
+	public function getPawnPaymentByIdForPrint($id){ //for add payment reciept get payment by reciept id
+		$db = $this->getAdapter();
+      	$sql="SELECT
+      	(SELECT
+      	`ln_branch`.`branch_namekh`
+      	FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`)
+      	LIMIT 1) AS `branch_name`,
+      	(SELECT `ln_currency`.`symbol`
+      	FROM `ln_currency`
+      	WHERE (`ln_currency`.`id` = `crm`.`currency_type`) LIMIT 1) AS `currency_typeshow`,
+      	(SELECT `l`.`loan_number` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `loan_number`,
+      	(SELECT `c`.`name_kh` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
+      	(SELECT  `c`.`client_number` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
+      	(SELECT `u`.`first_name` FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
+      	`crm`.`id`                   AS `id`,
+      	`crm`.`receipt_no`           AS `receipt_no`,
+      	`crm`.`branch_id`            AS `branch_id`,
+      	`crm`.`date_pay`             AS `date_pay`,
+      	`crm`.`date_payment`         AS `date_payment`,
+      	`crm`.`date_input`           AS `date_input`,
+      	`crm`.`note`                 AS `note`,
+      	`crm`.`user_id`              AS `user_id`,
+      	`crm`.`status`               AS `status`,
+      	`crm`.`payment_option`       AS `payment_option`,
+      	`crm`.`currency_type`        AS `currency_type`,
+      	`crm`.`is_payoff`            AS `is_payoff`,
+      	`crm`.`total_payment`        AS `total_payment`,
+      	`crm`.`principal_amount`     AS `principal_amount`,
+      	`crm`.`interest_amount`      AS `interest_amount`,
+      	`crm`.`principal_paid`       AS `principal_paid`,
+      	`crm`.`interest_paid`        AS `interest_paid`,
+      	`crm`.`service_paid`         AS `service_paid`,
+      	`crm`.`penalize_paid`        AS `penalize_paid`,
+      	`crm`.`total_paymentpaid`    AS `total_paymentpaid`,
+      	`crm`.`recieve_amount`       AS `amount_recieve`,
+      	`crm`.`return_amount`        AS `return_amount`,
+      	`crm`.`penalize_amount`      AS `penelize`,
+      	`crm`.`service_chargeamount` AS `service_charge`,
+      	`crm`.`client_id`            AS `client_id`,
+      	`crm`.`paid_times`           AS `paid_times`,
+      	ps.`product_id`         AS `product_id`,
+      	(SELECT p.product_en FROM `ln_pawnshopproduct` AS p WHERE p.id = ps.`product_id` LIMIT 1) AS proTitle,
+      	(SELECT p.product_kh FROM `ln_pawnshopproduct` AS p WHERE p.id = ps.`product_id` LIMIT 1) AS proTitleKh,
+      	ps.`product_description`        AS `product_description`
+      	FROM `ln_pawn_receipt_money` `crm`,
+      	`ln_pawn_receipt_money_detail` `d`,
+		`ln_pawnshop` `ps`
+      	WHERE (`crm`.`status` = 1)
+      	AND (`crm`.`id` = `d`.`receipt_id`)
+      	AND (`crm`.`loan_id` = ps.id)
+      	AND (`crm`.`status` = 1)
+      	AND crm.id = $id
+      	GROUP BY `crm`.`id` ";
+      
+      	$sql.=" ORDER BY `crm`.`id` DESC LIMIT 1";
+      	return $db->fetchRow($sql);
+	}
 }
 

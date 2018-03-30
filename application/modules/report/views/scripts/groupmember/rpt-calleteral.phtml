@@ -36,7 +36,6 @@ dojo.require("dijit.form.DateTextBox");
 		  display: table-header-group;
 		  page-break-inside:avoid; page-break-after:auto;
 		}
-		
 		table { page-break-inside:auto }
 		  tr{ page-break-inside:avoid; page-break-after:auto; }
 		#header {
@@ -55,7 +54,7 @@ dojo.require("dijit.form.DateTextBox");
                 	<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><label><?php echo $tr->translate("BRAND_TITLE");?></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><label></label></h2>
                 	<h2 style="text-align:center; font-size:13px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("REPORT_CALLETERAL");?></h2>
-                	<h2 style="text-align:center; font-size:13px;"><?php echo date("d-M-Y",strtotime($this->result['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->result['end_date']));?></h2></td>
+                	<h2 style="text-align:center; font-size:13px;"><?php if(!empty($this->result['start_date'])){?><?php echo date("d-M-Y",strtotime($this->result['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->result['end_date']));}?></h2></td>
                     <td width="20%"></td>
                 </tr> 
                 <tr>
@@ -81,7 +80,7 @@ dojo.require("dijit.form.DateTextBox");
                 <tr class="style">
                 	<td colspan="6">&nbsp;<span><?php echo $tr->translate("CUSTOMER_NAME");?> </span></td>
                 </tr>
-            	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; line-height: 20px; font-size:12px; padding:5px 0px; ">
+            	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; background: #ccd9ff; line-height: 20px; font-size:12px; padding:5px 0px; ">
                     <th><?php echo $tr->translate("NUM");?> </th>
                     <th><?php echo $tr->translate("BRANCH_NAME");?> </th>
                     <th><?php echo $tr->translate("COLLTERAL_CODE");?> </th>
@@ -113,7 +112,7 @@ dojo.require("dijit.form.DateTextBox");
                 <tr class="style">
                 	<td colspan="11" style="background:rgb(237, 237, 237) none repeat scroll 0% 0%"><a style="color:#000;" title="បង្កាន់ដៃតម្កល់ទ្រព្យដាក់ធានា" target="_blank" href="<?php echo $calleteralurl."/id/".$row['client_id'];?>">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_code'].' , '.$row['name_kh'].' - '.$row['client_name']; ?></a></td>
                 </tr>
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 20px; font-size:9px; padding:5px 0px; ">
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 20px; background: #ccd9ff; font-size:9px; padding:5px 0px; ">
                     <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?> </td>
                     <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?> </td>
                     <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("COLLTERAL_CODE");?> </td>
@@ -130,24 +129,25 @@ dojo.require("dijit.form.DateTextBox");
                 <?php }
                 $id = $row['client_id'];
                 ?>
-					<tr align="center"  <?php if($row['is_return']==1)echo'style="background:#ccc;"';?> >
-						<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
-						<td>&nbsp;<?php echo $row['branch_name'];?>&nbsp;</td>
-						<td>&nbsp;<?php echo $row['collecteral_code']; ?>&nbsp;</td>
-						<td>&nbsp;<?php echo $row['co_id']; ?>&nbsp;</td>						
-						<td style="white-space:nowrap;">&nbsp;<?php echo $row['collecteral_type']; ?>&nbsp;</td>
-						<td style="white-space:nowrap; text-align: left;">&nbsp;<?php echo $row['collecteral_title_en']." -  ".$row['collecteral_owner']; ?>&nbsp;</td>
-						<td style="white-space:nowrap;" >&nbsp;<?php echo $row['number_collecteral']; ?>&nbsp;</td>
-						<td style="white-space:nowrap;" >&nbsp;<?php echo date("d-M-Y",strtotime($row['issue_date'])); ?>&nbsp;</td>
-						<td>&nbsp;<?php echo date('d-M-Y',strtotime($row['date']));?>&nbsp;</td>
-						<td>&nbsp;<?php echo ($row['is_return']==1)?"Returned":"Keeping";?>&nbsp;</td>
-						<td style="white-space:nowrap;" >&nbsp;<?php echo $row['note']; ?>&nbsp;</td>
-					</tr>
+				<tr align="center"  <?php if($row['is_return']==1)echo'style="background:#ccc;"';?> >
+					<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
+					<td>&nbsp;<?php echo $row['branch_name'];?>&nbsp;</td>
+					<td>&nbsp;<?php echo $row['collecteral_code']; ?>&nbsp;</td>
+					<td>&nbsp;<?php echo $row['co_id']; ?>&nbsp;</td>						
+					<td style="white-space:nowrap;">&nbsp;<?php echo $row['collecteral_type']; ?>&nbsp;</td>
+					<td style="white-space:nowrap; text-align: left;">&nbsp;<?php echo $row['collecteral_title_en']." -  ".$row['collecteral_owner']; ?>&nbsp;</td>
+					<td style="white-space:nowrap;" >&nbsp;<?php echo $row['number_collecteral']; ?>&nbsp;</td>
+					<td style="white-space:nowrap;" >&nbsp;<?php echo date("d-M-Y",strtotime($row['issue_date'])); ?>&nbsp;</td>
+					<td>&nbsp;<?php echo date('d-M-Y',strtotime($row['date']));?>&nbsp;</td>
+					<td>&nbsp;<?php echo ($row['is_return']==1)?"Returned":"Keeping";?>&nbsp;</td>
+					<td style="white-space:nowrap;" >&nbsp;<?php echo $row['note']; ?>&nbsp;</td>
+				</tr>
 				<?php }?>
             <br />
               </table>
               <br />
-              <table align="center" width="100%">
+            <table align="center" width="100%">
+			<thead>
 				   <tr style="font-size: 12px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
@@ -155,6 +155,7 @@ dojo.require("dijit.form.DateTextBox");
 				        <th></th>
 				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
+			</thead>
 			</table>
     	</td>
     </tr>
