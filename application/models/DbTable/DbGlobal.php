@@ -935,7 +935,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
  					$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));//code here have problem
  				}
  			}else{//months
- 					
  					if (date("m",strtotime($next_payment))==1){
  						if ($default_day>28){
  							$eses = date("Y",strtotime($next_payment));
@@ -986,6 +985,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
  				$default_day='d';
  			}
  			$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));
+//  			return $next_payment;
  		}
  	}
  	if($holiday_status==3){//normal
@@ -996,11 +996,11 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
  		}
  		return $next_payment;//if normal day
  	}else{//check for sat and sunday
- 		//if($default_day<=31){
+//  		return $next_payment;//if normal day
+// return $this->checkHolidayExist($next_payment,$holiday_status);
  			while($next_payment!=$this->checkHolidayExist($next_payment,$holiday_status)){
  				$next_payment = $this->checkHolidayExist($next_payment,$holiday_status);
  			}
- 		//}
  		return $next_payment;
  	}
  		
@@ -1011,7 +1011,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
  	$rs =  $db->fetchRow($sql);
  	$db = new Setting_Model_DbTable_DbLabel();
  	$array = $db->getAllSystemSetting();
- 	if($rs){
+ 	if(!empty($rs)){//ករណីមាន
  		$d = new DateTime($rs['start_date']);
  		if($holiday_option==1){
  			$str_option = 'previous day';
