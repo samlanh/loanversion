@@ -82,6 +82,10 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 				'queryExpr'=>'*${0}*',
 		));
 		$options = $db ->getAllCOName(1);
+		
+		if($request->getActionName()=='index'){
+			unset($options[-1]);
+		}
 		$_coid->setMultiOptions($options);
 		$_coid->setValue($request->getParam("co_id"));
 		

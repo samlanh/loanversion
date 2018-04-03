@@ -11,7 +11,6 @@ $frm = $this->Form_Frmcallecterall;
 				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
-				//return false;
 				return true;
 			}else {
 				return false;
@@ -29,7 +28,8 @@ $frm = $this->Form_Frmcallecterall;
 								<table width="100%">
 									<tr>
 										<td><?php echo $tr->translate("NAME_KH")?></td>
-										<td><?php echo $frm->getElement('title_kh')?></td>	
+										<td><?php echo $frm->getElement('title_kh')?>
+										<?php echo $frm->getElement('id')?></td>	
 									</tr>
 									<tr>
 									    <td><?php echo $tr->translate("NAME_ENG")?></td>

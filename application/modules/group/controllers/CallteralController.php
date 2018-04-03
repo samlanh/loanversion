@@ -27,11 +27,11 @@ class Group_CallteralController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","CLIENT_NO","CUSTOMER_NAME","COLLTERAL_CODE","STAFF_NAME","AND_NAME","RELATIVE_WITH","DATE","NOTE","STATUS");
+			$collumns = array("BRANCH_NAME","LOAN_NO","CLIENT_NO","CUSTOMER_NAME","COLLTERAL_CODE","STAFF_NAME","AND_NAME","RELATIVE_WITH","DATE","NOTE","STATUS");
 			$link=array(
 					'module'=>'group','controller'=>'callteral','action'=>'edit',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch_name'=>$link,'collecteral_code'=>$link,'client_code'=>$link,'name_kh'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns,$rs_rows,array('branch_name'=>$link,'loan_number'=>$link,'collecteral_code'=>$link,'client_code'=>$link,'name_kh'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

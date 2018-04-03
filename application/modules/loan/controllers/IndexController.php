@@ -53,14 +53,6 @@ class Loan_IndexController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
 		$db = new Application_Model_DbTable_DbGlobal();
-// 		$db->updateVillage();
-		//$db->getupdateLoantoprefixed();
-		//$db->checkLoanexist();
-//  		$db->updateCompletedschedule();
-		//$db->updateRemainLoan();
-// 		$db->updateResetrecord();
-		//$db->updateGender();
-// 		$db->deleteFull();
   }
   
   function addAction()

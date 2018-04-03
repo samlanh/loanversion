@@ -195,7 +195,7 @@ class Saving_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 	function getAllClientNumber($branch_id=null){//ajax
 		$db = $this->getAdapter();
 		$sql = " SELECT c.`client_id` AS id  ,c.client_number AS name, c.`branch_id`
-		FROM `ln_clientsaving` AS c WHERE c.`name_en`!='' AND c.client_number !='' AND c.status=1  " ;
+		FROM `ln_clientsaving` AS c WHERE (c.`name_en`!='' OR c.`name_kh`!='') AND c.client_number !='' AND c.status=1  " ;
 		if($branch_id!=null){
 			$sql.=" AND c.`branch_id`= $branch_id ";
 		}

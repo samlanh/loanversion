@@ -45,7 +45,6 @@
 				dijit.byId('client_id').focus();
 				return false;
 			}
-
             dijit.byId("save_close").set("disabled",true);
 			dijit.byId("save_new").set("disabled",true);
 			dijit.byId("saveprint").set("disabled",true);
@@ -406,7 +405,7 @@ fieldset{padding:10px;}
 											<td class="lbtitlev">ឈ្មោះអតិថិជន</td>
 											<td >
 												<span class="borderCo value" >
-													<label id="lbl_group_member">&nbsp;<?php echo $loanPayment['client_name'];?>&nbsp;</label>
+													<label id="lbl_group_member">&nbsp;<?php //echo $loanPayment['client_name'];?>&nbsp;</label>
 												</span>
 											</td>
 											<td class="lbtitlev">ថ្ងៃបានបង់ប្រាក់</td>
@@ -778,14 +777,8 @@ dojo.ready(function(){
 	dijit.byId('interest_rate').attr('readOnly','readOnly');
 });
 function payOption(){
-	var ids =dijit.byId('record_id').get('value');
-	var arrays = ids.split(',');
-	//for(var i=0;i<arrays.length;i++){
-		//trRow(arrays[i]);
-	//}
 	calculateTotal();
 }
-
 var url_submit = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'payment','action'=>'getsavingpayment')); ?>';
 function getLaonPayment(type){//tab ទី1
 	dijit.byId('option_pay').attr('value',1);
@@ -933,7 +926,7 @@ function getdataPaymentToForm(data){//គណនាថ្ងៃយឺតអោយ
 function calculateTotal(index){//for គណនាប្រាក់ត្រូវបង់សរុប
 	try{
 		var payOption = dijit.byId('option_pay').get('value');//វិធីសាស្ត្របង់មកវិញ
-		var payment_term = dijit.byId('payment_term').get('value');//ខ្ចីជា =>3 month
+		var payment_term = 3//ខ្ចីជា =>3 month
 		var interest_rate = dijit.byId('interest_rate').get('value');
 		
 		collect_date = new Date(dijit.byId("collect_date").attr("value"));
@@ -944,7 +937,6 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
 		
 		dijit.byId("amount_late").attr("value",diffDays);
-
 		var timeDiff = ( collect_date.getTime()-last_payment.getTime() );
 		var interest_day = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
 		
@@ -962,18 +954,11 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		total_penalty = 0;
 		principal_permonth_late = 0;
 
-		if(payment_term==1){
-		     term_amountday = 1;
-		}else if(payment_term==2){
-			term_amountday = 7;
-		}else{
-			term_amountday = 30;
-		}
-		
+		term_amountday = 30;
 		var ids =dijit.byId('record_id').get('value');
 		var arrays = ids.split(',');
 		dijit.byId("identity").attr('value','');
-		for(var i=0;i<arrays.length;i++){//calculate record row				
+		for(var i=0;i<arrays.length;i++){//calculate record row	
 			if($('#mfdid_'+arrays[i]).attr('checked')){	
 				var iden = dijit.byId("identity").get('value');
 				if(iden!="") {
@@ -1020,7 +1005,6 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		
 		if(payOption==4){
 			dijit.byId('total_interest').attr('readOnly',false);
-			//interest = principal_permonth*(interest_rate/amount_day/100)*interest_day;
 			if(total_latedate>0){
 				total_penalty = (principal_permonth_late+interest)*(interest_penalty*interest_rate/term_amountday/100)*total_latedate;
 			}
@@ -1035,6 +1019,7 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		dijit.byId("total_payment").attr("value",principal_permonth+interest+total_penalty);
 		calTotal();
 	}catch(err){
+		alert("err"+err);
 	}
 }
 function getAllLaonPayment(type){//tabl2 

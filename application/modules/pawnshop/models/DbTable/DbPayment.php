@@ -322,7 +322,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     }
     function getPawnAccountNumber(){//type ==1 is ilPayment, type==2 is group payment
     	$db = $this->getAdapter();
-    	$sql ="SELECT id,CONCAT((SELECT name_en FROM `ln_clientsaving` WHERE 
+    	$sql ="SELECT id,CONCAT((SELECT name_kh FROM `ln_clientsaving` WHERE 
     		customer_id = ln_pawnshop.customer_id LIMIT 1),'-',`loan_number`) AS `name`,`branch_id`
     		 FROM `ln_pawnshop` WHERE `is_completed` = 0 AND status=1 ";
     	return $db->fetchAll($sql);

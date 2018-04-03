@@ -68,44 +68,41 @@
 				<legend align="center" ><strong><?php echo $tr->translate("INFO_INDILOAN")?></strong></legend>
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
 						<tr>
-					        <td><?php echo $tr->translate("BRANCH_NAME")?></td>
+					        <td><strong><?php echo $tr->translate("BRANCH_NAME")?></strong></td>
 							<td><?php echo $frm->getElement('branch_id');?></td>
 					    </tr>
 					    <tr>
 					    	<td><?php echo $tr->translate("LOAN_NO")?></td>
 							<td><?php echo $frm->getElement('loan_code');?></td>
 					    </tr>
-					    <tr >
+					    <tr>
 							<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-							<td><input id="customer_code" /><?php //echo $frm->getElement('customer_code');?></td>
+							<td><input id="customer_code" /></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-							<td><input id="member" /> <?php //echo $frm->getElement('member');?>
-							</td>
+							<td><strong><?php echo $tr->translate("CUSTOMER_NAME")?></strong></td>
+							<td><input id="member" /></td>
 						</tr>
 						<tr>
 							<td></td>
-							<td><input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/>
-							</td>
+							<td><input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("CO_NAME")?></td>
-							<td><input id="co_id" /><?php //echo $frm->getElement('co_id');?></td>
+							<td><strong><?php echo $tr->translate("CO_NAME")?></strong></td>
+							<td><input id="co_id" /></td>
 						</tr>
 						<tr>
 					    	<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
 							<td><?php echo $frm->getElement('level');?></td>
 					    </tr>
 					     <tr>
-				  		<td style=" width: 40%;"><?php echo $tr->translate("ZONE_NAME")?></td>
-						<td><?php echo $frm->getElement('zone');?></td>
+					  		<td style=" width: 40%;"><?php echo $tr->translate("ZONE_NAME")?></td>
+							<td><?php echo $frm->getElement('zone');?></td>
 					    </tr>
 					    <tr>
 					    	<td><?php echo $tr->translate("LOAN_TYPE")?></td>
 							<td><?php echo $frm->getElement('loan_type');?></td>
 					    </tr>
-					    
 				</table>
 			</fieldset>	
 		</td>
@@ -114,11 +111,11 @@
 				<legend align="center" ><strong><?php echo $tr->translate("INFO_ILLOAN")?></strong></legend>
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
 						<tr>
-					        <td style="width: 41%;"><?php echo $tr->translate("LOAN_AMOUNT")?></td>
+					        <td style="width: 41%;"><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
 							<td><?php echo $frm->getElement('total_amount');?></td>
 					    </tr>
 					    <tr>
-					    	<td><?php echo $tr->translate("CURRENCY")?></td>
+					    	<td><strong><?php echo $tr->translate("CURRENCY")?></strong></td>
 							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
 					    </tr>
 					    <tr>
@@ -130,11 +127,11 @@
 							<td><?php echo $frm->getElement('other_fee');?></td>
 					    </tr>
 					    <tr>
-					    	<td><?php echo $tr->translate("REPAYMENT_TYPE")?></td>
+					    	<td><strong><?php echo $tr->translate("REPAYMENT_TYPE")?></strong></td>
 							<td><?php echo $frm->getElement('repayment_method');?></td>
 					    </tr>
-					    <tr >
-							<td style="width: 34%;"><?php echo $tr->translate("INTEREST_RATE")?></td>
+					    <tr>
+							<td style="width: 34%;"><strong><?php echo $tr->translate("INTEREST_RATE")?></strong></td>
 							<td><?php echo $frm->getElement('interest_rate');?></td>
 						</tr>
 						<tr>
@@ -142,7 +139,7 @@
 							<td><?php echo $frm->getElement('pay_every');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("TERM_BORROW")?></td>
+							<td><strong><?php echo $tr->translate("TERM_BORROW")?></strong></td>
 							<td><?php echo $frm->getElement('period');?></td>
 						</tr>
 						<tr>
@@ -179,7 +176,7 @@
 							<td><?php  echo $frm->getElement('every_payamount');?></td>
 						 </tr>
 					    <tr>
-					    	<td><?php echo $tr->translate("FIRST_PAYMENT")?></td>
+					    	<td><strong><?php echo $tr->translate("FIRST_PAYMENT")?></strong></td>
 							<td><?php echo $frm->getElement('first_payment');?></td>
 					    </tr>
 					    <tr>
@@ -579,8 +576,8 @@ function addNewZone(){
 
 </script>
 <?php 
-//echo $this->frmpupoploantype;
-//echo $this->frmPopupZone;
+echo $this->frmpupoploantype;
+echo $this->frmPopupZone;
 ?>
 <script>
 function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
@@ -634,7 +631,6 @@ function calCulateEndDate(){
 		dijit.byId('date_line').attr('value',epx_date);	
     }
 }
-
 function CalculateDate(){
 	pay_term = dijit.byId('pay_every').get('value');
 	amount_date = dijit.byId('period').get('value');
@@ -722,7 +718,7 @@ function addPreviewLoan(){
 				document.getElementsByClassName("overlay")[0].style.display="none";
 				temp='';	fund_title=0;thead='';fund_title=0;
 				 		temp='<table class="collape tablesorter" style="font-size:13px; width:1000px !important; " id="table">'
-						temp+='<tr style="background:#ccc;"><th><?php echo $tr->translate("NUM");?></th>';
+						temp+='<tr style="background:#72a6ea;"><th><?php echo $tr->translate("NUM");?></th>';
 						temp+='<th><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់");?></th>';
 						temp+='<th><?php echo $tr->translate("ប្រាក់ដើមគ្រា");?></th>';
 						temp+='<th><?php echo $tr->translate("ប្រាក់ដើម");?></th>';

@@ -1,10 +1,9 @@
 <?php 
-$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-$frm = $this->frm_search;
-$end_dat=$this->date_show;
-$session_user=new Zend_Session_Namespace('authloan');
-$level = $session_user->level;
-//print_r($this->LoanCollectionco_list);
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$frm = $this->frm_search;
+	$end_dat=$this->date_show;
+	$session_user=new Zend_Session_Namespace('authloan');
+	$level = $session_user->level;
 ?>
 <style>
 .hover:hover{ background: #ccc;}
@@ -20,7 +19,6 @@ $level = $session_user->level;
    			<td><?php echo $frm->getElement('branch_id');?></td>
    			<td><?php echo $frm->getElement('client_name');?></td>
    			<td><?php echo $frm->getElement('co_id');?></td>
-   			
    	  </tr>
    	 <tr>
    	 		<td><?php echo $frm->getElement('paymnet_type');?></td>
@@ -129,19 +127,19 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
 		               if($rs['curr_type']==1){
 		               		$amt_r1 = $amt_r1+$rs['principal_paid'];
 		               		$amt_r2 = $amt_r2+$rs['interest_paid'];
-		               		$amt_r3 = $amt_r3+$rs['penelize_amount'];
+		               		$amt_r3 = $amt_r3+$rs['penalize_paid'];
 		               		$amt_r5 = $amt_r5+$rs['service_paid'];
 		               		$total_r=$amt_r1+$amt_r2+$amt_r3+$amt_r5;
 		               }elseif($rs['curr_type']==2){
 							$amt_d1 = $amt_d1+$rs['principal_paid'];
 							$amt_d2 = $amt_d2+$rs['interest_paid'];
-							$amt_d3 = $amt_d3+$rs['penelize_amount'];
+							$amt_d3 = $amt_d3+$rs['penalize_paid'];
 							$amt_d5 = $amt_d5+$rs['service_paid'];
 							$total_d=$amt_d1+$amt_d2+$amt_d3+$amt_d5;
 		               }else{
-		               		$amn_b1 = $amn_b1+$rs['principal_paid'];
+		               		$amn_b1 = $amn_b1+$rs['penalize_paid'];
 							$amn_b2 = $amn_b2+$rs['interest_paid'];
-							$amn_b3 = $amn_b3+$rs['penelize_amount'];
+							$amn_b3 = $amn_b3+$rs['penalize_paid'];
 							$amn_b5 = $amn_b5+$rs['service_paid'];
 							$total_b=$amn_b1+$amn_b2+$amn_b3+$amn_b5;
 		               }
@@ -163,7 +161,7 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
                		<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["interest_rate"];?></td>
                		<td style="font-size: 12px;padding:0px 2px;"><?php echo number_format($rs['principal_paid'],2).' '.$rs['currency_type'];?></td>  
                		<td style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($rs['interest_paid'],2).' '.$rs['currency_type'];?>&nbsp;</td>
-               		<td style="font-size: 12px;padding:0px 2px;"><?php echo number_format($rs['penelize_amount'],2).' '.$rs['currency_type'];?></td>
+               		<td style="font-size: 12px;padding:0px 2px;"><?php echo number_format($rs['penalize_paid'],2).' '.$rs['currency_type'];?></td>
                		<td style="font-size: 12px;padding:0px 2px;"><?php echo number_format($rs['service_paid'],2).' '.$rs['currency_type'];?></td>
                		<td style="font-size: 12px;padding:0px 2px;"><?php echo number_format($rs['total_paymentpaid'],2);?></td>
                		<td style="font-size: 12px;text-align: center;"><?php echo date("d-M-Y",strtotime($rs["date_payment"]));?></td>
@@ -226,7 +224,7 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
 				        <th></th>
 				        <th style="width:20%;text-align:center;font-family:'Khmer MEF2'"><?php echo $tr->translate('PREPARE BY');?></th>
 				   </tr>
-			</table>
+		</table>
 </div>
 </div>
 </div>

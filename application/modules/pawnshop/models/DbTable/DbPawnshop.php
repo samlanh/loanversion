@@ -315,7 +315,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 							'date_payment'=>$next_payment,//good
 							'is_completed'=>0,
 							'status'=>1,
-							'amount_day'=>$old_amount_day,
+							'amount_day'=>$amount_day,
 					);
 					
 					$this->insert($datapayment);

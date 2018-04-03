@@ -92,7 +92,6 @@
 						<tr>
 							<td><?php echo $tr->translate("EST_VALUE")?></td>
 							<td><?php echo $frm->getElement('estimatevalue');?>
-								<input dojoType="dijit.form.NumberTextBox" class="fullside" id="total_interest" name="total_interest" type="text">
 							</td>
 						</tr>
 					</table>
@@ -746,9 +745,6 @@ require(["dojo/ready"], function(ready){
 	new dijit.form.FilteringSelect({
 	store: client_number_store,
 	autoComplete: true,
-	query: {
-		branch_id: "-1"
-	},            
 	required: false,		           
 	name: "customer_code",
 	id: "customer_code",
@@ -933,7 +929,7 @@ function checkReleaseDate(){
 	CalculateDate();
 }
 function calCulatePeriod(){
-	pay_term = 3;//dijit.byId('pay_every').get('value');
+	pay_term = 3;
 	amount_date = dijit.byId('period').get('value');
 	release_date = dijit.byId("release_date").get('value');//just update follow by first payment
 	if(isNaN(amount_date)){
@@ -943,7 +939,6 @@ function calCulatePeriod(){
 }
 function CalculateWidthdraw(){
 }
-
 function getFirstPayment(){
 	amount_date = dijit.byId('period').get("value");
 	release_date = dijit.byId("release_date").get('value');
@@ -977,50 +972,12 @@ function getDayName(day){
 function hideDialog() {		
 	dijit.byId("frm_receipt").hide();
 }
-
 function showPopupclient(){
 	if(dijit.byId('branch_id')!=''){
-		//dijit.byId("frmpop_client").show();
 	}else{
 		alert('Please Select Branch First!');
 		dijit.byId('branch_id').focus();
 		}
-}
-
-var individual_client_url = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'insert-client'));?>';
-function addNewindividual(){
-	if(dijit.byId('addclient').validate()){
-	dojo.xhrPost({
-		url:individual_client_url,	
-		form:dojo.byId('addclient'),
-		content:{
-			'branch_id':dijit.byId('branch_id').get('value')
-			},
-		handleAs:"json",
-		load: function(response) {
-			dijit.byId('frmpop_client').hide();	
-			var myNewItem = {					
-					id: response.id,
-					name: dijit.byId('name_en').get('value')+' - '+dijit.byId('name_kh').get('value'),
-					branch_id: dijit.byId('branch_id').get('value'),
-			};			
-			addDataToSelectbox(dijit.byId('member'), client_store, myNewItem, response.id);
-
-			var myNewItem1 = {					
-					id: response.id,
-					name: response.client_code,
-					branch_id: dijit.byId('branch_id').get('value'),
-			};			
-			addDataToSelectbox(dijit.byId('customer_code'), client_number_store, myNewItem1, response.id);		
-			dijit.byId('addclient').reset();
-		},
-		error: function(err) {
-		}
-	});
- }	
-}
-function popupCheckCO(){
-  
 }
 function loading(){
     document.getElementsByClassName("overlay")[0].style.display="block";
