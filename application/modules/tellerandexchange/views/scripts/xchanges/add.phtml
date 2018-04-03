@@ -400,33 +400,16 @@
 
 	function return_money(){
 		var r_m=0;
-		if (calcSysble === "/"){			
-			amount = dijit.byId('from_amount').get('value');
-			rate = dijit.byId('rate').get('value');
-			tt = amount / rate;	
-			var lbl = '';	
-			var from_type = dijit.byId('from_amount_type').item.id;
-			var to_type = dijit.byId('to_amount_type').item.id;
-			if(from_type == 3 && to_type == 2){
-				lbl = "DB";
-			}
-			else if(from_type == 1){
-				if(to_type == 2){
-					lbl = "DR";
-				}
-				else if(to_type == 3){
-					lbl = "BR";
-				}
-			}
-			var r_rate = dojo.number.parse(dojo.byId(lbl).innerHTML);
-			r_m =parseInt((tt - parseInt(tt)) * r_rate);
+		amount = dijit.byId('from_amount').get('value');
+		recieve_money =	dijit.byId('recieve_money').get('value');
+		if(dijit.byId('recieve_money').get('value') >= amount){
+			rm = recieve_money - amount;
+			dojo.byId("return_money").value = dojo.number.format(dojo.number.round(rm,2));
+		}else{
+			dijit.byId('recieve_money').set('value',dojo.number.format(dojo.number.round(amount,2)));
+			dojo.byId("return_money").value = dojo.number.format(dojo.number.round(0,2));
 		}
 		
-// 		rm = parseFloat(dijit.byId('recieve_money').get('value')) - parseFloat(dijit.byId('from_amount').get('value')) ;
-// 		dojo.byId("return_money").value = dojo.number.format(rm + r_m);
-		rm = parseFloat(dijit.byId('recieve_money').get('value')) - parseFloat(dijit.byId('from_amount').get('value')) ;
-		r_money =dijit.byId('recieve_money').get('value')- amount;
-		dojo.byId("return_money").value = dojo.number.format(dojo.number.round(rm,2));
 	}
 		
 	function total(){
