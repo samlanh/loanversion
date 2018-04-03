@@ -2039,7 +2039,10 @@ AND cl.client_id = $client_id )";
       }
       public function getAllxchangeBYID($id){
       	$db = $this->getAdapter();
-      	$sql = "SELECT * FROM `v_xchange` AS v WHERE v.`id`=$id LIMIT 1";
+      	$sql = "SELECT v.*,
+		(SELECT c.`curr_namekh` FROM ln_currency AS c WHERE c.symbol = v.`fromAmountType`) AS fromTxtType,
+		(SELECT c.`curr_namekh` FROM ln_currency AS c WHERE c.symbol = v.`toAmountType`) AS toTxtType
+      	FROM `v_xchange` AS v WHERE v.`id`=$id LIMIT 1";
       	return $db->fetchRow($sql);
       }	
       

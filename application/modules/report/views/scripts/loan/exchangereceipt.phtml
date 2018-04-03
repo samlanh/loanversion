@@ -5,27 +5,27 @@ $session_user=new Zend_Session_Namespace('authloan');
 $data = $this->data;
 
 $Exchange = $this->Exchange;
-$FromcurType="Riel";
-if ($Exchange['fromAmountType']=="$"){
-	$FromcurType="Dollar";
-}else if ($Exchange['fromAmountType']=="B"){
-	$FromcurType="Bath";
-}
+// $FromcurType="Riel";
+// if ($Exchange['fromAmountType']=="$"){
+// 	$FromcurType="Dollar";
+// }else if ($Exchange['fromAmountType']=="B"){
+// 	$FromcurType="Bath";
+// }
 
-$ToCurType="Riel";
-if ($Exchange['toAmountType']=="$"){
-	$ToCurType="Dollar";
-}else if ($Exchange['toAmountType']=="B"){
-	$ToCurType="Bath";
-}
+// $ToCurType="Riel";
+// if ($Exchange['toAmountType']=="$"){
+// 	$ToCurType="Dollar";
+// }else if ($Exchange['toAmountType']=="B"){
+// 	$ToCurType="Bath";
+// }
 
-$RecCurType="Riel";
-if ($Exchange['recievedType']=="$"){
-	$RecCurType="Dollar";
-}else if ($Exchange['recievedType']=="B"){
-	$RecCurType="Bath";
-}
-// print_r($Exchange);
+// $RecCurType="Riel";
+// if ($Exchange['recievedType']=="$"){
+// 	$RecCurType="Dollar";
+// }else if ($Exchange['recievedType']=="B"){
+// 	$RecCurType="Bath";
+// }
+// // print_r($Exchange);
 $dbuser = new Application_Model_DbTable_DbUsers();
 $userinfo = $dbuser->getUserView($Exchange['userid']);
 ?>
@@ -89,7 +89,7 @@ $userinfo = $dbuser->getUserView($Exchange['userid']);
 						</td>
 						<td>:</td>
 						<td align="right" style="white-space: nowrap;">
-							<strong ><label id="rpt_from_amount"><?php echo number_format($Exchange['fromAmount'])." ".$FromcurType ;?></label></strong>
+							<strong ><label id="rpt_from_amount"><?php echo number_format($Exchange['fromAmount'])." ".$Exchange['fromTxtType'];?></label></strong>
 						</td>
 				   </tr>
 				   <tr>
@@ -98,7 +98,7 @@ $userinfo = $dbuser->getUserView($Exchange['userid']);
 						</td>
 						<td>:</td>
 						<td align="right" style="white-space: nowrap;">
-							<strong ><label id="rpt_rate"><?php echo number_format($Exchange['rate'])." ".$ToCurType?></label></strong>
+							<strong ><label id="rpt_rate"><?php echo number_format($Exchange['rate'])." ".$Exchange['toTxtType'];?></label></strong>
 						</td>
 				   </tr>
 				   <tr>
@@ -107,7 +107,7 @@ $userinfo = $dbuser->getUserView($Exchange['userid']);
 						</td>
 						<td>:</td>
 						<td align="right" style="white-space: nowrap;">
-							<strong style="font-size:10px;"><label id="rpt_to_amount"><?php echo number_format($Exchange['toAmount'])." ".$ToCurType?></label></strong>
+							<strong style="font-size:10px;"><label id="rpt_to_amount"><?php echo number_format($Exchange['toAmount'])." ".$Exchange['toTxtType'];?></label></strong>
 						</td>
 				   </tr>
 				   <tr>
@@ -116,7 +116,7 @@ $userinfo = $dbuser->getUserView($Exchange['userid']);
 						</td>
 						<td>:</td>
 						<td align="right">
-							<strong style="font-size:10px;"><label id="rpt_recieve"><?php echo number_format($Exchange['recievedAmount'])." ".$RecCurType ;?></label></strong>
+							<strong style="font-size:10px;"><label id="rpt_recieve"><?php echo number_format($Exchange['recievedAmount'])." ".$Exchange['fromTxtType'];?></label></strong>
 						</td>
 				   </tr>
 				   <tr>
@@ -125,7 +125,7 @@ $userinfo = $dbuser->getUserView($Exchange['userid']);
 						</td>
 						<td>:</td>
 						<td align="right">
-							<strong style="font-size:10px;"><label id="rpt_change"><?php echo "0 ".$ToCurType ;?></label></strong>
+							<strong style="font-size:10px;"><label id="rpt_change"><?php echo "0 ".$Exchange['fromTxtType'];?></label></strong>
 						</td>
 				   </tr>
 				   <tr style="border:1px solid #000;">
