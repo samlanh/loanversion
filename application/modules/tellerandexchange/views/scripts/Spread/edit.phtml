@@ -2,6 +2,8 @@
 	$this->headTitle('Currency Smart | Exchange add page'); 
 	echo $this->headTitle();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$frm = $this->frmExchange;
 ?>	
 <script type="text/javascript">
 dojo.require('dijit.form.Form');
@@ -9,6 +11,128 @@ dojo.require('dijit.form.Button');
 dojo.require('dijit.form.NumberTextBox');
 dojo.require("dijit.Dialog");
 </script>
+<form id='frm_add_tran' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				if(chInOutCurrency==1){
+					dijit.byId('in_cur_id').focus();
+					return false;
+				}
+ 			dijit.byId("save_close").set("disabled",true);
+			dijit.byId("save_new").set("disabled",true);
+				return true;
+			}else {
+				return false;
+			}
+	</script>
+	<fieldset>
+	<table cellspacing="10" class='fullside' >
+		<legend class="mainblog" align="center"><strong><?php echo $tr->translate('Add Currencty Exchange');?></strong></legend>
+		<tr>
+			<td width="33%;" valign="top">
+			<fieldset>
+			     <legend align="center"><strong><?php echo $tr->translate('Currency Information');?></strong></legend>
+				<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+					<tr id="error"  style="display: none;">
+						<td colspan="2"><label id="lbl_message" style="color: #F44336;" ><?php echo $tr->translate("ការប្ដូរប្រាក ពីប្រាក់ ទៅប្រាក់នេះមានរួចហើយ");?></label></td>
+					</tr>
+				    <tr>
+						 <td><?php echo $tr->translate("ពីប្រាក់")?></td>
+						 <td>
+							 <?php echo $frm->getElement('in_cur_id');?>
+							 <input type="hidden" value="<?php echo $this->row['id'];?>" class="fullside" readonly="readonly" required="required" id="id" name="id" dojoType="dijit.form.TextBox" />
+						 </td>
+				    </tr>
+					<tr>
+				  		  <td><?php echo $tr->translate("ទៅប្រាក់")?></td>
+						  <td><?php echo $frm->getElement('out_cur_id');//echo $frm->getElement('for_date');?></td>
+				    </tr>			    
+				   <tr>
+						  <td><?php echo $tr->translate("STATUS")?></td>
+						  <td><?php echo $frm->getElement('active');?></td>
+					</tr>
+				</table>
+			</fieldset>	
+			</td>
+			<td width="33%;" valign="top">
+			<fieldset>
+			     <legend align="center"><strong><?php echo $tr->translate('Exchange Rate Information');?></strong></legend>
+				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+				 	<tr >
+						 <td><?php echo $tr->translate("ទិញចូល")?></td>
+						 <td><?php echo $frm->getElement('rate_in');?></td>
+					</tr>
+					<tr>
+						  <td><?php echo $tr->translate("លក់ចេញ")?></td>
+						  <td><?php echo $frm->getElement('rate_out');?></td>
+					</tr>
+					<tr>
+						<td><?php echo $tr->translate("អត្រាកណ្តាល")?></td>
+						<td><?php echo $frm->getElement('spread');?></td>
+					</tr>
+				</table>
+			</fieldset>
+			</td>
+		</tr>
+		<tr>
+			<td align="center" colspan="3">
+			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
+					 iconClass="dijitIconClear"/>
+				<input type="submit"   label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose'​​ value='saveclose' dojoType="dijit.form.Button"
+					 iconClass="dijitIconDelete"/>
+				<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"
+					 iconClass="dijitIconNewTask"/>
+			</td>
+		</tr>	
+	</table>
+	</fieldset>
+</form>
+<script>
+	function calculateSpread(){
+		rate_in = dijit.byId('rate_in').get('value');
+		rate_out = dijit.byId('rate_out').get('value');
+		var spread = 0;
+		spread = (rate_in + rate_out)/2;
+		dijit.byId('spread').set('value',dojo.number.format(spread,{places:2}));
+	}
+	var chInOutCurrency=0;
+	var urlIncrrenAndOutCurren = '<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'spread','action'=>'incurandoutcuran')); ?>';
+	var oldin_cur_id='<?php echo $this->row['in_cur_id'];?>';
+	var oldout_cur_id='<?php echo $this->row['out_cur_id'];?>';
+	function CheckCurrencyTO(){
+		in_cur_id = dijit.byId('in_cur_id').get('value');
+		out_cur_id = dijit.byId('out_cur_id').get('value');
+			dojo.xhrPost({
+				url:	urlIncrrenAndOutCurren,
+				content:{
+					'in_cur_id':in_cur_id,'out_cur_id':out_cur_id
+					},
+				handleAs:"json",
+				load: function(data) {
+					if(data==1){
+						
+						if(oldin_cur_id==in_cur_id && oldout_cur_id == out_cur_id ){
+							$('#error').css('display','none');
+							chInOutCurrency = 0;
+							
+						}else{
+							document.getElementById('lbl_message').innerHTML = "ការប្ដូរប្រាក់ពីប្រាក់ "+dijit.byId('in_cur_id').attr('displayedValue')+" ទៅប្រាក់ "+dijit.byId('out_cur_id').attr('displayedValue')+"នេះមានរួចហើយ"
+							$('#error').css('display','table-row');
+							chInOutCurrency = 1;
+							dijit.byId('in_cur_id').focus();
+						}
+					}else{
+						$('#error').css('display','none');
+						chInOutCurrency = 0;
+					}
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});
+	}
+</script>
+<?php $ass=0; if ($ass==1){?>
 <style>
 <!--
 	.tbtable{		
@@ -369,3 +493,4 @@ function hideDialog() {
 	    hideDialog();
 	}
 </script>
+<?php }?>

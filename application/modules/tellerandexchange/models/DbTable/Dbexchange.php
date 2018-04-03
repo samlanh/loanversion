@@ -109,8 +109,8 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 		FROM
 		`ln_xchange` AS e ";
 		
-		$order=' ORDER BY e.id';
-		return $db->fetchAll($sql.$where);
+		$order=' ORDER BY e.id DESC';
+		return $db->fetchAll($sql.$where.$order);
 	}
 	function getExchangeDetail($id){
 		$db = $this->getAdapter();
@@ -203,19 +203,58 @@ class Tellerandexchange_Model_DbTable_Dbexchange extends Zend_Db_Table_Abstract
 			echo $e->getMessage();
 		}
 	}
-	}
+	
 	function getCurrencyById($fieldname,$id){
 		$db = $this->getAdapter();
 		$sql = "SELECT ". $fieldname ."
 		FROM `ln_currency`
 		WHERE id = ". $id;
-// 		    	echo $sql; exit();
+		// 		    	echo $sql; exit();
 		return $db->fetchRow($sql);
 	}
-function getexpensebyid($id){
-	$db = $this->getAdapter();
-	$sql=" SELECT id,branch_id,invoice_code,receive_amount,date,user_id FROM $this->_name where id=$id ";
-	return $db->fetchRow($sql);
+	function getexpensebyid($id){
+		$db = $this->getAdapter();
+		$sql=" SELECT id,branch_id,invoice_code,receive_amount,date,user_id FROM $this->_name where id=$id ";
+		return $db->fetchRow($sql);
+	}
+	function getToExchange($fromCurrId){
+		$db = $this->getAdapter();
+		$sql="SELECT
+		CASE
+		WHEN  ex.`in_cur_id` != $fromCurrId THEN ex.`in_cur_id`
+		WHEN  ex.`out_cur_id` != $fromCurrId THEN ex.`out_cur_id`
+		END AS id,
+		CASE
+		WHEN  ex.`in_cur_id` != $fromCurrId THEN (SELECT c.curr_namekh FROM `ln_currency` AS c WHERE c.id = ex.`in_cur_id` LIMIT 1)
+		WHEN  ex.`out_cur_id` != $fromCurrId THEN (SELECT c.curr_namekh FROM `ln_currency` AS c WHERE c.id = ex.`out_cur_id` LIMIT 1)
+		END AS name
+		FROM `ln_exchangerate` AS ex WHERE ex.`in_cur_id` =$fromCurrId OR ex.`out_cur_id`=$fromCurrId ";
+		return $db->fetchAll($sql);
+	}
+	function getExchangeRateValue($data){
+		$db = $this->getAdapter();
+		$sql="SELECT ex.`rate_in` AS rate,'fromto'
+ 		FROM `ln_exchangerate` AS ex WHERE ex.`in_cur_id` =".$data['from_amount_type']." AND ex.`out_cur_id`=".$data['to_amount_type']."";
+		$row = $db->fetchRow($sql);
+		if (empty($row)){
+			$sql="SELECT ex.`rate_out` AS rate
+			FROM `ln_exchangerate` AS ex WHERE ex.`out_cur_id` =".$data['from_amount_type']." AND ex.`in_cur_id`=".$data['to_amount_type']."";
+			$row = $db->fetchRow($sql);
+		}
+		return $row;
+	}
+	function getAllExchangeRate(){
+		$db = $this->getAdapter();
+		$sql="SELECT ex.*,
+			(SELECT c.curr_namekh FROM `ln_currency` AS c WHERE c.id = ex.`in_cur_id` LIMIT 1) AS fromCurr,
+			(SELECT c.curr_namekh FROM `ln_currency` AS c WHERE c.id = ex.`out_cur_id` LIMIT 1) AS toCurr,
+			(SELECT c.symbol FROM `ln_currency` AS c WHERE c.id = ex.`in_cur_id` LIMIT 1) AS fromCurrSysm,
+			(SELECT c.symbol FROM `ln_currency` AS c WHERE c.id = ex.`out_cur_id` LIMIT 1) AS toCurrSysm
+			 FROM `ln_exchangerate` AS ex WHERE ex.`active` =1";
+		return $db->fetchAll($sql);
+	}
 }
+
 	
+
 ?>

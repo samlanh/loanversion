@@ -1,6 +1,7 @@
 <?php
 	$this->headTitle('Exchange Money'); 
 	echo $this->headTitle();
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
 <style>
 	#grid{
@@ -34,29 +35,29 @@
 <form name="frmlist_mt" action="<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'xchanges','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
 <table class="fullside">	  
 	  <tr>
-			<td>
-				<label>ឈ្មោះ​អ្នក​ប្រើប្រាស់</label>
-				<select style="text-align: left;" onchange="document.frmlist_mt.submit();" name="user_id" id="select_user_id" dojoType="dijit.form.FilteringSelect" required="true">
-					<option value="-1" <?php echo (-1 == $this->user_id)?"selected":"";?>>All</option> 
-					<?php foreach ($this->users as $key => $u) : ?>
-						<option value="<?php echo $u['id'];?>" <?php echo ($u['id'] == $this->list_search['user_id'])?"selected":"";?>><?php echo  $u['name'];?></option>
-					<?php endforeach;?> 
-				</select>
-			</td>
+		<td>
+			<label>ឈ្មោះ​អ្នក​ប្រើប្រាស់</label>
+			<select style="text-align: left;"  name="user_id" id="select_user_id" dojoType="dijit.form.FilteringSelect" required="true">
+				<option value="-1" <?php echo (-1 == $this->user_id)?"selected":"";?>>All</option> 
+				<?php foreach ($this->users as $key => $u) : ?>
+					<option value="<?php echo $u['id'];?>" <?php echo ($u['id'] == $this->list_search['user_id'])?"selected":"";?>><?php echo  $u['name'];?></option>
+				<?php endforeach;?> 
+			</select><!-- onchange="document.frmlist_mt.submit();" -->
+		</td>
 	    <td>	    	
 			ពី៖&nbsp;
 			<input type="text" name="from_date" id="from_date" value="<?php echo date_format(date_create($this->list_search['from_date']), "Y-m-d");?>"
 				dojoType="dijit.form.DateTextBox" style="height: 30px; width: 210px;" 
 				rangeMessage="កាល​បរិច្ឆេទ  ពី មិន​អាច​តូច​ជាង កាល​បរិច្ឆេទ ដល់"
 				constraints="{datePattern:'dd/MM/yyyy', max:'<?php echo  date_format(date_create($this->list_search['to_date']), "Y-m-d");?>'}" 
-				onchange="dijit.byId('to_date').constraints.min = arguments[0]; document.frmlist_mt.submit();" />
+				onchange="dijit.byId('to_date').constraints.min = arguments[0]; " /><!-- document.frmlist_mt.submit(); -->
 			ដល់៖&nbsp;
 			<input type="text" name="to_date" id="to_date" value="<?php echo  date_format(date_create($this->to_date), "Y-m-d");?>" 
 				dojoType="dijit.form.DateTextBox" style=" height: 30px; width: 195px;"
 				rangeMessage='កាល​បរិច្ឆេទ  ដល់ មិន​អាច​តូច​ជាង កាល​បរិច្ឆេទ ពី' 
 				constraints="{min:'<?php echo date_format(date_create($this->from_date), "Y-m-d");?>', datePattern:'dd/MM/yyyy'}" 
-				onChange="dijit.byId('from_date').constraints.max = arguments[0]; document.frmlist_mt.submit();" />
-		</td>
+				onChange="dijit.byId('from_date').constraints.max = arguments[0]; " /><!--  document.frmlist_mt.submit();-->
+		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
 	  </tr>	
 	  
 	

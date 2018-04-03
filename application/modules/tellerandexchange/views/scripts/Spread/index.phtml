@@ -2,7 +2,13 @@
 	$this->headTitle('Spread Rate page'); 
 	echo $this->headTitle();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>	
+<table>
+	<tr>
+		<td><button onClick="location.href = '<?php echo $this->baseUrl()."/tellerandexchange/spread/quickchange";?>';" iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("Exchange Rate Board");?></button></td>
+	</tr>
+</table>
 <?php 
 echo $this->list;
 ?>

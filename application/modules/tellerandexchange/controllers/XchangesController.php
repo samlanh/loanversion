@@ -90,6 +90,8 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 			}
 		}
+		$dbEx = new Tellerandexchange_Model_DbTable_Dbexchange();
+		$this->view->allExchangeRate = $dbEx->getAllExchangeRate();
 	}
 // 	public function editAction()
 	
@@ -138,7 +140,7 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
  		$formdata=$this->getRequest()->getPost();
  		
  		try {
- 			$formdata['id']=$id;
+//  			$formdata['id']=$id;
  				$id = $db_exc->editExchange($formdata);
  				Application_Form_FrmMessage::message("EDIT_SUCESS");
  				$this->_redirect('tellerandexchange/xchanges');
@@ -160,12 +162,15 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
  	$currency = $cur->getCurrencyList();
  	
  	$this->view->currency = $this->_helpfilteroption($currency);
- 	$this->view->inv_no = Application_Model_GlobalClass::getInvoiceNo();
+//  	$this->view->inv_no = Application_Model_GlobalClass::getInvoiceNo();
  	
  	$rs=$db_exc->getxchangById($id);
 //  	print_r($rs);
 
  	$this->view->dataedit=$rs;
+ 	
+ 	$dbEx = new Tellerandexchange_Model_DbTable_Dbexchange();
+ 	$this->view->allExchangeRate = $dbEx->getAllExchangeRate();
  }
  
 	protected function _helpfilteroption($data){
@@ -190,5 +195,22 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
 		}
 		return $tmp;
 	}
-
+	function gettoexchangeAction(){
+		if($this->getRequest()->isPost()){
+			$data=$this->getRequest()->getPost();
+			$db = new Tellerandexchange_Model_DbTable_Dbexchange();
+			$rs = $db->getToExchange($data['from_amount_type']);
+			print_r(Zend_Json::encode($rs));
+			exit();
+		}
+	}
+	function getratevalueAction(){
+		if($this->getRequest()->isPost()){
+			$data=$this->getRequest()->getPost();
+			$db = new Tellerandexchange_Model_DbTable_Dbexchange();
+			$rs = $db->getExchangeRateValue($data);
+			print_r(Zend_Json::encode($rs));
+			exit();
+		}
+	}
   }

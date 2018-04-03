@@ -81,43 +81,112 @@ class tellerandexchange_SpreadController extends Zend_Controller_Action
     	}
     	return $tmp;
     }
-    
+   
     public function addAction()
     {
     	try{
-    	$db_rate=new Tellerandexchange_Model_DbTable_DbSpread();
-    	
-    	if($this->getRequest()->isPost()){
-    		$formdata=$this->getRequest()->getPost();
-    		//print_r($formdata);exit();
-            $db_rate->setNewRate($formdata);
-    	}
+    		$db_rate=new Tellerandexchange_Model_DbTable_DbSpread();
+    		if($this->getRequest()->isPost()){
+    			$data=$this->getRequest()->getPost();
+    			$db_rate->addNewCurrencyExchange($data);
+    			if(!empty($data['saveclose'])){
+    				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/tellerandexchange/spread");
+    			}else{
+    				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/tellerandexchange/spread/add");
+    			}
+    		}
     	}catch (Exception $e){
     		Application_Form_FrmMessage::message("Application Error");
     		echo $e->getMessage();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-    		
-    		
+    
+    
     	}
-    	
-    	$this->view->ratelist = $db_rate->getCurrentRate();
-    	$db_keycode = new Application_Model_DbTable_DbKeycode();
-    	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
-    	$session_user=new Zend_Session_Namespace('authloan');
-    	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+    	$pructis=new Tellerandexchange_Form_FrmCurrencyExchange();
+    	$frm = $pructis->FrmCurrencyExchange();
+    	Application_Model_Decorator::removeAllDecorator($frm);
+    	$this->view->frmExchange=$frm;
     }
     public function editAction()
     {
+    	$id = $this->getRequest()->getParam('id');
     	$db_rate=new Tellerandexchange_Model_DbTable_DbSpread();
-    	if($this->getRequest()->isPost()){
-    		$formdata=$this->getRequest()->getPost();
-    		$db_rate->setNewRate($formdata);
+    	try{
+    		if($this->getRequest()->isPost()){
+    			$data=$this->getRequest()->getPost();
+    			$db_rate->addNewCurrencyExchange($data);
+    			if(!empty($data['saveclose'])){
+    				Application_Form_FrmMessage::Sucessfull("EDIT_SUCESS","/tellerandexchange/spread");
+    			}else{
+    				Application_Form_FrmMessage::Sucessfull("EDIT_SUCESS","/tellerandexchange/spread/add");
+    			}
+    		}
+    	}catch (Exception $e){
+    		Application_Form_FrmMessage::message("Application Error");
+    		echo $e->getMessage();
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    
+    
     	}
+    	$row = $db_rate->getSpreadById($id);
+    	$this->view->row = $row;
+    	if (empty($row)){
+    		Application_Form_FrmMessage::Sucessfull("No Record","/tellerandexchange/spread");
+    	}
+    	$pructis=new Tellerandexchange_Form_FrmCurrencyExchange();
+    	$frm = $pructis->FrmCurrencyExchange($row);
+    	Application_Model_Decorator::removeAllDecorator($frm);
+    	$this->view->frmExchange=$frm;
+    }
+//     public function editAction()
+//     {
+//     	$db_rate=new Tellerandexchange_Model_DbTable_DbSpread();
+//     	if($this->getRequest()->isPost()){
+//     		$formdata=$this->getRequest()->getPost();
+//     		$db_rate->setNewRate($formdata);
+//     	}
+//     	$this->view->ratelist = $db_rate->getCurrentRate();
+//     	$db_keycode = new Application_Model_DbTable_DbKeycode();
+//     	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+//     	$session_user=new Zend_Session_Namespace('authloan');
+//     	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+//     }
+    public function incurandoutcuranAction(){
+    	if($this->getRequest()->isPost()){
+    		$data=$this->getRequest()->getPost();
+    		$db = new Tellerandexchange_Model_DbTable_DbSpread();
+    		$rs = $db->CheckCurrencyInCurrencyOut($data);
+    		print_r(Zend_Json::encode($rs));
+    		exit();
+    	}
+    }
+    public function quickchangeAction()
+    {
+    	try{
+    		$db_rate=new Tellerandexchange_Model_DbTable_DbSpread();
+    		 
+    		if($this->getRequest()->isPost()){
+    			$formdata=$this->getRequest()->getPost();
+    			//print_r($formdata);exit();
+    			$db_rate->setNewRate($formdata);
+    			Application_Form_FrmMessage::Sucessfull("EDIT_SUCESS","/tellerandexchange/spread/quickchange");
+    		}
+    	}catch (Exception $e){
+    		Application_Form_FrmMessage::message("Application Error");
+    		echo $e->getMessage();
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    
+    
+    	}
+    	 
     	$this->view->ratelist = $db_rate->getCurrentRate();
     	$db_keycode = new Application_Model_DbTable_DbKeycode();
     	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
     	$session_user=new Zend_Session_Namespace('authloan');
     	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+    	
+    	$dbEx = new Tellerandexchange_Model_DbTable_Dbexchange();
+    	$this->view->allExchangeRate = $dbEx->getAllExchangeRate();
     }
 }
 

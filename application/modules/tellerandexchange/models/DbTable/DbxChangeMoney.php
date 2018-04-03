@@ -74,10 +74,10 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     			$session_user=new Zend_Session_Namespace('authloan');
     			$to_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["to_amount_type"]);
     			$from_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["from_amount_type"]);
-    			$status = "in";
-    			if(($data["from_amount_type"] == 3 && $data["to_amount_type"] == 2) || $data["from_amount_type"] == 1 ){
-    				$status = "out";
-    			}
+//     			$status = "in";
+//     			if(($data["from_amount_type"] == 3 && $data["to_amount_type"] == 2) || $data["from_amount_type"] == 1 ){
+//     				$status = "out";
+//     			}
     				$user_id = $session_user->user_id;
     				$_data=array(
     						"changedAmount"=>$data["return_money"],
@@ -92,7 +92,7 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     						//"statusDate"=>date('Y-m-d H:i:s'),
 							"statusDate"=>$data["statusDate"],
     						"userid"=>$user_id,
-    						"status_in"=>$status,
+    						"status_in"=>$data['statusinout'],
     						"specail_customer"=>(empty($data['special_cus']))? 0 : 1,
     						"from_to"=>$from_type['curr_nameen'] . " - " . $to_type["curr_nameen"]
     				);
@@ -180,10 +180,10 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     		$session_user=new Zend_Session_Namespace('authloan');
     		$to_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["to_amount_type"]);
     		$from_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["from_amount_type"]);
-    		$status = "in";
-    		if(($data["from_amount_type"] == 3 && $data["to_amount_type"] == 2) || $data["from_amount_type"] == 1 ){
-    				$status = "out";
-    		}
+//     		$status = "in";
+//     		if(($data["from_amount_type"] == 3 && $data["to_amount_type"] == 2) || $data["from_amount_type"] == 1 ){
+//     				$status = "out";
+//     		}
     		 
     		
     		$user_id = $session_user->user_id;
@@ -200,7 +200,7 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     				//"statusDate"=>date('Y-m-d H:i:s'),
 					"statusDate"=>$data["statusDate"],
     				"userid"=>$user_id,
-    				"status_in"=>$status,
+    				"status_in"=>$data['statusinout'],
     				"specail_customer"=>(empty($data['special_cus']))? 0 : 1,
     				"from_to"=>$from_type['curr_nameen'] . " - " . $to_type["curr_nameen"]
     		);
