@@ -1,8 +1,8 @@
 <?php
-	$this->headTitle('Spread Rate page'); 
-	echo $this->headTitle();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('Spread Rate page'));
+	echo $this->headTitle();
 ?>	
 <table>
 	<tr>

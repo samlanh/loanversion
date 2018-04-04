@@ -1,0 +1,64 @@
+﻿<?php
+	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('Add Currency'));
+	echo $this->headTitle();
+	$frm = $this->frmcurrency;
+?>	
+<script type="text/javascript">
+dojo.require('dijit.form.Form');
+dojo.require('dijit.form.Button');
+dojo.require('dijit.form.NumberTextBox');
+dojo.require("dijit.Dialog");
+</script>
+<form id='frm_add_tran' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+ 			dijit.byId("save_close").set("disabled",true);
+			dijit.byId("save_new").set("disabled",true);
+				return true;
+			}else {
+				return false;
+			}
+	</script>
+	
+	<table cellspacing="10" class='fullside' style="width: 50%; margin: 0 auto;">
+		<tr>
+			<td width="33%;" valign="top">
+				<fieldset>
+				<legend class="mainblog" align="center"><strong><?php echo $tr->translate('Add Currency');?></strong></legend>
+				<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+				    <tr>
+						 <td><?php echo $tr->translate("Currency KH")?></td>
+						 <td><?php echo $frm->getElement('curr_namekh');?></td>
+				    </tr>
+					<tr>
+				  		  <td><?php echo $tr->translate("Currency EN")?></td>
+						  <td><?php echo $frm->getElement('curr_nameen');//echo $frm->getElement('for_date');?></td>
+				    </tr>	
+				    <tr>
+				  		  <td><?php echo $tr->translate("SYMBOL")?></td>
+						  <td><?php echo $frm->getElement('symbol');//echo $frm->getElement('for_date');?></td>
+				    </tr>		    
+				  <?php $sq =0; if ($sq==1){?>
+				   <tr>
+						  <td><?php echo $tr->translate("STATUS")?></td>
+						  <td><?php echo $frm->getElement('status');?></td>
+					</tr>
+				  <?php }?>
+				</table>
+				</fieldset>
+			</td>
+		</tr>
+		<tr>
+			<td align="center" >
+			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
+					 iconClass="dijitIconClear"/>
+				<input type="submit"   label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose'​​ value='saveclose' dojoType="dijit.form.Button"
+					 iconClass="dijitIconDelete"/>
+				<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"
+					 iconClass="dijitIconNewTask"/>
+			</td>
+		</tr>	
+	</table>
+</form>

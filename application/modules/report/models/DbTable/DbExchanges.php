@@ -156,6 +156,22 @@ class Report_Model_DbTable_DbExchanges extends Zend_Db_Table_Abstract
 		ORDER BY v.`toAmountType` ASC";
 		return $db->fetchAll($sql.$where);
 	}
+	function getCapitalSummary($search){
+		$db = $this->getAdapter();
+		$sql="SELECT ed.*,
+			(SELECT c.`curr_namekh` FROM ln_currency AS c WHERE c.id = ed.`currency_id` LIMIT 1) AS currencytitleKH,
+			(SELECT c.`symbol` FROM ln_currency AS c WHERE c.id = ed.`currency_id` LIMIT 1) AS symbol,
+			(SELECT CONCAT(u.last_name,' ',u.first_name) FROM `rms_users` AS u WHERE u.id = ed.`agent_id` LIMIT 1) AS agentName		 
+			 FROM `ln_exchange_capital_detail` AS ed WHERE 1";
+		$from_date =(empty($search['start_date']))? '1': " ed.for_date >= '".$search['start_date']." 00:00:00'";
+		$to_date = (empty($search['end_date']))? '1': " ed.for_date <= '".$search['end_date']." 23:59:59'";
+		$where="";
+		$where.= " AND ".$from_date." AND ".$to_date;
+		if ($search['agent_id']>0){
+			$sql.=" AND ed.`agent_id`=".$search['agent_id'];
+		}
+		return $db->fetchAll($sql.$where);
+	}
 	
 }
 

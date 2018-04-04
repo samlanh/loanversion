@@ -1,0 +1,32 @@
+<?php
+	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('Currency'));
+	echo $this->headTitle();
+	$frm = $this->frm_search;
+?>	
+
+<script>
+dojo.require("dijit.form.DateTextBox");
+</script>
+<form method="post">
+<table style="font-family: 'Khmer OS Content';" >
+	<tr>
+		<!-- 
+		<td><?php //echo $frm->getElement('start_date');?></td>
+   		<td><?php //echo $frm->getElement('end_date');?></td>
+		 -->
+   		<td>
+			<select class="fullside" style="text-align: left;"  name="status" id="status" dojoType="dijit.form.FilteringSelect" required="true">
+				<option value="-1" <?php echo (-1 == $this->list_search['status'])?"selected":"";?>><?php echo $tr->translate("All Status");?></option> 
+				<option value="1" <?php echo (1 == $this->list_search['status'])?"selected":"";?>><?php echo $tr->translate("ACTIVE");?></option>
+				<option value="0" <?php echo (0 == $this->list_search['status'])?"selected":"";?>><?php echo $tr->translate("DEACTIVE");?></option>
+			</select><!-- onchange="document.frmlist_mt.submit();" -->
+		</td>
+   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+   	</tr>
+</table>
+</form>
+<?php 
+echo $this->list;
+?>
