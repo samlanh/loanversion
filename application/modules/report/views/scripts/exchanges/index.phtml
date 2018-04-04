@@ -1,109 +1,54 @@
-<?php 
-$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("LIST_LOAN_INCOME"));
-$frm = $this->frm_search;
-//print_r($this->rs);
-?>
-<script>
-dojo.require("dijit.form.DateTextBox");
-</script>
-<script>
-	dojo.require("dijit.form.DateTextBox");
-</script>
-<form id="list" name="list" action="<?php echo $this->url(array('module'=>'report','controller'=>'exchanges','action'=>'rpt-exchanges')); ?>" dojoType="dijit.form.Form" method="post">
-  <table style=" width:5.5cm;margin:0 auto; padding:0px">
-   <tr>  
-        <td><?php //echo $frm->getElement("adv_search");?></td>
-        
-   </tr>
-   
-</table>
-</form>
-
-<div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
-<div id="divPrint" style="width: 100%;">
-<style>
-.style{
-	line-height: 20px;font-size: 10px !important;
-	font-family: 'Khmer OS Battambang';
-}
-.styleover:hover{ background: #ccc; }
-table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
-ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
-th{padding: 5px;}
-</style>
-<table style="font-family: 'Khmer OS Content'; width:100%;">
-	<tr>
-    	<td align="center">
-        	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
-            	<tr>
-                	<td width="60%" valign="top">
-                		<ul>
-                			<li style="text-align:center; font-size:16px; color:LightBlue ; font-family:'Khmer MEF2'"><?php echo $tr->translate("អាគារ​  រុងរឿងប្ដូរប្រាក់");?></li>
-                			<li style="text-align:center; font-size:14px; color:red; line-height:50px; font-family:'Khmer MEF2'"><?php echo $tr->translate("RONG ROEURNG EXCHANGE");?></li>
-                		</ul>
-                </td>
-                </tr> 
-                 
-            </table>
-        </td>
-    </tr>
+  <?php 
+	  $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	  $session_user=new Zend_Session_Namespace('authloan');
+	  $url_report=$session_user->report_url;
+  ?>
+  <title><?php echo $tr->translate("Exchange Report");?></title>
+  <style>
+  ul.link-rpt li a {
+	color: #3A3939;
+    height: 50px;
+  	width:180px;
+    display: block;
+    padding: 10px;
+    background: #D6D6D6;
+  	font-family: 'Kh Battambang','Khmer Battambang' !important;
+  	text-align: center;
+  	word-wrap: break-word;
+  } 
+    ul.link-rpt li {
+	float:left; margin:10px;
+    list-style: none;
+    border:1px solid #B1B0AF;
+    word-wrap: break-word;
     
-    <tr id="exportExcel">
-    	<td>
-            <table  width="70%" cellspacing="0">
-            
-            	<tr class="style"  style="font-weight:bold; border:1px solid #000; line-height: 20px; font-size:10px; padding:5px 0px; ">
-            		<td style="padding:5px 0px;​">​</td>
-                    <td style="padding:5px 0px; color:LightBlue ; font-size: 12px;">កាលវិភាគសងប្រាក់</td>
-                </tr>
-                
-                 <tr class="style"  style="font-weight:bold; border:1px solid #000; line-height: 20px; font-size:10px; padding:5px 0px; ">
-                 	<td style="padding:5px 0px; font-size: 12px;​">ឈ្មោះអតិថិជន &nbsp &nbsp &nbsp ​យិនសុភាព</td>
-                    <td style="padding:5px 0px; font-size: 12px;​">សងរំលោះ២៥ សប្ដាហ៍</td>
-                    <td style="padding:5px 0px;font-size: 12px;">​លេខកូដ......</td>
-                </tr>
-                
-                <tr class="style"  style="font-weight:bold; border:1px solid #000; line-height: 20px; font-size:10px; padding:5px 0px; ">
-                 	<td style="padding:5px 0px; font-size: 12px;">ភូមិ &nbsp &nbsp &nbsp ​ ទូលវិហារ</td>
-                    <td style="padding:5px 0px;​font-size: 12px;">​ថ្ងៃចាប់ផ្ដើម  &nbsp &nbsp &nbsp 3/3 /2015​</td>
-                    <td style="padding:5px 0px;​font-size: 12px;"> ប្រាក់ដើម   &nbsp &nbsp &nbsp 1200000</td>
-                </tr>
-                
-                <tr class="style"  style="font-weight:bold; border:1px solid #000; line-height: 20px; font-size:10px; padding:5px 0px; ">
-                 	<td style="padding:5px 0px;font-size: 12px;​">លេខទូរស័ព្ទ:&nbsp &nbsp &nbsp  097 3702495</td>
-                    <td style="padding:5px 0px;font-size: 12px;​">ថ្ងៃបញ្ចប់វគ្គ &nbsp &nbsp &nbsp 18/8 /2015 </td>
-                    <td style="padding:5px 0px;font-size: 12px;​"> </td>
-                </tr>
-            </table>
-            <br />
-    	</td>
-    </tr>
-    
-    
-    <tr id="exportExcel">
-    	<td>
-            <table  border="1" style="border-collapse:collapse;border:1px solid #000; font-size:10px; white-space: nowrap;" width="85%" cellspacing="0">
-                 <tr ​ class="style" align="center" style="font-weight:bold; border:1px solid #000; line-height: 20px; font-size:10px; padding:5px 0px; ">
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("penelize");?></td>
-                    <td style="padding:5px 0px;"><?php echo $tr->translate("service_charge");?></td>
-					<td style="padding:5px 0px;"><?php echo $tr->translate("អ្នកទទួល");?></td>
-                </tr>
-                <?php if(!empty($this->rs)) foreach ($this->rs as $key => $rs){ ?>
-                <tr class="styleover">
-               		<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
-               		<td >&nbsp;&nbsp;<?php echo $rs["penelize"];?></td>
-					<td >&nbsp;&nbsp;<?php echo $rs["service_charge"];?></td>
-					<td >&nbsp;&nbsp;<?php echo $rs["អ្នកទទួល"];?></td>
-                </tr>
-                <?php }?>
-            </table>
-            <br />
-    	</td>
-    </tr>
-</table>
-<br />
-</div>
-</div>
-</div>
-  
+  } 
+  .dijitReset, .dijitInline  ,.dijitButton {
+	width: 200px !important;
+  }
+  </style>
+  <div style="background:#ccc; width: 100%;">
+  	<ul class="link-rpt">
+  	<?php
+  	$db_user=new Application_Model_DbTable_DbUsers();
+  	$url_report=$db_user->getAclReport(1,'exchanges');
+  	 if(!empty($url_report)){
+  		foreach($url_report as $rs){
+  			if($rs['action']=='agreement' || $rs['action']=='index'){continue;}
+  			if($rs['action']=='purchasedetail' || $rs['action']=='index'){
+  				continue;
+  			}
+  			if($rs['action']=='saleinvoice' || $rs['action']=='index'){
+  				continue;
+  			}
+  			if($rs['action']=='saleschedule' || $rs['action']=='index'){
+  				continue;
+  			}
+  		?>
+  		<li><a href="<?php echo $this->url(array("module"=>'report',"controller"=>'exchanges','action'=>$rs['action']));?>"><?php echo $tr->translate(strtoupper($rs['label']));?></a></li>
+  		<?php 
+		}	
+	}	?>
+  	</ul>
+  </div>
+  <div style="clear: both;"></div>

@@ -1,6 +1,6 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-$dailyCurrentCapital= $this->dailyCurrentCapital;
+$dailyCurrentCapital= $this->CurrentCapital;
 $frm = $this->frm_search;
 ?>
 <meta charset="utf-8">
@@ -11,6 +11,14 @@ dojo.require("dijit.form.DateTextBox");
 <form method="post">
 <table style="font-family: 'Khmer OS Content';width:28.2cm;margin:0 auto;" >
 	<tr>
+		<td>
+			<select class="fullside" style="text-align: left;"  name="agent_id" id="select_user_id" dojoType="dijit.form.FilteringSelect" required="true">
+				<option value="-1" <?php echo (-1 == $this->user_id)?"selected":"";?>><?php echo $tr->translate("All Agent");?></option> 
+				<?php foreach ($this->users as $key => $u) : ?>
+					<option value="<?php echo $u['id'];?>" <?php echo ($u['id'] == $this->list_search['agent_id'])?"selected":"";?>><?php echo  $u['name'];?></option>
+				<?php endforeach;?> 
+			</select><!-- onchange="document.frmlist_mt.submit();" -->
+		</td>
 		<td><?php echo $frm->getElement('start_date');?></td>
    		<td><?php echo $frm->getElement('end_date');?></td>
    		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
@@ -93,23 +101,6 @@ dojo.require("dijit.form.DateTextBox");
                </tr>
                <?php }?>
             </table>
-       		<br />
-       		<?php if (!empty($this->totalDailyCurrentCapital)){?>
-       		 <table border="1"​ style="border-collapse:collapse;border:1px solid #000; white-space: nowrap; " width="100%" cellspacing="0">
-       		 	 <tr class="style" align="center" style="font-weight:bold; background:#ccd9ff; line-height: 24px;font-size:12px; font-family: 'Times New Roman','Khmer OS Battambang';">
-                   <td ><?php echo $tr->translate("Currency");?></td>
-                   <?php foreach ($this->totalDailyCurrentCapital as $total){?>
-                    <td ><?php echo $total['currTitleKH']." (".$total['symbol'].")"?></td>
-                    <?php }?>
-                </tr>
-                <tr style="font-size: 12px;" align="left">
-                	<td align="center" ><?php echo $tr->translate("TOTAL");?></td>
-                 <?php foreach ($this->totalDailyCurrentCapital as $total){?>
-               		 <td align="center">&nbsp;<?php echo number_format($total['total'],2);?>&nbsp;</td>
-               	 <?php }?>
-                </tr>
-             </table>
-             <?php }?>
        		<br />
        		 <table align="center" width="100%">
 			 <thead>

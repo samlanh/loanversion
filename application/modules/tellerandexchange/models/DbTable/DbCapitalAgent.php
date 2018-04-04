@@ -51,15 +51,18 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 			$useId = $dbg->getUserId();
 			$ids = explode(',', $data['identity']);
 			foreach ($ids as $i){
+				$amount = $data['amount'.$i];
 				$arrs = array(
 						'currency_id'=>$data['currency_id'.$i],
 						'for_date'=>date("Y-m-d"),
-						'amount'=>$data['amount'.$i],
+						'amount'=>$amount,
 						'agent_id'=>$data['agent_id'],
 						'user_id'=>$useId,
 				);
 				$this->_name ='ln_exchange_capital_detail';
 				$this->insert($arrs);
+				
+				$this->addCurrentCapital($amount, $data['agent_id'], $data['currency_id'.$i]);
 			}
 			return  $db->commit();
     	} catch (Exception $e) {
@@ -177,21 +180,58 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 			$useId = $dbg->getUserId();
 			$ids = explode(',', $data['identity']);
 			foreach ($ids as $i){
+				$amount = "-".$data['amount'.$i];
 				$arrs = array(
 						'currency_id'=>$data['currency_id'.$i],
 						'for_date'=>date("Y-m-d"),
-						'amount'=>"-".$data['amount'.$i],
+						'amount'=>$amount,
 						'agent_id'=>$data['agent_id'],
 						'user_id'=>$useId,
 				);
 				$this->_name ='ln_exchange_capital_detail';
 				$this->insert($arrs);
+				
+				$this->addCurrentCapital($amount, $data['agent_id'], $data['currency_id'.$i]);
 			}
 			return  $db->commit();
 		} catch (Exception $e) {
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 			$db->rollBack();
 		}
+	}
+	
+	function addCurrentCapital($amount,$agency,$currency){
+		try {
+			$capital = $this->getCapitalByAgent($agency, $currency);
+			if (!empty($capital)){
+				$totalAmount = $amount+$capital['amount'];
+				$arr = array(
+// 						'currency_id'=>$currency,
+						'for_date'=>date("Y-m-d"),
+						'amount'=>$totalAmount,
+// 						'agent_id'=>$agency,
+				);
+				$this->_name ='ln_exchange_current_capital';
+				$where=" currency_id = $currency AND agent_id=$agency";
+				$this->update($arr, $where);
+			}else{
+				$arr = array(
+						'currency_id'=>$currency,
+						'for_date'=>date("Y-m-d"),
+						'amount'=>$amount,
+						'agent_id'=>$agency,
+				);
+				$this->_name ='ln_exchange_current_capital';
+				$this->insert($arr);
+			}
+		} catch (Exception $e) {
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+		}
+	}
+	function getCapitalByAgent($agent,$currency){
+		$db = $this->getAdapter();
+		$sql="SELECT cp.* FROM `ln_exchange_current_capital` AS cp WHERE cp.`agent_id`=$agent AND cp.`currency_id`=$currency LIMIT 1";
+		return  $db->fetchRow($sql);
 	}
 }
 

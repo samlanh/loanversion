@@ -139,7 +139,8 @@ public function addAction()
     					ut.user_type_id = ".$id . $where;
     		}
     		
-    		$order = " order by acl.module ASC, acl.rank ASC,acl.controller ASC,acl.is_menu DESC ";
+//     		$order = " order by acl.module ASC, acl.rank ASC,acl.controller ASC,acl.is_menu DESC ";
+    		$order = " order by acl.module ASC,acl.controller ASC,acl.is_menu DESC ";
     		
     		//echo $sql; exit;
     		$acl=$db_acl->getGlobalDb($sql.$order);

@@ -1,0 +1,148 @@
+<?php 
+$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$opt = array(1=>"បង់ធម្មតា",2=>"បង់មុន",3=>"បង់រំលោះប្រាក់ដើម",4=>"បង់ផ្តាច់");
+$session_user=new Zend_Session_Namespace('authloan');
+$data = $this->data;
+
+$Exchange = $this->Exchange;
+// $FromcurType="Riel";
+// if ($Exchange['fromAmountType']=="$"){
+// 	$FromcurType="Dollar";
+// }else if ($Exchange['fromAmountType']=="B"){
+// 	$FromcurType="Bath";
+// }
+
+// $ToCurType="Riel";
+// if ($Exchange['toAmountType']=="$"){
+// 	$ToCurType="Dollar";
+// }else if ($Exchange['toAmountType']=="B"){
+// 	$ToCurType="Bath";
+// }
+
+// $RecCurType="Riel";
+// if ($Exchange['recievedType']=="$"){
+// 	$RecCurType="Dollar";
+// }else if ($Exchange['recievedType']=="B"){
+// 	$RecCurType="Bath";
+// }
+// // print_r($Exchange);
+$dbuser = new Application_Model_DbTable_DbUsers();
+$userinfo = $dbuser->getUserView($Exchange['userid']);
+?>
+<?php $url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcodevss"),null,true);
+		?>
+<title><?php echo $tr->translate("Exchange Receipt");?></title>
+<script>
+     dojo.require("dijit.form.DateTextBox");
+</script>
+<div style="width:100%; margin:0 auto;">
+	<div style="margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+		<div id="divPrint" style="width: 7cm;">
+			<style>
+				.fontbig{
+					font-size: 12px;	
+				}
+				.fonttel{
+					font-size: 11px;
+				}
+				.pleft{
+					width: 110px;	
+				}
+				.font_khmer{font-family:'Khmer os Battambang';}
+			</style>	
+			<table style="width: 7cm; font-size: 8pt; padding: 0px; margin: 0px; line-height: 15px;">
+				 <tr>
+					   	<td align="center" colspan="3">	
+					   	<table  width="100%" cellspacing="0" cellpadding="0">
+					   		<tr style="line-height:10px;">
+					   			<td width="36%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $this->baseUrl();?>/images/logobrand.jpg" height="34px;"/></td>
+						   		<td colspan="2" align="right"><strong style="font-size:12px;font-family:'Khmer MEF2';text-align:right;"><?php echo $tr->translate("CUSTOMER_LABEL");?></strong></td>
+							</tr>
+					   	</table>
+			            </td>	   	        
+				   </tr> 
+				   <tr>
+					   	<td align="center" colspan="3" style="font-family:'Khmer MEF2';"><?php echo $tr->translate("BUSINESS_NAMEKH");?></td>	   	        
+				   </tr>            
+				   <tr>
+						<td align="center" colspan="3" style="font-size: 8pt;">
+							<?php echo $tr->translate("BUSINESS_NAMEEN");?><br/>
+							<strong class="fontbig"><?php echo $data['tel-client'];?></strong>
+						</td>
+				   </tr>
+				   <tr>
+					   <td align="right" colspan="3" style="font-size: 8pt;">
+								<?php echo'Date: '. date("h:i d/m/Y");?>
+					  </td>
+				  </tr>
+				   <tr style="border-bottom:1px solid #000; font-size:8px;">
+						<td class="pleft" style="border-bottom:1px solid #000;">
+							<label id="lblinvioice" style="font-size:10px;font-family:'Khmer MEF2';"><?php echo $data['exchange_reciept']; ?>​</label>
+						</td>
+						<td align="right" colspan="2" style="font-size: 8pt;border-bottom:1px solid #000;" class='font_khmer'>
+							ឈ្មោះបុគ្គលិក៖ <?php echo $userinfo['last_name']." ".$userinfo['first_name'];//print($this->user_name);?>
+						</td>
+				   </tr>
+				   <tr>
+						<td class="font_khmer">
+							ចំនួន​ទឹក​ប្រាក់ប្តូរ
+						</td>
+						<td>:</td>
+						<td align="right" style="white-space: nowrap;">
+							<strong ><label id="rpt_from_amount"><?php echo number_format($Exchange['fromAmount'])." ".$Exchange['fromTxtType'];?></label></strong>
+						</td>
+				   </tr>
+				   <tr>
+						<td class="font_khmer">
+							អត្រាប្តូរប្រាក់
+						</td>
+						<td>:</td>
+						<td align="right" style="white-space: nowrap;">
+							<strong ><label id="rpt_rate"><?php echo number_format($Exchange['rate'])." ".$Exchange['toTxtType'];?></label></strong>
+						</td>
+				   </tr>
+				   <tr>
+						<td class="font_khmer">
+							ចំនួន​ទឹក​ប្រាក់ប្តូរសរុប
+						</td>
+						<td>:</td>
+						<td align="right" style="white-space: nowrap;">
+							<strong style="font-size:10px;"><label id="rpt_to_amount"><?php echo number_format($Exchange['toAmount'])." ".$Exchange['toTxtType'];?></label></strong>
+						</td>
+				   </tr>
+				   <tr>
+						<td class="font_khmer">
+							ចំនួន​ទឹក​ប្រាក់ទទួល
+						</td>
+						<td>:</td>
+						<td align="right">
+							<strong style="font-size:10px;"><label id="rpt_recieve"><?php echo number_format($Exchange['recievedAmount'])." ".$Exchange['fromTxtType'];?></label></strong>
+						</td>
+				   </tr>
+				   <tr>
+						<td class="font_khmer"> 
+							ចំនួន​ទឹក​ប្រាក់អាប់
+						</td>
+						<td>:</td>
+						<td align="right">
+							<strong style="font-size:10px;"><label id="rpt_change"><?php echo "0 ".$Exchange['fromTxtType'];?></label></strong>
+						</td>
+				   </tr>
+				   <tr style="border:1px solid #000;">
+						<td colspan="3" align="center" style="border-top: 2px dashed #000;padding-top:5px;" class="font_khmer">
+								<?php echo $data['comment'];?>
+						</td>			
+				   </tr>
+				   <tr>
+						<td colspan="3" style="border-bottom: 1px solid #000;">
+						</td>			
+				   </tr>
+				   <tr>
+						<td colspan="3">
+							<label style="font-weight:bold; font-size:9px; ">Powered By: Cam App Technology | Tel 012 40 41 92</label>
+						</td>	
+				   </tr>
+			</table>
+		</div>
+	</div>
+</div>

@@ -721,48 +721,16 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     	try{
     		$dbg = new Application_Model_DbTable_DbGlobal();
     		$useId = $dbg->getUserId();
+    		$dbCapital = new Tellerandexchange_Model_DbTable_DbCapitalAgent();
     		if (!empty($data['id'])){ // case when edit exchange rate
     			$oldExchage = $this->getxchangById($data['id']);
-    			$arrs = array(
-    					'currency_id'=>$oldExchage['fromAmountType'],
-    					'for_date'=>date("Y-m-d"),
-    					'amount'=>"-".$oldExchage['fromAmount'],
-    					'agent_id'=>$useId,
-//     					'user_id'=>$useId,
-    			);
-    			$this->_name ='ln_exchange_current_capital';
-    			$this->insert($arrs);
-    			
-    			$arrs1 = array(
-    					'currency_id'=>$oldExchage['toAmountType'],
-    					'for_date'=>date("Y-m-d"),
-    					'amount'=>$oldExchage['toAmount'],
-    					'agent_id'=>$useId,
-//     					'user_id'=>$useId,
-    			);
-    			$this->_name ='ln_exchange_current_capital';
-    			$this->insert($arrs1);
+    			$dbCapital->addCurrentCapital("-".$oldExchage['fromAmount'], $useId, $oldExchage['fromAmountType']);
+    			$dbCapital->addCurrentCapital($oldExchage['toAmount'], $useId, $oldExchage['toAmountType']);
     		}
+    		$dbCapital->addCurrentCapital($data["from_amount"], $useId, $data['from_amount_type']);
+    		$dbCapital->addCurrentCapital("-".$data['to_amount'], $useId, $data['to_amount_type']);
     		
-    		$arr = array(
-    				'currency_id'=>$data['from_amount_type'],
-    				'for_date'=>date("Y-m-d"),
-    				'amount'=>$data['from_amount'],
-    				'agent_id'=>$useId,
-//     				'user_id'=>$useId,
-    		);
-    		$this->_name ='ln_exchange_current_capital';
-    		$this->insert($arr);
-    		
-    		$arr1 = array(
-    				'currency_id'=>$data['to_amount_type'],
-    				'for_date'=>date("Y-m-d"),
-    				'amount'=>"-".$data['to_amount'],
-    				'agent_id'=>$useId,
-//     				'user_id'=>$useId,
-    		);
-    		$this->_name ='ln_exchange_current_capital';
-    		$this->insert($arr1);
+
     		
     	}catch(Exception $err){
     		Application_Model_DbTable_DbUserLog::writeMessageError($err->getMessage());

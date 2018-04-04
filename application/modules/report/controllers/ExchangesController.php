@@ -170,17 +170,58 @@ class Report_ExchangesController extends Zend_Controller_Action {
   		$search = $this->getRequest()->getPost();
   	}else{
   		$search = array(
+  				'agent_id'=>-1,
   				'start_date'=> date('Y-m-d'),
   				'end_date'=>date('Y-m-d'));
   			
   	}
   	$this->view->list_end_date=$search;
-  	$this->view->dailyCurrentCapital =$db->getDailyCurrentCapital($search);
-  	$this->view->totalDailyCurrentCapital = $db->getTotalDailyCurrentCapital($search);
+  	$this->view->CurrentCapital =$db->getCurrentCapitalAgent($search);
+  	
+  	$usr_mod = new Application_Model_DbTable_DbUsers();
+  	$this->view->users = $usr_mod->getUserListSelect();
+  	
   	$frm = new Loan_Form_FrmSearchLoan();
   	$frm = $frm->AdvanceSearch();
   	Application_Model_Decorator::removeAllDecorator($frm);
   	$this->view->frm_search = $frm;
+  }
+  function rptLoanXchangeAction(){
+  	$db  = new Report_Model_DbTable_DbExchanges();
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	if($this->getRequest()->isPost()){
+  		$search = $this->getRequest()->getPost();
+  	}else{
+  		$search = array(
+  				'adv_search'=>'',
+//   				'branch' => '',
+//   				'client_name' =>'',
+//   				'client_code'=>'',
+//   				'Term'=>'',
+//   				'status' =>'',
+//   				'cash_type'=>'',
+  				'start_date'=> date('Y-m-d'),
+  				'end_date'=>date('Y-m-d'));
+  			
+  	}
+  	$this->view->list_end_date=$search;
+  	$this->view->Loanxchange_list =$db->getAllxchange($search);
+  	$this->view->buyin = $db->getTotalExchangeBuyIn($search);
+  	$this->view->sellout = $db->getTotalExchangeSellout($search);
+  	$frm = new Loan_Form_FrmSearchLoan();
+  	$frm = $frm->AdvanceSearch();
+  	Application_Model_Decorator::removeAllDecorator($frm);
+  	$this->view->frm_search = $frm;
+  }
+  function exchangereceiptAction(){
+  	$key = new Application_Model_DbTable_DbKeycode();
+  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+  	$db  = new Report_Model_DbTable_DbExchanges();
+  	$id =$this->getRequest()->getParam('id');
+  	$id = empty($id)?0:$id;
+  	$row = $db->getAllxchangeBYID($id);
+  	$this->view->Exchange = $row;
   }
 }
 
