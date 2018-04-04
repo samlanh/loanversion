@@ -81,7 +81,7 @@ table {page-break-inside:auto }
     </tr>
     <tr>
     	<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
-            	<?php if(!empty($this->loantotalcollect_list)) {
+				<?php if(!empty($this->loantotalcollect_list)) {
 	              	foreach ($this->loantotalcollect_list as $index => $rs){
 	              		if ($client_id!=$rs["client_id"]) {
 	              		?>
@@ -102,20 +102,22 @@ table {page-break-inside:auto }
 	              			?>
 	              	</td>
 	              	</tr>
+					<thead>
 	                <tr bgcolor="#ccc" class="style" align="center" style="padding:5px 0;height: 20px; white-space: nowrap; background: #ccd9ff;">
-	                    <td><?php echo $tr->translate("NUM");?></td>
-	                    <td><?php echo $tr->translate("BRANCH_NAME");?></td>
-	                    <td><?php echo $tr->translate("PAID_PRINCIPAL");?></td>                   
-	                    <td><?php echo $tr->translate("INTEREST");?></td>
-	                    <td><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
-	                    <td><?php echo $tr->translate("SERVICE CHARGE");?></td>	 
-	                    <td><?php echo $tr->translate("TOTAL");?></td>                   
-	                    <td><?php echo $tr->translate("PAY_DATE");?></td>
-	                    <td bgcolor="#999"><?php echo $tr->translate("RECIEPT_NO");?></td>
-	                    <td bgcolor="#999"><?php echo $tr->translate("PAYMENTED");?></td>
-	                    <td bgcolor="#999"><?php echo $tr->translate("INPUT_DATE");?></td>
-	                    <td bgcolor="#999"><?php echo $tr->translate("PAYMENT_OPTION");?></td>
+	                    <th><?php echo $tr->translate("NUM");?></th>
+	                    <th><?php echo $tr->translate("BRANCH_NAME");?></th>
+	                    <th><?php echo $tr->translate("PAID_PRINCIPAL");?></th>                   
+	                    <th><?php echo $tr->translate("INTEREST");?></th>
+	                    <th><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
+	                    <th><?php echo $tr->translate("SERVICE CHARGE");?></th>	 
+	                    <th><?php echo $tr->translate("TOTAL");?></th>                   
+	                    <th><?php echo $tr->translate("PAY_DATE");?></th>
+	                    <th><?php echo $tr->translate("RECIEPT_NO");?></th>
+	                    <th><?php echo $tr->translate("PAYMENTED");?></th>
+	                    <th><?php echo $tr->translate("INPUT_DATE");?></th>
+	                    <th><?php echo $tr->translate("PAYMENT_OPTION");?></th>
 	                </tr>
+					</thead>
 	                <?php }?>              
              <?php 
 		               if($rs['currency_type']==1){

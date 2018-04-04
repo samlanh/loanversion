@@ -37,7 +37,7 @@ class Tellerandexchange_XchangesController extends Zend_Controller_Action
 			$rs_rows = $glClass->getImgActive($rs_row, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			
-			$collumns = array("DATE","EXCHANGE","FROM_AMOUNT","អត្រាប្តូរប្រាក់","ចំនួនទឹកប្រាក់បានប្តូររួច​","ប្រាក់ទទួលបាន","ប្រាក់​អាប់","STATUS","RECEIPT");
+			$collumns = array("DATE","Exchage To","Exchage Amount","Exchange Rate","Exchage Amount Received","RECIEVED_AMOUNT","RETURN_AMOUNT","STATUS","RECEIPT");
 			$link=array(
 					'module'=>'tellerandexchange','controller'=>'xchanges','action'=>'edit',
 			);

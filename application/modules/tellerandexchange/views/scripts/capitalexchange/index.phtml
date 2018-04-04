@@ -1,6 +1,6 @@
 <?php
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	$this->headTitle($tr->translate("XCHANGES"));
+	$this->headTitle($tr->translate("CAPITAL AGENT"));
 	echo $this->headTitle();
 ?>
 <style>
@@ -12,35 +12,17 @@
 	}
 </style>
 <script>
-
-	function formatDispaly(f){
-		return dojo.number.format(f[0]) + " " + f[1];
-    }
-    
-
-	
-	// Hide the dialog
-	function hideDialog() {		
-		dijit.byId("viewcounter").hide();		
-	}
-
-	//show Dialog
-	function showDialog() {		
-		dijit.byId("viewcounter").show();
-	}
-</script>
-<script>
 	dojo.require("dijit.form.DateTextBox");
 </script>
-<form name="frmlist_mt" action="<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'xchanges','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
+<form name="frmlist_mt" action="" dojoType="dijit.form.Form" method="post">
 <table class="fullside">	  
 	  <tr>
 		<td>
-			<label>ឈ្មោះ​អ្នក​ប្រើប្រាស់</label>
-			<select style="text-align: left;"  name="user_id" id="select_user_id" dojoType="dijit.form.FilteringSelect" required="true">
-				<option value="-1" <?php echo (-1 == $this->user_id)?"selected":"";?>>All</option> 
+			<label><?php echo $tr->translate("Agent Name");?></label>
+			<select style="text-align: left;"  name="agent_id" id="select_user_id" dojoType="dijit.form.FilteringSelect" required="true">
+				<option value="-1" <?php echo (-1 == $this->user_id)?"selected":"";?>><?php echo $tr->translate("All");?></option> 
 				<?php foreach ($this->users as $key => $u) : ?>
-					<option value="<?php echo $u['id'];?>" <?php echo ($u['id'] == $this->list_search['user_id'])?"selected":"";?>><?php echo  $u['name'];?></option>
+					<option value="<?php echo $u['id'];?>" <?php echo ($u['id'] == $this->list_search['agent_id'])?"selected":"";?>><?php echo  $u['name'];?></option>
 				<?php endforeach;?> 
 			</select><!-- onchange="document.frmlist_mt.submit();" -->
 		</td>
@@ -57,13 +39,13 @@
 				rangeMessage='កាល​បរិច្ឆេទ  ដល់ មិន​អាច​តូច​ជាង កាល​បរិច្ឆេទ ពី' 
 				constraints="{min:'<?php echo date_format(date_create($this->from_date), "Y-m-d");?>', datePattern:'dd/MM/yyyy'}" 
 				onChange="dijit.byId('from_date').constraints.max = arguments[0]; " /><!--  document.frmlist_mt.submit();-->
-		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+				<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
 	  </tr>	
 	  
 	
 	  <tr>
 	  	<td colspan="2">
-	  		
+	  		<button onClick="location.href = '<?php echo $this->baseUrl()."/tellerandexchange/capitalexchange/withdrawal";?>';" iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("Withdrawal");?></button>
 	  	</td>
 	  </tr>	
 	 	  

@@ -111,7 +111,7 @@ $free_day=$key_code['value'];
 	                    <!--<th><?php //echo $tr->translate("RETURN_AMOUNT");?></th>-->
 	                    <th rowspan="2"><?php echo $tr->translate("BALANCE");?></th>
 			   	</tr>
-			   	<tr class="style" style="white-space: nowrap;text-align: center;">
+			   	<tr class="style"  bgcolor="#ccc" style="font-weight:bold; line-height: 24px; background:#ccd9ff;  font-size:12px; white-space: nowrap; ">
 	                	<td ><?php echo $tr->translate("PRINCIPLE");?></td>                   
 	                   <?php if($level==1){?>                 
 	                    <td><?php echo $tr->translate("INTEREST");?></td>
@@ -120,7 +120,7 @@ $free_day=$key_code['value'];
 	                    <td><?php echo $tr->translate("SERVICE CHARGE");?></td>
 	                    <td><?php echo $tr->translate("TOTAL");?></td>
 	                </tr>
-	             </thead>
+	        </thead>
 <?php 
 $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){?>
 	<?php 

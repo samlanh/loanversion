@@ -70,7 +70,6 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
 		    	$db = $this->getAdapter();
 		    	$db->beginTransaction();
 		    	try {
-    			$this->_name='ln_xchange';
     			$session_user=new Zend_Session_Namespace('authloan');
     			$to_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["to_amount_type"]);
     			$from_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["from_amount_type"]);
@@ -96,8 +95,12 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     						"specail_customer"=>(empty($data['special_cus']))? 0 : 1,
     						"from_to"=>$from_type['curr_nameen'] . " - " . $to_type["curr_nameen"]
     				);
+    				$this->_name='ln_xchange';
     				$this->insert($_data);
-    				  $db->commit();
+    				
+    				$this->addCurrentCapital($data);//insert to Current Capital
+    				
+    				$db->commit();
     			} catch (Exception $e) {
     				$db->rollBack();
     			}
@@ -176,7 +179,7 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try {
-    		$this->_name='ln_xchange';
+    		
     		$session_user=new Zend_Session_Namespace('authloan');
     		$to_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["to_amount_type"]);
     		$from_type = $this->getCurrencyById("`curr_nameen`, `symbol`", $data["from_amount_type"]);
@@ -184,7 +187,7 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
 //     		if(($data["from_amount_type"] == 3 && $data["to_amount_type"] == 2) || $data["from_amount_type"] == 1 ){
 //     				$status = "out";
 //     		}
-    		 
+    		$this->addCurrentCapital($data);
     		
     		$user_id = $session_user->user_id;
     		$_data=array(
@@ -205,9 +208,13 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     				"from_to"=>$from_type['curr_nameen'] . " - " . $to_type["curr_nameen"]
     		);
     		$where=$this->getAdapter()->quoteInto('id=?', $data['id']);
-    		 $this->update($_data, $where);
+    		$this->_name='ln_xchange';
+    		$this->update($_data, $where);
+    		
+    		
     		 return $db->commit();
     	} catch (Exception $e) {
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     		$db->rollBack();
     		echo $e->getMessage();
     	}
@@ -709,7 +716,58 @@ class Tellerandexchange_Model_DbTable_DbxChangeMoney extends Zend_Db_Table_Abstr
     	}
     	return 0;
     }
- 	
+    function addCurrentCapital($data){
+//     	$db = $this->getAdapter();
+    	try{
+    		$dbg = new Application_Model_DbTable_DbGlobal();
+    		$useId = $dbg->getUserId();
+    		if (!empty($data['id'])){ // case when edit exchange rate
+    			$oldExchage = $this->getxchangById($data['id']);
+    			$arrs = array(
+    					'currency_id'=>$oldExchage['fromAmountType'],
+    					'for_date'=>date("Y-m-d"),
+    					'amount'=>"-".$oldExchage['fromAmount'],
+    					'agent_id'=>$useId,
+//     					'user_id'=>$useId,
+    			);
+    			$this->_name ='ln_exchange_current_capital';
+    			$this->insert($arrs);
+    			
+    			$arrs1 = array(
+    					'currency_id'=>$oldExchage['toAmountType'],
+    					'for_date'=>date("Y-m-d"),
+    					'amount'=>$oldExchage['toAmount'],
+    					'agent_id'=>$useId,
+//     					'user_id'=>$useId,
+    			);
+    			$this->_name ='ln_exchange_current_capital';
+    			$this->insert($arrs1);
+    		}
+    		
+    		$arr = array(
+    				'currency_id'=>$data['from_amount_type'],
+    				'for_date'=>date("Y-m-d"),
+    				'amount'=>$data['from_amount'],
+    				'agent_id'=>$useId,
+//     				'user_id'=>$useId,
+    		);
+    		$this->_name ='ln_exchange_current_capital';
+    		$this->insert($arr);
+    		
+    		$arr1 = array(
+    				'currency_id'=>$data['to_amount_type'],
+    				'for_date'=>date("Y-m-d"),
+    				'amount'=>"-".$data['to_amount'],
+    				'agent_id'=>$useId,
+//     				'user_id'=>$useId,
+    		);
+    		$this->_name ='ln_exchange_current_capital';
+    		$this->insert($arr1);
+    		
+    	}catch(Exception $err){
+    		Application_Model_DbTable_DbUserLog::writeMessageError($err->getMessage());
+    	}
+    }
 }
 
 
