@@ -163,26 +163,20 @@ class Report_ExchangesController extends Zend_Controller_Action {
   	}else $data = array('adv_search' => '');
   }
   function rptdailyexchangesAction(){
-  	$db  = new Report_Model_DbTable_DbLoan();
+  	$db  = new Report_Model_DbTable_DbExchanges();
   	$key = new Application_Model_DbTable_DbKeycode();
   	$this->view->data=$key->getKeyCodeMiniInv(TRUE);
   	if($this->getRequest()->isPost()){
   		$search = $this->getRequest()->getPost();
   	}else{
   		$search = array(
-  				'adv_search'=>'',
-  				'branch' => '',
-  				'client_name' =>'',
-  				'client_code'=>'',
-  				'Term'=>'',
-  				'status' =>'',
-  				'cash_type'=>'',
   				'start_date'=> date('Y-m-d'),
   				'end_date'=>date('Y-m-d'));
   			
   	}
   	$this->view->list_end_date=$search;
-  	$this->view->Loanxchange_list =$db->getAllxchange($search);
+  	$this->view->dailyCurrentCapital =$db->getDailyCurrentCapital($search);
+  	$this->view->totalDailyCurrentCapital = $db->getTotalDailyCurrentCapital($search);
   	$frm = new Loan_Form_FrmSearchLoan();
   	$frm = $frm->AdvanceSearch();
   	Application_Model_Decorator::removeAllDecorator($frm);
