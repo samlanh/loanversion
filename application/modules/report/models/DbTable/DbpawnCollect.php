@@ -75,11 +75,8 @@ class Report_Model_DbTable_DbpawnCollect extends Zend_Db_Table_Abstract
     	if($search['branch_id']>0){
     		$where.=" AND branch_id = ".$search['branch_id'];
     	}
-    	if($search['client_name']>0){
-    		$where.=" AND client_id = ".$search['client_name'];
-    	}
-    	if($search['co_id']>0){
-    		$where.=" AND co_id = ".$search['co_id'];
+    	if($search['members']>0){
+    		$where.=" AND l.customer_id = ".$search['members'];
     	}
     	if(!empty($search['adv_search'])){
     		$s_where = array();

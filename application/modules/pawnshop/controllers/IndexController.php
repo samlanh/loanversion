@@ -30,15 +30,16 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECEIPT","PAWN_AMOUNT","TERM_BORROW",
-					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","DACH_PRODUCT","BY_USER","STATUS","PAYMENT_RECEIPT");
+					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","DACH_PRODUCT","PAYMENT_RECEIPT","ADD_PAYMENT","BY_USER","STATUS");
 			
 			$link_info=array('module'=>'pawnshop','controller'=>'index','action'=>'edit',);
 			$link_dach=array('module'=>'pawnshop','controller'=>'dach','action'=>'index',);
 			$receiptLink=array('module'=>'report','controller'=>'pawn','action'=>'pawnticketreceipt',);
+			$link_payment=array('module'=>'pawnshop','controller'=>'payment','action'=>'add',);
 			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 			$dach = $tr->translate("DACH_PRODUCT");
 			$receipt = $tr->translate("PAYMENT_RECEIPT");
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array("$receipt"=>$receiptLink,
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array("$receipt"=>$receiptLink,'Click Here'=>$link_payment,
 					"$dach"=>$link_dach,'Expired'=>$link_dach,'branch'=>$link_info,'loan_number'=>$link_info,'receipt_num'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
@@ -119,7 +120,6 @@ public function editAction(){
 	Application_Model_Decorator::removeAllDecorator($frm_loan);
 	$this->view->frm_loan = $frm_loan;
 
-
 	$frmpopup = new Application_Form_FrmPopupGlobal();
 	$this->view->frmpupopinfoclient = $frmpopup->frmPopupindividualclient();
 
@@ -162,7 +162,7 @@ public function viewAction(){
 function getLoanlevelAction(){
 	if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
-			$db = new Loan_Model_DbTable_DbLoanIL();
+			$db = new Pawnshop_Model_DbTable_DbPawnshop();
 			$row = $db->getLoanLevelByClient($data['client_id'],$data['type']);
 			print_r(Zend_Json::encode($row));
 		    exit();

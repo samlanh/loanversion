@@ -7,9 +7,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     public function getUserId(){
     	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
-    	 
     }
-    
     public function getAllPawnPayment($search){
 		$start_date = $search['start_date'];
     	$end_date = $search['end_date'];
@@ -31,7 +29,8 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
 					cm.`recieve_amount`,
 					cm.`date_pay`,
 					cm.`date_input`,
-					'$reciept'
+					'$reciept',
+					 'delete'
 				FROM 
 					`ln_pawn_receipt_money` AS cm,
 					ln_pawnshop AS pp 
@@ -85,9 +84,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     		}elseif($amount_receive<$total_payment){
     			$is_compleated = 0;
     		}
-    		 
     		$arr_client_pay = array(
-    				
     				'client_id'		=> $data['client_id'],
     				'receipt_no'		=> $reciept_no,
     				'branch_id'			=> $data['branch_id'],
@@ -102,11 +99,9 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     				'total_payment'		=> $total_payment,
     				'penalize_amount'	=> $data["penalize_amount"],
     				'service_chargeamount'=>$data["service_charge"],
-    
     				'recieve_amount'	=> $data["amount_receive"],
     				'total_paymentpaid'	=> $data["amount_receive"],//check
     				'return_amount'		=> $return,
-    
     				'note'				=> $data['note'],
     				'status'			=> 1,
     				'user_id'			=> $user_id,
@@ -145,8 +140,8 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     			if($option_pay!=4){
     				$total_interest = $after_interest;
     			}
-    			$after_penalty = 0;//$rsloan['penelize_service'];//$data["penelize_".$i];
-    			$date_payment = $rsloan['date_payment'];//$data["date_payment_".$i];
+    			$after_penalty = 0;
+    			$date_payment = $rsloan['date_payment'];
     
     			$paid_principal = 0;
     			$paid_interest = 0;
@@ -272,7 +267,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     			$this->update($arr, $where);
     
     			$arr = array('is_completed'=>1);
-    			$this->_name="ln_loan";
+    			$this->_name="ln_pawnshop";
     			$where = $db->quoteInto("id=?", $data['loan_number']);
     			$this->update($arr, $where);
     		}
@@ -284,6 +279,65 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
     }
+    function deletePawnpayment($id){
+    	$db = $this->getAdapter();
+    	$db->beginTransaction();
+    	try{
+    		$sql = "SELECT
+    			crm.loan_id
+    		FROM ln_pawn_receipt_money AS crm
+    			WHERE  crm.`id` = $id ";
+    		$loan_id = $db->fetchOne($sql);
+    
+    		$arr = array(
+    				'is_completed'=>0
+    		);
+    		$this->_name="ln_pawnshop";
+    		$where="id=".$loan_id;
+    		$this->update($arr, $where);
+    			
+    		$sql = "SELECT
+    			crmd.*
+    		FROM
+    			`ln_pawn_receipt_money_detail` AS crmd,
+    			ln_pawn_receipt_money as crm
+    		WHERE
+    			crm.id = crmd.`receipt_id`
+    			and crmd.`receipt_id` = $id ";
+    		$receipt_money_detail = $db->fetchAll($sql);
+    
+    		$this->_name = "ln_pawnshop_detail";
+    		if(!empty($receipt_money_detail)){
+    			foreach ($receipt_money_detail as $rs){
+    				$arra = array(
+    						'outstanding_after'=>$rs['capital'],
+    						'principle_after'=>$rs['principal_permonth'],
+    						'total_interest_after'=>$rs['total_interest'],
+    						'total_payment_after'=>$rs['total_payment'],
+    						'is_completed'=>0,
+    						'status'=>1,
+    				);
+    				$where = "id=".$rs['lfd_id'];
+    				$this->update($arra, $where);
+    			}
+    		}
+    
+    		$this->_name = "ln_pawn_receipt_money";
+    		$where = " id = $id ";
+    		$this->delete($where);
+    
+    		$this->_name = "ln_pawn_receipt_money_detail";
+    		$where = " receipt_id = $id ";
+    		$this->delete($where);
+    		$db->commit();
+    
+    	}catch (Exception $e){
+    		$db->rollBack();
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    		Application_Form_FrmMessage::message("Delete Failed");
+    	}
+    }
+    
     public function getIlPaymentNumber(){
     	$this->_name='ln_pawn_receipt_money';
     	$db = $this->getAdapter();
@@ -318,13 +372,16 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     	AND is_completed=0
     	ORDER BY date_payment ASC ";
     	return $this->getAdapter()->fetchAll($sql);
-    
     }
     function getPawnAccountNumber(){//type ==1 is ilPayment, type==2 is group payment
     	$db = $this->getAdapter();
-    	$sql ="SELECT id,CONCAT((SELECT name_kh FROM `ln_clientsaving` WHERE 
-    		customer_id = ln_pawnshop.customer_id LIMIT 1),'-',`loan_number`) AS `name`,`branch_id`
-    		 FROM `ln_pawnshop` WHERE `is_completed` = 0 AND status=1 ";
+    	$sql ="SELECT 
+    				id,
+    				CONCAT((SELECT name_kh FROM `ln_clientsaving` WHERE 
+    			   ln_clientsaving.client_id = ln_pawnshop.customer_id LIMIT 1),'-',`loan_number`) AS `name`,
+    			`branch_id`
+    		 FROM `ln_pawnshop` WHERE 
+    	`is_completed` = 0 AND status=1 ";
     	return $db->fetchAll($sql);
     }
     public function getClientNamebyBranch($type=null,$client_id=null ,$row=null){
@@ -349,7 +406,6 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	return $db->fetchAll($sql.$where);
     }
-    
 	function getPawnPaymentByID($loan_number){//tab1
 		$db = $this->getAdapter();
 		$sql="SELECT
@@ -497,4 +553,3 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
       	return $db->fetchRow($sql);
 	}
 }
-

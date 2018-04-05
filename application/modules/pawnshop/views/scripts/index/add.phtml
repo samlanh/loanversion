@@ -42,7 +42,7 @@
             }
 			    dijit.byId('save_new').set('disabled',true); 
       			dijit.byId('save_close').set('disabled',true); 
-					dijit.byId('save_view').set('disabled',true); 
+				dijit.byId('save_view').set('disabled',true); 
 				return true;
 			}else {
 				return false;
@@ -72,7 +72,13 @@
 					    </tr>
 					    <tr>
 					   		<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-							<td><input id="customer_code" /></td>
+							<td><table>
+									<tr>
+										<td width="70%"><input id="customer_code" /></td>
+										<td width="30%"><input onclick="filterClient();" class="full" iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button"/></td>
+									</tr>
+								</table>
+							</td>
 					    </tr>
 				</table>
 		</fieldset>
@@ -83,7 +89,7 @@
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
 						<tr>
 							<td><strong><?php echo $tr->translate("PRODUCT_NAME")?></strong></td>
-							<td><input id="product_id" /><?php //echo $frm->getElement('product_id');?></td>
+							<td><input id="product_id" /></td>
 						</tr>
 						<tr>
 							<td><?php echo $tr->translate("PRODUCT_DESCRIPTION")?></td>
@@ -105,11 +111,11 @@
 		                 	<td><?php echo $tr->translate("CURRENCY")?></td>
 							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
 		                  </tr>
-		                   <tr>
+		                  <tr>
 			                    <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
 								<td><?php echo $frm->getElement('total_amount');?></td>
 		                   </tr>
-		                    <tr>
+		                   <tr>
 		                	   <td><strong><?php echo $tr->translate("TERM_BORROW")?></strong></td>
 							   <td><?php echo $frm->getElement('period');?></td>
 		                   </tr>
@@ -691,7 +697,6 @@ function addProductName(){
 			});
 	}
 }
-
 function hideDialog() {		
 	dijit.byId("recript_dialog").hide();
 }
@@ -704,15 +709,13 @@ function doPrint() {
 }
 </script>
 <script type="text/javascript">
-dojo.require("dojo.data.ItemFileWriteStore"); 
-dojo.require("dojo.NodeList-manipulate");
-dojo.require("dojo.html");
-dojo.require("dijit.form.Textarea");
-
+	dojo.require("dojo.data.ItemFileWriteStore"); 
+	dojo.require("dojo.NodeList-manipulate");
+	dojo.require("dojo.html");
+	dojo.require("dijit.form.Textarea");
 var client_store  = getDataStorefromJSON('id','name', [] );
 var client_number_store  = getDataStorefromJSON('id','name', [] );//getDataStorefromJSON('id','name', <?php //print_r(Zend_Json::encode($this->recieverlist));?> );
 var product_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->product_store));?> );
-
 require(["dojo/ready"], function(ready){
 	 ready(function(){
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
@@ -731,7 +734,7 @@ require(["dojo/ready"], function(ready){
 	id: "member",
 	searchAttr: "name",
 	class: 'fullside',
-	onChange: function() {
+	onChange: function(){
 		member = dijit.byId('member').get('value');
 		if(member==-1){
 			showPopupclient();
@@ -739,8 +742,8 @@ require(["dojo/ready"], function(ready){
 			getLoanLevel(member);
 			dijit.byId('customer_code').attr('value',member);
 		}
-}
-	}, "member");
+      }
+   }, "member");
 
 	new dijit.form.FilteringSelect({
 	store: client_number_store,
@@ -776,20 +779,17 @@ require(["dojo/ready"], function(ready){
 			}
 	    }
 		}, "product_id");
-	 
 	});
 </script>
 <script type="text/javascript">
 function filterClient(){
-		branch_id = dijit.byId('branch_id').get('value');
-		dijit.byId('member').query.branch_id = branch_id;
-		dijit.byId('customer_code').query.branch_id = branch_id;
-		dijit.byId('customer_code').reset();
-		getReceiptbybranch();
-		//getLoanByBranch();
-		getAllClientByBranch(branch_id);
-		getAllClientNumberByBranch(branch_id);
-		
+	branch_id = dijit.byId('branch_id').get('value');
+	dijit.byId('member').query.branch_id = branch_id;
+	dijit.byId('customer_code').query.branch_id = branch_id;
+	dijit.byId('customer_code').reset();
+	getReceiptbybranch();
+	getAllClientByBranch(branch_id);
+	getAllClientNumberByBranch(branch_id);
 }
 var url_getclient = '<?php echo $this->url(array('module'=>'saving','controller'=>'customer','action'=>'getclientbybranch')); ?>';
 function getAllClientByBranch(branch_id){

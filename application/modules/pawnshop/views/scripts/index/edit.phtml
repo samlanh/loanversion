@@ -77,9 +77,15 @@
 						    	<td><strong><?php echo $tr->translate("CUSTOMER_NAME")?></strong></td>
 								<td><input id="member" /> </td>
 						    </tr>
-						    <tr>
+						   <tr>
 						   		<td><?php echo $tr->translate("CUSTOMER_CODE")?></td>
-								<td><input id="customer_code" /></td>
+								<td><table>
+										<tr>
+											<td width="70%"><input id="customer_code" /></td>
+											<td width="30%"><input onclick="filterClient();" class="full" iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button"/></td>
+										</tr>
+									</table>
+								</td>
 						    </tr>
 					</table>
 			</fieldset>
@@ -447,6 +453,7 @@ require(["dojo/ready"], function(ready){
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,12);
 		filterClient();
 		dijit.byId("product_id").attr("value",'<?php echo $this->rs['product_id'];?>');
+		dijit.byId("receipt_num").set("readOnly",true);
 	  });
 	new dijit.form.FilteringSelect({
 	store: client_store,

@@ -1,11 +1,10 @@
 <?php 
-$client = $this->client;
-$loan = $this->loanInfo;
-$collateral = $this->collateral;
-$data = $this->data;
-$month = array("01"=>"មករា","02"=>"កុម្ភៈ","03"=>"មីនា","04"=>"មេសា","05"=>"ឧសភា","06"=>"មិថុនា","07"=>"កក្កដា","08"=>"សីហា","09"=>"កញ្ញា","10"=>"តុលា","11"=>"វិច្ឆិកា","12"=>"ធ្នូ",);
-$tr= Application_Form_FrmLanguages::getCurrentlanguage();
-// print_r($loan);
+	$client = $this->client;
+	$loan = $this->loanInfo;
+	$collateral = $this->collateral;
+	$data = $this->data;
+	$month = array("01"=>"មករា","02"=>"កុម្ភៈ","03"=>"មីនា","04"=>"មេសា","05"=>"ឧសភា","06"=>"មិថុនា","07"=>"កក្កដា","08"=>"សីហា","09"=>"កញ្ញា","10"=>"តុលា","11"=>"វិច្ឆិកា","12"=>"ធ្នូ",);
+	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
 <script src="<?php echo $this->baseUrl();?>/js/pdbs_js.js"  type="text/javascript"></script>
 <meta charset="utf-8">
@@ -61,14 +60,14 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 	    				<table style="font-family:'Times New Roman','Khmer OS Battambang'; text-align: center; width: 100%; margin-left: 0px">
 							<tbody>
 								<tr style="text-align:center; line-height:24px; font-size:15px; font-family:'Times New Roman','Khmer OS Battambang';">
-									 <td width="25%" align="left" valign="top"><span><img src="<?php echo $this->baseUrl()."/";?>images/logo.jpg" ></span>
+									 <td width="30%" align="left" valign="top"><span><img style="max-width:100%;" src="<?php echo $this->baseUrl()."/";?>images/logo.jpg" ></span>
 									 </td>
-									 <td width="50%" align="center" valign="top" style="padding-left: 25px;"><span style="line-height: 30px; font-family:'Khmer OS Muol Light';">ព្រះរាជាណាចក្រកម្ពុជា<br>
+									 <td width="40%" align="center" valign="top" style="padding-left: 25px;"><span style="line-height: 30px; font-family:'Khmer OS Muol Light';">ព្រះរាជាណាចក្រកម្ពុជា<br>
 									  ជាតិ សាសនា ព្រះមហាក្សត្រ</span><br>
 									 <img src="<?php echo $this->baseUrl()."/";?>images/agreementsign.JPG" style="width: 136px; height: 28px;"><br><span style=" font-size: 15px; font-family:'Khmer OS Muol Light';">កិច្ចសន្យាខ្ចី បញ្ចាំនិងប្រាតិភោគ</span>
 									 </td>
-								    <td width="25%" align="center" valign="top" style="font-size: 12px;">
-									  	អតិថិជនអាចផ្ញើរប្រាក់តាមៈ<br><img src="<?php echo $this->baseUrl()."/";?>images/agreement/master cart.jpg" style="width: 70%;"><br>
+								    <td width="30%" align="center" valign="top" style="font-size: 12px;">
+									  	អតិថិជនអាចផ្ញើប្រាក់តាមៈ<br><img src="<?php echo $this->baseUrl()."/";?>images/agreement/master cart.jpg" style="width: 70%;"><br>
 									  	<strong><?php echo $data['tel-client'];?></strong>
 								 	</td>
 								</tr>
@@ -99,16 +98,30 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 						 				</p>
 						 				<p style="text-align: left;">
 						 					<strong>ប្រការ១៖ចំនួនទឹកប្រាក់ផ្តល់ឲ្យខ្ចីៈ</strong><br>
-						 					<strong>១.១</strong> អ្នកឲ្យខ្ចីយល់ព្រមផ្តល់ប្រាក់កម្ចីអោយទៅអ្នកខ្ចីចំនួន<span class="value border_bt" style="min-width: 120px;"><?php echo number_format($loan['loan_amount'],2)." ".$loan['currency_type'];?></span>(ជាអក្សរ<span class="value border_bt" style="min-width: 110px;"><label id="loanInKhmerChar"></label><?php echo $loan['currency_type'];?></span>)ដោយអ្នកខ្ចីយល់ព្រមទទួលនូវកម្ចីចំនួននេះតាមកិច្ចសន្យាខ្ចីបញ្ចាំនិងប្រាតិភោគ។
+						 					<strong>១.១</strong> អ្នកឲ្យខ្ចីយល់ព្រមផ្តល់ប្រាក់កម្ចីអោយទៅអ្នកខ្ចីចំនួន<span class="value border_bt" style="min-width: 120px;"><strong><?php echo number_format($loan['loan_amount'],2)." ".$loan['currency_type'];?></strong></span><strong>(ជាអក្សរ<span class="value border_bt" style="min-width: 110px;"><label id="lable_loankhmer"></label><?php echo $loan['currency_type'];?>គត់</span></strong>)ដោយអ្នកខ្ចីយល់ព្រមទទួលនូវកម្ចីចំនួននេះតាមកិច្ចសន្យាខ្ចីបញ្ចាំនិងប្រាតិភោគ។
+						 					  <script>
+													a_sold ='<?php echo ($loan['loan_amount']) ?>';
+													money_khmersold=read_money_in_khmer(a_sold);
+													
+													decimalmoney_khmersold='<?php echo substr(number_format($loan['loan_amount'],2),-2);?>';
+													str_centsold = 'សេន';
+													if(decimalmoney_khmersold>0){string_sold='និង';}else{string_sold="";str_cent_sold='';}
+													last_number_sold='<?php echo substr(number_format($loan['loan_amount'],2),-2);?>';
+													
+													if(last_number_sold<=0){last_number_sold='';}
+													money_khmersold = money_khmersold+" "+string_sold+" "+read_in_khmer_from_10_to_99(decimalmoney_khmersold)+''+read_in_khmer_from_0_to_9(last_number_sold)+''+str_cent_sold;
+													dojo.byId('lable_loankhmer').innerHTML=money_khmersold+" ";
+													//dojo.byId('lable_pricekhmer1').innerHTML=money_khmersold+" ";
+											</script>
 						 				</p>
 						 				<p style="text-align: left;">
 							 				<strong>ប្រការ២៖អត្រាការប្រាក់ៈ</strong><br>
-							 				<strong>២.១</strong> ភាគីទាំងពីព្រមព្រៀងគ្នាក្នុងអត្រាការប្រាក់ស្មើនិង<span class="value border_bt" style="min-width: 80px;"><?php echo $loan['interest_rate'];?></span>%(ភាគរយ) /<?php echo $loan['payTermKH'];?>
+							 				<strong>២.១</strong> ភាគីទាំងពីព្រមព្រៀងគ្នាក្នុងអត្រាការប្រាក់ស្មើនិង<span class="value border_bt" style="min-width: 80px;"><strong><?php echo $loan['interest_rate'];?></strong></span>%(ភាគរយ) /<?php echo str_replace("ប្រចាំ", "មួយ", $loan['payTermKH']);?>
 						 				</p>
 						 				<?php $durationType=""; if ($loan['pay_term']==1){ $durationType="ថ្ងៃ";}else if ($loan['pay_term']==1){ $durationType="សប្តាហ៏";}else if ($loan['pay_term']==3){ $durationType="ខែ";}?>
 						 				<p style="text-align: left;">
 						 					<strong>ប្រការ៣៖រយៈពេលខ្ចីបញ្ចាំៈ</strong><br />
-						 					<strong>៣.១</strong> ភាគីទាំងពីព្រមព្រៀងគ្នាក្នុងរយះពេល<span class="value border_bt" style="min-width: 40px;"><?php echo $loan['total_duration'];?></span><?php echo $durationType;?> ដោយគិតចាប់ពីថ្ងៃផ្តិតមេដៃទទួលប្រាក់របស់អ្នកខ្ចីប្រាក់នៅថ្ងៃទី<span class="value border_bt" style="min-width: 20px;"><?php echo date("d",strtotime($loan['date_release']));?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo $month[date("m",strtotime($loan['date_release']))];?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo date("Y",strtotime($loan['date_release']));?></span>និងត្រូវបង់ផ្តាច់នៅថ្ងៃទី<span class="value border_bt" style="min-width: 20px;"><?php echo date("d",strtotime($loan['date_line']));?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo $month[date("m",strtotime($loan['date_line']))];?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo date("Y",strtotime($loan['date_line']));?></span>
+						 					<strong>៣.១</strong> ភាគីទាំងពីព្រមព្រៀងគ្នាក្នុងរយះពេល<span class="value border_bt" style="min-width: 40px;"><strong><?php echo $loan['total_duration'];?></strong></span><?php echo $durationType;?> ដោយគិតចាប់ពីថ្ងៃផ្តិតមេដៃទទួលប្រាក់របស់អ្នកខ្ចីប្រាក់នៅថ្ងៃទី<span class="value border_bt" style="min-width: 20px;"><?php echo date("d",strtotime($loan['date_release']));?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo $month[date("m",strtotime($loan['date_release']))];?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo date("Y",strtotime($loan['date_release']));?></span>និងត្រូវបង់ផ្តាច់នៅថ្ងៃទី<span class="value border_bt" style="min-width: 20px;"><?php echo date("d",strtotime($loan['date_line']));?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo $month[date("m",strtotime($loan['date_line']))];?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo date("Y",strtotime($loan['date_line']));?></span>
 						 				</p>
 						 				<p style="text-align: left;">
 						 					<strong>ប្រការ៤៖សោហ៊ុយសេវាទទួលបានប្រាក់កម្ចីៈ</strong><br>

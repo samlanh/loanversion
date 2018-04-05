@@ -18,7 +18,6 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 						'start_date'=>$formdata['start_date'],
 						'end_date'=>$formdata['end_date'],
 						'branch_id'		=>	$formdata['branch_id'],
-						//'paymnet_type'	=> $formdata["paymnet_type"],
 						);
 			}
 			else{
@@ -33,17 +32,20 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllPawnPayment($search);
 			$result = array();
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECIEPT_NO","PAID_PRINCIPAL","INTERREST_AMOUNT","TOTAL_PENELIZE","RECEIVE_AMOUNT","PAY_DATE","DAY_PAYMENT","PAYMENT_RECEIPT"
+			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECIEPT_NO","PAID_PRINCIPAL",
+					"INTERREST_AMOUNT","TOTAL_PENELIZE","RECEIVE_AMOUNT","PAY_DATE","DAY_PAYMENT",
+					"PAYMENT_RECEIPT","DELETE"
 				);
 			$link=array(
-					'module'=>'pawnshop','controller'=>'payment','action'=>'edit',
-			);
+					'module'=>'pawnshop','controller'=>'payment','action'=>'edit',);
 			$linkpawn=array(
-					'module'=>'report','controller'=>'pawn','action'=>'recieptpayment',
-			);
+					'module'=>'report','controller'=>'pawn','action'=>'recieptpayment',);
+			$deletepawn=array(
+					'module'=>'pawnshop','controller'=>'payment','action'=>'delete',);
 			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 			$reciept = $tr->translate("PAYMENT_RECEIPT");
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array($reciept =>$linkpawn,'team_group'=>$link,'loan_number'=>$link,'client_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array(
+					'delete'=>$deletepawn,$reciept =>$linkpawn,'team_group'=>$link,'loan_number'=>$link,'client_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -73,11 +75,6 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 		  			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 		  		}
 		  	}
-// 		  	$frm = new Loan_Form_FrmIlPayment();
-// 		  	$frm_loan=$frm->FrmAddIlPayment();
-// 		  	Application_Model_Decorator::removeAllDecorator($frm_loan);
-// 		  	$this->view->frm_ilpayment = $frm_loan;
-
   			$frm = new Pawnshop_Form_FrmPayment();
   			$frm_loan=$frm->FrmAddPayment();
   			Application_Model_Decorator::removeAllDecorator($frm_loan);
@@ -116,16 +113,46 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 		$session_user=new Zend_Session_Namespace('authloan');
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
 		$this->view->loan_number = $db_global->getPawnAccountNumber(1);
+		$id = $this->getRequest()->getParam('id');
+		if(!empty($id)){
+			if(empty($id)){
+				$id=0;
+			}
+			$this->view->rsid=$id;
+			$db = new Pawnshop_Model_DbTable_DbPawnshop();
+			$this->view->rsloan =  $db->getPawnshopById($id);
+		}
 	}	
+	function deleteAction()
+	{//check permission first
+		$request=Zend_Controller_Front::getInstance()->getRequest();
+		$action=$request->getActionName();
+		$controller=$request->getControllerName();
+		$module=$request->getModuleName();
+		
+		$id = $this->getRequest()->getParam("id");
+		$db = new Pawnshop_Model_DbTable_DbPayment();
+		try {
+			$dbacc = new Application_Model_DbTable_DbUsers();
+			$rs = $dbacc->getAccessUrl($module,$controller,$action);
+			$rs=1;
+			if(!empty($rs)){
+				$db->deletePawnpayment($id);
+				Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/pawnshop/payment/");
+			}else{
+				Application_Form_FrmMessage::Sucessfull("NO_PERMISSION","/pawnshop/payment/");
+			}
+		}catch (Exception $e) {
+			Application_Form_FrmMessage::message("INSERT_FAIL");
+			echo $e->getMessage();
+		}
+	}
 	function editAction()
 	{
-		//$this->_redirect("/pawnshop/payment");
 		$id = $this->getRequest()->getParam("id");
-	
 		$db_global = new Application_Model_DbTable_DbGlobal();
 			
 		$db = new Loan_Model_DbTable_DbLoanILPayment();
-		//$db1 = new Loan_Model_DbTable_DbGroupPayment();
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
 			$identify = $_data["identity"];
@@ -134,51 +161,19 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull("Client no laon to pay!","/loan/ilpayment/");
 				}else{
 					$db->updateIlPayment($_data);
-					//Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS","/loan/ilpayment/");
 				}
 			}catch (Exception $e) {
-				//echo $e->getMessage();
 				Application_Form_FrmMessage::message("INSERT_FAIL");
 				$err =$e->getMessage();
 				Application_Model_DbTable_DbUserLog::writeMessageError($err);
 			}
 		}
-// 		$payment_il = $db->getIlPaymentByID($id);
-// 		$this->view->ilPaymentById= $payment_il;
-		
-// 		$getIlDetail = $db->getIlDetail($id);
-		
-	/*	$frm = new Loan_Form_FrmIlPayment();
-		$frm_loan=$frm->FrmAddIlPayment(); */
-
-		//test
 		$frm = new Pawnshop_Form_FrmPayment();
 		$frm_loan=$frm->FrmAddPayment();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_ilpayment = $frm_loan;
 		//test
-
-// 		$frm_loan=$frm->FrmAddIlPayment($payment_il);
-// 		Application_Model_Decorator::removeAllDecorator($frm_loan);
 		$this->view->frm_ilpayment = $frm_loan;
-// 		$this->view->ilPayent = $getIlDetail;
-// 		$this->view->client_id=$payment_il["group_id"];
-// 		$this->view->client_code=$payment_il["group_id"];
-// 		$this->view->branch_id=$payment_il["branch_id"];
-// 		$this->view->loan_number=$payment_il["loan_numbers"];
-		
-// 		$this->view->client = $db->getAllClient();
-// 		$this->view->clientCode = $db->getAllClientCode();
-		
-// 		$db_keycode = new Application_Model_DbTable_DbKeycode();
-// 		$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
-		
-// 		$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
-		
-// 		$session_user=new Zend_Session_Namespace('authloan');
-// 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
-		
-// 		$this->view->loan_numbers = $db->getAllLoanNumberByBranch(1);
 	}
 
 

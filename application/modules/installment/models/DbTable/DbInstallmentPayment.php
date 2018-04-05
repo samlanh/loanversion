@@ -351,6 +351,7 @@ public function getIlPaymentNumber(){
     
     	}catch (Exception $e){
     		$db->rollBack();
+    		Application_Form_FrmMessage::message("Delete Failed");
     	}
     }
     function getRemainSchedule($loan_id){

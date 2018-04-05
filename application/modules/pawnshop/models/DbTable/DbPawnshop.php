@@ -14,31 +14,30 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
     	$where = " AND ".$from_date." AND ".$to_date;
     	
-    	
     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
     	$dach = $tr->translate("DACH_PRODUCT");
     	$receipt = $tr->translate("PAYMENT_RECEIPT");
     	$db = $this->getAdapter();
     	$sql = " SELECT id,
-    	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch,
-    	loan_number,
-    	(SELECT name_kh FROM `ln_clientsaving` WHERE client_id = ln_pawnshop.customer_id LIMIT 1) AS client_name_kh,
-    	receipt_num,CONCAT(release_amount,
-    	(SELECT symbol FROM `ln_currency` WHERE id =ln_pawnshop.currency_type LIMIT 1)) AS currency_type,
-    	CONCAT(total_duration,(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code = term_type )) term_type,
-		interest_rate,
-		(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=ln_pawnshop.product_id limit 1) as product_name,
-		date_release,date_line,'".$dach."' ,
-        (SELECT first_name FROM `rms_users` WHERE id=user_id) As user_name,
-    	status,'$receipt' FROM `ln_pawnshop` WHERE 1 ";
+	    	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch,
+	    	loan_number,
+	    		(SELECT name_kh FROM `ln_clientsaving` WHERE client_id = ln_pawnshop.customer_id LIMIT 1) AS client_name_kh,
+	    		receipt_num,CONCAT(release_amount,
+	    		(SELECT symbol FROM `ln_currency` WHERE id =ln_pawnshop.currency_type LIMIT 1)) AS currency_type,
+	    		CONCAT(total_duration,(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code = term_type )) term_type,
+				interest_rate,
+				(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=ln_pawnshop.product_id limit 1) as product_name,
+				date_release,date_line,'".$dach."' ,
+	    		'$receipt','Click Here',
+    			(SELECT first_name FROM `rms_users` WHERE id=user_id LIMIT 1) As user_name,
+    			status
+    		 FROM `ln_pawnshop` WHERE 1 ";
     	if(!empty($search['adv_search'])){
     		$s_where = array();
-    		$s_search = $search['adv_search'];
-    		$s_where[] = " reciept_no LIKE '%{$s_search}%'";
+    		$s_search = addslashes(trim($search['adv_search']));
+    		$s_where[] = " receipt_num LIKE '%{$s_search}%'";
     		$s_where[] = " release_amount LIKE '%{$s_search}%'";
     		$s_where[] = " interest_rate LIKE '%{$s_search}%'";
-    		$s_where[] = " total_interest LIKE '%{$s_search}%'";
-    		$s_where[] = " total_interest LIKE '%{$s_search}%'";
     		$where .=' AND ('.implode(' OR ',$s_where).')';
     	}
 
@@ -55,9 +54,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	if(($search['product_id'])>0){
     		$where.= " AND product_id=".$search['product_id'];
     	}
- 	
+ 	   $order=" ORDER BY id DESC";
     	$db = $this->getAdapter();    
-    	return $db->fetchAll($sql.$where);
+    	return $db->fetchAll($sql.$where.$order);
     }
     function getPawnshopById($id){//group id
     	$sql = " SELECT * FROM ln_pawnshop WHERE id =  $id ";
@@ -94,6 +93,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 						'product_id'=>$data['product_id'],
 						'est_amount'=>$data['estimatevalue'],
 						'product_description'=>$data['description'],
+						'receipt_num'=>$data['receipt_num'],
 				);
 				$loan_id = $this->insert($datagroup);//add group loan
 				

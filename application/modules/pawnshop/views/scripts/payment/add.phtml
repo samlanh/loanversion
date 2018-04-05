@@ -549,7 +549,7 @@ function submitDataClose(){
 						load: function(data) {
 							document.getElementsByClassName("overlay")[0].style.display="none";		
 							alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-							window.location.href ="<?php echo $this->baseUrl();?>/loan/payment";
+							window.location.href ="<?php echo $this->baseUrl();?>/pawnshop/payment";
 						},
 						error: function(e) {
 						}
@@ -1151,24 +1151,6 @@ function shortFormatdate(date){
 	return (date.getMonth() + 1) + 
     "/" +  date.getDate() +
     "/" +  date.getFullYear();
-}
-function getRPNumber(co_id){
-	try{
-		var url_submits = '<?php echo $this->url(array('module'=>'loan','controller'=>'payment','action'=>'getrpnumber')); ?>';
-			dojo.xhrPost({
-			    url: url_submits,
-			    content : { 
-				    'co_id':co_id,
-				},	
-				handleAs:"json",
-				load: function(data_loan) {
-					dijit.byId('reciept_no').attr('value',data_loan);
-				},
-				error: function(e) {
-				}
-			});
-	}catch(err){
-	}
 }
 function getDayString(num){
 	var days= ["អាទិត្យ","ច័ន្ទ", "អង្គារ", "ពុធ", "ព្រហ","សុក្រ","សៅរ៏"];
