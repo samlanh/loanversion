@@ -37,7 +37,7 @@ class tellerandexchange_SpreadController extends Zend_Controller_Action
     		$list = new Application_Form_Frmtable();
     		$collumns = array("ពីប្រាក់","ទៅប្រាក់","ទិញចូល","លក់ចេញ","អត្រាកណ្តាល","កាលបរិច្ឆេទ","STATUS");
     		$link=array(
-    				'module'=>'tellerandexchange','controller'=>'Spread','action'=>'edit',
+    				'module'=>'tellerandexchange','controller'=>'spread','action'=>'edit',
     		);
     		$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('buy_type'=>$link,
     				'sell_type'=>$link,'rate_in'=>$link,'rate_out'=>$link));

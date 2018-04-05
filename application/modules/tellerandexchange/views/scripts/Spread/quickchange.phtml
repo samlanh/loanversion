@@ -1,8 +1,8 @@
 <?php
-	$this->headTitle('Currency Smart | Exchange'); 
-	echo $this->headTitle();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle('Currency Smart | Exchange');
+	echo $this->headTitle();
 ?>	
 <script type="text/javascript">
 dojo.require('dijit.form.Form');
@@ -145,11 +145,10 @@ dojo.require("dijit.Dialog");
 						<?php }?>
 					</table>
 					<div style="text-align: center; margin: 10px 0px;">
-						<input type="button" value="បោះពុម្ព" label="បោះពុម្ព" id="busyButton" dojoType="dijit.form.Button" 
-							iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showDialog();"/> 
-						<input type="button" value="សំអាត" label="សំអាត" id="clearButton" onclick="clearText();" dojoType="dijit.form.Button"/>
-						<input type="reset" value="សាដើម" label="សាដើម" id="resetButton" dojoType="dijit.form.Button"/>
-						<input type="submit" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button"  />	
+						<input type="reset" value="<?php echo $tr->translate("RESET");?>" label="<?php echo $tr->translate("RESET");?>" id="resetButton" dojoType="dijit.form.Button"/>
+						<input type="submit" value="<?php echo $tr->translate("GO_SAVE");?>" label="<?php echo $tr->translate("GO_SAVE");?>" id="submitButton" dojoType="dijit.form.Button"  />
+						<input type="button" value="<?php echo $tr->translate("PRINT");?>" label="<?php echo $tr->translate("PRINT");?>" id="busyButton" dojoType="dijit.form.Button" 
+							iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showDialog();"/> 	
 					</div>	
 				</fieldset>
 			</td>
