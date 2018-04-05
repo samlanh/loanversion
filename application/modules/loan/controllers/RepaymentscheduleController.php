@@ -27,14 +27,13 @@ class Loan_RepaymentScheduleController extends Zend_Controller_Action {
 						'end_date'=>date('Y-m-d'),
 						 );
 			}
-// 			print_r($search);
 			$db = new Loan_Model_DbTable_DbLoanIL();
-			$rs_rows= $db->getAllIndividuleLoan($search,1);
+			$rs_rows= $db->getAllRescheduleLoan($search,1);
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","LOAN_AMOUNT","INTEREST_RATE","REPAYMENT_TYPE","TERM_BORROW","ZONE_NAME","CO_NAME",
-				"STATUS","","" );
+			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","LOAN_AMOUNT","INTEREST_RATE","REPAYMENT_TYPE","TERM_BORROW","ZONE_NAME",
+					"CO_NAME","RELEASE_DATE","STATUS");
 			$link=array(
 					'module'=>'loan','controller'=>'repaymentschedule','action'=>'view',
 			);

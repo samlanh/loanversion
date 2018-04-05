@@ -288,7 +288,6 @@ fieldset{padding:10px;}
 	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'បោះពុម្ភ វិក័យបត្រ', onCancel:hideDialog" id="frm_client" style="width:25cm">
 		<div id="rpt_print" class="print" style="padding: 0; width:25cm;">
 			<style type="text/css">
-				
 				td.bgBorderColor {
 				    height: 5px;
 				    border-top: solid 1px #133b84;
@@ -429,10 +428,8 @@ fieldset{padding:10px;}
 													<label id="lbl_colleral">&nbsp;<?php //echo $loanPayment['proTitleKh']; echo empty($loanPayment['product_description'])?"": " : ".$loanPayment['product_description'];?>&nbsp;</label>
 												</span>
 											</td>
-											
-																
 									</tr>
-									<tr >
+									<tr>
 											
 											<td class="lbtitlev">សម្គាល់</td>
 											<td colspan="5">
@@ -440,12 +437,11 @@ fieldset{padding:10px;}
 													<label id="lbl_note">&nbsp;<?php //echo $loanPayment['note'];?>&nbsp;</label>
 												</span>
 											</td>
-											
 									</tr >
 									<tr class="fontsize">
 										<td colspan="2"></td>
 										<td colspan="4" align="center" >
-											<table  width="100%" style="text-align:center; font-family: 'Times New Roman','Khmer MEF2'" >
+											<table width="100%" style="text-align:center; font-family: 'Times New Roman','Khmer MEF2'" >
 												<tr>
 													<td width="50%">បេឡាករ</td>
 													<td width="50%">ហត្ថលេខា និងឈ្មោះអតិថិជន</td>
@@ -579,7 +575,6 @@ function submitData(){
 						form: dojo.byId("frm_add_group_pay"),		    
 						load: function(data) {
 							document.getElementsByClassName("overlay")[0].style.display="none";	
-							//alert('<?php //echo $tr->translate('INSERT_SUCCESS');?> !');
 							window.location.href ="<?php echo $this->baseUrl();?>/pawnshop/payment/add";
 						},
 						error: function(e) {
@@ -593,7 +588,6 @@ function submitData(){
 						form: dojo.byId("frm_add_group_pay"),		    
 						load: function(data) {
 							document.getElementsByClassName("overlay")[0].style.display="none";		
-							//alert('<?php //echo $tr->translate('INSERT_SUCCESS');?> !');
 							window.location.href ="<?php echo $this->baseUrl();?>/pawnshop/payment/add";
 						},
 						error: function(e) {
@@ -628,21 +622,14 @@ function showReciept(data){
 	document.getElementById('lbl_reciept_no').innerHTML = data.receipt_no;
 	document.getElementById('lbl_loan_number').innerHTML = data.loan_number;
 	document.getElementById('lbl_branch_id').innerHTML = data.branch_name;
-	//document.getElementById('lbl_co_id').innerHTML = data.co_name;
 	document.getElementById('lbl_collect_date').innerHTML = noDate+"/"+monthNames[date.getMonth()]+"/"+year;
-	//document.getElementById('lbl_priciple_amount').innerHTML = data.begining_balance;
-	//document.getElementById('lbl_os_amount').innerHTML = data.principal_paid;
-	//document.getElementById('lbl_total_interest').innerHTML = dijit.byId('total_interest').attr('displayedValue')+symbal;
-	//document.getElementById('lbl_penalize_amount').innerHTML = dijit.byId('penalize_amount').attr('displayedValue')+symbal;
 	document.getElementById('lbl_total_payment').innerHTML = dojo.number.format(data.total_paymentpaid,{places:2});
 	document.getElementById('lbl_note').innerHTML = data.note;
-	//document.getElementById('lbl_service_charge').innerHTML = dijit.byId('service_charge').attr('displayedValue')+symbal;
 	document.getElementById('lbl_amount_receive').innerHTML = dojo.number.format(data.interest_paid,{places:2});
 	document.getElementById('lbl_amount_return').innerHTML = data.currency_typeshow+" "+dojo.number.format(data.total_paymentpaid,{places:2});
 	document.getElementById('lbl_total_interest').innerHTML = data.penalize_paid;
 	document.getElementById('lbl_paidTime').innerHTML = data.paid_times;
 	document.getElementById('lbl_colleral').innerHTML = data.proTitleKh+proDesc;
-	
 	//dijit.byId('frm_client').show();
 	printReciept();
 }
@@ -728,7 +715,6 @@ dojo.ready(function(){
 		dijit.byId("branch_id").attr("value",<?php echo $this->rsloan['branch_id'];?>);
 		dijit.byId("loan_number").attr("value",<?php echo $this->rsloan['id'];?>);
 	}
-	
 });
 function filterLoanNumber(){
 	 dijit.byId('loan_number').query.branch_id = dijit.byId('branch_id').get('value');
@@ -756,7 +742,6 @@ function print(){
 function hideDialog() {		
 	dijit.byId("frm_client").hide();
 	//submitData()
-	//window.location.href ="<?php //echo $this->baseUrl();?>/loan/il-payment";
 }
 function doPrint() {
 	window.frames["print_frame"].document.body.innerHTML=dojo.byId('frm_client').innerHTML;
@@ -773,7 +758,6 @@ function clearTextBox(){
 dojo.ready(function(){
 	loan_number = dijit.byId('loan_number').focus();
 	dijit.byId('currency_type').attr('readOnly','readOnly');
-	//dijit.byId('payment_term').attr('readOnly','readOnly');
 	dijit.byId('interest_rate').attr('readOnly','readOnly');
 });
 function payOption(){
@@ -1002,7 +986,6 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 				}
 			}
 		}
-		
 		if(payOption==4){
 			dijit.byId('total_interest').attr('readOnly',false);
 			if(total_latedate>0){
@@ -1185,7 +1168,6 @@ function roundhundred(n){
 		total = parseFloat(n);
 		x = total.toFixed(2);
 	}
-    
     return x;
   }
   function calTotal(){//គណនាប្រាក់ត្រូវបង់សរុប
@@ -1201,7 +1183,6 @@ function roundhundred(n){
 	dijit.byId('amount_receive').attr('value',total_pay.toFixed(2));
 	totalReturn();
 }
-
   var url_addsaleprint = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'payment','action'=>'addpaymentajax')); ?>';
   function addPaymentByAjax(){
 	  if(dijit.byId('frm_add_group_pay').validate()){
@@ -1223,7 +1204,6 @@ function roundhundred(n){
 				dijit.byId('client_id').focus();
 				return false;
 			}
-
 	    	dijit.byId("save_close").set("disabled",true);
 			dijit.byId("save_new").set("disabled",true);
 			dijit.byId("saveprint").set("disabled",true);

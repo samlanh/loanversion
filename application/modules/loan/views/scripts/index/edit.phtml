@@ -395,6 +395,7 @@ function calCulateAdminFee(){
 	t_admin=dijit.byId('total_amount').get('value');
 	adminfee=(p_income*(t_admin/100));
 	dijit.byId('loan_fee').attr('value',adminfee);
+	chechPaymentMethod();
 }
 function CompareGraicePariod(){
 	graice_pariod = dijit.byId('graice_pariod').get('value');

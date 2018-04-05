@@ -75,38 +75,17 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 		  			Application_Model_DbTable_DbUserLog::writeMessageError($err);
 		  		}
 		  	}
-  			$frm = new Pawnshop_Form_FrmPayment();
-  			$frm_loan=$frm->FrmAddPayment();
-  			Application_Model_Decorator::removeAllDecorator($frm_loan);
-  			$this->view->frm_ilpayment = $frm_loan;
+  		$frm = new Pawnshop_Form_FrmPayment();
+  		$frm_loan=$frm->FrmAddPayment();
+  		Application_Model_Decorator::removeAllDecorator($frm_loan);
+  		$this->view->frm_ilpayment = $frm_loan;
 		  	
-		  	$list = new Application_Form_Frmtable();
-		  	$collumns = array("ថ្ងៃបង់ប្រាក់","ប្រាក់ត្រូវបង់","ប្រាក់ដើមត្រូវបង់","អាត្រាការប្រាក់","ប្រាក់ផាកពិន័យ","ប្រាក់បានបង់សរុប","សមតុល្យ","កំណត់សម្គាល់");
-		  	$link=array(
-		  			'module'=>'group','controller'=>'Client','action'=>'edit',
-		  	);
-		  	$this->view->list=$list->getCheckList(0, $collumns, array(),array('client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
+	  	$db_keycode = new Application_Model_DbTable_DbKeycode();
+	  	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
+	  	
+	  	$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
 		  	
-		  	$db_keycode = new Application_Model_DbTable_DbKeycode();
-		  	$this->view->keycode = $db_keycode->getKeyCodeMiniInv();
-		  	
-		  	$this->view->graiceperiod = $db_keycode->getSystemSetting(9);
-		  	
-		  	$session_user=new Zend_Session_Namespace('authloan');
-		  	$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
-		  	
-		  	$id = $this->getRequest()->getParam('id');
-		  	if(!empty($id)){
-		  		if(empty($id)){
-		  			$id=0;
-		  		}
-		  		$this->view->rsid=$id;
-		  		$db = new Loan_Model_DbTable_DbLoandisburse();
-		  		$this->view->rsloan =  $db->getTranLoanByIdWithBranch($id,1);
-		  	}
-		
 		$db_global = new Pawnshop_Model_DbTable_DbPayment();
-		
 		$this->view->client = $db_global->getClientNamebyBranch();
 		$this->view->clientCode = $db_global->getClientCodebyBranch();
 		

@@ -159,14 +159,14 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     			$record_id = $rsloan['id'];//$data["mfdid_".$i];
     			if($record_id!=""){
     				if($option_pay==1 OR $option_pay==2 OR $option_pay==3 OR $option_pay==4){//បង់ធម្មតា
-    					if($option_pay==1){
-    						$total_principal =$after_principal;
-    					}elseif($option_pay==3){
-    						$total_interest=0;
-    						$total_principal = $after_principal;//$data["principal_permonth_".$i];
-    					}elseif($option_pay==2){//ដើម្បីអោយគណនា១ Record ម្តងៗរក completed=1
-    						$total_interest=$after_interest;//$data["interest_".$i];
-    						$total_principal =$after_principal;// $data["principal_permonth_".$i];
+    					if($option_pay==1){//បង់ធម្មតា
+    						$total_principal = $after_principal;
+    					}elseif($option_pay==3){//បង់រំលស់ប្រាក់ដើម
+    						$total_interest = 0;
+    						$total_principal = $after_outstanding;//$data["principal_permonth_".$i];
+    					}elseif($option_pay==2){//បង់មុន ដើម្បីអោយគណនា១ Record ម្តងៗរក completed=1
+    						$total_interest = $after_interest;//$data["interest_".$i];
+    						$total_principal = $after_principal;// $data["principal_permonth_".$i];
     					}
     					$remain_money = $remain_money-$service_charge;
     					if($remain_money>=0){//ដកសេវាកម្ម
@@ -178,9 +178,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     						if($remain_money>=0){//ដកផាគពិន័យ
     							$paid_penalty = $penalize;
     							$principle_after=0;
-    
     							$remain_money = $remain_money - $total_interest;
-    
     							if($remain_money>=0){
     								$paid_interest = $total_interest;
     								$after_interest = 0;
@@ -207,7 +205,6 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     						$paid_service=$service_charge-abs($remain_money);
     						$after_service = abs($remain_money);
     					}
-    
     					$arr_money_detail = array(
     							'receipt_id'		=> $receipt_id,
     							'lfd_id'			=> $record_id,
@@ -219,9 +216,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     							'total_payment'		=> $rsloan['total_payment_after'],
     							'penelize_amount'	=> 0,//$rsloan['outstanding_after'],
     					);
-    
     					$db->insert("ln_pawn_receipt_money_detail", $arr_money_detail);
-    
     					if($after_principal==0){
     						$is_compleated_d=1;
     					}
@@ -232,7 +227,6 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     							'total_payment_after' => $after_principal+$after_interest,
     							'is_completed'		  => $is_compleated_d,
     					);
-    
     					$this->_name="ln_pawnshop_detail";
     					$where = $db->quoteInto("id=?", $record_id);
     					$this->update($load_detail, $where);
@@ -241,7 +235,6 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     					$paid_interestall =$paid_interestall+$paid_interest;
     					$paid_penaltyall =$paid_penaltyall+$paid_penalty;
     					$paid_serviceall =$paid_serviceall+$paid_service;
-    
     				}
     			}
     		}
@@ -259,8 +252,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     		if(empty($rs)){//update ករណីបង់ចុងក្រោយ គឺ updatE ទៅជាដាច់
     			$arr = array(
     					'is_payoff'=> 1,//check here
-    					'payment_option'=>4
-    			);
+    					'payment_option'=>4);
     
     			$this->_name="ln_pawn_receipt_money";
     			$where = $db->quoteInto("id=?", $receipt_id);
@@ -271,7 +263,6 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     			$where = $db->quoteInto("id=?", $data['loan_number']);
     			$this->update($arr, $where);
     		}
-    
     		$db->commit();
     		return $receipt_id;
     	}catch (Exception $e){
@@ -427,7 +418,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
    				 ld.*,
    				DATE_FORMAT(ld.date_payment, '%d-%m-%Y') AS `date_payments`,
    				l.first_payment AS `first_payment`,
-   				(SELECT SUM(principal_paid) FROM `ln_client_receipt_money` WHERE loan_id=l.id AND STATUS=1) AS principal_paid
+   				(SELECT SUM(principal_paid) FROM `ln_pawn_receipt_money` WHERE loan_id=l.id AND STATUS=1) AS principal_paid
    			   FROM
    					  `ln_clientsaving` AS lc,
    					  `ln_pawnshop` AS l ,

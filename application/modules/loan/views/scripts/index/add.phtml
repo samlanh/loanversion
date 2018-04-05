@@ -481,6 +481,7 @@ function calCulateAdminFee(){
 	t_admin=dijit.byId('total_amount').get('value');
 	adminfee=(p_income*(t_admin/100));
 	dijit.byId('loan_fee').attr('value',adminfee);
+	chechPaymentMethod();
 }
 function CompareGraicePariod(){
 	graice_pariod = dijit.byId('graice_pariod').get('value');
@@ -514,7 +515,7 @@ function chechPaymentMethod(){
 		dijit.byId('amount_collect_pricipal').set('readOnly',false);
 		dojo.byId('lbl_payment').innerHTML="<?php echo $tr->translate("AMOUNT_GRAICE_PARIOD")?>";
 		dijit.byId('amount_collect_pricipal').attr('value','');
-		dijit.byId('amount_collect_pricipal').focus();
+		//dijit.byId('amount_collect_pricipal').focus();
 		setDefaultPaymentAmount();
 	}else{
 		dijit.byId('amount_collect_pricipal').set('readOnly',true);

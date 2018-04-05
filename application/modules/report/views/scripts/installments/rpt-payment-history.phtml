@@ -85,7 +85,7 @@ table { page-break-inside:auto }
     	<td class="mymy">
     	<table id="exportExcel" width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
             	<thead>
-				<?php if(!empty($this->loantotalcollect_list))for($j=0;$j<=20;$j++) {
+				<?php if(!empty($this->loantotalcollect_list)){
 	              	foreach ($this->loantotalcollect_list as $index => $rs){
 	              		if ($client_id!=$rs["client_id"]) {
 	              		?>

@@ -89,6 +89,64 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	//echo $sql.$where.$order;exit();
     	return $db->fetchAll($sql.$where.$order);
     }
+    public function getAllRescheduleLoan($search,$reschedule =null){
+    	$from_date =(empty($search['start_date']))? '1': "l.date_release >= '".$search['start_date']." 00:00:00'";
+    	$to_date = (empty($search['end_date']))? '1': "l.date_release <= '".$search['end_date']." 23:59:59'";
+    	$where = " AND ".$from_date." AND ".$to_date;
+    	 
+    	$db = $this->getAdapter();
+    	$sql=" SELECT l.id,
+    	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch,
+    	l.loan_number,
+    	(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
+    	CONCAT((SELECT symbol FROM `ln_currency` WHERE id =l.currency_type)
+    	,l.loan_amount) AS total_capital , interest_rate,
+    	(SELECT payment_nameen FROM `ln_payment_method` WHERE id = l.payment_method LIMIT 1) AS payment_method,
+    	CONCAT( l.total_duration,' ',(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =l.pay_term )),
+    	(SELECT zone_name FROM `ln_zone` WHERE zone_id=l.zone_id LIMIT 1) AS zone_name,
+    	(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_name,
+    	l.date_release,
+    	l.status  FROM `ln_loan` AS l
+    	WHERE loan_type =1 ";
+    	if(!empty($search['adv_search'])){
+    		$s_where = array();
+    		$s_search = str_replace(' ', '', addslashes(trim($search['adv_search'])));
+    		$s_where[] = "REPLACE(l.loan_number,' ','')  	LIKE '%{$s_search}%'";
+    		$s_where[] = "REPLACE(l.loan_amount,' ','')  LIKE '%{$s_search}%'";
+    		$s_where[] = "REPLACE(l.interest_rate,' ','')  LIKE '%{$s_search}%'";
+    		$where .=' AND ('.implode(' OR ',$s_where).')';
+    	}
+    	if($search['status']>-1){
+    		$where.= " AND l.status = ".$search['status'];
+    	}
+    	if(($search['client_name'])>0){
+    		$where.= " AND l.customer_id=".$search['client_name'];
+    	}
+    	if(($search['repayment_method'])>0){
+    		$where.= " AND l.payment_method = ".$search['repayment_method'];
+    	}
+    	if(($search['branch_id'])>0){
+    		$where.= " AND l.branch_id = ".$search['branch_id'];
+    	}
+    	if(($search['co_id'])>0){
+    		$where.= " AND l.co_id=".$search['co_id'];
+    	}
+    	if(($search['currency_type'])>0){
+    		$where.= " AND l.currency_type=".$search['currency_type'];
+    	}
+    	if(($search['pay_every'])>0){
+    		$where.= " AND l.pay_term=".$search['pay_every'];
+    	}
+    	if($reschedule!=null){
+    		$where.= ' AND l.is_reschedule=1 ';
+    	}else{
+    		$where.= ' AND l.is_reschedule !=2 ';
+    	}
+    
+    	$order = " ORDER BY l.id DESC";
+    	$db = $this->getAdapter();
+    	return $db->fetchAll($sql.$where.$order);
+    }
 //     function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//group id
 //     	$sql = " SELECT 
 //     		l.id,l.branch_id,l.level,l.co_id,l.zone_id,l.pay_term,l.date_release,l.status,

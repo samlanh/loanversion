@@ -310,6 +310,7 @@ public function init()
 		$_rate =  new Zend_Dojo_Form_Element_NumberTextBox("interest_rate");
 		$_rate->setAttribs(array(
 				'data-dojo-Type'=>'dijit.form.NumberTextBox',
+				'onkeyup'=>'chechPaymentMethod();',
 				'data-dojo-props'=>"
 				'required':true,
 				'name':'interest_rate',
@@ -317,15 +318,6 @@ public function init()
 				'class':'fullside',
 				'invalidMessage':'អាចបញ្ជូលពី 1 ដល់'
 				"));
-// 		$_rate =  new Zend_Dojo_Form_Element_FilteringSelect("interest_rate");
-// 		$_rate->setAttribs(array(
-// 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
-// 				'autoComplete'=>"false",
-// 				'queryExpr'=>'*${0}*',
-// 				'invalidMessage'=>'អាចបញ្ជូលពី 1 ដល់'));
-// 		$options = $db->getAllInterest(1);
-// 		$_rate->setMultiOptions($options);
 				
 		$_period = new Zend_Dojo_Form_Element_NumberTextBox('period');
 		$_period->setAttribs(array(
@@ -352,7 +344,6 @@ public function init()
 					'readonly'=>true,
 			));
 		}
-		
 		$_releasedate->setValue($s_date);
 		
 		$_first_payment = new Zend_Dojo_Form_Element_DateTextBox('first_payment');
@@ -364,7 +355,6 @@ public function init()
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
 				
 		));
-		//$_first_payment->setValue('2005-12-30');
 		
 		$_dateline = new Zend_Dojo_Form_Element_DateTextBox('date_line');
 		$_dateline->setAttribs(array(
@@ -375,14 +365,12 @@ public function init()
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
 		));
 		
-		
 		$_graice_pariod = new Zend_Dojo_Form_Element_TextBox('graice_pariod');
 		$_graice_pariod->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
 				'required'=>'true',
 				'class'=>'fullside',
 				'onKeyup'=>'CompareGraicePariod();'
-				//'readOnly'=>true,
 		));
 		$_graice_pariod->setValue(0);
 		
@@ -415,8 +403,6 @@ public function init()
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-// 		$options= array(1=>"Day",2=>"Week",3=>"Month");
-// 		$_pay_every->setMultiOptions($options);
 		$_pay_every->setValue(3);
 		$_pay_every->setMultiOptions($term_opt);
 		$_every_payamount = new Zend_Dojo_Form_Element_FilteringSelect('every_payamount');
@@ -456,15 +442,11 @@ public function init()
 		$arr=$db->getSystemSetting('interest_late');
 		$_pay_late->setValue($arr['value']);
 		
-// 		print_r($arr);exit();
-		
 		$_deposit = new Zend_Dojo_Form_Element_NumberTextBox('deposit');
 		$_deposit->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				 
 		));
-// 		$_deposit->setValue(0);
 		
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
@@ -482,21 +464,6 @@ public function init()
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}
 		$_branch_id->setMultiOptions($options);
-		
-// 		$_branch_ids = new Zend_Dojo_Form_Element_FilteringSelect('branch_ids');
-// 		$_branch_ids->setAttribs(array(
-// 				'dojoType'=>'dijit.form.FilteringSelect',
-// 				'class'=>'fullside',
-// 				'required' =>'true',
-// 				'onchange'=>'filterClient();'
-// 		));
-		
-// 		$rows = $db->getAllBranchName();
-// 		$optionsa=array(''=>'---Select Branch---');
-// 		if(!empty($rows))foreach($rows AS $row){
-// 			$optionsa[$row['br_id']]=$row['branch_namekh'];
-// 		}
-// 		$_branch_ids->setMultiOptions($optionsa);
 		
 		$_repayment_method = new Zend_Dojo_Form_Element_FilteringSelect('repayment_method');
 		$_repayment_method->setAttribs(array(
@@ -518,7 +485,6 @@ public function init()
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-// 		$options= array(1=>"Befor",2=>"After",3=>"Cancel");
 		$options= array(1=>"Active",0=>"Cancel");
 		$_status->setMultiOptions($options);
 		
@@ -544,13 +510,9 @@ public function init()
 		));
 		
 		$_instalment_date = new Zend_Form_Element_Hidden("instalment_date");
-		
 		$_release_date = new Zend_Form_Element_Hidden("old_release_date");
-		
 		$_interest_rate = new Zend_Form_Element_Hidden("old_rate");
-		
 		$_old_payterm = new Zend_Form_Element_Hidden("old_payterm");
-		
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
 			$_branch_id->setValue($data['branch_id']);
@@ -576,7 +538,6 @@ public function init()
 					'value':'".$data['interest_rate']."'"));
 			$_repayment_method->setValue($data['payment_method']);
 			$_graice_pariod->setValue($data['graice_period']);
-			//$_time_collect_pri->setValue($data['semi']);
 			$_dateline->setValue($data['date_line']);
 			$_pay_every->setValue($data['pay_term']);
 			$_time_collect->setValue($data['amount_collect_principal']);
@@ -584,14 +545,9 @@ public function init()
 			$_pay_late->setValue($data['holiday']);
 			$_paybefore->setValue($data['holiday']);
 			$_id->setValue($data['id']);
-			//$_deposit->setValue($data['deposit']);
 			$_group_code->setValue($data['customer_id']);
-// 			$_groupid->setValue($data['client_id']);
 			$get_laonnumber->setvalue($data['id']);
 			$_status->setValue($data['status']);
-			
-			
-// 			print_r($data);
 		}
 		$this->addElements(array($_date_payment,$_principle_paid,$_deposit,$_groupid,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,$_interest,$penalize,$_service_charge,$schedule_opt,$_loan_types,$_loan_fees,$_other_fees,$_zones
 				,$_client_codes,$_loan_codes,$_members,$_customer_codes,$_levels,$_coids,$get_laonnumber,$_loan_type,
@@ -601,6 +557,5 @@ public function init()
 				$_first_payment,$_repayment_method,$_pay_every,$_loan_code,$_collect_term,$_dateline,
 				$_group_code,$_customer_code,$_id));
 		return $this;
-		
 	}	
 }
