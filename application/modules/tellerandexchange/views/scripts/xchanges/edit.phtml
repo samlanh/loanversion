@@ -554,7 +554,7 @@
 					statusInOut="out";
 				}
 				dijit.byId('statusinout').set('value',statusInOut);
-				dojo.byId("rate").value = dojo.number.format(dojo.number.round(data.rate,2));
+				dijit.byId('rate').set('value',dojo.number.format(dojo.number.round(data.rate,2)));
 				dojo.byId("lbl_from_amount").innerHTML = dijit.byId('from_amount_type').attr('displayedValue');
 				dojo.byId("lbl_to_amount").innerHTML = dijit.byId('to_amount_type').attr('displayedValue');
 			},
