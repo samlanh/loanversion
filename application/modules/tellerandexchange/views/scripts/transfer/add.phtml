@@ -25,7 +25,7 @@
 			total();
 	    });	
 
-		var txtamount = dojo.byId("tran_type");
+		/*var txtamount = dojo.byId("tran_type");
 		dojo.connect(txtcommission, "onchange", function(evt){
 
 			tt=0;
@@ -130,8 +130,39 @@
 			}
 			 dijit.byId('commission').attr('value',commission);
 			 dijit.byId('totalcommission').attr('value',tcommission);
-	    });	
+	    });	*/
+		var txtamount = dojo.byId("amount");
+		dojo.connect(txtamount, "onkeyup", function(evt){
+			getTransferFee();
+		});	
 	});   
+	var urlTransferFee = '<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'transfer','action'=>'gettransferfee')); ?>';
+	function getTransferFee(){
+		type_money = dijit.byId('type_money').get('value');
+		amount = dijit.byId('amount').get('value');
+		if(isNaN(parseInt(amount))) {
+		    return false;
+		}
+		dojo.xhrPost({
+			url:	urlTransferFee,
+			content:{
+				'amount':amount,'type_money':type_money
+				},
+			handleAs:"json",
+			load: function(data) {
+				if(data==""){
+					dijit.byId('commission').attr('value',0);
+					dijit.byId('totalcommission').attr('value',0);
+				}else{
+					dijit.byId('commission').attr('value',data.commisionFee);
+					dijit.byId('totalcommission').attr('value',data.totalFee);
+				}
+			},
+			error: function(err) {
+				alert(err);
+			}
+		});
+	}
 </script>
 <script type="text/javascript">
 	function printSave(){		
@@ -279,7 +310,7 @@
 					 <tr>
 							<td>ប្រភេទ​លុយ</td>
 							<td>
-								<select name="type_money" id="type_money" class='fullside' dojoType="dijit.form.FilteringSelect" missingMessage="អ្នក​ភ្លេច​បំពេញ​  ប្រភេទ​លុយ!" required="true"> 
+								<select onChange="getTransferFee();" name="type_money" id="type_money" class='fullside' dojoType="dijit.form.FilteringSelect" missingMessage="អ្នក​ភ្លេច​បំពេញ​  ប្រភេទ​លុយ!" required="true"> 
 									<?php foreach ($this->currency as $key => $cur) : ?>
 										<option value="<?php echo $cur['id'];?>"><?php echo $cur['name'];?></option>
 									<?php endforeach;?> 
@@ -302,7 +333,7 @@
 							<td valign="top">កម្រៃសេវាជាទទួលបាន</td>
 							<td>
 								
-<input type="text" name='commission' id="commission"  data-dojo-type="dijit.form.NumberTextBox"
+<input type="text" name='commission' id="commission"  data-dojo-type="dijit.form.NumberTextBox" readonly="readonly"
 									data-dojo-props="required:true,
 									name:'commission',
 									class:'fullside',
@@ -314,7 +345,7 @@
 						<tr>
 							<td>ថ្លៃសេវាសរុប</td>
 							<td>
-								<input type="text" name="totalcommission" id="totalcommission"  data-dojo-type="dijit.form.NumberTextBox"
+								<input type="text" name="totalcommission" id="totalcommission" readonly="readonly" data-dojo-type="dijit.form.NumberTextBox"
 									data-dojo-props="required:true,
 									name:'totalcommission',
 									class:'fullside',

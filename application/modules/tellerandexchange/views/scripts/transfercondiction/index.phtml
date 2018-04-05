@@ -1,0 +1,22 @@
+<?php
+	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('TRANSFER CONDICTION'));
+	echo $this->headTitle();
+	$frm = $this->frm_search;
+	$frmes = $this->frmExchange;
+?>
+<form name="frmlist_mt" action="" dojoType="dijit.form.Form" method="post">
+<table>
+	<tr>
+		<td><?php echo $frmes->getElement('currencySearch');?></td>
+		<td><?php echo $frm->getElement('status');?></td>
+		<td>
+		<button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button>
+		</td>
+	</tr>
+</table>
+</form>
+<?php 
+echo $this->list;
+?>

@@ -1,0 +1,304 @@
+<?php
+	$base_url = Application_Form_FrmMessage::getUrl("/");
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle('Currency Smart | Exchange');
+	echo $this->headTitle();
+?>	
+<script type="text/javascript">
+dojo.require('dijit.form.Form');
+dojo.require('dijit.form.Button');
+dojo.require('dijit.form.NumberTextBox');
+dojo.require("dijit.Dialog");
+</script>
+<style>
+<!--
+	.tbtable{		
+		text-align: center;
+		font-size: 2em;	
+		color: #fff;
+		line-height: 40px;
+		font-weight: bolder;
+		
+	}
+	.tbtable td{
+		vertical-align: middle;
+	}
+	.tbtable .tbheader{
+		background-color: #dddddd;
+		color: #000;
+		font-family:'Khmer OS Bokor';
+	}
+	.tbtable .first{
+		background-color: #008; 
+	}
+	.tbtable .second{
+		background-color: #e5a909 ; 
+	}
+	
+	.tbtable .input-inner {
+		margin: 0px;
+		padding: 0px;
+		width: 99%;	
+		border: none;
+	}
+	#DB.dijitInputInner, #BD.dijitInputInner, #BR.dijitInputInner,#RB.dijitInputInner{
+		text-align: center;		
+		background-color: #09679B  !important;
+	}
+	#SPBD.dijitInputInner, #SPBD.dijitInputInner, #BR.dijitInputInner,#RB.dijitInputInner{
+		text-align: center;		
+		background-color: #09679B   !important;
+	}
+	#DR.dijitInputInner, #RD.dijitInputInner{
+		text-align: center;		
+		background-color: #1553B1 !important;
+	}
+	#SPRD.dijitInputInner, #RD.dijitInputInner{
+		text-align: center;		
+		background-color: #1553B1 !important;
+	}	
+	
+	#SPBR.dijitInputInner, #BD.dijitInputInner, #BR.dijitInputInner,#RB.dijitInputInner{
+		text-align: center;		
+		background-color: #09679B  !important;
+	}
+	
+	.col-symbol{
+		width: 20%;
+	padding:10px;
+	}
+	.col-input{
+		width: 30%;
+	}
+.tbtable .input-inner.bgCont {
+    background: inherit !important;
+    text-align: center;
+}
+-->
+</style>
+<form id='frm_add_exch' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">			
+			if(this.validate()) {
+				return true;
+			} else {
+				return false;
+			}
+	</script>	 
+	
+	<table width="100%"  >
+		<tr>
+			<td width="100%" valign="top">	
+				<fieldset class="panel" style="padding:10px;">
+					<legend><strong>ព៌ត័មាន ទាក់​ទង នឹង​ អត្រាប្តូរប្រាក់</strong></legend>			
+					<table class="tbtable" style="margin:10px auto; width: 100%; border-collapse: collapse;" cellspacing='0' border="1">									
+						<tr class="tbheader">
+							<th class="col-symbol">និមិត្តសញ្ញា</th>
+							<th class="col-input">អត្រា​ទិញចូល</th>
+							<th class="col-input">អត្រា​ប្រាក់កណ្តាល</th>
+							<th class="col-input">អត្រា​លក់ចេញ</th>
+						</tr>
+						<?php $i=1; if (!empty($this->allExchangeRate)) foreach ($this->allExchangeRate as $rs){
+							$class="second";
+							if ($i==1){
+								$i=0;
+								$class="first";
+							}else {
+								$i = 1;
+							}
+							?>
+						<tr class="<?php echo $class;?>">
+							<td><?php echo $rs['fromCurrSysm']." - ".$rs['toCurrSysm']?></td>
+							<td>
+								<input type="text" name="rateIn<?php echo $rs['id'];?>" id="rateIn<?php echo $rs['id'];?>"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="required:true,																		
+									name:'rateIn<?php echo $rs['id'];?>',
+									id:'rateIn<?php echo $rs['id'];?>',	
+									class:'input-inner bgCont',								
+									value:'<?php echo number_format($rs['rate_in'],2)?>',
+									constraints:{pattern:'#,###.##'},
+									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
+									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
+							</td>
+							<td>
+								<input type="text" name="spread<?php echo $rs['id'];?>" id="spread<?php echo $rs['id'];?>"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="required:true,																		
+									name:'spread<?php echo $rs['id'];?>',
+									id:'spread<?php echo $rs['id'];?>',	
+									class:'input-inner bgCont',								
+									value:'<?php echo number_format($rs['spread'],2)?>',
+									constraints:{pattern:'#,###.##'},
+									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
+									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
+							</td>
+							<td>
+								<input type="text" name="rateOut<?php echo $rs['id'];?>" id="rateOut<?php echo $rs['id'];?>"  data-dojo-type="dijit.form.NumberTextBox"
+									data-dojo-props="required:true,																		
+									name:'rateOut<?php echo $rs['id'];?>',
+									id:'rateOut<?php echo $rs['id'];?>',	
+									class:'input-inner bgCont',								
+									value:'<?php echo number_format($rs['rate_out'],2)?>',
+									constraints:{pattern:'#,###.##'},
+									missingMessage:'អ្នក​ភ្លេច​បំពេញ​ ចំនួន​ទឹក​ប្រាក់!',
+									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
+							</td>
+						</tr>
+						<?php }?>
+					</table>
+					<div style="text-align: center; margin: 10px 0px;">
+						<input type="reset" value="<?php echo $tr->translate("RESET");?>" label="<?php echo $tr->translate("RESET");?>" id="resetButton" dojoType="dijit.form.Button"/>
+						<input type="submit" value="<?php echo $tr->translate("GO_SAVE");?>" label="<?php echo $tr->translate("GO_SAVE");?>" id="submitButton" dojoType="dijit.form.Button"  />
+						<input type="button" value="<?php echo $tr->translate("PRINT");?>" label="<?php echo $tr->translate("PRINT");?>" id="busyButton" dojoType="dijit.form.Button" 
+							iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="showDialog();"/> 	
+					</div>	
+				</fieldset>
+			</td>
+						
+		</tr>		
+	</table>
+</form>
+<?php 
+$url_barcode = $this->url(array("module"=>"loan","controller"=>"IlPayment","action"=>"generate-barcodevss"),null,true);
+?>
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" style="width:7cm;" data-dojo-props="title:'អត្រាប្តូរប្រាក់', onCancel:hideDialog" id="terms" >
+		<div id="divPrint" style="width: 7cm; padding: 0px; margin: 0px;">
+			<style>
+				.fontbig{
+					font-size: 12px;	
+				}
+				.fonttel{
+					font-size: 11px;
+				}
+				.pleft{
+					width: 110px;	
+				}
+			</style>	
+			<table style="width: 7cm; font-size: 8pt; padding: 0px; margin: 0px; line-height: 15px; " ​>
+				 <tr>
+					   	<td align="center" colspan="3">	
+					   	<table  width="100%" cellspacing="0" cellpadding="0">
+					   		<tr style="line-height:10px;">
+					   			<td width="25%" rowspan="2" style="valign:top;"><img style="margin-top: 1px;" src="<?php echo $base_url;?>images/logobrand.jpg" height="34px;"/></td>
+						   		<td colspan="2" align="center"><strong style="font-size:14px;font-family:'Khmer MEF2';text-align:center"><?php echo $this->keycode['client_company_name'];?></strong></td>
+							</tr>
+							<tr>
+								<td align="center" style="font-family:'Khmer MEF2';white-space: nowrap;font-size:11px;font-weight:bold; text-align:center;"><b><?php echo $this->keycode['rpt-transfer-title-eng'];?></td>
+					   		</tr>
+					   	</table>
+			            </td>	   	        
+				   </tr> 
+					<tr>
+					   	<td align="center" colspan="3" style="font-family:'Khmer MEF2';"><?php echo $this->keycode['exchange_ratetitle'];?></td>	   	        
+					</tr>            
+				   <tr>
+						<td align="right" colspan="3" style="font-size: 8pt;" >
+							<span style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">កាលបរិច្ឆេទ <?php echo date('d-m-Y');?></span><br/>
+						</td>
+				   </tr>
+				   <tr style="border-bottom:1px solid #000; font-size:8px;">
+						<td class="pleft" style="border-bottom:1px solid #000;">
+							<strong class="fonttel" style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">ឈ្មោះបុគ្គលិក  <?php print($this->user_name);?></strong>
+						</td>
+						<td align="right" colspan="2" style="border-bottom:1px solid #000;">
+							&nbsp;
+						</td>
+				   </tr>
+				   <tr>
+				   	<td style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">និមិត្តសញ្ញា</td>
+				   	<td style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">​ទិញចូល</td>
+				   	<td align="right" style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">លក់ចេញ</td>
+				   </tr>
+				   <tbody id="rowExchange">
+				   	
+				   </tbody>
+				   
+				   <tr>
+						<td colspan="3" align="center" style="border-top:1px solid #000;">
+							<label>
+							</label>
+						</td>			
+				   </tr>
+				   <tr style="border:1px solid #000;">
+						<td colspan="3" align="center" style="padding-top:5px;font-size:10px;font-family: 'Khmer OS Battambang';">
+								<?php echo $this->keycode['comment'];?>
+						</td>			
+				   </tr>
+				   <tr>
+						<td colspan="3">
+						</td>			
+				   </tr>
+				   <tr>
+						<td colspan="3" align="center">
+							<img src="<?php echo $url_barcode; //echo $base_url.$this->keycode['imgPath'];?>" width="50%" height="30px"/>
+						</td>	
+				   </tr>
+			</table>
+			
+		</div>
+		<iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>	
+		<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconPrint"
+				showLabel="false" type="button" onclick="doPrint();">Print</button>
+		<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconCancel"
+				showLabel="false" type="button" onclick="hideDialog();">Cancel</button>
+			
+
+	</div>
+</div>
+<script type="text/javascript">
+function hideDialog() {		
+	dijit.byId("terms").hide();
+}
+	function clearText(){
+		dojo.byId("DB").value = 0;
+		dojo.byId("BD").value = 0;
+		dojo.byId("DR").value = 0;
+		dojo.byId("RD").value = 0;
+		dojo.byId("BR").value = 0;
+		dojo.byId("RB").value = 0;	
+		dojo.byId('SPBD').value=0;
+		dojo.byId('SPRD').value=0;
+		dojo.byId('SPBR').value=0;
+	}
+	function printSave(){		
+		if(dijit.byId('frm_add_exch').validate()) {
+				return false;
+		}
+		showDialog();	
+		
+		
+	}
+	function showDialog() {		
+		var allcurrencty=<?php if (!empty($this->allExchangeRate)){  print_r(Zend_Json::encode($this->allExchangeRate));}?>;
+		//alert(allcurrencty.length);
+		allrate = allcurrencty.length;
+		var temp='';
+		for(var i=0; i< allrate; i++){
+			temp+='<tr>';
+				temp+='<td  style="font-family:'+"'Times New Roman','Khmer MEF2'"+';">';
+				temp+= allcurrencty[i].fromCurr+'-'+allcurrencty[i].toCurr+' <strong>('+allcurrencty[i].fromCurrSysm+'-'+allcurrencty[i].toCurrSysm+') :</strong>';
+				temp+='</td>';
+				temp+='<td><strong >'+dijit.byId('rateIn'+allcurrencty[i].id).get('value')+'</strong></td>';
+				temp+='<td align="right">';
+				temp+='<strong >'+dijit.byId('rateOut'+allcurrencty[i].id).get('value')+'</strong>';
+				temp+='</td>';
+			temp+='</tr>';
+		}
+		dojo.byId('rowExchange').innerHTML=temp;
+		/*dojo.byId('lbl_dollar_bath_out').innerHTML=dijit.byId('BD').get('value');
+		
+		dojo.byId('lbl_dollar_riel_in').innerHTML=dijit.byId('DR').get('value');
+		dojo.byId('lbl_dollar_riel_out').innerHTML=dijit.byId('RD').get('value');
+		
+		dojo.byId('lbl_bath_riel_in').innerHTML=dijit.byId('BR').get('value');
+		dojo.byId('lbl_bath_riel_out').innerHTML=dijit.byId('RB').get('value');*/
+
+		doPrint();
+		//dijit.byId("terms").show();
+	}
+	function doPrint() {
+		window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
+	    window.frames["print_frame"].window.focus();
+	    window.frames["print_frame"].window.print();
+	    hideDialog();
+	}
+</script>

@@ -132,7 +132,15 @@ class Tellerandexchange_TransferController extends Zend_Controller_Action
         $this->view->traninfo = $db_tran->getTransactionDetailByIDView($mt_id);        
     }
 
-    
+    function gettransferfeeAction(){
+    	if($this->getRequest()->isPost()){
+    		$data=$this->getRequest()->getPost();
+    		$db = new Application_Model_DbTable_DbMoneyTransactions();
+    		$rs = $db->getTranferFee($data);
+    		print_r(Zend_Json::encode($rs));
+    		exit();
+    	}
+    }
 
 }
 

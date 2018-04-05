@@ -122,6 +122,33 @@ class Application_Model_DbTable_DbMoneyTransactions extends Zend_Db_Table_Abstra
 //     	echo $sql.$where.$order;exit();
     	return $db->fetchAll($sql.$where.$order);
     }
+    
+    function getTranferFee($data){
+    	$db = $this->getAdapter();
+    	$amount=$data['amount'];
+    	$currency=$data['type_money'];
+    	$sql="
+    	SELECT 
+			tr.*,
+			(SELECT CONCAT(c.curr_namekh,' ',c.symbol ) FROM `ln_currency` AS c WHERE c.id = tr.`currency_id` LIMIT 1) AS currencyKH
+			FROM 
+			`ln_transfercondiction` AS tr
+			WHERE $amount > tr.`fromAmount` AND $amount <= tr.`toAmount`
+			AND tr.`currency_id`=$currency LIMIT 1 	";
+    	$row = $db->fetchRow($sql);
+    	if (empty($row) && $amount > 0){
+    		$sql="
+	    		SELECT 
+				tr.*,
+				(SELECT CONCAT(c.curr_namekh,' ',c.symbol ) FROM `ln_currency` AS c WHERE c.id = tr.`currency_id` LIMIT 1) AS currencyKH
+				FROM 
+				`ln_transfercondiction` AS tr
+				WHERE tr.`currency_id`=$currency 
+				ORDER BY tr.`toAmount` DESC LIMIT 1	";
+    		$row = $db->fetchRow($sql);
+    	}
+    	return $row;
+    }
 }
 
 
