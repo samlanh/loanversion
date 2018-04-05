@@ -238,6 +238,8 @@ class Report_ExchangesController extends Zend_Controller_Action {
   	$this->view->list_end_date=$search;
   	$this->view->CapitalCapital=$db->getCapitalSummary($search);
   	
+  	$currencyEx = $db->getCurrencyFromXchage();
+  	$this->view->currencyEx = $currencyEx;
   	$usr_mod = new Application_Model_DbTable_DbUsers();
   	$this->view->users = $usr_mod->getUserListSelect();
   	$frm = new Loan_Form_FrmSearchLoan();

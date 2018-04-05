@@ -2,6 +2,7 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $CapitalCapital= $this->CapitalCapital;
 $frm = $this->frm_search;
+$db  = new Report_Model_DbTable_DbExchanges();
 // print_r($this->list_search);exit();
 ?>
 <meta charset="utf-8">
@@ -65,7 +66,7 @@ dojo.require("dijit.form.DateTextBox");
                 	<td colspan="3">
                 		<table width="100%">
                 			<tr class='style'>
-                				<td class="style" style="font-size: 10px;">
+                				<td class="style" style="font-size: 12px;">
                 					<?php echo $tr->translate("ADDRESS_COMPANY");?>
 									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
@@ -102,6 +103,34 @@ dojo.require("dijit.form.DateTextBox");
                </tr>
                <?php }?>
             </table>
+            <br />
+             <table border="1"​ style="border-collapse:collapse;border:1px solid #000; white-space: nowrap; " width="100%" cellspacing="0">
+                 <tr class="style" align="center" style="font-weight:bold; background:#ccd9ff; line-height: 24px;font-size:12px; font-family: 'Times New Roman','Khmer OS Battambang';">
+                    <td ><?php //echo $tr->translate("NUM");?></td>
+                    <td ><?php echo $tr->translate("ដើមទុនដាក់ចូល");?></td>
+                    <td ><?php echo $tr->translate("ដើមទុនដកចេញ");?></td>
+                    <td ><?php echo $tr->translate("ទិញចូល");?></td>
+                    <td ><?php echo $tr->translate("លក់ចេញ");?></td>
+                    <td ><?php echo $tr->translate("ដើមទុននៅសល់");?></td>
+                </tr>
+                <?php foreach ($this->currencyEx as $cur){ 
+	                $totalbuy= $db->getTotalExchangeBuyCurrency($cur['symbol'], $this->list_end_date);
+	                $totalSell = $db->getTotalExchangeSellCurrency($cur['symbol'], $this->list_end_date);
+	                $totalWithDrawal = $db->getTotalWithdrawalByCurrency($cur['CurrID'], $this->list_end_date);
+	                $totalDeposite = $db->getTotalDepositeByCurrency($cur['CurrID'], $this->list_end_date);
+	                
+	                $total = ($totalDeposite + $totalWithDrawal + $totalbuy) - $totalSell;
+                	?>
+               <tr style="font-size: 12px;" align="left">
+               		<td style="text-align: center;"><?php echo $cur['CurrTitleKH']." (".$cur['symbol'].")";?></td>
+               		<td align="right">&nbsp;<?php echo number_format($totalDeposite,2);?>&nbsp;</td>
+               		<td align="right">&nbsp;<?php echo number_format($totalWithDrawal,2);?>&nbsp;</td>
+               		<td align="right">&nbsp;<?php echo number_format($totalbuy,2);?>&nbsp;</td>
+               		<td align="right">&nbsp;<?php echo number_format($totalSell,2);?>&nbsp;</td>
+               		<td align="right">&nbsp;<?php echo number_format($total,2);?>&nbsp;</td>
+               </tr>
+               <?php }?>
+             </table>
        		<br />
        		 <table align="center" width="100%">
 			 <thead>
