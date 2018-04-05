@@ -8,7 +8,7 @@
 	
 	$session_user=new Zend_Session_Namespace('authloan');
 	$username = $session_user->first_name;
-	$them_style ='soria';//  $session_user->theme_style;
+	$them_style ='soria';
 	$level =  $session_user->level;
 	if($level!=1 AND $action=='edit'){
 		if($module=='group' AND $action=='edit'){
@@ -41,16 +41,11 @@
 	<link href="<?php echo $base_url;?>cssmenu/template.css" media="screen" rel="stylesheet" type="text/css">
 	<!-- table  -->
 	<?php 
-	//echo $level;exit()
 	if(($module!='report' AND $level==4) OR $action=='rpt-loan-income'){
-		
-			if(($module=='default' and $controller=='index' and $action=='changepassword' ) OR $level==1){
-			   
-		    }else{
-				//echo 333;exit();
-				Application_Form_FrmMessage::redirectUrl("/report");	
-			}
-			
+		if(($module=='default' and $controller=='index' and $action=='changepassword' ) OR $level==1){
+	    }else{
+			Application_Form_FrmMessage::redirectUrl("/report");	
+		}
 	?>
 	<?php }?>
 	<?php if($module!='home'){?>
@@ -123,7 +118,7 @@
 							<a href="<?php echo $this->url(array('module'=>'','controller'=>'index','action'=>'logout','value'=>'1')); ?>"> | <?php echo $tr->translate("SIGN_OUT");?></a>
 			                 <?php if($action=='index' AND $module!='report' AND $module!='home'){?>
 			                 <a class='add-link' style="float:right;" href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'add'),null,true); ?>"><?php echo $tr->translate('ADD');?></a>
-							<?php }elseif($action=='add' OR $action=='edit' OR $module=='report'){?>
+							<?php }elseif($action=='add' OR $action=='edit' OR $action=='quickchange' OR $action=='withdrawal' OR $module=='report' ){?>
 							 <span style="padding-left: 3px;padding-right: 3px; float: right; font-weight:600;"><a class='add-link' href="<?php echo $this->url(array('module'=>$module,'controller'=>$controller,'action'=>'index'),null,true); ?>"><?php echo $tr->translate('GO_BACK');?></a></span>
 							<?php }?>
 							</p>
@@ -139,7 +134,7 @@
             			<?php }?>
             		</td>
             		<td valign="top">
-            			<?php if($module=='report' OR $module=='reports' AND $action!='index'){?>
+            			<?php if($module=='report' AND $action!='index'){?>
 							<div class="menureport">
 								<ul>
 									<li class="preview"><a title="Preview" href="#" onclick="preview();"></a></li>
