@@ -15,19 +15,20 @@
     text-align: center;
 }
 .image-box img {
-    width: 110px;
-    border-radius: 60%;
-    height: 110px;
+        width: 70px;
+    /* border-radius: 60%; */
+    height: 70px;
     margin-top: 10px;
     border: solid 1px #eee;
 }
 .button_browse {
-    margin-top: 10px;
+    /*margin-top: 10px; */
     position: relative;
     overflow: hidden;
     text-align: center;
     width: 100%;
-    height: 38px;
+    height: 30px;
+    cursor: pointer;
     background: #fbf9f9;
     border: 1px solid #e8e8e8;
 }
@@ -39,7 +40,7 @@
 input.btn_borwse_image {
     position: absolute;
     width: 100%;
-    height: 38px;
+    height: 35px;
     top: 0;
     left: 0;
     z-index: 2;
@@ -47,8 +48,8 @@ input.btn_borwse_image {
     cursor: pointer;
 }
 .account-image {
-    border: solid 1px #eee;
-    width: 150px;
+        border: solid 1px #eee;
+    width: 95px;
 }
 </style>
 <form id='add_client' action="<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add')); ?>" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
