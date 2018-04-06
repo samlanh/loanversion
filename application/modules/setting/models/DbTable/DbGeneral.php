@@ -15,6 +15,26 @@ class Setting_Model_DbTable_DbGeneral extends Zend_Db_Table_Abstract
     }
 	public function updateWebsitesetting($data){
 		try{
+			$part= PUBLIC_PATH.'/images/';
+			$name = $_FILES['photo']['name'];
+			$size = $_FILES['photo']['size'];
+			$photo='';
+			if (!empty($name)){
+				$tem =explode(".", $name);
+				$image_name = "logo.".end($tem);
+				$tmp = $_FILES['photo']['tmp_name'];
+				if(move_uploaded_file($tmp, $part.$image_name)){
+					$photo = $image_name;
+				}
+				else
+					$string = "Image Upload failed";
+					
+				$arr = array(
+						'keyValue'=>$photo,
+				);
+				$where=" keyName= 'logo'";
+				$this->update($arr, $where);
+			}
 			
 			$arr = array('keyValue'=>$data['label_animation'],);
 			$where=" keyName= 'label_animation'";
@@ -72,21 +92,21 @@ class Setting_Model_DbTable_DbGeneral extends Zend_Db_Table_Abstract
 			$where=" keyName= 'email_client'";
 			$this->update($arr, $where);
 			
-			$arr = array('keyValue'=>$data['power_by'],	);
-			$where=" keyName= 'power_by'";
-			$this->update($arr, $where);
+// 			$arr = array('keyValue'=>$data['power_by'],	);
+// 			$where=" keyName= 'power_by'";
+// 			$this->update($arr, $where);
 			
-			$arr = array('keyValue'=>$data['branchTel'],	);
-			$where=" keyName= 'branch-tel'";
-			$this->update($arr, $where);
+// 			$arr = array('keyValue'=>$data['branchTel'],	);
+// 			$where=" keyName= 'branch-tel'";
+// 			$this->update($arr, $where);
 			
-			$arr = array('keyValue'=>$data['branch_add'],	);
-			$where=" keyName= 'branch_add'";
-			$this->update($arr, $where);
+// 			$arr = array('keyValue'=>$data['branch_add'],	);
+// 			$where=" keyName= 'branch_add'";
+// 			$this->update($arr, $where);
 			
-			$arr = array('keyValue'=>$data['branch_email'],	);
-			$where=" keyName= 'branch_email'";
-			$this->update($arr, $where);
+// 			$arr = array('keyValue'=>$data['branch_email'],	);
+// 			$where=" keyName= 'branch_email'";
+// 			$this->update($arr, $where);
 			
 		}catch(Exception $e){
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

@@ -3,6 +3,11 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 $this->headTitle($tr->translate('GENERAL_SETTING')); 
 echo $this->headTitle();
 $frm = $this->frm_general;
+if(!empty($this->logo['keyValue'])){
+	$profile=$this->logo['keyValue'];
+}else{
+	$profile ="camapp.png";
+}
 ?>
 <style>
 div.cke_contents.cke_reset {
@@ -13,10 +18,6 @@ div.cke_contents.cke_reset {
 
 <style>
 
-img.image_view {
-    width: 100%;
-	height: 100px;
-}
 img#image_viewbg {
     height: 50px;
 }
@@ -33,8 +34,44 @@ tr.header {
 tr.header td {
     padding: 5px;
 }
+td.bold {
+    font-weight: 600;
+}
+img.image_view {
+    width: 190px;
+    /* height: 100px; */
+}
+
+
+.button_browse {
+    /*margin-top: 10px; */
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+    height: 30px;
+    cursor: pointer;
+    background: #fbf9f9;
+    border: 1px solid #e8e8e8;
+}
+.button_browse span {
+    line-height: 33px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0 5px;
+}
+input.btn_borwse_image {
+    position: absolute;
+    width: 100%;
+    height: 35px;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+}
 </style>
-<form action="" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data" >
+<form action="" dojoType="dijit.form.Form" method="post"  enctype="multipart/form-data" >
 	<script type="dojo/method" event="onSubmit">				
 			if(this.validate()) {
 				return true;
@@ -51,88 +88,126 @@ tr.header td {
 								<fieldset><legend style=" font-weight: bold;"><?php echo $tr->translate('GENERAL_SETTING')?></legend>
 										<table cellspacing="5" width="100%" style="padding:10px;">
 											<tr>
-												<td class="bold"><?php echo $tr->translate('Branch Address Client')?></td>
-												<td ><?php echo $frm->getElement('branchAddClient')?></td>
-												<td class="bold"><?php echo $tr->translate('Label Animation')?></td>
-												<td ><?php echo $frm->getElement('label_animation')?></td>
-											</tr>
-											<tr>
-												<td class="bold"><?php echo $tr->translate('Client Website')?></td>
-												<td ><?php echo $frm->getElement('client_website')?></td>
-												<td class="bold"><?php echo $tr->translate('SMS Warnning KH')?></td>
-												<td ><?php echo $frm->getElement('smsWarnningKH')?></td>
-											</tr>
-											<tr>
-												<td class="bold"><?php echo $tr->translate('Tel Client')?></td>
-												<td ><?php echo $frm->getElement('telClient')?></td>
-												<td class="bold"><?php echo $tr->translate('Reciept KH')?></td>
-												<td>
-													<?php echo $frm->getElement('reciept_kh')?>
+												<td valign="top">
+													<table cellspacing="5" width="100%" style="padding:10px;">
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Branch Address Client')?></td>
+															<td ><?php echo $frm->getElement('branchAddClient')?></td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Client Website')?></td>
+															<td ><?php echo $frm->getElement('client_website')?></td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Tel Client')?></td>
+															<td ><?php echo $frm->getElement('telClient')?></td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Email Client')?></td>
+															<td ><?php echo $frm->getElement('email_client')?></td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Branch Client')?></td>
+															<td>
+																<?php echo $frm->getElement('brand_client')?>
+															</td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Branch Holiday')?></td>
+															<td>
+																<?php echo $frm->getElement('brand_holiday')?>
+															</td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Branch Call')?></td>
+															<td>
+																<?php echo $frm->getElement('brand_call')?>
+															</td>
+														</tr>
+														<tr>
+															<td class="bold"  valign="top"><?php echo $tr->translate('Comment')?></td>
+															<td valign="top">
+																<?php echo $frm->getElement('comment')?>
+															</td>
+														</tr>
+													</table>
 												</td>
-											</tr>
-											<tr>
-												<td class="bold"><?php echo $tr->translate('Email Client')?></td>
-												<td ><?php echo $frm->getElement('email_client')?></td>
-												<td class="bold"><?php echo $tr->translate('Exchange Reciept')?></td>
-												<td>
-													<?php echo $frm->getElement('exchange_reciept')?>
-												</td>
-											</tr>
-											<tr>
-												<td class="bold"><?php echo $tr->translate('Branch Client')?></td>
-												<td>
-													<?php echo $frm->getElement('brand_client')?>
-												</td>
-												<td class="bold"><?php echo $tr->translate('Exchange Rate Title')?></td>
-												<td>
-													<?php echo $frm->getElement('exchange_ratetitle')?>
-												</td>
-											</tr>
-											<tr>
-												<td class="bold"><?php echo $tr->translate('Branch Holiday')?></td>
-												<td>
-													<?php echo $frm->getElement('brand_holiday')?>
-												</td>
-												<td class="bold"><?php echo $tr->translate('Transfer Title KH')?></td>
-												<td>
-													<?php echo $frm->getElement('rptTransferTitleKh')?>
-												</td>
-											</tr>
-											<tr>
-												<td class="bold"><?php echo $tr->translate('Branch Call')?></td>
-												<td>
-													<?php echo $frm->getElement('brand_call')?>
-												</td>
-												<td class="bold"><?php echo $tr->translate('Power By')?></td>
-												<td>
-													<?php echo $frm->getElement('power_by')?>
-												</td>
-											</tr>
-											<tr>
-												<td class="bold" rowspan="4" valign="top"><?php echo $tr->translate('Comment')?></td>
-												<td rowspan="4" valign="top">
-													<?php echo $frm->getElement('comment')?>
-												</td>
-												<td class="bold"><?php echo $tr->translate('Branch Email')?></td>
-												<td>
-													<?php echo $frm->getElement('branch_email')?>
-												</td>
-											</tr>
-											<tr>
-												<td class="bold"><?php echo $tr->translate('Branch Tel')?></td>
-												<td>
-													<?php echo $frm->getElement('branchTel')?>
-												</td>
-											</tr>
-											<tr>
-												<td class="bold"><?php echo $tr->translate('Branch Address')?></td>
-												<td>
-													<?php echo $frm->getElement('branch_add')?>
+												<td valign="top">
+													<table cellspacing="5" width="100%" style="padding:10px;">
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Label Animation')?></td>
+															<td ><?php echo $frm->getElement('label_animation')?></td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('SMS Warnning KH')?></td>
+															<td ><?php echo $frm->getElement('smsWarnningKH')?></td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Reciept KH')?></td>
+															<td>
+																<?php echo $frm->getElement('reciept_kh')?>
+															</td>
+														</tr>
+														<tr>
+														<td class="bold"><?php echo $tr->translate('Exchange Reciept')?></td>
+															<td>
+																<?php echo $frm->getElement('exchange_reciept')?>
+															</td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Exchange Rate Title')?></td>
+															<td>
+																<?php echo $frm->getElement('exchange_ratetitle')?>
+															</td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Transfer Title KH')?></td>
+															<td>
+																<?php echo $frm->getElement('rptTransferTitleKh')?>
+															</td>
+														</tr>
+														<tr>
+															<td colspan="2" style="  background: #eee;  padding: 20px;   border: solid 1px #d0cccc;  text-align: center;">
+																<img class="image_view" id="image_view" src="<?php echo $this->baseUrl().'/images/'.$profile;?>" alt=""  />
+																<div class="button_browse">
+																	<span>Change Logo<span><i class="fa fa-camera" aria-hidden="true"></i></span></span>
+																	<input class="btn_borwse_image"  type="file" id="photo" name="photo" onchange="loadImage()">
+																</div>
+															</td>
+														</tr>
+														<?php $eas=0; if ($eas==1){?>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Power By')?></td>
+															<td>
+																<?php echo $frm->getElement('power_by')?>
+															</td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Branch Email')?></td>
+															<td>
+																<?php echo $frm->getElement('branch_email')?>
+															</td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Branch Tel')?></td>
+															<td>
+																<?php echo $frm->getElement('branchTel')?>
+															</td>
+														</tr>
+														<tr>
+															<td class="bold"><?php echo $tr->translate('Branch Address')?></td>
+															<td>
+																<?php echo $frm->getElement('branch_add')?>
+															</td>
+														</tr>
+														<?php }?>
+													</table>
 												</td>
 											</tr>
 										</table>
 								</fieldset>
 							</td>
+							
 							<td width="15%" class="blog-right">
 								<!-- 
 								<table cellspacing="5" width="100%">

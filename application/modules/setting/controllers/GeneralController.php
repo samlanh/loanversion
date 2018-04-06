@@ -44,6 +44,7 @@ public function init()
 		$row['branch_add'] = $db_gs->geLabelByKeyName('branch_add');
 		$row['branch_email'] = $db_gs->geLabelByKeyName('branch_email');
 		
+		$this->view->logo = $db_gs->geLabelByKeyName('logo');
 		$fm = new Setting_Form_FrmGeneral();
 		$frm = $fm->FrmGeneral($row);
 		Application_Model_Decorator::removeAllDecorator($frm);
