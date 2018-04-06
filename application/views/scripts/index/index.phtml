@@ -31,7 +31,7 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 	require(["dojo/parser", "dijit/form/Form", "dijit/form/Button", "dijit/form/ValidationTextBox"]);
 </script>
 </head>
-<body class="tundra" style="overflow: hidden;background: white;" id="body" >
+<body class="tundra" style="overflow: hidden;background: #edf7ef;" id="body" >
 <div id="header" style="position:absolute;left: 0;top: 0;">
 	<table>
 		<tr align="center">
@@ -50,13 +50,10 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 	</div>
 	<table cellpadding="0" cellspacing="0" id="main">
 		<tr>
-			<td style="width: 472px;padding-left:50px;" >				
-				<img style="max-width:350px; max-height: 280px;" alt="<?php ?>" src="<?php echo $base_url.$this->data['logo-path-name']?>">
+			<td   style=" width:50%; text-align: center;">				
+				<img alt="<?php ?>" src="<?php echo $base_url.$this->data['logo-path-name']?>">
 			</td>
-			<td valign="top" style="width: 120px">
-				<label class="lblheader"></label>
-			</td>
-			<td>
+			<td style="width:50%;">
 				<div id="login">
 					<form id="frmLogin" dojoType="dijit.form.Form" method="post" action="">
 						<script type="dojo/method" event="onSubmit">				
@@ -113,7 +110,7 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 	</table>	
 	<br>
 </div>
-<div id="footer" style="position:absolute;left: 0;bottom: 0;">
+<div id="footer" style="position:absolute;left: 0;bottom: 0; min-height:160px;     padding: 10px;">
 	<table id="main">
 		<tr>
 			<td>
@@ -121,13 +118,10 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 				<dl>
 				   <lable class="f_style"><b><?php echo $this->data['branch-add-client']?></b></lable><br />
 				  	<?php						
-						$tels = explode("," , $this->data['tel-client']);						
-						foreach ($tels AS $i =>$tel){
-							echo "<span class='t_shadow' style='font-weight:bold;font-size:20px;'>".$tel."<span><br />";
-						}
+						echo $this->data['tel-client'];
 					?>	
-					<lable class='t_shadow' style='font-weight:bold; font-size:21px;'><?php echo $this->data['client_website']?></lable><br />
-					<lable class='t_shadow' style='font-weight:bold; font-size:20px;'><?php echo $this->data['email_client']?></lable><br />		   
+					&nbsp;<lable class='t_shadow' style='font-weight:bold;'><?php echo $this->data['email_client']?></lable>
+					<lable class='t_shadow' style='font-weight:bold;'><?php echo $this->data['client_website']?></lable><br />
 				</dl>
 				<label class="textgreen footertitle f_style">ប្រើប្រាស់ដោយ៖</label>
 				<a  style="font-weight:bold;" href="#" target="_blank"><label class="textyellow footertitle">
@@ -138,14 +132,9 @@ $base_url = Application_Form_FrmMessage::getUrl("/");
 				<label class="textgreen footertitle f_style">អាសយដ្ឋាន​ ៖</label>
 				<dl>
 				   <lable class="f_style"><b><?php echo $this->data['branch_add']?></b></lable><br />
-				  	<?php						
-						$tels = explode("," , $this->data['branch-tel']);						
-						foreach ($tels AS $i =>$tel){
-							echo "<span class='t_shadow' style='font-weight:bold;font-size:20px;'>".$tel."<span><br />";
-						}
-					?>	
-					<lable class='t_shadow' style='font-weight:bold; font-size:21px;'><?php echo $this->data['website']?></lable><br />
-					<lable class='t_shadow' style='font-weight:bold; font-size:20px;'><?php echo $this->data['branch_email']?></lable><br />		   
+				  	<?php echo $this->data['branch-tel'];	?>&nbsp;<lable class='t_shadow' style='font-weight:bold;'><?php echo $this->data['branch_email']?></lable>
+					<lable class='t_shadow' style='font-weight:bold;'><?php echo $this->data['website']?></lable><br />
+							   
 				</dl>
 				<label class="textgreen footertitle f_style">&copy រក្សាសិទ្ធិគ្រប់យ៉ាង</label>
 				<a  style="font-weight:bold;" href="http://<?php echo $this->data['website']?>" target="_blank"><label class="textyellow footertitle">
