@@ -6,6 +6,50 @@
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	echo $this->frmpupopinfoclient;
 ?>
+<style>
+.image-box {
+    text-align: center;
+}
+.image-box img {
+            width: 180px;
+    /* border-radius: 60%; */
+    /* height: 70px; */
+    max-height: 100px;
+    margin-top: 10px;
+    border: solid 1px #eee;
+}
+.button_browse {
+    /*margin-top: 10px; */
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+    height: 30px;
+    cursor: pointer;
+    background: #fbf9f9;
+    border: 1px solid #e8e8e8;
+}
+.button_browse span {
+    line-height: 33px;
+    font-weight: 600;
+    cursor: pointer;
+}
+input.btn_borwse_image {
+    position: absolute;
+    width: 100%;
+    height: 35px;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+}
+.account-image {
+        border: solid 1px #eee;
+    width: 180px;
+        margin: 0 auto;
+}
+</style>
 <div class="overlay">
 	<div class="overlay-load">
 		<div class="overlay-msg">
@@ -17,8 +61,7 @@
 		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog",
 			 		"dijit/form/Textarea"]);
    </script>
-<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'edit')); ?>" 
-				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form id='frm_add_tran' action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="multipart/form-data">
 <script type="dojo/method" event="onSubmit">			
 		if(this.validate()) {
 			co_id = dijit.byId('co_id').get('value');
@@ -55,7 +98,7 @@
 </script>
 <table width="100%" style="margin-top:0px;">
 	<tr>
-		<td width="33%" valign="top">
+		<td width="25%" valign="top">
 				<fieldset>
 					<legend><strong><?php echo $tr->translate("CLIENT_INFO")?></strong></legend>
 						<table cellspacing="5"  width="100%" style="margin-top: -10px;">
@@ -90,7 +133,7 @@
 					</table>
 			</fieldset>
 		</td>
-		<td width="33%" valign="top">
+		<td width="25%" valign="top">
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("PRODUCT_DESCRIPTION")?></strong></legend>
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
@@ -109,7 +152,7 @@
 					</table>
 			</fieldset>
 		</td>
-		<td width="33%" valign="top">
+		<td width="25%" valign="top">
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("ILLOAN_INFO")?></strong></legend>
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
@@ -132,15 +175,42 @@
 					</table>
 			</fieldset>
 		</td>
+		<td width="15%" valign="top">
+			<fieldset>
+				<legend><strong><?php echo $tr->translate("PHOTO")?></strong></legend>
+					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+						 <tr>
+		                 	<td align="center">
+		                 		<?php 
+									$images = $this->baseUrl().'/images/no-image.png';
+									if (!empty($this->rs['images'])){
+										$images = $this->baseUrl().'/images/pawnshop/'.$this->rs['images'];
+									}
+								?>
+								<div class="account-image">
+									<div class="image-box">
+										<img id="profile_wiew" src="<?php echo $images;?>" alt=""  />
+									</div>
+									<div class="button_browse">
+									<div id='preview'></div>	
+											<span>Upload <span ><i class="fa fa-camera" aria-hidden="true"></i></span></span>
+											<input class="btn_borwse_image" type="file" id="photo" name="photo" />
+									</div>
+								</div>
+		                 	</td>
+		                  </tr>
+		        	</table>
+			</fieldset>
+		</td>
 	</tr>
 	<tr>
-		<td colspan="3" style="border-bottom:1px solid #ccc; background:#8fbffd"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
+		<td colspan="4" style="border-bottom:1px solid #ccc; background:#8fbffd"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
    </tr>	
 	<tr>
 		<td colspan="2" style="background:#dfd;border:1px solid #ccc;">
 			<img style="max-height:126px" src="<?= $this->baseUrl() ?>/images/banner_money_exchange.jpg" />
 		</td>
-		<td valign="top">
+		<td colspan="2" valign="top">
                <fieldset>
 				<legend><strong><?php echo $tr->translate("INFO_FUND")?></strong></legend>
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
@@ -364,6 +434,19 @@ $frm = $this->Form_Frmcallecterall;
 
 <?php //echo $this->frmpupoploantype;?>
 <script type="text/javascript">	
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function (e) {
+            $('#profile_wiew').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#photo").change(function(){
+    readURL(this);
+});
 r=0;
 var url_previewloan = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'addpawnshoptest')); ?>';
 function addPreviewLoan(){

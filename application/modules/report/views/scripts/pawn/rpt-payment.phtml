@@ -93,6 +93,7 @@
 	                    <th rowspan="2"><?php echo $tr->translate("LOAN_NO");?></th>	  
 	                    <th rowspan="2"><?php echo $tr->translate("CLIENT_NUM");?></th>                  
 	                    <th rowspan="2"><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+	                    <th rowspan="2"><?php echo $tr->translate("PRODUCT");?></th>
 	                    <?php 
 							$colspan=5;
 						?>
@@ -154,6 +155,7 @@
                		<td>&nbsp;<?php echo $rs["loan_number"];?>&nbsp;</td>
                		<td>&nbsp;<?php echo $rs["client_number"];?>&nbsp;</td>                 		
                		<td>&nbsp;<?php echo $rs["client_name"];?>&nbsp;</td>
+               		<td>&nbsp;<?php echo $rs["proTitle"];?>&nbsp;</td>
                		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['principal_paid'],2).' '.$rs['currency_typeshow'];?>&nbsp;</td>               		
                		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['interest_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>
                		<td align="center" style="font:bolder 11px Arial;">&nbsp;<?php echo number_format($rs['penalize_paid'],2);//.' '.$rs['currency_typeshow'];?>&nbsp;</td>

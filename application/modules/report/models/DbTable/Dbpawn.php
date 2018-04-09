@@ -252,7 +252,8 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       		$s_where[] = " total_duration LIKE '%{$s_search}%'";
       	   $where .=' AND ('.implode(' OR ',$s_where).')';
       	}
-      	return $db->fetchAll($sql.$where);
+      	$order=" ORDER BY l.id DESC";
+      	return $db->fetchAll($sql.$where.$order);
       }
       public function getALLLoancollect($search = null){
       	$db = $this->getAdapter();
@@ -521,7 +522,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       }
       public function getALLLoanPayment($search=null){
       	$db = $this->getAdapter();
-				      	$sql="SELECT
+			$sql="SELECT
 				  (SELECT
 				     `ln_branch`.`branch_namekh`
 				   FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`)
@@ -530,6 +531,8 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				   FROM `ln_currency`
 				   WHERE (`ln_currency`.`id` = `crm`.`currency_type`) LIMIT 1) AS `currency_typeshow`,
 				  (SELECT `l`.`loan_number` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `loan_number`,
+				  (SELECT `l`.`product_id` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `product_id`, 
+				  (SELECT psp.product_kh FROM `ln_pawnshopproduct` AS psp WHERE psp.id = (SELECT `l`.`product_id` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) LIMIT 1) AS proTitle,
 				  (SELECT `c`.`name_kh` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
 				  (SELECT  `c`.`client_number` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
 				  (SELECT `u`.`first_name` FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
@@ -564,18 +567,20 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				WHERE ((`crm`.`status` = 1)
 				       AND (`crm`.`id` = `d`.`receipt_id`)
 				       AND (`crm`.`status` = 1))
-				GROUP BY `crm`.`id` ";
-      	$from_date =(empty($search['start_date']))? '1': " date_input >= '".$search['start_date']." 00:00:00'";
-      	$to_date = (empty($search['end_date']))? '1': " date_input <= '".$search['end_date']." 23:59:59'";
+				";
+      	$from_date =(empty($search['start_date']))? '1': " crm.date_input >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " crm.date_input <= '".$search['end_date']." 23:59:59'";
       	$where = " AND ".$from_date." AND ".$to_date;
       	
       	if($search['branch_id']>0){
-      		$where.=" AND branch_id= ".$search['branch_id'];
+      		$where.=" AND `crm`.branch_id= ".$search['branch_id'];
       	}
       	if($search['members']>0){
-      		$where.=" AND client_id = ".$search['members'];
+      		$where.=" AND `crm`.`client_id` = ".$search['members'];
       	} 
-        
+      	if($search['product_id']>0){
+      		$where.=" AND (SELECT `l`.`product_id` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) = ".$search['product_id'];
+      	}
 		if(!empty($search['adv_search'])){
 // 			$s_search = addslashes(trim($search['adv_search']));
 // 			if($s_search=='បង់មុន'){
@@ -586,17 +591,18 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       	if(!empty($search['adv_search'])){
       		$s_where = array();
       		$s_search = addslashes(trim($search['adv_search']));
-      		$s_where[] = " branch_name LIKE '%{$s_search}%'";
-      		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_name LIKE '%{$s_search}%'";
-      		$s_where[] = " receipt_no LIKE '%{$s_search}%'";
+      		$s_where[] = " (SELECT `ln_branch`.`branch_namekh`  FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`)   LIMIT 1) LIKE '%{$s_search}%'";
+      		$s_where[] = " (SELECT `l`.`loan_number` FROM `ln_pawnshop` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) LIKE '%{$s_search}%'";
+      		$s_where[] = " (SELECT  `c`.`client_number` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) LIKE '%{$s_search}%'";
+      		$s_where[] = " (SELECT `c`.`name_kh` FROM `ln_clientsaving` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) LIKE '%{$s_search}%'";
+      		$s_where[] = " `crm`.`receipt_no` LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';			
 			if($s_search=='បង់មុន'){
-      			$where.=" AND payment_option = 2 ";
+      			$where.=" AND `crm`.`payment_option` = 2 ";
       		}
       	}
-      	$order=" ORDER BY `crm`.`id` DESC ";
+      	$order=" GROUP BY `crm`.`id` ORDER BY `crm`.`id` DESC ";
+//       	echo $sql.$where.$order;
       	return $db->fetchAll($sql.$where.$order);
       }
       public function getAllPaymentHistory($search=null){

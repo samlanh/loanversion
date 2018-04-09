@@ -67,6 +67,23 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	$db = $this->getAdapter();
     	$db->beginTransaction();
     	try{
+    		$part= PUBLIC_PATH.'/images/pawnshop/';
+    		if (!file_exists($part)) {
+    			mkdir($part, 0777, true);
+    		}
+    		$photo ="";
+    		if (!empty($_FILES['photo']['name'])){
+    			$ss =   explode(".", $_FILES['photo']['name']);
+    			$image_name = "pawnshop".date("Y").date("m").date("d").time().".".end($ss);
+    			$tmp = $_FILES['photo']['tmp_name'];
+    			if(move_uploaded_file($tmp, $part.$image_name)){
+    				$photo = $image_name;
+    			}
+    			else{
+    				$string = "Image Upload failed";
+    			}
+    				
+    		}
     		$dbtable = new Application_Model_DbTable_DbGlobal();
 //     		$loan_number = $dbtable->getLoanNumber($data);
 				$day_amount = 1;
@@ -94,6 +111,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 						'est_amount'=>$data['estimatevalue'],
 						'product_description'=>$data['description'],
 						'receipt_num'=>$data['receipt_num'],
+						'images'=>$photo,
 				);
 				$loan_id = $this->insert($datagroup);//add group loan
 				
@@ -187,6 +205,25 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     				'est_amount'=>$data['estimatevalue'],
     				'product_description'=>$data['description'],
     		);
+    		
+    		$part= PUBLIC_PATH.'/images/pawnshop/';
+    		if (!file_exists($part)) {
+    			mkdir($part, 0777, true);
+    		}
+    		$photo ="";
+    		if (!empty($_FILES['photo']['name'])){
+    			$ss =   explode(".", $_FILES['photo']['name']);
+    			$image_name = "pawnshop".date("Y").date("m").date("d").time().".".end($ss);
+    			$tmp = $_FILES['photo']['tmp_name'];
+    			if(move_uploaded_file($tmp, $part.$image_name)){
+    				$photo = $image_name;
+    			}
+    			else{
+    				$string = "Image Upload failed";
+    			}
+    			$datagroup['images']=$photo;
+    		}
+    		
     		$loan_id = $data['id'];
     		$where="id=".$loan_id;
     		$this->update($datagroup, $where);//add group loan
