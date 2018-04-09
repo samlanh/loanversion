@@ -123,6 +123,13 @@ public function init()
 				'name' => 'បន្ថែមថ្មី',
 		) );
 		$this->view->rs_cate=$row_cat;
+		
+		$row_protype = $db->getProducttype();
+		array_unshift($row_cat,array(
+				'id' => -1,
+				'name' => 'Add New',
+		) );
+		$this->view->rs_protype=$row_protype;
 		$db = new Application_Model_GlobalClass();
 		$this->view->rsbranch = $db->getAllBranchOption();
 	}

@@ -128,6 +128,7 @@ dojo.require("dijit.form.Form");
 </div>
 <script>
 var cate_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->rs_cate));?> );
+protype_store = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->rs_protype));?> );
 
 $('#product_id').submit(function() {
 	category = $("#category").val();
@@ -163,7 +164,7 @@ dojo.ready(function(){
 	}
 		}, "category_id");
 	new dijit.form.FilteringSelect({
-		store: cate_store,
+		store: protype_store,
 		required: false,		           
 		name: "product_type",
 		id: "product_type",

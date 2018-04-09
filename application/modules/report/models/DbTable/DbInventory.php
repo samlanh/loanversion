@@ -348,6 +348,270 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 	   	$order=" GROUP BY `crm`.`id` ORDER BY $orderby DESC ";
    	return $db->fetchAll($sql.$where.$order);
    }
+   public function getAllOutstadingLoan($search=null){
+   	$db = $this->getAdapter();
+   	$where="";
+   	$start_date = (empty($search['start_date']))? '1': " s.`date_sold` >= '".$search['start_date']." 23:59:59'";
+   	$to_date = (empty($search['end_date']))? '1': " s.`date_sold` <= '".$search['end_date']." 23:59:59'";
+   	$where.= " AND ".$start_date."  AND ".$to_date;
    
+   	$sql="
+   	SELECT
+   		(SELECT  `ln_branch`.`branch_namekh` FROM `ln_branch`  WHERE (`ln_branch`.`br_id` = `s`.`branch_id`) LIMIT 1) AS `branch_name`,
+	   	c.client_number AS `client_number`,
+	   	c.name_kh AS `client_kh`,
+	   	c.`client_number` AS client_number,
+	   	c.name_en AS `client_en`,
+	   	(SELECT inp.item_name FROM `ln_ins_product` AS inp WHERE inp.id = s.`product_id` LIMIT 1) AS item_name,
+		(SELECT inc.name FROM `ln_ins_category` AS inc WHERE inc.id = s.`cate_id` LIMIT 1) AS cateName,
+	   	s.*,
+	   	(SELECT  `ln_ins_receipt_money`.`paid_times` FROM `ln_ins_receipt_money` WHERE ((`ln_ins_receipt_money`.`status` = 1) AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))
+	   	ORDER BY `ln_ins_receipt_money`.`paid_times` DESC
+	   	LIMIT 1) AS `installment_amount`,
+	   	(SELECT
+	   	SUM(`ln_ins_receipt_money`.`principal_paid`)
+	   	FROM `ln_ins_receipt_money`
+	   	WHERE ((`ln_ins_receipt_money`.`status` = 1)
+	   	AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_principaid`,
+	   	(SELECT
+	   	SUM(`ln_ins_receipt_money`.`interest_paid`)
+	   	FROM `ln_ins_receipt_money`
+	   	WHERE ((`ln_ins_receipt_money`.`status` = 1)
+	   	AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_interest_paid`,
+	   	(SELECT
+	   	SUM(`ln_ins_receipt_money`.`total_paymentpaid`)
+	   	FROM `ln_ins_receipt_money`
+	   	WHERE ((`ln_ins_receipt_money`.`status` = 1)
+	   	AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_paymentpaid`
+	   
+	   	FROM
+	   	`ln_ins_sales_install` AS s,
+	   	`ln_ins_client` AS c
+	   	WHERE c.`client_id` = s.`customer_id`
+   	";
+   	if($search['branch_id']>0){
+   		$where.=" AND `s`.`branch_id` = ".$search['branch_id'];
+   	}
+   	if($search['members']>0){
+   		$where.=" AND c.`client_id` = ".$search['members'];
+   	}
+   	//       	if($search['product_id']>0){
+   	//       		$where.=" AND pro_id = ".$search['product_id'];
+   	//       	}
+   	//       	if($search['status_use']>-1){
+   	//       		$where.=" AND is_dach = ".$search['status_use'];
+   	//       	}
+   	if ($search['category']>0){
+   		$where.=" AND s.`cate_id` = ".$search['category'];
+   	}
+   	if(!empty($search['adv_search'])){
+   		$s_where = array();
+   		$s_search = addslashes(trim($search['adv_search']));
+   		$s_where[] = " s.sale_no LIKE '%{$s_search}%'";
+   		$s_where[] = " c.client_number LIKE '%{$s_search}%'";
+   		$s_where[] = " c.name_en LIKE '%{$s_search}%'";
+   		$s_where[] = " c.name_kh LIKE '%{$s_search}%'";
+   		$s_where[] = " s.selling_price LIKE '%{$s_search}%'";
+   		$s_where[] = " s.duration LIKE '%{$s_search}%'";
+   		$where .=' AND ('.implode(' OR ',$s_where).')';
+   	}
+   	$order=" ORDER BY s.id DESC";
+   	return $db->fetchAll($sql.$where.$order);
+   }
+   public function getAllLnClient($search=null){
+   	$db=$this->getAdapter();
+//    	$start_date = $search['start_date'];
+   	$end_date = $search['end_date'];
+   	$sql = "SELECT 
+		(SELECT   `lb`.`branch_namekh` FROM `ln_branch` `lb`  WHERE (`lb`.`br_id` = l.`branch_id`)  LIMIT 1) AS `branch_namekh`,
+		`c`.`name_kh` AS `name_kh`,
+		c.`client_number` AS client_number,
+		`c`.`phone` AS phone_number,
+			(SELECT   `lb`.`branch_namekh` FROM `ln_branch` `lb`  WHERE (`lb`.`br_id` = l.`branch_id`)  LIMIT 1) AS `branch_namekh`,
+   	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) LIMIT 1) AS `village_name`,
+	(SELECT ln_commune.`commune_namekh` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
+	(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
+	(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
+		l.*,
+		d.`date_payment` AS date_payment,
+		d.`principle_after` AS principle_after,
+		d.`total_interest` AS total_interest,
+		`d`.`total_interest_after` AS `total_interest_after`,
+		`d`.`total_payment`        AS `total_payment`,
+		`d`.`installment_amount`   AS `times`,
+		(SELECT
+		     `crm`.`date_input`
+		   FROM `ln_ins_receipt_money` `crm`
+		   WHERE (`l`.`id` = `crm`.`loan_id`)
+		   ORDER BY `crm`.`date_input` DESC
+		   LIMIT 1) AS `last_pay_date`
+		
+		FROM 
+		`ln_ins_sales_install` AS l,
+		`ln_ins_sales_installdetail` d,
+		`ln_ins_client` AS c
+		WHERE l.`id` = d.`sale_id`
+		AND c.`client_id` = l.`customer_id`
+		AND l.`is_completed` = 0
+		AND l.`status` = 1
+		AND d.`status` = 1 
+   		AND d.`is_completed` =0";
+   	$where ='';
+   	 
+   	$to_date = (empty($search['end_date']))? '1': " d.`date_payment` = '".$search['end_date']." 00:00:00'";
+   	$where= " AND  ".$to_date;
+   	 
+   	if($search['branch_id']>0){
+   		$where.=" AND l.`branch_id` = ".$search['branch_id'];
+   	}
+   	if($search['members']>0){
+   		$where.=" AND l.`customer_id` = ".$search['members'];
+   	}
+   	if(!empty($search['adv_search'])){
+   		$s_where = array();
+   		$s_search = trim(addslashes($search['adv_search']));
+   		$s_where[] = " (SELECT `lb`.`branch_namekh` FROM `ln_branch` `lb`  WHERE (`lb`.`br_id` = l.`branch_id`)  LIMIT 1) LIKE '%{$s_search}%'";
+   		$s_where[] = " l.sale_no LIKE '%{$s_search}%'";
+   		$s_where[] = " `c`.`name_kh` LIKE '%{$s_search}%'";
+   		$s_where[] = " d.`principle_after` LIKE '%{$s_search}%'";
+   		$s_where[] = " `d`.`total_interest_after` LIKE '%{$s_search}%'";
+   		$where .=' AND ( '.implode(' OR ',$s_where).')';
+   	}
+   	$order=" ORDER BY  d.`date_payment` DESC";
+   	return $db->fetchAll($sql.$where.$order);
+   }
+   public function getALLLoanlate($search = null){
+   	$end_date = $search['end_date'];
+   	$db = $this->getAdapter();
+   	$sql = "SELECT
+	   	(SELECT   `lb`.`branch_namekh` FROM `ln_branch` `lb`  WHERE (`lb`.`br_id` = l.`branch_id`)  LIMIT 1) AS `branch_namekh`,
+	   	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) LIMIT 1) AS `village_name`,
+		(SELECT ln_commune.`commune_namekh` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
+		(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
+		(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
+	   	`c`.`name_kh` AS `name_kh`,
+	   	c.`client_number` AS client_number,
+	   	`c`.`phone` AS phone_number,
+	   	l.*,
+	   	d.`date_payment` AS date_payment,
+	   	d.`principle_after` AS principle_after,
+	   	d.`total_interest` AS total_interest,
+	   	`d`.`total_interest_after` AS `total_interest_after`,
+	   	`d`.`total_payment`        AS `total_payment`,
+	   	`d`.`installment_amount`   AS `times`,
+	   	(SELECT
+	   	`crm`.`date_input`
+	   	FROM `ln_ins_receipt_money` `crm`
+	   	WHERE (`l`.`id` = `crm`.`loan_id`)
+	   	ORDER BY `crm`.`date_input` DESC
+	   	LIMIT 1) AS `last_pay_date`,
+	   	 COUNT(l.`id`) AS amount_late
+	   	
+	   	FROM
+	   	`ln_ins_sales_install` AS l,
+	   	`ln_ins_sales_installdetail` d,
+	   	`ln_ins_client` AS c
+	   	WHERE l.`id` = d.`sale_id`
+	   	AND c.`client_id` = l.`customer_id`
+	   	AND l.`is_completed` = 0
+	   	AND l.`status` = 1
+	   	AND d.`status` = 1
+	   	AND d.`is_completed` =0";
+	   	
+	//    	$sql=" SELECT
+	//    	`co_khname` AS co_name ,
+	//    	co_code,
+	//    	b.branch_namekh,
+	//    	co.`co_id`,
+	//    	c.`client_number`,
+	//    	c.`name_kh`,
+	//    	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) LIMIT 1) AS `village_name`,
+	//    	(SELECT ln_commune.`commune_namekh` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
+	//    	(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
+	//    	(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
+	//    	c.`phone`,
+	//    	l.`loan_amount` as total_capital,
+	//    	l.`loan_number`,
+	//    	l.interest_rate  AS interest_rate,
+	//    	l.`date_release`,
+	//    	l.`date_line`,
+	//    	l.`total_duration`,
+	//    	l.`time_collect`,
+	//    	l.`currency_type` AS curr_type,
+	//    	l.`collect_typeterm`,
+	//    	(SELECT `ln_currency`.`symbol` FROM `ln_currency` WHERE (`ln_currency`.`id` = l.`currency_type` ) LIMIT 1) AS `currency_type`,
+	//    	(SELECT `ln_view`.`name_en` FROM `ln_view` WHERE ((`ln_view`.`type` = 14) AND (`ln_view`.`key_code` = `l`.`pay_term`)) LIMIT 1) AS `Term Borrow`,
+	//    	(SELECT `crm`.`date_input` FROM (`ln_client_receipt_money` `crm`) WHERE ((`crm`.`loan_id` = l.`id`)) ORDER BY `crm`.`date_input` DESC LIMIT 1) AS `last_pay_date`,
+	//    	SUM(d.`principle_after`) AS principle_after,
+	//    	SUM(d.`total_interest_after`) AS total_interest_after,
+	//    	SUM(d.`total_payment_after`) AS total_payment_after,
+	//    	SUM(d.`penelize`) AS penelize,
+	//    	d.`date_payment` ,
+	//    	`d`.`installment_amount`   AS `times`,
+	//    	COUNT(l.`id`) AS amount_late,
+	//    	l.`branch_id`
+	//    	FROM
+	//    	`ln_loan_detail` AS d,
+	//    	`ln_loan` AS l,
+	//    	`ln_co` AS co,
+	//    	`ln_client` AS c ,
+	//    	`ln_branch` AS b
+	//    	WHERE
+	//    	d.`is_completed` = 0
+	//    	AND `l`.`is_badloan`=0
+	//    	AND l.`id` = d.`loan_id`
+	//    	AND l.`status` = 1
+	//    	AND d.`status`=1
+	//    	AND co.`co_id` = l.`co_id`
+	//    	AND c.`client_id` = l.`customer_id`
+	//    	AND b.`br_id`=l.branch_id ";
+	   	$where='';
+	   	if(!empty($search['adv_search'])){
+	   		$s_where = array();
+	   		$s_search = trim(addslashes($search['adv_search']));
+	   		$s_where[] = " (SELECT `lb`.`branch_namekh` FROM `ln_branch` `lb`  WHERE (`lb`.`br_id` = l.`branch_id`)  LIMIT 1) LIKE '%{$s_search}%'";
+	   		$s_where[] = " l.sale_no LIKE '%{$s_search}%'";
+	   		$s_where[] = " `c`.`name_kh` LIKE '%{$s_search}%'";
+	   		$s_where[] = " d.`principle_after` LIKE '%{$s_search}%'";
+	   		$s_where[] = " `d`.`total_interest_after` LIKE '%{$s_search}%'";
+	   		$where .=' AND ( '.implode(' OR ',$s_where).')';
+	   	}
+	   	if(!empty($search['end_date'])){
+	   		$where.=" AND d.date_payment < '$end_date'";
+	   	}
+	   	if($search['members']>0){
+	   		$where.=" AND l.`customer_id` = ".$search['members'];
+	   	}
+	   	if($search['branch_id']>0){
+	   		$where.=" AND l.`branch_id` = ".$search['branch_id'];
+	   	}
+	   	$group_by = " GROUP BY l.`id` ORDER BY d.`date_payment` ASC";
+	   	return $db->fetchAll($sql.$where.$group_by);
+   }
+   
+   public function getInstallmentCollectIcome($search=null){
+   	$start_date = $search['start_date'];
+   	$end_date = $search['end_date'];
+   
+   	$db = $this->getAdapter();
+   	$sql = " SELECT
+   	SUM(s.principal_paid) AS principal_paid,
+   	SUM(s.`interest_paid`) AS interest_paid,
+   	SUM(penalize_paid) AS penalize_paid
+   	FROM `ln_ins_receipt_money` AS s WHERE s.status=1 ";
+   	$where ='';
+   	 
+   	if(!empty($search['start_date']) or !empty($search['end_date'])){
+   		$where.=" AND s.`date_input` BETWEEN '$start_date' AND '$end_date'";
+   	}
+   	if($search['branch_id']>0){
+   		$where.=" AND s.`branch_id`= ".$search['branch_id'];
+   	}
+//    	if($search['currency_type']>0){
+//    		$where.=" AND currency_type= ".$search['currency_type'];
+//    	}
+   	$order = " ORDER BY s.id DESC";//Group by currency_type 
+   	return $db->fetchAll($sql.$where.$order);
+   }
 }
 

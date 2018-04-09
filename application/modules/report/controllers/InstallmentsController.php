@@ -199,7 +199,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 		
-		$frm = new Pawnshop_Form_FrmPawnshop();
+		$frm = new Installment_Form_FrmInstallment();
 		$frm = $frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
@@ -225,11 +225,118 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 		
-		$frm = new Pawnshop_Form_FrmPawnshop();
+		$frm = new Installment_Form_FrmInstallment();
 		$frm = $frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_search = $frm;
+	}
+	function rptLoanOutstandingAction(){//loand out standing with /collection
+		$db  = new Report_Model_DbTable_DbInventory();
+		if($this->getRequest()->isPost()){
+			$search = $this->getRequest()->getPost();
+		}else {
+			$search = array(
+					'adv_search'=>'',
+					'branch_id'=>'',
+					'members'=>'',
+					'category'=>-1,
+					'currency_type'=>-1,
+					'status_use'=>-1,
+					'end_date'=>date('Y-m-d'));
+		}
+		$this->view->fordate = $search['end_date'];
+		$this->view->outstandloan= $db->getAllOutstadingLoan($search);
+		$frm = new Loan_Form_FrmSearchLoan();
 	
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	
+		$frm = new Installment_Form_FrmInstallment();
+		$frm = $frm->FrmAddLoan();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_search = $frm;
+		
+		$formFilter = new Installment_Form_FrmProduct();
+		$this->view->formFilter = $formFilter->add();
+		Application_Model_Decorator::removeAllDecorator($formFilter);
+	}
+	function rptLoancollectAction(){//list payment that collect from client
+		$dbs = new Report_Model_DbTable_DbInventory();
+		$frm = new Application_Form_FrmSearchGlobal();
+		if($this->getRequest()->isPost()){
+			$search = $this->getRequest()->getPost();
+		}
+		else{
+			$search = array(
+					'branch_id'=>0,
+					'members'=>-1,
+					'start_date'=> date('Y-m-d'),
+					'end_date'=>date('Y-m-d'),
+					'status' => -1,);
+		}
+// 		$db  = new Report_Model_DbTable_DbLoan();
+		$this->view->date_show=$search['end_date'];
+		$this->view->list_end_date=$search;
+		
+		$row = $dbs->getAllLnClient($search);
+		$this->view->tran_schedule=$row;
+		$this->view->loanlate_list =$dbs->getALLLoanlate($search);
+	
+		$this->view->list_end_dates = $search["end_date"];
+		
+		$frm = new Installment_Form_FrmInstallment();
+		$frm = $frm->FrmAddLoan();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_search = $frm;
+		
+		$formFilter = new Installment_Form_FrmProduct();
+		$this->view->formFilter = $formFilter->add();
+		Application_Model_Decorator::removeAllDecorator($formFilter);
+		 
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	}
+	function rptIncomestatementAction(){
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		if($this->getRequest()->isPost()){
+			$search = $this->getRequest()->getPost();
+			$search['status']=-1;
+		}else{
+			$search = array(
+						
+					'start_date'=> date('Y-m-d'),
+					'end_date'=>date('Y-m-d'),
+					'branch_id'		=>	-1,
+					"currency_type"=>0,);
+		}
+	
+		$income = array(
+ 			'interest_paid'=>0,
+ 			'penalize_paid'=>0,
+ 			'service_paid'=>0,
+ 			'adminfee'=>0,
+ 			'other_fee'=>0,
+ 			'other_income'=>0,
+ 			'expense'=>0,
+ 			'badloan'=>0,
+ 			
+ 		);
+		$dbInsta  = new Report_Model_DbTable_DbInventory();
+		$InstallmentCollect = $dbInsta->getInstallmentCollectIcome($search);
+		if (!empty($InstallmentCollect)) foreach ($InstallmentCollect as $rs){
+			$income['interest_paid']=$rs['interest_paid'];
+			$income['penalize_paid']=$rs["penalize_paid"];
+		}
+		
+	
+		$this->view->rsincome=$income;
+		$this->view->list_end_date=$search;
+	
+		$frm = new Loan_Form_FrmSearchGroupPayment();
+		$fm = $frm->AdvanceSearch();
+		Application_Model_Decorator::removeAllDecorator($fm);
+		$this->view->frm_search = $fm;
 	}
 }
 
