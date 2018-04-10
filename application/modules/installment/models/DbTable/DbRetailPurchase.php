@@ -1,6 +1,6 @@
 <?php
 
-class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
+class Installment_Model_DbTable_DbRetailPurchase extends Zend_Db_Table_Abstract
 {    
 	protected $_name = 'ln_ins_supplier';
     public function getUserId(){
@@ -9,15 +9,17 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     }
     function getAllSupPurchase($search=null){
     	$db = $this->getAdapter();
+    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+    	$RECEIPT = $tr->translate("RECEIPT");
     	$sql=" SELECT sp.id,
     	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = sp.`branch_id` LIMIT 1) AS branch_namekh,
     	sp.invoice_no, s.`supplier_no`,s.sup_name,
     	 s.tel,s.`email`,sp.total_amount,sp.date,
-    	 sp.status
+    	 sp.status,'$RECEIPT'
 	    FROM 
 		ln_ins_supplier AS s,
 		ln_ins_purchase AS sp
-	     WHERE s.id=sp.supplier_id AND sp.type=1 ";
+	     WHERE s.id=sp.supplier_id AND sp.type=2 ";
     	$from_date =(empty($search['start_date']))? '1': " sp.date >= '".$search['start_date']." 00:00:00'";
     	$to_date = (empty($search['end_date']))? '1': " sp.date <= '".$search['end_date']." 23:59:59'";
     	$sql.= " AND ".$from_date." AND ".$to_date;
@@ -81,6 +83,9 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
 	    		$_arr = array(
     				'sup_name'		=> $_data['supplier_name'],
     				'sup_id'	    => $_data['purchase_no'],
+    				'sex'			=> $_data['sex'],
+    				'age'			=> $_data['age'],
+    				'occupation'	=> $_data['occupation'],
     				'tel'			=> $_data['phone'],
     				'email'			=> $_data['email'],
     				'address'		=> $_data['address'],
@@ -95,36 +100,74 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
 	    			$sup_id = $this->insert($_arr);
 	    		}
 	    		
+	    		$_arrBuyer = array(
+	    				'buyer_name'		=> $_data['buyerName'],
+	    				'buyer_id'	    => $_data['purchase_no'],
+	    				'occupation'		=> $_data['buyOccupation'],
+	    				'address'		=> $_data['buyAddress'],
+	    				'date'			=> date("Y-m-d"),
+	    				'user_id'		=> $this->getUserId()
+	    		);
+	    		$this->_name='ln_ins_buyer';
+	    		if(!empty($_data['is_new_buy'])){
+	    			$buyer_id=$_data['buyer_id'];
+	    			$where=" id =".$_data['buyer_id'];
+	    			$this->update($_arrBuyer, $where);
+	    		}else{
+	    			$buyer_id = $this->insert($_arrBuyer);
+	    		}
+	    		
 	    		$this->_name='ln_ins_purchase';
 	    		$_arr = array(
+	    				'buyer_id'		=> $buyer_id,
 	    				'supplier_id'	=> $sup_id,
 	    				'invoice_no'	=> $_data['purchase_no'],
-	    				'total_amount'	=> $_data['amount_due'],
+	    				'total_amount'	=> $_data['price'],
 	    				'branch_id'		=> $_data['branch'],
 	    				'date'			=> $_data['purchase_date'],
-	    				'user_id'		=> $this->getUserId()
+	    				'user_id'		=> $this->getUserId(),
+	    				'type'			=>2
 	    		);
 	    		$sup_proid=$this->insert($_arr);
 	    		
 	    		$this->_name='ln_ins_purchase_detail';
-	    		$ids = explode(',', $_data['identity']);
-	    		foreach ($ids as $i){
-	    			$this->_name='ln_ins_purchase_detail';
-	    				$_arr = array(
-	    						'po_id'=>$sup_proid,
-	    						'pro_id'=>$_data['product_name_'.$i],
-	    						'qty'	=>$_data['qty_'.$i],
-	    						'cost'	=>$_data['cost_'.$i],
-	    						'amount'=>$_data['amount_'.$i],
-	    						'note'	=>$_data['note_'.$i],
-	    				);
-	    				$this->insert($_arr);
-	    				//udate ថ្លៃដើម
-	    				$this->updateProductCost($_data['product_name_'.$i],$_data['branch'],$_data['qty_'.$i],$_data['amount_'.$i]);
+	    		$_arr = array(
+	    				'po_id'=>$sup_proid,
+	    				'pro_id'=>$_data['pro_id'],
+	    				'qty'	=>1,
+	    				'cost'	=>$_data['price'],
+	    				'amount'=>$_data['price'],
+	    				'note'	=>$_data['note'],
+	    				'frame'	=>$_data['frame'],
+	    				'engine'=>$_data['engine'],
+	    				'color'	=>$_data['color'],
+	    				'price'=>$_data['price'],
+	    				'frame_no'	=>$_data['frame_no'],
+	    		);
+	    		$this->insert($_arr);
+	    		//udate ថ្លៃដើម
+	    		$this->updateProductCost($_data['pro_id'],$_data['branch'],1,$_data['price']);
+	    		//udate ចំនួនថ្មី
+	    		$this->updateStock($_data['pro_id'],$_data['branch'],1);
+	    		
+// 	    		$ids = explode(',', $_data['identity']);
+// 	    		foreach ($ids as $i){
+// 	    			$this->_name='ln_ins_purchase_detail';
+// 	    				$_arr = array(
+// 	    						'po_id'=>$sup_proid,
+// 	    						'pro_id'=>$_data['product_name_'.$i],
+// 	    						'qty'	=>$_data['qty_'.$i],
+// 	    						'cost'	=>$_data['cost_'.$i],
+// 	    						'amount'=>$_data['amount_'.$i],
+// 	    						'note'	=>$_data['note_'.$i],
+// 	    				);
+// 	    				$this->insert($_arr);
+// 	    				//udate ថ្លៃដើម
+// 	    				$this->updateProductCost($_data['product_name_'.$i],$_data['branch'],$_data['qty_'.$i],$_data['amount_'.$i]);
 	    				
-	    				//udate ចំនួនថ្មី
-	    				$this->updateStock($_data['product_name_'.$i],$_data['branch'],$_data['qty_'.$i]);
-	    		}
+// 	    				//udate ចំនួនថ្មី
+// 	    				$this->updateStock($_data['product_name_'.$i],$_data['branch'],$_data['qty_'.$i]);
+// 	    		}
     			$db->commit();
 		   	}catch (Exception $e){
 		   		$db->rollBack();
@@ -133,7 +176,151 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
 		   		exit();
 		   	}
     }
+    public function updatePurchase($_data){
+    	$db = $this->getAdapter();
+    	$db->beginTransaction();
+    	try{
     
+    		$_arr = array(
+    				'sup_name'		=> $_data['supplier_name'],
+    				'sup_id'	    => $_data['purchase_no'],
+    				'sex'			=> $_data['sex'],
+    				'age'			=> $_data['age'],
+    				'occupation'	=> $_data['occupation'],
+    				'tel'			=> $_data['phone'],
+    				'email'			=> $_data['email'],
+    				'address'		=> $_data['address'],
+    				'date'			=> date("Y-m-d"),
+    				'user_id'		=> $this->getUserId()
+    		);
+    		if(!empty($_data['is_new_cu'])){
+    			$sup_id=$_data['sup_id'];
+    			$where=" id =".$_data['sup_id'];
+    			$this->update($_arr, $where);
+    		}else{
+    			$sup_id = $this->insert($_arr);
+    		}
+    		
+    		$_arrBuyer = array(
+    				'buyer_name'		=> $_data['buyerName'],
+    				'buyer_id'	    => $_data['purchase_no'],
+    				'occupation'		=> $_data['buyOccupation'],
+    				'address'		=> $_data['buyAddress'],
+    				'date'			=> date("Y-m-d"),
+    				'user_id'		=> $this->getUserId()
+    		);
+    		$this->_name='ln_ins_buyer';
+    		if(!empty($_data['is_new_buy'])){
+    			$buyer_id=$_data['buyer_id'];
+    			$where=" id =".$_data['buyer_id'];
+    			$this->update($_arrBuyer, $where);
+    		}else{
+    			$buyer_id = $this->insert($_arrBuyer);
+    		}
+    		
+    		$this->_name='ln_ins_purchase';
+    		$_arr = array(
+    				'buyer_id'		=> $buyer_id,
+    				'supplier_id'	=> $sup_id,
+    				'invoice_no'	=> $_data['purchase_no'],
+    				'total_amount'	=> $_data['price'],
+    				'branch_id'		=> $_data['branch'],
+    				'date'			=> $_data['purchase_date'],
+    				'user_id'		=> $this->getUserId(),
+    				'type'			=>2
+    		);
+    		$where = "id=".$_data['id'];
+    		$this->update($_arr, $where);
+    		$sup_proid=$_data['id'];
+    		$oldDetail = $this->getPurchaseDetailByID($_data['id']);
+    		if (!empty($oldDetail)) foreach ($oldDetail as $ss){
+    			//udate ថ្លៃដើម
+    			$this->updateProductCost($ss['pro_id'],$_data['branch'],-$ss['qty'],-$ss['amount']);
+    			//udate ចំនួនថ្មី
+    			$this->updateStock($ss['pro_id'],$_data['branch'],-$ss['qty']);
+    		}
+    		
+    		$this->_name='ln_ins_purchase_detail';
+    		if (!empty($_data['detailId'])){
+    			
+    			$_arr = array(
+    					'po_id'=>$sup_proid,
+    					'pro_id'=>$_data['pro_id'],
+    					'qty'	=>1,
+    					'cost'	=>$_data['price'],
+    					'amount'=>$_data['price'],
+    					'note'	=>$_data['note'],
+    					'frame'	=>$_data['frame'],
+    					'engine'=>$_data['engine'],
+    					'color'	=>$_data['color'],
+    					'price'=>$_data['price'],
+    					'frame_no'	=>$_data['frame_no'],
+    			);
+    			$where = " id = ".$_data['detailId']." AND po_id = $sup_proid";
+    			$this->_name='ln_ins_purchase_detail';
+    			$this->update($_arr, $where);
+    			//udate ថ្លៃដើម
+    			$this->updateProductCost($_data['pro_id'],$_data['branch'],1,$_data['price']);
+    			//udate ចំនួនថ្មី
+    			$this->updateStock($_data['pro_id'],$_data['branch'],1);
+    		}
+//     		$ids = explode(',', $_data['identity']);
+//     		$iddetail='';
+//     		foreach ($ids as $i){
+//     			if (empty($iddetail)){
+//     				$iddetail = $_data['iddetail'.$i];
+//     			}else{
+//     				if (!empty($_data['iddetail'.$i])){
+//     					$iddetail = $iddetail.",".$_data['iddetail'.$i];
+//     				}
+//     			}
+//     		}
+    
+//     		$this->_name ='ln_ins_purchase_detail';
+//     		$where1=" po_id=".$_data['id'];
+//     		if (!empty($iddetail)){
+//     			$where1.=" AND id NOT IN (".$iddetail.")";
+//     		}
+//     		$this->delete($where1);
+//     		foreach ($ids as $i){
+//     			$this->_name='ln_ins_purchase_detail';
+//     			if (!empty($_data['iddetail'.$i])){
+//     				$_arr = array(
+//     						'po_id'=>$sup_proid,
+//     						'pro_id'=>$_data['product_name_'.$i],
+//     						'qty'	=>$_data['qty_'.$i],
+//     						'cost'	=>$_data['cost_'.$i],
+//     						'amount'=>$_data['amount_'.$i],
+//     						'note'	=>$_data['note_'.$i],
+//     				);
+//     				$wheredetail=" po_id=".$_data['id']." AND id=".$_data['iddetail'.$i];
+//     				$this->update($_arr,$wheredetail);
+//     			}else{
+//     				$_arr = array(
+//     						'po_id'=>$sup_proid,
+//     						'pro_id'=>$_data['product_name_'.$i],
+//     						'qty'	=>$_data['qty_'.$i],
+//     						'cost'	=>$_data['cost_'.$i],
+//     						'amount'=>$_data['amount_'.$i],
+//     						'note'	=>$_data['note_'.$i],
+//     				);
+//     				$this->insert($_arr);
+//     			}
+//     			//udate ថ្លៃដើម
+//     			$this->updateProductCost($_data['product_name_'.$i],$_data['branch'],$_data['qty_'.$i],$_data['amount_'.$i]);
+    
+//     			//udate ចំនួនថ្មី
+//     			$this->updateStock($_data['product_name_'.$i],$_data['branch'],$_data['qty_'.$i]);
+//     		}
+    
+    		$db->commit();
+    	}catch (Exception $e){
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    		$db->rollBack();
+    		echo $e->getMessage();
+    		exit();
+    	}
+    }
     function updateProductCost($pro_id,$branch,$qty,$total_amount_purchase){
     	$db = $this->getAdapter();
     	$sql="SELECT 
@@ -208,105 +395,7 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     		}
     	}
     }
-    public function updatePurchase($_data){
-    	$db = $this->getAdapter();
-    	$db->beginTransaction();
-    	try{
-    		
-    		$_arr = array(
-    				'sup_name'		=> $_data['supplier_name'],
-    				'sup_id'	    => $_data['purchase_no'],
-    				'tel'			=> $_data['phone'],
-    				'email'			=> $_data['email'],
-    				'address'		=> $_data['address'],
-    				'date'			=> date("Y-m-d"),
-    				'user_id'		=> $this->getUserId()
-    		);
-    		if(!empty($_data['is_new_cu'])){
-    			$sup_id=$_data['sup_id'];
-    			$where=" id =".$_data['sup_id'];
-    			$this->update($_arr, $where);
-    		}else{
-    			$sup_id = $this->insert($_arr);
-    		}
-    		$this->_name='ln_ins_purchase';
-    		$_arr = array(
-    				'supplier_id'	=> $sup_id,
-    				'invoice_no'	=> $_data['purchase_no'],
-    				'total_amount'	=> $_data['amount_due'],
-    				'branch_id'		=> $_data['branch'],
-    				'date'			=> $_data['purchase_date'],
-    				'user_id'		=> $this->getUserId()
-    		);
-    		$where = "id=".$_data['id'];
-    		$sup_proid=$this->update($_arr, $where);
-    		 
-    		$oldDetail = $this->getPurchaseDetailByID($_data['id']);
-    		if (!empty($oldDetail)) foreach ($oldDetail as $ss){
-    			//udate ថ្លៃដើម
-    			$this->updateProductCost($ss['pro_id'],$_data['branch'],-$ss['qty'],-$ss['amount']);
-    			
-    			//udate ចំនួនថ្មី
-    			$this->updateStock($ss['pro_id'],$_data['branch'],-$ss['qty']);
-    		}
-    		$this->_name='ln_ins_purchase_detail';
-    		$ids = explode(',', $_data['identity']);
-    		$iddetail='';
-    		foreach ($ids as $i){
-    			if (empty($iddetail)){
-    				$iddetail = $_data['iddetail'.$i];
-    			}else{
-    				if (!empty($_data['iddetail'.$i])){
-    					$iddetail = $iddetail.",".$_data['iddetail'.$i];
-    				}
-    			}
-    		}
-    		
-    		$this->_name ='ln_ins_purchase_detail';
-    		$where1=" po_id=".$_data['id'];
-    		if (!empty($iddetail)){
-    			$where1.=" AND id NOT IN (".$iddetail.")";
-    		}
-    		$this->delete($where1);
-    		foreach ($ids as $i){
-    			$this->_name='ln_ins_purchase_detail';
-    			if (!empty($_data['iddetail'.$i])){
-    				$_arr = array(
-    						'po_id'=>$sup_proid,
-    						'pro_id'=>$_data['product_name_'.$i],
-    						'qty'	=>$_data['qty_'.$i],
-    						'cost'	=>$_data['cost_'.$i],
-    						'amount'=>$_data['amount_'.$i],
-    						'note'	=>$_data['note_'.$i],
-    				);
-    				$wheredetail=" po_id=".$_data['id']." AND id=".$_data['iddetail'.$i];
-    				$this->update($_arr,$wheredetail);
-    			}else{
-	    			$_arr = array(
-	    					'po_id'=>$sup_proid,
-	    					'pro_id'=>$_data['product_name_'.$i],
-	    					'qty'	=>$_data['qty_'.$i],
-	    					'cost'	=>$_data['cost_'.$i],
-	    					'amount'=>$_data['amount_'.$i],
-	    					'note'	=>$_data['note_'.$i],
-	    			);
-	    			$this->insert($_arr);
-    			}
-    			//udate ថ្លៃដើម
-    			$this->updateProductCost($_data['product_name_'.$i],$_data['branch'],$_data['qty_'.$i],$_data['amount_'.$i]);
-    			 
-    			//udate ចំនួនថ្មី
-    			$this->updateStock($_data['product_name_'.$i],$_data['branch'],$_data['qty_'.$i]);
-    		}
-    		
-    		$db->commit();
-    	}catch (Exception $e){
-    		$db->rollBack();
-    		echo $e->getMessage();
-    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-    		exit();
-    	}
-    }
+    
 //  	function updateProduct($_data,$id){
 //     	//print_r($_data);exit();
 //     	$db = $this->getAdapter();
@@ -416,11 +505,23 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     	$sql="SELECT id,sup_name FROM ln_ins_supplier WHERE STATUS=1 ORDER BY id DESC";
     	return $db->fetchAll($sql);
     }
+    function getBuyerName(){
+    	$db=$this->getAdapter();
+    	$sql="SELECT id,buyer_name FROM ln_ins_buyer WHERE STATUS=1 ORDER BY id DESC";
+    	return $db->fetchAll($sql);
+    }
     function getSuplierInfo($id){
     	$db=$this->getAdapter();
-    	$sql="SELECT id,sup_name,tel,address 
+    	$sql="SELECT *
 				FROM ln_ins_supplier
     		 WHERE id=$id";
+    	return $db->fetchRow($sql);
+    }
+    function getBuyerInfo($id){
+    	$db=$this->getAdapter();
+    	$sql="SELECT *
+    	FROM ln_ins_buyer
+    	WHERE id=$id";
     	return $db->fetchRow($sql);
     }
     function getProductById($id){

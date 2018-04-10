@@ -340,5 +340,17 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		Application_Model_Decorator::removeAllDecorator($fm);
 		$this->view->frm_search = $fm;
 	}
+	function retailreceiptAction(){
+		$id=$this->getRequest()->getParam('id');
+		$id = empty($id)?0:$id;
+		$db  = new Report_Model_DbTable_DbInventory();
+		
+		$row = $db->getRetailPurchaseByID($id);
+		if (empty($row)){
+			$this->_redirect("/report/installments");
+		}
+		$this->view->purchase = $row;
+		$this->view->purchaseDetail = $db->getPurchaseDetailByID($id);
+	}
 }
 
