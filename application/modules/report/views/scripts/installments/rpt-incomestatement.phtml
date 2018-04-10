@@ -11,7 +11,7 @@ dojo.require("dijit.form.DateTextBox");
 <table style="font-family: 'Khmer OS Content'; margin: 0 auto;width:28.6cm;" >
 	<tr>
    			<td><?php echo $frm->getElement('branch_id');?></td>
-   			<td><?php echo $frm->getElement('currency_type');?></td>
+   			<!-- <td><?php //echo $frm->getElement('currency_type');?></td> -->
    			<td><?php echo $frm->getElement('start_date');?></td>
    			<td><?php echo $frm->getElement('end_date');?></td>
    			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
@@ -83,6 +83,11 @@ th{padding: 5px;}
                		<td>&nbsp;&nbsp;</td>
                 </tr>
                 <tr class="styleover" >
+               		<td>&nbsp;-&nbsp;ចំណូលពី ការប្រមូលប្រាក់ដើមសរុប</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["principal_paid"],2);?></td>
+                </tr>
+                <tr class="styleover" >
                		<td>&nbsp;-&nbsp;ចំណូលពី ការប្រមូលការប្រាក់សរុប</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["interest_paid"],2);?></td>
@@ -111,7 +116,7 @@ th{padding: 5px;}
                		<td>&nbsp;&nbsp;<strong style="font-family:'Khmer MEF2';font-size: 16px;">ចំណូលសរុបរួមទាំងអស់</strong></td>
                		<td>&nbsp;&nbsp;</td>
                		<?php 
-	               		$incomed = $rsincome["interest_paid"]+$rsincome["penalize_paid"]+$rsincome["service_paid"]+($rsincome["adminfee"]+$rsincome["other_fee"])+$rsincome['other_income'];
+	               		$incomed = $rsincome["principal_paid"]+$rsincome["interest_paid"]+$rsincome["penalize_paid"]+$rsincome["service_paid"]+($rsincome["adminfee"]+$rsincome["other_fee"])+$rsincome['other_income'];
                		?>
                		<td><strong style="border-bottom: 1px double #000;font-family:'Arial'; ">&nbsp;$&nbsp;<?php echo number_format($incomed,2);?></strong></td>
                 </tr>

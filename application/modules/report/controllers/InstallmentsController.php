@@ -312,6 +312,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		}
 	
 		$income = array(
+			'principal_paid'=>0,
  			'interest_paid'=>0,
  			'penalize_paid'=>0,
  			'service_paid'=>0,
@@ -327,6 +328,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		if (!empty($InstallmentCollect)) foreach ($InstallmentCollect as $rs){
 			$income['interest_paid']=$rs['interest_paid'];
 			$income['penalize_paid']=$rs["penalize_paid"];
+			$income['principal_paid']=$rs["principal_paid"];
 		}
 		
 	
