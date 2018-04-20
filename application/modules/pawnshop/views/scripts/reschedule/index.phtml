@@ -1,0 +1,85 @@
+<?php 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate("PAWN_SHOP"));
+	$frm = $this->frm_search;
+	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
+<form id="list" name="list" action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
+   <table width="100%">
+	   <tr>  
+	        <td><?php echo $frm->getElement("adv_search");?></td>
+	        <td><?php echo $frm->getElement('branch_id');?></td>
+	   		<td><?php echo $frm->getElement('members');?></td>
+	   		<td><?php echo $frm->getElement("product_id");?></td>
+	   </tr>
+	   <tr>
+	   		<td><?php echo $frm->getElement('currency_type');?></td>
+	   		<td><?php echo $frm->getElement('start_date');?></td>
+	   		<td><?php echo $frm->getElement('end_date');?></td>
+	   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+	   </tr>
+	</table>
+</form>
+	<?php echo $this->list;
+	
+	?>
+<script>
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dojo.data.ItemFileWriteStore"); 
+	var client_store  = getDataStorefromJSON('id','name', [] );
+
+	/*function getmemberIdGroup(){
+		customer_code= dijit.byId('customer_code').get('value');
+		dijit.byId('member').attr('value',customer_code);
+	}
+	function checkMember(){
+		customer_code= dijit.byId('member').get('value');
+		dijit.byId('customer_code').attr('value',customer_code);
+	}*/
+var url_getclient = '<?php echo $this->url(array('module'=>'saving','controller'=>'customer','action'=>'getclientbybranch')); ?>';
+function filterClient(){
+	branch_id=dijit.byId("branch_id").get("value");
+	if(branch_id<0 || branch_id==''){
+		return false;
+	}
+	dojo.xhrPost({
+		url:url_getclient,	
+		content:{ 
+		    'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			
+			client_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('member').set('store', client_store);
+		},
+		error: function(err) {
+			
+		}
+	});
+}
+
+require(["dojo/ready"], function(ready){
+		new dijit.form.FilteringSelect({
+			store: client_store,
+			autoComplete: true,
+			query: {
+				branch_id: "-1"
+			},            
+			required: false,		           
+			name: "member",
+			id: "member",
+			searchAttr: "name",
+			class: 'fullside',
+			onChange: function() {
+				member = dijit.byId('member').get('value');
+				if(member==-1){
+					showPopupclient();
+				}else{
+					dijit.byId('customer_code').attr('value',member);
+				}
+		}
+	}, "member");
+});
+</script>
