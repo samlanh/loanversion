@@ -509,6 +509,12 @@ public function init()
 				'required' =>'true'
 		));
 		
+		$_noted = new Zend_Dojo_Form_Element_TextBox("noted");
+		$_noted->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
 		$_instalment_date = new Zend_Form_Element_Hidden("instalment_date");
 		$_release_date = new Zend_Form_Element_Hidden("old_release_date");
 		$_interest_rate = new Zend_Form_Element_Hidden("old_rate");
@@ -549,7 +555,7 @@ public function init()
 			$get_laonnumber->setvalue($data['id']);
 			$_status->setValue($data['status']);
 		}
-		$this->addElements(array($_date_payment,$_principle_paid,$_deposit,$_groupid,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,$_interest,$penalize,$_service_charge,$schedule_opt,$_loan_types,$_loan_fees,$_other_fees,$_zones
+		$this->addElements(array($_noted,$_date_payment,$_principle_paid,$_deposit,$_groupid,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,$_interest,$penalize,$_service_charge,$schedule_opt,$_loan_types,$_loan_fees,$_other_fees,$_zones
 				,$_client_codes,$_loan_codes,$_members,$_customer_codes,$_levels,$_coids,$get_laonnumber,$_loan_type,
 				$_other_fee,$_isgroup,$_client_code,$_time_collect,$_loan_fee,$_level,$_paybefore,
 				$_pay_late,$_branch_id,$_coid,$_currency_type,$_zone,$_amount,$_rate,$_releasedate

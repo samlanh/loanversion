@@ -113,12 +113,12 @@ dojo.require("dijit.form.DateTextBox");
                     <td ><?php echo $tr->translate("លក់ចេញ");?></td>
                     <td ><?php echo $tr->translate("ដើមទុននៅសល់");?></td>
                 </tr>
-                <?php foreach ($this->currencyEx as $cur){ 
+                <?php if(!empty($this->currencyEx))foreach ($this->currencyEx as $cur){ 
 	                $totalbuy= $db->getTotalExchangeBuyCurrency($cur['symbol'], $this->list_end_date);
 	                $totalSell = $db->getTotalExchangeSellCurrency($cur['symbol'], $this->list_end_date);
 	                $totalWithDrawal = $db->getTotalWithdrawalByCurrency($cur['CurrID'], $this->list_end_date);
 	                $totalDeposite = $db->getTotalDepositeByCurrency($cur['CurrID'], $this->list_end_date);
-	                
+	               
 	                $total = ($totalDeposite + $totalWithDrawal + $totalbuy) - $totalSell;
                 	?>
                <tr style="font-size: 12px;" align="left">
@@ -129,8 +129,9 @@ dojo.require("dijit.form.DateTextBox");
                		<td align="right">&nbsp;<?php echo number_format($totalSell,2);?>&nbsp;</td>
                		<td align="right">&nbsp;<?php echo number_format($total,2);?>&nbsp;</td>
                </tr>
-               <?php }?>
+               <?php } ?>
              </table>
+             
        		<br />
        		 <table align="center" width="100%">
 			 <thead>

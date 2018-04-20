@@ -236,23 +236,21 @@ function rptPaymentschedulesAction(){
  	if($this->getRequest()->isPost()){
  		$_data = $this->getRequest()->getPost();
  		try {
- 			$_dbmodel = new Loan_Model_DbTable_DbLoanIL();
+ 			$_dbmodel = new Pawnshop_Model_DbTable_DbPawnshop();
  			$_dbmodel->updatePaymentStatus($_data);
- 			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCESS","/report/loan/rpt-loan-disburse");
+ 			Application_Form_FrmMessage::Sucessfull("UPDATE_SUCESS","/report/pawn/rpt-loan-disburse");
  		}catch (Exception $e) {
  			Application_Form_FrmMessage::message("INSERT_FAIL");
  			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
  		}
  	}
- 	$db = new Report_Model_DbTable_DbRptPaymentSchedule();
+ 	$db = new Report_Model_DbTable_Dbpawn();
  	$id =$this->getRequest()->getParam('id');
  	$row = $db->getPaymentSchedule($id);
+ 	
  	$this->view->tran_schedule=$row;
- 	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/paymentschedule-list');
- 	}
  	$db = new Application_Model_DbTable_DbGlobal();
- 	$rs = $db->getClientByMemberId($id);
+ 	$rs = $db->getClientPawnshop($id);
  	
  	$this->view->client =$rs;
  	$frm = new Application_Form_FrmSearchGlobal();

@@ -9,6 +9,7 @@
 <style>
 .image-box {
     text-align: center;
+     height: 145px;
 }
 .image-box img {
             width: 180px;
@@ -98,7 +99,7 @@ input.btn_borwse_image {
 </script>
 <table width="100%" style="margin-top:0px;">
 	<tr>
-		<td width="25%" valign="top">
+		<td width="30%" valign="top">
 				<fieldset>
 					<legend><strong><?php echo $tr->translate("CLIENT_INFO")?></strong></legend>
 						<table cellspacing="5"  width="100%" style="margin-top: -10px;">
@@ -133,7 +134,7 @@ input.btn_borwse_image {
 					</table>
 			</fieldset>
 		</td>
-		<td width="25%" valign="top">
+		<td width="30%" valign="top">
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("PRODUCT_DESCRIPTION")?></strong></legend>
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
@@ -152,30 +153,7 @@ input.btn_borwse_image {
 					</table>
 			</fieldset>
 		</td>
-		<td width="25%" valign="top">
-			<fieldset>
-				<legend><strong><?php echo $tr->translate("ILLOAN_INFO")?></strong></legend>
-					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
-						 <tr>
-		                 	<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-		                  </tr>
-		                   <tr>
-			                    <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
-								<td><?php echo $frm->getElement('total_amount');?></td>
-		                   </tr>
-		                    <tr>
-		                	   <td><strong><?php echo $tr->translate("TERM_BORROW")?></strong></td>
-							   <td><?php echo $frm->getElement('period');?></td>
-		                   </tr>
-		                   <tr>
-		                 		<td><?php echo $tr->translate("INTEREST RATE")?></td>
-								<td><?php echo $frm->getElement('interest_rate');?></td>
-		                   </tr>
-					</table>
-			</fieldset>
-		</td>
-		<td width="15%" valign="top">
+		<td width="30%" valign="top">
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("PHOTO")?></strong></legend>
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
@@ -204,13 +182,36 @@ input.btn_borwse_image {
 		</td>
 	</tr>
 	<tr>
-		<td colspan="4" style="border-bottom:1px solid #ccc; background:#8fbffd"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
+		<td colspan="3" style="border-bottom:1px solid #ccc; background:#8fbffd"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
    </tr>	
-	<tr>
-		<td colspan="2" style="background:#dfd;border:1px solid #ccc;">
+	<tr style="background:#8fbffd;">
+		<td style="border:1px solid #ccc;">
 			<img style="max-height:126px" src="<?= $this->baseUrl() ?>/images/banner_money_exchange.jpg" />
 		</td>
-		<td colspan="2" valign="top">
+		<td valign="top">
+			<fieldset>
+				<legend><strong><?php echo $tr->translate("ILLOAN_INFO")?></strong></legend>
+					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+						 <tr>
+		                 	<td><?php echo $tr->translate("CURRENCY")?></td>
+							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
+		                  </tr>
+		                   <tr>
+			                    <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
+								<td><?php echo $frm->getElement('total_amount');?></td>
+		                   </tr>
+		                    <tr>
+		                	   <td><strong><?php echo $tr->translate("TERM_BORROW")?></strong></td>
+							   <td><?php echo $frm->getElement('period');?></td>
+		                   </tr>
+		                   <tr>
+		                 		<td><?php echo $tr->translate("INTEREST RATE")?></td>
+								<td><?php echo $frm->getElement('interest_rate');?></td>
+		                   </tr>
+					</table>
+			</fieldset>
+		</td>
+		<td  valign="top">
                <fieldset>
 				<legend><strong><?php echo $tr->translate("INFO_FUND")?></strong></legend>
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">

@@ -9,6 +9,7 @@
 <style>
 .image-box {
     text-align: center;
+    height: 145px;
 }
 .image-box img {
             width: 180px;
@@ -75,13 +76,13 @@ input.btn_borwse_image {
 				dijit.byId('member').focus();
 				return false;
 			}
-			
 			currency_type = dijit.byId('currency_type').get('value');
 			if(currency_type==1){
 				amount_loan = dijit.byId('total_amount').get('value');
 				if(amount_loan<10000){
 					alert('Loan Amount Must Than 10000 for Riel Currency!');
                 }
+
             }
 			    dijit.byId('save_new').set('disabled',true); 
       			dijit.byId('save_close').set('disabled',true); 
@@ -93,7 +94,7 @@ input.btn_borwse_image {
 </script>
 <table width="100%" style="margin-top:0px;">
 	<tr>
-		<td width="25%" valign="top">
+		<td width="30%" valign="top">
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("CLIENT_INFO")?></strong></legend>
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
@@ -126,7 +127,7 @@ input.btn_borwse_image {
 				</table>
 		</fieldset>
 		</td>
-		<td width="25%" valign="top">
+		<td width="30%" valign="top">
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("PRODUCT_DESCRIPTION")?></strong></legend>
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
@@ -146,30 +147,7 @@ input.btn_borwse_image {
 					</table>
 			</fieldset>
 		</td>
-		<td width="25%" valign="top">
-			<fieldset>
-				<legend><strong><?php echo $tr->translate("ILLOAN_INFO")?></strong></legend>
-					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
-						 <tr>
-		                 	<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-		                  </tr>
-		                  <tr>
-			                    <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
-								<td><?php echo $frm->getElement('total_amount');?></td>
-		                   </tr>
-		                   <tr>
-		                	   <td><strong><?php echo $tr->translate("TERM_BORROW")?></strong></td>
-							   <td><?php echo $frm->getElement('period');?></td>
-		                   </tr>
-		                   <tr>
-		                 		<td><?php echo $tr->translate("INTEREST RATE")?></td>
-								<td><?php echo $frm->getElement('interest_rate');?></td>
-		                   </tr>
-					</table>
-			</fieldset>
-		</td>
-		<td width="15%" valign="top">
+		<td width="30%" valign="top">
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("PHOTO")?></strong></legend>
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
@@ -195,27 +173,49 @@ input.btn_borwse_image {
 		</td>
 	</tr>
 	<tr>
-		<td colspan="4" style="border-bottom:1px solid #ccc; background:#8fbffd"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
+		<td colspan="3" style="border-bottom:1px solid #ccc; background:#8fbffd"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
    </tr>	
-	<tr>
-		<td colspan="2" style="background:#dfd;border:1px solid #ccc;">
-			<img style="max-height:126px" src="<?= $this->baseUrl() ?>/images/banner_money_exchange.jpg" />
+	<tr style="background:#8fbffd;">
+		<td ><img style="max-height:126px" src="<?php echo $this->baseUrl() ?>/images/banner_money_exchange.jpg" /></td>
+		<td style="border:1px solid #ccc;">
+			<fieldset>
+				<legend><strong><?php echo $tr->translate("ILLOAN_INFO")?></strong></legend>
+					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+						 <tr>
+		                 	<td><?php echo $tr->translate("CURRENCY")?></td>
+							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
+		                  </tr>
+		                  <tr>
+			                    <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
+								<td><?php echo $frm->getElement('total_amount');?></td>
+		                   </tr>
+		                   <tr>
+		                	   <td><strong><?php echo $tr->translate("TERM_BORROW")?></strong></td>
+							   <td><?php echo $frm->getElement('period');?></td>
+		                   </tr>
+		                   <tr>
+		                 		<td><?php echo $tr->translate("INTEREST RATE")?></td>
+								<td><?php echo $frm->getElement('interest_rate');?></td>
+		                   </tr>
+					</table>
+			</fieldset>
 		</td>
-		<td colspan="2"  valign="top">
+		<td  valign="top">
            <fieldset>
 			<legend><strong><?php echo $tr->translate("INFO_FUND")?></strong></legend>
 				<table cellspacing="5"  width="100%" style="margin-top: -10px;">
-	                  <tr>
+	                 <tr>
 	                   	  <td><?php echo $tr->translate("PAWN_DATE")?></td>
 			    	  	  <td><?php echo $frm->getElement('release_date');?></td>
-	                  </tr>
-	                  <tr>
+	                 </tr>
+	                 <tr>
 	                      <td><strong><?php echo $tr->translate("FIRST_PAYMENT")?></strong></td>
 				   	 	  <td><?php echo $frm->getElement('first_payment');?></td>                   
-					  </tr>
-	                  <tr>
+					 </tr>
+	                 <tr>
 	                     <td><?php echo $tr->translate("PAWN_ENDDATE")?></td>
-				     	<td><?php echo $frm->getElement('date_line');?></td>                   </tr>
+				     	<td><?php echo $frm->getElement('date_line');?></td>                   
+				     </tr>
 	                 <tr>
 	                    <td><?php echo $tr->translate("បង្កាន់ដៃទទួលប្រាក់")?></td>
 			    		<td><?php echo $frm->getElement('receipt_num');?></td>
@@ -308,7 +308,7 @@ input.btn_borwse_image {
 						                	<td width="35%" valign="top"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
 						                	<td valign="top" align="center">
 						                		<div class="h" ><?php echo $tr->translate("បង្កាន់ដៃដាក់ទ្រពបញ្ចាំ");?></div> 
-						                		<div class="h" style="padding-top:10px;"><?php echo $tr->translate("PAWN TICKET RECEIPT");?></div> 
+						                		<div class="h" style="padding-top:10px;"><?php echo $tr->translate(" PAWN TICKET RECEIPT");?></div> 
 						                	</td>
 						                    <td width="35%">
 						                    	

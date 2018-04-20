@@ -10,7 +10,7 @@ $url_barcode = $this->url(array("module"=>"loan","controller"=>"ilpayment","acti
 <style>
 td p{ margin-top:0px !important;}
 </style>
-<div style=" width:21cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
+<div style=" width:26cm; margin:0 auto; border: 1px dotted #ccc; padding: 0 40px;">
 	<div id="divPrint">
 	<style type="text/css">
 	.style{
@@ -28,7 +28,7 @@ td p{ margin-top:0px !important;}
 	    	<td align="center">
 	        	<table width="100%" style="font-family:khmer;margin:0 auto;padding:0px; border:none;">
 					<tr>
-	                	  <td style=" " valign="top"><img src="<?php echo $this->baseUrl();?>/images/letterhead.jpg" /> </td>
+	                	  <td style=" " valign="top"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" /> </td>
 	                	  <td colspan="2" align="left" ><h2 style="text-align:left; font-size:16px; font-family:'Khmer os battambang';"><?php echo $tr->translate("ADDRESS_COMPANY");?>
 	                	  	<br /><?php echo $tr->translate("TEL_COMPANY");?>
 	                	  </h2></td>
@@ -93,9 +93,15 @@ td p{ margin-top:0px !important;}
 	               if(!empty($tran)) foreach($tran as $key =>$row){?>
 	               	
                		<?php if($row['is_completed']==1 and $row['status']==0){?>
-               			<tr>
-               				<td colspan="9" align="center" style="font-family: Khmer OS Battambang;font-size: 14px;">អតិថិជនបានបង់ប្រាក់រំលស់ដើមចំនួន <?php echo $row['principal_permonth']?> នៅថ្ងៃទី <?php echo date("d-m-Y",strtotime($row['date_payment']));?> </td>
-               			</tr>
+               			<?php if($row['saving_amount']>0){//ខ្ចីថែម?>
+	               			<tr>
+	               				<td colspan="9" align="center" style="font-family: Khmer OS Battambang;font-size: 14px;background:#c5c5ff;font-weight: bold;"><?php echo !empty($row['old_loanid'])?$row['old_loanid']:"អតិថិជនបានខ្ចីបន្ថែមចំនួន";?> <?php echo $row['principal_permonth'];?> នៅថ្ងៃទី <?php echo date("d-m-Y",strtotime($row['date_payment']));?> </td>
+	               			</tr>
+               			<?php }else{//បានរំលស់ប្រាក់ដើម?>
+	               			<tr>
+	               				<td colspan="9" align="center" style="font-family: Khmer OS Battambang;font-size: 14px;">អតិថិជនបានបង់ប្រាក់រំលស់ដើមចំនួន <?php echo $row['principal_permonth'];?> នៅថ្ងៃទី <?php echo date("d-m-Y",strtotime($row['date_payment']));?> </td>
+	               			</tr>
+               			<?php }?>
                		<?php }else{?>
 		               	<tr align="center" style=" height: 20px;" class="style">
 		                    <td><?php echo ($key+1<10)?"0":"";echo $key+1;?></td>

@@ -109,6 +109,29 @@ function round_up($value, $places)
 	    		);
 	    		$this->insert($datapayment);
     		}
+    		$this->_name="ln_loan_detail";
+    		if($data['loan_fee']>0){//ខ្ចីបន្ថែម
+    			$datapayment = array(
+    					'loan_id'=>$loan_id,
+    					'old_loanid'=>$data['noted'],//store note only
+    					'outstanding'=>$data['total_amount'],//good
+    					'outstanding_after'=>$data['total_amount'],//good
+    					'principal_permonth'=> $data['loan_fee'],//good
+    					'saving_amount'=> $data['loan_fee'],//good
+    					'principle_after'=> $data['loan_fee'],//good
+    					'total_interest'=>0,//good
+    					'total_interest_after'=>0,//good
+    					'total_payment'=>$data['principle_paid'],//good
+    					'total_payment_after'=>$data['principle_paid'],//good
+    					'date_payment'=>$data['date_payment'],//good
+    					'is_completed'=>1,
+    					'status'=>0,
+    					'amount_day'=>0,
+    					'collect_by'=>$data['co_id'],
+    					'installment_amount'=>$start_id+1,
+    			);
+    			$this->insert($datapayment);
+    		}
     		
     		$remain_principal = $data['total_amount'];
     		$remain_principalirr = $data['total_amount'];

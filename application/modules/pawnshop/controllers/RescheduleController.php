@@ -45,44 +45,53 @@ class Pawnshop_RescheduleController extends Zend_Controller_Action {
   }
   function addAction()
   {
-// 		if($this->getRequest()->isPost()){
-// 			$_data = $this->getRequest()->getPost();
-// 			try {
-// 				$_dbmodel = new Pawnshop_Model_DbTable_DbPawnshop();
-// 				$_dbmodel->addPawnshop($_data);
-// 				if(!empty($_data['saveclose'])){
-// 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/pawnshop");
-// 				}else{
-// 					Application_Form_FrmMessage::message("INSERT_SUCCESS");
-// 				}
-// 			}catch (Exception $e) {
-// 				Application_Form_FrmMessage::message("INSERT_FAIL");
-// 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-// 			}
-// 		}
-// 		$frm = new Pawnshop_Form_FrmPawnshop();
-// 		$frm_loan=$frm->FrmAddLoan();
-// 		Application_Model_Decorator::removeAllDecorator($frm_loan);
-// 		$this->view->frm_loan = $frm_loan;
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			try {
+				$_dbmodel = new Pawnshop_Model_DbTable_DbPawnshop();
+				$_dbmodel->addPawnshop($_data);
+				if(!empty($_data['saveclose'])){
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/pawnshop");
+				}else{
+					Application_Form_FrmMessage::message("INSERT_SUCCESS");
+				}
+			}catch (Exception $e) {
+				Application_Form_FrmMessage::message("INSERT_FAIL");
+				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+			}
+		}
+		$frm = new Pawnshop_Form_FrmPawnshop();
+		$frm_loan=$frm->FrmAddLoan();
+		Application_Model_Decorator::removeAllDecorator($frm_loan);
+		$this->view->frm_loan = $frm_loan;
 
-// 		$frmpopup = new Application_Form_FrmPopupGlobal();
-// 		$this->view->frmpupopinfoclient = $frmpopup->frmPopupindividualclient();
+		$frmpopup = new Application_Form_FrmPopupGlobal();
+		$this->view->frmpupopinfoclient = $frmpopup->frmPopupindividualclient();
 		
-// 		$db = new Setting_Model_DbTable_DbLabel();
-// 		$this->view->setting=$db->getAllSystemSetting();
+		$db = new Setting_Model_DbTable_DbLabel();
+		$this->view->setting=$db->getAllSystemSetting();
 		
-// 		$db = new Application_Model_DbTable_DbGlobal();
-// 		$product = $db->getAllProduct();
-// 		array_unshift($product,array(
-// 		        'id' => -1,
-// 		        'name' => '---Add New ---',
-// 		) );
-// 	    $this->view->product_store=$product;
+		$db = new Application_Model_DbTable_DbGlobal();
+		$product = $db->getAllProduct();
+		array_unshift($product,array(
+		        'id' => -1,
+		        'name' => '---Add New ---',
+		) );
+	    $this->view->product_store=$product;
 	    
-// 	    $fm = new Pawnshop_Form_Frmpawnproduct();
-// 	    $frm = $fm->FrmViewType();
-// 	    Application_Model_Decorator::removeAllDecorator($frm);
-// 	    $this->view->Form_Frmcallecterall = $frm;
+	    $fm = new Pawnshop_Form_Frmpawnproduct();
+	    $frm = $fm->FrmViewType();
+	    Application_Model_Decorator::removeAllDecorator($frm);
+	    $this->view->Form_Frmcallecterall = $frm;
+	    
+	    $session_user=new Zend_Session_Namespace('authloan');
+	    $this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+	    
+	    $key = new Application_Model_DbTable_DbKeycode();
+	    $this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	    
+	    $db_global = new Pawnshop_Model_DbTable_DbPayment();
+	    $this->view->loan_number = $db_global->getPawnAccountNumber(1);
 	}
 	public function editAction(){
 // 		if($this->getRequest()->isPost()){
@@ -127,5 +136,23 @@ class Pawnshop_RescheduleController extends Zend_Controller_Action {
 // 	    Application_Model_Decorator::removeAllDecorator($frm);
 // 	    $this->view->Form_Frmcallecterall = $frm;
 	}	
+	function getloanBybranchAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db=new Pawnshop_Model_DbTable_DbPawnshop();
+			$pro_id = $db->getPawnIdByBranch($data['branch_id']);
+			print_r(Zend_Json::encode($pro_id));
+			exit();
+		}
+	}
+	function getproductDetailAction(){
+		if($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost();
+			$db=new Pawnshop_Model_DbTable_DbSale();
+			$pro_id = $db->getProductDetail($data['pawn_id']);
+			print_r(Zend_Json::encode($pro_id));
+			exit();
+		}
+	}
 }
 

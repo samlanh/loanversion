@@ -3,7 +3,6 @@ class Loan_PaymentController extends Zend_Controller_Action {
 	private $activelist = array('មិនប្រើ​ប្រាស់', 'ប្រើ​ប្រាស់');
     public function init()
     {    	
-     /* Initialize action controller here */
     	header('content-type: text/html; charset=utf8');
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
 	}
@@ -63,7 +62,6 @@ class Loan_PaymentController extends Zend_Controller_Action {
 		$fm = $frm->AdvanceSearch();
 		Application_Model_Decorator::removeAllDecorator($fm);
 		$this->view->frm_search = $fm;
-		
   }
   function addAction()
   {
@@ -123,7 +121,6 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			$this->view->rsloan =  $db->getTranLoanByIdWithBranch($id,1);
 		}
 	}	
-	
 	function editAction()
 	{
 		$id = $this->getRequest()->getParam("id");

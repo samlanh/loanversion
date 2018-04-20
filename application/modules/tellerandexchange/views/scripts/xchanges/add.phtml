@@ -5,7 +5,6 @@
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>	
 <style>
-<!--
 	.panel{
 		height: 444px;
 	}
@@ -15,11 +14,6 @@
 	    color: #fff;
 	    line-height: 37px;
 	    font-weight: bolder;
-		/*text-align: center;
-		font-size: 2em;	
-		color: #fff;
-		line-height: 90px;
-		font-weight: bolder;  */
 	}
 	.tbtable .tbheader{
 		background-color: #dddddd;
@@ -35,7 +29,6 @@
 	.special_cus{
 		color: RED;
 	}
--->
 </style>
 <form id='frm_add_exch' action="<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'xchanges','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	<script type="dojo/method" event="onSubmit">			
@@ -45,13 +38,12 @@
 					dijit.byId('recieve_money').focus();
 					return false;
 				}
-
+				dijit.byId('save_close').set('disabled',true);
 				return true;
 			} else {
 				return false;
 			}
 	</script>	 
-	
 	<table cellspacing="20" width="100%"  >
 		<tr>
 			<td width="48%" valign="top">	
@@ -93,13 +85,13 @@
 							</td>
 						</tr>
 						<tr>
-							<td style="width: 150px">ពីប្រភេទ​លុយ</td>
+							<td style="width: 150px"><strong>ពីប្រភេទ​លុយ</strong></td>
 							<td>
 								<input id="from_amount_type" >
 							</td>
 						</tr>
 						<tr>
-							<td style="width: 150px">ទៅជាប្រភេទ​លុយ</td>
+							<td style="width: 150px"><strong>ទៅជាប្រភេទ​លុយ</strong></td>
 							<td>
 								<input id="to_amount_type" >
 							</td>
@@ -120,7 +112,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td>ចំនួន​ទឹក​ប្រាក់ <label id="lbl_from_amount" class="special_cus"></label></td>
+							<td><strong>ចំនួន​ទឹក​ប្រាក់ <label id="lbl_from_amount" class="special_cus"></label></strong></td>
 							<td>
 								<input type="text" onKeyup="return_money();" name="from_amount" id="from_amount"  data-dojo-type="dijit.form.NumberTextBox"
 									data-dojo-props="required:true,																		
@@ -132,7 +124,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td>ចំនួន​ទឹក​ប្រាក់ <label id="lbl_to_amount" class="special_cus"></label></td>
+							<td><strong>ចំនួន​ទឹក​ប្រាក់ <label id="lbl_to_amount" class="special_cus"></label></strong></td>
 							<td>
 								<input type="text" name="to_amount" id="to_amount"  data-dojo-type="dijit.form.NumberTextBox"
 									data-dojo-props="required:true,																		
@@ -143,7 +135,6 @@
 									invalidMessage:'ចំនួន​ទឹក​ប្រាក់​ មិន​ត្រឹម​ត្រូវ!'">
 							</td>
 						</tr>
-						
 						<tr>
 							<td>ប្រាក់​ទទួល​បាន​</td>
 							<td>
@@ -171,8 +162,8 @@
 						</tr>
 						<tr>
 							<td colspan="2" align="center">
-								<input type="button" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button" 
-								 iconClass="dijitEditorIcon dijitEditorIconSave" onclick="dijit.byId('frm_add_exch').submit();"/>
+								<input type="submit" id="save_close" name="save_close" value="រក្សាទុក" label="រក្សាទុក" id="submitButton" dojoType="dijit.form.Button" 
+								 iconClass="dijitEditorIcon dijitEditorIconSave" />
 								<input type="button" value="រក្សាទុក & បោះពុម្ព" label="រក្សាទុក & បោះពុម្ព" id="busyButton" dojoType="dijit.form.Button" 
 									iconClass="dijitEditorIcon dijitEditorIconPrint" onclick="printSave();"/> 
 							</td>
@@ -221,7 +212,7 @@
 				   </tr>
 				   <tr>
 					   <td align="right" colspan="3" style="font-size: 8pt;">
-								<?php echo'Date: '. date("h:i d/m/Y");?>
+							<?php echo'Date: '. date("h:i d/m/Y");?>
 					  </td>
 				  </tr>
 				   <tr style="border-bottom:1px solid #000; font-size:8px;">
@@ -242,9 +233,7 @@
 						</td>
 				   </tr>
 				   <tr>
-						<td class="font_khmer">
-							អត្រាប្តូរប្រាក់
-						</td>
+						<td class="font_khmer">អត្រាប្តូរប្រាក់</td>
 						<td>:</td>
 						<td align="right" style="white-space: nowrap;">
 							<strong ><label id="rpt_rate"></label></strong>
@@ -269,9 +258,7 @@
 						</td>
 				   </tr>
 				   <tr>
-						<td class="font_khmer"> 
-							ចំនួន​ទឹក​ប្រាក់អាប់
-						</td>
+						<td class="font_khmer">ចំនួន​ទឹក​ប្រាក់អាប់</td>
 						<td>:</td>
 						<td align="right">
 							<strong style="font-size:10px;"><label id="rpt_change"></label></strong>
@@ -279,7 +266,7 @@
 				   </tr>
 				   <tr style="border:1px solid #000;">
 						<td colspan="3" align="center" style="border-top: 2px dashed #000;padding-top:5px;" class="font_khmer">
-								<?php echo $this->keycode['comment'];?>
+							<?php echo $this->keycode['comment'];?>
 						</td>			
 				   </tr>
 				   <tr>
@@ -298,8 +285,6 @@
 				showLabel="false" type="button" onclick="doPrint();">Print</button>
 		<button dojoType="dijit.form.Button" iconClass="dijitEditorIcon dijitEditorIconCancel"
 				showLabel="false" type="button" onclick="hidePopup();">Cancel</button>
-			
-
 	</div>
 </div>
 
@@ -316,7 +301,6 @@
 	dojo.require("dojo.number");
 	dojo.require('dojox.form.BusyButton');
 	dojo.require("dijit.Dialog");
-
 	
 	 var calcSysble = "*";
 	 var lblrateid = "";
@@ -329,7 +313,6 @@
 		 });
 		 
 		new dijit.form.FilteringSelect({
-	      //  store: dojo.data.ObjectStore({objectStore: curency_type_data}),
 	        autoComplete: true,           
 	        required: true,
 	        id: "to_amount_type",
@@ -340,7 +323,6 @@
 	        onChange: function() {
 	        	getRateValue();
 	        }
-
 	    }, "to_amount_type");
 	    
 		new dijit.form.FilteringSelect({
@@ -356,9 +338,7 @@
 	        	clearText(true);
 	        	getExchangeFromTypeToType();
 	        }
-
 	    }, "from_amount_type");
-
 
 		dojo.connect(dojo.byId("from_amount"), "onkeyup", function(evt){			
 			if(!dojo.byId("special_cus").checked){
@@ -368,7 +348,6 @@
 			}
 			total();
 	    });
-
 		dojo.connect(dojo.byId("to_amount"), "onkeyup", function(evt){
 			rev_total();
 	    });	
@@ -380,8 +359,6 @@
 		dojo.connect(dojo.byId("recieve_money"), "onkeyup", function(evt){
 			return_money();
 	    });	
-		/*checkRate();*/
-		
 	});   
 
 	function clearText(exp){
@@ -409,9 +386,7 @@
 			dijit.byId('recieve_money').set('value',dojo.number.format(dojo.number.round(amount,2)));
 			dojo.byId("return_money").value = dojo.number.format(dojo.number.round(0,2));
 		}
-		
 	}
-		
 	function total(){
 		tt=0;
 		r_money=0;
@@ -427,12 +402,10 @@
 		else{
 			tt = amount / rate;			
 		}
-		
 		dojo.byId("to_amount").value = dojo.number.format(dojo.number.round(tt,2));
 		dojo.byId("recieve_money").value = dojo.number.format(dojo.number.round(amount,2));
 		return_money();
 	}
-
 	function rev_total(){
 		tt=0;
 		r_money=0;
@@ -447,14 +420,10 @@
 		else{
 			tt = amount * rate;	
 		}
-// 		dojo.byId("from_amount").value = dojo.number.format(Math.ceil(tt));
-// 		dojo.byId("recieve_money").value = dojo.number.format(Math.ceil(tt));	
 		dojo.byId("from_amount").value = dojo.number.format(dojo.number.round(tt,2));
 		dojo.byId("recieve_money").value = dojo.number.format(dojo.number.round(tt,2));
 		return_money();
 	}
-	
-	
 	function printSave(){		
 		if(dijit.byId('frm_add_exch').validate()) {
 			if(dijit.byId('recieve_money').get('value') < dijit.byId('from_amount').get('value') || dijit.byId('return_money').get('value') < 0){
@@ -464,9 +433,7 @@
 			}
 			showDialog();			
 		}
-		
 	}
-	
 	function showDialog() {		
 		var from_type = dojo.byId("from_amount_type").value;
 		var to_type = dojo.byId("to_amount_type").value;
@@ -477,10 +444,8 @@
 		dojo.byId("rpt_to_amount").innerHTML = css_s + dojo.byId("to_amount").value + css_e +" "+ to_type;
 		dojo.byId("rpt_recieve").innerHTML = css_s + dojo.byId("recieve_money").value + css_e + " " + from_type;
 		dojo.byId("rpt_change").innerHTML = css_s + dojo.byId("return_money").value + css_e + " " + from_type;
-		
 		dijit.byId("terms").show();
 	}
-	
 	// Hide the dialog
 	function hideDialog() {		
 		dijit.byId("terms").hide();
@@ -496,7 +461,6 @@
 	    window.frames["print_frame"].window.print();
 	    hideDialog();
 	}
-
 	function changRateTextbox(){		
 		if(dojo.byId("special_cus").checked){
 			dijit.byId("rate").setAttribute('readOnly', false);

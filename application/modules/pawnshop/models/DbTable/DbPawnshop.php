@@ -74,7 +74,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     		$photo ="";
     		if (!empty($_FILES['photo']['name'])){
     			$ss =   explode(".", $_FILES['photo']['name']);
-    			$image_name = "pawnshop".date("Y").date("m").date("d").time().".".end($ss);
+    			$image_name = "pawn".date("Y").date("m").date("d").time().".".end($ss);
     			$tmp = $_FILES['photo']['tmp_name'];
     			if(move_uploaded_file($tmp, $part.$image_name)){
     				$photo = $image_name;
@@ -82,10 +82,8 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     			else{
     				$string = "Image Upload failed";
     			}
-    				
     		}
     		$dbtable = new Application_Model_DbTable_DbGlobal();
-//     		$loan_number = $dbtable->getLoanNumber($data);
 				$day_amount = 1;
 			    $day_amount=30;
 				$datagroup = array(
@@ -336,6 +334,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 					if($i!=1){
 						$start_date = $next_payment;
 						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
+						//$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
 						$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
 					}else{
 						$next_payment = $data['first_payment'];
@@ -371,6 +370,36 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 			FROM ln_pawnshoptest AS f WHERE f.pawn_id = 1 ";
 			return $db->fetchAll($sql);
     	}catch (Exception $e){
+    		Application_Form_FrmMessage::message("INSERT_FAIL");
+    		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+    	}
+    }
+    function updatePaymentStatus($data){
+    	$db = $this->getAdapter();
+    	$db->beginTransaction();
+    	try{
+    		$this->_name='ln_pawnshop';
+    		$arr = array(
+    				'loan_number'=>$data['loan_code']);
+    		$where=" id =".$data['id'];
+    		$this->update($arr, $where);
+    
+    		$tranlist = explode(',',$data['indentity']);
+    		$this->_name='ln_pawnshop_detail';
+    		foreach ($tranlist as $i) {
+    			$arr = array(
+    					'is_completed'=>$data['payment_option'.$i],
+    					'principle_after'=>$data['principal_after'.$i],
+    					'total_interest_after'=>$data['interest_after'.$i],
+    					'total_payment_after'=>$data['interest_after'.$i]+$data['principal_after'.$i],
+    			);
+    			$where="id = ".$data['fundid_'.$i];
+    			$this->update($arr, $where);
+    		}
+    		$db->commit();
+    		return 1;
+    	}catch (Exception $e){
+    		$db->rollBack();
     		Application_Form_FrmMessage::message("INSERT_FAIL");
     		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
     	}
@@ -439,5 +468,22 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	$sql = " SELECT level FROM `ln_pawnshop` WHERE status =1 AND customer_id = $client_id LIMIT 1 ";
     	$level  = $db->fetchOne($sql);
     	return ($level+1);
+    }
+    function getPawnIdByBranch($branch_id){
+    	$db=$this->getAdapter();
+    	$sql="select
+    	id,
+    	CONCAT(
+    	(select product_en from ln_pawnshopproduct as psp where psp.id = ps.product_id),
+    	'(',loan_number,')',
+    	'(',(select name_kh from ln_clientsaving where client_id = customer_id),')'
+    	) as name
+    	from
+    	ln_pawnshop	as ps
+    	where
+    	is_sold=0
+    	and is_dach = 0
+    	and branch_id = $branch_id ";
+    	return $db->fetchAll($sql);
     }
 }

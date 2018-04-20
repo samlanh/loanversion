@@ -252,7 +252,11 @@ input.btn_borwse_image {
 </table>	
 </form>
 <?php 
+	echo $this->frm_popup_district;
+	echo $this->frm_popup_village;
+	echo $this->frm_popup_comm;
 ?>
+
 <script type="text/javascript">
 function readURL(input) {
     if (input.files && input.files[0]) {
@@ -464,11 +468,10 @@ function addVillage(){
 			form:dojo.byId('form_village'),
 			handleAs:"json",
 			load: function(data) {
-				labelen = dijit.byId('village_name').get('value');
 				labelkh = dijit.byId('village_namekh').get('value');
 				var villageItem1 = {					
 						id: data,
-						name: labelen+' - '+labelkh,
+						name:labelkh,
 				};			
 				addDataToSelectbox(dijit.byId('village'), village_store, villageItem1, data);	
 				dijit.byId('frm_village').reset();
@@ -531,7 +534,7 @@ function addNewDistrict(){
 			load: function(data) {	
 				var myNewItem1 = {					
 						id: data,
-						name: dijit.byId('pop_district_name').get('value')+' - '+dijit.byId('pop_district_namekh').get('value'),
+						name:dijit.byId('pop_district_namekh').get('value'),
 				};			
 				addDataToSelectbox(dijit.byId('district'), district_store, myNewItem1, data);	
 				dijit.byId('frm_district').reset();
@@ -551,11 +554,10 @@ function addNewCommune(){
 			form:dojo.byId('form_commune'),
 			handleAs:"json",
 			load: function(data) {	
-				communeen = dijit.byId('commune_nameen').get('value');
 				communekh = dijit.byId('commune_namekh').get('value');
 				var Itemcommune = {					
 						id: data,
-						name: communeen+' - '+communekh,
+						name:communekh,
 				};			
 				addDataToSelectbox(dijit.byId('commune'), commune_store, Itemcommune, data);
 				dijit.byId('frm_commune').reset();

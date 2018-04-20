@@ -312,7 +312,6 @@ public function addILPayment($data){
     	$sql="SELECT receipt_no  FROM ln_client_receipt_money WHERE receipt_no='$reciept_no' ORDER BY id DESC LIMIT 1 ";
     	$acc_no = $db->fetchOne($sql);    	
     	//getIlPaymentRPNumber
-    	
     	if($acc_no){
     		$reciept_no=$this->getIlPaymentRPNumber($data['co_id']);
     		//$reciept_no=$this->getIlPaymentNumber();
@@ -391,10 +390,10 @@ public function addILPayment($data){
 		$resultloan = $this->getAllRemainSchedule($data['loan_number']);
 		if(!empty($resultloan))foreach($resultloan AS $key => $rsloan){
 	    	if($remain_money<=0){break;}
-					$after_outstanding= $rsloan['outstanding_after'];
-					$after_payment_after= $rsloan['total_payment_after'];
-	    			$after_principal= $rsloan['principle_after'];//$data["principal_permonth_".$i];
-	    			$total_principal=$after_principal;
+					$after_outstanding = $rsloan['outstanding_after'];
+					$after_payment_after = $rsloan['total_payment_after'];
+	    			$after_principal = $rsloan['principle_after'];//$data["principal_permonth_".$i];
+	    			$total_principal = $after_principal;
 	    			$after_interest = $rsloan['total_interest_after'];//$data["interest_".$i];
 		    		if($option_pay!=4){
 	    				$total_interest = $after_interest;
@@ -414,8 +413,7 @@ public function addILPayment($data){
 	    					$total_interest=0;
 	    				}
 	    			}
-	    			
-	    			$record_id = $rsloan['id'];//$data["mfdid_".$i];
+	    			$record_id = $rsloan['id'];
 	    			if($record_id!=""){
 	    				if($option_pay==1 OR $option_pay==2 OR $option_pay==3 OR $option_pay==4){//បង់ធម្មតា
 	    					if($option_pay==1){

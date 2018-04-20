@@ -2,13 +2,11 @@
 
 class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
 {
-
     protected $_name = 'ln_pawn_sale';
     public function getUserId(){
     	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;
     }
-    
     function getAllPawnSale($search = null){
     	$db = $this->getAdapter();
     	$from_date =(empty($search['start_date']))? '1': "selling_date >= '".$search['start_date']." 00:00:00'";
@@ -38,8 +36,7 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
     				ln_pawn_sale as ps,
     				ln_pawnshop as psp
     			where 
-    				ps.pawn_id = psp.id	
-    		";
+    				ps.pawn_id = psp.id	";
     
     	if(!empty($search['adv_search'])){
 	    	$s_where = array();
@@ -141,8 +138,6 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
 		}
 	}
 	
-	
-	
 	public function getPawnSaleById($id){
 		$db = $this->getAdapter();
 		$sql = "SELECT * FROM ln_pawn_sale WHERE id = $id LIMIT 1 ";
@@ -151,7 +146,6 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
 	
 	function getProductIdByBranch($branch_id){
 		$db=$this->getAdapter();
-		
 		$sql="select 
 					id,
 					CONCAT(
@@ -164,14 +158,12 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
 				where
 					is_sold=0
 					and is_dach = 1	
-					and branch_id = $branch_id
-			";
+					and branch_id = $branch_id ";
 		return $db->fetchAll($sql);
 	}
 	
 	function getProductIdByBranchEdit($branch_id){
 		$db=$this->getAdapter();
-	
 		$sql="select
 					id,
 					CONCAT(
@@ -190,21 +182,14 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
 	
 	function getProductDetail($pawn_id){
 		$db=$this->getAdapter();
-		$sql="select
-					*
-				from
+		$sql="SELECT
+					ps.*,
+					(SELECT SUM(d.principle_after) FROM `ln_pawnshop_detail` AS d WHERE d. pawn_id= ps.id AND STATUS=1 AND d.is_completed=0 LIMIT 1)  AS total_principal,
+    				(SELECT COUNT(d.id) FROM `ln_pawnshop_detail` AS d WHERE d. pawn_id= ps.id AND STATUS=1 AND d.is_completed=0 LIMIT 1)  AS remaintimes
+				FROM
 					ln_pawnshop	as ps
-				where
-					ps.id = $pawn_id
-			";
+				WHERE
+					ps.id = $pawn_id ";
 		return $db->fetchRow($sql);
 	}
-	
-	
-	
-	
-	
-	
-	
 }
-

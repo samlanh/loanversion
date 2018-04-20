@@ -100,6 +100,11 @@ class Pawnshop_CustomerController extends Zend_Controller_Action {
 		$frm = $fm->FrmAddClient();
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm_client = $frm;
+		
+		$dbpop = new Application_Form_FrmPopupGlobal();
+		$this->view->frm_popup_village = $dbpop->frmPopupVillage();
+		$this->view->frm_popup_comm = $dbpop->frmPopupCommune();
+		$this->view->frm_popup_district = $dbpop->frmPopupDistrict();
 	}
 	public function editAction(){
 		$db = new Pawnshop_Model_DbTable_DbClient();
@@ -128,9 +133,8 @@ class Pawnshop_CustomerController extends Zend_Controller_Action {
 		
 		$dbpop = new Application_Form_FrmPopupGlobal();
 		$this->view->frm_popup_village = $dbpop->frmPopupVillage();
-// 		$this->view->frm_popup_comm = $dbpop->frmPopupCommune();
-// 		$this->view->frm_popup_district = $dbpop->frmPopupDistrict();
-// 		$this->view->frm_popup_clienttype = $dbpop->frmPopupclienttype();
+		$this->view->frm_popup_comm = $dbpop->frmPopupCommune();
+		$this->view->frm_popup_district = $dbpop->frmPopupDistrict();
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$client_type = $db->getclientdtype();
