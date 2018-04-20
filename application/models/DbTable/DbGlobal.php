@@ -600,17 +600,13 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	l.release_amount AS total_capital,l.loan_number,
   	l.interest_rate,
   	l.branch_id,
-  	
   	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name,
   	(SELECT client_number FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_number,
   	(SELECT name_kh FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
   	(SELECT name_en FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,
   	(SELECT phone FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_phone,
-  	
   	l.customer_id AS client_id,
-  	
   	(SELECT curr_namekh FROM `ln_currency` WHERE id = l.currency_type LIMIT 1) AS currency_type,
-  	
   	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = l.user_id LIMIT 1) AS user_name
   	FROM
   	`ln_pawnshop` AS l WHERE 1 ";
@@ -985,7 +981,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
  				$default_day='d';
  			}
  			$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));
-//  			return $next_payment;
  		}
  	}
  	if($holiday_status==3){//normal
