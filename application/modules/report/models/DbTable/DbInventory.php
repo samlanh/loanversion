@@ -620,11 +620,11 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 		(SELECT b.buyer_name FROM `ln_ins_buyer` AS b WHERE b.id = p.`buyer_id` LIMIT 1) AS buyerName,
 		(SELECT b.address FROM `ln_ins_buyer` AS b WHERE b.id = p.`buyer_id` LIMIT 1) AS buyerAddress,
 		(SELECT b.occupation FROM `ln_ins_buyer` AS b WHERE b.id = p.`buyer_id` LIMIT 1) AS buyerOccupation,
-		(SELECT s.sup_name FROM `ln_ins_supplier` AS s WHERE s.id = p.`buyer_id` LIMIT 1) AS supplier_name,
-		(SELECT s.address FROM `ln_ins_supplier` AS s WHERE s.id = p.`buyer_id` LIMIT 1) AS supplierAddress,
-		(SELECT s.occupation FROM `ln_ins_supplier` AS s WHERE s.id = p.`buyer_id` LIMIT 1) AS supplierOccupation,
-		(SELECT s.age FROM `ln_ins_supplier` AS s WHERE s.id = p.`buyer_id` LIMIT 1) AS supplierAge,
-		(SELECT s.sex FROM `ln_ins_supplier` AS s WHERE s.id = p.`buyer_id` LIMIT 1) AS supplierSex
+		(SELECT s.sup_name FROM `ln_ins_supplier` AS s WHERE s.id = p.`supplier_id` LIMIT 1) AS supplier_name,
+		(SELECT s.address FROM `ln_ins_supplier` AS s WHERE s.id = p.`supplier_id` LIMIT 1) AS supplierAddress,
+		(SELECT s.occupation FROM `ln_ins_supplier` AS s WHERE s.id = p.`supplier_id` LIMIT 1) AS supplierOccupation,
+		(SELECT s.age FROM `ln_ins_supplier` AS s WHERE s.id = p.`supplier_id` LIMIT 1) AS supplierAge,
+		(SELECT s.sex FROM `ln_ins_supplier` AS s WHERE s.id = p.`supplier_id` LIMIT 1) AS supplierSex
 		FROM ln_ins_purchase AS p WHERE p.id=$purchaseID AND p.`type`=2";
    	return $db->fetchRow($sql);
    }
