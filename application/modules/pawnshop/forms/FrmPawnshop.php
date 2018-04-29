@@ -271,6 +271,26 @@ public function init()
 		}
 		$end_date->setValue($_date);
 		
+		$extra_loan = new Zend_Dojo_Form_Element_NumberTextBox('extra_loan');
+		$extra_loan->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+		));
+		
+		$outstandingloan = new Zend_Dojo_Form_Element_NumberTextBox('outstandingloan');
+		$outstandingloan->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
+				'class'=>'fullside',
+				'required'=>true,
+		));
+		
+		$noted = new Zend_Dojo_Form_Element_TextBox('noted');
+		$noted->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		
 		$_id = new Zend_Form_Element_Hidden('id');
 		if($data!=null){
 			$_branch_id->setValue($data['branch_id']);
@@ -293,7 +313,7 @@ public function init()
 			$_id->setValue($data['id']);
 			$_status->setValue($data['status']);
 		}
-		$this->addElements(array($_start_date,$end_date,$_title,$description,$_estimate,$_first_payment,$receipt_num,$withdrawal,$pro_type,$_level,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,
+		$this->addElements(array($noted,$outstandingloan,$extra_loan,$_start_date,$end_date,$_title,$description,$_estimate,$_first_payment,$receipt_num,$withdrawal,$pro_type,$_level,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,
 				$_interest,
 				$_client_codes,$_loan_codes,$_members,
 				$_client_code,$_branch_id,$_currency_type,$_amount,$_rate,$_releasedate

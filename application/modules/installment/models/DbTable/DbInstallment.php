@@ -780,43 +780,43 @@ public function previewschedule($data){
 // 	$where.=" LIMIT 1 ";
 // 	return $this->getAdapter()->fetchRow($sql.$where);
 // }
-// public function getLoanviewById($id){
-// 	$sql = "SELECT
-// 	l.id
-// 	,(SELECT branch_nameen FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name
-// 	,l.level,
-// 	(SELECT name_kh FROM `ln_view` WHERE STATUS =1 AND TYPE=24 AND key_code=l.for_loantype) AS for_loantype
-// 	,(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_firstname
-// 	,(SELECT CONCAT(zone_name,'-',zone_num)AS dd FROM `ln_zone` WHERE zone_id = l.zone_id ) AS zone_name
-// 	,(SELECT name_en FROM `ln_view` WHERE STATUS =1 AND TYPE=14 AND key_code=l.pay_term) AS pay_term
-// 	,(SELECT name_en FROM `ln_view` WHERE STATUS =1 AND TYPE=14 AND key_code=l.collect_typeterm) AS collect_typeterm
-// 	,l.date_release
-// 	,l.total_duration
-// 	,l.first_payment
-// 	,l.time_collect
-// 	,(SELECT name_en FROM `ln_view` WHERE STATUS =1 AND TYPE=2 AND key_code=l.holiday) AS holiday
-// 	,l.date_line
-// 	,l.holiday
-// 	,(SELECT payment_nameen FROM `ln_payment_method` WHERE id =l.payment_method ) AS payment_nameen
-// 	,(SELECT curr_nameen FROM `ln_currency` WHERE id=l.currency_type) AS currency_type
-// 	,l.graice_period,
-// 	l.loan_number,
-// 	interest_rate,
-// 	l.amount_collect_principal,
-// 	l.customer_id,l.admin_fee,
-// 	l.other_fee
-// 	,(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
-// 	(SELECT name_en FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,
-// 	(SELECT group_code FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS group_code,
-// 	(SELECT client_number FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_number,
-// 	l.loan_amount,l.payment_method,
-// 	l.time_collect,
-// 	l.zone_id,
-// 	(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
-// 	l.status AS str ,l.status FROM `ln_loan` AS l
-// 	WHERE  l.id = $id LIMIT 1 ";
-// return $this->getAdapter()->fetchRow($sql);
-// }
+public function getLoanviewById($id){
+	$sql = "SELECT
+				l.id
+				,(SELECT branch_nameen FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name
+				,l.level,
+				(SELECT name_kh FROM `ln_view` WHERE STATUS =1 AND TYPE=24 AND key_code=l.for_loantype) AS for_loantype
+				,(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_firstname
+				,(SELECT CONCAT(zone_name,'-',zone_num)AS dd FROM `ln_zone` WHERE zone_id = l.zone_id ) AS zone_name
+				,(SELECT name_en FROM `ln_view` WHERE STATUS =1 AND TYPE=14 AND key_code=l.pay_term) AS pay_term
+				,(SELECT name_en FROM `ln_view` WHERE STATUS =1 AND TYPE=14 AND key_code=l.collect_typeterm) AS collect_typeterm
+				,l.date_release
+				,l.total_duration
+				,l.first_payment
+				,l.time_collect
+				,(SELECT name_en FROM `ln_view` WHERE STATUS =1 AND TYPE=2 AND key_code=l.holiday) AS holiday
+				,l.date_line
+				,l.holiday
+				,(SELECT payment_nameen FROM `ln_payment_method` WHERE id =l.payment_method ) AS payment_nameen
+				,(SELECT curr_nameen FROM `ln_currency` WHERE id=l.currency_type) AS currency_type
+				,l.graice_period,
+				l.loan_number,
+				interest_rate,
+				l.amount_collect_principal,
+				l.customer_id,l.admin_fee,
+				l.other_fee
+				,(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
+				(SELECT name_en FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,
+				(SELECT group_code FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS group_code,
+				(SELECT client_number FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_number,
+				l.loan_amount,l.payment_method,
+				l.time_collect,
+				l.zone_id,
+				(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
+				l.status AS str ,l.status FROM `ln_loan` AS l
+			WHERE  l.id = $id LIMIT 1 ";
+		return $this->getAdapter()->fetchRow($sql);
+}
 // function getLoannumberbyCustomer($client_id){
 // 		$db  = $this->getAdapter();
 // 		$sql = " SELECT level

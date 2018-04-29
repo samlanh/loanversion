@@ -16,7 +16,7 @@ public function init()
 			$post=$this->getRequest()->getPost();
 			try {
 				$db = $db->updateKeyCode($post, $data);
-				Application_Form_FrmMessage::Sucessfull('ការកែប្រែ​​ជោគ​ជ័យ','/setting/setting');
+				Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS','/setting/setting');
 			} catch (Exception $e) {
 				$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 			}

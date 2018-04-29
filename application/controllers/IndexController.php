@@ -162,7 +162,7 @@ class IndexController extends Zend_Controller_Action
 					$session_user->unlock();	
 					$session_user->pwd=$pass_data['new_password'];
 					$session_user->lock();
-					Application_Form_FrmMessage::Sucessfull('ការផ្លាស់ប្តូរដោយជោគជ័យ', self::REDIRECT_URL);
+					Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS', self::REDIRECT_URL);
 				} catch (Exception $e) {
 					Application_Form_FrmMessage::message('ការផ្លាស់ប្តូរត្រូវបរាជ័យ');
 				}				

@@ -21,6 +21,9 @@ $newarray=array();
 			if($rs['controller']=='index' AND $rs['module']=='loan' ){
 				$lblcontroller='IL_DISBURSE';
 			}
+			if($rs['module']=='installment' AND $rs['controller']=='index'){
+				$lblcontroller='INSTALLMENT_MNG';
+			}
 			
 			if($module!=$rs['module']){
 				$newarray= array($rs['controller']=>'<li><a href="">'.$tr->translate(strtoupper($lblcontroller)).'</a></li>');

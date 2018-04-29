@@ -104,13 +104,20 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
+		
 		$options = $db->getAllPaymentMethod(null,1);
 		$options[-1]="--Select Repayment Method--";
-		$_repayment_method->setMultiOptions($options);
+		
 		$opt_method = $request->getParam("repayment_method");
 		if(empty($opt_method)){
 			$opt_method=-1;
 		}
+		$request=Zend_Controller_Front::getInstance()->getRequest();
+		if($request->getModuleName()=='installment'){
+			unset($options['3']);unset($options['5']);
+			unset($options['6']);
+		}
+		$_repayment_method->setMultiOptions($options);
 		$_repayment_method->setValue($opt_method);
 		
 // 		$_zone = new Zend_Dojo_Form_Element_FilteringSelect('zone');

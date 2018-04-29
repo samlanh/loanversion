@@ -292,7 +292,9 @@ public function getIlPaymentNumber(){
     return $pre_fix.$pre.$new_acc_no;
 }
    function getSaleinstallbyid($id){//group id
-    	$sql ="SELECT s.* FROM 
+    	$sql ="SELECT s.*
+				,(SELECT SUM(principal_paid) FROM `ln_ins_receipt_money` WHERE loan_id=2) AS principal_paid
+    	 FROM 
 			    	`ln_ins_sales_install` AS s
 			    	WHERE  s.id = $id ";
     	return $this->getAdapter()->fetchRow($sql);

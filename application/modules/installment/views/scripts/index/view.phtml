@@ -11,8 +11,8 @@
 }
 </style>
 <p style="float:right;">
-<input type="button"  label="<?php echo $tr->translate("GO_BACK");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'loan','controller'=>"index",'action'=>'index'),null,true); ?>';"/>
-<input  type="button" id="wu-register" iconClass="dijitIconEdit" label="<?php echo $tr->translate("GO_EDIT");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'loan','controller'=>"index",'action'=>'edit','id'=>$rs['id']),null,true); ?>';"/>
+<input type="button"  label="<?php echo $tr->translate("GO_BACK");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'installment','controller'=>"index",'action'=>'index'),null,true); ?>';"/>
+<input  type="button" id="wu-register" iconClass="dijitIconEdit" label="<?php echo $tr->translate("GO_EDIT");?>" dojoType="dijit.form.Button" onclick="window.location = '<?php echo $this->url(array('module'=>'installment','controller'=>"index",'action'=>'edit','id'=>$rs['id']),null,true); ?>';"/>
 <div class="menureport">
 	<ul>
 		<li class="preview"><a title="Preview" href="" onclick="preview();"></a></li>
@@ -33,7 +33,7 @@
 					<td class="border-cover" ><?php echo $rs['branch_name']; ?></td>
 			    </tr>
 			    <tr>
-			    	 <td  ><?php echo $tr->translate("LOAN_NO");?></td>
+			    	 <td><?php echo $tr->translate("LOAN_NO");?></td>
 					 <td class="border-cover"  ><?php echo $rs['loan_number'];?></td>
 			    </tr>
 			    <tr>
@@ -53,7 +53,7 @@
 					<td class="border-cover"><?php echo $rs['client_name_kh'];?></td>
 				</tr>
 				<tr>
-					<td  ><?php echo $tr->translate("LOAN_LEVEL")?></td>
+					<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
 					<td class="border-cover"><?php echo $rs['level']?></td>
 			    </tr>
 			</table>

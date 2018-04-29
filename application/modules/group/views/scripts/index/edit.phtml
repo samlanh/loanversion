@@ -500,7 +500,7 @@ dojo.ready(function(){
 		autoComplete: false,
 		queryExpr: "*${0}*",
 		class: 'fullside',
-		value: <?php echo $this->row['guarantor_d_type'];?>,
+		value: '<?php echo $this->row['guarantor_d_type'];?>',
 			onChange: function() {
 				client_d_type = dijit.byId('guarantor_d_type').get('value');
 				if(client_d_type==-1){

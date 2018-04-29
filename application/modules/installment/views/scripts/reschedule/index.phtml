@@ -1,0 +1,61 @@
+<?php 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate("LOAN_IL"));
+	$frm = $this->frm_search;
+	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
+<script>
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dojo.data.ItemFileWriteStore"); 
+</script>
+<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+   <table width="100%">
+	   <tr>  
+	        <td><?php echo $frm->getElement("adv_search");?></td>
+	   		<td> <?php echo $frm->getElement('branch_id');?></td>
+	   		<td><?php echo $frm->getElement("member");?></td>
+	   		<td><?php echo $frm->getElement("repayment_method");?></td>
+	   		<td><input id="category_id" /></td>
+	   </tr>
+	   <tr>
+	   		<td><select dojoType="dijit.form.FilteringSelect" class="fullside"  name="selling_type" id="selling_type" >
+ 					<option value="-1"><?php echo $tr->translate('ជ្រើសរើសប្រភេទលក់');?></option>
+ 					<option value="1"><?php echo $tr->translate('ទិញដាច់');?></option>
+ 					<option value="2"><?php echo $tr->translate('បង់រំលស់');?></option>
+ 				</select>
+ 			</td>
+	   		<td><?php echo $frm->getElement('start_date');?></td>
+	   		<td><?php echo $frm->getElement('end_date');?></td>
+	   		<td><?php echo $frm->getElement('status');?></td>
+	   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+	   </tr>
+	</table>
+</form>
+	<?php echo $this->list;?>
+<script>
+	function getmemberIdGroup(){
+		customer_code= dijit.byId('customer_code').get('value');
+		dijit.byId('member').attr('value',customer_code);
+	}
+	function checkMember(){
+		customer_code= dijit.byId('member').get('value');
+		dijit.byId('customer_code').attr('value',customer_code);
+	}	
+	var cate_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->rs_cate));?> );
+	dojo.ready(function(){		
+		 new dijit.form.FilteringSelect({
+				store: cate_store,
+				required: false,		           
+				name: "category_id",
+				id: "category_id",
+				searchAttr: "name",
+				autoComplete: false,
+				queryExpr: "*${0}*",
+				value:"<?php echo $this->rs['category_id'];?>",
+				class: 'fullside',
+				onChange: function() {
+				}
+		}, "category_id");
+	});
+</script>

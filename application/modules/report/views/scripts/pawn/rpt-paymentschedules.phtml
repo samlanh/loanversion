@@ -35,7 +35,7 @@ td p{ margin-top:0px !important;}
 	                </tr>
 	                <tr>
 	                	<td colspan="3" align="center">
-	                		<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><?php //echo $tr->translate('rpt-paymentschedule');?> <?php echo $tr->translate('RPT_ILLOAN');?></h2>
+	                		<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><?php echo $tr->translate('RPT_ILLOAN');?></h2>
 	               		</td>
 	                </tr> 
 	                <?php $db = new Application_Model_DbTable_DbGlobal();
@@ -93,9 +93,15 @@ td p{ margin-top:0px !important;}
 	               if(!empty($tran)) foreach($tran as $key =>$row){?>
 	               	
                		<?php if($row['is_completed']==1 and $row['status']==0){?>
+               			<?php if($row['is_extraloan']==1){?>
+               			<tr style="background: #94c3f3;font-weight: bold;">
+               				<td colspan="9" align="center" style="font-family: Khmer OS Battambang;font-size: 14px;"><?php echo !empty($row['noted'])?$row['noted']:"អតិថិជនបានខ្ចីបន្ថែមចំនួន ";?><?php echo $row['principal_permonth']?> នៅថ្ងៃទី <?php echo date("d-m-Y",strtotime($row['date_payment']));?> </td>
+               			</tr>
+               			<?php }else{?>
                			<tr>
                				<td colspan="9" align="center" style="font-family: Khmer OS Battambang;font-size: 14px;">អតិថិជនបានបង់ប្រាក់រំលស់ដើមចំនួន <?php echo $row['principal_permonth']?> នៅថ្ងៃទី <?php echo date("d-m-Y",strtotime($row['date_payment']));?> </td>
                			</tr>
+               			<?php }?>
                		<?php }else{?>
 		               	<tr align="center" style=" height: 20px;" class="style">
 		                    <td><?php echo ($key+1<10)?"0":"";echo $key+1;?></td>

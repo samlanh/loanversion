@@ -35,7 +35,7 @@ class Setting_LabelController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db  = new Setting_Model_DbTable_DbLabel();
 			$db->updateLabel($data);
-			Application_Form_FrmMessage::Sucessfull('ការកែប្រែ​​ជោគ​ជ័យ','/setting/Label');
+			Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS','/setting/Label');
 		}
 		$key = new Application_Model_DbTable_DbKeycode();
 		$id = $this->getRequest()->getParam('id');

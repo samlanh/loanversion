@@ -109,7 +109,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 				WHERE
 				l.`is_completed` = 0
 				AND l.status=1
-				 ORDER BY l.sale_no DESC ";
+			ORDER BY l.sale_no DESC ";
 		return $db->fetchAll($sql);
 	}
 	public function getGlobalDb($sql)
@@ -1440,7 +1440,7 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	}
   	return $pre.$new_acc_no;
   }
-  function updateVillage(){
+  function updateVillage(){//tab2
 //   	$sql="
 //   		SELECT n.vill_id,o.villageid,village 
 // 	  		FROM `tlb_village`  AS o,`ln_village` AS n
@@ -1492,17 +1492,17 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
 //   		}
   }
   function checkLoanexist(){
-//   	$sql="	SELECT old_id,loan_amount,
+//   	$sql="SELECT old_id,loan_amount,
 //   		(SELECT SUM(principal) FROM `tbl_repayment` 
-//   		WHERE tbl_repayment.LoanID=ln_loan_copy.old_id LIMIT 1) AS principal 
-//   	FROM `ln_loan_copy` WHERE 1 LIMIT  ";
+//   		WHERE tbl_repayment.LoanID=ln_loan.old_id LIMIT 1) AS principal 
+//   	FROM `ln_loan` WHERE 1";
 //   	$rs = $this->getAdapter()->fetchAll($sql);
 //     if(!empty($rs)){
 //     	foreach ($rs as $r){
 //     		if($r['principal']!=$r['loan_amount']){
     			
 //     		}else{//ដាច់
-//     			$this->_name="ln_loan_copy";
+//     			$this->_name="ln_loan";
 //     			$where=" old_id='".$r['old_id']."'";
 //     			$this->delete($where);
 //     			$this->_name="ln_loan_detail";
@@ -1612,7 +1612,7 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   		$this->update($data, $where);
   	}
   }*/
-//   function updateGender(){
+  function updateGender(){
 //   	$sql="SELECT clientid,sex_main FROM `tbl_cif` ";
 //   	$rs = $this->getAdapter()->fetchAll($sql);
 //   	if(!empty($rs)){
@@ -1630,7 +1630,7 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
 //   			$this->update($arr, $where);
 //   		}
 //   	}
-//   }
+  }
   function deleteFull(){
 //   	$sql="SELECT 
 // 			l.old_id,
