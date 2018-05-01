@@ -98,19 +98,29 @@
 	dojo.require("dijit.Dialog");
 	dojo.require("dojo.parser");
 	dojo.require("dojo.NodeList-manipulate");
+	
+	new dijit.form.FilteringSelect({
+    id: "agent_id",
+    name: "agent_id",  
+    class: 'fullside',  
+    onChange: function() {        
+    	removeAllRow();
+    } 
+	}, "agent_id");
+
 	var record_no=1;
-	var urlCurrencyRow ='<?php echo $this->baseUrl()."/tellerandexchange/capitalexchange/getcurrencyrow";?>'
+	var urlCurrencyRow ='<?php echo $this->baseUrl()."/tellerandexchange/capitalexchange/getcurrencyrowwithdrawal";?>'
 	function addRowCurrency(type=null){
 		currency = dijit.byId('currency').get('value');
+		agent_id = dijit.byId('agent_id').get('value');
 		if(currency=='' || currency==-1 ){
 			dijit.byId('currency').focus();
 			return false;
 		}
-
 		dojo.xhrPost({
 			url:urlCurrencyRow,	
 			content:{ 
-			    'currency':currency,'record_no':record_no,
+			    'currency':currency,'record_no':record_no,'agent_id':agent_id
 			},		    
 			handleAs:"json",
 			load: function(data) {
@@ -147,6 +157,23 @@
 				alert(err);
 			}
 		});
+	}
+	function checkMaxBalance(index){
+		currenntBalance = dijit.byId("currenntBalance"+index).get('value');
+		if(dijit.byId("amount"+index).get('value')>currenntBalance){
+			alert("<?php echo $tr->translate("Witdrawal Amount Can Not Biger Than Currenct balance")?>");
+			dijit.byId("amount"+index).set('value',currenntBalance);
+		}
+	}
+		
+	function removeAllRow(){
+			var identity = $('#identity').val();
+			var arrays = identity.split(',');
+			
+			for(var i=0;i<arrays.length;i++) {
+				dojo.query("#row"+arrays[i]).remove();
+			}
+			$('#identity').val("");
 	}
 	 function newdeleteRecord(index,type=''){
 

@@ -228,4 +228,13 @@ class Tellerandexchange_CapitalexchangeController extends Zend_Controller_Action
 		Application_Model_Decorator::removeAllDecorator($frm);
 		$this->view->frm = $frm;
 	}
+	function getcurrencyrowwithdrawalAction(){
+		if($this->getRequest()->isPost()){
+			$data=$this->getRequest()->getPost();
+			$db = new Tellerandexchange_Model_DbTable_DbCapitalAgent();
+			$rs = $db->getCurrencyRowEditWithdrawal($data);
+			print_r(Zend_Json::encode($rs));
+			exit();
+		}
+	}
   }

@@ -233,6 +233,40 @@ class Tellerandexchange_Model_DbTable_DbCapitalAgent extends Zend_Db_Table_Abstr
 		$sql="SELECT cp.* FROM `ln_exchange_current_capital` AS cp WHERE cp.`agent_id`=$agent AND cp.`currency_id`=$currency LIMIT 1";
 		return  $db->fetchRow($sql);
 	}
+	
+	function getCurrencyRowEditWithdrawal($data){
+		$db = $this->getAdapter();
+		$curId= $data['currency'];
+		$sql="SELECT c.* FROM `ln_currency` AS c WHERE c.`id` =$curId LIMIT 1";
+		$row = $db->fetchRow($sql);
+	
+		$agent_id= $data['agent_id'];
+		$currentBalanceAgent = $this->getCurrentCapitalByAgent($curId,$agent_id);
+		$currentAmount = empty($currentBalanceAgent['amount'])?0:$currentBalanceAgent['amount'];
+		$baseurl= Zend_Controller_Front::getInstance()->getBaseUrl();
+		$tem='';
+		$newrowid='';
+		if (!empty($row)) {
+			$newrowid = $data['record_no'];
+			$tem.='
+			<td align="center">'.$data['record_no'].'</td>
+			<td align="center">
+			<label><strong>'.$currentAmount.' '.$row['curr_namekh'].' '.$row['symbol'].'</strong></label>
+			<input type="hidden" class="fullside" dojoType="dijit.form.TextBox" required="required"  name="currenntBalance'.$newrowid.'" id="currenntBalance'.$newrowid.'" value="'.$currentAmount.'" style="text-align: center;" >
+			<input type="hidden" class="fullside" dojoType="dijit.form.TextBox" required="required"  name="currency_id'.$newrowid.'" id="currency_id'.$newrowid.'" value="'.$row['id'].'" style="text-align: center;" >
+			</td>
+			<td><input type="text" class="fullside" dojoType="dijit.form.NumberTextBox" required="required" onKeyup="checkMaxBalance('.$newrowid.');"  name="amount'.$newrowid.'" id="amount'.$newrowid.'" value="0" style="text-align: center;" ></td>
+			<td width="30px" align="center"><img style="cursor: pointer;" onclick="newdeleteRecord('.$newrowid.')" src="'.$baseurl.'/images/Delete_16.png"></td>
+			';
+		}
+		$array = array('stringrow'=>$tem,'newrowid'=>$newrowid);
+		return $array;
+	}
+	function getCurrentCapitalByAgent($curId,$agent){
+		$db = $this->getAdapter();
+		$sql="SELECT c.* FROM `ln_exchange_current_capital` AS c WHERE c.`currency_id` = $curId AND c.`agent_id` = $agent LIMIT 1";
+		return $db->fetchRow($sql);
+	}
 }
 
 	
