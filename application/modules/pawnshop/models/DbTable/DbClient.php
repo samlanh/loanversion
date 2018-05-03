@@ -91,7 +91,7 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		client_number,name_kh,name_en,
 		(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND sex=key_code LIMIT 1) AS sex
 		,phone,house,street,
-			(SELECT village_name FROM `ln_village` WHERE vill_id= village_id) AS village_name
+			(SELECT village_namekh FROM `ln_village` WHERE vill_id= village_id) AS village_name
 		    ,join_with,create_date,
 		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
 			status FROM $this->_name ";
