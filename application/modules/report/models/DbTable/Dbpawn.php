@@ -1921,7 +1921,7 @@ WHERE ((`ln_view`.`type` = 21)
    cl.guarantor_with,
    cl.dob,
    cl.house,cl.street,
-(SELECT `ln_village`.`village_name` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `cl`.`village_id`)) AS `village_name`,
+(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `cl`.`village_id`)) AS `village_name`,
 (SELECT `c`.`commune_name` FROM `ln_commune` `c` WHERE (`c`.`com_id` = `cl`.`com_id`) LIMIT 1) AS `commune_name`,
 (SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `cl`.`dis_id`) LIMIT 1) AS `district_name`,
 (SELECT province_kh_name FROM `ln_province` WHERE province_id= cl.pro_id  LIMIT 1) AS province_en_name,

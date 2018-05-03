@@ -52,7 +52,7 @@
 							</td>
 					    </tr>
 					    <tr>
-					 		<td><?php echo $tr->translate('SALE_NO');?></td>
+					 		<td style="white-space: nowrap;"><?php echo $tr->translate('INSTALLMENT_NO');?></td>
 					 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="sale_no" id="sale_no" value="" type="text"></td>
 					 	</tr>
 					    <tr >
@@ -268,7 +268,7 @@
 												</div>
 											 </td>
 											  <td width="60%" valign="top">
-												<span><p>មានលក់ម៉ូតូ គ្រប់ប្រភេទ និង មួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលស់ ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</p></span>
+												<span><p style="line-height: 20px;">មានលក់ម៉ូតូ គ្រប់ប្រភេទ និង មួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលស់ ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</p></span>
 											</td>
 											  <td align="center" valign="middle" width="20%">
 												<span style="color: red; font-size:12px; font-family:'Times New Roman','Khmer OS Battambang';" id="LBinvoice">&nbsp;00000</span>
@@ -809,6 +809,22 @@ function calCulateFirstPayment(){
 	var y = a.getFullYear()+year;
 	var epx_date = y + '-'+ mm + '-'+dd ;
 	dijit.byId('first_payment').attr('value',epx_date);
+
+	amount_date = dijit.byId("duration").get('value');
+	var month = a.getMonth()+amount_date+1;
+	mm = month%12;
+	var year = parseInt(month/12);
+	var dd = a.getDate();
+	 if(dd<10){
+		 dd = "0"+dd;
+	}
+	 if(mm<10){
+		 mm = "0"+mm;
+	}
+	var y = a.getFullYear()+year;
+	var epx_date = y + '-'+ mm + '-'+dd ;
+	
+	dijit.byId('date_line').attr('value',epx_date);
 }
 var url_previewloan = '<?php echo $this->url(array('module'=>'installment','controller'=>'index','action'=>'addloantest')); ?>';
 function addPreviewLoan(){

@@ -80,7 +80,7 @@ input.btn_borwse_image {
 		<tr>
 			<td width="33%;" valign="top">
 				<fieldset>
-					<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO")?></strong></legend>
+					<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO");?></strong></legend>
 					<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 					<?php echo $frm->getElement('id');?>
 							<tr>
@@ -88,23 +88,23 @@ input.btn_borwse_image {
 								<td> <?php echo $frm->getElement('branch_id');?></td> 
 							</tr>
 						    <tr>
-								<td><?php echo $tr->translate("CLIENT_NO")?></td>
+								<td><?php echo $tr->translate("CLIENT_NO");?></td>
 								<td> <?php echo $frm->getElement('client_no');?> </td>
 						    </tr>
 						    <tr>
-						        <td><?php echo $tr->translate("NAME_KHMER")?>*</td>
+						        <td><strong><?php echo $tr->translate("NAME_KHMER");?></strong></td>
 						        <td> <?php  echo $frm->getElement('name_kh');?> </td>
 						    </tr>
 						    <tr>
-						        <td><?php echo $tr->translate("NAME_ENG")?>*</td>
+						        <td><?php echo $tr->translate("NAME_ENG");?></td>
 								<td><?php  echo $frm->getElement('name_en');?></td>
 						    </tr>
 						    <tr>
-								<td><?php echo $tr->translate("SEX")?></td>
+								<td><?php echo $tr->translate("SEX");?></td>
 								<td><?php  echo $frm->getElement('sex');?></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("PHONE")?></td>
+								<td><?php echo $tr->translate("PHONE");?></td>
 								<td><?php  echo $frm->getElement('phone');?></td>
 							</tr>
 					</table>	
@@ -112,30 +112,30 @@ input.btn_borwse_image {
 			</td>
 			<td width="33%;" valign="top">
 				<fieldset>
-					<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_DOCUMENT")?></strong></legend>
+					<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_DOCUMENT");?></strong></legend>
 					 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 							<tr>
-							    <td><?php echo $tr->translate("NATIONAL_ID")?></td>
+							    <td><?php echo $tr->translate("NATIONAL_ID");?></td>
 								<td><input id="client_d_type" required="true"/><?php  //echo $frm->getElement('client_d_type');?></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("N_O")?></td>
+								<td><?php echo $tr->translate("N_O");?></td>
 								<td><?php  echo $frm->getElement('national_id');?></td>
 						    </tr>
 						    <tr>
-								<td><?php echo $tr->translate("DOB")?></td>
+								<td><?php echo $tr->translate("DOB");?></td>
 								<td><?php  echo $frm->getElement('dob_client');?></td>
 						    </tr>
 						    <tr>
-						        <td><?php echo $tr->translate("JOB_TYPE")?></td>
+						        <td><?php echo $tr->translate("JOB_TYPE");?></td>
 								<td><?php echo $frm->getElement('job');?></td>
 						    </tr>
 						     <tr>
-						        <td><?php echo $tr->translate("SITU_STATUS")?>*</td>
+						        <td><?php echo $tr->translate("SITU_STATUS");?>*</td>
 								<td><?php  echo $frm->getElement('situ_status');?></td>
 						    </tr>
 						    <tr>
-						        <td><?php echo $tr->translate("PHOTO")?></td>
+						        <td><?php echo $tr->translate("PHOTO");?></td>
 								<td><?php //echo $frm->getElement('photo');?>
 									<?php 
 										$images = $this->baseUrl().'/images/no-profile.png';
@@ -159,30 +159,30 @@ input.btn_borwse_image {
 			</td>
 			<td width="33%;" valign="top">
 				<fieldset>
-					<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_ADDRESS")?></strong></legend>
+					<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_ADDRESS");?></strong></legend>
 					 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 							<tr>
-								<td><?php echo $tr->translate("HOUSE")?></td>
+								<td><?php echo $tr->translate("HOUSE");?></td>
 								<td><?php  echo $frm->getElement('house');?></td> 
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("STREET")?></td>
+								<td><?php echo $tr->translate("STREET");?></td>
 								<td><?php  echo $frm->getElement('street');?></td>
 							</tr>
 							<tr>
-							    <td><?php echo $tr->translate("PROVINCE")?>*</td>
+							    <td><?php echo $tr->translate("PROVINCE");?>*</td>
 								<td><?php echo $frm->getElement('province');?></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("DISTRICT")?></td>
+								<td><?php echo $tr->translate("DISTRICT");?></td>
 								<td><input id="district" required="true" ><?php //echo $frm->getElement('district');?></td>
 						    </tr>
 						    <tr>
-								<td><?php echo $tr->translate("COMMUNE")?></td>
+								<td><?php echo $tr->translate("COMMUNE");?></td>
 								<td><input id="commune" ><?php //echo $frm->getElement('commune');?></td>
 						    </tr>
 						    <tr>
-						        <td><?php echo $tr->translate("VILLAGE")?></td>
+						        <td><?php echo $tr->translate("VILLAGE");?></td>
 								<td><input id="village" ><?php  //echo $frm->getElement('village');?></td>
 						    </tr>
 					</table>
@@ -190,21 +190,21 @@ input.btn_borwse_image {
 			</td>
 		</tr>
 		<tr>
-			<td colspan="6"  bgcolor="#dbe7ff"><strong><?php echo $tr->translate("GUARANTOR_INFO")?></strong></td>
+			<td colspan="6"  bgcolor="#dbe7ff"><strong><?php echo $tr->translate("GUARANTOR_INFO");?></strong></td>
 		</tr>
 		<tr>
 			<td width="33%;" valign="top">
 				<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 				    <tr>
-				        <td><?php echo $tr->translate("SPOUSE_NAME")?></td>
+				        <td><?php echo $tr->translate("SPOUSE_NAME");?></td>
 						<td><?php echo $frm->getElement('spouse');?></td>
 				    </tr>
 				    <tr>
-				        <td valign="top"><?php echo $tr->translate("NATIONAL_ID")?></td>
+				        <td valign="top"><?php echo $tr->translate("NATIONAL_ID");?></td>
 						<td valign="top"><input id="guarantor_d_type" /><?php //echo $frm->getElement('guarantor_d_type');?></td>
 				    </tr>
 				    <tr>
-				        <td valign="top"><?php echo $tr->translate("N_O")?></td>
+				        <td valign="top"><?php echo $tr->translate("N_O");?></td>
 						 <td valign="top"><?php echo $frm->getElement('spouse_nationid');?></td>
 				    </tr>
 				    
@@ -213,15 +213,15 @@ input.btn_borwse_image {
 			<td width="33%;" valign="top">
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 				 	<tr>
-						<td valign="top" style="width: 30%;"><?php echo $tr->translate("DOB")?></td>
+						<td valign="top" style="width: 30%;"><?php echo $tr->translate("DOB");?></td>
 						<td valign="top"><?php  echo $frm->getElement('dob_guarantor');?></td>						
 					</tr>
 					<tr>
-						<td valign="top"><?php echo $tr->translate("TEL")?></td>
+						<td valign="top"><?php echo $tr->translate("TEL");?></td>
 						<td valign="top"><?php  echo $frm->getElement('guarantor_tel');?></td>
 					</tr>
 				    <tr>
-						<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
+						<td><?php echo $tr->translate("RELATIVE_WITH");?></td>
 						<td><?php  echo $frm->getElement('guarantor_with');?></td>
 					</tr>
 				</table>
@@ -229,16 +229,16 @@ input.btn_borwse_image {
 			<td width="33%;" valign="top">
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 					<tr>
-				  		 <td valign="top"><?php echo $tr->translate("ADDRESS")?></td>
+				  		 <td valign="top"><?php echo $tr->translate("ADDRESS");?></td>
 						<td valign="top"><?php  echo $frm->getElement('guarantor_address');?></td>
 						
 				    </tr>
 					<tr>
-						<td valign="top"><?php echo $tr->translate("NOTE")?></td>
+						<td valign="top"><?php echo $tr->translate("NOTE");?></td>
 						<td><?php  echo $frm->getElement('desc');?></td>						
 					</tr>
 					<tr>
-					   <td valign="top"><?php echo $tr->translate("STATUS")?></td>
+					   <td valign="top"><?php echo $tr->translate("STATUS");?></td>
 						<td valign="top"><?php  echo $frm->getElement('status');?></td>
 					</tr>
 				</table>

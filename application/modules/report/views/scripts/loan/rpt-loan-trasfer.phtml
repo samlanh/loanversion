@@ -92,7 +92,7 @@ table { page-break-inside:auto }
                <?php 
                $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
                $other_fee_r=0; $other_fee_b=0; $other_fee_d=0;$total_r=0;$total_b=0;$total_d=0;
-               if(!empty($this->loantrasfer)foreach($this->loantrasfer as $key =>$row){?>
+               if(!empty($this->loantrasfer)){foreach($this->loantrasfer as $key =>$row){?>
 					<tr align="center" style="line-height: 18px;">
 					<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 					<td >&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
@@ -124,7 +124,7 @@ table { page-break-inside:auto }
 					<td align="left">&nbsp;<?php echo $type[$row['type']]; ?>&nbsp;</td>				
 					<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date']));?>&nbsp;</td>
 					</tr>
-				<?php }?>
+				<?php }}?>
             </table>
               <table align="center" width="100%">
 			  <thead>

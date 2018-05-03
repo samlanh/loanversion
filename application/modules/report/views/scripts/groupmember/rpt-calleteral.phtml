@@ -25,7 +25,7 @@ dojo.require("dijit.form.DateTextBox");
 <div id="divPrint" style="width: 100%;">
 <style>
 	.style{
-		line-height: 20px;font-size: 11px !important;
+		line-height: 20px;font-size: 12px !important;
 		font-family: 'Khmer OS Battambang';
 	}
 	th{padding: 5px;}
@@ -42,7 +42,7 @@ dojo.require("dijit.form.DateTextBox");
 		  display: table-header-group;
 		  page-break-inside:avoid; page-break-after:auto;
 		}
-		
+		.hover:hover{background: #ccc;}
 </style>
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>
@@ -57,24 +57,12 @@ dojo.require("dijit.form.DateTextBox");
                 	<h2 style="text-align:center; font-size:13px;"><?php if(!empty($this->result['start_date'])){?><?php echo date("d-M-Y",strtotime($this->result['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->result['end_date']));}?></h2></td>
                     <td width="20%"></td>
                 </tr> 
-                <tr>
-                	<td colspan="3">
-                		<table width="100%">
-                			<tr >
-                				<td  style="font-size: 10px;">
-                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
-									<br /><?php echo $tr->translate("TEL_COMPANY");?>
-                				<td width="65%"></td>
-                			</tr>
-		                </table>
-		              </td>
-		           </tr>   
             </table>
         </td>
     </tr>
     <tr>
     	<td>
-            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
+            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                 <?php if(empty($this->calleteral_list)){?>
               <thead>
                 <tr class="style">
@@ -105,41 +93,41 @@ dojo.require("dijit.form.DateTextBox");
                 ?>
                 <?php if($key>0){?>
                 <br />
-                <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:9px;" width="100%" cellspacing="0">
+                <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                 <?php } ?>
              <?php ?>
                <thead>
                 <tr class="style">
                 	<td colspan="11" style="background:rgb(237, 237, 237) none repeat scroll 0% 0%"><a style="color:#000;" title="បង្កាន់ដៃតម្កល់ទ្រព្យដាក់ធានា" target="_blank" href="<?php echo $calleteralurl."/id/".$row['client_id'];?>">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_code'].' , '.$row['name_kh'].' - '.$row['client_name']; ?></a></td>
                 </tr>
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 20px; background: #ccd9ff; font-size:9px; padding:5px 0px; ">
-                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?> </td>
-                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?> </td>
-                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("COLLTERAL_CODE");?> </td>
-                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("STAFF_NAME");?> </td>
-                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("OWNER_NAME");?> </td>                    
-                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("COLETERAL_TYPE");?> </td>
-                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUMBER_COLLTERAL");?> </td>
-                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("SIGN_DATE");?></td>
-                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?> </td>
-                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("STATUS");?> </td>
-                    <td style="text-align:center; font-size:11px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NOTE");?> </td>
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 20px; background: #ccd9ff; font-size:12px; padding:5px 0px; ">
+                    <td style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUM");?> </td>
+                    <td style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRANCH_NAME");?> </td>
+                    <td style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("COLLTERAL_CODE");?> </td>
+                    <td style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("STAFF_NAME");?> </td>
+                    <td style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("OWNER_NAME");?> </td>                    
+                    <td style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("COLETERAL_TYPE");?> </td>
+                    <td style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NUMBER_COLLTERAL");?> </td>
+                    <td style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("SIGN_DATE");?></td>
+                    <td style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("DATE");?> </td>
+                    <td style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("STATUS");?> </td>
+                    <td style="text-align:center; font-size:12px; font-family:'Khmer MEF2'"><?php echo $tr->translate("NOTE");?> </td>
                 </tr>
                 </thead>
                 <?php }
                 $id = $row['client_id'];
                 ?>
-				<tr align="center"  <?php if($row['is_return']==1)echo'style="background:#ccc;"';?> >
+				<tr class="hover" align="center"  <?php if($row['is_return']==1)echo'style="background:#ccc;"';?> >
 					<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['branch_name'];?>&nbsp;</td>
 					<td>&nbsp;<?php echo $row['collecteral_code']; ?>&nbsp;</td>
-					<td>&nbsp;<?php echo $row['co_id']; ?>&nbsp;</td>						
+					<td style="white-space:nowrap;">&nbsp;<?php echo $row['co_id']; ?>&nbsp;</td>						
 					<td style="white-space:nowrap;">&nbsp;<?php echo $row['collecteral_type']; ?>&nbsp;</td>
-					<td style="white-space:nowrap; text-align: left;">&nbsp;<?php echo $row['collecteral_title_en']." -  ".$row['collecteral_owner']; ?>&nbsp;</td>
+					<td style="white-space:nowrap; text-align: left;">&nbsp;<?php echo $row['collecteral_title_kh']." -  ".$row['collecteral_owner']; ?>&nbsp;</td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo $row['number_collecteral']; ?>&nbsp;</td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo date("d-M-Y",strtotime($row['issue_date'])); ?>&nbsp;</td>
-					<td>&nbsp;<?php echo date('d-M-Y',strtotime($row['date']));?>&nbsp;</td>
-					<td>&nbsp;<?php echo ($row['is_return']==1)?"Returned":"Keeping";?>&nbsp;</td>
+					<td style="white-space:nowrap;">&nbsp;<?php echo date('d-M-Y',strtotime($row['date']));?>&nbsp;</td>
+					<td>&nbsp;<?php echo ($row['is_return']==1)?"ប្រគល់រួច":"រក្សាទុក";?>&nbsp;</td>
 					<td style="white-space:nowrap;" >&nbsp;<?php echo $row['note']; ?>&nbsp;</td>
 				</tr>
 				<?php }?>
@@ -148,7 +136,7 @@ dojo.require("dijit.form.DateTextBox");
               <br />
             <table align="center" width="100%">
 			<thead>
-				   <tr style="font-size: 12px;">
+				   <tr style="font-size: 14px;">
 				        <th style="width:20%;text-align:center;  font-family:'Khmer MEF2'"><?php echo $tr->translate('APPROVED BY');?></th>
 				        <th></th>
 				        <th style="width:20%;text-align:center; font-family:'Khmer MEF2'"><?php echo $tr->translate('VERIFYED BY');?></th>

@@ -177,6 +177,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$s_where[] = " loan_type LIKE '%{$s_search}%'";
       	   $where .=' AND ('.implode(' OR ',$s_where).')';
       	}
+//       	echo $sql.$where;exit();
       	return $db->fetchAll($sql.$where);
       }
       public function getALLLoancollect($search = null){
@@ -327,7 +328,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 		      	co.`co_id`,
 		      	c.`client_number`,
 		      	c.`name_kh`,
-		      	(SELECT `ln_village`.`village_name` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) limit 1) AS `village_name`,
+		      	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `c`.`village_id`) limit 1) AS `village_name`,
 		      	(SELECT ln_commune.`commune_name` FROM `ln_commune` WHERE (ln_commune.`com_id` = `c`.`com_id`) LIMIT 1) AS `commune_name`,
 		      	(SELECT `d`.`district_name` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1) AS `district_name`,
 		      	(SELECT province_en_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name,
@@ -1379,7 +1380,7 @@ public function getLoanadminFeeIcome($search=null){
 				   `c`.`client_number`,
 				   `c`.`name_kh` AS `client_kh`,
 				   `c`.`name_en` AS `client_en`,
-   				(SELECT `ln_village`.`village_name` FROM `ln_village` WHERE (`c`.`village_id`) LIMIT 1 ) AS `village_name`,
+   				(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`c`.`village_id`) LIMIT 1 ) AS `village_name`,
 				(SELECT `cm`.`commune_name` FROM `ln_commune` `cm` WHERE (`cm`.`com_id` = `c`.`com_id`) LIMIT 1 ) AS `commune_name`,
 				(SELECT `d`.`district_name` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1 ) AS `district_name`,
 				(SELECT province_en_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1 ) AS province_en_name,
@@ -1613,7 +1614,7 @@ WHERE ((`ln_view`.`type` = 21)
    cl.guarantor_with,
    cl.dob,
    cl.house,cl.street,
-(SELECT `ln_village`.`village_name` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `cl`.`village_id`)) AS `village_name`,
+(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `cl`.`village_id`)) AS `village_name`,
 (SELECT `c`.`commune_name` FROM `ln_commune` `c` WHERE (`c`.`com_id` = `cl`.`com_id`) LIMIT 1) AS `commune_name`,
 (SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `cl`.`dis_id`) LIMIT 1) AS `district_name`,
 (SELECT province_kh_name FROM `ln_province` WHERE province_id= cl.pro_id  LIMIT 1) AS province_en_name,

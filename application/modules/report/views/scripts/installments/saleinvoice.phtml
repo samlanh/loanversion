@@ -39,6 +39,7 @@ $gender=array(
 					line-height: 30px;
 					text-align: center;
 				}
+				.labelValue{font-weight: bolder;}
 				</style>
 				<table  style="font-family: 'Times New Roman','Khmer OS Battambang'; text-align: center; margin:0 auto; width:100%; ">
 					<tbody>
@@ -108,14 +109,14 @@ $gender=array(
 						</tr>
 						<tr>
 							<td colspan="3" align="left"  style="line-height: 25px; font-size:14px; color: blue;">
-							បានលក់ជូន អតិថិជនឈ្មោះ<span class="labelBorderBottom" style="min-width:40%;"><span class="labelValue" id="LBclientName"><?php echo $rs['client_name_kh'];?></span></span>ភេទ​<span class="labelBorderBottom" style="min-width: 8%;"><?php echo $gender[$rs['sex']];?><span class="labelValue" id="LBclientGender">&nbsp;</span></span>អាយុ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="LBclientAge">&nbsp;</span></span>
-							<?php echo $rs['document_type'];?><span class="labelBorderBottom" style="min-width: 40%;"> លេខ<?php echo $rs['nation_id'];?><span class="labelValue" id="LBclientNationID"></span></span>ភូមិ<span class="labelBorderBottom" style="min-width: 35%;"><?php echo $rs['village_name'];?><span class="labelValue" id="LBclientVillage"></span></span>
-							ឃុំ<span class="labelBorderBottom" style="min-width: 30%;"><?php echo $rs['commune_name'];?><span class="labelValue" id="LBclientComune"></span></span>ស្រុក<span class="labelBorderBottom" style="min-width: 30%;"><?php echo $rs['district_name'];?><span class="labelValue" id="LBclientDistrict"></span></span>ខេត្ត<span class="labelBorderBottom" style="min-width: 27.5%;"><?php echo $rs['province_kh_name'];?><span class="labelValue" id="LBclientProvince"></span></span>
+							បានលក់ជូន អតិថិជនឈ្មោះ<span class="labelBorderBottom" style="min-width:40%;"><span class="labelValue" id="LBclientName"><?php echo $rs['client_name_kh'];?></span></span>ភេទ​<span class="labelBorderBottom labelValue" style="min-width: 8%;"><?php echo $gender[$rs['sex']];?><span class="labelValue" id="LBclientGender">&nbsp;</span></span>អាយុ​<span class="labelBorderBottom" style="min-width: 8%;"><?php echo @date("Y-m-d")-$rs['dob'];?><span class="labelValue" id="LBclientAge">&nbsp;ឆ្នាំ</span></span>
+							<?php echo $rs['document_type'];?><span class="labelBorderBottom labelValue" style="min-width: 40%;"> លេខ <?php echo $rs['nation_id'];?><span class="labelValue" id="LBclientNationID"></span></span>ភូមិ<span class="labelBorderBottom labelValue" style="min-width: 35%;"><?php echo $rs['village_name'];?><span class="labelValue" id="LBclientVillage"></span></span>
+							ឃុំ<span class="labelBorderBottom labelValue" style="min-width: 30%;"><?php echo $rs['commune_name'];?><span class="labelValue" id="LBclientComune"></span></span>ស្រុក<span class="labelBorderBottom labelValue" style="min-width: 30%;"><?php echo $rs['district_name'];?><span class="labelValue" id="LBclientDistrict"></span></span>ខេត្ត<span class="labelBorderBottom labelValue" style="min-width: 27.5%;"><?php echo $rs['province_kh_name'];?><span class="labelValue" id="LBclientProvince"></span></span>
 							លេខទូរស័ព្ទ<span class="labelBorderBottom" style="min-width: 87.5%;"><span class="labelValue" id="LBclientPhone">&nbsp;<?php echo $rs['phone'];?></span></span>
-							</td>		
+						</td>		
 						</tr>
 						<tr>
-							<td colspan="3" style="text-align:left;">
+							<td colspan="3" style="text-align:left;">	<br />
 								<table id="exportExcel" border="1"  style="border-collapse: collapse; border:solid 1px #000;   font-size: 10px; white-space: normal;" width="100%" cellspacing="0">
 									<thead>
 										<tr class="style" align="center" style=" font-family:'Times New Roman','Khmer OS Muol Light'; background-color: #1E8449; color: #ffffff; padding: 2px 0px">

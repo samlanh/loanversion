@@ -10,26 +10,22 @@ dojo.require("dijit.form.DateTextBox");
 </script>
 <title><?php echo $tr->translate("LIST_REPORT_CHANGE_CALLETERAL");?></title>
 <form method="post">
-<table style="font-family: 'Khmer OS Content';width:27.2cm; margin: 0 auto;"  >
+<table style="font-family: 'Khmer OS Content';width:28cm; margin: 0 auto;"  >
 	<tr>
-			<td><?php echo $frm->getElement('adv_search');?></td>
-			<td><?php echo $frm->getElement('branch_id');?></td>
-			<td><?php echo $frm->getElement('status_search');?></td>
-			<td><?php echo $frm->getElement('start_date');?></td>
-		</tr>
-		<tr>
-			<td><?php echo $frm->getElement('end_date');?></td>
-			<td><?php echo $frm->getElement('btn_search');?></td>
-			<td></td>
-			<td><?php //echo $frm->getElement('client_name');?></td>
-		</tr>
+		<td><?php echo $frm->getElement('adv_search');?></td>
+		<td><?php echo $frm->getElement('branch_id');?></td>
+		<td><?php echo $frm->getElement('status_search');?></td>
+		<td><?php echo $frm->getElement('start_date');?></td>
+		<td><?php echo $frm->getElement('end_date');?></td>
+		<td><?php echo $frm->getElement('btn_search');?></td>
+	</tr>
 </table>
 </form>
-<div style=" width:26cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
+<div style="min-width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint" style="width: 100%;">
 	<style>
 		.style{
-			line-height: 20px;font-size: 11px !important;
+			line-height: 20px;font-size: 12px !important;
 			font-family: 'Khmer OS Battambang';
 		}
 		th{padding: 5px;}
@@ -62,31 +58,18 @@ dojo.require("dijit.form.DateTextBox");
                 	<h2 style="text-align:center; font-size:13px;"><?php if(!empty($this->result['start_date'])){?><?php echo date("d-M-Y",strtotime($this->result['start_date'])).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->result['end_date']));}?></h2></td>
                     <td width="20%"></td>
                 </tr> 
-                <tr>
-                	<td colspan="3">
-                		<table width="100%">
-                			<tr class='style'>
-                				<td class="style" style="font-size: 10px;">
-                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
-									<br /><?php echo $tr->translate("TEL_COMPANY");?>
-                				</td>
-                				<td width="65%"></td>
-                			</tr>
-		                </table>
-		              </td>
-		           </tr>   
             </table>
         </td>
     </tr>
     <tr >
     	<td>
-            <table  id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
+            <table  id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                 <?php if(empty($this->calleteral_list)){?>
 				<thead>
                 <tr>
                 	<td colspan="6">&nbsp;<span class="style"><?php echo $tr->translate("CUSTOMER_NAME");?> </span></td>
                 </tr>
-            	<tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; background: #ccd9ff; font-size:11px; padding:5px 0px; ">
+            	<tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 14px; background: #ccd9ff; font-size:12px; padding:5px 0px; ">
                     <th ><?php echo $tr->translate("NUM");?> </th>
                     <th ><?php echo $tr->translate("BRANCH_NAME");?> </th>
                     <th ><?php echo $tr->translate("COLLTERAL_CODE");?> </th>
@@ -108,7 +91,7 @@ dojo.require("dijit.form.DateTextBox");
                 if($id!=$row['client_id']){
                 ?>
                 <?php if($key>0){?>
-                <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
+                <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                 <?php } ?>
              <?php ?>
              <thead>
@@ -122,12 +105,12 @@ dojo.require("dijit.form.DateTextBox");
                 	<td colspan="7" align="center" bgcolor="#ccc" style="border-left:3px double #000; ">&nbsp;<span class="style"><?php echo $tr->translate("TO_COLL");?> </span></td>
                 </tr>
 				<thead>
-                 <tr  class="style"  align="center" style="font-weight:bold; line-height: 18px; background: #ccd9ff; ">
+                 <tr  class="style"  align="center" style="white-space:nowrap;font-weight:bold; line-height: 18px; background: #ccd9ff; ">
                     <td><?php echo $tr->translate("NUM");?> </td>
                     <td><?php echo $tr->translate("BRANCH_NAME");?> </td>
                     <td><?php echo $tr->translate("COLLTERAL_CODE");?> </td>
                     <td><?php echo $tr->translate("COLETERAL_TYPE_ODL");?> </td>
-                    <td><?php echo $tr->translate("OWNER_NAME");?> </td>
+                    <td style="white-space:nowrap;"><?php echo $tr->translate("OWNER_NAME");?> </td>
                     <td style="border-right:3px double #000; "><?php echo $tr->translate("NUMBER_COLLTERAL");?> </td>   
                    	<td><?php echo $tr->translate("COLLTERAL_CODE");?> </td>
                     <td><?php echo $tr->translate("COLETERAL_TYPE_NEW");?> </td>
@@ -144,15 +127,15 @@ dojo.require("dijit.form.DateTextBox");
 						<td>&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['branch_name'];?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['from_collcode']//echo $row['collecteral_code']; ?>&nbsp;</td>
-						<td>&nbsp;<?php echo $row['collecteral_title_old']." - ".$row['collecteral_owner'];?>&nbsp;</td>
+						<td style="white-space:nowrap;">&nbsp;<?php echo $row['collecteral_title_old']." - ".$row['collecteral_owner'];?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['from_owner_name'];?>&nbsp;</td>
 						<td style="border-right:3px double #000; ">&nbsp;<?php echo $row['from_number_collateral'];?>&nbsp;</td>
-						<td>&nbsp;<?php echo $row['to_collcode']//echo $row['collecteral_code']; ?>&nbsp;</td>
-						<td>&nbsp;<?php echo $row['collecteral_title_en']." - ".$row['collecteral_owner'];?>&nbsp;</td>
+						<td style="white-space:nowrap;">&nbsp;<?php echo $row['to_collcode']//echo $row['collecteral_code']; ?>&nbsp;</td>
+						<td style="white-space:nowrap;">&nbsp;<?php echo $row['collecteral_title_en']." - ".$row['collecteral_owner'];?>&nbsp;</td>
 						<td style="white-space:nowrap;" >&nbsp;<?php echo $row['toowner_name']; ?>&nbsp;</td>
-						<td>&nbsp;<?php echo $row['number_collateral']?>&nbsp;</td>
-						<td>&nbsp;<?php echo date("d/m/Y",strtotime($row['issue_date']))?>&nbsp;</td>
-						<td>&nbsp;<?php echo date("d/m/Y",strtotime($row['date']))?>&nbsp;</td>
+						<td style="white-space:nowrap;">&nbsp;<?php echo $row['number_collateral']?>&nbsp;</td>
+						<td style="white-space:nowrap;">&nbsp;<?php echo date("d/m/Y",strtotime($row['issue_date']))?>&nbsp;</td>
+						<td style="white-space:nowrap;">&nbsp;<?php echo date("d/m/Y",strtotime($row['date']))?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['note']?>&nbsp;</td>
 					</tr>
 				<?php 

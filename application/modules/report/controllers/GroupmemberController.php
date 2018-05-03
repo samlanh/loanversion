@@ -156,7 +156,6 @@ class Report_GroupMemberController extends Zend_Controller_Action {
   	$frm = $fm->FrmChangeCollteral();
   	Application_Model_Decorator::removeAllDecorator($frm);
   	$this->view->frm_changeCollteral = $frm;
-//   	print_r($db->getAllChangeCollteral($search));
   }
   function rptCalleteralsAction(){
   	$db  = new Report_Model_DbTable_DbLnClient();

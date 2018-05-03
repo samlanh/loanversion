@@ -12,8 +12,6 @@ echo $this->headTitle($tr->translate("Report Inventory"));
 	        <td><?php echo $frm->getElement("adv_search");?></td>
 	   		<td> <?php echo $frm->getElement('branch_id');?></td>
 	   		<td><?php echo $frm->getElement("category");?></td>
-	   </tr>
-	   <tr>
 	   		<td><?php echo $frm->getElement('status');?></td>
 	   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
 	   </tr>
@@ -44,17 +42,18 @@ echo $this->headTitle($tr->translate("Report Inventory"));
 			    	<td align="center">
 			        	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
 			            	<tr>
-			                	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
-			                	<td width="60%" valign="top">
+			                	<td width="30%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+			                	<td width="40%" valign="top">
 			                	    <ul>
-			                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-			                			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("Report Inventory");?></li>
+			                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2';white-space: nowrap;"><?php echo $tr->translate("BRAND_TITLE");?></li>
+			                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("Report Inventory");?></li>
+			                			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo date("d-m-Y");?></li>
 			                		</ul>
 			                    </td>
-			                    <td width="20%"></td>
+			                    <td width="30%"></td>
 			                </tr> 
 			            </table>
-			        </td>
+			       </td>
 			    </tr>
 			    </thead>
 			    <tr>
@@ -108,11 +107,11 @@ echo $this->headTitle($tr->translate("Report Inventory"));
 				               		<td align="center" style="font-size: 12px;">&nbsp;<?php if ($rs["status"]==1){ echo $tr->translate("ACTIVE");}else{ echo $tr->translate("DEACTIVE");};?>&nbsp;</td>
 				                </tr>
 			                <?php }?>
-			                	<tr style="font-weight: 600;border-bottom: solid 1px #fff;border-left: solid 1px #fff;border-right: solid 1px #fff;">
+			                	<tr style="font-weight: 700;border-bottom: solid 1px #fff;border-left: solid 1px #fff;border-right: solid 1px #fff;">
 			                		<td colspan="9" align="right"><?php echo $tr->translate("Grand Total Cost");?>&nbsp;</td>
 			                		<td colspan="2" align="right"><?php echo "$ ".number_format($gTotalCost,2)?>&nbsp;</td>
 			                	</tr>
-			                	<tr style="font-weight: 600;border-bottom: solid 1px #fff;border-left: solid 1px #fff;border-right: solid 1px #fff;">
+			                	<tr style="font-weight: 700;border-bottom: solid 1px #fff;border-left: solid 1px #fff;border-right: solid 1px #fff;">
 			                		<td colspan="9" align="right"><?php echo $tr->translate("Grand Total Price");?>&nbsp;</td>
 			                		<td colspan="2" align="right"><?php echo "$ ".number_format($gTotalPrice,2)?>&nbsp;</td>
 			                	</tr>

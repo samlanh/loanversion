@@ -1,6 +1,5 @@
 <?php 
 	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
-	//echo $this->headTitle($tr->translate("RETURN_COLLETERAL"));
 	$frm=$this->frm_returnCollteral;
 ?>
 
@@ -15,11 +14,11 @@ dojo.require("dijit.form.DateTextBox");
 <form method="post">
 <table style="font-family: 'Khmer OS Content';width:25cm; margin: 0 auto;"  >
 	<tr>
-			<td><?php echo $frm->getElement('adv_search');?></td>
-			<td><?php echo $frm->getElement('branch_id');?></td>
-			<td><?php echo $frm->getElement('start_date');?></td>
-			<td><?php echo $frm->getElement('end_date');?></td>
-			<td><?php echo $frm->getElement('btn_search');?></td>
+		<td><?php echo $frm->getElement('adv_search');?></td>
+		<td><?php echo $frm->getElement('branch_id');?></td>
+		<td><?php echo $frm->getElement('start_date');?></td>
+		<td><?php echo $frm->getElement('end_date');?></td>
+		<td><?php echo $frm->getElement('btn_search');?></td>
 	</tr>
 </table>
 </form>
@@ -29,7 +28,7 @@ dojo.require("dijit.form.DateTextBox");
 <div id="divPrint" style="width: 100%;">
 <style>
 .style{
-	line-height: 20px;font-size: 11px !important;
+	line-height: 20px;font-size: 12px !important;
 	font-family: 'Khmer OS Battambang';
 }
 th{padding: 5px;}
@@ -56,33 +55,18 @@ table { page-break-inside:auto }
                 	</td>
                     <td width="20%"></td>
                 </tr> 
-                <tr>
-                	<td colspan="3">
-                		<table width="100%">
-                			<tr>
-                				<td style="font-size: 10px;">
-                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
-									<br /><?php echo $tr->translate("TEL_COMPANY");?>
-                				</td>
-                				<td width="65%"></td>
-                				
-                			</tr>
-			               
-		                </table>
-		              </td>
-		           </tr>   
             </table>
         </td>
     </tr>
     <tr>
     	<td>
-            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
+            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                <?php if(empty($this->calleteral_list)){?>
                <thead>
                 <tr>
                 	<td colspan="5">&nbsp;<span ><?php echo $tr->translate("CUSTOMER_NAME");?> </span></td>
                 </tr>
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; background: #ccd9ff;  font-size:11px; padding:5px 0px; ">
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; background: #ccd9ff;  font-size:12px; padding:5px 0px; ">
                     <th><?php echo $tr->translate("NUM");?> </th>
                     <th><?php echo $tr->translate("BRANCH_NAME");?> </th>
                     <th><?php echo $tr->translate("GIVER_NAME");?> </th>   
@@ -96,7 +80,6 @@ table { page-break-inside:auto }
                 </thead>
             	<?php }?>
                    <?php  
-//                    print_r($this->calleteral_list);
                     $id='';
 	               if(!empty($this->calleteral_list)) foreach($this->calleteral_list as $key =>$row){
 
@@ -104,11 +87,9 @@ table { page-break-inside:auto }
                ?>
                 <?php 
                 if($id!=$row['client_id']){
-//echo $id;//echo $row['client_id'];exit();
-                	
                 ?>
                 <?php if($key>0){?>
-                <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
+                <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
                 
                 <?php } ?>
              <?php ?>
@@ -116,7 +97,7 @@ table { page-break-inside:auto }
                 	<td colspan="9">&nbsp;<span style="text-align:center; font-size:12px; font-family:'Khmer OS Muol'"><?php echo $tr->translate("CUSTOMER_NAME");?> </span><?php  echo $row['client_code']." - ".$row['owner_name']; ?></td>
                 </tr>
 				<thead>
-                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; background: #ccd9ff;  font-size:11px; padding:5px 0px; ">
+                 <tr class="style" align="center" style="font-weight:bold; line-height: 14px; background: #ccd9ff;  font-size:12px; padding:5px 0px; ">
                     <td style="padding:5px 0px;"><?php echo $tr->translate("NUM");?> </td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?> </td>
                     <td style="padding:5px 0px;"><?php echo $tr->translate("GIVER_NAME");?> </td>                   

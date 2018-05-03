@@ -96,12 +96,12 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 				(SELECT name_en FROM `ln_view` WHERE TYPE = 29 AND key_code =s.selling_type LIMIT 1) AS sellingTypeTitle,
 				(SELECT payment_nameen FROM `ln_payment_method` WHERE id = s.payment_method LIMIT 1) AS paymentMethodTitle,
 				s.* 
-			FROM `ln_ins_sales_install` AS s,
+			FROM 
+				`ln_ins_sales_install` AS s,
 				`ln_ins_product` AS p 
 			WHERE 
 				s.product_id = p.id 
-				AND s.`status` =1
-    	";
+				AND s.`status` =1 ";
     	$from_date =(empty($search['start_date']))? '1': " s.date_sold >= '".$search['start_date']." 00:00:00'";
     	$to_date = (empty($search['end_date']))? '1': " s.date_sold <= '".$search['end_date']." 23:59:59'";
     	$sql.= " AND ".$from_date." AND ".$to_date;
@@ -119,6 +119,9 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	}
     	if(!empty($search['branch_id'])){
     		$sql.=" AND s.branch_id=".$search['branch_id'];
+    	}
+    	if(!empty($search['category'])){
+    		$sql.=" AND p.cate_id=".$search['category'];
     	}
     	if(!empty($search['customer'])){
     		$sql.=" AND s.customer_id=".$search['customer'];
@@ -140,7 +143,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 	    	(SELECT name_kh FROM `ln_view` WHERE TYPE = 23 AND id =c.client_d_type LIMIT 1) AS document_type,
 	    	c.nation_id AS nation_id,
 	    	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE `ln_village`.`vill_id` = c.village_id Limit 1) AS `village_name`,
-			(SELECT `c`.`commune_namekh` FROM `ln_commune` `c` WHERE `c`.`com_id` = c.com_id  LIMIT 1) AS `commune_name`,
+			(SELECT `cm`.`commune_namekh` FROM `ln_commune` `cm` WHERE `cm`.`com_id` = c.com_id  LIMIT 1) AS `commune_name`,
 			(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE `d`.`dis_id` = c.dis_id LIMIT 1) AS `district_name`,
 			(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id LIMIT 1) AS province_kh_name,
 	    	(SELECT cc.name FROM `ln_ins_producttype` AS  cc WHERE cc.id=p.`cate_id` LIMIT 1) AS catName,
@@ -242,7 +245,6 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
    		$db  = $this->getAdapter();
    		$from_date =(empty($search['start_date']))? '1': $search['start_date']." 00:00:00";
    		$to_date = (empty($search['end_date']))? '1': $search['end_date']." 23:59:59";
-//    		$sql.= " AND ".$from_date." AND ".$to_date;
 	   	$sql="SELECT pl.`location_id`,
 		(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = pl.`location_id` LIMIT 1) AS branch_namekh,
 		(SELECT b.branch_nameen FROM `ln_branch` AS b WHERE b.br_id = pl.`location_id` LIMIT 1) AS branch_nameen,
@@ -264,13 +266,13 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
    	$sql="SELECT
 	   	(SELECT
 	   	`ln_branch`.`branch_namekh`
-	   	FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`)
-	   	LIMIT 1) AS `branch_name`,
-	   
+	   	FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `branch_name`,
 	   	(SELECT `l`.`sale_no` FROM `ln_ins_sales_install` `l` WHERE (`l`.`id` = `crm`.`loan_id`) LIMIT 1) AS `loan_number`,
+	   	
 	   	(SELECT `c`.`name_kh` FROM `ln_ins_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
 	   	(SELECT  `c`.`client_number` FROM `ln_ins_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
 	   	(SELECT `u`.`first_name` FROM `rms_users` `u` WHERE (`u`.`id` = `crm`.`user_id`)) AS `user_name`,
+
 	   	`crm`.`id`                   AS `id`,
 	   	`crm`.`loan_id`				AS loan_id,
 	   	`crm`.`receipt_no`           AS `receipt_no`,
@@ -302,14 +304,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 	   	JOIN `ln_ins_receipt_money_detail` `d`)
 	   	WHERE ((`crm`.`status` = 1)
 	   	AND (`crm`.`id` = `d`.`receipt_id`)
-	   	AND (`crm`.`status` = 1))
-	   	";
-   	//`crm`.`currency_type`        AS `currency_type`,
-   	//	`crm`.`service_paid`         AS `service_paid`,
-   	//	`crm`.`service_chargeamount` AS `service_charge`,
-//    	(SELECT `ln_currency`.`symbol`
-//    	FROM `ln_currency`
-//    	WHERE (`ln_currency`.`id` = `crm`.`currency_type`) LIMIT 1) AS `currency_typeshow`,
+	   	AND (`crm`.`status` = 1)) ";
 	   	$from_date =(empty($search['start_date']))? '1': " date_input >= '".$search['start_date']." 00:00:00'";
 	   	$to_date = (empty($search['end_date']))? '1': " date_input <= '".$search['end_date']." 23:59:59'";
 	   	$where = " AND ".$from_date." AND ".$to_date;
@@ -320,20 +315,13 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 	   	if($search['members']>0){
 	   		$where.=" AND client_id = ".$search['members'];
 	   	}
-// 	   	if(!empty($search['adv_search'])){
-// 	   		// 			$s_search = addslashes(trim($search['adv_search']));
-// 	   		// 			if($s_search=='បង់មុន'){
-// 	   		// 	      		$where.=" AND payment_option = 2 ";
-// 	   		// 				$search['adv_search']='';
-// 	   		// 			}
-// 	   	}
+
 	   	if(!empty($search['adv_search'])){
 	   		$s_where = array();
 	   		$s_search = addslashes(trim($search['adv_search']));
-	   		$s_where[] = " branch_name LIKE '%{$s_search}%'";
-	   		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-	   		$s_where[] = " client_number LIKE '%{$s_search}%'";
-	   		$s_where[] = " client_name LIKE '%{$s_search}%'";
+// 	   		$s_where[] = " loan_number LIKE '%{$s_search}%'";
+// 	   		$s_where[] = " client_number LIKE '%{$s_search}%'";
+// 	   		$s_where[] = " client_name LIKE '%{$s_search}%'";
 	   		$s_where[] = " receipt_no LIKE '%{$s_search}%'";
 	   		$where .=' AND ('.implode(' OR ',$s_where).')';
 	   		if($s_search=='បង់មុន'){
@@ -355,52 +343,44 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
    	$to_date = (empty($search['end_date']))? '1': " s.`date_sold` <= '".$search['end_date']." 23:59:59'";
    	$where.= " AND ".$start_date."  AND ".$to_date;
    
-   	$sql="
-   	SELECT
-   		(SELECT  `ln_branch`.`branch_namekh` FROM `ln_branch`  WHERE (`ln_branch`.`br_id` = `s`.`branch_id`) LIMIT 1) AS `branch_name`,
-	   	c.client_number AS `client_number`,
-	   	c.name_kh AS `client_kh`,
-	   	c.`client_number` AS client_number,
-	   	c.name_en AS `client_en`,
-	   	(SELECT inp.item_name FROM `ln_ins_product` AS inp WHERE inp.id = s.`product_id` LIMIT 1) AS item_name,
-		(SELECT inc.name FROM `ln_ins_category` AS inc WHERE inc.id = s.`cate_id` LIMIT 1) AS cateName,
-	   	s.*,
-	   	(SELECT  `ln_ins_receipt_money`.`paid_times` FROM `ln_ins_receipt_money` WHERE ((`ln_ins_receipt_money`.`status` = 1) AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))
-	   	ORDER BY `ln_ins_receipt_money`.`paid_times` DESC
-	   	LIMIT 1) AS `installment_amount`,
-	   	(SELECT
-	   	SUM(`ln_ins_receipt_money`.`principal_paid`)
-	   	FROM `ln_ins_receipt_money`
-	   	WHERE ((`ln_ins_receipt_money`.`status` = 1)
-	   	AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_principaid`,
-	   	(SELECT
-	   	SUM(`ln_ins_receipt_money`.`interest_paid`)
-	   	FROM `ln_ins_receipt_money`
-	   	WHERE ((`ln_ins_receipt_money`.`status` = 1)
-	   	AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_interest_paid`,
-	   	(SELECT
-	   	SUM(`ln_ins_receipt_money`.`total_paymentpaid`)
-	   	FROM `ln_ins_receipt_money`
-	   	WHERE ((`ln_ins_receipt_money`.`status` = 1)
-	   	AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_paymentpaid`
-	   
+   	$sql="SELECT
+		   		(SELECT  `ln_branch`.`branch_namekh` FROM `ln_branch`  WHERE (`ln_branch`.`br_id` = `s`.`branch_id`) LIMIT 1) AS `branch_name`,
+			   	c.client_number AS `client_number`,
+			   	c.name_kh AS `client_kh`,
+			   	c.`client_number` AS client_number,
+			   	c.name_en AS `client_en`,
+			   	(SELECT inp.item_name FROM `ln_ins_product` AS inp WHERE inp.id = s.`product_id` LIMIT 1) AS item_name,
+				(SELECT inc.name FROM `ln_ins_category` AS inc WHERE inc.id = s.`cate_id` LIMIT 1) AS cateName,
+			   	s.*,
+			   	(SELECT  `ln_ins_receipt_money`.`paid_times` FROM `ln_ins_receipt_money` WHERE ((`ln_ins_receipt_money`.`status` = 1) AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))
+			   	ORDER BY `ln_ins_receipt_money`.`paid_times` DESC
+			   	LIMIT 1) AS `installment_amount`,
+			   	(SELECT
+			   	SUM(`ln_ins_receipt_money`.`principal_paid`)
+			   	FROM `ln_ins_receipt_money`
+			   	WHERE ((`ln_ins_receipt_money`.`status` = 1)
+			   	AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_principaid`,
+			   	(SELECT
+			   	SUM(`ln_ins_receipt_money`.`interest_paid`)
+			   	FROM `ln_ins_receipt_money`
+			   	WHERE ((`ln_ins_receipt_money`.`status` = 1)
+			   	AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_interest_paid`,
+			   	(SELECT
+			   	SUM(`ln_ins_receipt_money`.`total_paymentpaid`)
+			   	FROM `ln_ins_receipt_money`
+			   	WHERE ((`ln_ins_receipt_money`.`status` = 1)
+			   	AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_paymentpaid`
 	   	FROM
 	   	`ln_ins_sales_install` AS s,
 	   	`ln_ins_client` AS c
-	   	WHERE c.`client_id` = s.`customer_id`
-   	";
+	   	WHERE c.`client_id` = s.`customer_id` AND s.status=1 ";
    	if($search['branch_id']>0){
    		$where.=" AND `s`.`branch_id` = ".$search['branch_id'];
    	}
    	if($search['members']>0){
    		$where.=" AND c.`client_id` = ".$search['members'];
    	}
-   	//       	if($search['product_id']>0){
-   	//       		$where.=" AND pro_id = ".$search['product_id'];
-   	//       	}
-   	//       	if($search['status_use']>-1){
-   	//       		$where.=" AND is_dach = ".$search['status_use'];
-   	//       	}
+   	
    	if ($search['category']>0){
    		$where.=" AND s.`cate_id` = ".$search['category'];
    	}

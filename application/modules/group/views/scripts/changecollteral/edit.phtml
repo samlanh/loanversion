@@ -308,12 +308,12 @@ function innitialize(){
 			temp='<td style="width:30px !important;text-align:center;" ><img style="cursor:pointer" >'+r+'<input type="hidden" name="de_id'+r+'" id="de_id'+r+'" dojoType="dijit.form.TextBox"/></td>';
 			temp+='<td><select style=" width:120px;background:#fff; padding-left:5px;" readonly="true" id="collect_type'+r+'" name="collect_type'+r+'" dojoType="dijit.form.FilteringSelect"  >'+collect_option+'</select></td>';
 		    temp+='<td><select style=" width:110px; background:#fff; padding-left:5px;" readonly="true" id="owner_type'+r+'" name="owner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
-			temp+='<td><input style=" width:130px" type="text" required="true"  readonly="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
-			temp+='<td><input style=" width:100px" type="text" required="true" readonly="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input style=" width:130px" type="text" required="false"  readonly="true" name="owner_name'+r+'" id="owner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input style=" width:100px" type="text" required="false" readonly="true" name="number_collteral'+r+'" id="number_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
 
 			temp+='<td><select style=" width:130px;background:#fff; padding-left:5px;" id="tocollect_type'+r+'" name="tocollect_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="showPopCallecteral('+r+')" >'+collect_option+'</select></td>';
 		    temp+='<td><select style=" width:90px; background:#fff; padding-left:5px;" id="toowner_type'+r+'" name="toowner_type'+r+'" dojoType="dijit.form.FilteringSelect" onchange="setOwnerNameCollecteralById('+r+')">'+owner_option+'</select></td>';
-			temp+='<td><input style=" width:90%;" type="text" required="true" name="toowner_name'+r+'" id="toowner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
+			temp+='<td><input style=" width:90%;" type="text" required="false" name="toowner_name'+r+'" id="toowner_name'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
 			temp+='<td><input type="text" style=" width:110px"  name="tonumber_collteral'+r+'" id="tonumber_collteral'+r+'" dojoType="dijit.form.ValidationTextBox"/></td>';
 			temp+='<td><input type="text" style="width:110px" name="issue_date'+r+'" id="issue_date'+r+'" value="<?php echo date("Y-m-d",strtotime($rs['issue_date']));?>" dojoType="dijit.form.DateTextBox"/></td>';
 			temp+='<td><input style=" width:110px" type="text" name="tonote'+r+'" id="tonote'+r+'" dojoType="dijit.form.TextBox" /><input type="hidden" name="coid'+r+'" id="coid'+r+'" dojoType="dijit.form.TextBox" /> </td>';

@@ -10,46 +10,46 @@ dojo.require("dijit.form.DateTextBox");
 dojo.require("dijit.Dialog");
 </script>
 <style>
-.image-box {
-    text-align: center;
-}
-.image-box img {
-        width: 70px;
-    /* border-radius: 60%; */
-    height: 70px;
-    margin-top: 10px;
-    border: solid 1px #eee;
-}
-.button_browse {
-    /*margin-top: 10px; */
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    width: 100%;
-    height: 30px;
-    cursor: pointer;
-    background: #fbf9f9;
-    border: 1px solid #e8e8e8;
-}
-.button_browse span {
-    line-height: 33px;
-    font-weight: 600;
-    cursor: pointer;
-}
-input.btn_borwse_image {
-    position: absolute;
-    width: 100%;
-    height: 35px;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    opacity: 0;
-    cursor: pointer;
-}
-.account-image {
-        border: solid 1px #eee;
-    width: 95px;
-}
+	.image-box {
+	    text-align: center;
+	}
+	.image-box img {
+	        width: 70px;
+	    /* border-radius: 60%; */
+	    height: 70px;
+	    margin-top: 10px;
+	    border: solid 1px #eee;
+	}
+	.button_browse {
+	    /*margin-top: 10px; */
+	    position: relative;
+	    overflow: hidden;
+	    text-align: center;
+	    width: 100%;
+	    height: 30px;
+	    cursor: pointer;
+	    background: #fbf9f9;
+	    border: 1px solid #e8e8e8;
+	}
+	.button_browse span {
+	    line-height: 33px;
+	    font-weight: 600;
+	    cursor: pointer;
+	}
+	input.btn_borwse_image {
+	    position: absolute;
+	    width: 100%;
+	    height: 35px;
+	    top: 0;
+	    left: 0;
+	    z-index: 2;
+	    opacity: 0;
+	    cursor: pointer;
+	}
+	.account-image {
+	        border: solid 1px #eee;
+	    width: 95px;
+	}
 </style>
 <form id='add_client' action="" enctype="multipart/form-data" dojoType="dijit.form.Form" method="post">
 <script type="dojo/method" event="onSubmit">			
@@ -82,61 +82,61 @@ input.btn_borwse_image {
 	<tr>
 		<td width="33%;" valign="top">
 			<fieldset>
-				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO")?></strong></legend>
+				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO");?></strong></legend>
 				<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2" >
 						<tr>
 							<td><?php echo $tr->translate("BRANCH_NAME");?></td>
-							<td> <?php echo $frm->getElement('branch_id');?></td> 
+							<td><?php echo $frm->getElement('branch_id');?></td> 
 						</tr>
 					    <tr>
-							<td><?php echo $tr->translate("CLIENT_NO")?></td>
+							<td><?php echo $tr->translate("CLIENT_NO");?></td>
 							<td> <?php echo $frm->getElement('client_no');?> </td>
 					    </tr>
 					    <tr>
-					        <td><?php echo $tr->translate("NAME_KHMER")?>*</td>
-					        <td> <?php  echo $frm->getElement('name_kh');?> </td>
+					        <td><strong><?php echo $tr->translate("NAME_KHMER");?>*</strong></td>
+					        <td><?php echo $frm->getElement('name_kh');?> </td>
 					    </tr>
 					    <tr>
-					        <td><?php echo $tr->translate("NAME_ENG")?>*</td>
-							<td><?php  echo $frm->getElement('name_en');?></td>
+					        <td><?php echo $tr->translate("NAME_ENG");?></td>
+							<td><?php echo $frm->getElement('name_en');?></td>
 					    </tr>
 					    <tr>
-							<td><?php echo $tr->translate("SEX")?></td>
-							<td><?php  echo $frm->getElement('sex');?></td>
+							<td><?php echo $tr->translate("SEX");?></td>
+							<td><?php echo $frm->getElement('sex');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("PHONE")?></td>
-							<td><?php  echo $frm->getElement('phone');?></td>
+							<td><?php echo $tr->translate("PHONE");?></td>
+							<td><?php echo $frm->getElement('phone');?></td>
 						</tr>
 				</table>	
 			</fieldset>	
 		</td>
 		<td width="33%;" valign="top">
 			<fieldset>
-				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_DOCUMENT")?></strong></legend>
+				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_DOCUMENT");?></strong></legend>
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
-						    <td><?php echo $tr->translate("NATIONAL_ID")?></td>
+						    <td><?php echo $tr->translate("NATIONAL_ID");?></td>
 							<td><input id="client_d_type" required="true"/><?php  //echo $frm->getElement('client_d_type');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("N_O")?></td>
+							<td><?php echo $tr->translate("N_O");?></td>
 							<td><?php  echo $frm->getElement('national_id');?></td>
 					    </tr>
 					    <tr>
-							<td><?php echo $tr->translate("DOB")?></td>
+							<td><?php echo $tr->translate("DOB");?></td>
 							<td><?php  echo $frm->getElement('dob_client');?></td>
 					    </tr>
 					    <tr>
-					        <td><?php echo $tr->translate("JOB_TYPE")?></td>
+					        <td><?php echo $tr->translate("JOB_TYPE");?></td>
 							<td><?php echo $frm->getElement('job');?></td>
 					    </tr>
 					    <tr>
-					        <td><?php echo $tr->translate("SITU_STATUS")?>*</td>
+					        <td><?php echo $tr->translate("SITU_STATUS");?>*</td>
 							<td><?php  echo $frm->getElement('situ_status');?></td>
 					    </tr>
 					    <tr>
-					        <td><?php echo $tr->translate("PHOTO")?></td>
+					        <td><?php echo $tr->translate("PHOTO");?></td>
 							<td><?php //echo $frm->getElement('photo');?>
 								<?php 
 									$images = $this->baseUrl().'/images/no-profile.png';
@@ -158,30 +158,30 @@ input.btn_borwse_image {
 		</td>
 		<td width="33%;" valign="top">
 			<fieldset>
-				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_ADDRESS")?></strong></legend>
+				<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_ADDRESS");?></strong></legend>
 				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 						<tr>
-							<td><?php echo $tr->translate("HOUSE")?></td>
+							<td><?php echo $tr->translate("HOUSE");?></td>
 							<td><?php  echo $frm->getElement('house');?></td> 
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("STREET")?></td>
+							<td><?php echo $tr->translate("STREET");?></td>
 							<td><?php  echo $frm->getElement('street');?></td>
 						</tr>
 						<tr>
-						    <td><?php echo $tr->translate("PROVINCE")?>*</td>
+						    <td><?php echo $tr->translate("PROVINCE");?>*</td>
 							<td><?php echo $frm->getElement('province');?></td>
 						</tr>
 						<tr>
-							<td><?php echo $tr->translate("DISTRICT")?></td>
+							<td><?php echo $tr->translate("DISTRICT");?></td>
 							<td><input id="district" required="true" ></td>
 					    </tr>
 					    <tr>
-							<td><?php echo $tr->translate("COMMUNE")?></td>
+							<td><?php echo $tr->translate("COMMUNE");?></td>
 							<td><input id="commune" ></td>
 					    </tr>
 					    <tr>
-					        <td><?php echo $tr->translate("VILLAGE")?></td>
+					        <td><?php echo $tr->translate("VILLAGE");?></td>
 							<td><input id="village" ></td>
 					    </tr>
 				</table>
@@ -189,38 +189,37 @@ input.btn_borwse_image {
 		</td>
 	</tr>
 	<tr>
-		<td colspan="6"  bgcolor="#dbe7ff"><strong><?php echo $tr->translate("GUARANTOR_INFO")?></strong></td>
+		<td colspan="6"  bgcolor="#dbe7ff"><strong><?php echo $tr->translate("GUARANTOR_INFO");?></strong></td>
 	</tr>
 	<tr>
 		<td width="33%;" valign="top">
 			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 			    <tr>
-			        <td><?php echo $tr->translate("SPOUSE_NAME")?></td>
+			        <td><?php echo $tr->translate("SPOUSE_NAME");?></td>
 					<td><?php echo $frm->getElement('spouse');?></td>
 			    </tr>
 			    <tr>
-			        <td valign="top"><?php echo $tr->translate("NATIONAL_ID")?></td>
-					<td valign="top"><input id="guarantor_d_type" /><?php //echo $frm->getElement('guarantor_d_type');?></td>
+			        <td valign="top"><?php echo $tr->translate("NATIONAL_ID");?></td>
+					<td valign="top"><input id="guarantor_d_type" /></td>
 			    </tr>
 			    <tr>
-			        <td valign="top"><?php echo $tr->translate("N_O")?></td>
+			        <td valign="top"><?php echo $tr->translate("N_O");?></td>
 					 <td valign="top"><?php echo $frm->getElement('spouse_nationid');?></td>
 			    </tr>
-			    
 			</table>	
 		</td>
 		<td width="33%;" valign="top">
 			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 			 	<tr>
-					<td valign="top" style="width: 30%;"><?php echo $tr->translate("DOB")?></td>
+					<td valign="top" style="width: 30%;"><?php echo $tr->translate("DOB");?></td>
 					<td valign="top"><?php  echo $frm->getElement('dob_guarantor');?></td>						
 				</tr>
 				<tr>
-					<td valign="top"><?php echo $tr->translate("TEL")?></td>
+					<td valign="top"><?php echo $tr->translate("TEL");?></td>
 					<td valign="top"><?php  echo $frm->getElement('guarantor_tel');?></td>
 				</tr>
 			    <tr>
-					<td><?php echo $tr->translate("RELATIVE_WITH")?></td>
+					<td><?php echo $tr->translate("RELATIVE_WITH");?></td>
 					<td><?php  echo $frm->getElement('guarantor_with');?></td>
 				</tr>
 			</table>
@@ -228,16 +227,15 @@ input.btn_borwse_image {
 		<td width="33%;" valign="top">
 			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 				<tr>
-			  		 <td valign="top"><?php echo $tr->translate("ADDRESS")?></td>
+			  		<td valign="top"><?php echo $tr->translate("ADDRESS");?></td>
 					<td valign="top"><?php  echo $frm->getElement('guarantor_address');?></td>
-					
 			    </tr>
 				<tr>
-					<td valign="top"><?php echo $tr->translate("NOTE")?></td>
+					<td valign="top"><?php echo $tr->translate("NOTE");?></td>
 					<td><?php  echo $frm->getElement('desc');?></td>						
 				</tr>
 				<tr>
-				   	<td valign="top"><?php echo $tr->translate("STATUS")?></td>
+				   	<td valign="top"><?php echo $tr->translate("STATUS");?></td>
 					<td valign="top"><?php  echo $frm->getElement('status');?></td>
 				</tr>
 			</table>
@@ -265,13 +263,13 @@ input.btn_borwse_image {
 			<form id="form_job" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 				<table style="margin: 0 auto; width: 100%;" cellspacing="7">
 					<tr>
-						<td><?php echo $tr->translate("JOB_TITLE")?></td>
+						<td><?php echo $tr->translate("JOB_TITLE");?></td>
 						<td>
 							<input dojoType="dijit.form.ValidationTextBox" required="true" class="fullside" id="job_name" name="job_name" value="" type="text"></td>
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-						<input type="button" value="Save" label="<?php echo $tr->translate("SAVECLOSE")?>" dojoType="dijit.form.Button"
+						<input type="button" value="Save" label="<?php echo $tr->translate("SAVECLOSE");?>" dojoType="dijit.form.Button"
 						iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addjob();"/>
 						</td>
 					</tr>

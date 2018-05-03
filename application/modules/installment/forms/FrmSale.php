@@ -100,6 +100,24 @@ class Installment_Form_FrmSale extends Zend_Form
 		$customer->setMultiOptions($options_branch);
 		$customer->setValue($request->getParam("customer"));
 		
+		$opt = array(''=>$tr->translate("PRODUCT_CATEGORY"));
+		$category = new Zend_Form_Element_Select("category");
+		$category->setAttribs(array(
+				'class'=>'form-control select2me',
+				'onChange'=>'',
+				'class'=>'fullside',
+				'dojoType'=>'dijit.form.FilteringSelect',
+		));
+		$db = new Installment_Model_DbTable_DbProduct();
+		$row_cat = $db->getCategory();
+		if(!empty($row_cat)){
+			foreach ($row_cat as $rs){
+				$opt[$rs["id"]] = $rs["name"];
+			}
+		}
+		$category->setMultiOptions($opt);
+		$category->setValue($request->getParam("category"));
+		
 // 		if($data!=null){
 // 			$name->setValue($data["item_name"]);
 // 			$pro_code->setValue($data["item_code"]);
@@ -112,7 +130,7 @@ class Installment_Form_FrmSale extends Zend_Form
 // 			$price->setValue($data["price"]);
 // 		}
 		
-		$this->addElements(array($to_date,$from_date,$branch_id,$_title,$_status,$customer));
+		$this->addElements(array($category,$to_date,$from_date,$branch_id,$_title,$_status,$customer));
 		return $this;
 		
 	}

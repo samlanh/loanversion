@@ -22,6 +22,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
     				'start_date'=> "",
     				'end_date'=>date('Y-m-d'),
     				'status'=>-1,
+    				'category'=>''
     			);
     		}
 		$row = $db->getSaleInventory($search);
@@ -166,8 +167,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 					'end_date'=>date('Y-m-d'),
 			);
 		}
-// 		$row = $db->getInventory($data);
-// 		$this->view->inventory = $row;
+		$this->view->search = $data;
 		$summaryStock= $db->getSumaryStock($data);
 		$this->view->sumaryStok = $summaryStock;
 		$formFilter = new Installment_Form_FrmProduct();
@@ -213,9 +213,9 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 					'adv_search' => "",
 					'branch_id'	  => -1,
 					'members'=>-1,
-		 		'currency_type'=>-1,
-			 	'start_date'  => date('Y-m-d'),
-			 	'end_date'    => date('Y-m-d'),
+		 			'currency_type'=>-1,
+			 		'start_date'  => date('Y-m-d'),
+			 		'end_date'    => date('Y-m-d'),
 					'paymnet_type'=> -1,);
 		}
 		$search['orderBy']="1";
