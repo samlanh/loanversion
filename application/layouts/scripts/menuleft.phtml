@@ -7,14 +7,12 @@
 	$arr_module = $session_user->arr_acl;
 	
 	$menu = array();
-// 	print_r($arr_module);
 $module = '';
 $controller=array();
 $newarray=array();
 	if(!empty($arr_module)){
 		foreach ($arr_module as $key => $rs){
 			$lblcontroller = $rs['label'];
-// 			$lblcontroller = $rs['controller'];
 			if($rs['controller']=='index' AND $rs['module']=='group' ){
 				$lblcontroller='CLIENT_INFO';
 			}

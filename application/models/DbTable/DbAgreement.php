@@ -65,7 +65,7 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 		(SELECT branch_namekh FROM `ln_branch` WHERE br_id = c.branch_id LIMIT 1) AS branch_name ,
 		(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND c.sex=key_code LIMIT 1) AS sexEN,
 		(SELECT name_kh FROM `ln_view` WHERE TYPE =11 AND c.sex=key_code LIMIT 1) AS sexKH,
-		(SELECT village_name FROM `ln_village` WHERE vill_id=c.village_id) AS village_name,
+		(SELECT village_namekh FROM `ln_village` WHERE vill_id=c.village_id) AS village_name,
 		(SELECT name_kh FROM `ln_view` WHERE TYPE =23 AND c.`client_d_type`=id LIMIT 1) AS docTypKH,
 		(SELECT name_en FROM `ln_view` WHERE TYPE =23 AND c.`client_d_type`=id LIMIT 1) AS docTypEN,
 		(SELECT name_kh FROM `ln_view` WHERE TYPE =23 AND c.`join_d_type`=id LIMIT 1) AS joinDocTypKH,

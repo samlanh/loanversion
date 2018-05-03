@@ -1440,6 +1440,22 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	}
   	return $pre.$new_acc_no;
   }
+//   function deleteLoanDetail(){not use
+//   	$db = $this->getAdapter();
+//   	$sql="SELECT old_loanid FROM `ln_loan_detail` WHERE old_loanid NOT IN (
+// 	SELECT l.old_id FROM `ln_loan` AS l,
+// 	ln_loan_detail AS d WHERE l.old_id=d.old_loanid GROUP BY d.old_loanid 
+// 	) GROUP BY old_loanid";
+//   	$rs = $this->getAdapter()->fetchAll($sql);
+//   	    if(!empty($rs)){
+//   	    	foreach ($rs as $r){
+//   	    		$this->_name="ln_loan_detail";
+//   	    		$where=" old_loanid='".$r['old_loanid']."'";
+//   	    		$this->delete($where);
+// 		  }
+// 		}
+		  	
+//   }
   function updateVillage(){//tab2
 //   	$sql="
 //   		SELECT n.vill_id,o.villageid,village 
@@ -1491,7 +1507,27 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
 //   			}
 //   		}
   }
-  function checkLoanexist(){
+  function updateGender(){
+  	//   	$sql="SELECT clientid,sex_main FROM `tbl_cif` ";
+  	//   	$rs = $this->getAdapter()->fetchAll($sql);
+  	//   	if(!empty($rs)){
+  	//   		$this->_name="ln_client";
+  
+  	//   		foreach($rs as  $r){
+  	//   			$gender=2;
+  	//   			if($r['sex_main']=='ប្រុស'){
+  	//   				$gender=1;
+  	//   			}
+  	//   			$arr =array(
+  	//   					'sex'=>$gender
+  	//   					);
+  	//   			$where="client_id = ".$r['clientid'];
+  	//   			$this->update($arr, $where);
+  	//   		}
+  	//   	}
+  }
+  
+  function checkLoanexist(){//delete loan
 //   	$sql="SELECT old_id,loan_amount,
 //   		(SELECT SUM(principal) FROM `tbl_repayment` 
 //   		WHERE tbl_repayment.LoanID=ln_loan.old_id LIMIT 1) AS principal 
@@ -1513,10 +1549,10 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
 //     }
   }
 //   function updateCompletedschedule(){
-//   	$sql="SELECT p.loanid,SUM(p.principal) AS loan_amount 
-// FROM `tbl_repayment` p,
-// `ln_loan` AS l
-//  WHERE l.old_id=p.loanid AND p.PayType!='FULL' GROUP BY  loanid  LIMIT 450,200";
+//   	$sql="SELECT p.loanid,l.loan_amount aS realdata, SUM(p.principal) AS loan_amount 
+// 			FROM `tbl_repayment` p,
+// 			`ln_loan` AS l
+// 		 WHERE l.old_id=p.loanid AND p.PayType!='FULL' GROUP BY  loanid  ";
 //   	$rs = $this->getAdapter()->fetchAll($sql);
 //    foreach($rs as $r){
 //    		$loan_amount = $r['loan_amount'];
@@ -1558,27 +1594,27 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
 // 	   	}
 //    }
 //   }
- /*function updateRemainLoan(){
-   	$sql="SELECT l.id,old_id,loan_amount,(SELECT SUM(p.principal) 
-   		FROM `tbl_repayment` AS p 
-  	WHERE l.old_id=p.LoanID  GROUP BY p.LoanID LIMIT 1) AS principal 
-  	FROM `ln_loan` AS l ";
-  	$rs = $this->getAdapter()->fetchAll($sql);
+ function updateRemainLoan(){
+//    	$sql="SELECT l.id,old_id,loan_amount,(SELECT SUM(p.principal) 
+//    		FROM `tbl_repayment` AS p 
+//   	WHERE l.old_id=p.LoanID  GROUP BY p.LoanID LIMIT 1) AS principal 
+//   	FROM `ln_loan` AS l ";
+//   	$rs = $this->getAdapter()->fetchAll($sql);
   	
-  	foreach($rs as $r){
-  		$this->_name='ln_loan';
-  		$arr = array("loan_amount"=>$r['loan_amount']-$r['principal']
-  				);
-  		$where="old_id = '".$r['old_id']."'";
-  		$this->update($arr, $where);
+//   	foreach($rs as $r){
+//   		$this->_name='ln_loan';
+//   		$arr = array("loan_amount"=>$r['loan_amount']-$r['principal']
+//   				);
+//   		$where="old_id = '".$r['old_id']."'";
+//   		$this->update($arr, $where);
   		
-  		$this->_name='ln_loan_detail';
-  		$arr = array("loan_id"=>$r['id']
-  		);
-  		$where="old_loanid = '".$r['old_id']."'";
-  		$this->update($arr, $where);
-  	}
-}*/
+//   		$this->_name='ln_loan_detail';
+//   			$arr = array("loan_id"=>$r['id']
+//   		);
+//   		$where="old_loanid = '".$r['old_id']."'";
+//   		$this->update($arr, $where);
+//   	}
+}
 /*function updateResetrecord(){
   	$sql="SELECT id ,old_id FROM `ln_loan`";
   	$rs =$this->getAdapter()->fetchAll($sql);
@@ -1612,77 +1648,95 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   		$this->update($data, $where);
   	}
   }*/
-  function updateGender(){
-//   	$sql="SELECT clientid,sex_main FROM `tbl_cif` ";
-//   	$rs = $this->getAdapter()->fetchAll($sql);
-//   	if(!empty($rs)){
-//   		$this->_name="ln_client";
-  		
-//   		foreach($rs as  $r){
-//   			$gender=2;
-//   			if($r['sex_main']=='ប្រុស'){
-//   				$gender=1;
-//   			}
-//   			$arr =array(
-//   					'sex'=>$gender
-//   					);
-//   			$where="client_id = ".$r['clientid'];
-//   			$this->update($arr, $where);
-//   		}
-//   	}
-  }
-  function deleteFull(){
-//   	$sql="SELECT 
-// 			l.old_id,
-// 			p.PayType,
-// 			l.loan_amount
-// 			FROM 
-// 			`ln_loan` AS l,
-// 			`tbl_repayment` AS p
-// 			 WHERE 
-// 			 p.loanid=l.old_id
-// 			 AND p.PayType='FULL' 
-// 			   GROUP BY  l.old_id limit 500, 500 ";
 
-//   	$rs = $this->getAdapter()->fetchAll($sql);
-//   	print_r($rs);exit();
-//   	foreach($rs as $r){
-//   		$this->_name="ln_loan";
-//   		$where="old_id='".$r['old_id']."'";
-//   		$this->delete($where);
+  function deleteFull(){
+  	$sql="SELECT 
+			l.old_id,
+			p.PayType,
+			l.loan_amount
+			FROM 
+			`ln_loan` AS l,
+			`tbl_repayment` AS p
+			 WHERE 
+			 p.loanid=l.old_id
+			   GROUP BY  l.old_id limit 0, 500 ";
+
+  	$rs = $this->getAdapter()->fetchAll($sql);
+
+  	foreach($rs as $r){
+  		$this->_name="ln_loan";
+  		$where="old_id='".$r['old_id']."'";
+  		$this->delete($where);
   		
   		
-//   		$this->_name="ln_loan_detail";
-//   		$where=" old_loanid ='".$r['old_id']."'";
-//   		$this->delete($where);
-//   	}
-// 			$sql="
-// 			SELECT 
-// 			l.old_id,
-// 			p.PayType,
-// 			l.loan_amount,
-// 			SUM(p.principal) AS paid
-// 			FROM 
-// 			`ln_loan` AS l,
-// 			`tbl_repayment` AS p
+  		$this->_name="ln_loan_detail";
+  		$where=" old_loanid ='".$r['old_id']."'";
+  		$this->delete($where);
+  	}
+			$sql="
+			SELECT 
+			l.old_id,
+			p.PayType,
+			l.loan_amount,
+			SUM(p.principal) AS paid
+			FROM 
+			`ln_loan` AS l,
+			`tbl_repayment` AS p
 			
-// 			 WHERE 
-// 			 p.loanid=l.old_id
-// 			 AND loan_amount=(SELECT SUM(principal) FROM tbl_repayment WHERE tbl_repayment.loanid=l.old_id GROUP BY tbl_repayment.loanid )
-// 			   GROUP BY  l.old_id LIMIT 300";
+			 WHERE 
+			 p.loanid=l.old_id
+			 AND loan_amount=(SELECT SUM(principal) FROM tbl_repayment WHERE tbl_repayment.loanid=l.old_id GROUP BY tbl_repayment.loanid )
+			   GROUP BY  l.old_id LIMIT 300";
 			
-// 		  	$rs = $this->getAdapter()->fetchAll($sql);
-// 		  	foreach($rs as $r){
-// 		  		if($r['loan_amount']==$r['paid']){
-// 			  		$this->_name="ln_loan";
-// 			  		$where=" old_id ='".$r['old_id']."'";
-// 			  		$this->delete($where);
+		  	$rs = $this->getAdapter()->fetchAll($sql);
+		  	foreach($rs as $r){
+		  		if($r['loan_amount']==$r['paid']){
+			  		$this->_name="ln_loan";
+			  		$where=" old_id ='".$r['old_id']."'";
+			  		$this->delete($where);
 			
-// 			  		$this->_name="ln_loan_detail";
-// 			  		$where=" old_loanid ='".$r['old_id']."'";
-// 			  		$this->delete($where);
-// 		  		}
-// 		  	}
+			  		$this->_name="ln_loan_detail";
+			  		$where=" old_loanid ='".$r['old_id']."'";
+			  		$this->delete($where);
+		  		}
+		  	}
+  }
+  function usedonlytimes(){
+  	$sql="SELECT l.old_id,l.id,l.loan_amount ,
+			(SELECT SUM(`principle_after`) FROM `ln_loan_detail` AS d WHERE d.loan_id=l.id) AS total_schedule
+			FROM `ln_loan` AS l";
+  	$rs = $this->getAdapter()->fetchAll($sql);
+  	foreach($rs as $r ){
+  		if($r['total_schedule']>$r['loan_amount']){
+  		   		$loan_amount = ($r['total_schedule']-$r['loan_amount']);
+  			   	$sql="SELECT installment_amount,old_paymentid,id,principal_permonth,total_interest_after FROM  `ln_loan_detail` WHERE old_loanid='".$r['old_id']."' ORDER BY installment_amount ASC";
+  			   	$row = $this->getAdapter()->fetchAll($sql);
+  			   	foreach($row as $res){
+  			   		$is_completed=0;
+  			   		$this->_name="ln_loan_detail";
+  			   		$loan_amount = $loan_amount-$res['principal_permonth'];
+  			   		if($loan_amount>0){
+  			   			$is_completed=1;
+  			   			$interest = 0;
+  			   			$principal = 0;
+  			   		}else{//check មើលថាទិន្នចុងក្រោយបានបង់ការខ្លះនៅ?
+  			   			$principal = abs($loan_amount);
+  			   			$interest = 0;
+  			   			$is_completed=0;
+  			   		}
+  			   			$arr = array(
+  					   				'is_completed'=>$is_completed,
+  					   			    'principle_after'=>$principal,
+  					   				'total_interest_after'=>$interest
+  					   			);
+  			   		$where ="id = ".$res['id'];
+  			   		$this->update($arr, $where);
+  			   		if($loan_amount<=0){
+  			   			break;
+  			   		}
+  			   	}
+  	}
+  	}
   }
   function getAllClientPawn($branch_id=null,$opt=null){//ajax
 	  	$db = $this->getAdapter();
@@ -1705,26 +1759,26 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
 	  	}
   }
  function getAllClientinstallment($branch_id=null,$opt=null){//installment
-  	$db = $this->getAdapter();
-  	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
-  	c.`name_kh` AS name , client_number
-  	FROM `ln_ins_client` AS c WHERE (c.`name_en`!='' OR c.name_kh!='') AND c.status=1  " ;
-  	if($branch_id!=null){
-  		$sql.=" AND c.`branch_id`= $branch_id ";
-  
-  	}
-  	$sql.="  order BY c.`client_id` DESC ";
-  	$result =  $db->fetchAll($sql);
-  	if($opt!=null){
-  		$options=array(''=>"Select Customer");
-  		if(!empty($result))foreach($result AS $row){
-  			$options[$row['id']]= $row['name'];
-  		}
-  		return $options;
-  	}else{
-  		return $result;
-  	} 
-}
+	  	$db = $this->getAdapter();
+	  	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
+	  	c.`name_kh` AS name , client_number
+	  	FROM `ln_ins_client` AS c WHERE (c.`name_en`!='' OR c.name_kh!='') AND c.status=1  " ;
+	  	if($branch_id!=null){
+	  		$sql.=" AND c.`branch_id`= $branch_id ";
+	  
+	  	}
+	  	$sql.="  order BY c.`client_id` DESC ";
+	  	$result =  $db->fetchAll($sql);
+	  	if($opt!=null){
+	  		$options=array(''=>"Select Customer");
+	  		if(!empty($result))foreach($result AS $row){
+	  			$options[$row['id']]= $row['name'];
+	  		}
+	  		return $options;
+	  	}else{
+	  		return $result;
+	  	} 
+	}
   function getAllClientcodeinstallment($branch_id=null){//installment
   	$db = $this->getAdapter();
   	$sql = " SELECT c.`client_id` AS id  ,c.`branch_id`,
@@ -1748,5 +1802,6 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   				ORDER BY l.id DESC ";
   	return $db->fetchAll($sql);
   }
-}
+
+  }
 ?>
