@@ -54,7 +54,7 @@ class Callteral_Model_DbTable_DbCallteral extends Zend_Db_Table_Abstract
 		$db = $this->getAdapter();
 		$sql = " 
 		SELECT client_id,client_number,name_kh,name_en,sex,phone,house,street,
-			(SELECT village_name FROM `ln_village` WHERE vill_id= village_id) AS village_name
+			(SELECT village_namekh FROM `ln_village` WHERE vill_id= village_id) AS village_name
 		    ,spouse_name,
 			(SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
 			status FROM $this->_name WHERE 1 ";
