@@ -266,7 +266,7 @@ img{border:0px;}
 
 a.qButton {
     display: inline-block;
-    background: #e5a909;
+    background: #4ec2d6;
     color: #fff;
     font-size: 20px;
     border-radius: 4px;
@@ -275,4 +275,10 @@ a.qButton {
 }
 a.qButton i.fa {
     line-height: 38px;
+}
+a.qButton.excel {
+    background: #257d55;
+}
+a.qButton.print {
+    background: #4839bd;
 }
