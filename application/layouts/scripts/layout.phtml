@@ -134,6 +134,7 @@
             		</td>
             		<td valign="top">
             			<?php if($module=='report' AND $action!='index'){?>
+							<!-- 
 							<div class="menureport">
 								<ul>
 									<li class="preview"><a title="Preview" href="#" onclick="preview();"></a></li>
@@ -141,6 +142,7 @@
 									<li class="excel"><a href="#"  title="Export"  onclick="exportExcel();"></a></li>
 								</ul>
 							</div>
+							 -->
 							<div style="clear:both;"></div>
 							<?php }?>
 							<?php 
@@ -158,11 +160,32 @@
 			               	if($module=='report' AND $action!='rpt-paymentschedules'){
 			              ?>
 		                <?php }?>
+		                <div class="ptss-frame  js-ptss-frame is-opened">
+						<div class="ptss__toggle-btn  js-ptss-toggle-btn ">
+							<i class="fa fa-print"></i>
+						</div>
+						<div class="ptss__header"><?php echo $tr->translate("PRINT");?></div>
+						<div class="ptss__settings">
+							<div class="ptss__single-setting" id="ptss__layout">
+								<div class="ptss__setting-control">
+									<div class="ptss__layout-wrapper">
+										<a class="qButton" title="<?php echo $tr->translate("Preview");?>" href="#" onclick="preview();"><i class="fa fa-search" aria-hidden="true"></i></a>
+										<a class="qButton" href="#" title="<?php echo $tr->translate("PRINT");?>" onclick="doPrint();" ><i class="fa fa-print" aria-hidden="true"></i></a>
+										<a class="qButton" href="#"  title="<?php echo $tr->translate("Export");?>"  onclick="exportExcel();"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+									</div>
+									
+								</div>
+							</div>
+							
+						</div>
+					</div>
             		</td>
             	</tr>
             </table>
     </body>
-
+<style>
+    
+    </style>
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
 <?php if($module=='report' OR $module=='reports' AND $action!='index'){?>
 <script type="text/javascript">
@@ -193,6 +216,43 @@ function preview()
 function exportExcel(){
 	$('#exportExcel').tableExport({type:'excel',escape:'false'});
 }
+
+jQuery(function () {
+	'use strict';
+	
+	jQuery(".ptss__toggle-btn").click(function () {	
+		jQuery('.js-ptss-frame').toggleClass('is-opened');
+	});
+	
+	jQuery('.ptss__layout-wrapper > div').click(function(){
+		
+		jQuery(this).closest('.ptss__setting-control').find('.ptss__layout-wrapper').removeClass('is-selected');
+		
+		jQuery(this).parent().addClass('is-selected');
+		
+		if( jQuery(this).hasClass('ptss__layout-box--wide') ) {
+			
+			jQuery('body').removeClass('boxed');
+			jQuery('#ptss__boxed-bg').hide();
+			
+			jQuery('body').removeClass('bg1').removeClass('bg2').removeClass('bg3').removeClass('bg4');
+			
+			jQuery('#ptss__boxed-backgrounds span').removeClass('is-selected');
+			
+		} else {
+			
+			jQuery('body').addClass('boxed');
+			jQuery('#ptss__boxed-bg').show();
+			
+		}
+		
+	});
+	
+	
+	
+	
+	
+})
 </script>
 <?php } ?>
 </html>
