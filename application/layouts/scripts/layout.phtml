@@ -143,6 +143,25 @@
 								</ul>
 							</div>
 							 -->
+							 <div class="ptss-frame  js-ptss-frame "><!-- is-opened -->
+								<div class="ptss__toggle-btn  js-ptss-toggle-btn ">
+									<i class="fa fa-print"></i>
+								</div>
+								<div class="ptss__header"><?php echo $tr->translate("PRINT");?></div>
+								<div class="ptss__settings">
+									<div class="ptss__single-setting" id="ptss__layout">
+										<div class="ptss__setting-control">
+											<div class="ptss__layout-wrapper">
+												<a class="qButton" title="<?php echo $tr->translate("Preview");?>" href="#" onclick="preview();"><i class="fa fa-search" aria-hidden="true"></i></a>
+												<a class="qButton print" href="#" title="<?php echo $tr->translate("PRINT");?>" onclick="doPrint();" ><i class="fa fa-print" aria-hidden="true"></i></a>
+												<a class="qButton excel" href="#"  title="<?php echo $tr->translate("Export");?>"  onclick="exportExcel();"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+											</div>
+											
+										</div>
+									</div>
+									
+								</div>
+							</div>
 							<div style="clear:both;"></div>
 							<?php }?>
 							<?php 
@@ -160,25 +179,7 @@
 			               	if($module=='report' AND $action!='rpt-paymentschedules'){
 			              ?>
 		                <?php }?>
-		                <div class="ptss-frame  js-ptss-frame is-opened">
-						<div class="ptss__toggle-btn  js-ptss-toggle-btn ">
-							<i class="fa fa-print"></i>
-						</div>
-						<div class="ptss__header"><?php echo $tr->translate("PRINT");?></div>
-						<div class="ptss__settings">
-							<div class="ptss__single-setting" id="ptss__layout">
-								<div class="ptss__setting-control">
-									<div class="ptss__layout-wrapper">
-										<a class="qButton" title="<?php echo $tr->translate("Preview");?>" href="#" onclick="preview();"><i class="fa fa-search" aria-hidden="true"></i></a>
-										<a class="qButton" href="#" title="<?php echo $tr->translate("PRINT");?>" onclick="doPrint();" ><i class="fa fa-print" aria-hidden="true"></i></a>
-										<a class="qButton" href="#"  title="<?php echo $tr->translate("Export");?>"  onclick="exportExcel();"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
-									</div>
-									
-								</div>
-							</div>
-							
-						</div>
-					</div>
+		                
             		</td>
             	</tr>
             </table>
@@ -247,11 +248,6 @@ jQuery(function () {
 		}
 		
 	});
-	
-	
-	
-	
-	
 })
 </script>
 <?php } ?>
