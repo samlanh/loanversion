@@ -73,6 +73,7 @@ class Installment_RescheduleController extends Zend_Controller_Action {
   		}
   	}
   	$id = $this->getRequest()->getParam('id');
+  	$id = empty($id)?0:$id;
   	$db_g = new Application_Model_DbTable_DbGlobal();
   	
   	$db = new Installment_Model_DbTable_DbInstallmentPayment();
@@ -94,41 +95,7 @@ class Installment_RescheduleController extends Zend_Controller_Action {
   	
   	$db_global = new Application_Model_DbTable_DbGlobal();
   	$this->view->loan_number = $db_global->getSaleinstallmentByBranch(1);
-//   	$dbs = new Application_Model_DbTable_DbKeycode();
-//   	$rsd = $dbs->getKeyCodeMiniInv();
-// 		if($this->getRequest()->isPost()){
-// 			$_data = $this->getRequest()->getPost();
-// 			try {
-// 				$_dbmodel = new Installment_Model_DbTable_DbInstallment();//new
-// 				$loan_id = $_dbmodel->addSaleInstallment($_data);
-// 				if(!empty($_data['saveclose'])){
-// 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/installment");
-// 				}else{
-// 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/installment/index/add");
-// 				}
-// 				Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/installment/index/add");
-// 				return $loan_id;
-// 			}catch (Exception $e) {
-// 				Application_Form_FrmMessage::message("INSERT_FAIL");
-// 				Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-// 			}
-// 		}
-// 		$frm = new Installment_Form_FrmLoan();
-// 		$frm_loan=$frm->FrmAddLoan();
-// 		Application_Model_Decorator::removeAllDecorator($frm_loan);
-// 		$this->view->frm_loan = $frm_loan;
-		
-// 		$db = new Installment_Model_DbTable_DbProduct();
-// 		$row_cat = $db->getCategory();
-			
-//         array_unshift($row_cat,array(
-//         'id' => -1,
-//         'name' => 'ជ្រើសរើសប្រភេទផលិតផល',
-//         ) );
-//         $this->view->rs_cate=$row_cat;
-// 		$db = new Setting_Model_DbTable_DbLabel();
-// 		$this->view->setting=$db->getAllSystemSetting();
-	}
+}
 	public function editAction(){
 		if($this->getRequest()->isPost()){
 			$_data = $this->getRequest()->getPost();
@@ -146,6 +113,7 @@ class Installment_RescheduleController extends Zend_Controller_Action {
 	
 		$db = new Installment_Model_DbTable_DbInstallmentPayment();
 		$row = $db->getSaleinstallbyid($id);
+		
 		$frm = new Installment_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);

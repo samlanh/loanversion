@@ -3,7 +3,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 ?>
 <meta charset="utf-8">
 <script>
-dojo.require("dijit.form.DateTextBox");
+	dojo.require("dijit.form.DateTextBox");
 </script>
 <style>
 .hover:hover{background: #ccc;}
@@ -32,18 +32,17 @@ dojo.require("dijit.form.DateTextBox");
    	</tr>
 </table>
 </form>
-<div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+<div style="width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 <div id="divPrint" style="width: 100%;">
 <style>
 		.style{
 			line-height: 20px;font-size: 12px !important;
 			font-family: 'Khmer OS Battambang';
 		}
-		table tr td ul li{text-align: center;list-style: none;line-height: 25px; font-weight: bold;}
+		table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
 		th{padding: 5px;}
-		
 		table { page-break-inside:auto }
-		  tr{ page-break-inside:avoid; page-break-after:auto; }
+		tr{ page-break-inside:avoid; page-break-after:auto; }
 		#header {
 		  display: table-header-group;
 		  page-break-inside:avoid; page-break-after:auto;
@@ -52,30 +51,18 @@ dojo.require("dijit.form.DateTextBox");
 <table style="font-family: 'Khmer OS Content'; width:100%;">
 	<tr>
     	<td align="center">
-        	<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+        	<table width="100%" style="font-family: 'Khmer OS Battambang';margin:0; padding:0;">
             	<tr>
                 	<td width="20%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
                 	<td width="60%" valign="top">
                 	    <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-                			<li style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LOAN_OUTSTADING");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date('D-d-m-Y',strtotime($this->fordate));?></li>
-                		</ul></td>
+                			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LOAN_OUTSTADING");?></li>
+                			<li style="text-align:center; font-size:14px;"><?php echo date('D-d-m-Y',strtotime($this->fordate));?></li>
+                		</ul>
+                	</td>
                     <td width="20%"></td>
                 </tr> 
-                <tr>
-                	<td colspan="3">
-                		<table width="100%">
-                			<tr class='style'>
-                				<td class="style" style="font-size: 10px;">
-                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
-									<br /><?php echo $tr->translate("TEL_COMPANY");?>
-                				</td>
-                				<td width="65%"></td>
-                			</tr>
-		                </table>
-		              </td>
-		           </tr>   
             </table>
         </td>
     </tr>
@@ -94,21 +81,17 @@ dojo.require("dijit.form.DateTextBox");
                     <th>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_PERIOD");?>&nbsp;</th>
-                    <!--  <th style="padding:2px 0px;font-size: 8px;">&nbsp;<?php //echo $tr->translate("LOAN_TYPE");?>&nbsp;</th>
-                    <th style="padding:2px 0px;font-size: 8px;"><?php //echo $tr->translate("FOR_LOAN_TYPE");?></th>
-                    -->
-                   	<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("បានបង់");?>&nbsp;</th>
                    	<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?>&nbsp;</th>
                    	<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PERCENTAGE");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NOT_TO_REPAY");?>&nbsp;</th>
                 </tr>
                 </thead>
                <?php 
-               		$db = new Report_Model_DbTable_DbLoan();
-               $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;$result_b=0;$result_r=0;$result_d=0;
-			   $count_d=0;$count_r=0;$count_b=0;
-			   $amt_loanmonth=0;$amt_loanweek=0;$amt_loanday=0;
-			   $i=0;
+	               $db = new Report_Model_DbTable_DbLoan();
+	               $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;$result_b=0;$result_r=0;$result_d=0;
+				   $count_d=0;$count_r=0;$count_b=0;
+				   $amt_loanmonth=0;$amt_loanweek=0;$amt_loanday=0;
+				   $i=0;
                if(!empty($this->outstandloan)) foreach($this->outstandloan as $key =>$row){?>
                <?php 
                   if($row['total_principaid']==$row['total_capital']){
@@ -152,9 +135,10 @@ dojo.require("dijit.form.DateTextBox");
 						<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_line']));?>&nbsp;</td>
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 						<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['total_duration']).$row['pay_term'];?>&nbsp;</td>
-						<td style="white-space:nowrap; text-align: center;">&nbsp;<?php echo $row['total_principaid'];?>&nbsp;</td>
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($total_receive,2).' '.$row['currency_type'];?>&nbsp;</td>
-						<td>&nbsp;<?php 
+						<td>&nbsp;
+						<?php //echo $row['total_principaid'];?>
+						<?php 
 							echo (round(($total_receive/$row['total_capital']),2)*100).' %';
 						?>&nbsp;</td>
 						<td>&nbsp;<?php echo number_format(($row['total_capital']-$total_receive),2).' '.$row['currency_type'];?>&nbsp;</td>
@@ -165,8 +149,8 @@ dojo.require("dijit.form.DateTextBox");
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                  <thead>
 				 <tr bgcolor="#ccc" class="style" style="font-weight:bold; line-height: 24px; background: #ccd9ff; text-align: center; font-size:11px;">
-                    <th style="padding:2px 0px;"><?php echo $tr->translate("FOR_LOAN_TYPE");?></th>
                     <th style="padding:2px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></th>
+                    <th style="padding:2px 0px;"><?php echo $tr->translate("FOR_LOAN_TYPE");?></th>
                     <th style="padding:2px 0px;"><?php echo $tr->translate("ចំនួនកម្ចី");?></th>
 					<th style="padding:2px 0px;"><?php echo $tr->translate("LOAN_AMOUNT");?></th>
                     <th style="padding:2px 0px;"><?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?></th>
@@ -175,8 +159,8 @@ dojo.require("dijit.form.DateTextBox");
                 </tr>
 				</thead>
                  <tr class="style" style=" line-height: 24px; font-size:11px;">
-                    <td>&nbsp;<?php echo $tr->translate("MONTH").":".$amt_loanmonth;//number_format($count_d,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
+                    <td>&nbsp;<?php echo $tr->translate("MONTH").":".$amt_loanmonth;//number_format($count_d,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($count_d,2);?>&nbsp;</td>
 					<td>&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amn_d,2);?>&nbsp;</td>
@@ -184,8 +168,8 @@ dojo.require("dijit.form.DateTextBox");
                     <td>&nbsp;<?php echo number_format($amt_d-$amn_d,2);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:11px;">
+                 	<td>&nbsp;<?php echo $tr->translate("REILS");?></td>
                  	<td>&nbsp;<?php echo $tr->translate("WEEK").":".$amt_loanweek;?>&nbsp;</td>
-                    <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
 					<td>&nbsp;<?php echo number_format($count_r,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amt_r,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amn_r,2);?>&nbsp;</td>
@@ -193,8 +177,8 @@ dojo.require("dijit.form.DateTextBox");
                     <td>&nbsp;<?php echo number_format($amt_r-$amn_r);?>&nbsp;</td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:11px;">
+                 	<td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
                  	<td>&nbsp;<?php echo $tr->translate("DAY").":".$amt_loanday;;?>&nbsp;</td>
-                    <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
 					<td>&nbsp;<?php echo number_format($count_b,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amt_b,2);?>&nbsp;</td>
                     <td>&nbsp;<?php echo number_format($amn_b,2);?>&nbsp;</td>

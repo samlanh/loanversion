@@ -1054,9 +1054,9 @@ function rptLoanTrasferzoneAction(){//release all loan
  				'adv_search' => "",
  				'end_date' => date('Y-m-d'),
  				'status' => "",
- 				'co_id' => "",
- 				'branch_id'		=>"",
- 				'member'=>-1
+ 				'co_id' => -1,
+ 				'branch_id'	=>-1,
+ 				'member'=>''
  		);
  	}
  	$this->view->fordate = $search['end_date'];

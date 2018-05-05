@@ -14,10 +14,8 @@ dojo.require("dijit.form.DateTextBox");
 	<tr>
    		<td><?php echo $frm->getElement("adv_search");?></td>
    		<td><?php echo $frm->getElement('branch_id');?></td>
-   		<td><?php echo $frm->getElement('pay_every');?></td>
+   		<!-- <td><?php //echo $frm->getElement('pay_every');?></td> -->
    		<td><?php echo $frm->getElement('member');?></td>
-   	</tr>
-   	<tr>
    		<td><?php echo $frm->getElement('co_id');?></td>
    		<td><?php echo $frm->getElement('end_date');?></td>
    		<td><?php echo $frm->getElement('status');?></td>
@@ -52,26 +50,11 @@ table { page-break-inside:auto }
                 	<td width="60%" valign="top">
                 	    <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
-                			<li style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LOAN_OUTSTADING_VILLAGE");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php echo date('D-d-m-Y',strtotime($this->fordate));?></li>
+                			<li style="text-align:center; font-size:14px; font-family:'Khmer MEF2'"><?php echo $tr->translate("LOAN_OUTSTADING_VILLAGE");?></li>
+                			<li style="text-align:center; font-size:14px;"><?php echo date('D-d-m-Y',strtotime($this->fordate));?></li>
                 		</ul></td>
                     <td width="20%"></td>
                 </tr> 
-                <tr>
-                	<td colspan="3">
-                		<table width="100%">
-                			<tr class='style'>
-                				<td class="style" style="font-size: 10px;">
-                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
-									<br /><?php echo $tr->translate("TEL_COMPANY");?>
-                				</td>
-                				<td width="65%"></td>
-                				
-                			</tr>
-			               
-		                </table>
-		              </td>
-		           </tr>   
             </table>
         </td>
     </tr>
@@ -85,19 +68,18 @@ table { page-break-inside:auto }
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_NO");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CLIENT_NUM");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("TEL");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("CO_NAME");?>&nbsp;</th>
                     <th style="padding:2px 0px;"> &nbsp;<?php echo $tr->translate("RELEASE_DATE");?>&nbsp;</th>
                     <th>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_PERIOD");?>&nbsp;</th>
-                    <th style="padding:2px 0px;font-size: 8px;"><?php echo $tr->translate("FOR_LOAN_TYPE");?></th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?>&nbsp;</th>
-                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PERCENTAGE");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NOT_TO_REPAY");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PROVINCE_NAME");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("DISTRICT_NAME");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("COMMUNE_NAME");?>&nbsp;</th>
-                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("VILLAGE_NAME");?>&nbsp;</th>
+                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("VILLAGE");?>&nbsp;</th>
                 </tr>
                </thead>
                <?php 
@@ -128,22 +110,13 @@ table { page-break-inside:auto }
 						<td>&nbsp;<?php echo $row['loan_number'];?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
 						<td align="left" style="font-size:9px; line-height: 13px; white-space: nowrap;">&nbsp;<?php echo $row['client_kh']; ?>&nbsp;</td>
+						<td>&nbsp;<?php echo $row['phone'];?>&nbsp;</td>
 						<td>&nbsp;<?php echo $row['co_name'];?>&nbsp;</td>
 						<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_release']));?>&nbsp;</td>
 						<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_line']));?>&nbsp;</td>
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 						<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['total_duration']).$row['pay_term'];?>&nbsp;</td>
-						<td align="left">&nbsp;<?php 
-							if ($row['loantype']==1){echo 'indi';}
-							else {
-								echo 'group';
-							}
-							; ?>&nbsp;
-						</td>	
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($total_receive,2).' '.$row['currency_type'];?>&nbsp;</td>
-						<td>&nbsp;<?php 
-								echo (round(($total_receive/$row['total_capital']),2)*100).' %';
-						?>&nbsp;</td>
 						<td>&nbsp;<?php echo number_format(($row['total_capital']-$total_receive),2).' '.$row['currency_type'];?>&nbsp;</td>
 						<td align="left">&nbsp;<?php echo $row['province_en_name']; ?>&nbsp;</td>
 						<td align="left">&nbsp;<?php echo $row['district_name']; ?>&nbsp;</td>

@@ -1359,7 +1359,7 @@ public function getLoanadminFeeIcome($search=null){
       	$order=" GROUP BY curr_type order by id desc ";
       	return $db->fetchAll($sql.$where.$order);
       }
-	  function getLoanByVillage(){
+	  function getLoanByVillage($search){
       	$db = $this->getAdapter();
       	$sql=" SELECT `l`.`loan_number`     AS `loan_number`,
 				  (`l`.`loan_amount`) AS `total_capital`,
@@ -1380,11 +1380,11 @@ public function getLoanadminFeeIcome($search=null){
 				   `c`.`client_number`,
 				   `c`.`name_kh` AS `client_kh`,
 				   `c`.`name_en` AS `client_en`,
-   				(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`c`.`village_id`) LIMIT 1 ) AS `village_name`,
-				(SELECT `cm`.`commune_name` FROM `ln_commune` `cm` WHERE (`cm`.`com_id` = `c`.`com_id`) LIMIT 1 ) AS `commune_name`,
-				(SELECT `d`.`district_name` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1 ) AS `district_name`,
-				(SELECT province_en_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1 ) AS province_en_name,
-				
+				   c.phone,
+   				(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (ln_village.vill_id=`c`.`village_id`) LIMIT 1 ) AS `village_name`,
+				(SELECT `cm`.`commune_namekh` FROM `ln_commune` `cm` WHERE (`cm`.`com_id` = `c`.`com_id`) LIMIT 1 ) AS `commune_name`,
+				(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `c`.`dis_id`) LIMIT 1 ) AS `district_name`,
+				(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1 ) AS province_en_name,
 				(SELECT
 				     `ln_currency`.`symbol`
 				   FROM `ln_currency`
@@ -1398,10 +1398,23 @@ public function getLoanadminFeeIcome($search=null){
 				WHERE (
 				        (`l`.`status` = 1)
 				       AND `l`.`customer_id`= c.client_id
-				       AND (`l`.`is_completed` = 0))
-				GROUP BY `l`.`id` ORDER BY 
-               c.pro_id,c.dis_id,c.com_id,c.village_id  ";
-      	return $db->fetchAll($sql);
+				       AND (`l`.`is_completed` = 0))  ";
+      	$where="";
+      	if($search['branch_id']>0){
+      		$where.=" AND l.branch_id = ".$search['branch_id'];
+      	}
+      	if(!empty($search['member'])){
+      		$where.=" AND `l`.`customer_id` = ".$search['member'];
+      	}
+      	if(!empty($search['co_id']) AND $search['co_id']>-1){
+      		$where.=" AND l.co_id = ".$search['co_id'];
+      	}
+      	$where."GROUP BY `l`.`id` ORDER BY c.pro_id,c.dis_id,c.com_id,c.village_id";
+//       	if(!empty($search['currency_type'])){
+//       		$where.=" AND v.`curr_type` = ".$search['currency_type'];
+//       	}
+// echo $sql.$where;exit();
+      		return $db->fetchAll($sql.$where);
       }
       public function getALLTotalWritoff($search=null){
       	$db = $this->getAdapter();

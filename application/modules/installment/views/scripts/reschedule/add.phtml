@@ -222,27 +222,28 @@ var pro_store  = getDataStorefromJSON('id','name');
 require(["dojo/ready"], function(ready){
 	 ready(function(){
 		changeCollectType();
-		dijit.byId("branch_id").attr("value",<?php echo $this->datarow['branch_id'];?>);
-		dijit.byId("sale_no").attr("value",'<?php echo $this->datarow['id'];?>');
-		dijit.byId("note").attr("value",'<?php echo $this->datarow['sell_remark'];?>');
-		dijit.byId("category_id").attr("value",<?php echo $this->datarow['cate_id'];?>);
-		dijit.byId("product_name").attr("value",<?php echo $this->datarow['product_id'];?>);
-		
-		dijit.byId("date_sold").attr("value",'<?php echo $this->datarow['date_sold'];?>');
-		dijit.byId("outstanding").attr("value",'<?php echo $this->datarow['balance']-$this->datarow['principal_paid'];?>');
-		dijit.byId("balance").attr("value",'<?php echo $this->datarow['balance']-$this->datarow['principal_paid'];?>');
-
-		dijit.byId("paid_date").attr("value",'<?php echo $this->datarow['paid_date'];?>');
-
-		dijit.byId("interest_rate").attr("value",<?php echo $this->datarow['interest_rate'];?>);
-		dijit.byId("duration").attr("value",'<?php echo $this->datarow['duration'];?>');
-
-		dijit.byId("repayment_method").attr("value",'<?php echo $this->datarow['payment_method'];?>');
-		dijit.byId("first_payment").attr("value",'<?php echo $this->datarow['first_payment'];?>');
-		dijit.byId("date_line").attr("value",'<?php echo $this->datarow['date_line'];?>');
-		dijit.byId("category_id").set("readOnly",true);
-		dijit.byId("product_name").set("readOnly",true);
-		
+		<?php if(!empty($this->datarow['id'])){?>
+			dijit.byId("branch_id").attr("value",<?php echo $this->datarow['branch_id'];?>);
+			dijit.byId("sale_no").attr("value",'<?php echo $this->datarow['id'];?>');
+			dijit.byId("note").attr("value",'<?php echo $this->datarow['sell_remark'];?>');
+			dijit.byId("category_id").attr("value",<?php echo $this->datarow['cate_id'];?>);
+			dijit.byId("product_name").attr("value",<?php echo $this->datarow['product_id'];?>);
+			
+			dijit.byId("date_sold").attr("value",'<?php echo $this->datarow['date_sold'];?>');
+			dijit.byId("outstanding").attr("value",'<?php echo $this->datarow['balance']-$this->datarow['principal_paid'];?>');
+			dijit.byId("balance").attr("value",'<?php echo $this->datarow['balance']-$this->datarow['principal_paid'];?>');
+	
+			dijit.byId("paid_date").attr("value",'<?php echo $this->datarow['paid_date'];?>');
+	
+			dijit.byId("interest_rate").attr("value",<?php echo $this->datarow['interest_rate'];?>);
+			dijit.byId("duration").attr("value",'<?php echo $this->datarow['duration'];?>');
+	
+			dijit.byId("repayment_method").attr("value",'<?php echo $this->datarow['payment_method'];?>');
+			dijit.byId("first_payment").attr("value",'<?php echo $this->datarow['first_payment'];?>');
+			dijit.byId("date_line").attr("value",'<?php echo $this->datarow['date_line'];?>');
+			dijit.byId("category_id").set("readOnly",true);
+			dijit.byId("product_name").set("readOnly",true);
+		<?php }?>
 	  });
 
 	 var loan_data = new dojo.store.Memory({
@@ -256,7 +257,6 @@ require(["dojo/ready"], function(ready){
 			required: false,		           
 			name: "sale_no",
 			id: "sale_no",
-			readOnly:true,
 			searchAttr: "name",
 			autoComplete: false,
 			queryExpr: "*${0}*",
@@ -330,7 +330,7 @@ require(["dojo/ready"], function(ready){
 		name: "product_name",
 		id: "product_name",
 		searchAttr: "name",
-		value:<?php echo $this->datarow['product_id'];?>,
+		value:'<?php echo $this->datarow['product_id'];?>',
 		autoComplete: false,
 		queryExpr: "*${0}*",
 		class: 'fullside',

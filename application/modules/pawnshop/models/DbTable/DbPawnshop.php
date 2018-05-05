@@ -166,6 +166,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 					$old_interest_paymonth = 0;
 					$old_amount_day = 0;
 					$from_date=$next_payment;
+					if($i!=1){
+						$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, 1,2,$data['first_payment']);
+					}
 				}
     			$db->commit();
     	}catch (Exception $e){
@@ -284,6 +287,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     			$old_interest_paymonth = 0;
     			$old_amount_day = 0;
     			$from_date=$next_payment;
+    			if($i!=1){
+    				$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, 1,2,$data['first_payment']);
+    			}
     		}
     		$db->commit();
     	}catch (Exception $e){
@@ -361,6 +367,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 					$old_interest_paymonth = 0;
 					$old_amount_day = 0;
 					$from_date=$next_payment;
+					if($i!=1){
+						$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, 1,2,$data['first_payment']);
+					}
 			  }
 			unset($datamember);
 			

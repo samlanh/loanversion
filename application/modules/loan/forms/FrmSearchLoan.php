@@ -83,7 +83,7 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		));
 		$options = $db ->getAllCOName(1);
 		
-		if($request->getActionName()=='index'){
+		if($request->getActionName()=='index' || $request->getActionName()=='rpt-loan-outstanding'){
 			unset($options[-1]);
 		}
 		$_coid->setMultiOptions($options);
