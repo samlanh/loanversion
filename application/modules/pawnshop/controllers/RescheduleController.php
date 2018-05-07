@@ -50,11 +50,11 @@ class Pawnshop_RescheduleController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try {
 				$_dbmodel = new Pawnshop_Model_DbTable_DbReschedule();
-				$_dbmodel->addReschedulePawnshop($_data);
+				$pawnshopID = $_dbmodel->addReschedulePawnshop($_data);
 				if(!empty($_data['saveclose'])){
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/pawnshop");
 				}else{
-					Application_Form_FrmMessage::message("INSERT_SUCCESS");
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/pawnshop/reschedule/add");
 				}
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");

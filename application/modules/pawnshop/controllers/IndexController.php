@@ -56,10 +56,7 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 			$_data = $this->getRequest()->getPost();
 			try {
 				$_dbmodel = new Pawnshop_Model_DbTable_DbPawnshop();
-				$pawnshopID = $_dbmodel->addPawnshop($_data);
-				
-				//add reschedule
-				$_dbmodel->addReschedulePawnshop($_data,$pawnshopID);
+				$_dbmodel->addPawnshop($_data);
 				if(!empty($_data['saveclose'])){
 					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/pawnshop");
 				}else{
