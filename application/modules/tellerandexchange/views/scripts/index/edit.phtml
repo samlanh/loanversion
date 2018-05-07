@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	$this->headTitle('Edit Exchange Money'); 
 	echo $this->headTitle();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
@@ -38,7 +38,7 @@
 	}
 -->
 </style>
-<form id='frm_add_exch' action="<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'xchanges','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form id='frm_add_exch' action="<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'index','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	<script type="dojo/method" event="onSubmit">			
 			if(this.validate()) {
 				if(dijit.byId('recieve_money').get('value') < dijit.byId('from_amount').get('value') || dijit.byId('return_money').get('value') < 0){
@@ -505,7 +505,7 @@
 			dijit.byId("rate").setAttribute('readOnly', true);
 		}
 	}
-	var urlToExchange = '<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'xchanges','action'=>'gettoexchange')); ?>';
+	var urlToExchange = '<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'index','action'=>'gettoexchange')); ?>';
 	var oldFromAmount = '<?php echo $row['fromAmountType'];?>';
 	function getExchangeFromTypeToType(){
 		from_amount_type = dijit.byId('from_amount_type').get('value');
@@ -531,7 +531,7 @@
 			}
 		});
 	}
-	var urlRateValue = '<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'xchanges','action'=>'getratevalue')); ?>';
+	var urlRateValue = '<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'index','action'=>'getratevalue')); ?>';
 	function getRateValue(){
 		from_amount_type = dijit.byId('from_amount_type').get('value');
 		to_amount_type = dijit.byId('to_amount_type').get('value');
