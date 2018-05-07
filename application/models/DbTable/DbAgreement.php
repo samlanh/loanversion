@@ -26,12 +26,14 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
     }
     public function getLoanCollateral($Loanid){
     	$db = $this->getAdapter();
-    	$sql="SELECT cd.* 
+    	$sql="SELECT cd.*,
+    	(SELECT ct.title_kh FROM `ln_callecteral_type` AS ct WHERE ct.id = cd.`collecteral_type` LIMIT 1) AS calleteralTitle,
+		(SELECT v.name_kh FROM `ln_view` AS v WHERE v.type=21 AND v.key_code= cd.`owner_type` LIMIT 1) AS ownerType
 			FROM 
 			`ln_client_callecteral_detail` AS cd,
 			`ln_client_callecteral` AS c
 			WHERE c.`id` = cd.`client_coll_id`
-			AND c.`loan_id` = 1 AND cd.`status` =1 AND cd.`is_return` =0";
+			AND c.`loan_id` = $Loanid AND cd.`status` =1 AND cd.`is_return` =0";
     	return $db->fetchAll($sql);
     }
 	function getClientLoanInfo($clientID){

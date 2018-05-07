@@ -131,10 +131,11 @@
 						 					<strong>ប្រការ៥៖ ទ្រព្យដាក់តម្កល់ធានាបំណុលៈ</strong><br />
 						 					<strong>៥.១</strong> ដោយ អ្នកខ្ចីយល់ព្រមដាក់ទ្រព្យតម្កល់បញ្ចាំធានាដូចខាងក្រោម៖
 									    	<?php if (!empty($collateral)){?>
-									    		<?php foreach ($collateral as $key => $col){?>
+									    		<?php foreach ($collateral as $key => $col){
+									    			if ($col['owner_type']==1){?>
 									    		<br />
-									    		<span id="padding-left">- <?php echo $col['note'];?></span>
-									    		<?php }?>
+									    		<span id="padding-left">- ប្រភេទទ្រព្យបញ្ចំា <?php echo $col['calleteralTitle'];?> លេខទ្រព្យបញ្ចំា <?php echo $col['number_collecteral'];?> កម្មសិទ្ធ <?php echo $col['ownerType'];?> <?php echo $col['note'];?></span>
+									    		<?php }}?>
 									    	<?php }?>
 						 				</p>
 						 				<p style="text-align: left;">
@@ -173,10 +174,13 @@
 						 				<p style="text-align: left;">
 						 					<strong>ប្រការ១២៖ ទ្រព្យធានាបំណុលៈ</strong><br>ភាគីអ្នកធានាសុខចិត្តដាក់ទ្រព្យធានាបំណុលអោយអ្នកខ្ចីដូចខាងក្រោម៖
 											<?php if (!empty($collateral)){?>
-									    		<?php foreach ($collateral as $key => $col){?>
+									    		<?php foreach ($collateral as $key => $col){
+									    		if ($col['owner_type']==2){
+									    			?>
 									    		<br />
-									    		<span id="padding-left">- <?php echo $col['note'];?></span>
-									    		<?php }?>
+									    		<span id="padding-left">- ប្រភេទទ្រព្យបញ្ចំា <?php echo $col['calleteralTitle'];?> លេខទ្រព្យបញ្ចំា <?php echo $col['number_collecteral'];?> កម្មសិទ្ធ <?php echo $col['ownerType'];?> <?php echo $col['note'];?></span>
+									    		<?php }
+									    		}?>
 									    	<?php }?>
 									    </p>
 						 				<p style="text-align: left;">
