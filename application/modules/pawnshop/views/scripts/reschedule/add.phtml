@@ -722,6 +722,7 @@ var client_store  = getDataStorefromJSON('id','name', [] );
 var client_number_store  = getDataStorefromJSON('id','name', [] );//getDataStorefromJSON('id','name', <?php //print_r(Zend_Json::encode($this->recieverlist));?> );
 var product_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->product_store));?> );
 var loan_store  = getDataStorefromJSON('id','name', null );
+var pawnId = '<?php echo $this->id;?>';
 require(["dojo/ready"], function(ready){
 	 ready(function(){
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
@@ -754,6 +755,7 @@ require(["dojo/ready"], function(ready){
 		id: "loan_code",
 		searchAttr: "name",
 		autoComplete: false,
+		value:pawnId,
 		queryExpr: "*${0}*",
 		class: 'fullside',
 		onChange: function() {
@@ -899,6 +901,7 @@ function getPawnbyBranch(){
 			load: function(data) {
 				loan_store  = getDataStorefromJSON('id','name', data);		
 			    dijit.byId('loan_code').set('store', loan_store);
+			    dijit.byId('loan_code').set('value', pawnId);
 			},
 			error: function(err) {
 				alert(err);

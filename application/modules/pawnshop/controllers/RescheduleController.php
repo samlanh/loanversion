@@ -8,6 +8,7 @@ class Pawnshop_RescheduleController extends Zend_Controller_Action {
 	}
 	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
+		$this->_redirect("/pawnshop/reschedule/add");
 // 		try{
 // 		    if($this->getRequest()->isPost()){
 //  				$search = $this->getRequest()->getPost();
@@ -92,6 +93,10 @@ class Pawnshop_RescheduleController extends Zend_Controller_Action {
 	    
 	    $db_global = new Pawnshop_Model_DbTable_DbPayment();
 	    $this->view->loan_number = $db_global->getPawnAccountNumber(1);
+	    
+	    $id = $this->getRequest()->getParam('id');
+	    $id = empty($id)?0:$id;
+	    $this->view->id = $id;
 	}
 	public function editAction(){
 // 		if($this->getRequest()->isPost()){
