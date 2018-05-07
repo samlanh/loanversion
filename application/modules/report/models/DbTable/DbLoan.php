@@ -782,7 +782,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$end_date = $search['end_date'];
       
       	$db = $this->getAdapter();
-      	$sql = "SELECT SUM(total_capital) FROM v_loanreleased WHERE status = 1 ";
+      	$sql = "SELECT *,SUM(total_capital) FROM v_loanreleased WHERE status = 1 ";
       	$where ='';
       	if(!empty($search['advance_search'])){
       		$s_where = array();
