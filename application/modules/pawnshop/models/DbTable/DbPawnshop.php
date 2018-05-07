@@ -14,9 +14,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
     	$where = " AND ".$from_date." AND ".$to_date;
     	
-    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-    	$dach = $tr->translate("DACH_PRODUCT");
-    	$receipt = $tr->translate("PAYMENT_RECEIPT");
+//     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+//     	$dach = $tr->translate("DACH_PRODUCT");
+//     	$receipt = $tr->translate("PAYMENT_RECEIPT");
     	$db = $this->getAdapter();
     	$sql = " SELECT id,
 	    	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch,
@@ -27,11 +27,13 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 	    		CONCAT(total_duration,(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code = term_type )) term_type,
 				interest_rate,
 				(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=ln_pawnshop.product_id limit 1) as product_name,
-				date_release,date_line,'".$dach."' ,
-	    		'$receipt','Click Here',
+				date_release,date_line,
     			(SELECT first_name FROM `rms_users` WHERE id=user_id LIMIT 1) As user_name,
     			status
     		 FROM `ln_pawnshop` WHERE 1 ";
+    	
+//     	'".$dach."' ,
+//     	'$receipt','Click Here',
     	if(!empty($search['adv_search'])){
     		$s_where = array();
     		$s_search = addslashes(trim($search['adv_search']));

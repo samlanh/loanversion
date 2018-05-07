@@ -3,6 +3,11 @@
 	echo $this->headTitle($tr->translate("PAWN_SHOP"));
 	$frm = $this->frm_search;
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	
+	$url_payment = $this->baseUrl()."/pawnshop/payment/add/id/";
+	$url_dach = $this->baseUrl()."/pawnshop/dach/index/id/";
+	$url_agreement = $this->baseUrl()."/report/pawn/agreement/id/";
+	$url_receipt = $this->baseUrl()."/report/pawn/pawnticketreceipt/id/";
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
@@ -82,4 +87,42 @@ require(["dojo/ready"], function(ready){
 		}
 	}, "member");
 });
+
+
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+		
+			var m = "clicked: " + key;
+			 if(key=="payment"){
+				url='<?php echo $url_payment;?>';
+			}else if(key=="dach"){
+				url='<?php echo $url_dach;?>';
+			}else if(key=="agreement"){
+				url='<?php echo $url_agreement;?>';
+			}else if(key=="receipt"){
+				url='<?php echo $url_receipt;?>';
+			}
+			gotoAction();
+			//window.console && console.log(m) || alert(m); 
+		},
+		items: {
+			"payment": {name: "<?php echo $tr->translate("ADD_PAYMENT");?>", icon: "fa-money", accesskey: "c o p y"},
+			"dach": {name: "<?php echo $tr->translate("DACH_PRODUCT");?>", icon: "fa-money"},
+			"agreement": {name: "<?php echo $tr->translate("AGREEMENT");?>", icon: "fa-file-text"},
+			"receipt": {name: "<?php echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-print"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
+}
 </script>

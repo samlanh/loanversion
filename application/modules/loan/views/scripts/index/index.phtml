@@ -2,6 +2,10 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("LOAN_IL"));
 $frm = $this->frm_search;
+
+$url_Payment = $this->baseUrl()."/loan/payment/add/id/"; 
+$url_agreement = $this->baseUrl()."/report/loan/agreement/id/";
+$url_schedule = $this->baseUrl()."/report/loan/rpt-paymentschedules/id/";
 ?>
 <script>
 	dojo.require("dijit.form.DateTextBox");
@@ -34,5 +38,39 @@ function getmemberIdGroup(){
 function checkMember(){
 	customer_code= dijit.byId('member').get('value');
 	dijit.byId('customer_code').attr('value',customer_code);
+}
+
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+		
+			var m = "clicked: " + key;
+			 if(key=="payment"){
+				url='<?php echo $url_Payment;?>';
+			}else if(key=="agreement"){
+				url='<?php echo $url_agreement;?>';
+			}else if(key=="schedulePay"){
+				url='<?php echo $url_schedule;?>';
+			}
+			gotoAction();
+			//window.console && console.log(m) || alert(m); 
+		},
+		items: {
+			"payment": {name: "<?php echo $tr->translate("ADD_PAYMENT");?>", icon: "fa-money", accesskey: "c o p y"},
+			"agreement": {name: "<?php echo $tr->translate("AGREEMENT");?>", icon: "fa-file-text"},
+			"schedulePay": {name: "<?php echo $tr->translate("SCHEDULE_PAYMENT");?>", icon: "fa-calendar"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
 }
 </script>

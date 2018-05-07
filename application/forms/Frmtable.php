@@ -167,46 +167,15 @@ class Application_Form_Frmtable
      	* Define string of pagination Sophen 27 June 2012
      	*/
     	$stringPagination = '<script type="text/javascript">
-				$(document).ready(function(){
-					$("#'.$id.'").tablesorter();
-					
-					$("#'.$id.'").tablesorter().tablesorterPager({container: $("#pagination_'.$id.'")});
-					$("input:.pagedisplay").focus(function(){ this.blur(); });
-					
-					function changeColor(){
-						alert("change color on mouse over");
-					}
-				});
 		</script>
-		<div id="pagination_'.$id.'" class="pager" >
-					<form >
-						<table  style="width: 200px;"><tr>
-						<td><img src="'.BASE_URL.'/images/first.gif" class="first"/></td>
-						<td><img src="'.BASE_URL.'/images/previous.gif" class="prev"/></td>
-						<td><input type="text" class="pagedisplay"/></td>
-						<td><img src="'.BASE_URL.'/images/next.gif" class="next"/></td>
-						<td><img src="'.BASE_URL.'/images/last.gif" class="last"/></td>
-						<td><select class="pagesize" >
-							<option selected="selected"  value="10">10</option>
-							<option value="20">20</option>
-							<option value="30">30</option>
-							<option value="40">40</option>
-							<option value="50">50</option>
-							<option value="60">60</option>
-							<option value="70">70</option>
-							<option value="80">80</option>
-							<option value="90">90</option>
-							<option value="100">100</option>
-							</select>
-					    </td>
-						</tr>
-						</table>
-					</form>
-			</div>	';
+			';
     	/* end define string*/
     	//$head='<form name="list"><div style="overflow:scroll; max-height:450px; overflow-x:hidden;" ><table class="collape tablesorter" id="'.$id.'" width="100%">';
     	
-    	$head='<form name="list"><div ><table class="collape tablesorter" id="'.$id.'" width="100%">';
+    	$head='<form name="list">
+    				<div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; background:#fff;     padding: 10px 0px; ">
+    					<table border="1" id="datatable-responsive" style="  border-collapse: collapse;   border-color: #ddd;"  class="display nowrap dataTable dtr-inline collapsed" cellspacing="0" width="100%" >
+    	';
     	$col_str='';
     	$col_str .='<thead><tr>';
     	if($delete== 1) {
@@ -239,9 +208,13 @@ class Application_Form_Frmtable
     		$row_str.='<tr class="'.$attb.'"> ';
     				$i=0;
 		  			foreach($row as $key=>$read) {
+		  				$clisc='';
 		  				if($read==null) $read='&nbsp';
 		  				if($i==0) {
 		  					$temp=$read;
+		  					if($delete== 10) {
+		  						$clisc='oncontextmenu="setrowdata('.$temp.');return false;" class="context-menu-one" ';
+		  					}
 		  					if($delete==1){
 				    			$row_str .= '<td><input type="checkbox" name="del[]" id="del[]" value="'.$temp.'" /></td>';
 		  					}
@@ -264,10 +237,14 @@ class Application_Form_Frmtable
 	    							$text  = " align=". $textalign;
 	    						}
     						}
-    						$row_str.='<td class="'.$class.'" '.$text.'>'.$read.'</td>';
+    						if($delete== 10) {
+    							$clisc='oncontextmenu="setrowdata('.$temp.');return false;" class="context-menu-one" ';
+    						}
+    						
+    						$row_str.='<td '.$clisc.'>'.$read.'</td>';
 			  				if($i == count($columns)) {
 	    						if($editLink != "") {
-									$row_str.='<td class="'.$class.'"><a class="edit" href="'.$editLink.'/id/'.$temp.'">'.'</a></td>';
+									$row_str.='<td '.$clisc.' ><a class="edit" href="'.$editLink.'/id/'.$temp.'">'.'</a></td>';
 			    				}
 	    					}
     					}

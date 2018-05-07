@@ -1,8 +1,13 @@
 <?php 
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate("LOAN_IL"));
+	echo $this->headTitle($tr->translate("INSTALLMENT_MNG"));
 	$frm = $this->frm_search;
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	
+	$url_payment = $this->baseUrl()."/installment/payment/add/id/";
+	$url_schedule = $this->baseUrl()."/report/installments/saleschedule/id/";
+	$url_agreement = $this->baseUrl()."/report/installments/agreement/id/";
+	$url_receipt = $this->baseUrl()."/report/installments/saleinvoice/id/";
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script>
@@ -58,4 +63,41 @@
 				}
 		}, "category_id");
 	});
+
+	var row=0;
+	var url="";
+	$(function(){
+		$.contextMenu({
+			selector: '.context-menu-one', 
+			callback: function(key, options) {
+			
+				var m = "clicked: " + key;
+				 if(key=="payment"){
+					url='<?php echo $url_payment;?>';
+				 }else if(key=="receipt"){
+						url='<?php echo $url_receipt;?>';
+				}else if(key=="schedule"){
+					url='<?php echo $url_schedule;?>';
+				}else if(key=="agreement"){
+					url='<?php echo $url_agreement;?>';
+				}
+				gotoAction();
+				//window.console && console.log(m) || alert(m); 
+			},
+			items: {
+				"payment": {name: "<?php echo $tr->translate("ADD_PAYMENT");?>", icon: "fa-money", accesskey: "c o p y"},
+				"schedule": {name: "<?php echo $tr->translate("SCHEDULE_PAYMENT");?>", icon: "fa-calendar"},
+				"agreement": {name: "<?php echo $tr->translate("AGREEMENT");?>", icon: "fa-file-text"},
+				"receipt": {name: "<?php echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-print"},
+			}
+		});
+	});
+	function setrowdata(index){
+		row = index;
+	}
+
+	var recordid ='';
+	function gotoAction(){
+		 window.open(url+row, '_blank');
+	}
 </script>

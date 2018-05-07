@@ -36,6 +36,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	$where = " AND ".$from_date." AND ".$to_date;
     	
     	$db = $this->getAdapter();
+    	//,'បោះពុម្ភ','Click Here'
     	$sql=" SELECT l.id,
     	 (SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch,
     	l.loan_number,
@@ -47,7 +48,7 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
         (SELECT zone_name FROM `ln_zone` WHERE zone_id=l.zone_id LIMIT 1) AS zone_name,
         (SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_name,
         l.date_release,
-         l.status,'បោះពុម្ភ','Click Here'  FROM `ln_loan` AS l
+         l.status  FROM `ln_loan` AS l
 				WHERE loan_type =1 ";
     	if(!empty($search['adv_search'])){
     		$s_where = array();
