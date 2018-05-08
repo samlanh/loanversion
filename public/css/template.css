@@ -6,7 +6,7 @@ table tr td input{height:28px;}
 , dijitReset , .dijitRight , .dijitButtonNode , .dijitArrowButton , .dijitDownArrowButton , .dijitArrowButtonContainer{height: 32px;}
 .dijitArrowButtonInner ,.dijitIconSearch{margin-top:6px !important;}
 fieldset table{width:100%;}
-fieldset th.tdheader{background:url("../images/tbheader-bg1.jpg") repeat-x scroll center top #F1F1F1;border:1px solid #CCCCCC;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;line-height:20px;padding:5px;text-align:center;cursor:pointer;white-space:nowrap;}
+fieldset th.tdheader{background:url("../images/tbheader-bg1.jpg") repeat-x scroll center top #F1F1F1;border:1px solid #CCCCCC;color:#333333;/* font-family:Arial,Helvetica,sans-serif; */font-size:12px;font-weight:bold;line-height:20px;padding:5px;text-align:center;cursor:pointer;white-space:nowrap;}
 fieldset th.tdheader-delete{background:url("../images/tbheader-bg1.jpg") repeat-x scroll center top #F1F1F1;border:1px solid #CCCCCC;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;line-height:30px;padding:5px;text-align:center;cursor:pointer;white-space:nowrap;width:20px;}
 .tab-links{background:#006600;cursor:pointer;}
 th.tdheader{background:url("../images/tbheader-bg1.jpg") repeat-x scroll center top #F1F1F1;border:1px solid #CCCCCC;color:#333333;font-family:Helvetica,Arial,sans-serif,'Kh Battambang','Khmer Battambang';font-size:13px;font-weight:bold;line-height:30px;padding:2px 2px 2px 2px;text-align:center;cursor:pointer;}
@@ -31,7 +31,7 @@ tr.normal:hover, tr.alternate:hover{background-color:rgb(72.9%, 82%, 92.2%);}
 .items a img{margin:0px;}
 table.collape{border-collapse:collapse;margin:0px;padding:0px;width:100%;}
 .collape{width:246px;padding:3px 2px 2px 3px;margin:1px 0 0 2px !important;height:30px !important;}
-table.collape td{//padding:0 5px 0 5px;border:1px solid #CCCCCC;}
+table.collape td{//padding:0 5px 0 5px;border:1px solid #CCCCCC;padding: 0 10px;}
 table.collape td.no-border{padding:5px;border:none;}
 table.collape td.no{border-left:1px solid #000;width:30px;text-align:center;}
 table.collape td.num{text-align:right;}
