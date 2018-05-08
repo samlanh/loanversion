@@ -94,7 +94,14 @@ img{border:0px;}
 .menureport li.preview a{background:url('../images/search.png') no-repeat;width:48px;height:48px;background-size:48px 48px;border:1px solid #ccc;display:block;}
 .menureport li.print a{background:url('../images/print_64.png') no-repeat;width:48px;height:48px;background-size:48px 48px;border:1px solid #ccc;display:block;}
 .menureport li.excel a{background:url('../images/Excel-icon.png') no-repeat;width:48px;height:48px;background-size:48px 48px;border:1px solid #ccc;display:block;}
-
+a.repLink.btn {
+    color: #008;
+    font-weight: 600;
+    margin: 0;
+    height: initial;
+    padding: 0;
+    font-size: inherit;
+}
 /*New Menu Button Print*/
 
 .ptss-frame {
