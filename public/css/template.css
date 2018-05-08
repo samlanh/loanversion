@@ -3,18 +3,18 @@
 @font-face{font-family:'Kh Battambang';src:url("../font/KH-BATTAMBANG.TTF");}
 table tr td input{height:28px;}
 .dijitTextBox , .dijitValidationTextBox , .dijitInputField , .dijitInputContainer , .dijitInputInner
-, dijitReset , .dijitRight , .dijitButtonNode , .dijitArrowButton , .dijitDownArrowButton , .dijitArrowButtonContainer{height:28px;}
+, dijitReset , .dijitRight , .dijitButtonNode , .dijitArrowButton , .dijitDownArrowButton , .dijitArrowButtonContainer{height: 32px;}
 .dijitArrowButtonInner ,.dijitIconSearch{margin-top:6px !important;}
 fieldset table{width:100%;}
 fieldset th.tdheader{background:url("../images/tbheader-bg1.jpg") repeat-x scroll center top #F1F1F1;border:1px solid #CCCCCC;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;line-height:20px;padding:5px;text-align:center;cursor:pointer;white-space:nowrap;}
 fieldset th.tdheader-delete{background:url("../images/tbheader-bg1.jpg") repeat-x scroll center top #F1F1F1;border:1px solid #CCCCCC;color:#333333;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;line-height:30px;padding:5px;text-align:center;cursor:pointer;white-space:nowrap;width:20px;}
 .tab-links{background:#006600;cursor:pointer;}
 th.tdheader{background:url("../images/tbheader-bg1.jpg") repeat-x scroll center top #F1F1F1;border:1px solid #CCCCCC;color:#333333;font-family:Helvetica,Arial,sans-serif,'Kh Battambang','Khmer Battambang';font-size:13px;font-weight:bold;line-height:30px;padding:2px 2px 2px 2px;text-align:center;cursor:pointer;}
-td.items-no{padding:5px 2px !important;text-align:center;}
+td.items-no{/* padding:5px 2px !important; */text-align:center;}
 th.tdcheck{width:20px;}
 th.tdedit{width:30px;}
-tr.normal td, tr.alternate td{border:1px solid #DDDDDD;line-height:14px;padding:0px 2px 0px 2px;}
-td.items-no{border:1px solid #CCCCCC;color:#666666;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:30px;padding:0px 5px 0px 5px;text-align:center;width:28px;}
+tr.normal td, tr.alternate td{border:1px solid #DDDDDD;/* line-height:14px; *//* padding:0px 2px 0px 2px; */}
+td.items-no{/* border:1px solid #CCCCCC; *//* color:#666666; *//* font-family:Arial,Helvetica,sans-serif; *//* font-size:13px; *//* line-height:30px; *//* padding:0px 5px 0px 5px; *//* text-align:center; *//* width:28px; */}
 td.items-no-inline{border:1px solid #CCCCCC;font-family:Arial,Helvetica,sans-serif;font-size:12px;padding:0px 5px 0px 5px;text-align:left;}
 tr.normal{background:none repeat scroll 0 0 #FFFFFF;}
 tr.alternate{background:none repeat scroll 0 0 #eeeeee;}
