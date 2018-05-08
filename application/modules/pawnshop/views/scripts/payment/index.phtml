@@ -2,6 +2,10 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("IL_PAYMENT"));
 $frm = $this->frm_search;
+
+$url_delete = $this->baseUrl()."/pawnshop/payment/delete/id/";
+$url_receipt = $this->baseUrl()."/report/pawn/recieptpayment/id/";
+
 ?>
 <script>
 	dojo.require("dijit.form.DateTextBox");
@@ -22,3 +26,46 @@ $frm = $this->frm_search;
 </form>
 <?php echo $this->list;?>
 
+<script>
+var row=0;
+var url="";
+var indexkey="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+			indexkey="";
+			var m = "clicked: " + key;
+			 if(key=="delete"){
+				url='<?php echo $url_delete;?>';
+				indexkey = 'delete';
+			 }else if(key=="receipt"){
+					url='<?php echo $url_receipt;?>';
+			}
+			gotoAction();
+			//window.console && console.log(m) || alert(m); 
+		},
+		items: {
+			"receipt": {name: "<?php  echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-print"},
+			"delete": {name: "<?php echo $tr->translate("DELETE");?>", icon: "fa-trash-o", accesskey: "c o p y"},
+			
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+
+var recordid ='';
+function gotoAction(){
+	if(indexkey=='delete'){
+	    if (confirm("<?php echo $tr->translate("Do you want to delete this record ?");?>")) {
+	    	window.location.href = url+row;
+	    } else {
+	    	 return false;
+	    }
+	}else{
+	 	window.open(url+row, '_blank');
+	}
+}
+</script>

@@ -34,18 +34,18 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECIEPT_NO","PAID_PRINCIPAL",
 					"INTERREST_AMOUNT","TOTAL_PENELIZE","RECEIVE_AMOUNT","PAY_DATE","DAY_PAYMENT",
-					"PAYMENT_RECEIPT","DELETE"
 				);
+// 			"PAYMENT_RECEIPT","DELETE"
 			$link=array(
 					'module'=>'pawnshop','controller'=>'payment','action'=>'edit',);
-			$linkpawn=array(
-					'module'=>'report','controller'=>'pawn','action'=>'recieptpayment',);
-			$deletepawn=array(
-					'module'=>'pawnshop','controller'=>'payment','action'=>'delete',);
-			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-			$reciept = $tr->translate("PAYMENT_RECEIPT");
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array(
-					'delete'=>$deletepawn,$reciept =>$linkpawn,'team_group'=>$link,'loan_number'=>$link,'client_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
+// 			$linkpawn=array(
+// 					'module'=>'report','controller'=>'pawn','action'=>'recieptpayment',);
+// 			$deletepawn=array(
+// 					'module'=>'pawnshop','controller'=>'payment','action'=>'delete',);
+// 			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+// 			$reciept = $tr->translate("PAYMENT_RECEIPT");'delete'=>$deletepawn,$reciept =>$linkpawn,
+			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array(
+					'team_group'=>$link,'loan_number'=>$link,'client_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
