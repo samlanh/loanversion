@@ -142,6 +142,13 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		    ,spouse_name,
 		    create_date,
 		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
+		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_namsse,
+		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_namsse121,
+		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_namsse21,
+		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_namsse212323,
+		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_namsse2123,
+		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_namsse2231,
+		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_namsse223,
 			status FROM $this->_name ";
 		if(!empty($search['adv_search'])){
 			$s_where = array();

@@ -26,10 +26,12 @@
 <html>
 <head>
 	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<link href="<?php echo $this->baseUrl()."/datatable/bootstrap.min.css"?>" media="screen" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="<?php echo $base_url;?>css/template.css"/>
 	<link rel="stylesheet" href="<?php echo $base_url;?>css/font-awesome.min.css"/>
 
 	<link href="<?php echo $base_url;?>cssmenu/template.css" media="screen" rel="stylesheet" type="text/css">
+	
 	<!-- table  -->
 	<?php 
 	if(($module!='report' AND $level==4) OR $action=='rpt-loan-income'){
@@ -60,17 +62,21 @@
       <?php } ?>	
 	<!-- end -->
 	
-	<?php if ($action=="index"){?>
+	<?php if ($action=="index" AND $module !="home"){?>
 	<link href="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.contextMenu.css" rel="stylesheet" type="text/css" />
 	<script src="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.contextMenu.js" type="text/javascript"></script>
 	<script src="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.ui.position.min.js" type="text/javascript"></script>
 	
 	<link href="<?php echo $this->baseUrl()."/datatable/"?>datatables.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->baseUrl()."/datatable/"?>responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
+   
     <script src="<?php echo $this->baseUrl()."/datatable/"?>datatables.min.js" type="text/javascript"></script>
-    
+    <script src="<?php echo $this->baseUrl()."/datatable/"?>dataTables.responsive.min.js" type="text/javascript"></script>
+   
     <script>
     $(document).ready(function() {
         $('#datatable-responsive').DataTable( {
+        	responsive: true,
        	 "dom": '<"top"i>rt<"bottom"flp><"clear">',
         	searching: false,
         } );
@@ -125,6 +131,14 @@
 		table#datatable-responsive tr td a {
 		    color: #008;
 		}
+		#menu a {
+		    -webkit-box-sizing: content-box;
+		    -moz-box-sizing: content-box;
+		    box-sizing: content-box;
+		}
+		ul li {
+		    list-style-type: none;
+		}
 	</style>	
 </head>
     <body class="<?php echo $them_style;?>" >
@@ -146,16 +160,20 @@
                 	</td>
                 </tr>
                 <tr>
-                	<td colspan="2" height="85px;"></td>
+                	<td colspan="2" height="115px;"></td>
                 </tr>
             	<tr>
-            		<td valign="top" <?php if($module!='home' ) echo'width="200px"';  ?>  >
-            			 <?php if($module!='home') {?>
-            			<?php echo $this->render('menuleft.phtml')?>
-            			<?php }?>
-            		</td>
-            		<td valign="top">
-            			<?php if($module=='report' AND $action!='index'){?>
+            		<td colspan="2" valign="top" width="99%" >
+            			<div class="col-sm-12" style=" padding: 0;">
+            				<?php if($module!='home') {?>
+	           			<div class="col-sm-2" style=" padding: 0;">
+	           				
+            					<?php echo $this->render('menuleft.phtml')?>
+            				
+	           			</div>
+	           			<?php }?>
+	           			<div  class="<?php if($module!='home') { echo 'col-sm-10'; }else{?><?php echo 'col-sm-12'; }?>">
+	           				<?php if($module=='report' AND $action!='index'){?>
 							<!-- 
 							<div class="menureport">
 								<ul>
@@ -201,8 +219,9 @@
 			               	if($module=='report' AND $action!='rpt-paymentschedules'){
 			              ?>
 		                <?php }?>
-		                
-            		</td>
+	           			</div>
+            			</div>
+           			</td>
             	</tr>
             </table>
     </body>
