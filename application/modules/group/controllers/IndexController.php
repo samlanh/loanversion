@@ -39,7 +39,7 @@ class Group_indexController extends Zend_Controller_Action {
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","CUSTOMER_CODE","CLIENTNAME_KH","CLIENTNAME_EN","SEX","PHONE","HOUSE","STREET","VILLAGE","SPOUSE_NAME",
-					"DATE","BY_USER","BY_USER","BY_USER","BY_USER","BY_USER","BY_USER","BY_USER","BY_USER","STATUS");
+					"DATE","BY_USER","STATUS");
 			$link=array(
 					'module'=>'group','controller'=>'index','action'=>'edit',
 			);
