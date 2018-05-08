@@ -83,7 +83,7 @@ fieldset{padding:10px;}
 			    </tr>
 			   
 			    <tr>
-			    	<td><?php echo $tr->translate("LOAN_DATE")?></td>
+			    	<td><?php echo $tr->translate("INSTALLMENT_DATE")?></td>
 					<td><?php echo $frm->getElement('release_date');echo $frm->getElement('old_release_date');?></td>
 			    </tr>
 			</table>
@@ -102,8 +102,8 @@ fieldset{padding:10px;}
 					<td><input id="client_id"></td>
 				</tr>
 				<tr>
-					<td><?php echo $tr->translate("LOAN_PERIOD")?></td>
-					<td><?php echo $frm->getElement('loan_period');?></td>
+					<td><?php echo $tr->translate("TOTAL_INSTALLMENT_AMOUNT")?></td>
+					<td><?php echo $frm->getElement('total_amount');?></td>
 				</tr>
 			</table>
 		</fieldset>
@@ -113,7 +113,7 @@ fieldset{padding:10px;}
 		     <legend align="center"><strong><?php echo $tr->translate('TERM_INSTALL');?></strong></legend>
 			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
 				<tr>
-					<td><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
+					<td><?php echo $tr->translate("TOTAL_INSTALLMENT_AMOUNT")?></td>
 					<td><?php echo $frm->getElement('total_amount_loan');?></td>
 				</tr>
 				<tr>
@@ -194,7 +194,7 @@ fieldset{padding:10px;}
 					<td><?php echo $frm->getElement('service_charge');echo $frm->getElement('old_service_charge');?></td>
 				</tr>
 				<tr>
-					<td style="color:red;"><?php echo $tr->translate("TOTAL_AMOUNT_PAYMENT")?></td>
+					<td style="color:red;"><?php echo $tr->translate("total_amount_PAYMENT")?></td>
 					<td style="font-weight: bold;"><?php echo $frm->getElement('total_payment');?><input type="hidden" dojoType="dijit.form.TextBox" name="oldTotalPay" id="oldTotalPay" /></td>
 				</tr>
 			</table>
@@ -895,7 +895,7 @@ function getdataPaymentToForm(data){//គណនាថ្ងៃយឺតអោយ
 	dijit.byId('release_date').attr('value',data.date_release);
 	dijit.byId('old_release_date').attr('value',data.release_date);
 	dijit.byId('total_amount_loan').attr('value',data.loan_amount);
-	dijit.byId('loan_period').attr('value',data.total_duration);
+	dijit.byId('total_amount').attr('value',data.total_duration);
 	dijit.byId('payment_method').attr('value',data.payment_method);
 	var today = new Date();
 	dijit.byId('collect_date').attr('value',today);
