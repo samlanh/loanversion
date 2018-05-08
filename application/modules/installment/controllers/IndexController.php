@@ -31,7 +31,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","INSTALLMENT_NO","CUSTOMER_NAME","PRODUCT_CATEGORY","ITEM_NAME","SELLING_PRICE",
-					"SOLD_DATE","INVOICE_NO","SALE_TYPE","REPAYMENT_TYPE","DURATION","STATUS");
+					"SOLD_DATE","INVOICE_NO","SALE_TYPE","REPAYMENT_TYPE","INSTALLMENT_DURATION","STATUS");
 			$link=array(
 					'module'=>'installment','controller'=>'index','action'=>'view',
 			);

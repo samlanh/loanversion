@@ -60,7 +60,7 @@ table { page-break-inside:auto }
   display: table-header-group;
   page-break-inside:avoid; page-break-after:auto;
 }
-
+th{ text-align: center;}
 </style>
 <div >
 	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
@@ -103,7 +103,7 @@ table { page-break-inside:auto }
 	                 <tr class="style" align="center" bgcolor="#ccc" style="white-space: nowrap; background: #ccd9ff;">
 	                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("NUM");?></th>
 	                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
-	                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("SALE_NO");?></th>
+	                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("INSTALLMENT_NO");?></th>
 	                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("CUSTOMER_NAME");?></th>
 	                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PHONE")." / ".$tr->translate("ADDRESS");?></th>
 	                    <!-- <th rowspan="2" style="padding:0px 2px;"><?php //echo $tr->translate("RELEASE_DATE");?></th>
@@ -113,7 +113,7 @@ table { page-break-inside:auto }
 	                    <th rowspan="2" ><?php //echo $tr->translate("LOAN_PERIOD");?></th> 
 	                    <th rowspan="2" style="padding:0px 2px;"><?php //echo $tr->translate("PAY_DATE");?></th>-->
 	                    <th rowspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PAID_TIME");?></th>
-	                    <th colspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PAYMENT");?></th>
+	                    <th align="center" colspan="2" style="padding:0px 2px;"><?php echo $tr->translate("PAYMENT");?></th>
 	                    <th rowspan="2" style="text-align:center ;padding:0px 2px;"><strong><?php echo $tr->translate("TOTAL_PAYMENT");?></strong></th>
 	                </tr>
 	                <tr class="style" bgcolor="#ccc" style="white-space: nowrap; background: #ccd9ff;">

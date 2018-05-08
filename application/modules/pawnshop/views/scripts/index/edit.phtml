@@ -1,8 +1,8 @@
 <?php	
-	$this->headTitle('Add Pawn'); 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('Edit Pawn')); 
 	echo $this->headTitle();
 	$frm = $this->frm_loan;
-	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	echo $this->frmpupopinfoclient;
 ?>
