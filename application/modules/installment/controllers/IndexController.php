@@ -30,7 +30,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","SALE_NO","CUSTOMER_NAME","PRODUCT_CATEGORY","ITEM_NAME","SELLING_PRICE",
+			$collumns = array("BRANCH_NAME","INSTALLMENT_NO","CUSTOMER_NAME","PRODUCT_CATEGORY","ITEM_NAME","SELLING_PRICE",
 					"SOLD_DATE","INVOICE_NO","SALE_TYPE","REPAYMENT_TYPE","DURATION","STATUS");
 			$link=array(
 					'module'=>'installment','controller'=>'index','action'=>'view',
@@ -40,7 +40,7 @@ class Installment_IndexController extends Zend_Controller_Action {
 				
 // 			$link_payment=array('module'=>'installment','controller'=>'payment','action'=>'add',);
 // 			'បោះពុម្ភ'=>$link_schedule,'Click Here'=>$link_payment,
-			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array('payment_method'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
+			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array('branch'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'sale_no'=>$link_info),0);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());

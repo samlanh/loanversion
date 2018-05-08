@@ -1,8 +1,9 @@
 <?php
-	$this->headTitle('Add IL Payment'); 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('Add Installment Payment')); 
 	echo $this->headTitle();
 	$frm = $this->frm_ilpayment;
-	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
 	$graiceperiod = $this->graiceperiod;
@@ -20,8 +21,7 @@
 	    dojo.require("dojo.data.ItemFileWriteStore"); 
 		dojo.require("dojo.data.ObjectStore");
    </script>
-<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'installment','controller'=>'payment','action'=>'add')); ?>" 
-				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'installment','controller'=>'payment','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">
 			if(this.validate()) {
                	branch_id = dijit.byId('branch_id').get('value');
@@ -67,7 +67,7 @@ fieldset{padding:10px;}
 </style>
 <fieldset style="background: #e0ebff">
 <table width="100%" >
- <legend class="mainblog"><strong>ព៌ត័មាន បង់ប្រាក់ឥណទានទោល</strong></legend>
+ <legend class="mainblog"><strong><?php echo $tr->translate('Add Installment Payment');?></strong></legend>
 	<tr>
 		<td width="33%;" valign="top">
 		<fieldset>
@@ -78,7 +78,7 @@ fieldset{padding:10px;}
 					<td><?php echo $frm->getElement('branch_id');?></td>
 			    </tr>
 			    <tr>
-			    	<td><?php echo $tr->translate("LOAN_NO")?></td>
+			    	<td><?php echo $tr->translate("INSTALLMENT_NO")?></td>
 					<td><input id="loan_number" /> </td>
 			    </tr>
 			   

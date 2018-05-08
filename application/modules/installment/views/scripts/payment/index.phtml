@@ -1,9 +1,9 @@
 <?php 
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
-echo $this->headTitle($tr->translate("IL_PAYMENT"));
+echo $this->headTitle($tr->translate("INSTALL_PAYMENT"));
 $frm = $this->frm_search;
 $url_delete = $this->baseUrl()."/installment/payment/delete/id/";
-$url_receipt = $this->baseUrl()."/report/installments/saleinvoice/id/";
+$url_receipt = $this->baseUrl()."/report/installments/recieptpayment/id/";
 ?>
 <script>
 	dojo.require("dijit.form.DateTextBox");
@@ -25,7 +25,6 @@ $url_receipt = $this->baseUrl()."/report/installments/saleinvoice/id/";
    </table>
 </form>
 <?php echo $this->list;?>
-<!-- "receipt": {name: "<?php // echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-print"}, -->
 <script>
 var row=0;
 var url="";
@@ -46,6 +45,7 @@ $(function(){
 			//window.console && console.log(m) || alert(m); 
 		},
 		items: {
+			"receipt": {name: "<?php  echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-print"},
 			"delete": {name: "<?php echo $tr->translate("DELETE");?>", icon: "fa-trash-o", accesskey: "c o p y"},
 			
 		}

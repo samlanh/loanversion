@@ -16,6 +16,7 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
 					(SELECT sale_no FROM ln_ins_sales_install l WHERE l.id=lcrm.loan_id LIMIT 1) AS loan_number,
 					(SELECT c.`name_kh` FROM `ln_ins_client` AS c WHERE c.`client_id`=lcrm.`client_id` LIMIT 1) AS team_group ,
 					lcrm.`receipt_no`,
+					lcrm.`paid_times`,
 					lcrm.`principal_paid`,
 					lcrm.`interest_paid`,
 					lcrm.`penalize_paid`,
@@ -49,7 +50,7 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
     		$where.=" AND lcrm.`branch_id`= ".$search['branch_id'];
     	}
     	$group_by = " GROUP BY lcrm.id";
-    	$order = " ORDER BY receipt_no DESC";
+    	$order = " ORDER BY id DESC";
     	return $db->fetchAll($sql.$where.$group_by.$order);
 }
 function getAllRemainSchedule($loan_id){

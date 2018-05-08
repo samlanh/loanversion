@@ -35,7 +35,7 @@ class Installment_PaymentController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllinstallmentpayment($search);
 			$result = array();
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","RECIEPT_NO","TOTAL_PRINCEPLE",
+			$collumns = array("BRANCH_NAME","INSTALLMENT_NO","CUSTOMER_NAME","RECIEPT_NO","PAID_TIME","TOTAL_PRINCEPLE",
 					"TOTAL_INTEREST","PENALIZE AMOUNT","RECEIVE_AMOUNT","PAY_DATE","DATE"
 				);
 			//,"DELETE"

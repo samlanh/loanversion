@@ -289,8 +289,8 @@ Class Loan_Form_FrmIlPayment extends Zend_Dojo_Form {
 		$reciept_no->setAttribs(array('dojoType'=>'dijit.form.TextBox','class'=>'fullside',
 		//'readonly'=>true,
 				'style'=>'color:red; font-weight: bold;'));
-		$db_loan = new Loan_Model_DbTable_DbLoanILPayment();
-		$loan_number = $db_loan->getIlPaymentNumber();
+		$db_installment = new Installment_Model_DbTable_DbInstallmentPayment();
+		$loan_number = $db_installment->getIlPaymentNumber();
 		$reciept_no->setValue($loan_number);
 		$id = new Zend_Form_Element_Hidden("id");
 		$id->setAttribs(array(

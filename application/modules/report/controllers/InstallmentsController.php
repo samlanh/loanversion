@@ -352,5 +352,14 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$this->view->purchase = $row;
 		$this->view->purchaseDetail = $db->getPurchaseDetailByID($id);
 	}
+	
+	function recieptpaymentAction(){
+		$db  = new Report_Model_DbTable_DbInventory();
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+		$id =$this->getRequest()->getParam('id');
+		$id = empty($id)?0:$id;
+		$this->view->loanPayment = $db->getInstallPaymentBYId($id);
+	}
 }
 
