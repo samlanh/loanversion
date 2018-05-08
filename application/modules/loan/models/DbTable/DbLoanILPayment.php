@@ -12,9 +12,9 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
     public function getAllIndividuleLoan($search){
 		$start_date = $search['start_date'];
     	$end_date = $search['end_date'];
-    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-    	$delete = $tr->translate("DELETE");
-    	$reciept = $tr->translate("PAYMENT_RECEIPT");
+//     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+//     	$delete = $tr->translate("DELETE");
+//     	$reciept = $tr->translate("PAYMENT_RECEIPT");
     	$db = $this->getAdapter();
     	$sql = "SELECT lcrm.`id`,
     				(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=lcrm.`branch_id`) AS branch,
@@ -28,12 +28,13 @@ class Loan_Model_DbTable_DbLoanILPayment extends Zend_Db_Table_Abstract
 					lcrm.`recieve_amount`,
 					lcrmd.`date_payment`,
 					lcrm.`date_input`,
-				    (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lcrm.`co_id` LIMIT 1) AS co_name,
-				    '$delete','$reciept'
+				    (SELECT co.`co_khname` FROM `ln_co` AS co WHERE co.`co_id`=lcrm.`co_id` LIMIT 1) AS co_name
+				   
 				
 				FROM `ln_client_receipt_money` AS lcrm,
 				`ln_client_receipt_money_detail` AS lcrmd
     	 WHERE  lcrm.id=lcrmd.`receipt_id` and lcrm.status=1";
+//     	, '$delete','$reciept'
     	$where ='';
     	if(!empty($search['advance_search'])){
     		$s_where = array();

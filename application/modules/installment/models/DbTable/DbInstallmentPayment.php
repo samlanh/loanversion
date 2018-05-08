@@ -21,13 +21,13 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
 					lcrm.`penalize_paid`,
 					lcrm.`recieve_amount`,
 					lcrmd.`date_payment`,
-					lcrm.`date_input`,
-				    'delete'
+					lcrm.`date_input`
 				FROM 
 					`ln_ins_receipt_money` AS lcrm,
 					`ln_ins_receipt_money_detail` AS lcrmd
     				 WHERE  lcrm.id=lcrmd.`receipt_id` 
     				AND lcrm.status=1";
+//     	,'delete'
     	$where ='';
     	if(!empty($search['adv_search'])){
     		$s_where = array();

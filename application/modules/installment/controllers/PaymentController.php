@@ -36,15 +36,17 @@ class Installment_PaymentController extends Zend_Controller_Action {
 			$result = array();
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","RECIEPT_NO","TOTAL_PRINCEPLE",
-					"TOTAL_INTEREST","PENALIZE AMOUNT","RECEIVE_AMOUNT","PAY_DATE","DATE","DELETE"
+					"TOTAL_INTEREST","PENALIZE AMOUNT","RECEIVE_AMOUNT","PAY_DATE","DATE"
 				);
+			//,"DELETE"
 			$link=array(
 					'module'=>'loan','controller'=>'payment','action'=>'edit',
 			);
-			$link1=array(
-					'module'=>'installment','controller'=>'payment','action'=>'delete',
-			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('delete'=>$link1));
+// 			$link1=array(
+// 					'module'=>'installment','controller'=>'payment','action'=>'delete',
+// 			);
+// 			'delete'=>$link1
+			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array());
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -174,8 +176,9 @@ class Installment_PaymentController extends Zend_Controller_Action {
 			$rs = $dbacc->getAccessUrl($module,$controller,$action);
 			if(!empty($rs)){
 				$db->deleteRecord($id);
+				Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/installment/payment/");
 			}
-			Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/installment/payment/");
+			Application_Form_FrmMessage::Sucessfull("You don't have permission to delete this record?","/installment/payment/");
 		}catch (Exception $e) {
 			Application_Form_FrmMessage::message("INSERT_FAIL");
 			echo $e->getMessage();

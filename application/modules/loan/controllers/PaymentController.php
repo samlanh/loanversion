@@ -38,21 +38,23 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			$rs_rows= $db->getAllIndividuleLoan($search);
 			$result = array();
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","RECIEPT_NO","TOTAL_PRINCEPLE","TOTAL_INTEREST","PENALIZE AMOUNT","SERVICE_CHARGE","RECEIVE_AMOUNT","PAY_DATE","DATE","CO_NAME","DELETE","PAYMENT_RECEIPT"
+			$collumns = array("BRANCH_NAME","LOAN_NO","CUSTOMER_NAME","RECIEPT_NO","TOTAL_PRINCEPLE","TOTAL_INTEREST","PENALIZE AMOUNT","SERVICE_CHARGE","RECEIVE_AMOUNT","PAY_DATE","DATE","CO_NAME"
 				);
+// 			"DELETE","PAYMENT_RECEIPT"
 			$link=array(
 					'module'=>'loan','controller'=>'payment','action'=>'edit',
 			);
-			$link1=array(
-					'module'=>'loan','controller'=>'payment','action'=>'delete',
-			);
-			$link2=array(
-					'module'=>'report','controller'=>'loan','action'=>'recieptpayment',
-			);
-			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-			$delete = $tr->translate("DELETE");
-			$reciept = $tr->translate("PAYMENT_RECEIPT");
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array($delete=>$link1,$reciept=>$link2));
+// 			$link1=array(
+// 					'module'=>'loan','controller'=>'payment','action'=>'delete',
+// 			);
+// 			$link2=array(
+// 					'module'=>'report','controller'=>'loan','action'=>'recieptpayment',
+// 			);
+// 			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+// 			$delete = $tr->translate("DELETE");
+// 			$reciept = $tr->translate("PAYMENT_RECEIPT");
+// 			$delete=>$link1,$reciept=>$link2
+			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array());
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
@@ -188,8 +190,10 @@ class Loan_PaymentController extends Zend_Controller_Action {
 			$rs = $dbacc->getAccessUrl($module,$controller,$action);
 			if(!empty($rs)){
 				$db->deleteRecord($id);
+				Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/loan/payment/");
 			}
-			Application_Form_FrmMessage::Sucessfull("DELETE_SUCCESS","/loan/payment/");
+			Application_Form_FrmMessage::Sucessfull("You don't have permission to delete this record?","/loan/payment/");
+			
 		}catch (Exception $e) {
 			Application_Form_FrmMessage::message("INSERT_FAIL");
 			echo $e->getMessage();

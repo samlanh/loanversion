@@ -422,7 +422,7 @@ function hideDialog1(){
 }
 var graice_period = <?php echo $graiceperiod["value"] ?>;
 function submitDataClose(){
-	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'payment','action'=>'add')); ?>';
+	var url_submit = '<?php echo $this->url(array('module'=>'installment','controller'=>'payment','action'=>'add')); ?>';
 		service_charge = dijit.byId('service_charge').get('value');
 		receive_amount = dijit.byId('amount_receive').get('value');
 		option_pay = dijit.byId('option_pay').get('value');
@@ -443,7 +443,7 @@ function submitDataClose(){
 						load: function(data) {
 							document.getElementsByClassName("overlay")[0].style.display="none";		
 							alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-							window.location.href ="<?php echo $this->baseUrl();?>/loan/payment";
+							window.location.href ="<?php echo $this->baseUrl();?>/installment/payment";
 						},
 						error: function(e) {
 						}
@@ -457,7 +457,7 @@ function submitDataClose(){
 						load: function(data) {
 							document.getElementsByClassName("overlay")[0].style.display="none";		
 							alert('<?php echo $tr->translate('INSERT_SUCCESS');?> !');
-							window.location.href ="<?php echo $this->baseUrl();?>/loan/payment";
+							window.location.href ="<?php echo $this->baseUrl();?>/installment/payment";
 						},
 						error: function(e) {
 						}
@@ -466,7 +466,7 @@ function submitDataClose(){
 		}
 }
 function submitData(){
-	var url_submit = '<?php echo $this->url(array('module'=>'loan','controller'=>'payment','action'=>'add')); ?>';
+	var url_submit = '<?php echo $this->url(array('module'=>'installment','controller'=>'payment','action'=>'add')); ?>';
 	service_charge = dijit.byId('service_charge').get('value');
 	receive_amount = dijit.byId('amount_receive').get('value');
 	option_pay = dijit.byId('option_pay').get('value');
@@ -488,7 +488,7 @@ function submitData(){
 						load: function(data) {
 							document.getElementsByClassName("overlay")[0].style.display="none";	
 							//alert('<?php //echo $tr->translate('INSERT_SUCCESS');?> !');
-							window.location.href ="<?php echo $this->baseUrl();?>/loan/payment/add";
+							window.location.href ="<?php echo $this->baseUrl();?>/installment/payment/add";
 						},
 						error: function(e) {
 						}
@@ -502,7 +502,7 @@ function submitData(){
 						load: function(data) {
 							document.getElementsByClassName("overlay")[0].style.display="none";		
 							//alert('<?php //echo $tr->translate('INSERT_SUCCESS');?> !');
-							window.location.href ="<?php echo $this->baseUrl();?>/loan/payment/add";
+							window.location.href ="<?php echo $this->baseUrl();?>/installment/payment/add";
 						},
 						error: function(e) {
 						}
