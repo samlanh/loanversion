@@ -11,6 +11,7 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 	   <tr>  
 	        <td><?php echo $frm->getElement("adv_search");?></td>
 	   		<td> <?php echo $frm->getElement('branch_id');?></td>
+	   		<td><?php echo $frm->getElement("product_type");?></td>
 	   		<td><?php echo $frm->getElement("category");?></td>
 	   		<td> <?php echo $frm->getElement('start_date');?></td>
 	   		<td><?php echo $frm->getElement("end_date");?></td>
@@ -30,7 +31,9 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 				table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
 				th{padding: 5px;}
 				.hover:hover{ background:#ccc;}
-				
+				tr.foot td {
+				    padding: 10px 0;
+				}
 				table { page-break-inside:auto }
 				  tr{ page-break-inside:avoid; page-break-after:auto; }
 				#header {
@@ -62,19 +65,34 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 			    	<td id="exportExcel">
 			            <table width="100%" border="1" style="font-family: 'Khmer OS Content';font-size:12px;  border-collapse:collapse; border:1px solid #000; white-space: nowrap;" cellspacing="0">
 			                <thead>
+			                	<tr bgcolor="#c1d0f3" class="style" align="center" style=" font-weight:bold; line-height: 25px; font-size:12px; padding:10px 0px; ">
+				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
+				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("PRODUCT_CATEGORY");?>&nbsp;</th>
+				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</th>
+				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</th>
+				                    <th colspan="2">&nbsp;<?php echo $tr->translate("STOCK_IN");?>&nbsp;</th>
+				                    <th colspan="2">&nbsp;<?php echo $tr->translate("STOCK_OUT");?>&nbsp;</th>
+				                    <th colspan="2">&nbsp;<?php echo $tr->translate("CURRENT_QTY");?>&nbsp;</th> 
+				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("NOTE");?>&nbsp;</th>
+				                </tr>
 				               <tr bgcolor="#c1d0f3" class="style" align="center" style=" font-weight:bold; line-height: 25px; font-size:12px; padding:10px 0px; ">
-				                    <th>&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
-				                    <th>&nbsp;<?php echo $tr->translate("PRODUCT_CATEGORY");?>&nbsp;</th>
-				                    <th>&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</th>
-				                    <th>&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</th>
-				                    <th>&nbsp;<?php echo $tr->translate("STOCK_IN");?>&nbsp;</th>
-				                    <th>&nbsp;<?php echo $tr->translate("STOCK_OUT");?>&nbsp;</th>
-				                    <th>&nbsp;<?php echo $tr->translate("CURRENT_QTY");?>&nbsp;</th> 
-				                    <th>&nbsp;<?php echo $tr->translate("NOTE");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("QTY");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("Value");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("QTY");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("Value");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("QTY");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("Value");?>&nbsp;</th>
 				                </tr>
 			                </thead>
 			                <?php 
 			                	$location="";
+			                	$tQtyPurchase=0;
+			                	$tPricePurchase=0;
+			                	$tQtySale=0;
+			                	$tPriceSale=0;
+			                	
+			                	$tQtyStock=0;
+			                	$tPriceStock=0;
 			                    if(!empty($this->sumaryStok))
 			                	foreach ($this->sumaryStok as $key => $rs){ 
 			                    ?>
@@ -85,18 +103,55 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 			                     	<th colspan="11" align="center" style="font-weight: 600; "><?php echo $rs["branch_namekh"];?></th>
 			                     </tr>
 			                    <?php }$location = $rs['location_id'];?>
+			                    <?php 
+			                    	$purchaseQty=0;
+			                    	if (!empty($rs["purchaseQty"])){
+			                    		$purchaseQty = $rs["purchaseQty"];
+				                    }
+				                    $costPrice = $rs["purchaseAmount"];
+				                    $tQtyPurchase = $tQtyPurchase +$purchaseQty;
+				                    $tPricePurchase = $tPricePurchase + $costPrice;
+				                    
+				                    $stockOut = 0;
+				                    if (!empty($rs["stockOut"])){
+				                    	$stockOut = $rs["stockOut"];
+				                    }
+				                    $price =$rs['stockOutAmount'];
+				                    $tQtySale = $tQtySale +$stockOut;
+				                    $tPriceSale = $tPriceSale + $price;
+				                    
+				                    $balanceValue = $rs["qty"]*$rs["cost_price"];
+				                    $tQtyStock = $rs["qty"] +$tQtyStock;
+				                    $tPriceStock = $tPriceStock + $balanceValue;
+			                    ?>
 				                <tr class="style hover" style="line-height:20px; ">
 				               		<td style="font-size: 12px; text-align: center;">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["categoryName"];?></td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["item_code"];?></td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["item_name"];?></td>
-				               		<td align="center">&nbsp;<?php if (!empty($rs["purchaseQty"])){echo $rs["purchaseQty"];}else{ echo 0;};?>&nbsp;</td>
-				               		<td align="center">&nbsp;<?php if (!empty($rs["stockOut"])){echo $rs["stockOut"];}else{ echo 0;};?>&nbsp;</td>
+				               		<td align="center">&nbsp;<?php echo $purchaseQty;;?>&nbsp;</td>
+				               		<td align="right">&nbsp;<?php echo number_format($costPrice,2);?>&nbsp;</td>
+				               		<td align="center">&nbsp;<?php echo $stockOut;?>&nbsp;</td>
+				               		<td align="right">&nbsp;<?php echo number_format($price,2);?>&nbsp;</td>
 				               		<td style="font-size: 12px; text-align: center;">&nbsp;&nbsp;<?php echo $rs["qty"];?>&nbsp;</td>
-				               		
+				               		<td align="right">&nbsp;<?php echo number_format($balanceValue,2);?>&nbsp;</td>
 				               		<td style="font-size: 12px;">&nbsp;<?php echo $rs["note"];?>&nbsp;</td>
 				                </tr>
 			                <?php }?>
+			                	<tr>
+			                		<td colspan="11" style="border-left: solid 1px #fff; border-right: solid 1px #fff;">&nbsp;</td>
+			                	</tr>
+			                	<tr class="foot">
+			                		<td colspan="2">&nbsp;<strong><?php echo $tr->translate("Grand Total");?></strong>&nbsp;</td>
+			                		<td colspan="2">&nbsp;&nbsp;</td>
+			                		<td align="center">&nbsp;<?php echo $tQtyPurchase;?>&nbsp;</td>
+			                		<td align="right">&nbsp;<?php echo number_format($tPricePurchase,2);?>&nbsp;</td>
+			                		<td align="center">&nbsp;<?php echo $tQtySale;?>&nbsp;</td>
+			                		<td align="right">&nbsp;<?php echo number_format($tPriceSale,2);?>&nbsp;</td>
+			                		<td align="center">&nbsp;<?php echo $tQtyStock;?>&nbsp;</td>
+			                		<td align="right">&nbsp;<?php echo number_format($tPriceStock,2);?>&nbsp;</td>
+			                		<td>&nbsp;&nbsp;</td>
+			                	</tr>
 			             </table>
 			    	</td>
 			    </tr>

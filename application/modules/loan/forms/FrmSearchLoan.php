@@ -6,6 +6,9 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function AdvanceSearch($data=null){
+		$session_user=new Zend_Session_Namespace('authloan');
+		$currentBranch = $session_user->branch_id;
+		$currentlevel = $session_user->level;
 		
 		$db = new Application_Model_DbTable_DbGlobal();
 		
@@ -184,7 +187,12 @@ Class Loan_Form_FrmSearchLoan extends Zend_Dojo_Form {
 			}
 		$_branch_id->setMultiOptions($options);
 		$_branch_id->setValue($request->getParam("branch_id"));
-		
+		if ($currentlevel!=1){
+			$_branch_id->setValue($currentBranch);
+			$_branch_id->setAttribs(array(
+					'readonly'=>true
+			));
+		}
 		$_pay_every = new Zend_Dojo_Form_Element_FilteringSelect('pay_every');
 		$_pay_every->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',

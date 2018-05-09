@@ -16,6 +16,10 @@ class Installment_Form_FrmPurchase extends Zend_Form
 	}
 	/////////////	Form Purchase		/////////////////
 	public function searchPurchase($data=null){
+		$session_user=new Zend_Session_Namespace('authloan');
+		$currentBranch = $session_user->branch_id;
+		$currentlevel = $session_user->level;
+		
 		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$db = new Installment_Model_DbTable_DbProduct();
@@ -50,8 +54,16 @@ class Installment_Form_FrmPurchase extends Zend_Form
 			$options_branch[$row['br_id']]=$row['branch_namekh'];
 		}
 		$branch_id->setMultiOptions($options_branch);
-		$branch_id->setValue($request->getParam("branch_id"));
 		
+		//Set Value Current Branch
+		if ($currentlevel!=1){
+			$branch_id->setValue($currentBranch);
+			$branch_id->setAttribs(array(
+					'readonly'=>true
+			));
+		}else{
+			$branch_id->setValue($request->getParam("branch_id"));
+		}
 		
 		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');
 		$from_date->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',

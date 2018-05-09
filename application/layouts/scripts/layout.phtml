@@ -10,13 +10,13 @@
 	$username = $session_user->first_name;
 	$them_style ='soria';
 	$level =  $session_user->level;
-	if($level!=1 AND $action=='edit'){
-		if($module=='group' AND $action=='edit'){
-		}
-		else{
-			Application_Form_FrmMessage::redirectUrl("/home");
-		}
-	}
+// 	if($level!=1 AND $action=='edit'){
+// 		if($module=='group' AND $action=='edit'){
+// 		}
+// 		else{
+// 			Application_Form_FrmMessage::redirectUrl("/home");
+// 		}
+// 	}
 	if (empty($session_user->user_id)){
 		Application_Form_FrmMessage::redirectUrl("/");
 	}

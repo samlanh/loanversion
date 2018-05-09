@@ -6,6 +6,10 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function AdvanceSearch($data=null){
+		$session_user=new Zend_Session_Namespace('authloan');
+		$currentBranch = $session_user->branch_id;
+		$currentlevel = $session_user->level;
+		
 		$db = new Application_Model_DbTable_DbGlobal();
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		
@@ -174,12 +178,22 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 		));
 		
 		$rows = $db->getAllBranchName();
-		$options=array(-1=>'---Select Branch---');
+		$options=array(-1=>$this->tr->translate("Choose Branch"));
 			if(!empty($rows))foreach($rows AS $row){
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}
 		$_branch_id->setMultiOptions($options);
-		$_branch_id->setValue($request->getParam("branch_id"));
+// 		$_branch_id->setValue($request->getParam("branch_id"));
+		
+		//Set Value Current Branch
+		if ($currentlevel!=1){
+			$_branch_id->setValue($currentBranch);
+			$_branch_id->setAttribs(array(
+					'readonly'=>true
+			));
+		}else{
+			$_branch_id->setValue($request->getParam("branch_id"));
+		}
 		
 		$_pay_every = new Zend_Dojo_Form_Element_FilteringSelect('pay_every');
 		$_pay_every->setAttribs(array(

@@ -17,6 +17,10 @@ class Installment_Form_FrmSale extends Zend_Form
 	/////////////	Form Sale		/////////////////
 	public function searchSale($data=null){
 		$session_user=new Zend_Session_Namespace('authloan');
+		$currentBranch = $session_user->branch_id;
+		$currentlevel = $session_user->level;
+		
+		$session_user=new Zend_Session_Namespace('authloan');
 		$userName=$session_user->user_name;
 		$GetUserId= $session_user->user_id;
 		$level = $session_user->level;
@@ -56,7 +60,16 @@ class Installment_Form_FrmSale extends Zend_Form
 			$options_branch[$row['br_id']]=$row['branch_namekh'];
 		}
 		$branch_id->setMultiOptions($options_branch);
-		$branch_id->setValue($request->getParam("branch_id"));
+		
+		//Set Value Current Branch
+		if ($currentlevel!=1){
+			$branch_id->setValue($currentBranch);
+			$branch_id->setAttribs(array(
+					'readonly'=>true
+			));
+		}else{
+			$branch_id->setValue($request->getParam("branch_id"));
+		}
 		
 		
 		$from_date = new Zend_Dojo_Form_Element_DateTextBox('start_date');

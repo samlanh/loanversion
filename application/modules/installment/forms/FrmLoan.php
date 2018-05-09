@@ -6,6 +6,10 @@ public function init()
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function FrmAddLoan($data=null){
+		$session_user=new Zend_Session_Namespace('authloan');
+		$currentBranch = $session_user->branch_id;
+		$currentlevel = $session_user->level;
+		
 		$_loan_code = new Zend_Dojo_Form_Element_TextBox('loan_code');
 		$_loan_code->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -196,11 +200,19 @@ public function init()
 		));
 		
 		$rows = $db->getAllBranchName();
-		$options=array(''=>'---Select Branch---');
+		$options=array(''=>$this->tr->translate("Choose Branch"));
 			if(!empty($rows))foreach($rows AS $row){
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}
 		$_branch_id->setMultiOptions($options);
+		
+		//Set Value Current Branch
+		if ($currentlevel!=1){
+			$_branch_id->setValue($currentBranch);
+			$_branch_id->setAttribs(array(
+					'readonly'=>true
+			));
+		}
 		
 		
 		$_repayment_method = new Zend_Dojo_Form_Element_FilteringSelect('repayment_method');

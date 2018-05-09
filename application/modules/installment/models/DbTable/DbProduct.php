@@ -86,7 +86,7 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
   		$where.=' AND p.status='.$data["status"];
   	}
   	$location = $db_globle->getAccessPermission('pl.`location_id`');
-  	$group_by = " GROUP BY p.id DESC ";
+  	$group_by = " GROUP BY p.id,pl.`location_id` DESC ";
   	return $db->fetchAll($sql.$where.$location.$group_by);
   }  
   function getProductById($id){
@@ -113,6 +113,9 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 			  `ln_branch` AS b
 			WHERE pl.`pro_id` = $pro_id
 			  AND pl.`location_id` = b.`br_id` ";
+  	$db_globle = new Application_Model_DbTable_DbGlobal();
+  	$sql.= $db_globle->getAccessPermission('pl.`location_id`');
+  	
   	return $db->fetchAll($sql);
   }
   // Insert and  Update section
@@ -183,31 +186,64 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
     		$where = $db->quoteInto("id=?", $data["id"]);
     		$this->update($arr, $where);
     
+    		$identitys = explode(',',$data['identity']);
+    		$detailId="";
+    		if (!empty($identitys)){
+	    		foreach ($identitys as $i){
+	    			if (empty($detailId)){
+	    				if (!empty($data['detailid'.$i])){
+	    					$detailId = $data['detailid'.$i];
+	    				}
+	    			}else{
+	    				if (!empty($data['detailid'.$i])){
+	    					$detailId= $detailId.",".$data['detailid'.$i];
+	    				}
+	    			}
+	    		}
+    		}
     		$this->_name="ln_ins_prolocation";
     		$where="pro_id = ".$data["id"];
+    		if (!empty($detailId)){
+    			$where.=" AND id NOT IN ($detailId) ";
+    		}
     		$this->delete($where);
     		
     		if(!empty($data['identity'])){
     			$identitys = explode(',',$data['identity']);
     			foreach($identitys as $i)
     			{
-    				$arr1 = array(
-    					'pro_id'			=>	$data["id"],
-    					'location_id'		=>	$data["branch_id".$i],
-    					'qty'				=>	$data["total_qty_".$i],
-    					'qty_warning'		=>	$data["alert_qty".$i],
-    					'last_mod_userid'	=>	$this->getUserId(),
-    					'last_mod_date'		=>	new Zend_Date(),
-    					'last_mod_userid'   =>  $this->getUserId(),
-    				);
-    				$this->_name = "ln_ins_prolocation";
-    				$this->insert($arr1);
+    				if (!empty($data['detailid'.$i])){
+    					$arr1 = array(
+    							'pro_id'			=>	$data["id"],
+    							'location_id'		=>	$data["branch_id".$i],
+    							'qty'				=>	$data["total_qty_".$i],
+    							'qty_warning'		=>	$data["alert_qty".$i],
+    							'last_mod_userid'	=>	$this->getUserId(),
+    							'last_mod_date'		=>	new Zend_Date(),
+    							'last_mod_userid'   =>  $this->getUserId(),
+    					);
+    					$this->_name = "ln_ins_prolocation";
+    					$where =" id =".$data['detailid'.$i];
+    					$this->update($arr1, $where);
+    				}else{
+	    				$arr1 = array(
+	    					'pro_id'			=>	$data["id"],
+	    					'location_id'		=>	$data["branch_id".$i],
+	    					'qty'				=>	$data["total_qty_".$i],
+	    					'qty_warning'		=>	$data["alert_qty".$i],
+	    					'last_mod_userid'	=>	$this->getUserId(),
+	    					'last_mod_date'		=>	new Zend_Date(),
+	    					'last_mod_userid'   =>  $this->getUserId(),
+	    				);
+	    				$this->_name = "ln_ins_prolocation";
+	    				$this->insert($arr1);
+    				}
     			}
     		}
     		$db->commit();
     	}catch (Exception $e){
-    		$db->rollBack();
     		Application_Model_DbTable_DbUserLog::writeMessageError($e);
+    		$db->rollBack();
     	}
     }
     public function getProductInfoDetail($id){//for view item detail

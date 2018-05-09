@@ -83,7 +83,8 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 					'adv_search'=>	'',
 					'branch_id'	=>	-1,
 					'category'	=>	-1,
-					'status'	=>  -1
+					'status'	=>  -1,
+					'product_type'=>-1
 			);
 		}
 		$row = $db->getInventory($data);
@@ -162,6 +163,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 					'adv_search'=>	'',
 					'branch_id'	=>	-1,
 					'category'	=>	-1,
+					'product_type'	=>	-1,
 					'status'	=>  -1,
 					'start_date'=> '',
 					'end_date'=>date('Y-m-d'),

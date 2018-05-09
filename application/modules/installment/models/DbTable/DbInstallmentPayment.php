@@ -49,6 +49,9 @@ class Installment_Model_DbTable_DbInstallmentPayment extends Zend_Db_Table_Abstr
     	if($search['branch_id']>0){
     		$where.=" AND lcrm.`branch_id`= ".$search['branch_id'];
     	}
+    	$db_globle = new Application_Model_DbTable_DbGlobal();
+    	$where = $db_globle->getAccessPermission('lcrm.`branch_id`');
+    	
     	$group_by = " GROUP BY lcrm.id";
     	$order = " ORDER BY id DESC";
     	return $db->fetchAll($sql.$where.$group_by.$order);

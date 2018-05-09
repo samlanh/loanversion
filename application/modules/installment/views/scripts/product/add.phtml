@@ -14,90 +14,94 @@
 	dojo.require("dojo.NodeList-manipulate");
 	dojo.require("dijit.form.Form");
 </script>
-<form id='frm_add_tran' action="" 
-				dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-			<script type="dojo/method" event="onSubmit">			
-			if(this.validate()) {
-				dijit.byId('savenew').set('disabled',true);
-			    dijit.byId('saveclose').set('disabled',true);
-				return true;
-			}else {
+<form id='frm_add_tran' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">			
+		if(this.validate()) {
+			var identity = $('#identity').val();
+			if(identity==""){
+				alert('<?php echo $tr->translate("Please insert amount product to stock");?>');
 				return false;
 			}
+			dijit.byId('savenew').set('disabled',true);
+		    dijit.byId('saveclose').set('disabled',true);
+			return true;
+		}else {
+			return false;
+		}
 	</script>
-<fieldset style="background: #e0ebff">
-<table width="100%" style="margin-top:0px;" cellspacing="10">
-     <legend class="mainblog" ><strong><?php echo $tr->translate("PRODUCT_INFO")?></strong></legend>
-	<tr>
-		<td width="33%;" valign="top">
-			 <fieldset >
-				<legend align="center" ><strong><?php echo $tr->translate("PRODUCT_INFO")?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
-					    <tr>
-					    	<td><strong><?php echo $tr->translate("ITEM_NAME")?></strong></td>
-							<td><input class="fullside" dojoType="dijit.form.ValidationTextBox" required="1" id="name" name="name" value="" type="text"></td>
-					    </tr>
-					    <tr >
-							<td><?php echo $tr->translate("ITEM_CODE")?></td>
-							<td><input class="fullside" dojoType="dijit.form.TextBox" id="pro_code" name="pro_code" value="" type="text"></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("TYPE")?></td>
-							<td><input id="product_type" /></td>
-						</tr>
-						<tr>
-							<td><?php echo $tr->translate("PRODUCT_CATEGORY")?></td>
-							<td><input id="category_id" /></td>
-						</tr>
-						<tr>
-					    	<td><strong><?php echo $tr->translate("COST_PRICE")?></strong></td>
-							<td><input class="fullside" dojoType="dijit.form.NumberTextBox" required="true" id="cost_price" name="cost_price" value="" type="text"></td>
-					    </tr>
-					     <tr>
-					  		<td ><strong><?php echo $tr->translate("SOLD_PRICE")?></strong></td>
-							<td><input class="fullside" dojoType="dijit.form.NumberTextBox" required="true" id="selling_price" name="selling_price" value="" type="text"></td>
-					    </tr>
-				</table>
-			</fieldset>	
-		</td>
-		<td width="66%;" valign="top">
-			 <fieldset>
-				<legend align="center" ><strong><?php echo $tr->translate("QTY_INFO")?></strong></legend>
-				 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
-						<tr>
-							<td colspan="2">
-								<table id="table_row" border="1px" style="border-collapse: collapse; border:1px solid #ccc;">
-										<tr id="head-title" class="head-td" align="right"></tr>
-									</table>
-								<input type="hidden" name="identity" id="identity" dojoType="dijit.form.TextBox" value="" >
-							</td>
-					    </tr>
-					    <tr>
-							<td colspan="2"><input type="button" onclick="addNewProLocation();" label="<?php echo $tr->translate("ADD_BRANCH")?>"  dojoType="dijit.form.Button"	 iconClass="dijitIconNewTask"/></td>
-						</tr>
-					    <tr>
-							<td><?php echo $tr->translate("NOTE")?></td>
-							<td></td>
-						</tr>
-					     <tr>
-							<td colspan="2"><input class="fullside" dojoType="dijit.form.TextBox" id="description" name="description" value="" type="text"></td>
-						</tr>
-				</table>
-			</fieldset>	
-		</td>
-	</tr>
-	<tr>
-		<td align="center" colspan="3">
-			<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
-				 iconClass="dijitIconClear"/>
-			<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
-				 iconClass="dijitIconDelete"/>
-			<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"  
-				 iconClass="dijitIconNewTask"/>
-		</td>
-	</tr>	
-</table>
-</fieldset>
+	<fieldset style="background: #e0ebff">
+		<table width="100%" style="margin-top:0px;" cellspacing="10">
+	     	<legend class="mainblog" ><strong><?php echo $tr->translate("PRODUCT_INFO")?></strong></legend>
+			<tr>
+				<td width="33%;" valign="top">
+					 <fieldset >
+						<legend align="center" ><strong><?php echo $tr->translate("PRODUCT_INFO")?></strong></legend>
+						 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+							    <tr>
+							    	<td><strong><?php echo $tr->translate("ITEM_NAME")?></strong></td>
+									<td><input class="fullside" dojoType="dijit.form.ValidationTextBox" required="1" id="name" name="name" value="" type="text"></td>
+							    </tr>
+							    <tr >
+									<td><?php echo $tr->translate("ITEM_CODE")?></td>
+									<td><input class="fullside" dojoType="dijit.form.TextBox" id="pro_code" name="pro_code" value="" type="text"></td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate("TYPE")?></td>
+									<td><input id="product_type" /></td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate("PRODUCT_CATEGORY")?></td>
+									<td><input id="category_id" /></td>
+								</tr>
+								<tr>
+							    	<td><strong><?php echo $tr->translate("COST_PRICE")?></strong></td>
+									<td><input class="fullside" dojoType="dijit.form.NumberTextBox" required="true" id="cost_price" name="cost_price" value="" type="text"></td>
+							    </tr>
+							     <tr>
+							  		<td ><strong><?php echo $tr->translate("SOLD_PRICE")?></strong></td>
+									<td><input class="fullside" dojoType="dijit.form.NumberTextBox" required="true" id="selling_price" name="selling_price" value="" type="text"></td>
+							    </tr>
+						</table>
+					</fieldset>	
+				</td>
+				<td width="66%;" valign="top">
+					 <fieldset>
+						<legend align="center" ><strong><?php echo $tr->translate("QTY_INFO")?></strong></legend>
+						 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+								<tr>
+									<td colspan="2">
+										<table id="table_row" border="1px" style="border-collapse: collapse; border:1px solid #ccc;">
+												<tr id="head-title" class="head-td" align="right"></tr>
+											</table>
+										<input type="hidden" name="identity" id="identity" dojoType="dijit.form.TextBox" value="" >
+									</td>
+							    </tr>
+							    <tr>
+									<td colspan="2"><input type="button" onclick="addNewProLocation();" label="<?php echo $tr->translate("ADD_BRANCH")?>"  dojoType="dijit.form.Button"	 iconClass="dijitIconNewTask"/></td>
+								</tr>
+							    <tr>
+									<td><?php echo $tr->translate("NOTE")?></td>
+									<td></td>
+								</tr>
+							     <tr>
+									<td colspan="2"><input class="fullside" dojoType="dijit.form.TextBox" id="description" name="description" value="" type="text"></td>
+								</tr>
+						</table>
+					</fieldset>	
+				</td>
+			</tr>
+			<tr>
+				<td align="center" colspan="3">
+					<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
+						 iconClass="dijitIconClear"/>
+					<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
+						 iconClass="dijitIconDelete"/>
+					<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"  
+						 iconClass="dijitIconNewTask"/>
+				</td>
+			</tr>	
+		</table>
+	</fieldset>
 </form>
 <div class="dijitHidden">
 	<div data-dojo-type="dijit.Dialog" style="width:30%;" id="popup_pro_cate" >

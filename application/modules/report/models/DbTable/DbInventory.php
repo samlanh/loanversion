@@ -34,12 +34,16 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	if($search["category"]>0){
     		$sql.=' AND p.cate_id='.$search["category"];
     	}
+    	if($search["product_type"]>0){
+    		$sql.=' AND p.product_type='.$search["product_type"];
+    	}
     	if($search["status"]>-1){
     		$sql.=' AND p.status='.$search["status"];
     	}
-    	$sql.=" ORDER BY pl.`location_id`,p.`cate_id` DESC";
     	$dbp = new Application_Model_DbTable_DbGlobal();
-    	$sql.=$dbp->getAccessPermission('branch_id');
+    	$sql.=$dbp->getAccessPermission('pl.location_id');
+    	
+    	$sql.=" ORDER BY pl.`location_id`,p.`cate_id` DESC";
     	return $db->fetchAll($sql);
     }
     function productNearlyOutStock($search=null){
@@ -77,9 +81,12 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	if($search["status"]>-1){
     		$sql.=' AND p.status='.$search["status"];
     	}
-    	$sql.=" ORDER BY pl.`location_id`,p.`cate_id` DESC";
     	$dbp = new Application_Model_DbTable_DbGlobal();
-    	$sql.=$dbp->getAccessPermission('branch_id');
+    	$sql.=$dbp->getAccessPermission('pl.`location_id`');
+    	
+    	$sql.=" ORDER BY pl.`location_id`,p.`cate_id` DESC";
+    	
+    	
     	return $db->fetchAll($sql);
     }
     function getSaleInventory($search=null){
@@ -128,6 +135,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	}
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->getAccessPermission('branch_id');
+    	
     	$sql.=" ORDER BY s.`id` DESC";
     	return $db->fetchAll($sql);
     }
@@ -209,7 +217,8 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     		$sql.=" AND sp.status=".$search['status'];
     	}
     	$dbp = new Application_Model_DbTable_DbGlobal();
-    	$sql.=$dbp->getAccessPermission('branch_id');
+    	$sql.=$dbp->getAccessPermission('sp.`branch_id`');
+    	
     	$sql.=" ORDER BY sp.`id` DESC";
     	return $db->fetchAll($sql);
     }
@@ -250,13 +259,43 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 		(SELECT b.branch_nameen FROM `ln_branch` AS b WHERE b.br_id = pl.`location_id` LIMIT 1) AS branch_nameen,
 		(SELECT c.name FROM `ln_ins_category` AS c WHERE c.id = p.`cate_id` LIMIT 1) AS categoryName,
 		(SELECT SUM(pd.`qty`) FROM `ln_ins_purchase_detail` AS pd,`ln_ins_purchase` AS pu WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND pu.`date` <='$to_date' GROUP BY pd.`pro_id` LIMIT 1) AS purchaseQty,
+		(SELECT SUM(pd.`amount`) FROM `ln_ins_purchase_detail` AS pd,`ln_ins_purchase` AS pu 
+WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='1' AND pu.`date` <='2018-05-09 23:59:59' GROUP BY pd.`pro_id` LIMIT 1) AS purchaseAmount,
 		(SELECT COUNT(l.id) FROM `ln_ins_sales_install` AS l WHERE l.product_id = p.`id` AND l.`date_sold` >='$from_date' AND l.`date_sold` <='$to_date'  GROUP BY l.product_id LIMIT 1) AS stockOut,
+		(SELECT SUM(l.selling_price) FROM `ln_ins_sales_install` AS l WHERE l.product_id = p.`id` AND l.`date_sold` >='1' AND l.`date_sold` <='2018-05-09 23:59:59' 
+GROUP BY l.product_id LIMIT 1) AS stockOutAmount, 
 		p.*,
 		pl.`qty`,pl.`qty_warning` FROM 
 		`ln_ins_product` AS p,
 		`ln_ins_prolocation` AS pl
 		WHERE 
 		pl.`pro_id` = p.`id`";
+	   	
+	   	if(!empty($search['adv_search'])){
+	   		$s_where = array();
+	   		$s_search = addslashes(trim($search['adv_search']));
+	   		$s_search = str_replace(' ', '',$s_search);
+	   		$s_where[] = " REPLACE(p.item_name,' ','')  LIKE '%{$s_search}%'";
+	   		$s_where[] = " REPLACE(p.item_code,' ','')LIKE '%{$s_search}%'";
+	   		$s_where[] = " REPLACE(p.cost_price,' ','')  LIKE '%{$s_search}%'";
+	   		$s_where[] = " REPLACE(p.selling_price,' ','')LIKE '%{$s_search}%'";
+	   		$sql .=' AND ( '.implode(' OR ',$s_where).')';
+	   	}
+	   	if($search["branch_id"]>0){
+	   		$sql.=' AND pl.`location_id`='.$search["branch_id"];
+	   	}
+	   	if($search["category"]>0){
+	   		$sql.=' AND p.cate_id='.$search["category"];
+	   	}
+	   	if($search["product_type"]>0){
+	   		$sql.=' AND p.product_type='.$search["product_type"];
+	   	}
+	   	if($search["status"]>-1){
+	   		$sql.=' AND p.status='.$search["status"];
+	   	}
+	   	$dbp = new Application_Model_DbTable_DbGlobal();
+	   	$sql.=$dbp->getAccessPermission('pl.`location_id`');
+	   	
 	   	return $db->fetchAll($sql);
    	
    }
@@ -328,12 +367,16 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 	   			$where.=" AND payment_option = 2 ";
 	   		}
 	   	}
+	   	$dbp = new Application_Model_DbTable_DbGlobal();
+	   	$where.=$dbp->getAccessPermission('`crm`.`branch_id`');
+	   	
 	   	$orderby='`crm`.`id`';
 	   	if (!empty($search['orderBy'])){
 	   		
 	   		$orderby ='`crm`.`client_id`';
 	   	}
 	   	$order=" GROUP BY `crm`.`id` ORDER BY $orderby DESC ";
+	   	
    	return $db->fetchAll($sql.$where.$order);
    }
    public function getAllOutstadingLoan($search=null){
@@ -395,6 +438,9 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
    		$s_where[] = " s.duration LIKE '%{$s_search}%'";
    		$where .=' AND ('.implode(' OR ',$s_where).')';
    	}
+   	$dbp = new Application_Model_DbTable_DbGlobal();
+   	$where.=$dbp->getAccessPermission('`s`.`branch_id`');
+   	
    	$order=" ORDER BY s.id DESC";
    	return $db->fetchAll($sql.$where.$order);
    }
@@ -457,6 +503,10 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
    		$s_where[] = " `d`.`total_interest_after` LIKE '%{$s_search}%'";
    		$where .=' AND ( '.implode(' OR ',$s_where).')';
    	}
+   	
+   	$dbp = new Application_Model_DbTable_DbGlobal();
+   	$where.=$dbp->getAccessPermission('l.`branch_id`');
+   	
    	$order=" ORDER BY  d.`date_payment` DESC";
    	return $db->fetchAll($sql.$where.$order);
    }
@@ -565,6 +615,10 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 	   	if($search['branch_id']>0){
 	   		$where.=" AND l.`branch_id` = ".$search['branch_id'];
 	   	}
+	   	
+	   	$dbp = new Application_Model_DbTable_DbGlobal();
+	   	$where.=$dbp->getAccessPermission('l.`branch_id`');
+	   	
 	   	$group_by = " GROUP BY l.`id` ORDER BY d.`date_payment` ASC";
 	   	return $db->fetchAll($sql.$where.$group_by);
    }

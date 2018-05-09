@@ -39,7 +39,7 @@ public function init()
 		$link=array(
 				'module'=>'installment','controller'=>'product','action'=>'edit',);
 	
-		$list = new Application_Form_Frmlist();
+		$list = new Application_Form_Frmtable();
 		$this->view->list=$list->getCheckList(0, $columns, $rows,array('item_name'=>$link,'product_type'=>$link,'item_code'=>$link,'barcode'=>$link,'branch'=>$link));
 		
     	$formFilter = new Installment_Form_FrmProduct();
@@ -101,9 +101,10 @@ public function init()
 					$db->edit($post);
 						Application_Form_FrmMessage::Sucessfull("EDIT_SUCCESS", '/installment/product');
 				  }catch (Exception $e){
-				  	Application_Form_FrmMessage::messageError("INSERT_ERROR",$err = $e->getMessage());
+				  	Application_Form_FrmMessage::messageError("INSERT_ERROR", $e->getMessage());
 				  }
 		}
+// 		print_r($db->getProductById($id));exit();
 		$this->view->rs_location = $db->getProductLocation($id);
 		$this->view->rspro =  $db->getProductById($id);
 		

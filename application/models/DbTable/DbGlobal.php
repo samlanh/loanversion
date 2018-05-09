@@ -41,17 +41,19 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
 		return $session_user->user_id;
 	}
 	public function getAccessPermission($branch='branch_id'){
-		$result = $this->getUserInfo();
-		$result = "";
-		return $result;
-		if($result['level']==1){
+		
+		$session_user=new Zend_Session_Namespace('authloan');
+		$currentBranch = $session_user->branch_id;
+		$currentlevel = $session_user->level;
+		if($currentlevel==1){
 			$result = "";
 			return $result;
 		}
 		else{
-			$sql_string = $this->getAllLocationByUser($result['user_id'],$branch);
-			$result = " AND (".$sql_string.")";
-			return $result;
+			$where = " AND ".$branch." = $currentBranch";
+// 			$sql_string = $this->getAllLocationByUser($result['user_id'],$branch);
+// 			$result = " AND (".$sql_string.")";
+			return $where;
 		}
 	}
 	function getAllLocation($opt=null){
@@ -1769,8 +1771,9 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
 	  	}
 	  	$sql.="  order BY c.`client_id` DESC ";
 	  	$result =  $db->fetchAll($sql);
+	  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	  	if($opt!=null){
-	  		$options=array(''=>"Select Customer");
+	  		$options=array(''=>$tr->translate("Choose Customer"));
 	  		if(!empty($result))foreach($result AS $row){
 	  			$options[$row['id']]= $row['name'];
 	  		}

@@ -35,13 +35,14 @@ $newarray=array();
 		}
 	}
 	$arr_param_menu = $menu;   
+	
 ?>
 <div id="header-left">
 <ul>
 <?php 
 	if($request->getModuleName()!='default' AND $action!='changepassword' ){
 		$dc=new Application_Model_Decorator();					
-		$class="current-left";					
+// 		$class="current-left";					
 		$menu=$dc->getMenuLeft($arr_param_menu[$request->getModuleName()],$request->getControllerName(),$request->getModuleName());
 		if($menu) echo $menu;	
 	}				

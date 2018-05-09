@@ -43,7 +43,7 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     	}
     	
     	$dbp = new Application_Model_DbTable_DbGlobal();
-    	$sql.=$dbp->getAccessPermission('branch_id');
+    	$sql.=$dbp->getAccessPermission('sp.branch_id');
     	$order=" ORDER BY id DESC";
     	return $db->fetchAll($sql.$order);
     }
@@ -374,10 +374,10 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
 //     }
     function getProductNames(){
     	$db=$this->getAdapter();
-    	$sql="SELECT p.id,pl.brand_id,p.pro_name AS `name` FROM ln_ins_product AS p,ln_ins_prolocation AS pl
+    	$sql="SELECT p.id,pl.location_id,p.item_name AS `name` FROM ln_ins_product AS p,ln_ins_prolocation AS pl
  				WHERE p.id=pl.pro_id AND p.status=1  ";
     	$dbp = new Application_Model_DbTable_DbGlobal();
-    	$sql.=$dbp->getAccessPermission('brand_id');
+    	$sql.=$dbp->getAccessPermission('pl.location_id');
     	$sql.=" GROUP BY p.id ORDER BY id DESC ";
         $rows=$db->fetchAll($sql);
         
@@ -395,7 +395,7 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     	ln_ins_prolocation AS pl
     	WHERE p.id=pl.pro_id AND p.status=1  ";
     	$dbp = new Application_Model_DbTable_DbGlobal();
-    	$sql.=$dbp->getAccessPermission('brand_id');
+    	$sql.=$dbp->getAccessPermission('pl.location_id');
     	$sql.=" GROUP BY p.id ORDER BY id DESC ";
     	return $db->fetchAll($sql);
     }
