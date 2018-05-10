@@ -1,0 +1,593 @@
+<?php
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate("EDIT GENERALSALES"));
+	echo $this->headTitle();
+	$frm = $this->frm;
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+?>
+<div class="overlay">
+	<div class="overlay-load">
+		<div class="overlay-msg">
+	    </div>
+	</div>
+</div>	
+	<script src="<?php echo $baseurl;?>/js/help.js"></script>
+   <script>
+		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog"]);
+		dojo.require("dojo.data.ItemFileWriteStore"); 
+		dojo.require("dojo.parser");
+		dojo.require("dojo.NodeList-manipulate");
+   </script>
+<form id='frm_add_tran' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+		<script type="dojo/method" event="onSubmit">			
+		if(this.validate()) {
+		   client = dijit.byId('member').get('value');
+           branch_id = dijit.byId('branch_id').get('value');
+		    if (branch_id=='' || branch_id==-1){
+		  	   alert('Please Select Branch Name!');
+			   dijit.byId('branch_id').focus();
+			   return false;
+		    }
+			if (client=='' || client==-1){
+				alert('Please Select Client Name !');
+				dijit.byId('member').focus();
+				return false;
+			}
+			var iden = $("#identity").val();
+		 	if(iden==""){
+				alert('<?php echo $tr->translate("Please Select any product")?>');
+				return false;
+			}
+			loading();
+				dijit.byId('savenew').set('disabled',true);
+			    dijit.byId('saveclose').set('disabled',true);
+				return true;
+			}else {
+				return false;
+			}
+	</script>
+	<fieldset style="background: #e0ebff">
+		<table width="100%" style="margin-top:0px;" cellspacing="10">
+		     <legend class="mainblog" ><strong><?php echo $tr->translate("EDIT GENERALSALES")?></strong></legend>
+			<tr>
+				<td width="50%" valign="top">
+					 <fieldset >
+						<legend align="center" ><strong><?php echo $tr->translate("CUSTOMER_INFO")?></strong></legend>
+						 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+								<tr>
+							        <td><?php echo $tr->translate("BRANCH_NAME")?></td>
+									<td>
+										<?php echo $frm->getElement('branch_id');?>
+										<?php echo $frm->getElement('id');?>
+									</td>
+							    </tr>
+							    <tr >
+									<td><?php echo $tr->translate("CLIENT_NUM")?></td>
+									<td><input id="customer_code" /></td>
+								</tr>
+								<tr>
+									<td><strong><?php echo $tr->translate("CUSTOMER_NAME")?></strong></td>
+									<td><input id="member" />
+									</td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate("NOTE")?></td>
+									<td>
+										<?php echo $frm->getElement('note');?>
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><input iconClass="dijitIconUndo" type="button" label="<?php echo $tr->translate('REFRESH');?>" dojoType="dijit.form.Button" onclick="getRefreshGroup();"/></td>
+								</tr>
+						</table>
+					</fieldset>	
+				</td>
+				<td width="50%" valign="top">
+					 <fieldset>
+						<legend align="center" ><strong><?php echo $tr->translate("PAYMENT_INFO")?></strong></legend>
+						 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+						 		 <tr>
+							 		<td style="white-space: nowrap;"><?php echo $tr->translate('SALE_NO');?></td>
+							 		<td><?php echo $frm->getElement('saleNO');?></td>
+							 	</tr>
+								<tr>
+							 		<td><strong><?php echo $tr->translate('SOLD_DATE');?></strong></td>
+							 		<td><?php echo $frm->getElement('dateSold');?></td>
+							 	</tr>
+								<tr>
+							 		<td><strong><?php echo $tr->translate('TOTAL');?></strong></td>
+							 		<td><?php echo $frm->getElement('total');?></td>
+							 	</tr>
+								<tr>
+							 		<td><?php echo $tr->translate('PAID');?></td>
+							 		<td>
+							 			<?php echo $frm->getElement('paid');?>
+							 		</td>
+							 	</tr>
+							 	<tr>
+							 		<td><?php echo $tr->translate('BALANCE');?></td>
+							 		<td><?php echo $frm->getElement('balance');?></td>
+							 	</tr>
+						</table>
+					</fieldset>	
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" valign="top">
+					<fieldset>
+						<legend align="center" ><strong><?php echo $tr->translate("PRODUCT_INFO")?></strong></legend>
+						 	<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+						 		 <tr>
+							 		<td><strong><?php echo $tr->translate('CATEGORY');?></strong></td>
+							 		<td><input id="category_id" /></td>
+							 		<td><strong><?php echo $tr->translate('ITEM_NAME');?></strong></td>
+							 		<td><input id="product_name" /></td>
+							 	</tr>
+						</table>
+					</fieldset>	
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" valign="top">
+					<table id="table_parent" class="set-style" style="margin: 0 auto; width: 100%;  " >
+						<thead>
+							<tr>
+								<td colspan="8">
+									<table  style="margin: 0 auto; width: 100%; border-collapse: collapse; border: 1px #ccc solid;">
+										<thead>
+											<tr id="head-title" class="head-td" align="right">
+												<th><?php echo $tr->translate("NUM");?></th>
+												<th ><?php echo $tr->translate("ITEM_CODE");?></th>
+												<th ><?php echo $tr->translate("ITEM_NAME");?></th>
+												<th ><?php echo $tr->translate("QTY");?></th>
+												<th ><?php echo $tr->translate("PRICE");?></th>
+												<th ><?php echo $tr->translate("AMOUNT");?></th>
+												<th ><?php echo $tr->translate("DESCRIPTION");?></th>
+												<th><?php echo $tr->translate("DEL");?></th>
+											</tr>
+										</thead>
+										<tbody id="table_row">
+											<?php $i=0;
+											$identity='';
+											if (!empty($this->detail)) foreach ($this->detail as $rs){ $i++;?>
+											<tr id="row<?php echo $i;?>" style="background: #fff; border: solid 1px #bac; vertical-align: top;">
+												<td style="text-align: center;vertical-align: middle; "><?php echo $i;?></td>
+												<td style="vertical-align: middle; text-align: left; border-left:solid 1px #ccc; ">&nbsp;<label id="labelservice<?php echo $i;?>"><?php echo $rs['item_code'];?></label><input type="hidden" dojoType="dijit.form.TextBox" name="productID<?php echo $i;?>" id="productID<?php echo $i;?>" value="<?php echo $rs['productID'];?>" ></td>
+												<td style="vertical-align: middle; text-align: left; border-left:solid 1px #ccc; ">&nbsp;<label id="labelitemsname<?php echo $i;?>"><?php echo $rs['item_name'];?></label></td>
+												<td><input type="text" class="fullside" dojoType="dijit.form.NumberTextBox" required="required" onKeyup="calculateamount(<?php echo $i;?>);"  name="qty<?php echo $i;?>" id="qty<?php echo $i;?>" value="<?php echo $rs['qty'];?>" style="text-align: center;" ></td>
+												<td><input type="text" class="fullside" dojoType="dijit.form.NumberTextBox" required="required" onKeyup="calculateamount(<?php echo $i;?>);" name="price<?php echo $i;?>" id="price<?php echo $i;?>" value="<?php echo $rs['sellingPrice'];?>" style="text-align: center;" ></td>
+												<td><input type="text" class="fullside" dojoType="dijit.form.NumberTextBox" required="required"  readonly="readonly" name="amount<?php echo $i;?>" id="amount<?php echo $i;?>" value="<?php echo $rs['amount'];?>" style="text-align: center;" ></td>
+												<td><input type="text" class="fullside" dojoType="dijit.form.TextBox"  name="description<?php echo $i;?>" id="description<?php echo $i;?>" value="<?php echo $rs['note'];?>" style="text-align: center;" ></td>
+												<td style="cursor: pointer;text-align: center;  vertical-align: middle;"><img onclick="newdeleteRecord(<?php echo $i;?>)" src="<?php echo $this->baseUrl()?>/images/Delete_16.png"><input type="hidden" dojoType="dijit.form.TextBox" name="detailid<?php echo $i;?>" id="detailid<?php echo $i;?>" value="<?php echo $rs['id'];?>" ></td>
+											</tr>	
+											<?php if (empty($identity)){$identity=$i;}else{$identity=$identity.",".$i;}?>
+											<?php }?>
+										<tbody>
+									</table>
+									
+									<input type="hidden" name="identity" id="identity"  value="<?php echo $identity;?>" >
+								</td>
+							</tr>
+						
+						</thead>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" colspan="4">
+					<input type="reset" label="<?php echo $tr->translate("CLEAR")?>" dojoType="dijit.form.Button"
+						 iconClass="dijitIconClear"/>
+					<input type="submit" label="<?php echo $tr->translate("SAVECLOSE");?>" name='saveclose' id='saveclose' value='saveclose' dojoType="dijit.form.Button"
+						 iconClass="dijitIconDelete"/>
+					<input type="submit" label="<?php echo $tr->translate("SAVENEW")?>" name='savenew' id='savenew' value='savenew' dojoType="dijit.form.Button"  
+						 iconClass="dijitIconNewTask"/>
+				</td>
+			</tr>	
+		</table>
+	</fieldset>
+</form>
+<script type="text/javascript">	
+
+var cate_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->rs_cate));?> );
+
+
+	function hideInvoice(){
+		dijit.byId("frmInvoice").hide();
+	}
+	function doPrintInvoice() {
+		window.frames["print_frame"].document.body.innerHTML=dojo.byId('invoicePrint').innerHTML;
+		window.frames["print_frame"].window.focus();
+		window.frames["print_frame"].window.print();
+		dijit.byId('frm_add_tran').submit();
+		hideInvoice();
+	}
+   
+	function hideDialog() {		
+		dijit.byId("recript_dialog").hide();
+		saveTrans(); 
+	}
+	function doPrint() {
+		window.frames["print_frame"].document.body.innerHTML=dojo.byId('divPrint').innerHTML;
+	    window.frames["print_frame"].window.focus();
+	    window.frames["print_frame"].window.print();
+	    dijit.byId('frm_add_tran').submit();
+	    hideDialog();
+	}
+var url_getreceipt = '<?php echo $this->url(array('module'=>'installment','controller'=>'generalsales','action'=>'getreceiptnumber')); ?>';
+function getReceiptbybranch(){
+	branch_id = dijit.byId('branch_id').get('value');
+	if(branch_id==''){
+		alert('Please Select Branch');
+		dijit.byId('branch_id').focus();
+		return false;
+	}
+	dojo.xhrPost({
+		url:url_getreceipt,	
+		content:{ 
+			    'branch_id':branch_id,
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			dijit.byId('saleNO').attr('value',data);
+		},
+		error: function(err) {
+			alert("eror receipt");
+		}
+	});
+}
+</script>
+<script type="text/javascript">
+dojo.require("dojo.html");
+var client_store  = getDataStorefromJSON('id','name', [] );
+var client_number_store  = getDataStorefromJSON('id','name', [] );
+var pro_store  = getDataStorefromJSON('id','name');
+require(["dojo/ready"], function(ready){
+	 ready(function(){
+		 filterClient();
+	  });
+	new dijit.form.FilteringSelect({
+	store: client_store,
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: true,		           
+	name: "member",
+	id: "member",
+	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
+	class: 'fullside',
+	onChange: function() {
+		member = dijit.byId('member').get('value');
+		if(member==-1){
+			window.open("<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'add')); ?>","_blank");
+			}else{
+			dijit.byId('customer_code').attr('value',member);
+			getClientInfo();
+			getReceiptbybranch();
+		}
+}
+	}, "member");
+
+	new dijit.form.FilteringSelect({
+	store: client_number_store,
+	autoComplete: true,
+	query: {
+		branch_id: "-1"
+	},            
+	required: false,		           
+	name: "customer_code",
+	id: "customer_code",
+	searchAttr: "name",
+	autoComplete: false,
+	queryExpr: "*${0}*",
+	class: 'fullside',
+	onChange: function() {
+		customer_code = dijit.byId('customer_code').get('value');
+		if(customer_code==-1){
+			showPopupclient();
+		}else{
+			dijit.byId('member').attr('value',customer_code);
+			getClientInfo();
+			getReceiptbybranch();
+		}
+    }
+	}, "customer_code");
+	new dijit.form.FilteringSelect({
+		store: cate_store,
+		required: false,		           
+		name: "category_id",
+		id: "category_id",
+		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
+		class: 'fullside',
+		onChange: function() {
+			getAllProduct();
+		}
+	}, "category_id");
+	new dijit.form.FilteringSelect({
+		store: pro_store,
+		required: false,		           
+		name: "product_name",
+		id: "product_name",
+		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
+		class: 'fullside',
+		onChange: function() {
+			getProductInfor();
+		}
+	}, "product_name");
+});
+var url_getproduct = '<?php echo $this->url(array('module'=>'installment','controller'=>'product','action'=>'getproductbycate')); ?>';
+function getAllProduct(){
+	category_id = dijit.byId("category_id").get("value");
+	if(category_id<0){
+      return false;
+	}
+	dojo.xhrPost({
+		url:url_getproduct,	
+		content:{ 
+		    'category_id':category_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			pro_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('product_name').set('store', pro_store);
+		},
+		error: function(err) {
+		}
+	});
+}
+var record_no='<?php if ($i>0){ echo $i+1;}else{ echo 1;}?>';
+var url_getProductrow ='<?php echo $this->baseUrl()."/installment/generalsales/getproduct";?>'
+function getProductInfor(type=null){
+	product_name = dijit.byId('product_name').get('value');
+	if(product_name=='' || product_name==-1 || product_name== 0 ){
+		dijit.byId('product_name').focus();
+		return false;
+	}
+	var iden = $("#identity").val();
+	var arrays = iden.split(',');
+	 if(arrays!=""){
+		 for(var i=0;i< arrays.length;i++) {
+			 if(dijit.byId('productID'+arrays[i]).get('value') == product_name){
+					oldqt =  dijit.byId('qty'+arrays[i]).get('value');
+					dijit.byId('qty'+arrays[i]).set('value',parseFloat(oldqt)+1);
+					calculateamount(arrays[i]);
+					dijit.byId('product_name').reset();
+				 return false;
+			 }
+		}
+	}
+	dojo.xhrPost({
+		url: url_getProductrow,	
+		content:{ 
+		    'product_name':product_name,'record_no':record_no
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			record_no=record_no+1;
+			tmp='<tr id="row'+data.newrowid+'" style="background: #fff; border: solid 1px #bac; vertical-align: top;">';
+			tmp+="</tr>";
+				dojo.query("#table_row").append(tmp);
+		
+			dojo.html.set(dojo.byId("row"+data.newrowid),data.stringrow , {
+		     parseContent: true,
+			});
+			
+			if($("#identity").val()!='') {
+				var identity = $("#identity").val();
+				$("#identity").val(identity+','+data.newrowid);
+			} else {
+				$("#identity").val(data.newrowid);
+			}
+			calCulateTotal();
+			calculateBalance();
+			dijit.byId('product_name').reset();
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
+}
+function calculateamount(index){
+	var price = dijit.byId('price'+index).get('value');
+	var qty = dijit.byId('qty'+index).get('value');
+	var amount =0;
+	amount = (parseFloat(price)*parseFloat(qty));
+	dijit.byId('amount'+index).set('value',amount.toFixed(2));
+	calCulateTotal();
+}
+function calCulateTotal(){
+	var rowId = $('#identity').val();
+	if(rowId==""){
+		return false;
+	}
+	var rowIDArray = rowId.split(',');
+	totalAmount=0;
+	for(var n = 0; n < rowIDArray.length; n++) {
+		rowamount = dijit.byId('amount'+rowIDArray[n]).get('value');
+		totalAmount = totalAmount+rowamount;
+	}
+	dijit.byId('total').attr('value',totalAmount.toFixed(2));
+	dijit.byId('balance').attr('value',totalAmount.toFixed(2));
+}
+function calculateBalance(){
+	var total = dijit.byId('total').get('value');
+	var paid = dijit.byId('paid').get('value');
+	if(isNaN(paid)){
+		paid=0;
+		dijit.byId('paid').attr('value',paid);
+	}
+	if(paid>total){
+		alert("<?php echo $tr->translate("Your paid amount can not bigger that total");?>");
+		paid = total;
+		dijit.byId('paid').attr('value',paid);
+	}
+	var balance = total - paid;
+	dijit.byId('balance').attr('value',balance.toFixed(2));
+}
+function filterClient(){
+		branch_id = dijit.byId('branch_id').get('value');
+		dijit.byId('member').query.branch_id = branch_id;
+		dijit.byId('customer_code').query.branch_id = branch_id;
+		dijit.byId('customer_code').reset();
+		
+		getAllClientByBranch(branch_id);
+		getAllClientNumberByBranch(branch_id);
+}
+var oldBranch ='<?php echo $this->row['branch_id'];?>';
+var oldCustomer ='<?php echo $this->row['customerId'];?>';
+var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclieninstallment')); ?>';
+function getAllClientByBranch(branch_id){
+	dojo.xhrPost({
+		url:url_getclient,	
+		content:{ 
+		    'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			client_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('member').set('store', client_store);
+		    if(oldBranch ==branch_id ){
+		    	dijit.byId('member').set('value', oldCustomer);
+		    }
+		},
+		error: function(err) {
+		}
+	});
+}
+var url_getclientnum = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getcliencodeinstallment')); ?>';
+function getAllClientNumberByBranch(branch_id){
+	dojo.xhrPost({
+		url:url_getclientnum,	
+		content:{ 
+		    'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			client_number_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('customer_code').set('store', client_number_store);
+		    if(oldBranch ==branch_id ){
+		    	dijit.byId('customer_code').set('value', oldCustomer);
+		    }
+		},
+		error: function(err) {
+		}
+	});
+}
+
+function getDayName(day){
+	 var weekday = new Array(7);
+	    weekday[0] = "អាទិត្យ";
+	    weekday[1] = "ច័ន្ទ";
+	    weekday[2] = "អង្គារ";
+	    weekday[3] = "ពុធ";
+	    weekday[4] = "ព្រហ";
+	    weekday[5] = "សុក្រ";
+	    weekday[6] = "សៅរ៍";
+	    return weekday[day];
+}
+function hideDialog() {		
+	dijit.byId("frm_client").hide();
+}
+function showPopupclient(){
+	if(dijit.byId('branch_id')!=''){
+		dijit.byId("frmpop_client").show();
+	}else{
+		alert('Please Select Branch First!');
+		dijit.byId('branch_id').focus();
+		}
+}
+function loading(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
+
+function getRefreshGroup(){
+	filterClient();
+	loading();
+	setTimeout(stopLoading, 1000);
+}
+function loading(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
+function stopLoading(){
+	 document.getElementsByClassName("overlay")[0].style.display="none";
+}
+var urlClientInfo = '<?php echo $this->url(array('module'=>'installment','controller'=>'index','action'=>'getclientinsinfo')); ?>';
+function getClientInfo(){
+	clientID = dijit.byId('customer_code').get('value');
+	if(clientID=='' || clientID==null){return false;}
+	dojo.xhrPost({
+		url:urlClientInfo,	
+		content:{ 
+		    'clientID':clientID
+		},
+		handleAs:"json",
+		load: function(data) {
+			/*
+			dojo.byId('LBinvoice').innerHTML=dijit.byId('saleNO').get('value');
+			dojo.byId('LBclientName').innerHTML=data.name_kh;
+			dojo.byId('LBclientGender').innerHTML=data.sexKH;
+			dojo.byId('LBclientNationID').innerHTML=data.nation_id;
+			dojo.byId('LBclientVillage').innerHTML=data.villageKH;
+			dojo.byId('LBclientComune').innerHTML=data.communeKH;
+			dojo.byId('LBclientDistrict').innerHTML=data.districtKH;
+			dojo.byId('LBclientProvince').innerHTML=data.provinceKH;
+			dojo.byId('LBclientPhone').innerHTML=data.phone;
+			*/
+		},
+		error: function(err) {
+			alert(err);
+		}
+	});
+}
+function newdeleteRecord(index,type=''){
+
+	 if(type==''){
+		 dijit.byId("recorddelete").attr('value',index);
+		 dijit.byId('deleteForm').show();
+	 }else{
+
+		index = dijit.byId("recorddelete").get('value');
+		var new_identity = $('#identity').val();
+		var arrays = new_identity.split(',');
+		
+		for(var i=0;i<arrays.length;i++) {
+			if(arrays[i] == index) arrays.splice(i,1);
+		}
+		var strings = arrays.join(',');
+		$('#identity').val(strings);
+		dojo.query("#row"+index).remove();
+		dijit.byId('deleteForm').hide();
+
+		calCulateTotal();
+		calculateBalance();
+		
+	 }
+}
+</script>
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'<?php echo $tr->translate("Do you want to delete this record?")?>'"  id="deleteForm" style="width:350px;" >
+		<div style=" text-align: center;">
+			<h4><?php echo $tr->translate("Do you want to delete this record?")?></h4>
+			<input type="hidden" name="recorddelete" id="recorddelete" dojoType="dijit.form.TextBox" />
+			<button onclick="dijit.byId('deleteForm').hide();" dojoType="dijit.form.Button" iconclass="dijitIconDelete" showLabel="true" type="button"><?php echo $tr->translate("CANCEL");?></button>
+			<button onclick="newdeleteRecord('',1);" iconclass="dijitIconNewTask" dojoType="dijit.form.Button" showLabel="true" type="button"><?php echo $tr->translate("DELETE");?></button>
+		</div>
+	</div>
+</div>
+<style>
+.overlay {display: none;position: absolute;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}
+.overlay-load {width: 350px;height: 100px;margin: auto;top: 0px;bottom: 0px;position: absolute;left: 0px;right: 0px;
+           border: solid 1px #060522;text-align: center;
+           background: #fff url("<?php echo $this->baseUrl()?>/images/loading.gif") 50% 25%;
+           background-repeat: no-repeat;          
+}
+.overlay-msg{margin-bottom: 10px;bottom: 0px;position: absolute;font-style: italic;color: rgb(19, 19, 19);} 
+</style>

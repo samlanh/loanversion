@@ -1805,6 +1805,24 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   				ORDER BY l.id DESC ";
   	return $db->fetchAll($sql);
   }
-
+	
+  public function getGeneralSaleNumber($branch_ID){
+  	$this->_name='ln_ins_generalsale';
+  	$db = $this->getAdapter();
+  
+  	$sql=" SELECT COUNT(id)  FROM $this->_name WHERE branch_id=".$branch_ID." LIMIT 1 ";
+  	$pre = $this->getPrefixCode($branch_ID)."GS";
+  
+  	 
+  	$acc_no = $db->fetchOne($sql);
+  
+  	$new_acc_no= (int)$acc_no+1;
+  	$acc_no= strlen((int)$acc_no+1);
+  
+  	for($i = $acc_no;$i<5;$i++){
+  		$pre.='0';
+  	}
+  	return $pre.$new_acc_no;
   }
+}
 ?>

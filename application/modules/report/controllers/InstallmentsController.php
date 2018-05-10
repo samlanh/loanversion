@@ -363,5 +363,42 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$id = empty($id)?0:$id;
 		$this->view->loanPayment = $db->getInstallPaymentBYId($id);
 	}
+	
+	function rptgeneralsaleAction(){
+		$db  = new Report_Model_DbTable_DbInventory();
+		if($this->getRequest()->isPost()){
+			$search = $this->getRequest()->getPost();
+		}
+		else{
+			$search=array(
+					'adv_search' => '',
+					'branch_id'=>'',
+					'start_date'=> "",
+					'end_date'=>date('Y-m-d'),
+					'status'=>-1,
+			);
+		}
+		$row = $db->getGeneralSaleInventory($search);
+		$this->view->sale = $row;
+		$this->view->search = $search;
+		$form=new Installment_Form_FrmSale();
+		$form=$form->searchSale();
+		Application_Model_Decorator::removeAllDecorator($form);
+		$this->view->form_search=$form;
+		
+		$key = new Application_Model_DbTable_DbKeycode();
+		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
+	}
+	function generalsaleinvoiceAction(){
+		$id=$this->getRequest()->getParam('id');
+		$id = empty($id)?0:$id;
+		$db  = new Report_Model_DbTable_DbInventory();
+		$row = $db->getGeneralsaleById($id);
+		if (empty($row)){
+			Application_Form_FrmMessage::Sucessfull("Don't have record","/report/installments/rptgeneralsale");
+		}
+		$this->view->sale = $row;
+		$this->view->saleDetail = $db->getGeneraldetailSaleById($id);
+	}
 }
 

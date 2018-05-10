@@ -719,5 +719,69 @@ GROUP BY l.product_id LIMIT 1) AS stockOutAmount,
    	$sql.=" ORDER BY `crm`.`id` DESC LIMIT 1";
    	return $db->fetchRow($sql);
    }
+   
+   
+   function getGeneralSaleInventory($search=null){
+   	$db= $this->getAdapter();
+   	$sql="
+	   	SELECT g.*,
+			(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = g.`branch_id` LIMIT 1) branchNamekh,
+			(SELECT c.name_kh FROM `ln_ins_client` AS c WHERE c.client_id = g.`customerId` LIMIT 1) AS name_kh,
+			(SELECT c.client_number FROM `ln_ins_client` AS c WHERE c.client_id = g.`customerId` LIMIT 1) AS client_number
+			 FROM `ln_ins_generalsale` AS g
+			 WHERE 1";
+	   	$from_date =(empty($search['start_date']))? '1': " g.`dateSold` >= '".$search['start_date']." 00:00:00'";
+	   	$to_date = (empty($search['end_date']))? '1': " g.`dateSold` <= '".$search['end_date']." 23:59:59'";
+	   	$sql.= " AND ".$from_date." AND ".$to_date;
+	   	if(!empty($search['adv_search'])){
+	   		$s_where = array();
+	   		$s_search = addslashes(trim($search['adv_search']));
+	   		$s_search = str_replace(' ', '',$s_search);
+	   		$s_where[] = "REPLACE(g.`saleNO`,' ','')  	LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(g.`total`,' ','')  LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(g.`paid`,' ','')  LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(g.`note`,' ','')  LIKE '%{$s_search}%'";
+	   		$sql .=' AND ( '.implode(' OR ',$s_where).')';
+	   	}
+	   	if(!empty($search['branch_id'])){
+	   		$sql.=" AND g.`branch_id`=".$search['branch_id'];
+	   	}
+// 	   	if(!empty($search['category'])){
+// 	   		$sql.=" AND p.cate_id=".$search['category'];
+// 	   	}
+	   	if(!empty($search['customer'])){
+	   		$sql.=" AND g.`customerId` =".$search['customer'];
+	   	}
+	   	$dbp = new Application_Model_DbTable_DbGlobal();
+	   	$sql.=$dbp->getAccessPermission('g.`branch_id`');
+	   	 
+	   	$sql.=" ORDER BY g.`id` DESC";
+	   	return $db->fetchAll($sql);
+   }
+   
+   function getGeneralsaleById($id){
+   	$db = $this->getAdapter();
+   	$sql="SELECT g.*,
+   	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = g.`branch_id` LIMIT 1) branchNamekh,
+	(SELECT c.name_kh FROM `ln_ins_client` AS c WHERE c.client_id = g.`customerId` LIMIT 1) AS name_kh,
+	(SELECT c.client_number FROM `ln_ins_client` AS c WHERE c.client_id = g.`customerId` LIMIT 1) AS client_number,
+	(SELECT c.phone FROM `ln_ins_client` AS c WHERE c.client_id = g.`customerId` LIMIT 1) AS phone,
+	(SELECT c.street FROM `ln_ins_client` AS c WHERE c.client_id = g.`customerId` LIMIT 1) AS street,
+	(SELECT c.house FROM `ln_ins_client` AS c WHERE c.client_id = g.`customerId` LIMIT 1) AS house,
+	(SELECT u.first_name FROM `rms_users` AS u WHERE u.id=g.`userId` LIMIT 1) AS first_name,
+	(SELECT u.last_name FROM `rms_users` AS u WHERE u.id=g.`userId` LIMIT 1) AS last_name
+   	FROM `ln_ins_generalsale` AS g
+   	WHERE g.id=$id";
+   	return $db->fetchRow($sql);
+   }
+   function getGeneraldetailSaleById($saleId){
+   	$db = $this->getAdapter();
+   	$sql="SELECT g.*,
+   	(SELECT p.item_name FROM `ln_ins_product` AS p WHERE p.id = g.`productID` LIMIT 1) AS item_name,
+   	(SELECT p.item_code FROM `ln_ins_product` AS p WHERE p.id = g.`productID` LIMIT 1) AS item_code
+   	FROM `ln_ins_generalsale_detail` AS g
+   	WHERE g.`saleId`=$saleId";
+   	return $db->fetchAll($sql);
+   }
 }
 

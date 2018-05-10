@@ -1,0 +1,73 @@
+<?php 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	echo $this->headTitle($tr->translate("GENERALSALES"));
+	$frm = $this->frm_search;
+	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	
+	$url_payment = $this->baseUrl()."/installment/payment/add/id/";
+	$url_schedule = $this->baseUrl()."/report/installments/saleschedule/id/";
+	$url_agreement = $this->baseUrl()."/report/installments/agreement/id/";
+	$url_receipt = $this->baseUrl()."/report/installments/generalsaleinvoice/id/";
+?>
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
+<script>
+	dojo.require("dijit.form.DateTextBox");
+	dojo.require("dojo.data.ItemFileWriteStore"); 
+</script>
+<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
+   <table width="100%">
+	   <tr>  
+	        <td><?php echo $frm->getElement("adv_search");?></td>
+	   		<td> <?php echo $frm->getElement('branch_id');?></td>
+	   		<td><?php echo $frm->getElement("member");?></td>
+	   </tr>
+	   <tr>
+	   		<td><?php echo $frm->getElement('start_date');?></td>
+	   		<td><?php echo $frm->getElement('end_date');?></td>
+	   		<td><?php echo $frm->getElement('status');?></td>
+	   		<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+	   </tr>
+	</table>
+</form>
+	<?php echo $this->list;?>
+<script>
+	function getmemberIdGroup(){
+		customer_code= dijit.byId('customer_code').get('value');
+		dijit.byId('member').attr('value',customer_code);
+	}
+	function checkMember(){
+		customer_code= dijit.byId('member').get('value');
+		dijit.byId('customer_code').attr('value',customer_code);
+	}	
+	var cate_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->rs_cate));?> );
+	dojo.ready(function(){		
+	});
+
+	var row=0;
+	var url="";
+	$(function(){
+		$.contextMenu({
+			selector: '.context-menu-one', 
+			callback: function(key, options) {
+			
+				var m = "clicked: " + key;
+				if(key=="receipt"){
+						url='<?php echo $url_receipt;?>';
+				}
+				gotoAction();
+				//window.console && console.log(m) || alert(m); 
+			},
+			items: {
+				"receipt": {name: "<?php echo $tr->translate("INVOICE");?>", icon: "fa-print"},
+			}
+		});
+	});
+	function setrowdata(index){
+		row = index;
+	}
+
+	var recordid ='';
+	function gotoAction(){
+		 window.open(url+row, '_blank');
+	}
+</script>
