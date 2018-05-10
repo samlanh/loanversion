@@ -14,37 +14,40 @@ class Rsvacl_UserController extends Zend_Controller_Action
     	defined('BASE_URL')	|| define('BASE_URL', Zend_Controller_Front::getInstance()->getBaseUrl());
     	
     	$db=new Application_Model_DbTable_DbGlobal();
-    	$sql = "SELECT u.user_type_id,u.user_type FROM `rms_acl_user_type` u where u.`status`=1";
-    	$results = $db->getGlobalDb($sql);
-		foreach ($results as $key => $r){
-			$this->user_typelist[$r['user_type_id']] = $r['user_type'];    
-		}		
+    	$sql = "SELECT u.user_type_id as id,u.user_type as name FROM `rms_acl_user_type` u where u.`status`=1";
+    	$this->user_typelist = $db->getGlobalDb($sql);
+// 		foreach ($results as $key => $r){
+// 			$this->user_typelist[$r['id']] = $r['name'];    
+// 		}		
     }
 
     public function indexAction()
     {
+		
 		$db_user=new Application_Model_DbTable_DbUsers();
                 
         $this->view->activelist =$this->activelist;       
         $this->view->user_typelist =$this->user_typelist;   
         $this->view->active =-1;
-        
-        $_data = array(
-        	'active'=>-1,
-        	'user_type'=>-1,
-        	'txtsearch'=>''
-        );
+       
         if($this->getRequest()->isPost()){     	
         	$_data=$this->getRequest()->getPost();
+        }else{
+        	$_data = array(
+        			'active'=>-1,
+        			'user_type'=>-1,
+        			'txtsearch'=>''
+        	);
         }
         $rs_rows = $db_user->getUserList($_data);
         $_rs = array();
         foreach ($rs_rows as $key =>$rs){
         	$_rs[$key] =array(
         	'id'=>$rs['id'],
+        	'branch_name'=>$rs['branch_name'],
         	'name'=>$rs['last_name'].' '.$rs['name'],
         	'user_name'=>$rs['user_name'],
-        	'user_type'=>$this->user_typelist[$rs['user_type']],
+        	'user_type'=>$rs['users_type'],
         	'status'=>$rs['status']);
         }
         $list = new Application_Form_Frmtable();
@@ -55,17 +58,20 @@ class Rsvacl_UserController extends Zend_Controller_Action
         else{
         	$result = Application_Model_DbTable_DbGlobal::getResultWarning();
         }
-        $collumns = array("LASTNAME_FIRSTNAME","USER_NAME","USER_TYPE","STATUS");
+        $collumns = array("BRANCH_NAME","LASTNAME_FIRSTNAME","USER_NAME","USER_TYPE","STATUS");
         $link=array(
         		'module'=>'rsvacl','controller'=>'user','action'=>'edit',
         );
-        $this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('user_name'=>$link,'name'=>$link));
+        $this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('user_type'=>$link,'branch_name'=>$link,'user_name'=>$link,'name'=>$link));
+    	$this->view->user_type = $_data['user_type'];
+    	$this->view->active = $_data['active'];
+    	$this->view->txtsearch = $_data['txtsearch'];
     }
     public function viewUserAction()
     {   
     	/* Initialize action controller here */
     	if($this->getRequest()->getParam('id')){
-    		$db = new RsvAcl_Model_DbTable_DbUser();
+    		$db = new Rsvacl_Model_DbTable_DbUser();
     		$user_id = $this->getRequest()->getParam('id');
     		$rs=$db->getUser($user_id);
     		//print_r($rs); exit;
@@ -80,7 +86,7 @@ class Rsvacl_UserController extends Zend_Controller_Action
 			
 			if($this->getRequest()->isPost())
 			{
-				$db=new RsvAcl_Model_DbTable_DbUser();	
+				$db=new Rsvacl_Model_DbTable_DbUser();	
 				$post=$this->getRequest()->getPost();			
 				if(!$db->isUserExist($post['username'])){
 					
@@ -111,7 +117,6 @@ class Rsvacl_UserController extends Zend_Controller_Action
 		
 			if($this->getRequest()->isPost()){
 				$userdata=$this->getRequest()->getPost();
-					
 				try {
 					$db = $db_user->insertUser($userdata);
 					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);
@@ -119,28 +124,43 @@ class Rsvacl_UserController extends Zend_Controller_Action
 					$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 				}
 			}
+			$db  = new Application_Model_DbTable_DbGlobal();
+			$this->view->rs_branch = $db->getAllBranchName();
+			
+			$user_type = $this->user_typelist;
+			$this->view->user_typelist =$user_type;
+			
+			array_unshift($user_type, array('id'=>-1,'name'=>'បន្ថែមថ្មី'));
+			$this->view->user_type = $user_type;
+			
 	}
 	public function editAction()
 	    {
 	        // action body
-	        $us_id = $this->getRequest()->getParam('id');
-	    	$us_id = (empty($us_id))? 0 : $us_id;
-	    	
-	        $db_user=new Application_Model_DbTable_DbUsers();
-	        $this->view->user_edit = $db_user->getUserEdit($us_id);
-	
-	        $this->view->user_typelist =$this->user_typelist;  
-	        
+	       $db_user=new Application_Model_DbTable_DbUsers();
 	    	if($this->getRequest()->isPost()){
 				$userdata=$this->getRequest()->getPost();	
 				
 				try {
 					$db = $db_user->updateUser($userdata);				
-					Application_Form_FrmMessage::Sucessfull('ការ​បញ្ចូល​​ជោគ​ជ័យ', self::REDIRECT_URL);		
+					Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS', self::REDIRECT_URL);		
 				} catch (Exception $e) {
 					$this->view->msg = 'ការ​បញ្ចូល​មិន​ជោគ​ជ័យ';
 				}
 			}
+			$us_id = $this->getRequest()->getParam('id');
+			$us_id = (empty($us_id))? 0 : $us_id;
+			
+			$this->view->user_edit = $db_user->getUserEdit($us_id);
+
+			$user_type = $this->user_typelist;
+			$this->view->user_typelist =$user_type;
+				
+			array_unshift($user_type, array('id'=>-1,'name'=>'បន្ថែមថ្មី'));
+			$this->view->user_type = $user_type;
+			
+			$db  = new Application_Model_DbTable_DbGlobal();
+			$this->view->rs_branch = $db->getAllBranchName();
     }
     
  
@@ -150,13 +170,11 @@ class Rsvacl_UserController extends Zend_Controller_Action
 		
 		if($session_user->user_id==$this->getRequest()->getParam('id') OR $session_user->level == 1){
 			$form = new RsvAcl_Form_FrmChgpwd();	
-			//echo $form->getElement('current_password'); exit;	
 			$this->view->form=$form;
-			//echo "Work"; exit; 
 			
 			if($this->getRequest()->isPost())
 			{
-				$db=new RsvAcl_Model_DbTable_DbUser();
+				$db=new Rsvacl_Model_DbTable_DbUser();
 				$user_id=$this->getRequest()->getParam('id');		
 				if(!$user_id) $user_id=0;			
 				$current_password=$this->getRequest()->getParam('current_password');

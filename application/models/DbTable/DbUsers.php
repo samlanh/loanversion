@@ -136,10 +136,10 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 		u.`last_name` ,
 		u.`first_name` AS name,
 		u.`user_name` ,
-		u.`user_type`,
+		(SELECT user_type FROM `rms_acl_user_type` WHERE user_type_id=u.user_type LIMIT 1) AS users_type,
+		(SELECT branch_namekh FROM `ln_branch` WHERE status=1 AND branch_namekh!='' AND br_id=u.branch_id) AS branch_name,
 		u.`active` as status
 		FROM `rms_users` AS u
-		
 		WHERE 1 ";
 		$orderby = " ORDER BY u.user_type DESC";
 		if(empty($search)){
@@ -194,6 +194,7 @@ class Application_Model_DbTable_DbUsers extends Zend_Db_Table_Abstract
 					u.`last_name`, 
 					u.`user_name`, 
 					u.`user_type`, 
+					branch_id,
 					u.`active`, 
 					u.`id` 
 					

@@ -2,16 +2,18 @@
 $this->headTitle('SRMS | User add page'); 
 echo $this->headTitle();
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
+$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 ?>
-
+<script src="<?php echo $baseurl;?>/js/help.js"></script>
 <script type="text/javascript">	
 	dojo.require("dijit.form.ValidationTextBox");
 	dojo.require('dijit.form.Form');	
 	dojo.require('dijit.form.Button');
 	dojo.require('dijit.form.FilteringSelect');
+	dojo.require('dijit.Dialog');
 </script>
 
-<form action="<?php echo $this->url(array('module'=>'user','controller'=>'index','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+<form action="<?php echo $this->url(array('module'=>'rsvacl','controller'=>'user','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	<script type="dojo/method" event="onSubmit">				
 			if(this.validate()) {
 				if(dojo.byId('password').value != dojo.byId('con_password').value ){
@@ -28,38 +30,38 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 			return false;
 	</script>
 		
-	<table cellspacing="20" style="margin: 0 auto; width: 500px">
+	<table cellspacing="20" style="margin: 0 auto; width: 600px">
 		<tr>
 			<td>
 				<fieldset>
-					<legend><strong>ព៌ត័មាន ទំនាក់ទំនង របស់​ អ្នក​គ្រប់​គ្រង</strong></legend>
+					<legend><strong>ព៌ត័មាន ទំនាក់ទំនង របស់​ អ្នក​ប្រើប្រាស់</strong></legend>
 					<table cellspacing="20" width="100%">
 						<tr>
 							<td align="center" valign="top">
 								<table cellspacing="5">
 									<tr>
-										<td>First Name</td>
+										<td><?php echo $tr->translate("FIRST_NAME");?></td>
 										<td width="250px">
 											<input type="text" required="true" name="first_name" id="first_name" placeholder="នាមខ្លួន" 
 											dojoType="dijit.form.ValidationTextBox" missingMessage="អ្នក​ភ្លេច​បំពេញ​ នាមខ្លួន!" class='fullside'/>
 										</td>
 									</tr>
 									<tr>
-										<td>Last Name</td>
+										<td><?php echo $tr->translate("LAST_NAME");?></td>
 										<td>
 											<input type="text" required="true" name="last_name" id="last_name" placeholder="នាម​ត្រកូល" 
 											dojoType="dijit.form.ValidationTextBox" missingMessage="អ្នក​ភ្លេច​បំពេញ​ នាម​ត្រកូល!" class='fullside'/>
 										</td>
 									</tr>
 									<tr>
-										<td>User Name</td>
+										<td><?php echo $tr->translate("USER_NAME");?></td>
 										<td>
 											<input type="text" required="true" name="user_name" id="user_name" placeholder="ឈ្នោះ​អ្នក​ប្រើ​ប្រាស់" 
 											dojoType="dijit.form.ValidationTextBox" missingMessage="អ្នក​ភ្លេច​បំពេញ​ ឈ្មោះ​អ្នក​ប្រើ​ប្រាស់!" class='fullside'/>
 										</td>
 									</tr>
 									<tr>
-										<td>Password</td>							
+										<td><?php echo $tr->translate("PASSWORD");?></td>							
 										<td>
 											<input type="password" required="true" name="password" id="password" placeholder="ពាក្យ​​សំងាត់" 
 											regExp="\w{6,}" invalidMessage="ពាក្យ​សំងាត់យ៉ាង​តិច មាន 6​ តួអក្សរ"
@@ -67,7 +69,7 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 										</td>
 									</tr>
 									<tr>
-										<td>Confirm Password</td>							
+										<td><?php echo $tr->translate("CONFIRM_PASSWORD");?></td>							
 										<td>
 											<input type="password" required="true" name="con_password" id="con_password" placeholder="បញ្ជាក់ពាក្យ​​សំងាត់" 
 											regExp="\w{6,}" invalidMessage="ពាក្យ​សំងាត់យ៉ាង​តិច មាន 6​ តួអក្សរ"
@@ -75,15 +77,19 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 										</td>
 									</tr>
 									<tr>
-										<td>User Type</td>
+										<td><?php echo $tr->translate("BRANCH");?></td>
 										<td>
-											<select onchange="disabledAgent(this.value);" name="user_type" class='fullside' required="true" id="user_type" 
-											 missingMessage="អ្នក​ភ្លេច​បំពេញ​  តំណែង!" dojoType="dijit.form.FilteringSelect"> 
-												<?php foreach ($this->user_typelist as $key => $ust) : ?>
-													<option value="<?php echo $key;?>"><?php echo $ust;?></option>
+											<select name="branch_id" class='fullside' required="true" id="branch_id" 
+											 missingMessage="អ្នក​ភ្លេច​បំពេញ​  សាខា" dojoType="dijit.form.FilteringSelect"> 
+												<?php foreach ($this->rs_branch as $key => $rs) : ?>
+													<option value="<?php echo $rs["br_id"];?>"><?php echo $rs['branch_namekh'];?></option>
 												<?php endforeach;?>																					
 											</select> 
 										</td>
+									</tr>	
+									<tr>
+										<td><?php echo $tr->translate("USER_TYPE");?></td>
+										<td><input id="user_type" /></td>
 									</tr>														
 								</table>
 							</td>							
@@ -96,9 +102,94 @@ $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 			<td colspan="2" align="center">
 			<input type="button" value="GO_BACK" label="<?php echo $tr->translate('GO_BACK');?>" id="back" dojoType="dijit.form.Button" 
 				iconClass="dijitIconUndo" onclick="window.location = '<?php echo $this->url(array('module'=>'rsvacl','controller'=>"user",'action'=>'index'),null,true); ?>';" />
-				<input type="submit" value="រក្សាទុក" label="<?php echo $tr->translate('SAVE');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+				<input type="submit" value="រក្សាទុក" label="<?php echo $tr->translate('GO_SAVE');?>" id="submitButton" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
 			</td>
 		</tr>
 	</table>	
-	<input type="hidden" id="agent" name="agent" value="0" />	
 </form>
+<div class="dijitHidden">
+	<div data-dojo-type="dijit.Dialog" style="width:500px;overflow-y:scroll;" id="popup_usertype" >
+		<form  id='frm_usertype' name='frm_usertype' dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+			<table cellspacing="15">
+				<tr>
+					<td><?php echo $tr->translate("USER_TYPE");?></td>
+					<td width="300px">
+						<input type="text" required="true" name="user_typename" id="user_typename" placeholder="User Type" 
+						dojoType="dijit.form.ValidationTextBox" value="<?php echo $this->usertype['user_type'];?>"
+						missingMessage="Invalid User type!" class='fullside'/>
+					</td>
+				</tr>
+				<tr>
+					<td><?php echo $tr->translate("PARENT");?></td>
+					<td>
+						<select class='fullside' id="parent_id"  name="parent_id" required="true" 
+						 missingMessage="Invalid Parent Name!" dojoType="dijit.form.FilteringSelect"> 
+						 	<?php if(!empty($this->user_typelist))foreach ($this->user_typelist as $key => $ust) : ?>
+								<option value="<?php echo $ust['id'];?>"><?php echo $ust['name'];?></option>
+							<?php endforeach;?>																															
+						</select> 
+					</td>
+				</tr>	
+				<tr>
+					<td colspan="2" align="center">
+						<input type="button" id="save_usertype" onclick="addUsrType();" value="រក្សាទុក" label="រក្សាទុក" dojoType="dijit.form.Button"  iconClass="dijitEditorIcon dijitEditorIconSave"/> 							
+					</td>
+				</tr>								
+			</table>
+		</form>
+	</div>
+</div>	
+<script>
+dojo.require("dojo.data.ObjectStore");
+dojo.require("dojo.data.ItemFileWriteStore");  
+
+var usertype_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->user_type));?> );
+dojo.ready(function(){
+	new dijit.form.FilteringSelect({
+		store: usertype_store,
+		autoComplete: true,                        
+		id: "user_type",
+		name: "user_type",
+		class: "fullside", 		
+		placeHolder:"Select User Type",          
+		onChange: function() {  
+			user_type = dijit.byId('user_type').get('value');
+			if(user_type==-1){
+				dijit.byId("popup_usertype").show();
+			}
+		}
+	}, "user_type");
+});
+
+function getpopupUsertype(){
+	user_type = dijit.byId("user_type").get("value");
+	if(user_type==-1){
+		dijit.byId("popup_usertype").show();
+	}
+}
+var url_addusertype = '<?php echo $this->url(array("module"=>"rsvacl","controller"=>"usertype","action"=>"addusertype")); ?>';
+function addUsrType(){
+	if(dijit.byId('frm_usertype').validate()){
+		dijit.byId('save_usertype').set('disabled',true);
+		dojo.xhrPost({
+			url:url_addusertype,
+			form: dojo.byId("frm_usertype"),
+			handleAs:"json",
+			load: function(data) {
+				var myNewItem = {					
+						id: data,
+						name: dijit.byId('user_typename').get('value')
+				};			
+				addDataToSelectbox(dijit.byId('user_type'), usertype_store, myNewItem, data);
+				dijit.byId("frm_usertype").reset();
+				dijit.byId("popup_usertype").hide();
+				dijit.byId('save_usertype').set('disabled',false);
+				
+			},
+			error: function(err) {
+				dijit.byId('save_usertype').set('disabled',false);
+			}
+		});
+   }
+}
+</script>
