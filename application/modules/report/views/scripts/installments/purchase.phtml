@@ -84,6 +84,10 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase"));
 			                    if(!empty($this->purchse)) 
 			                	foreach ($this->purchse as $key => $rs){ 
 				                	$gTotalPurchase = $gTotalPurchase + $rs["total_amount"];
+				                	$link = $this->baseUrl()."/report/installments/purchasedetail/id/";
+				                	if ($rs['type']==2){
+				                		$link = $this->baseUrl()."/report/installments/retailreceipt/id/";
+				                	}
 			                    ?>
 			                    <?php 
 			                    if ($location != $rs['branch_id']){
@@ -94,9 +98,9 @@ echo $this->headTitle($tr->translate("Report Inventory Purchase"));
 			                    <?php }$location = $rs['branch_id'];?>
 				                <tr class="style hover" style="line-height:20px; ">
 				               		<td style="font-size: 12px; text-align: center;">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
-				               		<td style="font-size: 12px;">&nbsp;&nbsp;<a class="repLink" target="_blank" href="<?php echo $this->baseUrl()."/report/installments/purchasedetail/id/".$rs["id"];?>"><?php echo $rs["invoice_no"];?></a></td>
-				               		<td style="font-size: 12px;">&nbsp;&nbsp;<a class="repLink" target="_blank" href="<?php echo $this->baseUrl()."/report/installments/purchasedetail/id/".$rs["id"];?>"><?php echo $rs["supplier_no"];?></a></td>
-				               		<td style="font-size: 12px;">&nbsp;&nbsp;<a class="repLink" target="_blank" href="<?php echo $this->baseUrl()."/report/installments/purchasedetail/id/".$rs["id"];?>"><?php echo $rs["sup_name"];?></a></td>
+				               		<td style="font-size: 12px;">&nbsp;&nbsp;<a class="repLink" target="_blank" href="<?php echo $link.$rs["id"];?>"><?php echo $rs["invoice_no"];?></a></td>
+				               		<td style="font-size: 12px;">&nbsp;&nbsp;<a class="repLink" target="_blank" href="<?php echo $link.$rs["id"];?>"><?php echo $rs["supplier_no"];?></a></td>
+				               		<td style="font-size: 12px;">&nbsp;&nbsp;<a class="repLink" target="_blank" href="<?php echo $link.$rs["id"];?>"><?php echo $rs["sup_name"];?></a></td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["tel"];?>&nbsp;</td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["email"];?>&nbsp;</td>
 				               		<td align="right">&nbsp;<?php echo number_format($rs["total_amount"],2);?>&nbsp;</td>

@@ -362,14 +362,23 @@ public function getIlPaymentNumber(){
     }
     function getRemainSchedule($loan_id){
     	$db = $this->getAdapter();
+//     	$sql="SELECT *
+//    				FROM
+// 	   				`ln_loan_detail` AS d
+//    				WHERE 
+//    					d.amount_paidprincipal=0
+//    					AND d.`is_completed` = 0
+//    					AND d.status=1
+//    				 	AND d.`loan_id` = $loan_id ORDER BY date_payment ASC ";
     	$sql="SELECT *
-   				FROM
-	   				`ln_loan_detail` AS d
-   				WHERE 
-   					d.amount_paidprincipal=0
-   					AND d.`is_completed` = 0
-   					AND d.status=1
-   				 	AND d.`loan_id` = $loan_id ORDER BY date_payment ASC ";
+    	FROM
+    	`ln_ins_sales_installdetail` AS d
+    	WHERE
+    	d.`is_completed` = 0
+    	AND d.status=1
+    	AND d.`sale_id` = $loan_id ORDER BY date_payment ASC ";
+    	//     	d.amount_paidprincipal=0
+    	//     	AND
     	return $db->fetchRow($sql);
     	
     }
