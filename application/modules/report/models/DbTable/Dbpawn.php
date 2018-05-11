@@ -1087,7 +1087,7 @@ public function getALLLoanPayoff($search=null){
 				FROM 
 					(`ln_pawnshop_detail` `d`
 				   JOIN `ln_pawnshop` AS `l`,
-				   `ln_client` `c` )
+				   `ln_clientsaving` `c` )
 				WHERE (`c`.`client_id` = `l`.`customer_id`
 					   AND(`l`.`id` = `d`.`pawn_id`)      
 				       AND (`d`.`status` = 1)

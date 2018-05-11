@@ -29,7 +29,7 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 			$glClass = new Application_Model_GlobalClass();
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECEIPT","PAWN_AMOUNT","TERM_BORROW",
+			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECEIPT","PAWN_AMOUNT","PAWNSHOP_DURATION",
 					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","BY_USER","STATUS");
 			//"DACH_PRODUCT","PAYMENT_RECEIPT","ADD_PAYMENT",
 			$link_info=array('module'=>'pawnshop','controller'=>'index','action'=>'edit',);

@@ -9,13 +9,13 @@ class Installment_Model_DbTable_DbRetailPurchase extends Zend_Db_Table_Abstract
     }
     function getAllSupPurchase($search=null){
     	$db = $this->getAdapter();
-    	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-    	$RECEIPT = $tr->translate("RECEIPT");
+//     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+//     	$RECEIPT = $tr->translate("RECEIPT");,'$RECEIPT'
     	$sql=" SELECT sp.id,
     	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = sp.`branch_id` LIMIT 1) AS branch_namekh,
     	sp.invoice_no, s.`supplier_no`,s.sup_name,
     	 s.tel,s.`email`,sp.total_amount,sp.date,
-    	 sp.status,'$RECEIPT'
+    	 sp.status
 	    FROM 
 		ln_ins_supplier AS s,
 		ln_ins_purchase AS sp
@@ -45,7 +45,7 @@ class Installment_Model_DbTable_DbRetailPurchase extends Zend_Db_Table_Abstract
     	}
     	
     	$dbp = new Application_Model_DbTable_DbGlobal();
-    	$sql.=$dbp->getAccessPermission('branch_id');
+    	$sql.=$dbp->getAccessPermission('sp.branch_id');
     	$order=" ORDER BY id DESC";
     	return $db->fetchAll($sql.$order);
     }
