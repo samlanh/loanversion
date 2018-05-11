@@ -6,7 +6,9 @@ table tr td input{height:28px;}
 , dijitReset , .dijitRight , .dijitButtonNode , .dijitArrowButton , .dijitDownArrowButton , .dijitArrowButtonContainer{height: 28px;}
 .dijitArrowButtonInner ,.dijitIconSearch{margin-top:6px !important;}
 fieldset table{width:100%;}
-
+.dijit.dijitReset.dijitInline.dijitButton .dijitButtonNode {
+    height: 34px;
+}
 fieldset th.tdheader{background:url("../images/tbheader-bg1.jpg") repeat-x scroll center top #F1F1F1;border:1px solid #CCCCCC;color:#333333;
 font-size:12px;
 font-weight:bold;line-height:20px;padding:5px;
