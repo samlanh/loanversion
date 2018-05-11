@@ -726,7 +726,9 @@ var pawnId = '<?php echo $this->id;?>';
 require(["dojo/ready"], function(ready){
 	 ready(function(){
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
+		<?php if ($this->leveluser==1){?>
 		dijit.byId('branch_id').attr('value',1);
+		<?php }?>
 		dijit.byId("total_amount").set('readOnly',true);
 		dijit.byId("member").set('readOnly',true);
 		dijit.byId("customer_code").set('readOnly',true);
@@ -745,6 +747,7 @@ require(["dojo/ready"], function(ready){
 			total_loanamount  = deposit+loan_fee;
 			dijit.byId("total_amount").attr("value",total_loanamount);
 		});
+		filterClient();
 		
 	});
 	

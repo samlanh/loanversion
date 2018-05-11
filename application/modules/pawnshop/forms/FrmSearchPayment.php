@@ -6,6 +6,11 @@ Class Pawnshop_Form_FrmSearchPayment extends Zend_Dojo_Form {
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function AdvanceSearch ($data=null){
+		
+		$session_user=new Zend_Session_Namespace('authloan');
+		$currentBranch = $session_user->branch_id;
+		$currentlevel = $session_user->level;
+		
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		//$db = new Loan_Model_DbTable_DbGroupPayment();
 		
@@ -17,14 +22,24 @@ Class Pawnshop_Form_FrmSearchPayment extends Zend_Dojo_Form {
 		
 		$branch = new Zend_Dojo_Form_Element_FilteringSelect("branch_id");
 		$branch->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect'));
-		$opt_branch = array(-1=>'ជ្រើសរើស សាខា');
+		$opt_branch = array(-1=>$this->tr->translate("SELECT_BRANCH_NAME"));
 		$dbs = new Application_Model_DbTable_DbGlobal();
 		$rows = $dbs->getAllBranchName();
 			if(!empty($rows))foreach($rows AS $row){
 				$opt_branch[$row['br_id']]=$row['branch_namekh'];
 			}
 		$branch->setMultiOptions($opt_branch);
-		$branch->setValue($request->getParam("branch_id"));
+		//$branch->setValue($request->getParam("branch_id"));
+		
+		//Set Value Current Branch
+		if ($currentlevel!=1){
+			$branch->setValue($currentBranch);
+			$branch->setAttribs(array(
+					'readonly'=>true
+			));
+		}else{
+			$branch->setValue($request->getParam("branch_id"));
+		}
 		
 		$advnceSearch = new Zend_Dojo_Form_Element_TextBox("advance_search");
 		$advnceSearch->setAttribs(array('class'=>'fullside'

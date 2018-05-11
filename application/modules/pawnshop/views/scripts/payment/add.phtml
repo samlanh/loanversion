@@ -1,8 +1,9 @@
 <?php
-	$this->headTitle('Pawn Shop Payment'); 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('Pawn Shop Payment')); 
 	echo $this->headTitle();
 	$frm = $this->frm_ilpayment;
-	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
 	$graiceperiod = $this->graiceperiod;
@@ -22,9 +23,22 @@
 	    dojo.require("dojo.data.ItemFileWriteStore"); 
 		dojo.require("dojo.data.ObjectStore");
    </script>
-<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'payment','action'=>'add')); ?>" 
-     dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-<script type="dojo/method" event="onSubmit">
+<style>
+	.center tr{text-align:left;}
+	fieldset{padding:10px;}
+	.mainblog{background: #b0ccff;
+    border-radius: 2px;
+    padding: 5px;
+    border: 1px solid #2761ca;}
+</style>
+<div class="overlay">
+	<div class="overlay-load">
+		<div class="overlay-msg">
+	    </div>
+	</div>
+</div>
+<form id='frm_add_group_pay' action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'payment','action'=>'add')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
+	<script type="dojo/method" event="onSubmit">
 			if(this.validate()) {
 				
                	branch_id = dijit.byId('branch_id').get('value');
@@ -52,139 +66,124 @@
 		}else {
 			return false;
 		}
-</script>
-
-<div class="overlay">
-	<div class="overlay-load">
-		<div class="overlay-msg">
-	    </div>
-	</div>
-</div>	
-<style>
-.center tr{text-align:left;}
-fieldset{padding:10px;}
-.mainblog{background: #b0ccff;
-    border-radius: 2px;
-    padding: 5px;
-    border: 1px solid #2761ca;}
-</style>
+	</script>
 <fieldset style="background: #e0ebff">
-<table width="100%" >
- <legend class="mainblog"><strong><?php echo $tr->translate("PAWN_PAYMENT");?></strong></legend>
-	<tr>
-		<td width="33%;" valign="top">
-		<fieldset>
-		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
-			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			    <tr>
-					<td><?php echo $tr->translate("BRANCH_NAME")?></td>
-					<td><?php echo $frm->getElement('branch_id');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("PAWN_CODE");?></td>
-					<td><input dojoType="dijit.form.TextBox" class="fullside" id="pawn_number" name="pawn_number" type="hidden"><input id="loan_number" /></td>
-			    </tr>
-			    <tr>
-					<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
-					<td><input id="client_id"></td>
-				</tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("CLIENT_NUM")?></td>
-					<td><input id="client_code"></td>
-				</tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("LOAN_DATE")?></td>
-					<td><?php echo $frm->getElement('release_date');echo $frm->getElement('old_release_date');?></td>
-			    </tr>
-			</table>
-		</fieldset>	
-		</td>
-		<td width="33%;" valign="top">
-		<fieldset>
-		     <legend align="center"><strong><?php echo $tr->translate('CUSTOMER_INFO');?></strong></legend>
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			 	<tr>
-				 	<td><?php echo $tr->translate("ប្រភេទ​​ទ្រព្យដាក់បញ្ចាំ")?></td>
-					<td><?php echo $frm->getElement('product_id');?></td>
-			    </tr>
-				<tr>
-					<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
-					<td><?php echo $frm->getElement('load_level');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("LOAN_PERIOD")?></td>
-					<td><?php echo $frm->getElement('loan_period');?></td>
-				</tr>
-			</table>
-		</fieldset>
-		</td>
-		<td width="33%;" valign="top">
-		<fieldset>
-		     <legend align="center"><strong><?php echo $tr->translate('TERM_INSTALL');?></strong></legend>
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-				<tr>
-					<td><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
-					<td><?php echo $frm->getElement('total_amount_loan');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("INTEREST_RATE")?></td>
-					<td><?php  echo $frm->getElement('interest_rate');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate("CURRENCY")?></td>
-					<td><?php echo $frm->getElement('currency_type');?></td>
-				</tr>
-				<tr>
-					<td width="144"><?php echo $tr->translate('START_DATE');?></td>
-					<td width="210"><?php echo $frm->getElement('start_date');?></td>
-				</tr>
-				<tr>
-					<td><?php echo $tr->translate('END_DATE');?></td>
-					<td><?php  echo $frm->getElement('end_date');?></td>    
-				</tr>
-			</table>
-		</fieldset>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="6" style="border-bottom:1px solid #ccc;    background: none repeat scroll 0 0 #bbcff3;"><strong><?php echo $tr->translate("AMOUNT_BEFORE_CACULATE")?></strong></td>
-	</tr>
-	<tr>
-		<td width="33%;" valign="top">
-		<fieldset>
-		     <legend align="center"><strong><?php echo $tr->translate('RECIEPT_INFO');?></strong></legend>
-			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-			    <tr>
-					<td><?php echo $tr->translate("RECIEPT_NO")?></td>
-					<td><?php echo $frm->getElement('reciept_no');?></td>
-			    </tr>
-			     <tr>
-			    	<td><?php echo $tr->translate("បានបង់ពីមុនសរុប")?></td>
-					<td align="left"><?php echo $frm->getElement('paid_before');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("PRINCIPLE")?></td>
-					<td align="left"><?php echo $frm->getElement('priciple_amount');?></td>
-			    </tr>
-			     <tr>
-			    	<td><?php echo $tr->translate("បង់លើកទី")?></td>
-					<td align="left"><?php echo $frm->getElement('installment_no');?></td>
-			    </tr>
-			     <tr>
-			    	<td><?php echo $tr->translate("ថ្ងៃត្រូវបង់")?></td>
-					<td align="left"><?php echo $frm->getElement('payment_date');?></td>
-			    </tr>
-			    <tr>
-			    	<td><?php echo $tr->translate("ថ្ងៃគិតចាប់ពី")?></td>
-					<td align="left"><?php echo $frm->getElement('last_payment');?></td>
-			    </tr>
-			     <tr>
-			    	<td><?php echo $tr->translate("យឺត")?></td>
-					<td align="left"><?php echo $frm->getElement('amount_late');?></td>
-			    </tr>
-			</table>
-		</fieldset>	
-		</td>
+	<table width="100%" >
+ 		<legend class="mainblog"><strong><?php echo $tr->translate("PAWN_PAYMENT");?></strong></legend>
+			<tr>
+				<td width="33%;" valign="top">
+					<fieldset>
+					     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
+						<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						    <tr>
+								<td><?php echo $tr->translate("BRANCH_NAME")?></td>
+								<td><?php echo $frm->getElement('branch_id');?></td>
+						    </tr>
+						    <tr>
+						    	<td><?php echo $tr->translate("PAWN_CODE");?></td>
+								<td><input dojoType="dijit.form.TextBox" class="fullside" id="pawn_number" name="pawn_number" type="hidden"><input id="loan_number" /></td>
+						    </tr>
+						    <tr>
+								<td><?php echo $tr->translate("CUSTOMER_NAME")?></td>
+								<td><input id="client_id"></td>
+							</tr>
+						    <tr>
+						    	<td><?php echo $tr->translate("CLIENT_NUM")?></td>
+								<td><input id="client_code"></td>
+							</tr>
+						    <tr>
+						    	<td><?php echo $tr->translate("LOAN_DATE")?></td>
+								<td><?php echo $frm->getElement('release_date');echo $frm->getElement('old_release_date');?></td>
+						    </tr>
+						</table>
+					</fieldset>	
+				</td>
+				<td width="33%;" valign="top">
+					<fieldset>
+					     <legend align="center"><strong><?php echo $tr->translate('CUSTOMER_INFO');?></strong></legend>
+						 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						 	<tr>
+							 	<td><?php echo $tr->translate("ប្រភេទ​​ទ្រព្យដាក់បញ្ចាំ")?></td>
+								<td><?php echo $frm->getElement('product_id');?></td>
+						    </tr>
+							<tr>
+								<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
+								<td><?php echo $frm->getElement('load_level');?></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("LOAN_PERIOD")?></td>
+								<td><?php echo $frm->getElement('loan_period');?></td>
+							</tr>
+						</table>
+					</fieldset>
+				</td>
+				<td width="33%;" valign="top">
+					<fieldset>
+					     <legend align="center"><strong><?php echo $tr->translate('TERM_INSTALL');?></strong></legend>
+						 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+							<tr>
+								<td><?php echo $tr->translate("TOTAL_AMOUNT")?></td>
+								<td><?php echo $frm->getElement('total_amount_loan');?></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("INTEREST_RATE")?></td>
+								<td><?php  echo $frm->getElement('interest_rate');?></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate("CURRENCY")?></td>
+								<td><?php echo $frm->getElement('currency_type');?></td>
+							</tr>
+							<tr>
+								<td width="144"><?php echo $tr->translate('START_DATE');?></td>
+								<td width="210"><?php echo $frm->getElement('start_date');?></td>
+							</tr>
+							<tr>
+								<td><?php echo $tr->translate('END_DATE');?></td>
+								<td><?php  echo $frm->getElement('end_date');?></td>    
+							</tr>
+						</table>
+					</fieldset>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="6" style="border-bottom:1px solid #ccc;    background: none repeat scroll 0 0 #bbcff3;"><strong><?php echo $tr->translate("AMOUNT_BEFORE_CACULATE")?></strong></td>
+			</tr>
+			<tr>
+				<td width="33%;" valign="top">
+					<fieldset>
+					     <legend align="center"><strong><?php echo $tr->translate('RECIEPT_INFO');?></strong></legend>
+						<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+						    <tr>
+								<td><?php echo $tr->translate("RECIEPT_NO")?></td>
+								<td><?php echo $frm->getElement('reciept_no');?></td>
+						    </tr>
+						     <tr>
+						    	<td><?php echo $tr->translate("បានបង់ពីមុនសរុប")?></td>
+								<td align="left"><?php echo $frm->getElement('paid_before');?></td>
+						    </tr>
+						    <tr>
+						    	<td><?php echo $tr->translate("PRINCIPLE")?></td>
+								<td align="left"><?php echo $frm->getElement('priciple_amount');?></td>
+						    </tr>
+						     <tr>
+						    	<td><?php echo $tr->translate("បង់លើកទី")?></td>
+								<td align="left"><?php echo $frm->getElement('installment_no');?></td>
+						    </tr>
+						     <tr>
+						    	<td><?php echo $tr->translate("ថ្ងៃត្រូវបង់")?></td>
+								<td align="left"><?php echo $frm->getElement('payment_date');?></td>
+						    </tr>
+						    <tr>
+						    	<td><?php echo $tr->translate("ថ្ងៃគិតចាប់ពី")?></td>
+								<td align="left"><?php echo $frm->getElement('last_payment');?></td>
+						    </tr>
+						     <tr>
+						    	<td><?php echo $tr->translate("យឺត")?></td>
+								<td align="left"><?php echo $frm->getElement('amount_late');?></td>
+						    </tr>
+						</table>
+					</fieldset>	
+				</td>
 		<td width="33%;" valign="top">
 		<fieldset>
 		     <legend align="center"><strong><?php echo $tr->translate('PAYMENT_OPTION');?></strong></legend>
@@ -709,7 +708,9 @@ dojo.ready(function(){
 			getLaonPayment(1);
 		}
 	});
+	<?php if ($this->leveluser==1){?>
 	dijit.byId("branch_id").attr("value",1);
+	<?php }?>
 	rsid ='<?php echo $this->rsid;?>';	
 	if(rsid>0){
 		dijit.byId("branch_id").attr("value",<?php echo $this->rsloan['branch_id'];?>);
@@ -759,6 +760,8 @@ dojo.ready(function(){
 	loan_number = dijit.byId('loan_number').focus();
 	dijit.byId('currency_type').attr('readOnly','readOnly');
 	dijit.byId('interest_rate').attr('readOnly','readOnly');
+	filterLoanNumber();
+	filterClient();
 });
 function payOption(){
 	calculateTotal();

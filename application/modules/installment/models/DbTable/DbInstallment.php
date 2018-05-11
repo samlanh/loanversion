@@ -96,6 +96,10 @@ public function getAllSale($search,$reschedule =null){
 		if(($search['selling_type'])>0){
 			$where.= " AND l.selling_type=".$search['selling_type'];
 		}
+		
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.=$dbp->getAccessPermission('l.branch_id');
+		
 		$order = " ORDER BY l.id DESC";
 		$db = $this->getAdapter();
 		return $db->fetchAll($sql.$where.$order);

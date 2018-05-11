@@ -1750,8 +1750,9 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
 	  
 	  	}
 	  	$result =  $db->fetchAll($sql);
+	  	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	  	if($opt!=null){
-	  		$options=array(''=>"Select Customer");
+	  		$options=array(''=>$tr->translate("Choose Customer"));
 	  		if(!empty($result))foreach($result AS $row){
 	  			$options[$row['id']]= $row['name'];
 	  		}

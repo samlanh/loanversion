@@ -1,8 +1,8 @@
 <?php
-	$this->headTitle('Edit IL Payment'); 
+	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate('Edit Pawn Shop Payment')); 
 	echo $this->headTitle();
 	$frm = $this->frm_ilpayment;
-	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$base_url = Application_Form_FrmMessage::getUrl("/");
 	$graiceperiod = $this->graiceperiod;

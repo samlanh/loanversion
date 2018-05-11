@@ -6,6 +6,10 @@
 	
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	echo $this->frmpupopinfoclient;
+	
+	$session_user=new Zend_Session_Namespace('authloan');
+	$currentBranch = $session_user->branch_id;
+	$currentlevel = $session_user->level;
 ?>
 <div class="overlay">
 	<div class="overlay-load">
@@ -37,8 +41,8 @@
 						   <tr>
 								<td width="150px"><?php echo $tr->translate("BRANCH_NAME")?></td>
 								<td>
-									<select dojoType="dijit.form.FilteringSelect" name="branch_id" id="branch_id" onchange="getProductByBranch()" class="fullside" >
-										<option value="">select branch</option>
+									<select <?php if ($currentlevel!=1){ echo 'readonly="readonly"';}?> dojoType="dijit.form.FilteringSelect" name="branch_id" id="branch_id" onchange="getProductByBranch()" class="fullside" >
+										<option value=""><?php echo $tr->translate('Choose Customer');?></option>
 										<?php if(!empty($this->branch)){foreach ($this->branch as $branch){?>
 										<option value="<?php echo $branch['id']?>" <?php if($branch['id']==$this->row['branch_id']){echo "selected='selected'";}?>><?php echo $branch['name']?></option>
 										<?php }}?>

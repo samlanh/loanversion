@@ -461,6 +461,8 @@ WHERE (`lg`.`g_id` = `g`.`group_id`)
 		if($search['currency_type']>0){
 		     $where.=" AND `l`.`currency_type` = ".$search['currency_type'];
 		}
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.=$dbp->getAccessPermission('`l`.`branch_id`');
 		$order = " GROUP BY `l`.`id`
 	      ORDER BY `l`.`currency_type` ";
 		return $db->fetchAll($sql.$where.$order);

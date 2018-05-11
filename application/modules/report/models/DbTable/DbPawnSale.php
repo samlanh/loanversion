@@ -46,7 +46,8 @@ class Report_Model_DbTable_DbPawnSale extends Zend_Db_Table_Abstract
         if($search['status']>-1){
         	$where .= " and ps.status = ".$search['status'];
         }
-        
+        $dbp = new Application_Model_DbTable_DbGlobal();
+        $where.=$dbp->getAccessPermission('ps.branch_id');
         
         $order_by = " ORDER BY ps.id DESC ";
     	return $db->fetchAll($sql.$where.$order_by);

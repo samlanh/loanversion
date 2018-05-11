@@ -85,7 +85,7 @@ table {page-break-inside:auto }
 	              	foreach ($this->loantotalcollect_list as $index => $rs){
 	              		if ($client_id!=$rs["client_id"]) {
 	              		?>
-	              	<tr style="background: #9999A2">
+	              	<tr style="background: #eaedf5">
 	              		<td colspan="14" class="style">
 	              		<?php 
 	              			
@@ -191,46 +191,7 @@ table {page-break-inside:auto }
 					<td colspan="2">&nbsp;<?php echo number_format($service_charge_r,2);?>&nbsp;</td>
 					<td colspan="4">&nbsp;<?php echo number_format($principle_r+$interst_r+$penalize_r+$service_charge_r,2);?>&nbsp;</td>
                 </tr>
-                <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
-                    <td colspan="2">&nbsp;<?php echo $tr->translate("BATH");?></td>
-                    <td colspan="2">&nbsp;<?php echo number_format($principle_b,2);?>&nbsp;</td>
-                    <td colspan="2">&nbsp;<?php echo number_format($interst_b,2);?>&nbsp;</td>
-                    <td colspan="2">&nbsp;<?php echo number_format($penalize_b,2);?>&nbsp;</td>
-					<td colspan="2">&nbsp;<?php echo number_format($service_charge_b,2);?>&nbsp;</td>
-					<td colspan="4">&nbsp;<?php echo number_format($principle_b+$interst_b+$penalize_b+$service_charge_b,2);?>&nbsp;</td>
-                </tr>
-				 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
-                    <td colspan="2">&nbsp;<?php echo $tr->translate("BATH");?></td>
-                    <td colspan="2">&nbsp;<?php echo number_format($principle_b,2);?>&nbsp;</td>
-                    <td colspan="2">&nbsp;<?php echo number_format($interst_b,2);?>&nbsp;</td>
-                    <td colspan="2">&nbsp;<?php echo number_format($penalize_b,2);?>&nbsp;</td>
-					<td colspan="2">&nbsp;<?php echo number_format($service_charge_b,2);?>&nbsp;</td>
-					<td colspan="4">&nbsp;<?php echo number_format($principle_b+$interst_b+$penalize_b+$service_charge_b,2);?>&nbsp;</td>
-                </tr>
-				 <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
-                    <td colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?></td>
-                    <td colspan="2">&nbsp;<?php echo number_format($principle_d,2);?>&nbsp;</td>
-                    <td colspan="2">&nbsp;<?php echo number_format($interst_d,2);?>&nbsp;</td>
-                    <td colspan="2">&nbsp;<?php echo number_format($penalize_d,2);?>&nbsp;</td>
-					<td colspan="2">&nbsp;<?php echo number_format($service_charge_d,2);?>&nbsp;</td>
-					<td colspan="4">&nbsp;<?php echo number_format($principle_d+$interst_d+$penalize_d+$service_charge_d,2);?>&nbsp;</td>
-                </tr>
-                <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
-                    <td colspan="2">&nbsp;<?php echo $tr->translate("REILS");?></td>
-                    <td colspan="2">&nbsp;<?php echo number_format($principle_r,2);?>&nbsp;</td>
-                    <td colspan="2">&nbsp;<?php echo number_format($interst_r,2);?>&nbsp;</td>
-                    <td colspan="2">&nbsp;<?php echo number_format($penalize_r,2);?>&nbsp;</td>
-					<td colspan="2">&nbsp;<?php echo number_format($service_charge_r,2);?>&nbsp;</td>
-					<td colspan="4">&nbsp;<?php echo number_format($principle_r+$interst_r+$penalize_r+$service_charge_r,2);?>&nbsp;</td>
-                </tr>
-                <tr class="style" style=" line-height: 24px; font-size:11px;font-family: 'Khmer OS Content';">
-                    <td colspan="2">&nbsp;<?php echo $tr->translate("BATH");?></td>
-                    <td colspan="2">&nbsp;<?php echo number_format($principle_b,2);?>&nbsp;</td>
-                    <td colspan="2">&nbsp;<?php echo number_format($interst_b,2);?>&nbsp;</td>
-                    <td colspan="2">&nbsp;<?php echo number_format($penalize_b,2);?>&nbsp;</td>
-					<td colspan="2">&nbsp;<?php echo number_format($service_charge_b,2);?>&nbsp;</td>
-					<td colspan="4">&nbsp;<?php echo number_format($principle_b+$interst_b+$penalize_b+$service_charge_b,2);?>&nbsp;</td>
-                </tr>
+                
             </table>
               <br />
                <table align="center" width="100%">

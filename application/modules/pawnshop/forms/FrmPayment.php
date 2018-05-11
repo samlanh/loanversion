@@ -6,6 +6,11 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function FrmAddPayment($data=null){		
+		
+		$session_user=new Zend_Session_Namespace('authloan');
+		$currentBranch = $session_user->branch_id;
+		$currentlevel = $session_user->level;
+		
 		$db = new Application_Model_DbTable_DbGlobal();		
 		$old_penelize = new Zend_Form_Element_Hidden("old_penelize");
 		$old_penelize->setAttribs(array(
@@ -137,11 +142,18 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		));
 		
 		$rows = $db->getAllBranchName();
-		$options=array(''=>'--------Select----------');
+		$options=array(''=>$this->tr->translate("SELECT_BRANCH_NAME"));
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['br_id']]=$row['branch_namekh'];
 		}
 		$_branch_id->setMultiOptions($options);
+		//Set Value Current Branch
+		if ($currentlevel!=1){
+			$_branch_id->setValue($currentBranch);
+			$_branch_id->setAttribs(array(
+					'readonly'=>true
+			));
+		}
 		
 		$_priciple_amount = new Zend_Dojo_Form_Element_NumberTextBox('more_interest');
 		$_priciple_amount->setAttribs(array(

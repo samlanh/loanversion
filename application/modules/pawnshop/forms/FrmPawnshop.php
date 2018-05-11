@@ -6,6 +6,9 @@ public function init()
 		$this->tr = Application_Form_FrmLanguages::getCurrentlanguage();
 	}
 	public function FrmAddLoan($data=null){
+		$session_user=new Zend_Session_Namespace('authloan');
+		$currentBranch = $session_user->branch_id;
+		$currentlevel = $session_user->level;
 		
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		$_title = new Zend_Dojo_Form_Element_TextBox('adv_search');
@@ -158,12 +161,23 @@ public function init()
 		));
 		
 		$rows = $db->getAllBranchName();
-		$options=array(''=>'---Select Branch---');
+		$options=array(''=>$this->tr->translate("Choose Branch"));
 			if(!empty($rows))foreach($rows AS $row){
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}
 		$_branch_id->setMultiOptions($options);
-		$_branch_id->setValue($request->getParam("branch_id"));
+// 		$_branch_id->setValue($request->getParam("branch_id"));
+		
+		//Set Value Current Branch
+		if ($currentlevel!=1){
+			$_branch_id->setValue($currentBranch);
+			$_branch_id->setAttribs(array(
+					'readonly'=>true
+			));
+		}else{
+			$_branch_id->setValue($request->getParam("branch_id"));
+		}
+		
 		
 		$_repayment_method = new Zend_Dojo_Form_Element_FilteringSelect('repayment_method');
 		$_repayment_method->setAttribs(array(
@@ -182,7 +196,7 @@ public function init()
 				'class'=>'fullside',
 				'onchange'=>'calCulatePeriod()'
 		));
-		$options=array(-1=>"Select Product");
+		$options=array(-1=>$this->tr->translate("SELECT_PRODUCT"));
 		$rows = $db->getAllProduct();
 		if(!empty($rows))foreach($rows AS $row){
 			$options[$row['id']]=$row['product_kh'];

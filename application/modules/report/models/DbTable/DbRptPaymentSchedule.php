@@ -41,6 +41,8 @@ class Report_Model_DbTable_DbRptPaymentSchedule extends Zend_Db_Table_Abstract
     	,(SELECT co_khname FROM `ln_co` WHERE co_id = lg.co_id ) AS co_khname, m.status 
     	    FROM `ln_loan_member` AS m,`ln_loan_group` AS lg,`ln_client` AS c 
     		WHERE lg.g_id = m.group_id AND c.client_id = m.client_id ";
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->getAccessPermission('lg.`branch_id`');
     	$Other =" ORDER BY member_id DESC ";
     	
     	return $db->fetchAll($sql.$Other); 

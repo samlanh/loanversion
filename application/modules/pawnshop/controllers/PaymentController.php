@@ -91,6 +91,8 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 		
 		$session_user=new Zend_Session_Namespace('authloan');
 		$this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+		$this->view->leveluser = $session_user->level;
+		
 		$this->view->loan_number = $db_global->getPawnAccountNumber(1);
 		$id = $this->getRequest()->getParam('id');
 		if(!empty($id)){

@@ -55,6 +55,8 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
 	    	
 	    	$where .=' AND ('.implode(' OR ',$s_where).')';
     	}
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.=$dbp->getAccessPermission('ps.branch_id');
     	$order=" ORDER BY ps.id DESC";
     	return $db->fetchAll($sql.$where.$order);
     }

@@ -50,7 +50,8 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     	if($search['branch_id']>0){
     		$where.=" AND cm.`branch_id`= ".$search['branch_id'];
     	}
-    	
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.=$dbp->getAccessPermission('cm.`branch_id`');
     	$order = " ORDER BY id DESC ";
     	return $db->fetchAll($sql.$where.$order);
     }

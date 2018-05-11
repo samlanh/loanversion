@@ -87,6 +87,7 @@ class Pawnshop_RescheduleController extends Zend_Controller_Action {
 	    
 	    $session_user=new Zend_Session_Namespace('authloan');
 	    $this->view->user_name = $session_user->last_name .' '. $session_user->first_name;
+	    $this->view->leveluser = $session_user->level;
 	    
 	    $key = new Application_Model_DbTable_DbKeycode();
 	    $this->view->data=$key->getKeyCodeMiniInv(TRUE);

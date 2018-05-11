@@ -124,6 +124,9 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 			$where.=" AND village_id= ".$search['village'];
 		}
 		$where.=" AND client_type = 1 ";
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.=$dbp->getAccessPermission('branch_id');
+		
 		$order=" ORDER BY client_id DESC";
 		return $db->fetchAll($sql.$where.$order);	
 	}

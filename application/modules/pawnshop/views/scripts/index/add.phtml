@@ -799,7 +799,9 @@ var product_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::
 require(["dojo/ready"], function(ready){
 	 ready(function(){
 		setFirstPaymentAndDateLine(3,<?php echo date('d-m-Y');?>,1);
+		<?php if ($this->leveluser==1){?>
 		dijit.byId('branch_id').attr('value',1);
+		<?php }?>
 		dijit.byId('currency_type').attr('value',2);
 		dijit.byId("receipt_num").set("readOnly",true);
 	});

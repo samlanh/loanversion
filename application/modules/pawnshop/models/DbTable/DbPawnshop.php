@@ -56,6 +56,8 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	if(($search['product_id'])>0){
     		$where.= " AND product_id=".$search['product_id'];
     	}
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$where.=$dbp->getAccessPermission('branch_id');
  	   $order=" ORDER BY id DESC";
     	$db = $this->getAdapter();    
     	return $db->fetchAll($sql.$where.$order);
