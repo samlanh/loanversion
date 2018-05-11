@@ -29,7 +29,7 @@ dojo.require("dijit.form.DateTextBox");
 <div id="divPrint" style="width: 100%;">
 <style>
 .style{
-	line-height: 20px;font-size: 10px !important;
+	line-height: 20px;font-size: 12px !important;
 	font-family: 'Khmer OS Battambang';
 }
 .styleover:hover{ background: #ccc; }
@@ -60,34 +60,21 @@ table { page-break-inside:auto }
                 </td>
                     <td width="20%"></td>
                 </tr> 
-                <tr>
-                	<td colspan="3">
-                		<table width="100%">
-                			<tr class='style'>
-                				<td class="style" style="font-size:11px;">
-                					<?php echo $tr->translate("ADDRESS_COMPANY");?>
-									<br /><?php echo $tr->translate("TEL_COMPANY");?>
-                				</td>
-                				<td width="65%"></td>
-                			</tr>
-		                </table>
-		              </td>
-		           </tr>   
             </table>
         </td>
     </tr>
     <tr>
     	<td id="exportExcel">
-            <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:10px; white-space: nowrap;" width="100%" cellspacing="0">
+            <table  border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px; white-space: nowrap;" width="100%" cellspacing="0">
                  <thead>
                  <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; border:1px solid #000; background:#ccd9ff; line-height: 20px; font-size:10px; padding:5px 0px; ">
                     <th style="padding:5px 0px;"><?php echo $tr->translate("NUM");?></th>
                     <th style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
-                    <th style="padding:5px 0px;"><?php echo $tr->translate("EXPENTITLETITLE");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("DESCRIPTION");?></th>
                     <th style="padding:5px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></th>
-					<th style="padding:5px 0px;"><?php echo $tr->translate("Invoice No.");?></th>
-                    <th style="padding:5px 0px;"><?php echo $tr->translate("​AMT_PAY");?></th>
-                    <th style="padding:5px 0px;"><?php echo $tr->translate("EXPENSE_DATE");?></th>
+					<th style="padding:5px 0px;"><?php echo $tr->translate("INVOICE");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("TOTAL_EXPENSE");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("DATE");?></th>
                     <th style="padding:5px 0px;"><?php echo $tr->translate("NOTE");?></th>
                 </tr>
                 </thead>
