@@ -292,7 +292,14 @@ class Application_Model_GlobalClass  extends Zend_Db_Table_Abstract
 		}
 		public function getAllBranchOption(){
 			$db = new Application_Model_DbTable_DbGlobal();
-	        $rows = $db->getAllBranchName(null,null);
+			$session_user=new Zend_Session_Namespace('authloan');
+			$currentBranch = $session_user->branch_id;
+			$currentlevel = $session_user->level;
+			$branch = null;
+			if ($currentlevel!=1){
+				$branch =$currentBranch;
+			}
+	        $rows = $db->getAllBranchName($branch,null);
 			//array_unshift($rows, array('client_id'=>-1,'name_en'=>"Add New"));
 			$options = '';
 // 			print_r($rows);exit();

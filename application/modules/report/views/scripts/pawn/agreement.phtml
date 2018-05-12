@@ -89,7 +89,7 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 						 			<td colspan="3">
 						 				<p style="text-align:center; text-decoration: underline; font-size:18px; padding-right:5px;"><strong>កិច្ចសន្យានេះធ្វើឡើងរវាង</strong></p>
 						 				<p style="text-align: left;">
-						 					<span id="padding-left"><strong><?php echo $data['client_company_name'];?></strong></span> សាខា បាត់ដំបង ដែលតំណាងស្របច្បាប់ដោយលោក ង៉ែត ម៉ង់ តួនាទី ប្រធានសាខា មានអាសយដ្ឋាននៅ<?php echo $data['branch-add-client'];?> (ដែលតទៅនេះហៅថា<strong>”អ្នកឲ្យខ្ចី”</strong>)។
+						 					<span id="padding-left"><strong><?php echo $data['client_company_name'];?></strong></span> សាខា បាត់ដំបង ដែលតំណាងស្របច្បាប់ដោយលោក ង៉ែត ម៉ង់ តួនាទី ប្រធានសាខា មានអាសយដ្ឋាននៅ<?php echo $pawnShop['br_address'];//echo $data['branch-add-client'];?> (ដែលតទៅនេះហៅថា<strong>”អ្នកឲ្យខ្ចី”</strong>)។
 						 				</p>
 						 				<p style="text-align: left;">
 						 					<span id="padding-left">ក្នុងករណី ភាគី “ខ” ខកខាន ឈ្មោះ</span><span class="value border_bt" style="min-width: 100px;"><?php echo $client['name_kh'];//echo ($client['displayby']==1)? $client['name_kh']: $client['name_en'] ;?></span>ភេទ<span class="value border_bt" style="min-width: 20px;"><?php echo $client['sexKH'];//echo ($client['displayby']==1)? $client['sexKH']: $client['sexEN'] ;?></span>សញ្ជាតិ<span class="value border_bt" style="min-width: 30px;">ខ្មែរ<?php //echo $sale['catName'];?></span>ថៃ្ងខែឆ្នាំកំណើត<span class="value border_bt" style="min-width: 50px;"><?php echo date("d",strtotime($client['dob']))." ".$month[date("m",strtotime($client['dob']))]." ".date("Y",strtotime($client['dob']));?></span>

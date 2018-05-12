@@ -139,7 +139,8 @@ public function init()
 		if($this->getRequest()->isPost()){
 			$post=$this->getRequest()->getPost();
 			$db = new Installment_Model_DbTable_DbProduct();
-			$result =$db->getallProductbycate($post['category_id']);
+// 			$result =$db->getallProductbycate($post['category_id']);
+			$result =$db->getallProductbycate($post);
 			print_r(Zend_Json::encode($result));
 			exit();
 		}

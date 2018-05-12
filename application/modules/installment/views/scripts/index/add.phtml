@@ -618,18 +618,23 @@ require(["dojo/ready"], function(ready){
 var url_getproduct = '<?php echo $this->url(array('module'=>'installment','controller'=>'product','action'=>'getproductbycate')); ?>';
 function getAllProduct(){
 	category_id = dijit.byId("category_id").get("value");
+	branch_id = dijit.byId('branch_id').get('value');
 	if(category_id<0){
       return false;
+	}
+	if(branch_id<0){
+	      return false;
 	}
 	dojo.xhrPost({
 		url:url_getproduct,	
 		content:{ 
-		    'category_id':category_id
+		    'category_id':category_id,'branch_id':branch_id
 		},		    
 		handleAs:"json",
 		load: function(data) {
 			pro_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('product_name').set('store', pro_store);
+		    dijit.byId('product_name').reset();
 		},
 		error: function(err) {
 		}

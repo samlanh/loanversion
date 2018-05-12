@@ -86,6 +86,9 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 		$this->_name ="ln_pawnshop";
 		$sql = " SELECT s.*,
 			(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch,
+			(SELECT branch_nameen FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch_nameen,
+			(SELECT br_address FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS br_address,
+			(SELECT branch_tel FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch_tel,
 			(SELECT name_kh FROM `ln_clientsaving` WHERE client_id = s.customer_id LIMIT 1) AS client_name_kh,
 			CONCAT(release_amount,(SELECT symbol FROM `ln_currency` WHERE id =s.currency_type LIMIT 1)) AS amountWithCurrency,
 			(SELECT curr_namekh FROM `ln_currency` WHERE id = s.currency_type LIMIT 1) AS currencyType,

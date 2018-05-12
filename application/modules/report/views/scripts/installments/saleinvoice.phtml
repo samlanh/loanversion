@@ -48,7 +48,7 @@ $gender=array(
 							  </td>
 							  <td align="center" valign="top" width="60%" ><span style="color: blue;">ព្រះរាជាណាចក្រកម្ពុជា<br>
 							  ជាតិ សាសនា ព្រះមហាក្សត្រ</span><br>
-							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span style="color: red; font-size: 16px;">ហាងម៉ូតូ យុក សុខហួង</span>
+							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span style="color: red; font-size: 16px;"><?php echo $rs['branch_nameen'];?></span>
 							  </td>
 							  <td align="center" valign="top" width="20%" ><span><img src="<?php echo $this->baseUrl()?>/images/honda_dream_2017.png" style="width: 80%;"></span>
 							  </td>
@@ -60,11 +60,14 @@ $gender=array(
 										<tr style="text-align:center; line-height:20px; font-size:12px; font-family:'Khmer OS Muol Light';" >
 											 <td align="left" valign="top" width="20%" >
 												<span><img src="<?php echo $this->baseUrl()?>/images/honda_motorycles_st_blazey_mx.png" style="width: 70%; margin-top: 0px;"></span>
+												<?php $phonsse = explode(",", $rs['branch_tel']);
+												$coutnPhon = count($phonsse);
+												?>
 												<div>
 													<label style="line-height: 12px; font-size:12px; color: red;">
-													<span style="white-space:nowrap;">Tel:&nbsp;012 72 74 04</span><br>
-													<span style="white-space:nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0888 72 74 04</span><br>
-													<span style="white-space:nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;095 75 38 44</span>
+													<?php if (!empty($phonsse)) foreach ($phonsse as $key => $s){?>
+													<span style="white-space:nowrap;"><?php if ($key==0){?>Tel:&nbsp;<?php }else{?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php }?><?php echo $s;?></span><?php if ($coutnPhon == ($key+1)){?><br><?php }?>
+													<?php }?>
 													</label>
 												</div>
 											 </td>
@@ -80,7 +83,7 @@ $gender=array(
 												<table  style=" text-align: left; width:100%;">
 													<tr>
 														<td width="35%" valign="top" style="line-height: 16px; font-size:12px; color: red;" >
-															<span>អាស័យដ្ឋាន: ភូមិស្លរក្រាម <br />សង្កាត់ស្លរក្រាម ក្រុងសៀមរាប <br /> ស្ពានហ្រ្គងអូតែល, ផ្លូវមាត់ស្ទឹង (ខាងកើតសណ្ឋាគារអាម៉ាន់សារ៉ា)</span>
+															<span>អាស័យដ្ឋាន: <?php echo $rs['br_address'];?></span>
 														</td>
 														<td align="center" valign="top"><span style="color: blue; font-size: 14px; text-decoration: underline; font-family: 'Khmer OS Muol Light';">វិក័យប័ត្រ<br />INVOICE</span></td>
 														<td width="35%" valign="top">
