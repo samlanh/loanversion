@@ -87,10 +87,11 @@ input.btn_borwse_image {
 				amount_loan = dijit.byId('total_amount').get('value');
 				if(amount_loan<10000){
 					alert('Loan Amount Must Than 10000 for Riel Currency!');
+					return false;
                 }
 
             }
-      		dijit.byId('save_close').set('disabled',true); 
+      		 dijit.byId('save_close').set('disabled',true); 
 			 dijit.byId('save_view').set('disabled',true); 
 				return true;
 			}else {

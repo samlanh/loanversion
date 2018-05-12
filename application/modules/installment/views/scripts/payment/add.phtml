@@ -235,9 +235,9 @@ fieldset{padding:10px;}
 	</tr>
 		<tr>
 			<td align="center" colspan="3">
-			  <input type="submit" onclick="submitDataClose();" value="រក្សាទុក & បិទ" label="<?php echo $tr->translate('SAVECLOSE');?>" id="save_close" name="save_close" dojoType="dijit.form.Button"
+			  <input type="submit" value="រក្សាទុក & បិទ" label="<?php echo $tr->translate('SAVECLOSE');?>" id="save_close" name="save_close" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" />
-			   <input type="submit" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVEPRINT');?>" id="saveprint"  name="saveprint" dojoType="dijit.form.Button" 
+			   <input type="submit" value="រក្សាទុក & បោះពុម្ព" label="<?php echo $tr->translate('SAVE_PRINT');?>" id="saveprint"  name="saveprint" dojoType="dijit.form.Button" 
 			   iconClass="dijitEditorIcon dijitEditorIconPrint" />
 			    <input type="button" name="save_new" id="save_new" onclick="confirmBeforePrint();" value="រក្សាទុក" label="<?php echo $tr->translate('SAVENEW');?>" dojoType="dijit.form.Button"
 			   iconClass="dijitEditorIcon dijitEditorIconSave" />
@@ -637,6 +637,7 @@ dojo.ready(function(){
 	});
 	
 	rsid ='<?php echo $this->rsid;?>';	
+	
 	if(rsid>0){
 		dijit.byId("branch_id").attr("value",<?php echo $this->rsloan['branch_id'];?>);
 		dijit.byId("loan_number").attr("value",<?php echo $this->rsloan['id'];?>);
@@ -694,6 +695,7 @@ function getAllClientByBranch(branch_id){
 		load: function(data) {
 			client_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('client_id').set('store', client_store);
+		    dijit.byId("client_id").attr("value",'<?php echo $this->rsloan['customer_id'];?>');
 		},
 		error: function(err) {
 		}
@@ -710,6 +712,7 @@ function getAllClientNumberByBranch(branch_id){
 		load: function(data) {
 			client_number_store  = getDataStorefromJSON('id','name', data);		
 		    dijit.byId('client_code').set('store', client_number_store);
+		    dijit.byId("client_code").attr("value",<?php echo $this->rsloan['customer_id'];?>);
 		},
 		error: function(err) {
 		}

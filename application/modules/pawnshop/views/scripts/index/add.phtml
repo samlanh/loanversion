@@ -79,8 +79,9 @@ input.btn_borwse_image {
 			currency_type = dijit.byId('currency_type').get('value');
 			if(currency_type==1){
 				amount_loan = dijit.byId('total_amount').get('value');
-				if(amount_loan<10000){
-					alert('Loan Amount Must Than 10000 for Riel Currency!');
+				if(amount_loan<100000){
+					alert('Loan Amount Must Than 100000 for Riel Currency!');
+					return false;
                 }
 
             }
@@ -724,6 +725,7 @@ function submitDataClose(type){
 		amount_loan = dijit.byId('total_amount').get('value');
 		if(amount_loan<10000){
 			alert('កម្ចីជាលុយរៀល ត្រូវតែធំជា 1ម៉ឺនរៀល!');
+			return false;
         }
     }
 	if(dijit.byId('frm_add_tran').validate()) {

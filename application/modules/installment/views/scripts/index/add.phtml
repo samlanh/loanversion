@@ -32,6 +32,15 @@
 				dijit.byId('member').focus();
 				return false;
 			}
+  				selling_type = dijit.byId('selling_type').get('value');
+				interest_rate = dijit.byId('interest_rate').get('value');
+				duration = dijit.byId('duration').get('value');
+
+				if(selling_type==2 && interest_rate<=0 && duration<=0){
+					alert("រំលស់ អាត្រាការប្រាក់និង រយៈពេលត្រូវតែធំជាងសូន្យ");
+					dijit.byId('duration').focus();
+					return false;
+				}
 				dijit.byId('savenew').set('disabled',true);
 			    dijit.byId('saveclose').set('disabled',true);
 				return true;
@@ -158,11 +167,11 @@
 				 <table style="margin: 0 auto; width: 100%;text-align: left;white-space: nowrap;" cellspacing="5"  >
 					 	 <tr>
 					 		<td><?php echo $tr->translate('INTEREST_RATE');?></td>
-					 		<td><input onkeyup="setDefaultPaymentAmount();" dojoType="dijit.form.NumberTextBox" class="fullside"  name="interest_rate" id="interest_rate" ></td>
+					 		<td><input onkeyup="setDefaultPaymentAmount();" dojoType="dijit.form.NumberTextBox" class="fullside"  name="interest_rate" id="interest_rate" required="1" value="0"></td>
 					 	</tr>
 					 	<tr>
 					 		<td><?php echo $tr->translate('INSTALLMENT_DURATION')." (".$tr->translate('MONTH').")";?></td>
-					 		<td><input onkeyup="setDefaultPaymentAmount();calCulateFirstPayment();" dojoType="dijit.form.NumberTextBox" class="fullside"  name="duration" id="duration" ></td>
+					 		<td><input onkeyup="setDefaultPaymentAmount();calCulateFirstPayment();" dojoType="dijit.form.NumberTextBox" class="fullside"  name="duration" id="duration" required="1" value="0" ></td>
 					 	</tr>
 					 	<tr>
 					    	<td><strong><?php echo $tr->translate("REPAYMENT_TYPE")?></strong></td>
@@ -437,6 +446,15 @@ function calCulateBalane(){
 }
 function showInvoice(){
 	if(dijit.byId('frm_add_tran').validate()) {
+		selling_type = dijit.byId('selling_type').get('value');
+		interest_rate = dijit.byId('interest_rate').get('value');
+		duration = dijit.byId('duration').get('value');
+
+		if(selling_type==2 && interest_rate<=0 && duration<=0){
+			alert("រំលស់ អាត្រាការប្រាក់និង រយៈពេលត្រូវតែធំជាងសូន្យ");
+			dijit.byId('duration').focus();
+			return false;
+		}
 		dojo.byId('LBinvoice').innerHTML=dijit.byId('sale_no').get('value');
 		dojo.byId('LBDescription').innerHTML=dijit.byId('product_name').attr('displayedValue');
 		dojo.byId('LBModel').innerHTML=dijit.byId('category_id').attr('displayedValue');
@@ -807,6 +825,15 @@ function addPreviewLoan(){
 			dijit.byId('member').focus();
 			return false;
 		}
+		selling_type = dijit.byId('selling_type').get('value');
+		interest_rate = dijit.byId('interest_rate').get('value');
+		duration = dijit.byId('duration').get('value');
+
+		if(selling_type==2 && interest_rate<=0 && duration<=0){
+			alert("រំលស់ អាត្រាការប្រាក់និង រយៈពេលត្រូវតែធំជាងសូន្យ");
+			dijit.byId('duration').focus();
+			return false;
+		}
 		loading();
 		dojo.xhrPost({
 		    url: url_previewloan,	
@@ -887,7 +914,16 @@ function submitDataClose(type){
 		dijit.byId('member').focus();
 		return false;
 	}
-	if(dijit.byId('frm_add_tran').validate()) {
+	if(dijit.byId('frm_add_tran').validate()){
+		selling_type = dijit.byId('selling_type').get('value');
+		interest_rate = dijit.byId('interest_rate').get('value');
+		duration = dijit.byId('duration').get('value');
+
+		if(selling_type==2 && interest_rate<=0 && duration<=0){
+			alert("រំលស់ អាត្រាការប្រាក់និង រយៈពេលត្រូវតែធំជាងសូន្យ");
+			dijit.byId('duration').focus();
+			return false;
+		}
 		dijit.byId('saveprint').set('disabled',true);
 		dijit.byId('saveclose').set('disabled',true);
 		dijit.byId('save_close').set('disabled',true);

@@ -473,7 +473,8 @@ GROUP BY l.product_id LIMIT 1) AS stockOutAmount,
 		   FROM `ln_ins_receipt_money` `crm`
 		   WHERE (`l`.`id` = `crm`.`loan_id`)
 		   ORDER BY `crm`.`date_input` DESC
-		   LIMIT 1) AS `last_pay_date`
+		   LIMIT 1) AS `last_pay_date`,
+		   	(SELECT inp.item_name FROM `ln_ins_product` AS inp WHERE inp.id = l.`product_id` LIMIT 1) AS item_name
 		
 		FROM 
 		`ln_ins_sales_install` AS l,
@@ -538,7 +539,8 @@ GROUP BY l.product_id LIMIT 1) AS stockOutAmount,
 	   	WHERE (`l`.`id` = `crm`.`loan_id`)
 	   	ORDER BY `crm`.`date_input` DESC
 	   	LIMIT 1) AS `last_pay_date`,
-	   	 COUNT(l.`id`) AS amount_late
+	   	 COUNT(l.`id`) AS amount_late,
+	   	 (SELECT inp.item_name FROM `ln_ins_product` AS inp WHERE inp.id = l.`product_id` LIMIT 1) AS item_name
 	   	
 	   	FROM
 	   	`ln_ins_sales_install` AS l,
