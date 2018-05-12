@@ -764,28 +764,16 @@ public function previewschedule($data){
 		Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
 	}
 }
-// function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//group id
-// 	$sql = " SELECT
-// 	l.id,l.branch_id,l.level,l.co_id,l.zone_id,l.pay_term,l.date_release,l.status,
-// 	l.total_duration,l.first_payment,l.time_collect,l.holiday,l.date_line,
-// 	l.other_fee,l.holiday,l.collect_typeterm,l.currency_type,l.graice_period,
-// 	l.loan_number,l.interest_rate,l.amount_collect_principal,
-// 	l.customer_id,(l.admin_fee) AS admin_fee,
-// 	(SELECT name_kh FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
-// 	(SELECT name_en FROM `ln_client` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,
-// 	(l.loan_amount) AS total_capital,l.interest_rate,l.payment_method,
-// 	l.time_collect,
-// 	l.zone_id,
-// 	(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
-// 	l.status AS str ,l.status FROM `ln_loan` AS l
-// 	WHERE l.loan_type = $loan_type AND l.status=1 AND is_badloan=0 ";
+function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//group id
+	$sql = " SELECT * FROM `ln_ins_sales_install` AS l
+	WHERE l.status=1  ";
 // 	if($is_newschedule!=null){
 // 	$where=" AND l.is_reschedule = 2 ";
 // }
-// $where = " AND l.id = $id ";
-// 	$where.=" LIMIT 1 ";
-// 	return $this->getAdapter()->fetchRow($sql.$where);
-// }
+	$where = " AND l.id = $id ";
+	$where.=" LIMIT 1 ";
+	return $this->getAdapter()->fetchRow($sql.$where);
+}
 public function getLoanviewById($id){
 	$sql = "SELECT
 				l.id

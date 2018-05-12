@@ -104,7 +104,7 @@ class Installment_PaymentController extends Zend_Controller_Action {
 		if(!empty($id)){
 			if(empty($id)){$id=0;}
 			$this->view->rsid=$id;
-			$db = new Loan_Model_DbTable_DbLoandisburse();
+			$db = new Installment_Model_DbTable_DbInstallment();
 			$this->view->rsloan =  $db->getTranLoanByIdWithBranch($id,1);
 		}
 	}	
@@ -252,7 +252,7 @@ class Installment_PaymentController extends Zend_Controller_Action {
 			exit();
 		}
 	}
-	function getAllIlLoanDetailAction(){
+	function getallpaymentAction(){//tab2
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
 			$db = new Installment_Model_DbTable_DbInstallmentPayment();
@@ -261,12 +261,12 @@ class Installment_PaymentController extends Zend_Controller_Action {
 			exit();
 		}
 	}
-	function getLoanHasPayByLoanNumberAction(){
+	function getschedulepaidAction(){//tab3
 		if($this->getRequest()->isPost()){
 			$data = $this->getRequest()->getPost();
 			$db = new Installment_Model_DbTable_DbInstallmentPayment();
 			$loan_number = $data["loan_number"];
-			$row = $db->getLaonHasPayByLoanNumber($loan_number);
+			$row = $db->getloanschedulepaid($loan_number);
 			print_r(Zend_Json::encode($row));
 			exit();
 		}

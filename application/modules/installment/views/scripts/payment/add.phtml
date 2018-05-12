@@ -571,8 +571,8 @@ dojo.ready(function(){
 			class: 'fullside',
 			onChange: function() {
 				getLaonPayment(1);//tab1
-				//getAllLaonPayment(1);//tab2
-				//getLaonHasPayByLoanNumber();//tab3
+				getAllLaonPayment(1);//tab2
+				getLaonHasPayByLoanNumber();//tab3
 				dijit.byId("amount_receive").focus();
 			}
 		}, "loan_number");
@@ -635,11 +635,13 @@ dojo.ready(function(){
 			getLaonPayment(1);
 		}
 	});
-	dijit.byId("branch_id").attr("value",1);
+	
 	rsid ='<?php echo $this->rsid;?>';	
 	if(rsid>0){
 		dijit.byId("branch_id").attr("value",<?php echo $this->rsloan['branch_id'];?>);
 		dijit.byId("loan_number").attr("value",<?php echo $this->rsloan['id'];?>);
+		dijit.byId("client_id").attr("value",'<?php echo $this->rsloan['customer_id'];?>');
+		dijit.byId("client_code").attr("value",<?php echo $this->rsloan['customer_id'];?>);
 	}
 	
 });
@@ -808,7 +810,6 @@ function getLaonPayment(type){//tab ទី1
 							getdataPaymentToForm(respone[i]);
 							is_set=1;
 						}
-						
 						if(pay_option==1){
 								date = new Date(respone[i].date_payment);
 								date_now = new Date();
@@ -845,7 +846,7 @@ function getLaonPayment(type){//tab ទី1
 				tem+='</table>';
 				dojo.byId('data_table').innerHTML = tem;
 				calculateTotal();
-				 document.getElementsByClassName("overlay")[0].style.display="none";
+				document.getElementsByClassName("overlay")[0].style.display="none";
 			},
 			error: function(e) {
 				alert('error'+e);
@@ -857,6 +858,7 @@ function getLaonPayment(type){//tab ទី1
 }
 function getdataPaymentToForm(data){//គណនាថ្ងៃយឺតអោយត្រូវគ្រប់ករណី
 	is_change = 1;
+	
 	dijit.byId('client_id').attr('value',data.client_id);
 	principal_paid = data.principal_paid;
 	principal_paid = (principal_paid==null)?0:principal_paid;
@@ -1000,14 +1002,14 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 	}catch(err){
 	}
 }
-function getAllLaonPayment(type){//tabl2 
+function getAllLaonPayment(type){//tab2 
 	types=1;
 	var loan_numbers = dijit.byId('loan_number').get('value');
-	var url_submits = '<?php echo $this->url(array('module'=>'loan','controller'=>'payment','action'=>'get-all-il-loan-Detail')); ?>';
+	var url_submits = '<?php echo $this->url(array('module'=>'installment','controller'=>'payment','action'=>'getallpayment')); ?>';
 	dojo.xhrPost({
 	    url: url_submits,
 	    content : { 
-		    'loan_numbers':loan_numbers,
+		    'loan_number':loan_numbers,
 		    'types':types,
 		},	
 		handleAs:"json",
@@ -1034,9 +1036,9 @@ function getAllLaonPayment(type){//tabl2
 					 tmp+= '<tr>';
 					    tmp += '<td>&nbsp;'+nums+'</td>';
 					   	tmp += '<td style="white-space: nowrap;">&nbsp;'+data[j].date_payments+'&nbsp;</td>';
-						tmp += '<td>&nbsp;'+dojo.number.format(data[j].principle_after)+'&nbsp;</td>';
-					    tmp += '<td>&nbsp;'+dojo.number.format(data[j].total_interest_after)+'&nbsp;</td>';
-					    tmp += '<td>&nbsp;'+dojo.number.format(data[j].total_payment_after)+'&nbsp;</td>';
+						tmp += '<td>&nbsp;'+dojo.number.format(data[j].principal_permonth)+'&nbsp;</td>';
+					    tmp += '<td>&nbsp;'+dojo.number.format(data[j].total_interest)+'&nbsp;</td>';
+					    tmp += '<td>&nbsp;'+dojo.number.format(data[j].total_payment)+'&nbsp;</td>';
 						if(data[j].is_completed==1){
 							statuss = '<label style="color:blue;"><?php echo $tr->translate('COMPLETED');?></label>';
 							if(data[j].is_approved==1){is_apprs='<label style="color:blue;">Approved</label>';}
@@ -1060,7 +1062,7 @@ function getLaonHasPayByLoanNumber(){//ប្រវត្តិបង់//tab3
 	try{
 		amount_completed=0;
 		var loan_number = dijit.byId('loan_number').get('value');
-		var url_submits = '<?php echo $this->url(array('module'=>'loan','controller'=>'payment','action'=>'get-loan-has-pay-by-loan-number')); ?>';
+		var url_submits = '<?php echo $this->url(array('module'=>'installment','controller'=>'payment','action'=>'getschedulepaid')); ?>';
 			dojo.xhrPost({
 			    url: url_submits,
 			    content : { 
@@ -1078,7 +1080,6 @@ function getLaonHasPayByLoanNumber(){//ប្រវត្តិបង់//tab3
 					+'<th class="tdheader"><?php echo $tr->translate('PAID_PRINCIPAL');?></th>'
 					+'<th class="tdheader"><?php echo $tr->translate('INTEREST');?></th>'
 					+'<th class="tdheader"><?php echo $tr->translate('PENALIZE');?></th>'
-					+'<th class="tdheader"><?php echo $tr->translate('SERVICE_CHARGE');?></th>'
 					+'<th class="tdheader"><?php echo $tr->translate('RECEIVE_AMOUNT');?></th>'
 					+'</thead>';
 					nums=0;
@@ -1088,7 +1089,7 @@ function getLaonHasPayByLoanNumber(){//ប្រវត្តិបង់//tab3
 							statuss='<label style="color:red;"><?php echo $tr->translate('NOT_COMPLETED');?></label>';
 							++nums;
 							var is_apprs="";
-							total_pay = parseFloat(data_loan[k].total_principal_permonth)+parseFloat(data_loan[k].total_interest)+parseFloat(data_loan[k].service_charge)+parseFloat(data_loan[k].penalize_amount);
+							total_pay = parseFloat(data_loan[k].total_principal_permonth)+parseFloat(data_loan[k].total_interest)+parseFloat(data_loan[k].penalize_amount);
 							temp+= '<tr>';
 								temp += '<td>&nbsp;'+nums+'</td>';
 								temp += '<td>&nbsp;'+data_loan[k].receipt_no+'&nbsp;</td>';
@@ -1098,7 +1099,6 @@ function getLaonHasPayByLoanNumber(){//ប្រវត្តិបង់//tab3
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].principal_paid)+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].interest_paid)+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].penalize_paid)+'&nbsp;</td>';
-								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].service_paid)+'&nbsp;</td>';
 								temp += '<td>&nbsp;'+dojo.number.format(data_loan[k].total_paymentpaid)+'&nbsp;</td>';
 								if(data_loan[k].is_completed==1){
 									statuss = '<label style="color:blue;"><?php echo $tr->translate('COMPLETED');?></label>';

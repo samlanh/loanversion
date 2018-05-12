@@ -419,34 +419,30 @@ public function getIlPaymentNumber(){
    }
    
    function getAllLoanPaymentByLoanNumber($data){
-//    	$db = $this->getAdapter();
-//    	$loan_number= $data['loan_numbers'];
+   	$db = $this->getAdapter();
+   	$loan_number= $data['loan_number'];
    	
-//    	$where = 'l.`id`='."'".$loan_number."'";
-//    	$sql ="SELECT
-// 				   	l.`id`,
-// 				   	lc.`client_number`,
-// 				   	lc.`name_kh`,
-// 				   	l.`loan_number`,
-// 					l.`currency_type`,
-//    					l.`branch_id`,
-//    					l.`collect_typeterm`,
-//    					l.`co_id`,
-//    					l.`payment_method`,
-//    					d.*,
-//    					DATE_FORMAT(d.date_payment, '%d-%m-%Y') AS `date_payments`
-//    					FROM
-//    					 `ln_client` AS lc,
-//    					 `ln_loan` AS l,
-//    					 `ln_loan_detail` AS d
-//    					  WHERE 
-//    					  l.`id`=d.`loan_id`
-//    					  AND l.`customer_id`=lc.`client_id`
-//    					  AND l.`status`=1
-//    					  AND l.`loan_type`=1
-//    					  AND d.`status`=1
-//    					  AND $where";   
-//    		return $db->fetchAll($sql);
+   	$where = 'l.`id`='."'".$loan_number."'";
+   	$sql ="SELECT
+				   	l.`id`,
+				   	lc.`client_number`,
+				   	lc.`name_kh`,
+				   	l.`sale_no`,					
+   					l.`branch_id`,
+   					l.`payment_method`,
+   					d.*,
+   					DATE_FORMAT(d.date_payment, '%d-%m-%Y') AS `date_payments`
+   					FROM
+   					 `ln_ins_client` AS lc,
+   					 `ln_ins_sales_install` AS l,
+   					 `ln_ins_sales_installdetail` AS d
+   					  WHERE 
+   					  l.`id`=d.`sale_id`
+   					  AND l.`customer_id`=lc.`client_id`
+   					  AND l.`status`=1
+   					  AND d.`status`=1
+   					  AND $where";   
+   		return $db->fetchAll($sql);
 }
    
 //    public function getLastPayDate($data){
@@ -483,31 +479,29 @@ public function getIlPaymentNumber(){
 //    	//return $sql;
 //    	return $db->fetchOne($sql);
 //    }
-//    public function getLaonHasPayByLoanNumber($loan_number){
-//    	$db= $this->getAdapter();
-// 	$sql="SELECT 
-// 			  (SELECT c.`name_kh` FROM `ln_client` AS c WHERE c.`client_id`=crm.`client_id` LIMIT 1) AS client_name,
-// 			  (SELECT c.`client_number` FROM `ln_client` AS c WHERE c.`client_id`=crm.`client_id` LIMIT 1) AS client_code,
-// 			  crm.`receipt_no`,crm.paid_times,
-// 			  DATE_FORMAT(crm.date_pay, '%d-%m-%Y') AS `date_input`,
-// 			  (crm.`principal_paid`) AS principal_paid,
-// 			  (crm.`interest_paid`) AS interest_paid,
-// 			  (crm.`penalize_paid`) AS penalize_paid,
-// 			  (crm.`service_paid`) AS service_paid,
-// 			  (crm.`total_paymentpaid`) AS total_paymentpaid,
-// 			  crm.`currency_type`,
-// 			  crm.is_completed,
-// 			  DATE_FORMAT(crmd.date_payment, '%d-%m-%Y') AS `date_payment`
-// 			FROM
-// 			  `ln_client_receipt_money` AS crm,
-// 			  `ln_client_receipt_money_detail` AS crmd 
-// 			WHERE 
-// 			  crm.status=1
-// 			  AND crm.`id` = crmd.`receipt_id` 
-// 			  AND crm.`loan_id` = '$loan_number' 
-// 			  GROUP BY crm.`id` ORDER BY crm.`id` DESC";
-//    	return $db->fetchAll($sql);
-//    }
+   public function getloanschedulepaid($loan_number){
+   	$db= $this->getAdapter();
+	$sql="SELECT 
+			  crm.`receipt_no`,crm.paid_times,
+			  DATE_FORMAT(crm.date_pay, '%d-%m-%Y') AS `date_input`,
+			  (crm.`principal_paid`) AS principal_paid,
+			  (crm.`interest_paid`) AS interest_paid,
+			  (crm.`penalize_paid`) AS penalize_paid,
+			
+			  (crm.`total_paymentpaid`) AS total_paymentpaid,
+			 
+			  crm.is_completed,
+			  DATE_FORMAT(crmd.date_payment, '%d-%m-%Y') AS `date_payment`
+			FROM
+			  `ln_ins_receipt_money` AS crm,
+			  `ln_ins_receipt_money_detail` AS crmd 
+			WHERE 
+			  crm.status=1
+			  AND crm.`id` = crmd.`receipt_id` 
+			  AND crm.`loan_id` = '$loan_number' 
+			  GROUP BY crm.`id` ORDER BY crm.`id` DESC";
+   	return $db->fetchAll($sql);
+   }
 //    function getFunByGroupId($id){
 //    		$db = $this->getAdapter();
 //    		$sql="SELECT lf.`id` FROM `ln_loanmember_funddetail` AS lf, `ln_loan_member` AS lm WHERE lm.`member_id` = lf.`member_id` AND lm.`group_id` = $id AND lf.`is_completed`=0";
