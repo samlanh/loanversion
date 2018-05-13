@@ -299,6 +299,7 @@ GROUP BY l.product_id LIMIT 1) AS stockOutAmount,
 	   	}
 	   	$dbp = new Application_Model_DbTable_DbGlobal();
 	   	$sql.=$dbp->getAccessPermission('pl.`location_id`');
+	   	$sql.=" ORDER BY pl.`location_id`";
 	   	
 	   	return $db->fetchAll($sql);
    	
