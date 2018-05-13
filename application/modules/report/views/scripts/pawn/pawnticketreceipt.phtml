@@ -152,9 +152,9 @@ $interetPayment = ($pawnshop['total_capital'] * $pawnshop['interest_rate'])/100;
 							    <td class="khmerbold" valign="top" style=""><strong><?php echo $data['client_company_name'];//$tr->translate("BRAND_TITLE");?></strong></td>
 							    <td class="khmerbold" valign="top" colspan="2" style="">
 								    <div style="font-family:'Khmer OS Battambang';">
-								    	<?php echo $data['branch-add-client'];//$tr->translate("ADDRESS_COMPANY");?>
+								    	<?php echo $pawnshop['br_address'];//echo $data['branch-add-client'];//$tr->translate("ADDRESS_COMPANY");?>
 								    </div>
-								    <?php echo $data['tel-client'];//$tr->translate("TEL_COMPANY");?>
+								    <?php echo $pawnshop['branch_tel'];//$data['tel-client'];//$tr->translate("TEL_COMPANY");?>
 							    </td>
 							</tr>
 					</table>

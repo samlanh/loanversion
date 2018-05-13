@@ -239,6 +239,13 @@
 					line-height: 20px;
 					text-align: center;
 				}
+				pre {
+				    background: none;
+				    border: none;
+				    font-size: inherit;
+				    font-family: inherit;
+				    line-height: inherit;
+				}
 				</style>
 				<table  style="font-family: 'Times New Roman','Khmer OS Battambang'; text-align: center; margin:0 auto; width:100%; ">
 					<tbody>
@@ -247,7 +254,7 @@
 							  </td>
 							  <td align="center" valign="top" width="60%" ><span style="color: blue;">ព្រះរាជាណាចក្រកម្ពុជា<br>
 							  ជាតិ សាសនា ព្រះមហាក្សត្រ</span><br>
-							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span style="color: red; font-size: 16px;">ហាងម៉ូតូ យុក សុខហួង</span>
+							  <img src="<?php echo $this->baseUrl()?>/images/agreementsign.JPG" style="width: 100px;"><p/><span id="brNameShop"  style="color: red; font-size: 16px;">ហាងម៉ូតូ យុក សុខហួង</span>
 							  </td>
 							  <td align="center" valign="top" width="20%" ><span><img src="<?php echo $this->baseUrl()?>/images/honda_dream_2017.png" style="width: 80%;"></span>
 							  </td>
@@ -260,15 +267,15 @@
 											 <td align="left" valign="top" width="20%" >
 												<span><img src="<?php echo $this->baseUrl()?>/images/honda_motorycles_st_blazey_mx.png" style="width: 70%; margin-top: 0px;"></span>
 												<div>
-													<label style="line-height: 12px; font-size:12px; color: red;">
-													<span style="white-space:nowrap;">Tel:&nbsp;012 72 74 04</span><br>
+													<label id="brPhone" style="line-height: 12px; font-size:12px; color: red;">
+													<!-- <span style="white-space:nowrap;">Tel:&nbsp;012 72 74 04</span><br>
 													<span style="white-space:nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0888 72 74 04</span><br>
-													<span style="white-space:nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;095 75 38 44</span>
+													<span style="white-space:nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;095 75 38 44</span> -->
 													</label>
 												</div>
 											 </td>
 											  <td width="60%" valign="top">
-												<span><p style="line-height: 20px;">មានលក់ម៉ូតូ គ្រប់ប្រភេទ និង មួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលស់ ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</p></span>
+												<span><pre id="brDescription" style="line-height: 20px;">មានលក់ម៉ូតូ គ្រប់ប្រភេទ និង មួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលស់ ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</pre></span>
 											</td>
 											  <td align="center" valign="middle" width="20%">
 												<span style="color: red; font-size:12px; font-family:'Times New Roman','Khmer OS Battambang';" id="LBinvoice">&nbsp;00000</span>
@@ -279,7 +286,8 @@
 												<table  style=" text-align: left; width:100%;">
 													<tr>
 														<td width="35%" valign="top" style="line-height: 16px; font-size:10px !important; color: red;" >
-															<span>អាស័យដ្ឋាន: ភូមិស្លរក្រាម <br />សង្កាត់ស្លរក្រាម ក្រុងសៀមរាប <br /> ស្ពានហ្រ្គងអូតែល, ផ្លូវមាត់ស្ទឹង (ខាងកើតសណ្ឋាគារអាម៉ាន់សារ៉ា)</span>
+															<span>អាស័យដ្ឋាន: </span><span id="brAddress"></span>
+															<!-- <span>អាស័យដ្ឋាន: ភូមិស្លរក្រាម <br />សង្កាត់ស្លរក្រាម ក្រុងសៀមរាប <br /> ស្ពានហ្រ្គងអូតែល, ផ្លូវមាត់ស្ទឹង (ខាងកើតសណ្ឋាគារអាម៉ាន់សារ៉ា)</span> -->
 														</td>
 														<td align="center" valign="top"><span style="color: blue; font-size: 14px; text-decoration: underline; font-family: 'Khmer OS Muol Light';">វិក័យប័ត្រ<br />INVOICE</span></td>
 														<td width="35%" valign="top">
@@ -532,6 +540,33 @@ function getReceiptbybranch(){
 		}
 	});
 }
+var url_branchifo = '<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'getbranch')); ?>';
+function getbranchinfo(){
+	branch_id = dijit.byId('branch_id').get('value');
+	if(branch_id==''){
+		alert('Please Select Branch');
+		dijit.byId('branch_id').focus();
+		return false;
+	}
+	dojo.xhrPost({
+		url:url_branchifo,	
+		content:{ 
+			    'branch_id':branch_id,
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			//alert(data.phonebr);
+			dojo.byId('brNameShop').innerHTML=data.branch_nameen;
+			dojo.byId('brDescription').innerHTML=data.description;
+			dojo.byId('brPhone').innerHTML=data.phonebr;
+			dojo.byId('brAddress').innerHTML=data.br_address;
+			//dijit.byId('invoice_no').attr('value',data);
+		},
+		error: function(err) {
+			alert("eror receipt");
+		}
+	});
+}
 </script>
 <script type="text/javascript">
 dojo.require("dojo.html");
@@ -568,6 +603,7 @@ require(["dojo/ready"], function(ready){
 		dijit.byId("repayment_method").attr("value",'<?php echo $this->datarow['payment_method'];?>');
 		dijit.byId("first_payment").attr("value",'<?php echo $this->datarow['first_payment'];?>');
 		dijit.byId("date_line").attr("value",'<?php echo $this->datarow['date_line'];?>');
+		getbranchinfo();
 	  });
 	
 	new dijit.form.FilteringSelect({
@@ -649,13 +685,14 @@ require(["dojo/ready"], function(ready){
 var url_getproduct = '<?php echo $this->url(array('module'=>'installment','controller'=>'product','action'=>'getproductbycate')); ?>';
 function getAllProduct(){
 	category_id = dijit.byId("category_id").get("value");
+	branch_id = dijit.byId('branch_id').get('value');
 	if(category_id<0){
       return false;
 	}
 	dojo.xhrPost({
 		url:url_getproduct,	
 		content:{ 
-		    'category_id':category_id
+		    'category_id':category_id,'branch_id':branch_id
 		},		    
 		handleAs:"json",
 		load: function(data) {
@@ -676,6 +713,7 @@ function filterClient(){
 		getAllClientByBranch(branch_id);
 		getAllClientNumberByBranch(branch_id);
 		getReceiptbybranch();
+		getbranchinfo();
 }
 var url_getclient = '<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'getclieninstallment')); ?>';
 function getAllClientByBranch(branch_id){

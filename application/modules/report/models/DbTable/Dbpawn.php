@@ -2403,6 +2403,21 @@ AND cl.client_id = $client_id )";
       	WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
       	LIMIT 1) AS `branch_name`,
       	(SELECT
+      	`db_loannewversion`.`ln_branch`.`branch_nameen`
+      	FROM `db_loannewversion`.`ln_branch`
+      	WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
+      	LIMIT 1) AS `branch_nameen`,
+      	(SELECT
+      	`db_loannewversion`.`ln_branch`.`br_address`
+      	FROM `db_loannewversion`.`ln_branch`
+      	WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
+      	LIMIT 1) AS `br_address`,
+      	(SELECT
+      	`db_loannewversion`.`ln_branch`.`branch_tel`
+      	FROM `db_loannewversion`.`ln_branch`
+      	WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
+      	LIMIT 1) AS `branch_tel`,
+      	(SELECT
       	`ln_currency`.`symbol`
       	FROM `ln_currency`
       	WHERE (`ln_currency`.`id` = `l`.`currency_type`)

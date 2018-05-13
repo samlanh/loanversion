@@ -159,6 +159,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 	    	(SELECT b.branch_nameen FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_nameen,
 	    	(SELECT b.br_address FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS br_address,
 	    	(SELECT b.branch_tel FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_tel,
+	    	(SELECT b.description FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS description,
 	    	p.item_name,
 	    	(SELECT cate.name FROM `ln_ins_category` AS cate WHERE cate.id=p.cate_id LIMIT 1) as cate_name,
 	    	p.`item_code`,

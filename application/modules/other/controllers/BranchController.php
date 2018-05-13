@@ -25,7 +25,7 @@ class Other_BranchController extends Zend_Controller_Action {
            $glClass = new Application_Model_GlobalClass();
 			$rs_rowshow = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
-			$collumns = array("BRANCH_KH","BRANCH_EN","PREFIX_CODE","CODE","ADDRESS","TEL","FAX","OTHER","STATUS");
+			$collumns = array("BRANCH_KH","SHOPNAME","PREFIX_CODE","CODE","ADDRESS","TEL","OTHER","STATUS");
 			$link=array(
 					      'module'=>'other','controller'=>'branch','action'=>'edit',
 			);
@@ -88,6 +88,28 @@ class Other_BranchController extends Zend_Controller_Action {
 		$update=$frm->FrmBranch($row);
 		$this->view->frm_branch=$update;
 		Application_Model_Decorator::removeAllDecorator($update);
+	}
+	function getbranchAction(){
+		if($this->getRequest()->isPost()){
+			$post=$this->getRequest()->getPost();
+			$db = new Other_Model_DbTable_DbBranch();
+			$result =$db->getBranchById($post['branch_id']);
+			if (!empty($result)){
+				$phonsse = explode(",", $result['branch_tel']);
+				$string="";
+				if (!empty($phonsse)) foreach ($phonsse as $key => $s){
+					$sds='';
+					$br='';
+					$coutnPhon = count($phonsse);
+					if ($coutnPhon != ($key+1)){$br='<br>';}
+					if ($key==0){ $sds='Tel:&nbsp;';}else{ $sds='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';}
+					$string.='<span style="white-space:nowrap;">'.$sds.$s.'</span>'.$br;
+				}
+				$result['phonebr']=$string;
+			}
+			print_r(Zend_Json::encode($result));
+			exit();
+		}
 	}
 }
 

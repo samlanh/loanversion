@@ -147,6 +147,12 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 				'class'=>'fullside',
 		));
 	
+		$_description = new Zend_Dojo_Form_Element_Textarea('description');
+		$_description->setAttribs(array(
+				'dojoType'=>'dijit.form.Textarea',
+				'class'=>'fullside',
+				'style'=>'min-height: 50px;'
+		));
 		
 		$_id = new Zend_Form_Element_Hidden('id');
 		if(!empty($data)){
@@ -162,10 +168,11 @@ Class Other_Form_Frmbranch extends Zend_Dojo_Form {
 			$branch_note->setValue($data['other']);
 			$branch_status->setValue($data['status']);
 			$branch_display->setValue($data['displayby']);
+			$_description->setValue($data['description']);
 		}
 		
 		$this->addElements(array($select_branch_nameen,$prefix_code,$_btn_search,$_title,$_status,$br_id,$branch_namekh,$branch_nameen,$br_address,$branch_code,$branch_tel,$_fax ,$branch_note,
-				$branch_status,$branch_display));
+				$branch_status,$branch_display,$_description));
 		
 		return $this;
 		

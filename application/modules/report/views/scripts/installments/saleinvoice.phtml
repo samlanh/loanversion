@@ -39,6 +39,13 @@ $gender=array(
 					line-height: 30px;
 					text-align: center;
 				}
+				pre {
+				    background: none;
+				    border: none;
+				    font-size: inherit;
+				    font-family: inherit;
+				    line-height: inherit;
+				}
 				.labelValue{font-weight: bolder;}
 				</style>
 				<table  style="font-family: 'Times New Roman','Khmer OS Battambang'; text-align: center; margin:0 auto; width:100%; ">
@@ -72,7 +79,7 @@ $gender=array(
 												</div>
 											 </td>
 											  <td width="60%" valign="top">
-												<span><p>មានលក់ម៉ូតូ គ្រប់ប្រភេទ និង មួកសុវត្ថិភាព<br>ជាពិសេសមាន សេវាកម្មបង់រំលស់ ម៉ូតូគ្រប់ប្រភេទ<br>YOUK SOKHOUNG Sell all kind of motorbike and helmet</p></span>
+												<span><pre><?php echo $rs['description'];?></pre></span>
 											</td>
 											  <td align="center" valign="middle" width="20%">
 												<span style="color: red; font-size:12px; font-family:'Times New Roman','Khmer OS Battambang';" id="LBinvoice">&nbsp;<?php echo $rs['sale_no'];?></span>
