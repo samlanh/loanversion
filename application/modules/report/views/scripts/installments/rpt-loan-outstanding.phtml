@@ -100,8 +100,9 @@
 					            if($row['total_principaid']==$row['selling_price']){
 					              continue;
 					            }
-		               			$total_receive= $row['total_principaid'];
-			             	    $amt_d = $amt_d+$row['selling_price'];
+					            $installmentPrice = $row['selling_price'] - $row['paid'];
+		               			$total_receive= $row['total_principaid']- $row['paid'];
+			             	    $amt_d = $amt_d+$installmentPrice;
 			               		$amn_d = $amn_d+$total_receive;
 			               		$result_d=number_format(($amn_d/$amt_d)*100,2).' %';
 								$count_d=$count_d+1;
@@ -116,12 +117,12 @@
 								<td style="white-space:nowrap;">&nbsp;<?php echo $row['item_name']; ?>&nbsp;</td>
 								<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_sold']));?>&nbsp;</td>
 								<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_line']));?>&nbsp;</td>
-								<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['selling_price'],2);//.' '.$row['currency_type']; ?>&nbsp;</td>
+								<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($installmentPrice,2);//.' '.$row['currency_type']; ?>&nbsp;</td>
 								<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['duration']);//.$row['termborrow'];?>&nbsp;</td>
-								<td style="white-space:nowrap; text-align: center;">&nbsp;<?php echo $row['total_principaid'];?>&nbsp;</td>
+								<td style="white-space:nowrap; text-align: center;">&nbsp;<?php echo $row['total_principaid']- $row['paid'];?>&nbsp;</td>
 								<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($total_receive,2);?>&nbsp;</td>
-								<td>&nbsp;<?php echo (round(($total_receive/$row['selling_price']),2)*100).' %'; ?>&nbsp;</td>
-								<td>&nbsp;<?php echo number_format(($row['selling_price']-$total_receive),2);?>&nbsp;</td>
+								<td>&nbsp;<?php echo (round(($total_receive/$installmentPrice),2)*100).' %'; ?>&nbsp;</td>
+								<td>&nbsp;<?php echo number_format(($installmentPrice-$total_receive),2);?>&nbsp;</td>
 							</tr>
 						<?php }?>
 		            </table>
@@ -135,7 +136,7 @@
 		                    <th style="padding:2px 0px;"><?php echo $tr->translate("NOT_TO_REPAY");?></th>
 		                </tr>
 		                 <tr class="style" style=" line-height: 24px; font-size:11px;">
-		                    <td>&nbsp;<?php echo $count_d?>&nbsp;</td>
+		                    <td align="center">&nbsp;<?php echo $count_d?>&nbsp;</td>
 							<td>&nbsp;<?php echo number_format($amt_d,2);?>&nbsp;</td>
 		                    <td>&nbsp;<?php echo number_format($amn_d,2);?>&nbsp;</td>
 		                    <td>&nbsp;<?php echo $result_d;?>&nbsp;</td>
