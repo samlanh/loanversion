@@ -129,7 +129,7 @@ class Installment_GeneralsalesController extends Zend_Controller_Action {
 		$id = $this->getRequest()->getParam('id');
 		$row = $_dbmodel->getGeneralsaleById($id);
 		if (empty($row)){
-			Application_Form_FrmMessage::Sucessfull("Don't have this record","/installment/generalsales");
+			Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/installment/generalsales");
 		}
 		$this->view->row =$row;
 		$rowdetail = $_dbmodel->getGeneraldetailSaleById($id);

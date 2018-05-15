@@ -123,6 +123,8 @@ class Installment_Model_DbTable_DbGeneralSale extends Zend_Db_Table_Abstract
 		$sql="SELECT g.*
 		 FROM `ln_ins_generalsale` AS g
 		 WHERE g.id=$id";
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$sql.=$dbp->getAccessPermission('g.branch_id');
 		return $db->fetchRow($sql);
 	}
 	function getGeneraldetailSaleById($saleId){

@@ -70,12 +70,15 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("PRODUCT_CATEGORY");?>&nbsp;</th>
 				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</th>
 				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</th>
+				                    <th colspan="2">&nbsp;<?php echo $tr->translate("BALANCE_STOCK");?>&nbsp;</th>
 				                    <th colspan="2">&nbsp;<?php echo $tr->translate("STOCK_IN");?>&nbsp;</th>
 				                    <th colspan="2">&nbsp;<?php echo $tr->translate("STOCK_OUT");?>&nbsp;</th>
 				                    <th colspan="2">&nbsp;<?php echo $tr->translate("CURRENT_QTY");?>&nbsp;</th> 
 				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("NOTE");?>&nbsp;</th>
 				                </tr>
 				               <tr bgcolor="#c1d0f3" class="style" align="center" style=" font-weight:bold; line-height: 25px; font-size:12px; padding:10px 0px; ">
+				                    <th>&nbsp;<?php echo $tr->translate("QTY");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("Value");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("QTY");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("Value");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("QTY");?>&nbsp;</th>
@@ -100,7 +103,7 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 			                    if ($location != $rs['location_id']){
 			                    ?>
 			                     <tr class="style hover" style=" line-height:20px; ">
-			                     	<th colspan="11" align="center" style="font-weight: 600; "><?php echo $rs["branch_namekh"];?></th>
+			                     	<th colspan="13" align="center" style="font-weight: 600; "><?php echo $rs["branch_namekh"];?></th>
 			                     </tr>
 			                    <?php }$location = $rs['location_id'];?>
 			                    <?php 
@@ -129,6 +132,8 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["categoryName"];?></td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["item_code"];?></td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["item_name"];?></td>
+				               		<td align="center">&nbsp;<?php //echo $purchaseQty;;?>&nbsp;</td>
+				               		<td align="right">&nbsp;<?php //echo number_format($costPrice,2);?>&nbsp;</td>
 				               		<td align="center">&nbsp;<?php echo $purchaseQty;;?>&nbsp;</td>
 				               		<td align="right">&nbsp;<?php echo number_format($costPrice,2);?>&nbsp;</td>
 				               		<td align="center">&nbsp;<?php echo $stockOut;?>&nbsp;</td>
@@ -139,11 +144,13 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 				                </tr>
 			                <?php }?>
 			                	<tr>
-			                		<td colspan="11" style="border-left: solid 1px #fff; border-right: solid 1px #fff;">&nbsp;</td>
+			                		<td colspan="13" style="border-left: solid 1px #fff; border-right: solid 1px #fff;">&nbsp;</td>
 			                	</tr>
 			                	<tr class="foot">
 			                		<td colspan="2">&nbsp;<strong><?php echo $tr->translate("Grand Total");?></strong>&nbsp;</td>
 			                		<td colspan="2">&nbsp;&nbsp;</td>
+			                		<td align="center">&nbsp;<?php //echo $tQtyPurchase;?>&nbsp;</td>
+			                		<td align="right">&nbsp;<?php //echo number_format($tPricePurchase,2);?>&nbsp;</td>
 			                		<td align="center">&nbsp;<?php echo $tQtyPurchase;?>&nbsp;</td>
 			                		<td align="right">&nbsp;<?php echo number_format($tPricePurchase,2);?>&nbsp;</td>
 			                		<td align="center">&nbsp;<?php echo $tQtySale;?>&nbsp;</td>

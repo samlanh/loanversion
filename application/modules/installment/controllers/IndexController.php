@@ -114,6 +114,9 @@ class Installment_IndexController extends Zend_Controller_Action {
 	
 		$db = new Installment_Model_DbTable_DbInstallmentPayment();
 		$row = $db->getSaleinstallbyid($id);
+		if (empty($row)){
+			Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/installment/index");
+		}
 		$frm = new Installment_Form_FrmLoan();
 		$frm_loan=$frm->FrmAddLoan();
 		Application_Model_Decorator::removeAllDecorator($frm_loan);

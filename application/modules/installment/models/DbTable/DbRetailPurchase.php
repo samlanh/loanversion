@@ -52,7 +52,7 @@ class Installment_Model_DbTable_DbRetailPurchase extends Zend_Db_Table_Abstract
     
     function updateStock($pro_id,$location_id,$qty_order){
     	$_db = new Application_Model_DbTable_DbGlobal();
-    	$branch_id = $_db->getAccessPermission('brand_id');
+    	$branch_id = $_db->getAccessPermission('branch_id');
     	
     	$db=$this->getAdapter();
     	$sql="SELECT * FROM ln_ins_prolocation where pro_id=$pro_id AND location_id=$location_id  $branch_id";
@@ -374,7 +374,7 @@ class Installment_Model_DbTable_DbRetailPurchase extends Zend_Db_Table_Abstract
     	
     	if(!empty($result)){
     		foreach ($result as $row){
-				$sql1 = "select id,pro_qty from ln_ins_prolocation where pro_id =".$row['pro_id']." and brand_id = ".$row['branch_id'] ;
+				$sql1 = "select id,pro_qty from ln_ins_prolocation where pro_id =".$row['pro_id']." and branch_id = ".$row['branch_id'] ;
     			//echo $sql1;exit();
 				$result1 = $db->fetchRow($sql1);
 				
@@ -463,10 +463,10 @@ class Installment_Model_DbTable_DbRetailPurchase extends Zend_Db_Table_Abstract
 //     }
     function getProductNames(){
     	$db=$this->getAdapter();
-    	$sql="SELECT p.id,pl.brand_id,p.pro_name AS `name` FROM ln_ins_product AS p,ln_ins_prolocation AS pl
+    	$sql="SELECT p.id,pl.location_id,p.pro_name AS `name` FROM ln_ins_product AS p,ln_ins_prolocation AS pl
  				WHERE p.id=pl.pro_id AND p.status=1  ";
     	$dbp = new Application_Model_DbTable_DbGlobal();
-    	$sql.=$dbp->getAccessPermission('brand_id');
+    	$sql.=$dbp->getAccessPermission('pl.location_id');
     	$sql.=" GROUP BY p.id ORDER BY id DESC ";
         $rows=$db->fetchAll($sql);
         
@@ -484,7 +484,7 @@ class Installment_Model_DbTable_DbRetailPurchase extends Zend_Db_Table_Abstract
     	ln_ins_prolocation AS pl
     	WHERE p.id=pl.pro_id AND p.status=1  ";
     	$dbp = new Application_Model_DbTable_DbGlobal();
-    	$sql.=$dbp->getAccessPermission('brand_id');
+    	$sql.=$dbp->getAccessPermission('pl.location_id');
     	$sql.=" GROUP BY p.id ORDER BY id DESC ";
     	return $db->fetchAll($sql);
     }
@@ -575,7 +575,7 @@ class Installment_Model_DbTable_DbRetailPurchase extends Zend_Db_Table_Abstract
     	
     	$_arr = array(
     			'pro_id'=>$pro_id,
-    			'brand_id'=>$data['location_id'],
+    			'pl.location_id'=>$data['location_id'],
     			'pro_qty'=>0,
     			'total_amount'=>0,
     			'note'=>'',
@@ -602,6 +602,9 @@ class Installment_Model_DbTable_DbRetailPurchase extends Zend_Db_Table_Abstract
     function getPurchaseByID($purchaseID){
     	$db = $this->getAdapter();
     	$sql="SELECT * FROM ln_ins_purchase WHERE id=$purchaseID";
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->getAccessPermission('branch_id');
+//     	echo $sql;exit();
     	return $db->fetchRow($sql);
     }
     function getPurchaseDetailByID($purchaseID){

@@ -301,6 +301,9 @@ public function getIlPaymentNumber(){
     	 FROM 
 			    	`ln_ins_sales_install` AS s
 			    	WHERE  s.id = $id ";
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->getAccessPermission('s.branch_id');
+    	
     	return $this->getAdapter()->fetchRow($sql);
    }
     function deleteRecord($id){

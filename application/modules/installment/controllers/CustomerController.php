@@ -46,7 +46,7 @@ class Installment_CustomerController extends Zend_Controller_Action {
 			$link1=array(
 					'module'=>'installment','controller'=>'customer','action'=>'view',
 			);
-			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch_name'=>$link,'client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
+			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch_name'=>$link1,'client_number'=>$link,'name_kh'=>$link,'name_en'=>$link));
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
@@ -144,7 +144,11 @@ class Installment_CustomerController extends Zend_Controller_Action {
 	function viewAction(){
 		$id = $this->getRequest()->getParam("id");
 		$db = new Installment_Model_DbTable_DbClient();
-		$this->view->client_list = $db->getClientDetailInfo($id);
+		$row = $db->getClientDetailInfo($id);
+		if(empty($row)){
+			$this->_redirect("/installment/customer");
+		}
+		$this->view->client_list = $row;
 	}
 }
 

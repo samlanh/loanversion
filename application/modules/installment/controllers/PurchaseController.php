@@ -112,7 +112,7 @@ class Installment_PurchaseController extends Zend_Controller_Action {
 		$_pur = new Installment_Model_DbTable_DbPurchase();
 		$row = $_pur->getPurchaseByID($id);
 		if (empty($row)){
-			$this->_redirect("/installment/purchase");
+			Application_Form_FrmMessage::Sucessfull("EMPTY_RECORD","/installment/purchase");
 		}
 		$this->view->purchase = $row;
 		$this->view->purchaseDetail = $_pur->getPurchaseDetailByID($id);

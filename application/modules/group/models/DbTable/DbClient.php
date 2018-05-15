@@ -106,11 +106,13 @@ class Group_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		(SELECT branch_nameen FROM `ln_branch` WHERE br_id =c.branch_id LIMIT 1) AS branch_name ,
 		(SELECT name_en FROM `ln_client` WHERE client_id =c.parent_id ) AS parent , 
 		(SELECT name_en FROM `ln_view` WHERE TYPE = 11 AND key_code =c.sex) AS sex ,
-		(SELECT name_en FROM `ln_view` WHERE TYPE = 23 AND key_code =c.`client_d_type`) AS client_d_type ,
-		(SELECT name_en FROM `ln_view` WHERE TYPE = 23 AND key_code =c.`join_d_type`) AS join_d_type ,  
+		(SELECT name_en FROM `ln_view` WHERE TYPE = 23 AND id =c.`client_d_type`) AS client_d_type ,
+		(SELECT name_en FROM `ln_view` WHERE TYPE = 23 AND id =c.`join_d_type`) AS join_d_type ,  
 		(SELECT name_en FROM `ln_view` WHERE TYPE = 23 AND key_code =c.`guarantor_d_type`) AS guarantor_d_type ,`guarantor_address`,      
 		 photo_name FROM `ln_client` AS c WHERE client_id =  ".$db->quote($id);
 		$sql.=" LIMIT 1 ";
+// 		(SELECT name_en FROM `ln_view` WHERE TYPE = 23 AND key_code =c.`client_d_type`) AS client_d_type ,
+// 		(SELECT name_en FROM `ln_view` WHERE TYPE = 23 AND key_code =c.`join_d_type`) AS join_d_type ,
 		$row=$db->fetchRow($sql);
 		return $row;
 	}

@@ -501,6 +501,9 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
     function getPurchaseByID($purchaseID){
     	$db = $this->getAdapter();
     	$sql="SELECT * FROM ln_ins_purchase WHERE id=$purchaseID";
+    	$dbp = new Application_Model_DbTable_DbGlobal();
+    	$sql.=$dbp->getAccessPermission('branch_id');
+    	
     	return $db->fetchRow($sql);
     }
     function getPurchaseDetailByID($purchaseID){
