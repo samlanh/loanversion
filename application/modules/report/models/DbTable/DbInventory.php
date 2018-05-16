@@ -14,7 +14,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 			`ln_ins_product` AS p,
 			`ln_ins_prolocation` AS pl
 			WHERE 
-				pl.`pro_id` = p.`id`";
+				pl.`pro_id` = p.`id` AND status=1 ";
 //     	$from_date =(empty($search['start_date']))? '1': " date_release >= '".$search['start_date']." 00:00:00'";
 //     	$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
 //     	$where.= " AND ".$from_date." AND ".$to_date;
@@ -154,7 +154,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 			(SELECT `cm`.`commune_namekh` FROM `ln_commune` `cm` WHERE `cm`.`com_id` = c.com_id  LIMIT 1) AS `commune_name`,
 			(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE `d`.`dis_id` = c.dis_id LIMIT 1) AS `district_name`,
 			(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id LIMIT 1) AS province_kh_name,
-	    	(SELECT cc.name FROM `ln_ins_producttype` AS  cc WHERE cc.id=p.`cate_id` LIMIT 1) AS catName,
+	    	(SELECT cc.name FROM `ln_ins_producttype` AS  cc WHERE cc.id=p.`product_type` LIMIT 1) AS catName,
 	    	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_namekh,
 	    	(SELECT b.branch_nameen FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS branch_nameen,
 	    	(SELECT b.br_address FROM `ln_branch` AS b WHERE b.br_id = s.branch_id LIMIT 1) AS br_address,
@@ -553,7 +553,7 @@ GROUP BY l.product_id LIMIT 1) AS stockOutAmount,
 	   	AND l.`is_completed` = 0
 	   	AND l.`status` = 1
 	   	AND d.`status` = 1
-	   	AND d.`is_completed` =0";
+	   	AND d.`is_completed` =0 ";
 	   	
 	//    	$sql=" SELECT
 	//    	`co_khname` AS co_name ,

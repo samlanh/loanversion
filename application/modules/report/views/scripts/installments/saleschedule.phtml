@@ -76,6 +76,22 @@ td p{ margin-top:0px !important;}
 	    	<td>
 	            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
 	                 <tr class="style" align="center" style="background:#b1d6f5;font-weight:bold; line-height: 40px;">
+	                    <td><?php echo $tr->translate("TYPE");?></td>
+	                    <td><?php echo $tr->translate("ឆ្នាំផលិត");?></td>
+	                    <td><?php echo $tr->translate("លេខតួ");?></td>
+	                    <td><?php echo $tr->translate("លេខម៉ាស៊ីន");?></td>
+	                    <td><?php echo $tr->translate("ស្លាកលេខ");?></td>
+	                </tr>
+	                <tr class="style" align="center" style="font-weight:bold; line-height: 35px;">
+	                    <td><?php echo $sale['item_name'];?></td>
+	                    <td><?php //echo $sale['frame'];?></td>
+	                    <td><?php echo $sale['frame'];?></td>
+	                    <td><?php echo $sale['engine'];?></td>
+	                    <td><?php echo $sale['frame_no'];?></td>
+	                </tr>
+	             </table><br />
+	            <table id="exportExcel" border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%">
+	                 <tr class="style" align="center" style="background:#b1d6f5;font-weight:bold; line-height: 40px;">
 	                    <td><?php echo $tr->translate("NUM");?></td>
 	                    <td><?php echo $tr->translate("ថ្ងៃ-ខែ ឆ្នាំ");?></td>
 	                    <td><?php echo $tr->translate("AMOUNT_DATE");?></td>
