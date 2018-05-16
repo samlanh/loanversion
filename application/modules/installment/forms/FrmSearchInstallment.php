@@ -18,7 +18,7 @@ Class Installment_Form_FrmSearchInstallment extends Zend_Dojo_Form {
 				'autoComplete'=>"false",
 				'queryExpr'=>'*${0}*',
 		));
-		$options= array(''=>'ប្រភេទបង់ប្រាក់',1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម');
+		$options= array(''=>'ប្រភេទបង់ប្រាក់',1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលស់ប្រាក់ដើម');
 		$payment_type->setMultiOptions($options);
 		$payment_type->setValue($request->getParam("paymnet_type"));
 		

@@ -16,7 +16,7 @@ Class Pawnshop_Form_FrmSearchPayment extends Zend_Dojo_Form {
 		
 		$payment_type = new Zend_Dojo_Form_Element_FilteringSelect("paymnet_type");
 		$payment_type->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.FilteringSelect'));
-		$options= array(''=>'ប្រភេទបង់ប្រាក់',1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលោះប្រាក់ដើម');
+		$options= array(''=>'ប្រភេទបង់ប្រាក់',1=>'បង់ធម្មតា',2=>'បង់មុន',3=>'បង់រំលស់ប្រាក់ដើម');
 		$payment_type->setMultiOptions($options);
 		$payment_type->setValue($request->getParam("paymnet_type"));
 		

@@ -72,9 +72,7 @@ dojo.require("dijit.form.DateTextBox");
 									<br /><?php echo $tr->translate("TEL_COMPANY");?>
                 				</td>
                 				<td width="65%"></td>
-                				
                 			</tr>
-			               
 		                </table>
 		              </td>
 		           </tr>   
@@ -97,7 +95,6 @@ dojo.require("dijit.form.DateTextBox");
                     <th>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_PERIOD");?>&nbsp;</th>
-                   	<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("បានបង់");?>&nbsp;</th>
                    	<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?>&nbsp;</th>
                    	<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PERCENTAGE");?>&nbsp;</th>
                     <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NOT_TO_REPAY");?>&nbsp;</th>
@@ -149,7 +146,6 @@ dojo.require("dijit.form.DateTextBox");
 						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 						<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['total_duration']).$row['termborrow'];?>&nbsp;</td>
 						<td style="white-space:nowrap; text-align: center;">&nbsp;<?php echo $row['total_principaid'];?>&nbsp;</td>
-						<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($total_receive,2).' '.$row['currency_type'];?>&nbsp;</td>
 						<td>&nbsp;<?php echo (round(($total_receive/$row['total_capital']),2)*100).' %'; ?>&nbsp;</td>
 						<td>&nbsp;<?php echo number_format(($row['total_capital']-$total_receive),2).' '.$row['currency_type'];?>&nbsp;</td>
 					</tr>

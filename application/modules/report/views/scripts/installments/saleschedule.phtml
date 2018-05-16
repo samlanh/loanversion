@@ -35,7 +35,9 @@ td p{ margin-top:0px !important;}
 	                <tr>
 	                	<td colspan="3" align="center">
 	                			<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol';white-space: nowrap;">
-		                	  	<?php echo $data['client_company_name'];?><br />
+		                	  	<?php //echo $data['client_company_name'];
+									echo $this->sale['branch_nameen'];
+								?><br />
 		                	  </h2>
 	                		<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol'"><?php echo $tr->translate('Schedule Payment');?></h2>
 	               		</td>
@@ -62,7 +64,7 @@ td p{ margin-top:0px !important;}
 				                </tr>
 				                <tr style="font-size:15px;font-family:'Khmer OS Battambang'" >
 				                	<td colspan="2">
-				                		<p style="padding-top:8px;"><b><?php echo $tr->translate("ADDRESS");?></b>:<?php echo $sale['br_address'];?> <!-- ,<?php //echo $sale['commune_name'];?> <?php //echo $sale['district_name'];?> ,  <?php //echo $sale['province_kh_name'];?> -->
+				                		<p style="padding-top:8px;"><b><?php echo $tr->translate("ADDRESS");?></b>:<?php echo $sale['br_address'];?>
 				                	</td>
 				                	<td></td>
 				                </tr>
@@ -145,6 +147,9 @@ td p{ margin-top:0px !important;}
 	            	<tr>
 	            		<td align="left" style="font-size: 12px;" ><?php echo $tr->translate("NOTED_SCHEDULE");?></td>
 	            	</tr>
+	            	<tr>
+	            		<td align="left" style="font-size: 14px;font-weight: bold;" >អតិថិជនអាចវេរប្រាក់តាម ទ្រូម៉ានី វឺង អ៊ីម៉ានី មកលេខ : <?php echo $this->sale['branch_tel'];?></td>
+	            	</tr>
 	            </table>
 	            <table width="100%" cellpadding="3">
 	            	<tr class="font_bold" style="height:25px;">
@@ -157,7 +162,7 @@ td p{ margin-top:0px !important;}
 	            		<td align="center"  valign="bottom" style="font-size:15px;line-height: 30px;font-family:'Khmer OS Battambang'" >
 	            		</td>
 	            		<td align="center" height="75px" valign="bottom" style="font-size:15px;font-family:'Khmer OS Battambang'">
-	            			<?php echo $sale['client_name_kh'];//echo ($client['displayclient']==1)? $client['client_name_kh']: $client['client_name_en'] ;?></td>
+	            			<?php echo $sale['client_name_kh'];?></td>
 	            	</tr>
 	            </table>
 	    	</td>
