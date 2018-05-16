@@ -148,6 +148,7 @@ class Installment_CustomerController extends Zend_Controller_Action {
 		if(empty($row)){
 			$this->_redirect("/installment/customer");
 		}
+		$this->view->salebyCus = $db->getAllOutstadingLoan($id);
 		$this->view->client_list = $row;
 	}
 }

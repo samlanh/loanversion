@@ -2,6 +2,7 @@
 $tr = Application_Form_FrmLanguages::getCurrentlanguage();
 echo $this->headTitle($tr->translate("Sumary Stock Report"));
  $frm = $this->formFilter;
+ $dbInventory  = new Report_Model_DbTable_DbInventory();
 ?>
 <script>
 	dojo.require("dijit.form.DateTextBox");
@@ -40,6 +41,9 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 				  display: table-header-group;
 				  page-break-inside:avoid; page-break-after:auto;
 				}
+				th {
+				    padding: 0px;
+				}
 			</style>
 			<table width="100%" >
 				<thead>
@@ -70,7 +74,7 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("PRODUCT_CATEGORY");?>&nbsp;</th>
 				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</th>
 				                    <th rowspan="2">&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</th>
-				                    <th colspan="2">&nbsp;<?php echo $tr->translate("BALANCE_STOCK");?>&nbsp;</th>
+				                    <th colspan="2">&nbsp;<?php echo $tr->translate("BEGINNING_STOCK");?>&nbsp;</th>
 				                    <th colspan="2">&nbsp;<?php echo $tr->translate("STOCK_IN");?>&nbsp;</th>
 				                    <th colspan="2">&nbsp;<?php echo $tr->translate("STOCK_OUT");?>&nbsp;</th>
 				                    <th colspan="2">&nbsp;<?php echo $tr->translate("CURRENT_QTY");?>&nbsp;</th> 
@@ -126,14 +130,16 @@ echo $this->headTitle($tr->translate("Sumary Stock Report"));
 				                    $balanceValue = $rs["qty"]*$rs["cost_price"];
 				                    $tQtyStock = $rs["qty"] +$tQtyStock;
 				                    $tPriceStock = $tPriceStock + $balanceValue;
+				                    
+				                    $closingstock = $dbInventory->getProductClosingStock($rs['id'], $rs['location_id'], $this->search);
 			                    ?>
 				                <tr class="style hover" style="line-height:20px; ">
 				               		<td style="font-size: 12px; text-align: center;">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["categoryName"];?></td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["item_code"];?></td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["item_name"];?></td>
-				               		<td align="center">&nbsp;<?php //echo $purchaseQty;;?>&nbsp;</td>
-				               		<td align="right">&nbsp;<?php //echo number_format($costPrice,2);?>&nbsp;</td>
+				               		<td align="center">&nbsp;<?php echo empty($closingstock['currentQty'])?0:$closingstock['currentQty'];?>&nbsp;</td>
+				               		<td align="right">&nbsp;<?php echo empty($closingstock['currentCost'])?0:$closingstock['currentCost'];?>&nbsp;</td>
 				               		<td align="center">&nbsp;<?php echo $purchaseQty;;?>&nbsp;</td>
 				               		<td align="right">&nbsp;<?php echo number_format($costPrice,2);?>&nbsp;</td>
 				               		<td align="center">&nbsp;<?php echo $stockOut;?>&nbsp;</td>

@@ -232,5 +232,48 @@ class Installment_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				$id =$this->insert($_arr);
 				return array('id'=>$id,'client_code'=>$client_code);
 	}
+	
+	
+	public function getAllOutstadingLoan($customerId){
+		$db = $this->getAdapter();
+		$where="";
+		$sql="SELECT
+		(SELECT  `ln_branch`.`branch_namekh` FROM `ln_branch`  WHERE (`ln_branch`.`br_id` = `s`.`branch_id`) LIMIT 1) AS `branch_name`,
+		c.client_number AS `client_number`,
+		c.name_kh AS `client_kh`,
+		c.`client_number` AS client_number,
+		c.name_en AS `client_en`,
+		(SELECT inp.item_name FROM `ln_ins_product` AS inp WHERE inp.id = s.`product_id` LIMIT 1) AS item_name,
+		(SELECT inc.name FROM `ln_ins_category` AS inc WHERE inc.id = s.`cate_id` LIMIT 1) AS cateName,
+		s.*,
+		(SELECT  `ln_ins_receipt_money`.`paid_times` FROM `ln_ins_receipt_money` WHERE ((`ln_ins_receipt_money`.`status` = 1) AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))
+		ORDER BY `ln_ins_receipt_money`.`paid_times` DESC
+		LIMIT 1) AS `installment_amount`,
+		(SELECT
+		SUM(`ln_ins_receipt_money`.`principal_paid`)
+		FROM `ln_ins_receipt_money`
+		WHERE ((`ln_ins_receipt_money`.`status` = 1)
+		AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_principaid`,
+		(SELECT
+		SUM(`ln_ins_receipt_money`.`interest_paid`)
+		FROM `ln_ins_receipt_money`
+		WHERE ((`ln_ins_receipt_money`.`status` = 1)
+		AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_interest_paid`,
+		(SELECT
+		SUM(`ln_ins_receipt_money`.`total_paymentpaid`)
+		FROM `ln_ins_receipt_money`
+		WHERE ((`ln_ins_receipt_money`.`status` = 1)
+		AND (`s`.`id` = `ln_ins_receipt_money`.`loan_id`))) AS `total_paymentpaid`
+		FROM
+		`ln_ins_sales_install` AS s,
+		`ln_ins_client` AS c
+		WHERE c.`client_id` = s.`customer_id` AND s.status=1 ";
+		$where.=" AND c.`client_id` = $customerId";
+		$dbp = new Application_Model_DbTable_DbGlobal();
+		$where.=$dbp->getAccessPermission('`s`.`branch_id`');
+	
+		$order=" ORDER BY s.id DESC";
+		return $db->fetchAll($sql.$where.$order);
+	}
 }
 

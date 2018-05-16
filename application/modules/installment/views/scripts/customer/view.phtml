@@ -74,7 +74,11 @@ label.value {
 					    height: 1px;
 					    margin-bottom: 10px;
 					}
+					.pagebreak{
+						page-break-inside:auto; page-break-after:always;
+					}
 		  		 </style>
+		  		 <div class="pagebreak">
 				<table width="100%" style="font-size:12px; font-family:Tahoma,'Khmer OS Battambang';"> 
 					<tr class="head">
 						<td colspan="2"  valign="middle">
@@ -159,6 +163,86 @@ label.value {
 					   </td>
 					</tr>
 	  		 	</table>
+	  		 	</div>
+	  		 	<br />
+  		 	 <div class="pagebreak">
+  		 	 	<div style="text-align: center;">
+  		 	 		<h2 style="font-size:16px;font-weight: initial;font-family:'Khmer OS Muol Light';text-decoration: underline;" >ប្រវត្តិនៃការទិញរបស់អតិថិជន</h2>
+  		 	 	</div>
+					   
+  		 		<table border="1"​ style="font-family:'Times New Roman', 'Khmer OS Battambang'; border-collapse:collapse;border:1px solid #000; font-size:12px; white-space: nowrap;" width="100%" cellspacing="0">
+	                <thead>
+	                	<tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 20px; padding: 2px 0px;background:#ccd9ff;">
+	                  		<th rowspan="2" style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
+		                    <th rowspan="2" style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</th>
+		                    <th colspan="8" style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("INSTALLMENT_INFO");?>&nbsp;</th>
+		                    <th colspan="5" style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PAYMENT_INFO");?>&nbsp;</th>
+	                  	</tr>
+		                <tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 20px; padding: 2px 0px;background:#ccd9ff;">
+		                    <th  style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("INSTALLMENT_NO");?>&nbsp;</th>
+		                    <th><?php echo $tr->translate("CATEGORY");?></th>
+		                    <th><?php echo $tr->translate("PRODUCT");?></th>
+		                    <th style="padding:2px 0px;"> &nbsp;<?php echo $tr->translate("SOLD_DATE");?>&nbsp;</th>
+		                    <th>&nbsp;<?php echo $tr->translate("END_DATE");?>&nbsp;</th>
+		                    <th>&nbsp;<?php echo $tr->translate("PRICE");?>&nbsp;</th>
+		                    <th>&nbsp;<?php echo $tr->translate("PAID");?>&nbsp;</th>
+		                    <th>&nbsp;<?php echo $tr->translate("SALE_TYPE");?>&nbsp;</th>
+		                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("TOTAL_INSTALL_AMOUNT");?>&nbsp;</th>
+		                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("INSTALLMENT_DURATION")." (".$tr->translate('MONTH').")";?>&nbsp;</th>
+		                   	<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?>&nbsp;</th>
+		                   	<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PERCENTAGE");?>&nbsp;</th>
+		                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NOT_TO_REPAY");?>&nbsp;</th>
+		                </tr>
+	                </thead>
+			               <?php 
+			               	   $db = new Report_Model_DbTable_DbLoan();
+				               $amt_r = 0;$amt_d = 0;$amt_b = 0; $amn_r = 0;$amn_d = 0;$amn_b = 0;
+				               $result_b=0;$result_r=0;$result_d=0;$count_d=0;
+				               $count_r=0;$count_b=0;$amt_loanmonth=0;$amt_loanweek=0;
+				               $amt_loanday=0;
+				               $i=0;
+			               	if(!empty($this->salebyCus))
+			               		foreach($this->salebyCus as $key =>$row){ $i++;?>
+			               	<?php 
+// 							            if($row['total_principaid']==$row['selling_price']){
+// 							              continue;
+// 							            }
+							            $installmentPrice = $row['selling_price'] - $row['paid'];
+				               			$total_receive= $row['total_principaid']- $row['paid'];
+					             	    $amt_d = $amt_d+$installmentPrice;
+					               		$amn_d = $amn_d+$total_receive;
+					               		//$result_d=number_format(($amn_d/$amt_d)*100,2).' %';
+// 										$count_d=$count_d+1;
+				              	 ?>
+								<tr align="center" class="hover">
+									<td>&nbsp;<?php echo $i; ?>&nbsp;</td>
+									<td style="line-height: 12px; white-space: nowrap;">&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
+									<td>&nbsp;<?php echo $row['sale_no'];?>&nbsp;</td>
+									<td style="white-space:nowrap;">&nbsp;<?php echo $row['cateName']; ?>&nbsp;</td>
+									<td style="white-space:nowrap;">&nbsp;<?php echo $row['item_name']; ?>&nbsp;</td>
+									<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_sold']));?>&nbsp;</td>
+									<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_line']));?>&nbsp;</td>
+									<td>&nbsp;<?php echo number_format($row['selling_price'],2);?>&nbsp;</td>
+									<td>&nbsp;<?php echo number_format($row['paid'],2);?>&nbsp;</td>
+									<?php if($row['selling_type']==2){?>
+									<td>&nbsp;<?php echo "ទិញដាច់";?>&nbsp;</td>
+									<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($installmentPrice,2);//.' '.$row['currency_type']; ?>&nbsp;</td>
+									<td style="white-space: nowrap;">&nbsp;<?php echo number_format($row['duration']);//.$row['termborrow'];?>&nbsp;</td>
+									<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($total_receive,2);?>&nbsp;</td>
+									<td>&nbsp;<?php echo (round(($total_receive/$installmentPrice),2)*100).' %'; ?>&nbsp;</td>
+									<td>&nbsp;<?php echo number_format(($installmentPrice-$total_receive),2);?>&nbsp;</td>
+									<?php }else{?>
+									<td>&nbsp;<?php echo "បង់រំលស់";?>&nbsp;</td>
+									<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo 0;?>&nbsp;</td>
+									<td style="white-space: nowrap;">&nbsp;<?php echo 0;?>&nbsp;</td>
+									<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo 0;?>&nbsp;</td>
+									<td>&nbsp;<?php echo 0;?>&nbsp;</td>
+									<td>&nbsp;<?php echo 0;?>&nbsp;</td>
+									<?php }?>
+								</tr>
+							<?php }?>
+			            </table>
+		           </div>
 	   		</div>
 		 </div>	
 <iframe style="font-size: 10px; !important;" name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>

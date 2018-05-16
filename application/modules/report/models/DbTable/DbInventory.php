@@ -302,7 +302,24 @@ GROUP BY l.product_id LIMIT 1) AS stockOutAmount,
 	   	$sql.=" ORDER BY pl.`location_id`";
 	   	
 	   	return $db->fetchAll($sql);
-   	
+   }
+   function getProductClosingStock($proid,$branch_id,$search){
+   		$db = $this->getAdapter();
+   		$date="";
+   		if (!empty($search['start_date'])){
+   			$date=date("Y-m",strtotime($search['start_date']));
+   		}else{
+   			if (!empty($search['end_date'])){
+   				$date=date("Y-m",strtotime($search['end_date']));
+   			}
+   		}
+   		$sql="SELECT bd.* FROM `ln_ins_balancstockdetail` AS bd,
+		`ln_ins_balancstock` AS b
+		WHERE 
+		b.id = bd.`balance_id` AND
+		bd.`product_id`=$proid AND bd.`location_id` =$branch_id
+		AND DATE_FORMAT(b.`closingDate`,'%Y-%m') = '$date'";
+   		return $db->fetchRow($sql);
    }
    
    public function getALLInstallmentPayment($search=null){

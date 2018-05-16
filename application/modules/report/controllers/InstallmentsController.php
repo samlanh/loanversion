@@ -165,7 +165,7 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 					'category'	=>	-1,
 					'product_type'	=>	-1,
 					'status'	=>  -1,
-					'start_date'=> '',
+					'start_date'=> date('Y-m-d'),
 					'end_date'=>date('Y-m-d'),
 			);
 		}
