@@ -83,7 +83,7 @@ class Other_BranchController extends Zend_Controller_Action {
 		}
 		$db=new Other_Model_DbTable_DbBranch();
 		$row=$db->getBranchById($id);
-	
+		$this->view->row = $row;
 		$frm= new Other_Form_Frmbranch();
 		$update=$frm->FrmBranch($row);
 		$this->view->frm_branch=$update;

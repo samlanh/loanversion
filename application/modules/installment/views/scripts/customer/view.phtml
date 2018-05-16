@@ -76,10 +76,11 @@ label.value {
 					}
 					.pagebreak{
 						page-break-inside:auto; page-break-after:always;
+						display: block;
 					}
 		  		 </style>
 		  		 <div class="pagebreak">
-				<table width="100%" style="font-size:12px; font-family:Tahoma,'Khmer OS Battambang';"> 
+				<table  style="font-size:12px; font-family:Tahoma,'Khmer OS Battambang';  width: 100%; "> 
 					<tr class="head">
 						<td colspan="2"  valign="middle">
 							<img alt="" src="<?php echo $this->baseUrl()."/images/logo.jpg"?>" style="width: 60px;display: inline-block;margin-right: 10px;">
@@ -101,7 +102,7 @@ label.value {
 					</tr>
 					<tr>
 					   <td colspan="3">
-					   		<table id="exportExcel" style="font-family:'Khmer OS Battambang'; border-collapse:collapse;  font-size:14px; white-space: nowrap;" width="100%" cellspacing="0">
+					   		<table id="exportExcel" style="font-family:'Khmer OS Battambang'; border-collapse:collapse; width:100%;  font-size:14px; white-space: nowrap;" cellspacing="0">
 						    	<tr>
 						    		<td align="center" style="font-size:14px; font-weight: initial; font-family:'Khmer OS Muol Light';">
 						    			<img src="<?php echo $this->baseUrl();?>/images/<?php echo $photo;?>" style="width:100px;max-height: 120px;border: solid 1px #a29f9f;"/>
@@ -174,7 +175,6 @@ label.value {
 	                <thead>
 	                	<tr bgcolor="#ccc" class="style" align="center" style="font-weight:bold; line-height: 20px; padding: 2px 0px;background:#ccd9ff;">
 	                  		<th rowspan="2" style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NUM");?>&nbsp;</th>
-		                    <th rowspan="2" style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("BRANCH_NAME");?>&nbsp;</th>
 		                    <th colspan="8" style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("INSTALLMENT_INFO");?>&nbsp;</th>
 		                    <th colspan="5" style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PAYMENT_INFO");?>&nbsp;</th>
 	                  	</tr>
@@ -188,10 +188,10 @@ label.value {
 		                    <th>&nbsp;<?php echo $tr->translate("PAID");?>&nbsp;</th>
 		                    <th>&nbsp;<?php echo $tr->translate("SALE_TYPE");?>&nbsp;</th>
 		                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("TOTAL_INSTALL_AMOUNT");?>&nbsp;</th>
-		                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("INSTALLMENT_DURATION")." (".$tr->translate('MONTH').")";?>&nbsp;</th>
+		                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("INSTALLMENT_DURATION")."<br /> (".$tr->translate('MONTH').")";?>&nbsp;</th>
 		                   	<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("LOAN_RETURN_TO_CLIENT");?>&nbsp;</th>
-		                   	<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PERCENTAGE");?>&nbsp;</th>
-		                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("NOT_TO_REPAY");?>&nbsp;</th>
+		                   	<th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("PERCENTS");?>&nbsp;</th>
+		                    <th style="padding:2px 0px;">&nbsp;<?php echo $tr->translate("BALANCE_DUE");?>&nbsp;</th>
 		                </tr>
 	                </thead>
 			               <?php 
@@ -216,7 +216,6 @@ label.value {
 				              	 ?>
 								<tr align="center" class="hover">
 									<td>&nbsp;<?php echo $i; ?>&nbsp;</td>
-									<td style="line-height: 12px; white-space: nowrap;">&nbsp;<?php echo $row['branch_name']; ?>&nbsp;</td>
 									<td>&nbsp;<?php echo $row['sale_no'];?>&nbsp;</td>
 									<td style="white-space:nowrap;">&nbsp;<?php echo $row['cateName']; ?>&nbsp;</td>
 									<td style="white-space:nowrap;">&nbsp;<?php echo $row['item_name']; ?>&nbsp;</td>
