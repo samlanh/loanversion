@@ -81,7 +81,9 @@ Class Pawnshop_Form_FrmSearchPayment extends Zend_Dojo_Form {
 // 		$_coid->setValue($request->getParam("co_id"));
 		
 		$start_date = new Zend_Dojo_Form_Element_DateTextBox("start_date");
-		$start_date->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.DateTextBox','placeholder'=>$this->tr->translate("ចាប់ពីថ្ងៃ")));
+		$start_date->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.DateTextBox',
+				'placeholder'=>$this->tr->translate("ចាប់ពីថ្ងៃ"),
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"));
 		$_date = $request->getParam("start_date");
 		if(empty($_date)){
 			$_date = date('Y-m-d');
@@ -89,7 +91,9 @@ Class Pawnshop_Form_FrmSearchPayment extends Zend_Dojo_Form {
 		$start_date->setValue($_date);
 		$date = date("y-m-d");
 		$end_date = new Zend_Dojo_Form_Element_DateTextBox("end_date");
-		$end_date->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.DateTextBox','placeholder'=>$this->tr->translate("រហូតដល់ថ្ងៃ")));
+		$end_date->setAttribs(array('class'=>'fullside','dojoType'=>'dijit.form.DateTextBox',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",
+				'placeholder'=>$this->tr->translate("រហូតដល់ថ្ងៃ")));
 		$_date = $request->getParam("end_date");
 		if(empty($_date)){
 			$_date = date('Y-m-d');

@@ -22,6 +22,7 @@ td p{ margin-top:0px !important;}
 		font-size: 12px;
 	}
 	td p{ margin-top:-12px;}
+	p{margin: 0 00px !important;}
 	</style>
 	<table style="font-family: 'Khmer OS Content'; width:100%;"  >
 		<tr>
@@ -56,10 +57,10 @@ td p{ margin-top:0px !important;}
 				                    	<p><?php echo $tr->translate("FIRST_PAYMENT");?> : <?php echo date('d-m-Y',strtotime($client['first_payment'])); ?></p>
 				                     </td>
 				                    <td valign="top">
-				                   	  <p><?php echo $tr->translate("LOAN_NO");?> : <b><?php echo $client['loan_number'];?></b></p>
+				                   	  <p><?php echo $tr->translate("PAWN_CODE");?> : <b><?php echo $client['loan_number'];?></b></p>
 				                      <p><?php //echo $tr->translate("INTEREST")." : ".$client['interest_rate']." %"?> </p>
 				                      <p><?php echo $tr->translate("LOAN_AMOUNT");?>  : <?php echo number_format($client['total_capital'],(!strrpos($client['total_capital'],". "))? 0 : 2);echo '&nbsp;'.$client['currency_type'];?></p>
-				                      <p><?php echo $tr->translate("LEVEL");?> : <?php echo $client['level'];?></p>
+				                      <p><?php echo $tr->translate("LOAN_LEVEL");?> : <?php echo $client['level'];?></p>
 				                    </td>
 				                </tr>
 				                <tr style="font-size:15px;font-family:'Khmer OS Battambang'" >
@@ -141,7 +142,7 @@ td p{ margin-top:0px !important;}
 	            <table width="100%" cellpadding="3">
 	            	<tr class="font_bold" style="height:25px;">
 	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('ACCOUNTING_SIGN');?></td>
-	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('ភ្នាក់ងារឥណទាន'); ?></td> 
+	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"></td> 
 	            		<td align="center" valign="bottom" style="font-family:'Khmer OS Muol'"><?php echo $tr->translate('BORROWER');?></td>
 	            	</tr>
 	            	<tr class="font_bold">

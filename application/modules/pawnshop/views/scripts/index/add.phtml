@@ -306,7 +306,7 @@ input.btn_borwse_image {
 								<td colspan="3">
 									<table width="100%" style="font-family: 'Khmer OS Battambang'; margin:0; padding:0; border:none;">
 						            	<tr>
-						                	<td width="35%" valign="top" style="padding:0;"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+						                	<td width="35%" valign="top" style="padding:0;"><!-- <img src="<?php //echo $this->baseUrl();?>/images/logo.jpg" height="85px"> --></td>
 						                	<td valign="top" align="center">
 						                		<div class="h" ><?php echo $tr->translate("បង្កាន់ដៃដាក់ទ្រពបញ្ចាំ");?></div> 
 						                		<div class="h" style="padding-top:10px;"><?php echo $tr->translate(" PAWN TICKET RECEIPT");?></div> 
@@ -330,7 +330,7 @@ input.btn_borwse_image {
 													</tr>
 													<tr>
 														<td>&nbsp;កាលបរិច្ឆេទ</td>
-														<td class="lblvalue one khmerbold"><strong>&nbsp;<?php  $today = date("m j, Y, g:i a");echo $today; ?></strong></td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<?php  $today = date("j/m/Y, g:i a");echo $today; ?></strong></td>
 													</tr>
 													<tr>
 														<td>&nbsp;ឈ្មោះអតិថិជន</td>
@@ -413,7 +413,7 @@ input.btn_borwse_image {
 								<td colspan="3">
 									<table width="100%" style="font-family: 'Khmer OS Battambang'; margin:0; padding:0;border:none;">
 						            	<tr>
-						                	<td width="35%" valign="top" style="padding:0;"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+						                	<td width="35%" valign="top" style="padding:0;"><!--<img src="<?php //echo $this->baseUrl();?>/images/logo.jpg" height="85px"> --></td>
 						                	<td valign="top" align="center">
 						                		<div class="h" ><?php echo $tr->translate("បង្កាន់ដៃដាក់ទ្រពបញ្ចាំ");?></div> 
 						                		<div class="h"  style="padding-top:10px;"><?php echo $tr->translate("PAWN TICKET RECEIPT");?></div> 
@@ -436,7 +436,7 @@ input.btn_borwse_image {
 													</tr>
 													<tr>
 														<td>&nbsp;កាលបរិច្ឆេទ</td>
-														<td class="lblvalue one khmerbold"><strong>&nbsp;<?php  $today = date("m j, Y, g:i a");echo $today; ?></strong></td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<?php  $today = date("j/m/Y, g:i a");echo $today; ?></strong></td>
 													</tr>
 													<tr>
 														<td>&nbsp;ឈ្មោះអតិថិជន</td>
@@ -684,7 +684,7 @@ function addPreviewLoan(){
 }
 function showReceipt(){
 	 dojo.byId("lb_receipt_no").innerHTML = dijit.byId("loan_code").get('value');
-	 dojo.byId("lb_loanamount").innerHTML = dijit.byId("total_amount").get('value')+' '+dijit.byId('currency_type').attr('displayedValue');
+	 dojo.byId("lb_loanamount").innerHTML = dojo.number.format(dijit.byId("total_amount").get('value'),2)+' '+dijit.byId('currency_type').attr('displayedValue');
 	 dojo.byId("lb_interest_rate").innerHTML = dijit.byId("interest_rate").get('value')+ ' %';
 	 dojo.byId("lb_producttype").innerHTML = dijit.byId("product_id").attr('displayedValue')+" : "+$("#description").val();
 
@@ -699,7 +699,7 @@ function showReceipt(){
 	 dojo.byId("lb_end_date").innerHTML =dijit.byId("date_line").attr('displayedValue');
 
 	 dojo.byId("lb_receipt_no1").innerHTML = dijit.byId("loan_code").get('value');
-	 dojo.byId("lb_loanamount1").innerHTML = dijit.byId("total_amount").get('value')+' '+dijit.byId('currency_type').attr('displayedValue');
+	 dojo.byId("lb_loanamount1").innerHTML = dojo.number.format(dijit.byId("total_amount").get('value'),2)+' '+dijit.byId('currency_type').attr('displayedValue');
 	 dojo.byId("lb_interest_rate1").innerHTML = dijit.byId("interest_rate").get('value')+ ' %';
 	 dojo.byId("lb_producttype1").innerHTML = dijit.byId("product_id").attr('displayedValue')+" : "+$("#description").val();
 	 dojo.byId("lb_total_interest1").innerHTML = total_interest+' '+dijit.byId('currency_type').attr('displayedValue');;
@@ -882,7 +882,7 @@ function filterClient(){
 	getAllClientNumberByBranch(branch_id);
 	getbranchinfo();
 }
-var url_getclient = '<?php echo $this->url(array('module'=>'saving','controller'=>'customer','action'=>'getclientbybranch')); ?>';
+var url_getclient = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'customer','action'=>'getclientbybranch')); ?>';
 function getAllClientByBranch(branch_id){
 	dojo.xhrPost({
 		url:url_getclient,	

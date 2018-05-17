@@ -83,8 +83,8 @@ $interetPayment = ($pawnshop['total_capital'] * $pawnshop['interest_rate'])/100;
 														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_receipt_no" ><?php echo $pawnshop['loan_number'];?></label></strong></td>
 													</tr>
 													<tr>
-														<td>&nbsp;កាលបរិច្ឆេទ</td>
-														<td class="lblvalue one khmerbold"><strong>&nbsp;<?php  echo date("m j, Y,",strtotime($pawnshop['date_release']))." ".date("g:i a");//$today = date("m j, Y, g:i a");echo $today; ?></strong></td>
+														<td>&nbsp;ថ្ងៃដាក់បញ្ចាំ</td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<?php  echo date("j/m/Y, g:i a",strtotime($pawnshop['date_release'])); ?></strong></td>
 													</tr>
 													<tr>
 														<td>&nbsp;ឈ្មោះអតិថិជន</td>
@@ -115,7 +115,7 @@ $interetPayment = ($pawnshop['total_capital'] * $pawnshop['interest_rate'])/100;
 														<td class="one khmerbold">
 															<table width="100%">
 																<tr>
-																	<td width="50%" class="lblsubvalue one khmerbold"><label id="lb_start_date"><?php echo date("d/M/Y",strtotime($pawnshop['date_release']));?></label></td>
+																	<td width="50%" class="lblsubvalue one khmerbold"><label id="lb_start_date"><?php echo date("d/m/Y",strtotime($pawnshop['date_release']));?></label></td>
 																	<td style="white-space: nowrap;">&nbsp;រយៈពេលបញ្ចាំ</td>
 																	<td class="lblsubvalue one khmerbold"><strong>&nbsp;<label id="lb_period" style="white-space:nowrap;"><?php echo $pawnshop['total_duration'];?> ខែ</label></strong></td>
 																</tr>
@@ -124,11 +124,11 @@ $interetPayment = ($pawnshop['total_capital'] * $pawnshop['interest_rate'])/100;
 													</tr>
 													<tr>
 														<td style="white-space: nowrap;">&nbsp;ថ្ងៃបង់ប្រាក់ដំបូង</td>
-														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_firstpayment" style="white-space:nowrap;"><?php echo date("d/M/Y",strtotime($pawnshop['first_payment']));?></label></strong></td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_firstpayment" style="white-space:nowrap;"><?php echo date("d/m/Y",strtotime($pawnshop['first_payment']));?></label></strong></td>
 													</tr>
 													<tr>
 														<td>&nbsp;ផុតកំណត់</td>
-														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_end_date" style="white-space:nowrap;"><?php echo date("d/M/Y",strtotime($pawnshop['date_line']));?></label></strong></td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_end_date" style="white-space:nowrap;"><?php echo date("d/m/Y",strtotime($pawnshop['date_line']));?></label></strong></td>
 													</tr>
 												</table>
 											</td>

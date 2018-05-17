@@ -697,10 +697,10 @@ GROUP BY l.product_id LIMIT 1) AS stockOutAmount,
    public function getInstallPaymentBYId($id){
    	$db = $this->getAdapter();
    	$sql="SELECT
-   	(SELECT
-   	`ln_branch`.`branch_namekh`
-   	FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`)
-   	LIMIT 1) AS `branch_name`,
+   	(SELECT `ln_branch`.`branch_namekh` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `branch_name`,
+   	(SELECT `ln_branch`.`br_address` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `br_address`,
+   	(SELECT `ln_branch`.`branch_tel` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `branch_tel`,
+   	(SELECT `ln_branch`.`branch_nameen` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `branch_nameen`,
    	ps.sale_no AS `loan_number`,
    	(SELECT `c`.`name_kh` FROM `ln_ins_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_name`,
    	(SELECT  `c`.`client_number` FROM `ln_ins_client` `c` WHERE (`c`.`client_id` = `crm`.`client_id`) LIMIT 1) AS `client_number`,
@@ -787,6 +787,10 @@ GROUP BY l.product_id LIMIT 1) AS stockOutAmount,
    	$db = $this->getAdapter();
    	$sql="SELECT g.*,
    	(SELECT b.branch_namekh FROM `ln_branch` AS b WHERE b.br_id = g.`branch_id` LIMIT 1) branchNamekh,
+   	(SELECT `ln_branch`.`br_address` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `g`.`branch_id`) LIMIT 1) AS `br_address`,
+   	(SELECT `ln_branch`.`branch_tel` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `g`.`branch_id`) LIMIT 1) AS `branch_tel`,
+   	(SELECT `ln_branch`.`branch_nameen` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `g`.`branch_id`) LIMIT 1) AS `branch_nameen`,
+   	
 	(SELECT c.name_kh FROM `ln_ins_client` AS c WHERE c.client_id = g.`customerId` LIMIT 1) AS name_kh,
 	(SELECT c.client_number FROM `ln_ins_client` AS c WHERE c.client_id = g.`customerId` LIMIT 1) AS client_number,
 	(SELECT c.phone FROM `ln_ins_client` AS c WHERE c.client_id = g.`customerId` LIMIT 1) AS phone,

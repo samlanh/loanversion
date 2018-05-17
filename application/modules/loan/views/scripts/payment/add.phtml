@@ -991,7 +991,7 @@ function getLaonPayment(type){//tab ទី1
 	 document.getElementsByClassName("overlay")[0].style.display="block";
 		dojo.xhrPost({
 		    url: url_submit,
-		    content : { 
+		    content:{ 
 			    'loan_number':loan_number,
 			    'type':type,
 			},	
@@ -1045,7 +1045,7 @@ function getLaonPayment(type){//tab ទី1
 							tem+= '<tr id=tr_'+inx+' style="background-color:none">';
 							tem += '<td>&nbsp;'+num+'</td>';
 							tem += '<td align="center">&nbsp;'+respone[i].installment_amount+'</td>';
-							tem += '<td>&nbsp;<input onclick="return false" onkeydown="return false" '+checked+' type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" /></td>';
+							tem += '<td>&nbsp;<input style="margin:0px;padding:0px;" onclick="return false" onkeydown="return false" '+checked+' type="checkbox" class="checkbox" name="mfdid_'+inx+'" id="mfdid_'+inx+'" value="'+id+'" OnChange="calculateTotal('+inx+')" /></td>';
 						    tem += '<td style="white-space: nowrap;">&nbsp;'+str_day+'&nbsp;</td>';
 						    tem += '<td style="white-space: nowrap;">&nbsp;'+date_pay+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+respone[i].date_payment+'" /><input type="hidden" name="last_pay_date'+inx+'" id="last_pay_date'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].outstanding_after)+' '+curr+'&nbsp;<input type="hidden" name="outstanding_'+inx+'" id="outstanding_'+inx+'" value="'+respone[i].outstanding_after+'" /></td>';
@@ -1219,16 +1219,22 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		
 		if(payOption==4){
 			dijit.byId('total_interest').attr('readOnly',false);
-			//interest = principal_permonth*(interest_rate/amount_day/100)*interest_day;
 			if(total_latedate>0){
 				total_penalty = (principal_permonth_late+interest)*(interest_penalty*interest_rate/term_amountday/100)*total_latedate;
 			}
+			installment_no = dijit.byId("installment_no").get("value");
+			
+			if(installment_no<=6){
+				total_penalty=$("#interest_1").val();
+			}
+			
 		}else if(payOption==1 && total_latedate>0){
-			total_penalty = (principal_permonth+interest)*(interest_penalty*interest_rate/term_amountday/100)*total_latedate;
+			//total_penalty = (principal_permonth+interest)*(interest_penalty*interest_rate/term_amountday/100)*total_latedate;
+			total_penalty=0;//above is used by for loan at battambang ot use
 		}
 		total_penalty= roundhundred(total_penalty);
 		interest= roundhundred(interest);
-		//dijit.byId("penalize_amount").attr("value",total_penalty);//use
+		dijit.byId("penalize_amount").attr("value",total_penalty);//use
 		dijit.byId("os_amount").attr("value",principal_permonth);
 		dijit.byId("total_interest").attr("value",interest);
 		dijit.byId("total_payment").attr("value",principal_permonth+interest+total_penalty);

@@ -15,8 +15,6 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     	$from_date =(empty($search['start_date']))? '1': " cm.date_input >= '".$search['start_date']." 00:00:00'";
     	$to_date = (empty($search['end_date']))? '1': " cm.date_input <= '".$search['end_date']." 23:59:59'";
     	$where = " AND ".$from_date." AND ".$to_date;
-//     	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-//     	$reciept = $tr->translate("PAYMENT_RECEIPT");
     	$db = $this->getAdapter(); 
     	$sql = " SELECT cm.`id`,
 					(SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=cm.`branch_id` LIMIT 1) AS branch,

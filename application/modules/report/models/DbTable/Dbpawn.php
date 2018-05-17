@@ -2448,8 +2448,11 @@ AND cl.client_id = $client_id )";
       	$sql="SELECT
       	(SELECT
       	`ln_branch`.`branch_namekh`
-      	FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`)
-      	LIMIT 1) AS `branch_name`,
+      	FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `branch_name`,
+      		(SELECT `ln_branch`.`br_address` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `br_address`,
+   	(SELECT `ln_branch`.`branch_tel` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `branch_tel`,
+   	(SELECT `ln_branch`.`branch_nameen` FROM `ln_branch` WHERE (`ln_branch`.`br_id` = `crm`.`branch_id`) LIMIT 1) AS `branch_nameen`,
+   	
       	(SELECT `ln_currency`.`symbol`
       	FROM `ln_currency`
       	WHERE (`ln_currency`.`id` = `crm`.`currency_type`) LIMIT 1) AS `currency_typeshow`,

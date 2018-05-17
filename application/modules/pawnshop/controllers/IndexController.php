@@ -31,16 +31,8 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECEIPT","PAWN_AMOUNT","PAWNSHOP_DURATION",
 					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","BY_USER","STATUS");
-			//"DACH_PRODUCT","PAYMENT_RECEIPT","ADD_PAYMENT",
 			$link_info=array('module'=>'pawnshop','controller'=>'index','action'=>'edit',);
-// 			$link_dach=array('module'=>'pawnshop','controller'=>'dach','action'=>'index',);
-// 			$receiptLink=array('module'=>'report','controller'=>'pawn','action'=>'pawnticketreceipt',);
-// 			$link_payment=array('module'=>'pawnshop','controller'=>'payment','action'=>'add',);
-// 			$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-// 			$dach = $tr->translate("DACH_PRODUCT");
-// 			$receipt = $tr->translate("PAYMENT_RECEIPT");
-			//"$receipt"=>$receiptLink,'Click Here'=>$link_payment,
-			//"$dach"=>$link_dach,'Expired'=>$link_dach,
+
 			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array('branch'=>$link_info,'loan_number'=>$link_info,'receipt_num'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");

@@ -48,17 +48,21 @@ $data = $this->data;
 			<table width="100%">
 				<tr>
 			    	<td align="center" valign="top">
-					<table  cellspacing="10" style=" color: #133b84 !important; width:25cm; max-height:14.85cm; white-space:nowrap; font-family:'Khmer OS Battambang'; font-size: 10px; ">
+					<?php for($i=0;$i<2;$i++){?>
+					<?php if($i==1){?>
+						<div style="border-bottom:2px dotted #000;width:100%;margin:50px 0px;"></div>
+					<?php }?>
+					<table  cellspacing="10" style=" color: #133b84 !important; width:25cm; max-height:14.85cm; white-space:nowrap; font-family:'Khmer OS Battambang'; font-size: 16px; ">
 						 <tr valign="top">
 							<td align="center" colspan="6" valign="top" height="80">	
 								   <table  cellpadding="0" cellspacing="0" style="font-family: 'Times New Roman','Khmer OS Battambang';padding:0; width:100%;white-space:nowrap;">
 								   		<tr style="line-height:10px;">
-								   			<td width="28%"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" style="padding-left: 8px;height: 90px;"></td>
+								   			<td width="28%"></td>
 								   			<td valign="top">
 									   			<ul style="padding-top: 5px; ">
-						                			<li style=" line-height: 25px; text-align:center; font-size:18px !important; font-family:'Times New Roman','Khmer MEF2'"><?php echo $data['client_company_name'];//$tr->translate("BRAND_TITLE");?></li>
-						                			<li style=" line-height: 25px; text-align:center; font-size:17px !important; font-family:'Times New Roman','Khmer MEF2'"><?php echo $tr->translate("PAYMENT_RECEIPT");?></li>
-						                			<li style=" line-height: 25px; text-align:center; font-size:17px !important;font-family:'Times New Roman'; font-weight: bold;">PAYMENT RECEIPT</li>
+						                			<li style=" line-height: 30px; text-align:center; font-size:18px !important; font-family:'Times New Roman','Khmer MEF2'"><?php echo $loanPayment['branch_nameen'];//$tr->translate("BRAND_TITLE");?></li>
+						                			<li style=" line-height: 30px; text-align:center; font-size:17px !important; font-family:'Times New Roman','Khmer MEF2'"><?php echo $tr->translate("PAYMENT_RECEIPT");?></li>
+						                			<li style=" line-height: 30px; text-align:center; font-size:17px !important;font-family:'Times New Roman'; font-weight: bold;">PAYMENT RECEIPT</li>
 						                		</ul>
 							                </td>
 							                <td width="28%" valign="bottom">
@@ -77,7 +81,7 @@ $data = $this->data;
 				   		 </tr> 
 				    	<tr>
 				    		<td align="center" colspan="6" valign="top" height="80">	
-							   <table  cellpadding="2" style=" line-height: 30px;  font-family: 'Times New Roman','Khmer OS Battambang' ;font-size:16px !important;white-space:nowrap; width:24cm; margin: 0 auto;">
+							   <table  cellpadding="2" style=" line-height: 30px;  font-family: 'Times New Roman','Khmer OS Battambang' ;font-size:18px !important;white-space:nowrap; width:24cm; margin: 0 auto;">
 									<tr class="fontsize">
 											<td class="lbtitlev" valign="top" width="17%">សាខា </td>
 											<td ><span class="borderCo value" ><label id="lbl_branch_id">&nbsp;<?php echo $loanPayment['branch_name'];?>&nbsp;</label></span></td>
@@ -151,10 +155,9 @@ $data = $this->data;
 											
 									</tr>
 									<tr >
-											
-											<td class="lbtitlev">សម្គាល់</td>
-											<td colspan="5">
-												<span class="borderCo value">
+										<td class="lbtitlev">សម្គាល់</td>
+											<td colspan="5" >
+												<span class="borderCo value" style="min-height: 70px;">
 													<label id="lbl_note">&nbsp;<?php echo $loanPayment['note'];?>&nbsp;</label>
 												</span>
 											</td>
@@ -169,7 +172,7 @@ $data = $this->data;
 													<td width="50%">ហត្ថលេខា និងឈ្មោះអតិថិជន</td>
 												</tr>
 												<tr>
-													<td colspan="2" style="height: 40px;"></td>
+													<td colspan="2" style="height: 100px;"></td>
 												</tr>
 												<tr>
 													<td><span class=" value" style="min-width: 100px;" id="CurrentUserLBL"><?php echo $loanPayment['user_name'];?></span></td>
@@ -179,20 +182,43 @@ $data = $this->data;
 										</td>
 									</tr>
 									<tr>
-										<td colspan="8" class="bgBorderColor"></td>
+										<td colspan="8" class=""></td>
 									</tr>
-									<tr style="line-height: 20px;font-size: 11px;">
+									<tr style="line-height: 20px;font-size: 14px;">
 										<td valign="top">
-											<span style="text-decoration:underline;font-size: 14px;">បញ្ជាក់ ៖</span>
+											<span style="text-decoration:underline;font-size: 14px;"></span>
 										</td>
 										<td colspan="5">
-											<span style="white-space: pre-line;font-size: 13px;"><?php echo $data['comment'];?></span>
+											<span style="white-space: pre-line;font-size: 14px;"></span>
+										</td>
+									</tr>
+									<tr style="line-height: 30px;font-size: 16px;">
+										<td colspan="6" style="border-top:1px dotted #000;">
+										</td>
+									</tr>
+									<tr style="line-height: 30px;font-size: 16px;">
+										<td valign="top">
+											<span style="">អាសយដ្ឋាន</span>
+										</td>
+										<td colspan="5">
+											<span style="white-space: pre-line;font-size: 16px;"><?php echo $loanPayment['br_address'];?>
+											</span>
+										</td>
+									</tr>
+									<tr style="line-height: 30px;font-size: 16px;">
+										<td>
+											<span >លេខទំនាក់ទំនង</span>
+										</td>
+										<td colspan="5">
+											<span style="white-space: pre-line;font-size: 16px;"><?php
+												echo $loanPayment['branch_tel'];?></span>
 										</td>
 									</tr>
 								</table>
 							</td>
 						</tr>
 					</table>
+					<?php }?>
 				</td>
 			</tr>
 		</table>

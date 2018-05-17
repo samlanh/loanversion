@@ -150,7 +150,7 @@ class Pawnshop_CustomerController extends Zend_Controller_Action {
 			$data = $this->getRequest()->getPost();
 			$db = new Pawnshop_Model_DbTable_DbClient();
 			$dataclient=$db->getAllClient($data['branch_id']);
-			array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>'---Add New Client---') );
+			//array_unshift($dataclient, array('id' => "-1",'branch_id'=>$data['branch_id'],'name'=>'---Add New Client---') );
 			print_r(Zend_Json::encode($dataclient));
 			exit();
 		}
