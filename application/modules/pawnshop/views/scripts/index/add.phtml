@@ -267,7 +267,7 @@ input.btn_borwse_image {
 		<div style="padding:5px;width:100%">
 			<div id="rpt_print" class="print">
 				<style>
-							.myblog{display: block;}
+.myblog{display: table;}
 							.fontbig{
 								font-size: 15px;	
 							}
@@ -304,9 +304,9 @@ input.btn_borwse_image {
 						<table class="print" cellspacing="0"  cellpadding="0" style="width:100%;height: 10cm;font-family:'Khmer OS Battambang';font-size:16px;color:#000; padding:15px 10px 0px 5px; margin: 0px;">
 							<tr>
 								<td colspan="3">
-									<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+									<table width="100%" style="font-family: 'Khmer OS Battambang'; margin:0; padding:0; border:none;">
 						            	<tr>
-						                	<td width="35%" valign="top"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+						                	<td width="35%" valign="top" style="padding:0;"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
 						                	<td valign="top" align="center">
 						                		<div class="h" ><?php echo $tr->translate("បង្កាន់ដៃដាក់ទ្រពបញ្ចាំ");?></div> 
 						                		<div class="h" style="padding-top:10px;"><?php echo $tr->translate(" PAWN TICKET RECEIPT");?></div> 
@@ -330,7 +330,7 @@ input.btn_borwse_image {
 													</tr>
 													<tr>
 														<td>&nbsp;កាលបរិច្ឆេទ</td>
-														<td class="lblvalue one khmerbold"><strong>&nbsp;<?php  $today = date("F j, Y, g:i a");echo $today; ?></strong></td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<?php  $today = date("m j, Y, g:i a");echo $today; ?></strong></td>
 													</tr>
 													<tr>
 														<td>&nbsp;ឈ្មោះអតិថិជន</td>
@@ -382,7 +382,7 @@ input.btn_borwse_image {
 									</table>
 								</td>
 							</tr>
-							<tr height="110px">
+							<tr height="100px">
 							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer MEF2';white-space: nowrap;">គណនេយ្យករ  <div class="h" style="margin-left:7px !important;">ACCOUNTANT</div> </td>
 								<td width="30%" class="one khmerbold" align="center" valign="top" style="font-family:'Khmer MEF2';border-left: 1px solid #fff !important; border-right: 1px solid #fff !important;">អ្នកធានា <div class="h" style="margin-left:7px !important;">GUARANTOR</div></td>
 							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer MEF2';">អ្នកដាក់ទ្រព្យ <div class="h" style="margin-left:7px !important;">PAWNER OF LOAN</div>
@@ -394,23 +394,26 @@ input.btn_borwse_image {
 							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer OS Battambang';"><label id="lblClient">&nbsp;</label>
 							    </td>
 							</tr>
+							<tr>
+								<td colspan="3" style="border: solid 1px #000;padding: 0;"></td>
+							</tr>
 							<tr style="font-size: 10px;border:1px solid #000;">
 							    <td class="khmerbold" valign="top" style=""><strong><?php echo $data['client_company_name'];//$tr->translate("BRAND_TITLE");?></strong></td>
 							    <td class="khmerbold" valign="top" colspan="2" style="">
 								    <div style="font-family:'Khmer OS Battambang';">
-								    	<?php echo $data['branch-add-client'];//$tr->translate("ADDRESS_COMPANY");?>
+								    	<strong id="footrecieptAddress"><?php //echo $data['branch-add-client'];//$tr->translate("ADDRESS_COMPANY");?></strong>
 								    </div>
-								    <?php echo $data['tel-client'];//$tr->translate("TEL_COMPANY");?>
+								    <strong><span id="footrecieptPhone"><?php //echo $data['tel-client'];//$tr->translate("TEL_COMPANY");?></span></strong>
 							    </td>
 							</tr>
 					</table>
 					<div style="border:1px dotted #000;margin: 20px 0px;"></div>
-					<table class="print myblog" cellspacing="0"  cellpadding="0" style="width:100%;height: 12cm;font-family:'Khmer OS Battambang';font-size:16px;color:#000; padding:15px 10px 0px 5px; margin: 0px;">
+					<table class="print myblog" cellspacing="0"  cellpadding="0" style="width:100%;height: 10cm;font-family:'Khmer OS Battambang';font-size:16px;color:#000; padding:15px 10px 0px 5px; margin: 0px;">
 							<tr>
 								<td colspan="3">
-									<table width="100%" style="font-family: 'Khmer OS Battambang';" style="margin:0; padding:0;border:none;">
+									<table width="100%" style="font-family: 'Khmer OS Battambang'; margin:0; padding:0;border:none;">
 						            	<tr>
-						                	<td width="35%" valign="top"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
+						                	<td width="35%" valign="top" style="padding:0;"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" height="85px"></td>
 						                	<td valign="top" align="center">
 						                		<div class="h" ><?php echo $tr->translate("បង្កាន់ដៃដាក់ទ្រពបញ្ចាំ");?></div> 
 						                		<div class="h"  style="padding-top:10px;"><?php echo $tr->translate("PAWN TICKET RECEIPT");?></div> 
@@ -433,7 +436,7 @@ input.btn_borwse_image {
 													</tr>
 													<tr>
 														<td>&nbsp;កាលបរិច្ឆេទ</td>
-														<td class="lblvalue one khmerbold"><strong>&nbsp;<?php  $today = date("F j, Y, g:i a");echo $today; ?></strong></td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<?php  $today = date("m j, Y, g:i a");echo $today; ?></strong></td>
 													</tr>
 													<tr>
 														<td>&nbsp;ឈ្មោះអតិថិជន</td>
@@ -485,7 +488,7 @@ input.btn_borwse_image {
 									</table>
 								</td>
 							</tr>
-							<tr height="110px">
+							<tr height="100px">
 							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer MEF2';white-space: nowrap;">គណនេយ្យករ  <div class="h" style="margin-left:7px !important;">ACCOUNTANT</div> </td>
 								<td width="30%" class="one khmerbold" align="center" valign="top" style="font-family:'Khmer MEF2';border-left: 1px solid #fff !important; border-right: 1px solid #fff !important;">អ្នកធានា <div class="h" style="margin-left:7px !important;">GUARANTOR</div></td>
 							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer MEF2';">អ្នកដាក់ទ្រព្យ <div class="h" style="margin-left:7px !important;">PAWNER OF LOAN</div>
@@ -497,13 +500,16 @@ input.btn_borwse_image {
 							    <td width="35%" class="one khmerbold"  align="center" valign="top" style="font-family:'Khmer OS Battambang';"><label id="lblClient1">&nbsp;</label>
 							    </td>
 							</tr>
-							<tr style="font-size: 10px;border:1px solid #000;">
+							<tr>
+								<td colspan="3" style="border: solid 1px #000;padding: 0;"></td>
+							</tr>
+							<tr style="font-size: 11px;border:1px solid #000;">
 							    <td class="khmerbold" valign="top" style=""><strong><?php echo $data['client_company_name'];//$tr->translate("BRAND_TITLE");?></strong></td>
 							    <td class="khmerbold" valign="top" colspan="2" style="">
 								    <div style="font-family:'Khmer OS Battambang';">
-								    	<?php echo $data['branch-add-client'];//$tr->translate("ADDRESS_COMPANY");?>
+								    	<strong id="footrecieptAddress1" ><?php //echo $data['branch-add-client'];//$tr->translate("ADDRESS_COMPANY");?></strong>
 								    </div>
-								    <?php echo $data['tel-client'];//$tr->translate("TEL_COMPANY");?>
+								    <strong><span id="footrecieptPhone1"><?php //echo $data['tel-client'];//$tr->translate("TEL_COMPANY");?></span></strong>
 							    </td>
 							</tr>
 					</table>
@@ -874,6 +880,7 @@ function filterClient(){
 	getReceiptbybranch();
 	getAllClientByBranch(branch_id);
 	getAllClientNumberByBranch(branch_id);
+	getbranchinfo();
 }
 var url_getclient = '<?php echo $this->url(array('module'=>'saving','controller'=>'customer','action'=>'getclientbybranch')); ?>';
 function getAllClientByBranch(branch_id){
@@ -1065,6 +1072,37 @@ function showPopupclient(){
 }
 function loading(){
     document.getElementsByClassName("overlay")[0].style.display="block";
+}
+
+var url_branchifo = '<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'getbranch')); ?>';
+function getbranchinfo(){
+	branch_id = dijit.byId('branch_id').get('value');
+	if(branch_id==''){
+		alert('Please Select Branch');
+		dijit.byId('branch_id').focus();
+		return false;
+	}
+	dojo.xhrPost({
+		url:url_branchifo,	
+		content:{ 
+			    'branch_id':branch_id,
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			//alert(data.phonebr);
+			dojo.byId('footrecieptAddress').innerHTML=data.br_address;
+			dojo.byId('footrecieptAddress1').innerHTML=data.br_address;
+			dojo.byId('footrecieptPhone').innerHTML=data.branch_tel;
+			dojo.byId('footrecieptPhone1').innerHTML=data.branch_tel;
+			//dojo.byId('brNameShop').innerHTML=data.branch_nameen;
+			//dojo.byId('brDescription').innerHTML=data.description;
+			
+			//dijit.byId('invoice_no').attr('value',data);
+		},
+		error: function(err) {
+			alert("eror receipt");
+		}
+	});
 }
 </script>
 <style>
