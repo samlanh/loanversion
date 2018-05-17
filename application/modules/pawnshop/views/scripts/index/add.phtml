@@ -696,7 +696,7 @@ function showReceipt(){
 	 dojo.byId("lb_loanamount1").innerHTML = dijit.byId("total_amount").get('value')+' '+dijit.byId('currency_type').attr('displayedValue');
 	 dojo.byId("lb_interest_rate1").innerHTML = dijit.byId("interest_rate").get('value')+ ' %';
 	 dojo.byId("lb_producttype1").innerHTML = dijit.byId("product_id").attr('displayedValue')+" : "+$("#description").val();
-	 dojo.byId("lb_total_interest1").innerHTML = dijit.byId('interest_rate').get('value');
+	 dojo.byId("lb_total_interest1").innerHTML = total_interest+' '+dijit.byId('currency_type').attr('displayedValue');;
 	 dojo.byId("lb_customername1").innerHTML =dijit.byId('member').attr('displayedValue');
 	 dojo.byId("lb_start_date1").innerHTML =dijit.byId("release_date").attr('displayedValue');
 	 dojo.byId("lb_period1").innerHTML =dijit.byId("period").attr('displayedValue')+" ខែ";
