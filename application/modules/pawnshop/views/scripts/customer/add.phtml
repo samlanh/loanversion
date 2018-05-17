@@ -113,6 +113,14 @@ input.btn_borwse_image {
 	                                	<td><?php echo $tr->translate("DOB")?></td>
 										<td><?php  echo $frm->getElement('dob_client');?></td>
 	                                </tr>
+	                                 <tr>
+	                                	<td><?php echo $tr->translate("NATIONALITY")?></td>
+										<td><?php  echo $frm->getElement('nationality');?></td>
+	                                </tr>
+	                                <tr>
+	                               		<td><?php echo $tr->translate("JOB_TYPE")?></td>
+										<td><?php echo $frm->getElement('job');?></td>
+	                               </tr>
 	                            </table>                        
 	                        </fieldset>
                         </td>
@@ -120,9 +128,9 @@ input.btn_borwse_image {
                          <fieldset>
 							<legend><strong>&nbsp;</strong></legend>
 	                        	<table>                            	
-	                                <tr>
-	                                	<td><strong><?php echo $tr->translate("PHONE")?></strong></td>
-										<td><?php  echo $frm->getElement('phone');?></td>  
+	                               <tr>
+	                                	<td><?php echo $tr->translate("SITU_STATUS")?>* </td>
+										<td><?php  echo $frm->getElement('situ_status');?></td>
 	                                </tr>
 	                                <tr>
 	                               		 <td style="white-space: nowrap;"><?php echo $tr->translate("NATIONAL_ID")?></td>
@@ -132,14 +140,14 @@ input.btn_borwse_image {
 	                               		<td><strong><?php echo $tr->translate("CODE_NUMBER")?></strong></td>
 										<td><?php  echo $frm->getElement('national_id');?></td>
 	                                </tr>
-	                                <tr>
-	                                	<td><?php echo $tr->translate("SITU_STATUS")?>* </td>
-										<td><?php  echo $frm->getElement('situ_status');?></td>
+	                                 <tr>
+	                               		<td><strong><?php echo $tr->translate("ISSUE_DATE")?></strong></td>
+										<td><?php  echo $frm->getElement('id_issuedate');?></td>
 	                                </tr>
-	                               <tr>
-	                               		<td><?php echo $tr->translate("JOB_TYPE")?></td>
-										<td><?php echo $frm->getElement('job');?></td>
-	                               </tr>
+	                                <tr>
+	                               		<td><strong><?php echo $tr->translate("ISSUE_BY")?></strong></td>
+										<td><?php  echo $frm->getElement('id_isseueby');?></td>
+	                                </tr>
 	                              
 	                               <tr>
 	                               		<td><?php echo $tr->translate("PHOTO")?></td>
@@ -165,7 +173,11 @@ input.btn_borwse_image {
                         <td width="33%" valign="top">
                         	   <fieldset>
 						<legend><strong>&nbsp;</strong></legend>
-                        	<table>                            	
+                        	<table>            
+                        		 <tr>
+                                	<td><strong><?php echo $tr->translate("PHONE")?></strong></td>
+									<td><?php  echo $frm->getElement('phone');?></td>  
+                                </tr>                	
                                 <tr>
                                  <td><?php echo $tr->translate("PROVINCE")?>* </td>
 							     <td><?php echo $frm->getElement('province');?></td>
@@ -205,24 +217,33 @@ input.btn_borwse_image {
 	                                 <td><?php echo $frm->getElement('join_with');?></td>
                     			</tr>
                     			<tr>
-                    				<td><?php echo $tr->translate("TEL")?></td>
-	                                <td><?php echo $frm->getElement('relate_tel');?></td>	
+                    				<td><?php echo $tr->translate("SEX")?></td>
+	                                <td><?php echo $frm->getElement('join_sex');?></td>		
                     			</tr>
-                    		</table>
-                    	</td>
-                    	<td>
-                    		<table width="100%">
                     			<tr>
                     				 <td><?php echo $tr->translate("DOB")?></td>
 	                                 <td><?php echo $frm->getElement('dob_join_acc');?></td>	
                     			</tr>
                     			<tr>
+                    				<td><?php echo $tr->translate("NATIONALITY")?></td>
+	                                <td><?php echo $frm->getElement('join_nationality');?></td>	
+                    			</tr>
+                    			
+                    		</table>
+                    	</td>
+                    	<td valign="top">
+                    		<table width="100%">
+                    			<tr>
                     				 <td><?php echo $tr->translate("RELATIVE_WITH")?></td>
 	                                <td><?php echo $frm->getElement('relate_with');?></td>
                     			</tr>
+                    			<tr>
+                    				<td><?php echo $tr->translate("TEL")?></td>
+	                                <td><?php echo $frm->getElement('relate_tel');?></td>	
+                    			</tr>
                     		</table>
                     	</td>
-                    	<td>
+                    	<td >
                     		<table width="100%">
                     			<tr>
                     				<td><?php echo $tr->translate("NATIONAL_ID")?></td>
@@ -231,6 +252,14 @@ input.btn_borwse_image {
                     			<tr>
                     				<td><strong><?php echo $tr->translate("CODE_NUMBER")?></strong></td>
 	                                <td><?php echo $frm->getElement('join_nation_id');?></td>
+                    			</tr>
+                    			<tr>
+                    				<td><?php echo $tr->translate("ISSUE_DATE")?></td>
+	                                <td><?php echo $frm->getElement('join_id_issuedate');?></td>	
+                    			</tr>
+                    			<tr>
+                    				<td><?php echo $tr->translate("ISSUE_BY")?></td>
+	                                <td><?php echo $frm->getElement('join_id_isseueby');?></td>	
                     			</tr>
                     		</table>
                     	</td>

@@ -57,6 +57,14 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'user_id'	  => $this->getUserId(),
 				'dob_join_acc'  => $_data['dob_join_acc'],
 				
+				'id_issuedate' => $_data['id_issuedate'],
+				'id_isseueby'=> $_data['id_isseueby'],
+				'nationality'=>$_data['nationality'],
+				'join_nationality' => $_data['join_nationality'],
+				'join_id_issuedate'=> $_data['join_id_issuedate'],
+				'join_id_isseueby'=>$_data['join_id_isseueby'],
+				'join_sex'=>$_data['join_sex'],
+				
 				'guarantor_name' => $_data['spouse'],
 				'guarantor_d_type'=> $_data['guarantor_d_type'],
 				'guarantor_nationid'=>$_data['spouse_nationid'],

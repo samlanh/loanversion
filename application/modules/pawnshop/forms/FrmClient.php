@@ -227,6 +227,48 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
 		));
 		
+		$nationality=new Zend_Dojo_Form_Element_TextBox('nationality');
+		$nationality->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		$id_issuedate= new Zend_Dojo_Form_Element_DateTextBox('id_issuedate');
+		$id_issuedate->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
+		));
+		$id_isseueby=new Zend_Dojo_Form_Element_TextBox('id_isseueby');
+		$id_isseueby->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		
+		$join_nationality=new Zend_Dojo_Form_Element_TextBox('join_nationality');
+		$join_nationality->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		$join_id_issuedate= new Zend_Dojo_Form_Element_DateTextBox('join_id_issuedate');
+		$join_id_issuedate->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'class'=>'fullside',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
+		));
+		$join_id_isseueby=new Zend_Dojo_Form_Element_TextBox('join_id_isseueby');
+		$join_id_isseueby->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		$_join_sex = new Zend_Dojo_Form_Element_FilteringSelect('join_sex');
+		$_join_sex->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$opt_s = $db->getVewOptoinTypeByType(11,1);
+		unset($opt_s[-1]);
+		unset($opt_s['']);
+		$_join_sex->setMultiOptions($opt_s);
+		
 		
 		$_dob_Guarantor= new Zend_Dojo_Form_Element_DateTextBox('dob_guarantor');
 		$_dob_Guarantor->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
@@ -276,6 +318,16 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 			$_releted->setValue($data['relate_with']);
             $client_d_type->setValue($data['client_d_type']);
 			$_dob->setValue($data['dob']);
+			$dob_join_acc->setValue(date("Y-m-d",strtotime($data['dob_join_acc'])));
+			
+			$join_nationality->setValue($data['join_nationality']);
+			$join_id_isseueby->setValue($data['join_id_isseueby']);
+			$join_id_issuedate->setValue(date("Y-m-d",strtotime($data['join_id_issuedate'])));
+			$_join_sex->setValue($data['join_sex']);
+			
+			$nationality->setValue($data['nationality']);
+			$id_isseueby->setValue($data['id_isseueby']);
+			$id_issuedate->setValue(date("Y-m-d",strtotime($data['id_issuedate'])));
 			
 			$_spouse->setValue($data['guarantor_name']);
 			$_dob_Guarantor->setValue(date("Y-m-d",strtotime($data['dob_guarantor'])));
@@ -288,6 +340,14 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 		$this->addElements(array($dob_join_acc,$client_d_type,$_relate_tel,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$_branch_id,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_no,
 				$_phone,$_spouse,$_desc,$_status,$_clientno,$_dob,$clienttype_namekh,$clienttype_nameen,
+				
+				$nationality,
+				$id_isseueby,
+				$id_issuedate,
+				$join_nationality,
+				$join_id_isseueby,
+				$join_id_issuedate,
+				$_join_sex,
 				
 				$_dob_Guarantor,
 				$_guarantor_tel,
