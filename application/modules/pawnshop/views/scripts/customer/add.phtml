@@ -235,6 +235,59 @@ input.btn_borwse_image {
                     		</table>
                     	</td>
                     </tr>
+                    <tr>
+						<td colspan="6"  bgcolor="#dbe7ff"><strong><?php echo $tr->translate("GUARANTOR_INFO");?></strong></td>
+					</tr>
+					<tr>
+						<td width="33%;" valign="top">
+							<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+							    <tr>
+							        <td><?php echo $tr->translate("SPOUSE_NAME");?></td>
+									<td><?php echo $frm->getElement('spouse');?></td>
+							    </tr>
+							    <tr>
+							        <td valign="top"><?php echo $tr->translate("NATIONAL_ID");?></td>
+									<td valign="top"><input id="guarantor_d_type" /></td>
+							    </tr>
+							    <tr>
+							        <td valign="top"><?php echo $tr->translate("N_O");?></td>
+									 <td valign="top"><?php echo $frm->getElement('spouse_nationid');?></td>
+							    </tr>
+							</table>	
+						</td>
+						<td width="33%;" valign="top">
+							 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+							 	<tr>
+									<td valign="top" style="width: 30%;"><?php echo $tr->translate("DOB");?></td>
+									<td valign="top"><?php  echo $frm->getElement('dob_guarantor');?></td>						
+								</tr>
+								<tr>
+									<td valign="top"><?php echo $tr->translate("TEL");?></td>
+									<td valign="top"><?php  echo $frm->getElement('guarantor_tel');?></td>
+								</tr>
+							    <tr>
+									<td><?php echo $tr->translate("RELATIVE_WITH");?></td>
+									<td><?php  echo $frm->getElement('guarantor_with');?></td>
+								</tr>
+							</table>
+						</td>
+						<td width="33%;" valign="top">
+							 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+								<tr>
+							  		<td valign="top"><?php echo $tr->translate("ADDRESS");?></td>
+									<td valign="top"><?php  echo $frm->getElement('guarantor_address');?></td>
+							    </tr>
+								<tr>
+									<td valign="top"><?php echo $tr->translate("NOTE");?></td>
+									<td><?php  echo $frm->getElement('desc');?></td>						
+								</tr>
+								<tr>
+								   	<td valign="top"><?php echo $tr->translate("STATUS");?></td>
+									<td valign="top"><?php  echo $frm->getElement('status');?></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
 					<tr>
 						<td colspan="6" align="center">
 						<input type="reset" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button" 
@@ -375,6 +428,25 @@ dojo.ready(function(){
 				}
 			}
 		}, "join_d_type");
+
+	new dijit.form.FilteringSelect({
+		store: d_datastore,//dojo.data.ObjectStore({objectStore: d_data}),
+		autoComplete: true,
+		required: false,		           
+		name: "guarantor_d_type",
+		id: "guarantor_d_type",
+		searchAttr: "name",
+		autoComplete: false,
+		queryExpr: "*${0}*",
+		class: 'fullside',
+			onChange: function() {
+				client_d_type = dijit.byId('guarantor_d_type').get('value');
+				if(client_d_type==-1){
+					doc_type=3;
+					showPopupclientdtype();
+				}
+			}
+		}, "guarantor_d_type");
 	
 	filterDistrict();
 	filterCommune();

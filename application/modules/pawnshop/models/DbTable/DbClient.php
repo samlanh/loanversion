@@ -52,12 +52,20 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'nation_id'=>$_data['national_id'],
 				'phone'	      => $_data['phone'],
 				'create_date' => date("Y-m-d"), 
-// 				'remark'	  => $_data['desc'],
-// 				'status'      => $_data['status'],
 				'client_d_type'      => $_data['client_d_type'],
 				'join_d_type'      => $_data['join_d_type'],
 				'user_id'	  => $this->getUserId(),
 				'dob_join_acc'  => $_data['dob_join_acc'],
+				
+				'guarantor_name' => $_data['spouse'],
+				'guarantor_d_type'=> $_data['guarantor_d_type'],
+				'guarantor_nationid'=>$_data['spouse_nationid'],
+				'dob_guarantor'=>$_data['dob_guarantor'],
+				'guarantor_tel'=>$_data['guarantor_tel'],
+				'guarantor_with'=>$_data['guarantor_with'],
+				'guarantor_address'=> $_data['guarantor_address'],
+				'remark'	  => $_data['desc'],
+				'status'      => $_data['status'],
 				
 		);
 		if(!empty($_data['id'])){
@@ -92,7 +100,7 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND sex=key_code LIMIT 1) AS sex
 		,phone,house,street,
 			(SELECT village_namekh FROM `ln_village` WHERE vill_id= village_id) AS village_name
-		    ,join_with,create_date,
+		    ,guarantor_name,create_date,
 		    (SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=user_id )AS user_name,
 			status FROM $this->_name ";
 		if(!empty($search['adv_search'])){

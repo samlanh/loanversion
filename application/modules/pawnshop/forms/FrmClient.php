@@ -227,6 +227,29 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 				'constraints'=>"{datePattern:'dd/MM/yyyy'}"
 		));
 		
+		
+		$_dob_Guarantor= new Zend_Dojo_Form_Element_DateTextBox('dob_guarantor');
+		$_dob_Guarantor->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
+				'constraints'=>"{datePattern:'dd/MM/yyyy'}",'class'=>'fullside',
+		));
+		$_guarantor_tel = new Zend_Dojo_Form_Element_TextBox('guarantor_tel');
+		$_guarantor_tel->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		$_guarantor_with = new Zend_Dojo_Form_Element_TextBox('guarantor_with');
+		$_guarantor_with->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
+		$guarantor_address = new Zend_Dojo_Form_Element_TextBox('guarantor_address');
+		$guarantor_address->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+		));
+		
 		if($data!=null){
 			$_branch_id->setValue($data['branch_id']);
 			$_namekh->setValue($data['name_kh']);
@@ -253,10 +276,24 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 			$_releted->setValue($data['relate_with']);
             $client_d_type->setValue($data['client_d_type']);
 			$_dob->setValue($data['dob']);
+			
+			$_spouse->setValue($data['guarantor_name']);
+			$_dob_Guarantor->setValue(date("Y-m-d",strtotime($data['dob_guarantor'])));
+			$_guarantor_tel->setValue($data['guarantor_tel']);
+			$_guarantor_with->setValue($data['guarantor_with']);
+			$spouse_nationid->setValue($data['guarantor_nationid']);
+			$guarantor_address->setValue($data['guarantor_address']);
+			$_desc->setValue($data['remark']);
 		}
 		$this->addElements(array($dob_join_acc,$client_d_type,$_relate_tel,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$_branch_id,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_no,
-				$_phone,$_spouse,$_desc,$_status,$_clientno,$_dob,$clienttype_namekh,$clienttype_nameen));
+				$_phone,$_spouse,$_desc,$_status,$_clientno,$_dob,$clienttype_namekh,$clienttype_nameen,
+				
+				$_dob_Guarantor,
+				$_guarantor_tel,
+				$_guarantor_with,
+				$guarantor_address,
+				));
 		return $this;
 		
 	}	
