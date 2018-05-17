@@ -75,10 +75,10 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 		(SELECT cm.`commune_namekh` FROM ln_commune AS cm WHERE cm.com_id = c.`com_id` LIMIT 1 ) AS communeName,
 		(SELECT `d`.`district_namekh` FROM `ln_district` AS `d` WHERE (`d`.`dis_id` = c.dis_id ) LIMIT 1) AS `district_name`,
 		(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id LIMIT 1) AS province_kh_name,
-		(SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=c.user_id )AS user_name
+		(SELECT  CONCAT(first_name,' ', last_name) FROM rms_users WHERE id=c.user_id )AS user_name,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE =23 AND c.`guarantor_d_type`=id LIMIT 1) AS guarantorDocTypKH,
+		(SELECT name_en FROM `ln_view` WHERE TYPE =23 AND c.`guarantor_d_type`=id LIMIT 1) AS guarantorDocTypEN
 		FROM $this->_name AS c WHERE c.`client_id` = $clientID LIMIT 1";
-		// 		(SELECT name_kh FROM `ln_view` WHERE TYPE =23 AND c.`guarantor_d_type`=id LIMIT 1) AS guarantorDocTypKH,
-		// 		(SELECT name_en FROM `ln_view` WHERE TYPE =23 AND c.`guarantor_d_type`=id LIMIT 1) AS guarantorDocTypEN,
 		return $db->fetchRow($sql);
 	}
 	function getPawnShopInfo($pawnID){

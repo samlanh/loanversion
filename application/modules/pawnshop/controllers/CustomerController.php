@@ -111,6 +111,7 @@ class Pawnshop_CustomerController extends Zend_Controller_Action {
 		if($this->getRequest()->isPost()){
 			try{
 				$data = $this->getRequest()->getPost();
+				
 				$id= $db->addClient($data);
 				Application_Form_FrmMessage::Sucessfull('EDIT_SUCCESS',"/pawnshop/customer");
 			}catch (Exception $e){

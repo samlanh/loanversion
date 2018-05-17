@@ -95,7 +95,7 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		$where = " WHERE (name_kh!='' OR  name_en!='') AND ".$from_date." AND ".$to_date;		
 		$sql = "
 		SELECT client_id,
-		(SELECT branch_nameen FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch_name ,
+		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch_name ,
 		client_number,name_kh,name_en,
 		(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND sex=key_code LIMIT 1) AS sex
 		,phone,house,street,
