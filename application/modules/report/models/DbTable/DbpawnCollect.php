@@ -44,12 +44,12 @@ class Report_Model_DbTable_DbpawnCollect extends Zend_Db_Table_Abstract
 		   LIMIT 1) AS `branch_kh`,
 		  (SELECT
 		     `c`.`phone`
-		   FROM `ln_client` `c`
+		   FROM `ln_clientsaving` `c`
 		   WHERE (`c`.`client_id` = `l`.`customer_id`)
 		   LIMIT 1) AS `phone_number`,
 		  (SELECT
 		     `c`.`name_kh`
-		   FROM `ln_client` `c`
+		   FROM `ln_clientsaving` `c`
 		   WHERE (`c`.`client_id` = `l`.`customer_id`)
 		   LIMIT 1) AS `client_name`,
 		   (SELECT symbol FROM `ln_currency` WHERE id=l.currency_type LIMIT 1) AS currencyname,
@@ -59,7 +59,8 @@ class Report_Model_DbTable_DbpawnCollect extends Zend_Db_Table_Abstract
 		   FROM `ln_pawn_receipt_money` `crm`
 		   WHERE (`l`.`id` = `crm`.`loan_id`)
 		   ORDER BY `crm`.`date_input` DESC
-		   LIMIT 1) AS `last_pay_date`
+		   LIMIT 1) AS `last_pay_date`,
+		   (SELECT p.product_kh FROM `ln_pawnshopproduct` AS p WHERE p.id = l.`product_id` LIMIT 1) AS productTitle
 		   
 		FROM (`ln_pawnshop` `l`
 		   JOIN `ln_pawnshop_detail` `d`)

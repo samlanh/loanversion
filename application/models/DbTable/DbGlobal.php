@@ -442,6 +442,30 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	return $db->fetchAll($sql.$where);
    }
    
+   public function getClientSavingByType($type=null,$client_id=null ,$row=null){
+   	$this->_name='ln_clientsaving';
+   	$where='';
+   	if($type!=null){
+   		$where=' AND is_group = 1';
+   	}
+   	$sql = " SELECT client_id,name_kh,name_en,client_number,
+   	(SELECT `ln_village`.`village_namekh` FROM `ln_village` WHERE (`ln_village`.`vill_id` = `ln_clientsaving`.`village_id`) limit 1) AS `village_name`,
+   	(SELECT `c`.`commune_namekh` FROM `ln_commune` `c` WHERE (`c`.`com_id` = `ln_clientsaving`.`com_id`) LIMIT 1) AS `commune_name`,
+   	(SELECT `d`.`district_namekh` FROM `ln_district` `d` WHERE (`d`.`dis_id` = `ln_clientsaving`.`dis_id`) LIMIT 1) AS `district_name`,
+   	(SELECT province_kh_name FROM `ln_province` WHERE province_id= ln_clientsaving.pro_id  LIMIT 1) AS province_en_name
+   
+   	FROM $this->_name WHERE status=1 AND (name_en!='' OR  name_kh!='' )";
+   	 
+   	$db = $this->getAdapter();
+   	if($row!=null){
+   		if($client_id!=null){
+   			$where.=" AND client_id  =".$client_id ." LIMIT 1";
+   		}
+   		return $db->fetchRow($sql.$where);
+   	}
+   	return $db->fetchAll($sql.$where);
+   }
+   
    public function getAssetByType($type=null,$Asset_id=null ,$row=null){
    	$this->_name='ln_account_name';
    	$where='';

@@ -140,7 +140,7 @@ table { page-break-inside:auto }
                   <th style="padding:5px 0px;font-size: 8px;"><?php //echo $tr->translate("FOR_LOAN_TYPE");?></th>
                 </tr>
                 
-                <?php if(!empty($this->LoanFee_list)) foreach ($this->LoanFee_list as $key => $row){ ?>
+                <?php if(!empty($this->LoanFee_list)) foreach ($this->LoanFee_list as  $row){ ?>
                 <?php 
                 	   if($row['curr_type']==1){
 		               		$r1 = $r1+$row['admin_fee'];

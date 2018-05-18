@@ -566,7 +566,8 @@ function rptPaymentHistoryAction(){
  				'status' =>'',
  				'currency_type'=>'',
  				'start_date'=>date('Y-m-d'),
- 				'end_date'=>date('Y-m-d'));
+ 				'end_date'=>date('Y-m-d')
+ 				);
  	}
  	$this->view->LoanCollectionco_list = $db->getALLParBYCO($search);
  	$this->view->search=$search;

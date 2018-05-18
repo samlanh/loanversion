@@ -632,7 +632,7 @@ function rptPaymentschedulesAction(){
 			
  	}
  	$this->view->LoanCollectionco_list =$db->getALLLoanIcome($search);
- 	$this->view->LoanFee_list =$db->getALLLTotalFee($search);
+ 	$this->view->LoanFee_list =$db->getALLLTotalFeeByCurrency($search);
  	
  	$this->view->list_end_date=$search;
  	$frm = new Loan_Form_FrmSearchGroupPayment();

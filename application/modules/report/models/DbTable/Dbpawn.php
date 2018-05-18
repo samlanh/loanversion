@@ -350,7 +350,8 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				  d.`date_payment` ,
 				  COUNT(l.`id`) AS amount_late,
 				 l.`branch_id`,
-				 `d`.`installment_amount`   AS `times`
+				 `d`.`installment_amount`   AS `times`,
+				  (SELECT p.product_kh FROM `ln_pawnshopproduct` AS p WHERE p.id = l.`product_id` LIMIT 1) AS productTitle
 				FROM
 				  `ln_pawnshop_detail` AS d,
 				  `ln_pawnshop` AS l,
