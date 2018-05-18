@@ -129,7 +129,8 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		$_service_charge->setAttribs(array(
 				'dojoType'	=>'dijit.form.NumberTextBox',
 				'class'		=>'fullside',
-				'onkeyup'	=>	'doTotalByServ();'
+			//	'onkeyup'	=>	'doTotalByServ();'
+				'onKeyup'	=>	'calTotal();'
 		));
 		$_service_charge->setValue(0);
 		
@@ -159,7 +160,7 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 		$_priciple_amount->setAttribs(array(
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
-				'onkeyup'=>'calculateAmount()'
+				'onkeyup'=>'calTotal()'
 		));
 		$_priciple_amount->setValue(0);
 		
@@ -185,7 +186,7 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 				'required' =>'true',
 				'style'=>'color:red;',
 				'required'=>true,
-				'onkeyup'=>'calculateAmount();'
+				'onkeyup'=>'calTotal();'
 		));
 		
 		$_penalize_amount = new Zend_Dojo_Form_Element_NumberTextBox('penalize_amount');
@@ -193,7 +194,7 @@ Class Pawnshop_Form_FrmPayment extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
 				'required'=>true,
-				'onKeyup'=>'calculateAmount();'
+				'onKeyup'=>'calTotal();'
 		));
 		$_penalize_amount->setValue(0);
 		
