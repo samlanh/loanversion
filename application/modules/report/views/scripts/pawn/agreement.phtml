@@ -52,22 +52,25 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 						    display: block ;
 						}
 						span.border_bt.value {
-						    border-bottom: dashed 1px #000; padding: 0 10px;
+						    border-bottom: dashed 1px #000; padding: 0 5px;
+						}
+						p {
+						    margin: 0 0 4px;
 						}
 					    </style>
 	    			<div class="pages-break">
 	    				<table style="font-family:'Times New Roman','Khmer OS Battambang'; text-align: center; width: 100%; margin-left: 0px">
 							<tbody>
 								<tr style="text-align:center; line-height:24px; font-size:15px; font-family:'Times New Roman','Khmer OS Battambang';">
-									 <td width="25%" align="left" valign="top"><span><img src="<?php echo $this->baseUrl()."/";?>images/logo.jpg" ></span>
+									 <td width="25%" align="left" valign="top"><span><img style="max-width: 100%;" src="<?php echo $this->baseUrl()."/";?>images/logo.jpg" ></span>
 									 </td>
 									 <td width="50%" align="center" valign="top" style="padding-left: 25px;"><span style="line-height: 30px; font-family:'Khmer OS Muol Light';">ព្រះរាជាណាចក្រកម្ពុជា<br>
 									  ជាតិ សាសនា ព្រះមហាក្សត្រ</span><br>
 									 <img src="<?php echo $this->baseUrl()."/";?>images/agreementsign.JPG" style="width: 136px; height: 28px;"><br><span style=" font-size: 15px; font-family:'Khmer OS Muol Light';">កិច្ចសន្យាខ្ចី បញ្ចាំនិងប្រាតិភោគ</span>
 									 </td>
 								    <td width="25%" align="center" valign="top" style="font-size: 12px;">
-									  	អតិថិជនអាចផ្ញើរប្រាក់តាមៈ<br><img src="<?php echo $this->baseUrl()."/";?>images/agreement/master cart.jpg" style="width: 70%;"><br>
-									  	<strong><?php echo $data['tel-client'];?></strong>
+									  	អតិថិជនអាចផ្ញើប្រាក់តាម<br><img src="<?php echo $this->baseUrl()."/";?>images/agreement/master cart.jpg" style="width: 70%;"><br>
+									  	<strong><?php echo $this->pawnShop['branch_tel'];?></strong>
 								 	</td>
 								</tr>
 								<tr style="text-align: left; line-height: 10px;">
@@ -84,13 +87,12 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 						 			<td colspan="3">
 						 				<p style="text-align:center; text-decoration: underline; font-size:18px; padding-right:5px;"><strong>កិច្ចសន្យានេះធ្វើឡើងរវាង</strong></p>
 						 				<p style="text-align: left;">
-						 					<span id="padding-left"><strong><?php echo $data['client_company_name'];?></strong></span> សាខា បាត់ដំបង ដែលតំណាងស្របច្បាប់ដោយលោក ង៉ែត ម៉ង តួនាទី ប្រធានសាខា មានអាសយដ្ឋាននៅ<?php echo $pawnShop['br_address'];//echo $data['branch-add-client'];?> (ដែលតទៅនេះហៅថា<strong>”អ្នកឲ្យខ្ចី”</strong>)។
+						 					<span id="padding-left"><strong><?php echo $data['client_company_name'];?></strong></span> សាខា បាត់ដំបង ដែលតំណាងស្របច្បាប់ដោយលោក ង៉ែត ម៉ង តួនាទី ប្រធានសាខា មានអាសយដ្ឋាននៅ<?php echo $pawnShop['br_address'];//echo $data['branch-add-client'];?> (ដែលតទៅនេះហៅថា<strong>”អ្នកឲ្យខ្ចី”</strong>)។  និង
 						 				</p>
-						 				<p style="text-align:center;">និង</p>
 						 				<p style="text-align: left;">
 						 				ឈ្មោះ<span class="value border_bt" style="min-width: 100px;"><?php echo $client['name_kh'];?></span>ភេទ<span class="value border_bt" style="min-width: 20px;"><?php echo $client['sexKH'];?></span>សញ្ជាតិ<span class="value border_bt" style="min-width: 30px;"><?php echo $client['nationality'];?></span>ថៃ្ងខែឆ្នាំកំណើត<span class="value border_bt" style="min-width: 50px;"><?php echo date("d",strtotime($client['dob']))." ".$month[date("m",strtotime($client['dob']))]." ".date("Y",strtotime($client['dob']));?></span>
-											ឯកសារសំគាល់អត្តសញ្ញាណ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['docTypKH'];//echo ($client['displayby']==1)? $client['docTypKH']: $client['docTypEN'] ;?></span>លេខ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['nation_id'];?></span>ចុះថ្ងៃទី<span class="value border_bt" style="min-width: 50px;"><?php echo date("d",strtotime($client['id_issuedate']))." ".$month[date("m",strtotime($client['id_issuedate']))]." ".date("Y",strtotime($client['id_issuedate']));?></span>ចេញដោយ<span class="value border_bt" style="min-width: 90px;"><?php echo $client['id_isseueby'];?></span>និងឈ្មោះ<span class="value border_bt" style="min-width: 80px;"><?php echo $client['join_with'];?></span>ភេទ<span class="value border_bt" style="min-width: 20px;"><?php echo $client['joinSexKH'];?></span>សញ្ជាតិ<span class="value border_bt" style="min-width: 30px;"><?php echo $client['join_nationality'];?></span>ថ្ងៃខែឆ្នាំកំណើត<span class="value border_bt" style="min-width: 50px;"><?php echo date("d",strtotime($client['dob_join_acc']))." ".$month[date("m",strtotime($client['dob_join_acc']))]." ".date("Y",strtotime($client['dob_join_acc']));?></span>
-											ឯកសារសំគាល់អត្តសញ្ញាណ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['joinDocTypKH'];//echo ($client['displayby']==1)? $client['joinDocTypKH']: $client['joinDocTypEN'] ;?></span>លេខ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['join_nation_id'];?></span>ចុះថ្ងៃទី<span class="value border_bt" style="min-width: 50px;"><?php echo date("d",strtotime($client['join_id_issuedate']))." ".$month[date("m",strtotime($client['join_id_issuedate']))]." ".date("Y",strtotime($client['join_id_issuedate']));?></span>ចេញដោយ<span class="value border_bt" style="min-width: 90px;"><?php echo $client['join_id_isseueby'];?></span>ត្រូវជា<span class="value border_bt" style="min-width: 70px;"><?php echo $client['relate_with'];?></span>របស់អ្នកខ្ចីប្រាក់។
+											ឯកសារសំគាល់អត្តសញ្ញាណ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['docTypKH'];?></span>លេខ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['nation_id'];?></span>ចុះថ្ងៃទី<span class="value border_bt" style="min-width: 50px;"><?php if(!empty($client['id_issuedate'])){ echo date("d",strtotime($client['id_issuedate']))." ".$month[date("m",strtotime($client['id_issuedate']))]." ".date("Y",strtotime($client['id_issuedate']));}?></span>ចេញដោយ<span class="value border_bt" style="min-width: 90px;"><?php echo $client['id_isseueby'];?></span>និងឈ្មោះ<span class="value border_bt" style="min-width: 80px;"><?php echo $client['join_with'];?></span>ភេទ<span class="value border_bt" style="min-width: 20px;"><?php echo $client['joinSexKH'];?></span>សញ្ជាតិ<span class="value border_bt" style="min-width: 30px;"><?php echo $client['join_nationality'];?></span>ថ្ងៃខែឆ្នាំកំណើត<span class="value border_bt" style="min-width: 50px;"><?php if(!empty($client['dob_join_acc'])){ echo date("d",strtotime($client['dob_join_acc']))." ".$month[date("m",strtotime($client['dob_join_acc']))]." ".date("Y",strtotime($client['dob_join_acc']));}?></span>
+											ឯកសារសំគាល់អត្តសញ្ញាណ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['joinDocTypKH'];?></span>លេខ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['join_nation_id'];?></span>ចុះថ្ងៃទី<span class="value border_bt" style="min-width: 50px;"><?php if(!empty($client['join_id_issuedate'])){echo date("d",strtotime($client['join_id_issuedate']))." ".$month[date("m",strtotime($client['join_id_issuedate']))]." ".date("Y",strtotime($client['join_id_issuedate']));}?></span>ចេញដោយ<span class="value border_bt" style="min-width: 90px;"><?php echo $client['join_id_isseueby'];?></span>ត្រូវជា<span class="value border_bt" style="min-width: 70px;"><?php echo $client['relate_with'];?></span>របស់អ្នកខ្ចីប្រាក់។
 						 				
 						 				<br />
 						 					មានអាសយដ្ឋាននៅផ្ទះលេខ<span class="value border_bt" style="min-width: 30px;"><?php echo $client['house'];?></span>ផ្លូវលេខ<span class="value border_bt" style="min-width: 30px;"><?php echo $client['street'];?></span>ក្រុមទី<span class="value border_bt" style="min-width: 20px;"><?php //echo $client['catName'];?></span>ភូមិ<span class="value border_bt" style="min-width: 40px;"><?php echo $client['village_name'];?></span>ឃុំ/សង្កាត់<span class="value border_bt" style="min-width: 40px;"><?php echo $client['communeName'];?></span>ស្រុក/ខណ្ឌ<span class="value border_bt" style="min-width: 40px;"><?php echo $client['district_name'];?></span>
@@ -100,7 +102,7 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 						 					<strong>ភាគីទាំងពីរបានពិភាក្សាគ្នានិងបានយល់ព្រមព្រៀងគ្នាដូចខាងក្រោម៖</strong>
 						 				</p>
 						 				<p style="text-align: left;">
-						 					<strong>ប្រការ១៖ចំនួនទឹកប្រាក់ផ្តល់ឲ្យខ្ចីៈ</strong><br>
+						 					<strong>ប្រការ១៖ចំនួនទឹកប្រាក់ផ្តល់ឲ្យខ្ចី</strong><br>
 						 					<strong>១.១</strong> អ្នកឲ្យខ្ចីយល់ព្រមផ្តល់ប្រាក់កម្ចីអោយទៅអ្នកខ្ចីចំនួន<span class="value border_bt" style="min-width: 120px;"><?php echo number_format($pawnShop['release_amount'],2)." ".$pawnShop['currencyType'];?></span>(ជាអក្សរ<span class="value border_bt" style="min-width: 110px;"><label id="loanInKhmerChar"></label><?php echo $pawnShop['currencyType'];?></span>)ដោយអ្នកខ្ចីយល់ព្រមទទួលនូវកម្ចីចំនួននេះតាមកិច្ចសន្យាខ្ចីបញ្ចាំនិងប្រាតិភោគ។
 						 				</p>
 						 				 <script>
@@ -117,47 +119,47 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 											dojo.byId('loanInKhmerChar').innerHTML=money_khmersold+" ";
 									</script>
 						 				<p style="text-align: left;">
-							 				<strong>ប្រការ២៖អត្រាការប្រាក់ៈ</strong><br>
-							 				<strong>២.១</strong> ភាគីទាំងពីព្រមព្រៀងគ្នាក្នុងអត្រាការប្រាក់ស្មើនិង<span class="value border_bt" style="min-width: 80px;"><?php echo $pawnShop['interest_rate'];?></span>%(ភាគរយ) /ខែ<?php //echo $pawnShop['payTermKH'];?>
+							 				<strong>ប្រការ២៖អត្រាការប្រាក់</strong><br>
+							 				<strong>២.១</strong> ភាគីទាំងពីរព្រមព្រៀងគ្នាក្នុងអត្រាការប្រាក់ស្មើនិង<span class="value border_bt" style="min-width: 80px;"><?php echo $pawnShop['interest_rate'];?></span>%(ភាគរយ) /ខែ<?php //echo $pawnShop['payTermKH'];?>
 						 				</p>
 						 				<?php $durationType=""; if ($pawnShop['term_type']==1){ $durationType="ថ្ងៃ";}else if ($pawnShop['term_type']==1){ $durationType="សប្តាហ៏";}else if ($pawnShop['term_type']==3){ $durationType="ខែ";}?>
 						 				<p style="text-align: left;">
-						 					<strong>ប្រការ៣៖រយៈពេលខ្ចីបញ្ចាំៈ</strong><br />
-						 					<strong>៣.១</strong> ភាគីទាំងពីព្រមព្រៀងគ្នាក្នុងរយៈពេល<span class="value border_bt" style="min-width: 40px;"><?php echo $pawnShop['total_duration'];?></span>ខែ<?php //echo $durationType;?> ដោយគិតចាប់ពីថ្ងៃផ្តិតមេដៃទទួលប្រាក់របស់អ្នកខ្ចីប្រាក់នៅថ្ងៃទី<span class="value border_bt" style="min-width: 20px;"><?php echo date("d",strtotime($pawnShop['date_release']));?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo $month[date("m",strtotime($pawnShop['date_release']))];?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo date("Y",strtotime($pawnShop['date_release']));?></span>និងត្រូវបង់ផ្តាច់នៅថ្ងៃទី<span class="value border_bt" style="min-width: 20px;"><?php echo date("d",strtotime($pawnShop['date_line']));?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo $month[date("m",strtotime($pawnShop['date_line']))];?></span>/<span class="value border_bt" style="min-width: 20px;"><?php echo date("Y",strtotime($pawnShop['date_line']));?></span>
+						 					<strong>ប្រការ៣៖រយៈពេលខ្ចីបញ្ចាំ</strong><br />
+						 					<strong>៣.១</strong> ភាគីទាំងពីរព្រមព្រៀងគ្នាក្នុងរយៈពេល<span class="value border_bt" style="min-width:10px;"><?php echo $pawnShop['total_duration'];?></span>ខែ<?php //echo $durationType;?> ដោយគិតចាប់ពីថ្ងៃផ្តិតមេដៃទទួលប្រាក់របស់អ្នកខ្ចីប្រាក់នៅថ្ងៃទី<span class="value border_bt" style="min-width:10px;"><?php echo date("d",strtotime($pawnShop['date_release']));?></span>/<span class="value border_bt" style="min-width:10px;"><?php echo $month[date("m",strtotime($pawnShop['date_release']))];?></span>/<span class="value border_bt" style="min-width: 10px;"><?php echo date("Y",strtotime($pawnShop['date_release']));?></span>និងត្រូវបង់ផ្តាច់នៅថ្ងៃទី<span class="value border_bt" style="min-width: 10px;"><?php echo date("d",strtotime($pawnShop['date_line']));?></span>/<span class="value border_bt" style="min-width: 10px;"><?php echo $month[date("m",strtotime($pawnShop['date_line']))];?></span>/<span class="value border_bt" style="min-width: 10px;"><?php echo date("Y",strtotime($pawnShop['date_line']));?></span>
 						 				</p>
 						 				<p style="text-align: left;">
-						 					<strong>ប្រការ៤</strong> សោហ៊ុយសេវាទទួលបានប្រាក់កម្ចីៈ<br>
+						 					<strong>ប្រការ៤</strong> សោហ៊ុយសេវាទទួលបានប្រាក់កម្ចី<br>
 						 					<b>៤.១</b> អ្នកខ្ចីយល់ព្រមបង់សោហ៊ុយចំណាយចំនួន<span class="value border_bt" style="min-width: 150px;"><?php //echo number_format($pawnShop['other_fee'],2)." ".$pawnShop['currency_type'];?></span>ដើម្បីទទួលបានចំនួនកម្ចីក្នុងប្រការ១.១ខាងលើ
 						 				</p>
 						 				<p style="text-align: left;">
-						 					<strong>ប្រការ៥៖ ទ្រព្យដាក់តម្កល់ធានាបំណុលៈ</strong><br />
+						 					<strong>ប្រការ៥៖ ទ្រព្យដាក់តម្កល់ធានាបំណុល</strong><br />
 						 					<strong>៥.១</strong> ដោយ អ្នកខ្ចីយល់ព្រមដាក់ទ្រព្យតម្កល់បញ្ចាំធានាដូចខាងក្រោម៖
 									    		<br />
-									    		<span id="padding-left">- <?php echo $pawnShop['product_description'];?></span>
+									    		<span id="padding-left">- <?php echo $pawnShop['product_name'].', '.$pawnShop['product_description'];?></span>
 						 				</p>
 						 				<p style="text-align: left;">
-						 					<strong>ប្រការ៦៖ ការទូទាត់សងប្រាក់កម្ចីៈ</strong><br />
-						 					<strong>៦.១</strong> អ្នកខ្ចីត្រូវទូទាត់សងប្រាក់បានខ្ចីទៅតាមកាលបរិច្ឆេតសងប្រាក់ឲ្យស្របទៅនឹងតារាងសងប្រាក់ដែលមានភ្ជាប់ជាមួយ។<br />
-										    <strong>៦.២</strong> ករណីអ្នកខ្ចីបង់សងប្រាក់មានការយឺតយាវខុសពីកាលបរិច្ឆេតក្នុងតារាងសងប្រាក់ អ្នកខ្ចីយល់ព្រមបង់ប្រាក់ពិន័យបន្ថែមទៅអោយអ្នកឲ្យខ្ចីទៅតាមគោលការនិងចំនួនថ្ងៃដែលយឺតយាវ។
+						 					<strong>ប្រការ៦៖ ការទូទាត់សងប្រាក់កម្ចី</strong><br />
+						 					<strong>៦.១</strong> អ្នកខ្ចីត្រូវទូទាត់សងប្រាក់បានខ្ចីទៅតាមកាលបរិច្ឆេទសងប្រាក់ឲ្យស្របទៅនឹងតារាងសងប្រាក់ដែលមានភ្ជាប់ជាមួយ។<br />
+										    <strong>៦.២</strong> ករណីអ្នកខ្ចីបង់សងប្រាក់មានការយឺតយាវខុសពីកាលបរិច្ឆេទក្នុងតារាងសងប្រាក់ អ្នកខ្ចីយល់ព្រមបង់ប្រាក់ពិន័យបន្ថែមទៅអោយអ្នកឲ្យខ្ចីទៅតាមគោលការនិងចំនួនថ្ងៃដែលយឺតយាវ។
 						 				</p>
 						 				<p style="text-align: left;">
-						 					<strong>ប្រការ៧៖ ការទូទាត់សងមុនកាលកំណត់ៈ</strong><br />
+						 					<strong>ប្រការ៧៖ ការទូទាត់សងមុនកាលកំណត់</strong><br />
 										    <strong>៧.១</strong> ករណីអ្នកខ្ចីបង់ផ្តាច់ក្នុងគ្រាណាមួយក្នុងតារាងបង់ប្រាក់ដែលនៅជាប់ប្រាក់ពិន័យនោះអ្នកខ្ចីយល់ព្រមអោយអ្នកឲ្យខ្ចីពិន័យទៅតាមអត្រាពិន័យដែលមាននៅក្នុងតារាងបង់ប្រាក់នោះស្រាប់។
 						 				</p>
 						 				<p id="padding-left" style="text-align: left;">
 						 					លេខទូរស័ព្ទៈ
 						 				</p>
-						 				<table style="margin-left:18px;" border="1" cellspacing="0">
-										  <tr>
-											<td style="width: 250px; height: 30px;">&nbsp;</td>
-										  </tr>
+						 				<table style="margin-left:18px;border-collapse: collapse;" border="1" cellspacing="0">
+											  <tr>
+												<td style="width: 250px; height: 30px;">&nbsp;</td>
+											  </tr>
 										 </table>
 										 <p style="text-align: left;">
 						 					<strong>ប្រការ៨៖លក្ខខណ្ឌពិន័យចំពោះការបង់សងទូទាត់សំណងមានការយឺតយាវៈ</strong><br>
 						 					<strong>៨.១</strong>/អ្នកខ្ចីយល់ព្រមអោយអ្នកឲ្យខ្ចីយកប្រាក់ពិន័យបន្ថែមទៀតទៅតាមចំនួនថ្ងៃដែលយឺតយាវជាក់ស្តែងដែលអត្រាពិន័យស្មើនិង២,០០០រៀល(ពីរពាន់រៀល)ក្នុង១ថ្ងៃគុណនឹងចំនួនថ្ងៃដែលយឺតយាវ។
 						 				</p>
 						 				<p style="text-align: left;">
-						 					<strong>ប្រការ៩៖ ការទូទាត់ទ្រព្យធានាដើម្បីដោះស្រាយបំណុលៈ</strong><br>
+						 					<strong>ប្រការ៩៖ ការទូទាត់ទ្រព្យធានាដើម្បីដោះស្រាយបំណុល</strong><br>
 						 					<strong>៩.១</strong> អ្នកខ្ចីសុខចិត្តអោយអ្នកឲ្យខ្ចីលក់នៅទ្រព្យដែលបានដាក់បញ្ចាំតម្កល់ដើម្បីទូទាត់សងបំណុលដែលនៅជំពាក់នៅពេលអ្នកខ្ចីមិនមកទូទាត់សំណងនិងចប់សុពលភាពក្នុងកិច្ចសន្យាខ្ចីបញ្ចាំនិងប្រាតិភោគ ករណីដែលទ្រព្យដាក់បញ្ចាំនោះទូទាត់បំណុលមិនគ្រប់នោះអ្នកខ្ចីនៅតែជាប់កាតព្វកិច្ចសងបំណុលទៅអោយអ្នកឲ្យខ្ចីរហូតដល់គ្រប់ចំនួន ករណីអ្នកខ្ចីដាក់បញ្ចាំទ្រព្យតម្កល់ជាប័ណ្ណសំគាល់យានយន្តនោះអ្នកខ្ចីយល់ព្រមអោយអ្នកឲ្យខ្ចីយកយានយន្តនោះមកលក់ដើម្បីទូទាត់បំណុលនៅជំពាក់។
 						 				</p>
 						 				<p style="text-align: left;">
@@ -165,11 +167,11 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 							 				<strong>១០.១</strong> អ្នកដាក់បញ្ចាំទ្រព្យធានាបំណុលអះអាងថាទ្រព្យដែលខ្លួនដាក់បញ្ចាំគឺជាកម្មសិទ្ធផ្ទាល់របស់ខ្លួនដោយមិនមានការក្លែងបន្លំឯកសារអ្វីឡើយ ហើយទ្រព្យដាក់បញ្ចាំធានានេះមិនមានពាក់ព័ន្ធនិងជនណាផ្សេងឡើយឬបញ្ហាខុសច្បាប់ណាឡើយ ប្រសិនបើការអះអាងខាងលើខុសពីការពិតខ្ញុំអ្នកដាក់ទ្រព្យធានាតម្កល់សុខចិត្តទទួលខុសត្រូវដោះស្រាយចំពោះមុខច្បាប់។
 						 				</p>
 						 				<p style="text-align: left;">
-						 				<strong>ប្រការ១១៖ ភាគីអ្នកធានាៈ</strong><br>
-						 				អ្នកធានាឈ្មោះ<span class="value border_bt" style="min-width: 100px;"><?php echo $client['guarantor_name'] ;?></span>ភេទ<span class="value border_bt" style="min-width: 20px;"><?php echo $client['sexKH'];?></span>ថ្ងៃខែឆ្នាំកំណើត<span class="value border_bt" style="min-width: 100px;"><?php echo date("d",strtotime($client['dob_guarantor']))." ".$month[date("m",strtotime($client['dob_guarantor']))]." ".date("Y",strtotime($client['dob_guarantor'])) ;?></span>ឯកសារសំគាល់អត្តសញ្ញាណ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['guarantorDocTypKH'] ;?></span>លេខ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['guarantor_nationid'] ;?></span>អ្នករួមធានាឈ្មោះ<span class="value border_bt" style="min-width: 100px;"><?php //echo $client['spouse_name'] ;?></span>ភេទ<span class="value border_bt" style="min-width: 20px;"><?php //echo $client['spouse_name'] ;?></span>ថ្ងៃខែឆ្នាំកំណើត<span class="value border_bt" style="min-width: 50px;"><?php //echo $client['spouse_name'] ;?></span>ឯកសារសំគាល់អត្តសញ្ញាណ<span class="value border_bt" style="min-width: 50px;"><?php //echo $client['spouse_name'] ;?></span>លេខ<span class="value border_bt" style="min-width: 50px;"><?php //echo $client['spouse_name'] ;?></span>មានអាសយដ្ឋាននៅ<span class="value border_bt" style="min-width: 150px;"><?php echo $client['guarantor_address'] ;?></span>អ្នកធានាអះអាងថាទទួលខុសត្រូវទាំងស្រុងទៅលើបំណុលដែលអ្នកខ្ចីជំពាក់ក្នុងករណីអ្នកខ្ចីមិនបានគោរពទៅតាមកិច្ចសន្យាឬគ្មានលទ្ធភាពសងប្រាក់អ្នកធានាសុខចិត្តសងបំណុលជំនួសអ្នកខ្ចីទាំងស្រុង។
+						 				<strong>ប្រការ១១៖ ភាគីអ្នកធានា</strong><br>
+						 				អ្នកធានាឈ្មោះ<span class="value border_bt" style="min-width: 100px;"><?php echo $client['guarantor_name'] ;?></span>ភេទ<span class="value border_bt" style="min-width: 20px;"><?php echo $client['sexKH'];?></span>ថ្ងៃខែឆ្នាំកំណើត<span class="value border_bt" style="min-width: 100px;"><?php if(!empty($client['dob_guarantor'])){ echo date("d",strtotime($client['dob_guarantor']))." ".$month[date("m",strtotime($client['dob_guarantor']))]." ".date("Y",strtotime($client['dob_guarantor']));}?></span>ឯកសារសំគាល់អត្តសញ្ញាណ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['guarantorDocTypKH'] ;?></span>លេខ<span class="value border_bt" style="min-width: 50px;"><?php echo $client['guarantor_nationid'] ;?></span>អ្នករួមធានាឈ្មោះ<span class="value border_bt" style="min-width: 100px;"><?php //echo $client['spouse_name'] ;?></span>ភេទ<span class="value border_bt" style="min-width: 20px;"><?php //echo $client['spouse_name'] ;?></span>ថ្ងៃខែឆ្នាំកំណើត<span class="value border_bt" style="min-width: 50px;"><?php //echo $client['spouse_name'] ;?></span>ឯកសារសំគាល់អត្តសញ្ញាណ<span class="value border_bt" style="min-width: 50px;"><?php //echo $client['spouse_name'] ;?></span>លេខ<span class="value border_bt" style="min-width: 50px;"><?php //echo $client['spouse_name'] ;?></span>មានអាសយដ្ឋាននៅ<span class="value border_bt" style="min-width: 150px;"><?php echo $client['guarantor_address'] ;?></span>អ្នកធានាអះអាងថាទទួលខុសត្រូវទាំងស្រុងទៅលើបំណុលដែលអ្នកខ្ចីជំពាក់ក្នុងករណីអ្នកខ្ចីមិនបានគោរពទៅតាមកិច្ចសន្យាឬគ្មានលទ្ធភាពសងប្រាក់អ្នកធានាសុខចិត្តសងបំណុលជំនួសអ្នកខ្ចីទាំងស្រុង។
 						 				</p>
 						 				<p style="text-align: left;">
-						 					<strong>ប្រការ១២៖ ទ្រព្យធានាបំណុលៈ</strong><br>ភាគីអ្នកធានាសុខចិត្តដាក់ទ្រព្យធានាបំណុលអោយអ្នកខ្ចីដូចខាងក្រោម៖
+						 					<strong>ប្រការ១២៖ ទ្រព្យធានាបំណុល</strong><br>ភាគីអ្នកធានាសុខចិត្តដាក់ទ្រព្យធានាបំណុលអោយអ្នកខ្ចីដូចខាងក្រោម៖
 											<?php //if (!empty($collateral)){?>
 									    		<?php //foreach ($collateral as $key => $col){?>
 									    		<br />
@@ -178,14 +180,16 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 									    	<?php //}?>
 									    </p>
 						 				<p style="text-align: left;">
-						 				<strong>ប្រការ១៣ៈ</strong><br>ក្នុងករណីភាគីអ្នកដាក់ទ្រព្យបញ្ចាំដាក់តម្កល់ជាប័ណ្ណសំគាល់យានយន្តហើយយានយន្តនោះបាត់បង់ឬខូចក៏ដោយអ្នកខ្ចីនៅតែជាប់កាតព្វកិច្ចសងប្រាក់រហូតទាល់តែគ្រប់ចំនួនដដែល។
+						 				<strong>ប្រការ១៣ ៖ </strong> ក្នុងករណីភាគីអ្នកដាក់ទ្រព្យបញ្ចាំដាក់តម្កល់ជាប័ណ្ណសំគាល់យានយន្ត ហើយយានយន្តនោះបាត់បង់ឬខូចក៏ដោយ អ្នកខ្ចីនៅតែជាប់កាតព្វកិច្ចសងប្រាក់រហូតទាល់តែគ្រប់ចំនួនដដែល។
 						 				</p>
 						 				<p style="text-align: left;">
-						 					<strong>ប្រការ១៤ៈ</strong><br>ក្នុងករណីអ្នកខ្ចីឬអ្នកធានាមិនគោរពឬល្មើសនៅប្រការណាមួយនោះត្រូវទទួលខុសត្រូវការចំណាយផ្លូវច្បាប់។
+						 					<strong>ប្រការ១៤ ៖ </strong>ក្នុងករណីអ្នកខ្ចីឬអ្នកធានាមិនគោរពឬល្មើសនៅប្រការណាមួយ នោះត្រូវទទួលខុសត្រូវការចំណាយផ្លូវច្បាប់។
 						 				</p>
 						 				<p style="text-align: left;">
-						 					<strong>ប្រការ១៥ៈ</strong><br>កិច្ចសន្យានេះធ្វើឡើងដោយមិនមានការបង្ខិតបង្ខំពីភាគីណាមួយឡើយហើយធ្វើឡើងជា០២ច្បាប់ដែលមានតំលៃស្មើគ្នាដែល០១ច្បាប់សំរាប់អ្នកខ្ចីនឹង០១ច្បាប់ទៀតសំរាប់អ្នកឲ្យខ្ចី និងបានព្រមពៀងគ្នាគ្រប់លក្ខខណ្ឌ។
-										 	<span style="  display: block;" align="right">ធ្វើនៅ<span class="value border_bt" style="min-width: 100px;"><?php //echo $client['spouse_name'] ;?></span>ថ្ងៃទី<span class="value border_bt" style="min-width: 10px;"><?php //echo $client['spouse_name'] ;?></span>/<span class="value border_bt" style="min-width: 20px;"><?php //echo $client['spouse_name'] ;?></span>/<span class="value border_bt" style="min-width: 20px;"><?php //echo $client['spouse_name'] ;?></span></span>
+						 					<strong>ប្រការ១៥ ៖ </strong>កិច្ចសន្យានេះធ្វើឡើងដោយមិនមានការបង្ខិតបង្ខំពីភាគីណាមួយឡើយ ហើយធ្វើឡើងជា០២ច្បាប់ដែលមានតំលៃស្មើគ្នាដែល០១ច្បាប់សំរាប់អ្នកខ្ចីនឹង០១ច្បាប់ទៀតសំរាប់អ្នកឲ្យខ្ចី និងបានព្រមពៀងគ្នាគ្រប់លក្ខខណ្ឌ។
+										 	<span style="  display: block;" align="right">ធ្វើនៅ<span class="value border_bt" style="min-width: 100px;"><?php //echo $client['spouse_name'] ;?></span>ថ្ងៃទី<span class="value border_bt" style="min-width: 10px;">
+										 	<?php echo date("d",strtotime($pawnShop['date_release']));?></span>/<span class="value border_bt" style="min-width:10px;"><?php echo $month[date("m",strtotime($pawnShop['date_release']))];?></span>/<span class="value border_bt" style="min-width: 10px;"><?php echo date("Y",strtotime($pawnShop['date_release']));?></span>
+										 	</span>
 						 				</p>
 						 				
 						 			</td>
@@ -194,34 +198,37 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 						 			<td colspan="3">
 						 				<table style="font-family:'Times New Roman','Khmer OS Battambang'; width: 100%; font-size: 14px; padding: 0px 1px; text-align: right; margin: 0px;">
 										  	<tr>
-										  		<td align="center" style=" width:31%; padding-bottom: 130px;">អ្នកធានា</td>
-										  		<td align="center" style="width:20%;	 padding-bottom: 130px;">អ្នកខ្ចី</td>
-										  		<td align="center" style="width:20%;  padding-bottom: 130px;">អ្នករួមខ្ចី</td>
+										  		<td align="center" style=" width:31%;">អ្នកធានា
+										  			<div style="vertical-align: bottom;margin-top:80px;"><span class="value border_bt" style="min-width: 60px;">&nbsp;<?php echo $client['guarantor_name'] ;?>&nbsp;</span></div>
+										  		</td>
+										  		<td align="center" style="width:20%;">អ្នកខ្ចី
+										  			<div style="vertical-align: bottom;margin-top:80px;"><span class="value border_bt" style="min-width: 60px;">&nbsp;<?php echo $client['name_kh'] ;?>&nbsp;</span></div>
+										  		</td>
+										  		<td align="center" style="width:20%;">អ្នករួមខ្ចី
+										  			<div style="vertical-align: bottom;margin-top:80px;"><span class="value border_bt" style="min-width: 60px;">&nbsp;<?php echo $client['join_with'] ;?>&nbsp;</span></div>
+										  		</td>
 										  		<td align="right" style="width:29%;">
 													<table class="table" style="  border: solid 1px #000; font-size:12px; ">
 												  		<tr align="center">
 												    		<td>
-												    			<span style="font-family:'Khmer OS Muol Light';     font-size: 12px;">តំណាងអ្នកឲ្យខ្ចី <?php echo $data['client_company_name'];?></span>
-												    			<br>
-												    			<p style="font-size: 13px; line-height: 22px; padding: 10px; margin-top: 20px;">ហត្ថលេខាត្រានិងឈ្មោះ</p>
+												    			<span style="font-family:'Khmer OS Muol Light';font-size: 12px;">តំណាងអ្នកឲ្យខ្ចី <?php echo $data['client_company_name'];?></span>
 												    			<br>
 												    			<br>
 												    			<br>
+												    			<br>
+												    			<span style="font-size: 13px; line-height: 22px; padding:2px 10px; vertical-align: bottom;">ហត្ថលេខាត្រានិងឈ្មោះ</span>
 												    		</td>
 											  			</tr>
 													</table>
 												</td>
 										  	</tr>
-										  	<tr align="center">
-										  		<td align="center"><span class="value border_bt" style="min-width: 60px;">&nbsp;<?php echo $client['guarantor_name'] ;?>&nbsp;</span></td>
-										  		<td align="center"><span class="value border_bt" style="min-width: 60px;">&nbsp;<?php echo $client['name_kh'] ;?>&nbsp;</span></td>
-										  		<td align="center"><span class="value border_bt" style="min-width: 60px;">&nbsp;<?php echo $client['join_with'];?>&nbsp;</span></td>
-										  	</tr>
 										  	<tr>
 										  		<td align="center" style="  font-size: 12px;">
 										  			ស្នាមមេដៃអ្នកបង់ផ្តាច់និងដកទ្រព្យបញ្ចាំតម្កល់ធានា
 										  			<p style="line-height: 12px; padding-top: 70px ">
-										  			<span class="value border_bt" style="min-width: 50px;"><?php //echo $client['spouse_name'] ;?></span>Date:<span class="value border_bt" style="min-width: 5px;"><?php //echo $client['spouse_name'] ;?></span>/<span class="value border_bt" style="min-width: 10px;"><?php //echo $client['spouse_name'] ;?></span>/<span class="value border_bt" style="min-width: 20px;"><?php //echo $client['spouse_name'] ;?></span></p></td>
+										  			<span class="value border_bt" style="min-width: 50px;"><?php //echo $client['spouse_name'] ;?></span>Date:<span class="value border_bt" style="min-width: 5px;">
+										  			
+										  			<?php //echo $client['spouse_name'] ;?></span>/<span class="value border_bt" style="min-width: 40px;"><?php //echo $client['spouse_name'] ;?></span>/<span class="value border_bt" style="min-width: 20px;"><?php //echo $client['spouse_name'] ;?></span></p></td>
 										  		<td align="center">&nbsp;</td>
 										  		<td align="center">&nbsp;</td>
 										  		<td align="right">
@@ -229,7 +236,7 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 												  		<tr align="center">
 												    		<td>
 												    			<span style="font-family:'Khmer OS Muol Light';">បានឃើញ និង បញ្ជាក់</span><br>
-												    			<p style="line-height: 26px; padding: 15px; margin-top: 20px;">ថ្ងៃទី<span class="value border_bt" style="min-width: 5px;"></span>ខែ<span class="value border_bt" style="min-width: 20px;"></span>ឆ្នាំ<span class="value border_bt" style="min-width: 20px;"></span>
+												    			<p style="line-height: 20px; padding:0px 15px;">ថ្ងៃទី<span class="value border_bt" style="min-width: 40px;"></span>ខែ<span class="value border_bt" style="min-width: 40px;"></span>ឆ្នាំ<span class="value border_bt" style="min-width: 20px;"></span>
 												    			<br>មេភូមិ<span class="value border_bt" style="min-width: 50px;"></span><br>ហត្ថលេខា
 												    			<br>
 												    			<br>

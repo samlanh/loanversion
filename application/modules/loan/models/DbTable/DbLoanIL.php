@@ -1303,7 +1303,7 @@ function getLoanPaymentByLoanNumber($data){
     }
 function getLoanLevelByClient($client_id,$type){
     	$db  = $this->getAdapter();
-    	$sql = " SELECT level FROM `ln_loan` WHERE status =1 AND customer_id = $client_id LIMIT 1 ";
+    	$sql = " SELECT level FROM `ln_loan` WHERE status =1 AND customer_id = $client_id ORDER BY level DESC  LIMIT 1  ";
     	$level  = $db->fetchOne($sql);
     	return ($level+1);
 }
