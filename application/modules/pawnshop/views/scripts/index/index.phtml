@@ -9,6 +9,7 @@
 	$url_agreement = $this->baseUrl()."/report/pawn/agreement/id/";
 	$url_receipt = $this->baseUrl()."/report/pawn/pawnticketreceipt/id/";
 	$url_schedule = $this->baseUrl()."/report/pawn/rpt-paymentschedules/id/";
+	$url_reschedule = $this->baseUrl()."/pawnshop/reschedule/add/id/";
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
@@ -100,6 +101,8 @@ $(function(){
 				url='<?php echo $url_receipt;?>';
 			}else if(key=="schedule"){
 				url='<?php echo $url_schedule;?>';
+			}else if(key=="reschedule"){
+				url='<?php echo $url_reschedule;?>';
 			}
 			 
 			gotoAction();
@@ -111,6 +114,7 @@ $(function(){
 			"agreement": {name: "<?php echo $tr->translate("AGREEMENT");?>", icon: "fa-file-text"},
 			"schedule": {name: "<?php echo $tr->translate("SCHEDULE_PAYMENT");?>", icon: "fa-calendar"},
 			"receipt": {name: "<?php echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-print"},
+			"reschedule": {name: "<?php echo $tr->translate("REPAYMENTSCHEDULE");?>", icon: "fa-calendar"},
 		}
 	});
 });
