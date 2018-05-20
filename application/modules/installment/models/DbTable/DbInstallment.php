@@ -848,7 +848,7 @@ public function getLoanviewById($id){
 	}
 	function getLoanLevelByClient($client_id){
 		$db  = $this->getAdapter();
-		$sql = "SELECT count(id) FROM `ln_ins_sales_install` WHERE status =1 AND customer_id = $client_id LIMIT 1 ";
+		$sql = "SELECT count(id) FROM `ln_ins_sales_install` WHERE status =1 AND customer_id = $client_id ORDER BY id DESC LIMIT 1 ";
 		$level  = $db->fetchOne($sql);
 		return ($level+1);
 	}			 

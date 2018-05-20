@@ -44,35 +44,24 @@
 	<?php if($module!='home'){?>
 	    <link rel="stylesheet" type="text/css" href="<?php echo $base_url;?>js/dojo-1.6.1/dijit/themes/<?php echo $them_style."/".$them_style?>.css" />
         <script src="<?php echo $this->baseUrl()."/contextMenu/1.11.3/"?>jquery.min.js"></script>
-       <?php //if($action=='index'){?>
-	<!-- 
-	<script type="text/javascript" src="<?php //echo $this->baseUrl();?>/js/jquery.tablesorter.js"> </script>
-	<script type="text/javascript" src="<?php //echo $this->baseUrl();?>/js/jquery.tablesorter.pager.js"> </script>
-	 -->
        <?php  } ?>
-	<?php //}?>
 	<!-- export library -->
 	<?php if($module=='report'){?>
-	 <script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/tableExport.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jquery.base64.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/html2canvas.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/libs/sprintf.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/jspdf.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/libs/base64.js"></script> 
-      <?php } ?>	
-	<!-- end -->
-	
+			 <script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/tableExport.js"></script>
+			<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jquery.base64.js"></script>
+			<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/html2canvas.js"></script>
+			<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/libs/sprintf.js"></script>
+			<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/jspdf.js"></script>
+			<script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/jspdf/libs/base64.js"></script> 
+    <?php } ?>	
 	<?php if ($action=="index" AND $module !="home"){?>
 	<link href="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.contextMenu.css" rel="stylesheet" type="text/css" />
 	<script src="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.contextMenu.js" type="text/javascript"></script>
 	<script src="<?php echo $this->baseUrl()."/contextMenu/"?>jquery.ui.position.min.js" type="text/javascript"></script>
-	
 	<link href="<?php echo $this->baseUrl()."/datatable/"?>datatables.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo $this->baseUrl()."/datatable/"?>responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
-   
     <script src="<?php echo $this->baseUrl()."/datatable/"?>datatables.min.js" type="text/javascript"></script>
     <script src="<?php echo $this->baseUrl()."/datatable/"?>dataTables.responsive.min.js" type="text/javascript"></script>
-   
     <script>
     $(document).ready(function() {
         $('#datatable-responsive').DataTable( {
@@ -82,8 +71,7 @@
         } );
     } );
     </script>
-	<?php }?>
-	
+	<?php }?>	
 	<?php if($module!='home'){?>
 	<script src="<?php echo $base_url;?>js/dojo-1.6.1/dojo/dojo.js"  djConfig="isDebug: true,parseOnLoad: true"></script>
 	<script>dojoConfig = {parseOnLoad: true}</script>
@@ -229,6 +217,26 @@
     
     </style>
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
+<script>
+		
+var url_changelang = '<?php echo $this->url(array('module'=>'default','controller'=>'index','action'=>'changelange'));?> ';
+function changeLange(lang){
+	dojo.xhrPost({
+		url: url_changelang,
+	    content :{ 
+			    'lange':lang,
+		},	
+		handleAs:"json",
+		load: function(data) {
+			location.reload();
+		},
+		error: function(err) {
+			
+			
+		}
+	});
+}
+	</script>
 <?php if($module=='report' OR $module=='reports' AND $action!='index'){?>
 <script type="text/javascript">
 function doPrint() {

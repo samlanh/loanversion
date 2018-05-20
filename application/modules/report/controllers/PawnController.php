@@ -615,8 +615,6 @@ function rptPaymentHistoryAction(){
  	$form = $frm->FrmSearchLoadSchedule();
  	Application_Model_Decorator::removeAllDecorator($form);
  	$this->view->form_filter = $form;
- 	// 	$day_inkhmer = $db->getDayInkhmerBystr(null);
- 	// 	$this->view->day_inkhmer = $day_inkhmer;
  
  	$key = new Application_Model_DbTable_DbKeycode();
  	$this->view->data=$key->getKeyCodeMiniInv(TRUE);

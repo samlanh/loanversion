@@ -91,7 +91,8 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 	    $key = new Application_Model_DbTable_DbKeycode();
 	    $this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	    
-	    
+	    $db = new Setting_Model_DbTable_DbLabel();
+	    $this->view->setting=$db->getAllSystemSetting();
 	}
 public function editAction(){
 	if($this->getRequest()->isPost()){
@@ -134,6 +135,9 @@ public function editAction(){
     $frm = $fm->FrmViewType();
     Application_Model_Decorator::removeAllDecorator($frm);
     $this->view->Form_Frmcallecterall = $frm;
+    
+    $key = new Application_Model_DbTable_DbKeycode();
+    $this->view->data=$key->getKeyCodeMiniInv(TRUE);
 }	
 public function addloanAction(){
 	if($this->getRequest()->isPost()){

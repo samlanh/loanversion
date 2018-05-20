@@ -66,6 +66,7 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 				'join_sex'=>$_data['join_sex'],
 				
 				'guarantor_name' => $_data['spouse'],
+				'guarantor_gender'=> $_data['guarantor_gender'],
 				'guarantor_d_type'=> $_data['guarantor_d_type'],
 				'guarantor_nationid'=>$_data['spouse_nationid'],
 				'dob_guarantor'=>$_data['dob_guarantor'],

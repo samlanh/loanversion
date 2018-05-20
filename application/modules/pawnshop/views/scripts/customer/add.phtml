@@ -274,7 +274,27 @@ input.btn_borwse_image {
 							        <td><?php echo $tr->translate("SPOUSE_NAME");?></td>
 									<td><?php echo $frm->getElement('spouse');?></td>
 							    </tr>
+							     <tr>
+									<td valign="top" style="width: 30%;"><?php echo $tr->translate("SEX");?></td>
+									<td valign="top"><?php  echo $frm->getElement('guarantor_gender');?></td>						
+								</tr>
 							    <tr>
+									<td valign="top" style="width: 30%;"><?php echo $tr->translate("DOB");?></td>
+									<td valign="top"><?php  echo $frm->getElement('dob_guarantor');?></td>						
+								</tr>
+							</table>	
+						</td>
+						<td width="33%;" valign="top">
+							 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
+								<tr>
+									<td valign="top"><?php echo $tr->translate("TEL");?></td>
+									<td valign="top"><?php  echo $frm->getElement('guarantor_tel');?></td>
+								</tr>
+								<tr>
+									<td><?php echo $tr->translate("RELATIVE_WITH");?></td>
+									<td><?php  echo $frm->getElement('guarantor_with');?></td>
+								</tr>
+								<tr>
 							        <td valign="top"><?php echo $tr->translate("NATIONAL_ID");?></td>
 									<td valign="top"><input id="guarantor_d_type" /></td>
 							    </tr>
@@ -282,22 +302,6 @@ input.btn_borwse_image {
 							        <td valign="top"><?php echo $tr->translate("N_O");?></td>
 									 <td valign="top"><?php echo $frm->getElement('spouse_nationid');?></td>
 							    </tr>
-							</table>	
-						</td>
-						<td width="33%;" valign="top">
-							 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="2"  >
-							 	<tr>
-									<td valign="top" style="width: 30%;"><?php echo $tr->translate("DOB");?></td>
-									<td valign="top"><?php  echo $frm->getElement('dob_guarantor');?></td>						
-								</tr>
-								<tr>
-									<td valign="top"><?php echo $tr->translate("TEL");?></td>
-									<td valign="top"><?php  echo $frm->getElement('guarantor_tel');?></td>
-								</tr>
-							    <tr>
-									<td><?php echo $tr->translate("RELATIVE_WITH");?></td>
-									<td><?php  echo $frm->getElement('guarantor_with');?></td>
-								</tr>
 							</table>
 						</td>
 						<td width="33%;" valign="top">

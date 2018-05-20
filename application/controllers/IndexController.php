@@ -111,7 +111,9 @@ class IndexController extends Zend_Controller_Action
 			else{				
 				$this->view->msg = 'លោកអ្នកមិនមានសិទ្ធិប្រើប្រាស់ទេ!';
 			}			
-		}		
+		}	
+		$session_lang=new Zend_Session_Namespace('lang');
+		$this->view->rslang = $session_lang->lang_id;
     }
     
     protected function sortMenu($menus){

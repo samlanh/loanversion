@@ -187,23 +187,36 @@ input.btn_borwse_image {
    </tr>	
 	<tr style="background:#8fbffd;">
 		<td style="border:1px solid #ccc;">
-			<img style="max-height:126px" src="<?= $this->baseUrl() ?>/images/banner_money_exchange.jpg" />
+			<table cellspacing="5"  width="100%" style="">
+				<tr>
+	                  <td><?php echo $tr->translate("CURRENCY")?></td>
+					  <td align="left"><?php echo $frm->getElement('currency_type');?></td>
+                  </tr>
+                  <tr>
+		               <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
+					   <td><?php echo $frm->getElement('total_amount');?></td>
+                   </tr>
+                   <tr>
+		                <td><?php echo $tr->translate("ADMIN_FEE")?></td>
+						<td><?php echo $frm->getElement('admin_fee');?></td>
+                   </tr>
+                   <tr>
+	                	<td><?php echo $tr->translate("TERM_INSTALL")?></td>
+					   	<td><?php echo $frm->getElement('payment_term');?></td>
+                   </tr>
+               </table>
 		</td>
 		<td valign="top">
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("ILLOAN_INFO")?></strong></legend>
 					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
 						 <tr>
-		                 	<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-		                  </tr>
-		                   <tr>
-			                    <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
-								<td><?php echo $frm->getElement('total_amount');?></td>
-		                   </tr>
-		                    <tr>
 		                	   <td><strong><?php echo $tr->translate("PAWNSHOP_DURATION")?></strong></td>
 							   <td><?php echo $frm->getElement('period');?></td>
+		                   </tr>
+		                   <tr>
+		                 		<td><?php echo $tr->translate("INTEREST_TYPE")?></td>
+								<td><?php echo $frm->getElement('interest_type');?></td>
 		                   </tr>
 		                   <tr>
 		                 		<td><?php echo $tr->translate("INTEREST RATE")?></td>
@@ -436,6 +449,12 @@ $frm = $this->Form_Frmcallecterall;
 
 <?php //echo $this->frmpupoploantype;?>
 <script type="text/javascript">	
+function calCulateAdminFee(){
+	p_income="<?php echo $this->setting['adminfee']?>";
+	t_admin=dijit.byId('total_amount').get('value');
+	adminfee=(p_income*(t_admin/100));
+	dijit.byId('admin_fee').attr('value',adminfee);
+}
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -766,25 +785,29 @@ function calCulatePeriod(){
 function CalculateWidthdraw(){
 }
 function getFirstPayment(){
-	daterelease=dijit.byId("release_date").get('value');
-	if(dijit.byId('account_type').get('value')==1){
-		alert("value = 1");
-		dijit.byId("first_payment").attr('value',dijit.byId('date_line').get('value'));
-	}else{
-		amount_date = dijit.byId('withdrawal').get("value");
-		var date = new Date(daterelease);
-		mm = date.getMonth()+amount_date;
-		 if(mm<10){
-			 mm = "0"+mm;
-		}
-		 var dd = date.getDate();
-		 if(dd<10){
-			 dd = "0"+dd;
-		}
-		 var y = date.getFullYear();
-			var first_date = y + '-'+ mm + '-'+dd ;
-         dijit.byId("first_payment").attr('value',first_date);
+	amount_date = dijit.byId('period').get("value");
+	release_date = dijit.byId("release_date").get('value');
+	var a = new Date(release_date);
+	
+	pay_term = dijit.byId('payment_term').get("value");
+	if(pay_term==3){//month
+		var month = a.getMonth()+1+1;
+	}else if(pay_term==1){
+		a.setDate(a.getDate() + (1)); 
+		var month = a.getMonth() + 1;
 	}
+	mm = month%12;
+	var year = parseInt(month/12);
+	var dd = a.getDate();
+	 if(dd<10){
+		 dd = "0"+dd;
+	}
+	 if(mm<10){
+		 mm = "0"+mm;
+	}
+	var y = a.getFullYear()+year;
+	var epx_date = y + '-'+ mm + '-'+dd ;
+	dijit.byId('first_payment').attr('value',epx_date);
 }
 function getDayName(day){
 	 var weekday = new Array(7);

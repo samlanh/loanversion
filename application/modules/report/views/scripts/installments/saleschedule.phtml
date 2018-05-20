@@ -27,7 +27,7 @@ td p{ margin-top:0px !important;}
 	    	<td align="center">
 	        	<table width="100%" style="font-family:khmer;margin:0 auto;padding:0px; border:none;">
 					<tr>
-	                	  <td width="30%" valign="top"><img src="<?php echo $this->baseUrl();?>/images/logo.jpg" /> </td>
+	                	  <td width="30%" valign="top"><!-- <img src="<?php //echo $this->baseUrl();?>/images/logo.jpg" /> --> </td>
 	                	  <td width="40%" align="left" >
 		                 </td>
 	                	  <td width="30%" align="left" ></td>
@@ -35,7 +35,7 @@ td p{ margin-top:0px !important;}
 	                <tr>
 	                	<td colspan="3" align="center">
 	                			<h2 style="text-align:center; font-size:16px; font-family:'Khmer OS Muol';white-space: nowrap;">
-		                	  	<?php //echo $data['client_company_name'];
+		                	  	<?php 
 									echo $this->sale['branch_nameen'];
 								?><br />
 		                	  </h2>
@@ -53,13 +53,13 @@ td p{ margin-top:0px !important;}
 				                	</td>
 				                    <td valign="top" style="" width="33%">
 				                        <p><?php echo $tr->translate("AMOUNT_TERM_FUND");?> : <?php  echo $sale['duration']." ខែ"; ?></p>
-				                        <p><?php echo $tr->translate("ថ្ងៃចាប់ផ្តើម ");?> : <?php echo date('d-m-Y',strtotime($sale['date_sold']));?> </p>
+				                        <p><?php echo $tr->translate("SELLING_DATE");?> : <?php echo date('d-m-Y',strtotime($sale['date_sold']));?> </p>
 				                    	<p><?php echo $tr->translate("FIRST_PAYMENT");?> : <?php echo date('d-m-Y',strtotime($sale['first_payment'])); ?></p>
 				                     </td>
 				                    <td valign="top">
 				                   	  <p><?php echo $tr->translate("INSTALLMENT_NO");?> : <b><?php echo $sale['sale_no'];?></b></p>
 				                      <p><?php echo $tr->translate("INTEREST")." : ".$sale['interest_rate']." %"?> </p>
-				                      <p><?php echo $tr->translate("LOAN_AMOUNT");?>  : <?php echo number_format($sale['balance'],(!strrpos($sale['balance'],". "))? 0 : 2);echo '&nbsp;'." $";?></p>
+				                      <p><?php echo $tr->translate("TOTAL_INSTALL_AMOUNT");?>  : <strong><?php echo number_format($sale['balance'],(!strrpos($sale['balance'],". "))? 0 : 2);echo '&nbsp;'." $";?></strong></p>
 				                    </td>
 				                </tr>
 				                <tr style="font-size:15px;font-family:'Khmer OS Battambang'" >

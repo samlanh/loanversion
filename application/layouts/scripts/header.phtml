@@ -83,22 +83,3 @@
 		</li>
 	</ul>
 </div>
-<script>
-		
-var url_changelang = '<?php echo $this->url(array('module'=>'default','controller'=>'index','action'=>'changelange'));?> ';
-function changeLange(lang){
-	dojo.xhrPost({
-		url: url_changelang,
-	    content :{ 
-			    'lange':lang,
-		},	
-		handleAs:"json",
-		load: function(data) {
-			location.reload();
-		},
-		error: function(err) {
-			
-		}
-	});
-}
-	</script>

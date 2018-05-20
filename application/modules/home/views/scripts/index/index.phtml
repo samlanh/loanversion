@@ -6,8 +6,7 @@
 	$db = new Home_Model_DbTable_DbDashboard();
 	?>
  
- <!--Morris Chart CSS -->
-<link rel="stylesheet" href="<?php echo $this->baseUrl()."/"?>dashboard/plugins/morris/morris.css">
+ <link rel="stylesheet" href="<?php echo $this->baseUrl()."/"?>dashboard/plugins/morris/morris.css">
 
  <!-- Bootstrap core CSS -->
  <link href="<?php echo $this->baseUrl()."/"?>dashboard/css/bootstrap.min.css" rel="stylesheet">
@@ -16,6 +15,12 @@
 
 <!-- Custom styles for this template -->
 <link href="<?php echo $this->baseUrl()."/"?>dashboard/css/style.css" rel="stylesheet">
+<script src="<?php echo $this->baseUrl()."/"?>dashboard/js/jquery-2.1.4.min.js"></script>
+<script src="<?php echo $this->baseUrl()."/"?>dashboard/js/bootstrap.min.js"></script>
+<!--Morris Chart-->
+<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/morris/morris.min.js"></script>
+<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/raphael/raphael-min.js"></script>
+
 <div id="page-wrapper">
 	<!-- Page content start -->
 	<div class="page-contentbar">
@@ -24,38 +29,6 @@
 			<div class="container">
 				 <div class="row">
 					<div class="col-lg-6">
-						<!-- 
-						<div class="card-box">
-							<div  style="padding-left: 0; margin-left: 0; margin-top: 0;">
-								<ul id="module-image">						
-									<li style="text-align:center;">
-										<a href="<?php //echo $this->baseUrl()."/report/loan/rpt-sold"?>">
-											<img title="<?php //echo $tr->translate("LOAN_DISBURSE");?>" src="<?php //echo $this->baseUrl()."/images/icon/reportIcon.png"?>" alt="Customer">							
-											<span style="margin-top: 5px; font-size: 14px; font-weight: bold; color: #000000"><h5 data-bind="text: lang.lang.accounting" style="margin-top: 5px; display: inline-block;"><?php //echo $tr->translate("LOAN_DISBURSE");?></h5></span>
-										</a>
-									</li>
-									<li style="text-align:center;">
-										<a href="<?php //echo $this->baseUrl()."/report/paramater/rpt-daily-cash"?>">
-											<img title="<?php //echo $tr->translate("REPORT_DAILY_CASH");?>" src="<?php //echo $this->baseUrl()."/images/icon/reportIncomeIcon.png"?>" alt="Customer">							
-											<span style="margin-top: 5px; font-size: 14px; font-weight: bold; color: #000000"><h5 data-bind="text: lang.lang.accounting" style="margin-top: 5px; display: inline-block;"><?php //echo $tr->translate("REPORT_DAILY_CASH");?></h5></span>
-										</a>
-									</li>
-									<li style="text-align:center;">
-										<a href="<?php //echo $this->baseUrl()."/report/paramater/rpt-cancel-sale"?>">
-											<img title="<?php //echo $tr->translate("CANCEL_REPORT");?>" src="<?php //echo $this->baseUrl()."/images/icon/reportCancelIcon.png"?>" alt="Customer">							
-											<span style="margin-top: 5px; font-size: 14px; font-weight: bold; color: #000000"><h5 data-bind="text: lang.lang.accounting" style="margin-top: 5px; display: inline-block;"><?php //echo $tr->translate("CANCEL_REPORT");?></h5></span>
-										</a>
-									</li>
-									<li style="text-align:center;">
-										<a href="<?php //echo $this->baseUrl()."/report/loan/rpt-loan-outstanding"?>">
-											<img title="<?php //echo $tr->translate("LOAN_OUTSTADING");?>" src="<?php //echo $this->baseUrl()."/images/icon/balanceIcon.png"?>" alt="Customer">							
-											<span style="margin-top: 5px; font-size: 14px; font-weight: bold; color: #000000"><h5 data-bind="text: lang.lang.accounting" style="margin-top: 5px; display: inline-block;"><?php //echo $tr->translate("LOAN_OUTSTADING");?></h5></span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						 -->
 						<div class="card-box">
 							<div class="col-lg-12">
 								<div class="accounting-management text-center">
@@ -300,25 +273,10 @@
 	</div>
 
 </div>
-   <!-- js placed at the end of the document so the pages load faster -->
-        <script src="<?php echo $this->baseUrl()."/"?>dashboard/js/jquery-2.1.4.min.js"></script>
-        <script src="<?php echo $this->baseUrl()."/"?>dashboard/js/bootstrap.min.js"></script>
-
-
-		<!--Morris Chart-->
-		<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/morris/morris.min.js"></script>
-		<script src="<?php echo $this->baseUrl()."/"?>dashboard/plugins/raphael/raphael-min.js"></script>
-
-
-        
-        
- <!-- Dashboard init 
-<script src="<?php //echo $this->baseUrl()."/"?>dashboard/pages/jquery.dashboard.js"></script>-->
 <?php 
 $start_year = date("Y-m-d",strtotime(" -4 month"));
 ?>
 <script>
-//creating bar chart
 var $barData  = [];
 var $barData  = [
     <?php  for ($i=0; $i<=4; $i++ ){

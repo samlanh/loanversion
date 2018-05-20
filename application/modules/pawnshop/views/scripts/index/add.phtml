@@ -98,7 +98,7 @@ input.btn_borwse_image {
 		<td width="30%" valign="top">
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("CLIENT_INFO")?></strong></legend>
-					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+					<table cellspacing="5"  width="100%">
 	                   <tr>
 		                    <td><?php echo $tr->translate("BRANCH_NAME")?></td>
 						    <td><?php echo $frm->getElement('branch_id');?></td>
@@ -131,7 +131,7 @@ input.btn_borwse_image {
 		<td width="30%" valign="top">
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("PRODUCT_DESCRIPTION")?></strong></legend>
-					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+					<table cellspacing="5"  width="100%" >
 						<tr>
 							<td><strong><?php echo $tr->translate("PRODUCT_NAME")?></strong></td>
 							<td><input id="product_id" /></td>
@@ -151,7 +151,7 @@ input.btn_borwse_image {
 		<td width="30%" valign="top">
 			<fieldset>
 				<legend><strong><?php echo $tr->translate("PHOTO")?></strong></legend>
-					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+					<table cellspacing="5"  width="100%" >
 						 <tr>
 		                 	<td align="center">
 		                 		<?php 
@@ -177,52 +177,62 @@ input.btn_borwse_image {
 		<td colspan="3" style="border-bottom:1px solid #ccc; background:#8fbffd"><strong><?php echo $tr->translate("ព៌ត័មាន ដាក់បញ្ចាំ​")?></strong></td>
    </tr>	
 	<tr style="background:#8fbffd;">
-		<td ><img style="max-height:126px" src="<?php echo $this->baseUrl() ?>/images/banner_money_exchange.jpg" /></td>
+		<td>
+			<!-- <img style="max-height:126px" src="<?php //echo $this->baseUrl() ?>/images/banner_money_exchange.jpg" /> -->
+			<table cellspacing="5"  width="100%" style="">
+				<tr>
+	                  <td><?php echo $tr->translate("CURRENCY")?></td>
+					  <td align="left"><?php echo $frm->getElement('currency_type');?></td>
+                  </tr>
+                  <tr>
+		               <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
+					   <td><?php echo $frm->getElement('total_amount');?></td>
+                   </tr>
+                   <tr>
+		                <td><?php echo $tr->translate("ADMIN_FEE")?></td>
+						<td><?php echo $frm->getElement('admin_fee');?></td>
+                   </tr>
+                   <tr>
+	                	<td><?php echo $tr->translate("TERM_INSTALL")?></td>
+					   	<td><?php echo $frm->getElement('payment_term');?></td>
+                   </tr>
+               </table>
+		</td>
 		<td style="border:1px solid #ccc;">
-			<fieldset>
-				<legend><strong><?php echo $tr->translate("ILLOAN_INFO")?></strong></legend>
-					<table cellspacing="5"  width="100%" style="margin-top: -10px;">
-						 <tr>
-		                 	<td><?php echo $tr->translate("CURRENCY")?></td>
-							<td align="left"><?php echo $frm->getElement('currency_type');?></td>
-		                  </tr>
-		                  <tr>
-			                    <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
-								<td><?php echo $frm->getElement('total_amount');?></td>
-		                   </tr>
-		                   <tr>
-		                	   <td><strong><?php echo $tr->translate("PAWNSHOP_DURATION")?></strong></td>
-							   <td><?php echo $frm->getElement('period');?></td>
-		                   </tr>
-		                   <tr>
-		                 		<td><?php echo $tr->translate("INTEREST RATE")?></td>
-								<td><?php echo $frm->getElement('interest_rate');?></td>
-		                   </tr>
-					</table>
-			</fieldset>
+			<table cellspacing="5"  width="100%" style="margin-top: -10px;">
+                   <tr>
+                	   <td><strong><?php echo $tr->translate("PAWNSHOP_DURATION")?></strong></td>
+					   <td><?php echo $frm->getElement('period');?></td>
+                   </tr>
+                   <tr>
+                 		<td><?php echo $tr->translate("INTEREST_TYPE")?></td>
+						<td><?php echo $frm->getElement('interest_type');?></td>
+                   </tr>
+                   <tr>
+                 		<td><?php echo $tr->translate("INTEREST RATE")?></td>
+						<td><?php echo $frm->getElement('interest_rate');?></td>
+                   </tr>
+			</table>
 		</td>
 		<td  valign="top">
-           <fieldset>
-			<legend><strong><?php echo $tr->translate("INFO_FUND")?></strong></legend>
-				<table cellspacing="5"  width="100%" style="margin-top: -10px;">
-	                 <tr>
-	                   	  <td><?php echo $tr->translate("PAWN_DATE")?></td>
-			    	  	  <td><?php echo $frm->getElement('release_date');?></td>
-	                 </tr>
-	                 <tr>
-	                      <td><strong><?php echo $tr->translate("FIRST_PAYMENT")?></strong></td>
-				   	 	  <td><?php echo $frm->getElement('first_payment');?></td>                   
-					 </tr>
-	                 <tr>
-	                     <td><?php echo $tr->translate("PAWN_ENDDATE")?></td>
-				     	<td><?php echo $frm->getElement('date_line');?></td>                   
-				     </tr>
-	                 <tr>
-	                    <td><?php echo $tr->translate("បង្កាន់ដៃទទួលប្រាក់")?></td>
-			    		<td><?php echo $frm->getElement('receipt_num');?></td>
-	                 </tr>
+			<table cellspacing="5"  width="100%" >
+                 <tr>
+                   	 <td><?php echo $tr->translate("PAWN_DATE")?></td>
+		    	  	 <td><?php echo $frm->getElement('release_date');?></td>
+                 </tr>
+                 <tr>
+                      <td><strong><?php echo $tr->translate("FIRST_PAYMENT")?></strong></td>
+			   	 	  <td><?php echo $frm->getElement('first_payment');?></td>                   
+				 </tr>
+                 <tr>
+                     <td><?php echo $tr->translate("PAWN_ENDDATE")?></td>
+			     	<td><?php echo $frm->getElement('date_line');?></td>                   
+			     </tr>
+                 <tr>
+                    <td><?php echo $tr->translate("បង្កាន់ដៃទទួលប្រាក់")?></td>
+		    		<td><?php echo $frm->getElement('receipt_num');?></td>
+	              </tr>
                </table>
-            </fieldset>
 		</td>
 	</tr>	
 	<tr>
@@ -685,12 +695,21 @@ function addPreviewLoan(){
 function showReceipt(){
 	 dojo.byId("lb_receipt_no").innerHTML = dijit.byId("loan_code").get('value');
 	 dojo.byId("lb_loanamount").innerHTML = dojo.number.format(dijit.byId("total_amount").get('value'),2)+' '+dijit.byId('currency_type').attr('displayedValue');
-	 dojo.byId("lb_interest_rate").innerHTML = dijit.byId("interest_rate").get('value')+ ' %';
+	
 	 dojo.byId("lb_producttype").innerHTML = dijit.byId("product_id").attr('displayedValue')+" : "+$("#description").val();
 
+	 //dojo.byId("lb_interest_rate").innerHTML = dijit.byId("interest_rate").get('value')+ ' %';
 	 total_amount = dijit.byId('total_amount').get("value");
-	 interest_rate = dijit.byId('interest_rate').get("value");
-	 total_interest= total_amount*interest_rate/100;
+	 interest_type = dijit.byId('interest_type').get("value");
+	 
+	 total_interest = dijit.byId('interest_rate').get("value");
+	 if(interest_type==1){
+		interest_rate = dijit.byId('interest_rate').get("value")+ ' %';
+	 	total_interest= total_amount*total_interest/100;
+	 }else{
+		 interest_rate = dijit.byId('interest_type').attr('displayedValue');
+	 }
+	 dojo.byId("lb_interest_rate").innerHTML = interest_rate;
 	 dojo.byId("lb_total_interest").innerHTML = total_interest+' '+dijit.byId('currency_type').attr('displayedValue');;
 	 dojo.byId("lb_customername").innerHTML =dijit.byId('member').attr('displayedValue');
 	 dojo.byId("lb_start_date").innerHTML =dijit.byId("release_date").attr('displayedValue');
@@ -700,7 +719,7 @@ function showReceipt(){
 
 	 dojo.byId("lb_receipt_no1").innerHTML = dijit.byId("loan_code").get('value');
 	 dojo.byId("lb_loanamount1").innerHTML = dojo.number.format(dijit.byId("total_amount").get('value'),2)+' '+dijit.byId('currency_type').attr('displayedValue');
-	 dojo.byId("lb_interest_rate1").innerHTML = dijit.byId("interest_rate").get('value')+ ' %';
+	 dojo.byId("lb_interest_rate1").innerHTML = interest_rate;
 	 dojo.byId("lb_producttype1").innerHTML = dijit.byId("product_id").attr('displayedValue')+" : "+$("#description").val();
 	 dojo.byId("lb_total_interest1").innerHTML = total_interest+' '+dijit.byId('currency_type').attr('displayedValue');;
 	 dojo.byId("lb_customername1").innerHTML =dijit.byId('member').attr('displayedValue');
@@ -812,6 +831,7 @@ require(["dojo/ready"], function(ready){
 		<?php }?>
 		dijit.byId('currency_type').attr('value',2);
 		dijit.byId("receipt_num").set("readOnly",true);
+		dijit.byId('payment_term').attr('value',3);
 	});
 	new dijit.form.FilteringSelect({
 	store: client_store,
@@ -961,7 +981,10 @@ function getReceiptbybranch(){
 function showloantype(){
 }
 function calCulateAdminFee(){
-	
+	p_income="<?php echo $this->setting['adminfee']?>";
+	t_admin=dijit.byId('total_amount').get('value');
+	adminfee=(p_income*(t_admin/100));
+	dijit.byId('admin_fee').attr('value',adminfee);
 }
 function CompareGraicePariod(){
 	
@@ -1034,8 +1057,14 @@ function getFirstPayment(){
 	amount_date = dijit.byId('period').get("value");
 	release_date = dijit.byId("release_date").get('value');
 	var a = new Date(release_date);
-	var month = a.getMonth()+1+1;
-
+	
+	pay_term = dijit.byId('payment_term').get("value");
+	if(pay_term==3){//month
+		var month = a.getMonth()+1+1;
+	}else if(pay_term==1){
+		a.setDate(a.getDate() + (1)); 
+		var month = a.getMonth() + 1;
+	}
 	mm = month%12;
 	var year = parseInt(month/12);
 	var dd = a.getDate();
@@ -1089,14 +1118,12 @@ function getbranchinfo(){
 		},		    
 		handleAs:"json",
 		load: function(data) {
-			//alert(data.phonebr);
 			dojo.byId('footrecieptAddress').innerHTML=data.br_address;
 			dojo.byId('footrecieptAddress1').innerHTML=data.br_address;
 			dojo.byId('footrecieptPhone').innerHTML=data.branch_tel;
 			dojo.byId('footrecieptPhone1').innerHTML=data.branch_tel;
 			//dojo.byId('brNameShop').innerHTML=data.branch_nameen;
 			//dojo.byId('brDescription').innerHTML=data.description;
-			
 			//dijit.byId('invoice_no').attr('value',data);
 		},
 		error: function(err) {

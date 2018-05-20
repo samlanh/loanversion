@@ -21,7 +21,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 	    		(SELECT name_kh FROM `ln_clientsaving` WHERE client_id = ln_pawnshop.customer_id LIMIT 1) AS client_name_kh,
 	    		receipt_num,CONCAT(release_amount,
 	    		(SELECT symbol FROM `ln_currency` WHERE id =ln_pawnshop.currency_type LIMIT 1)) AS currency_type,
-	    		CONCAT(total_duration,(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code = 3 )) term_type,
+	    		CONCAT(total_duration,(SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code = term_type )) term_type,
 				interest_rate,
 				(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=ln_pawnshop.product_id limit 1) as product_name,
 				date_release,date_line,
@@ -106,6 +106,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 						'interest_rate'=>$data['interest_rate'],
 						'status'=>1,
 						'is_completed'=>0,
+						'term_type'=>$data['payment_term'],
+						'admin_fee'=>$data['admin_fee'],
+						'interest_type'=>$data['interest_type'],
 						'product_id'=>$data['product_id'],
 						'est_amount'=>$data['estimatevalue'],
 						'product_description'=>$data['description'],
@@ -120,10 +123,11 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 				$old_amount_day = 0;
 				$next_payment = $data['first_payment'];
 				$curr_type = $data['currency_type'];
-				$str_next=" +1 month";
+				
+				$str_next = $dbtable->getNextDateById($data['payment_term'],2);
 				$start_date = $data['release_date'];
 				$from_date =  $data['release_date'];
-				$borrow_term=30;//=1month
+				$borrow_term = $dbtable->getSubDaysByPaymentTerm($data['payment_term'],null);//return amount day for payterm
 				
 				$this->_name='ln_pawnshop_detail';
 				for($i=1;$i<=$data['period'];$i++){
@@ -141,7 +145,16 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 						$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
 						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
 					}
-					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;
+// 					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;
+					if($data['interest_type']==1){//interest by percentage
+						$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;//by day or month check 30
+					}else{//interest by fixed
+						if($data['payment_term']==3){//for month
+							$interest_paymonth = $data['interest_rate'];//*$amount_day/$borrow_term;//បើចង់គិតតាមថ្ងៃត្រូវបើកចំនុចនេះ
+						}else{//day
+							$interest_paymonth = $data['interest_rate']*$amount_day;//បើចង់គិតទាំងថ្ងៃឈប់ដែរ
+						}
+					}
 					
 					$datapayment = array(
 							'pawn_id'=>$loan_id,
@@ -168,7 +181,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 					$old_amount_day = 0;
 					$from_date=$next_payment;
 					if($i!=1){
-						$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, 1,2,$data['first_payment']);
+						if($data['payment_term']!=1){//for loan day
+							$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, 1,2,$data['first_payment']);
+						}
 					}
 				}
     			$db->commit();
@@ -196,6 +211,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     				'total_duration'=>$data['period'],
     				'first_payment'=>$data['first_payment'],
     				'payment_method'=>1,
+    				'term_type'=>$data['payment_term'],
+    				'admin_fee'=>$data['admin_fee'],
+    				'interest_type'=>$data['interest_type'],
     				'holiday'=>2,
     				'user_id'=>$this->getUserId(),
     				'currency_type'=>$data['currency_type'],
@@ -240,10 +258,10 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     		$old_amount_day = 0;
     		$next_payment = $data['first_payment'];
     		$curr_type = $data['currency_type'];
-    		$str_next=" +1 month";
+    		$str_next = $dbtable->getNextDateById($data['payment_term'],2);
     		$start_date = $data['release_date'];
     		$from_date =  $data['release_date'];
-    		$borrow_term=30;//=1month
+    		$borrow_term = $dbtable->getSubDaysByPaymentTerm($data['payment_term'],null);//return amount day for payterm
     
     		$this->_name='ln_pawnshop_detail';
     		for($i=1;$i<=$data['period'];$i++){
@@ -261,8 +279,16 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     				$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
     				$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
     			}
-    			$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;
-    				
+    			
+    			if($data['interest_type']==1){//interest by percentage
+    				$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;//by day or month check 30
+    			}else{//interest by fixed
+    				if($data['payment_term']==3){//for month
+    					$interest_paymonth = $data['interest_rate'];//*$amount_day/$borrow_term;//បើចង់គិតតាមថ្ងៃត្រូវបើកចំនុចនេះ
+    				}else{//day
+    					$interest_paymonth = $data['interest_rate']*$amount_day;//បើចង់គិតទាំងថ្ងៃឈប់ដែរ
+    				}
+    			}	
     			$datapayment = array(
     					'pawn_id'=>$loan_id,
     					'outstanding'=>$remain_principal,
@@ -289,7 +315,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     			$old_amount_day = 0;
     			$from_date=$next_payment;
     			if($i!=1){
-    				$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, 1,2,$data['first_payment']);
+    				if($data['payment_term']!=1){//for loan day
+    					$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, 1,2,$data['first_payment']);
+    				}
     			}
     		}
     		$db->commit();
@@ -327,28 +355,38 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 				$old_amount_day = 0;
 				$next_payment = $data['first_payment'];
 				$curr_type = $data['currency_type'];
-				$str_next=" +1 month";
+				
+				$str_next = $dbtable->getNextDateById($data['payment_term'],2);
 				$start_date = $data['release_date'];
 				$from_date =  $data['release_date'];
-				$borrow_term=30;//=1month
+// 				$borrow_term=30;//=1month
+				$borrow_term = $dbtable->getSubDaysByPaymentTerm($data['payment_term'],null);//return amount day for payterm
 				$this->_name='ln_pawnshoptest';
 				for($i=1;$i<=$data['period'];$i++){
 					$pri_permonth=0;
 					if($i==$data['period']){//check here
 						$old_pri_permonth = ($curr_type==1)?round($data['total_amount'],-2):$data['total_amount'];
-						$remain_principal = $pri_permonth;//$remain_principal-$pri_permonth;//OSប្រាក់ដើមគ្រា
+						$remain_principal = $pri_permonth;
 					}
 					if($i!=1){
 						$start_date = $next_payment;
 						$next_payment = $dbtable->getNextPayment($str_next, $next_payment, 1,2,$data['first_payment']);
-						//$next_payment = $dbtable->getNextPayment($str_next, $next_payment, $data['amount_collect'],$data['every_payamount'],$data['first_payment']);
 						$amount_day = $dbtable->CountDayByDate($from_date,$next_payment);
 					}else{
 						$next_payment = $data['first_payment'];
 						$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
 						$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
 					}
-					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;
+					if($data['interest_type']==1){//interest by percentage
+						$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;//by day or month check 30
+					}else{//interest by fixed
+						if($data['payment_term']==3){//for month
+							$interest_paymonth = $data['interest_rate'];//*$amount_day/$borrow_term;//បើចង់គិតតាមថ្ងៃត្រូវបើកចំនុចនេះ
+						}else{//day
+							$interest_paymonth = $data['interest_rate']*$amount_day;//បើចង់គិតទាំងថ្ងៃឈប់ដែរ
+						}
+					}
+					
 					$datapayment = array(
 							'pawn_id'=>1,
 							'total_principal'=>$remain_principal,//good
@@ -369,7 +407,10 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 					$old_amount_day = 0;
 					$from_date=$next_payment;
 					if($i!=1){
-						$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, 1,2,$data['first_payment']);
+						if($data['payment_term']!=1){//for loan day
+							$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, 1,2,$data['first_payment']);
+						}
+						
 					}
 			  }
 			unset($datamember);
@@ -475,7 +516,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     }
     function getLoanLevelByClient($client_id,$type){
     	$db  = $this->getAdapter();
-    	$sql = " SELECT level FROM `ln_pawnshop` WHERE status =1 AND customer_id = $client_id LIMIT 1 ";
+    	$sql = " SELECT level FROM `ln_pawnshop` WHERE status =1 AND customer_id = $client_id ORDER BY level DESC LIMIT 1 ";
     	$level  = $db->fetchOne($sql);
     	return ($level+1);
     }

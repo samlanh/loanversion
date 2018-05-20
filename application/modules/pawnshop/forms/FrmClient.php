@@ -97,10 +97,10 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
-		$opt_status = $db->getVewOptoinTypeByType(11,1);
-		unset($opt_status[-1]);
-		unset($opt_status['']);
-		$_sex->setMultiOptions($opt_status);
+		$opt_gender = $db->getVewOptoinTypeByType(11,1);
+		unset($opt_gender[-1]);
+		unset($opt_gender['']);
+		$_sex->setMultiOptions($opt_gender);
 		
 		$_situ_status = new Zend_Dojo_Form_Element_FilteringSelect('situ_status');
 		$_situ_status->setAttribs(array(
@@ -264,11 +264,7 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
 		));
-		$opt_s = $db->getVewOptoinTypeByType(11,1);
-		unset($opt_s[-1]);
-		unset($opt_s['']);
-		$_join_sex->setMultiOptions($opt_s);
-		
+		$_join_sex->setMultiOptions($opt_gender);
 		
 		$_dob_Guarantor= new Zend_Dojo_Form_Element_DateTextBox('dob_guarantor');
 		$_dob_Guarantor->setAttribs(array('dojoType'=>'dijit.form.DateTextBox',
@@ -291,6 +287,13 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 				'dojoType'=>'dijit.form.TextBox',
 				'class'=>'fullside',
 		));
+		
+		$guarantor_gender = new Zend_Dojo_Form_Element_FilteringSelect('guarantor_gender');
+		$guarantor_gender->setAttribs(array(
+				'dojoType'=>'dijit.form.FilteringSelect',
+				'class'=>'fullside',
+		));
+		$guarantor_gender->setMultiOptions($opt_gender);
 		
 		if($data!=null){
 			$_branch_id->setValue($data['branch_id']);
@@ -330,6 +333,7 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 			$id_issuedate->setValue(date("Y-m-d",strtotime($data['id_issuedate'])));
 			
 			$_spouse->setValue($data['guarantor_name']);
+			$guarantor_gender->setValue($data['guarantor_gender']);
 			$_dob_Guarantor->setValue(date("Y-m-d",strtotime($data['dob_guarantor'])));
 			$_guarantor_tel->setValue($data['guarantor_tel']);
 			$_guarantor_with->setValue($data['guarantor_with']);
@@ -337,7 +341,7 @@ Class Pawnshop_Form_FrmClient extends Zend_Dojo_Form {
 			$guarantor_address->setValue($data['guarantor_address']);
 			$_desc->setValue($data['remark']);
 		}
-		$this->addElements(array($dob_join_acc,$client_d_type,$_relate_tel,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$_branch_id,$_namekh,$_nameen,$_sex,$_situ_status,
+		$this->addElements(array($guarantor_gender,$dob_join_acc,$client_d_type,$_relate_tel,$_releted,$_join_nation_id,$_join_with,$spouse_nationid,$_id,$photo,$_spouse,$job,$national_id,$_branch_id,$_namekh,$_nameen,$_sex,$_situ_status,
 				$_province,$_district,$_commune,$_village,$_house,$_street,$_id_no,
 				$_phone,$_spouse,$_desc,$_status,$_clientno,$_dob,$clienttype_namekh,$clienttype_nameen,
 				

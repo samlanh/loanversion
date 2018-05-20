@@ -79,6 +79,7 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 		(SELECT name_en FROM `ln_view` WHERE TYPE =11 AND c.join_sex=key_code LIMIT 1) AS joinSexEN,
 		(SELECT name_kh FROM `ln_view` WHERE TYPE =11 AND c.join_sex=key_code LIMIT 1) AS joinSexKH,
 		(SELECT name_kh FROM `ln_view` WHERE TYPE =23 AND c.`guarantor_d_type`=id LIMIT 1) AS guarantorDocTypKH,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE =11 AND c.guarantor_gender=key_code LIMIT 1) AS guarantor_gender,
 		(SELECT name_en FROM `ln_view` WHERE TYPE =23 AND c.`guarantor_d_type`=id LIMIT 1) AS guarantorDocTypEN
 		FROM $this->_name AS c WHERE c.`client_id` = $clientID LIMIT 1";
 		return $db->fetchRow($sql);

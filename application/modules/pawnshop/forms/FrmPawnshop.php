@@ -26,9 +26,6 @@ public function init()
 				'style'=>'color:red; font-weight: bold;'
 		));
 		$db = new Application_Model_DbTable_DbGlobal();
-// 		$loan_number = $db->getPawnshoNumber();
-// 		$_loan_code->setValue($loan_number);
-		
 		
 		$_loan_codes = new Zend_Dojo_Form_Element_TextBox('loan_codes');
 		$_loan_codes->setAttribs(array(
@@ -45,10 +42,11 @@ public function init()
 				'class'=>'fullside',
 		));
 
-		$_client_codes = new Zend_Dojo_Form_Element_TextBox('client_codes');
-		$_client_codes->setAttribs(array(
-				'dojoType'=>'dijit.form.TextBox',
+		$admin_fee = new Zend_Dojo_Form_Element_NumberTextBox('admin_fee');
+		$admin_fee->setAttribs(array(
+				'dojoType'=>'dijit.form.NumberTextBox',
 				'class'=>'fullside',
+				'readOnly'=>true
 		));
 		
 		$dbs = new Loan_Model_DbTable_DbLoanIL();
@@ -135,22 +133,25 @@ public function init()
 		));
 		
 		$term_opt = $db->getVewOptoinTypeByType(14,1,3,1);
+		unset($term_opt[2]);
 		$_payterm = new Zend_Dojo_Form_Element_FilteringSelect('payment_term');
 		$_payterm->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'class'=>'fullside',
-				'required' =>'true'
+				'required' =>'true',
+				'onchange'=>'getFirstPayment();'
 		));
 		$_payterm->setMultiOptions($term_opt);
-		$_pay_every = new Zend_Dojo_Form_Element_FilteringSelect('pay_every');
-		$_pay_every->setAttribs(array(
+		
+		$_intest_type = new Zend_Dojo_Form_Element_FilteringSelect('interest_type');
+		$_intest_type->setAttribs(array(
 				'dojoType'=>'dijit.form.FilteringSelect',
 				'required' =>'true',
 				'class'=>'fullside',
 				'onchange'=>'calCulatePeriod();'
 		));
-		$_pay_every->setValue(3);
-		$_pay_every->setMultiOptions($term_opt);
+		$_intest_type->setValue(3);
+		$_intest_type->setMultiOptions(array("1"=>"ភាគរយ","ការប្រាក់ថេរ"));
 		
 		$_branch_id = new Zend_Dojo_Form_Element_FilteringSelect('branch_id');
 		$_branch_id->setAttribs(array(
@@ -166,7 +167,6 @@ public function init()
 				$options[$row['br_id']]=$row['branch_namekh'];
 			}
 		$_branch_id->setMultiOptions($options);
-// 		$_branch_id->setValue($request->getParam("branch_id"));
 		
 		//Set Value Current Branch
 		if ($currentlevel!=1){
@@ -312,7 +312,7 @@ public function init()
 			$_level->setValue($data['level']);
 			$_releasedate->setValue($data['date_release']);
 			$_first_payment->setValue($data['first_payment']);
-			$_dateline->setValue($data['date_line']);
+			$_dateline->setValue(date("Y-m-d",strtotime($data['date_line'])));
 			$receipt_num->setValue($data['receipt_num']);
 			$_currency_type->setValue($data['currency_type']);
 			$_amount->setValue($data['release_amount']);
@@ -323,15 +323,18 @@ public function init()
 			$description->setValue($data['product_description']);
 			$_estimate->setValue($data['est_amount']);
 			
-			$_pay_every->setValue($data['term_type']);
+			$_intest_type->setValue($data['interest_type']);
+			$_payterm->setValue($data['term_type']);
+			$admin_fee->setValue($data['admin_fee']);//
+			
 			$_id->setValue($data['id']);
 			$_status->setValue($data['status']);
 		}
 		$this->addElements(array($noted,$outstandingloan,$extra_loan,$_start_date,$end_date,$_title,$description,$_estimate,$_first_payment,$receipt_num,$withdrawal,$pro_type,$_level,$_old_payterm,$_interest_rate,$_release_date,$_instalment_date,
 				$_interest,
-				$_client_codes,$_loan_codes,$_members,
+				$admin_fee,$_loan_codes,$_members,
 				$_client_code,$_branch_id,$_currency_type,$_amount,$_rate,$_releasedate
-				,$_payterm,$_status,$_period,$_repayment_method,$_pay_every,$_loan_code,
+				,$_payterm,$_status,$_period,$_repayment_method,$_intest_type,$_loan_code,
 				$_dateline,$_id));
 		return $this;
 		
