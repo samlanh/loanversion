@@ -1355,7 +1355,10 @@ public function getLoanInfo($id){//when repayment shedule
     		$from = new DateTime($row['dob']);
     		$to   = new DateTime('today');
     		$age = $from->diff($to)->y;
+    		$row['ages'] = '';
+    		if(!empty($row['dob']) && $row['dob']!='0000-00-00'){
     		$row['ages'] = $age;
+    		}
     		return $row;
     	}
     	return "";
