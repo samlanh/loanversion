@@ -52,7 +52,7 @@ td p{ margin-top:0px !important;}
 				                		<p><?php echo "<strong>",$tr->translate("TEL")."</strong>";?> : <?php echo $client['client_phone'];?></p>
 				                	</td>
 				                    <td valign="top" style="" width="33%">
-				                        <p><?php echo $tr->translate("សងរំលស់");?> : <?php echo $client['total_duration']." ".Application_Model_DbTable_DbGlobal::getPaymentTermById(3); ?></p>
+				                        <p><?php echo $tr->translate("សងរំលស់");?> : <?php echo $client['total_duration'].$client['term_type']; ?></p>
 				                        <p><?php echo $tr->translate("ថ្ងៃចាប់ផ្តើម ");?> : <?php echo date('d-m-Y',strtotime($client['date_release']));?> </p>
 				                    	<p><?php echo $tr->translate("FIRST_PAYMENT");?> : <?php echo date('d-m-Y',strtotime($client['first_payment'])); ?></p>
 				                     </td>

@@ -222,9 +222,8 @@ function rptPaymentschedulesAction(){
 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/loan/rpt-loan-disburse');
 	}
 	$db = new Application_Model_DbTable_DbGlobal();
-	$rs = $db->getClientPawnshop($id);
 
-	$this->view->client =$rs;
+	$this->view->client =$db->getClientPawnshop($id);;
 	
 	$day_inkhmer = $db->getDayInkhmerBystr(null);
 	$this->view->day_inkhmer = $day_inkhmer;

@@ -552,7 +552,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
   	$sql= "SELECT br_id,br_id AS id,branch_namekh as name,branch_namekh,
   	branch_nameen,br_address,branch_code,branch_tel,displayby
-  	FROM `ln_branch` WHERE branch_namekh !=''";
+  	FROM `ln_branch` WHERE branch_namekh !='' AND status=1 ";
   	if($branch_id!=null){
   		$sql.=" AND br_id=$branch_id LIMIT 1";
   	}
@@ -626,12 +626,13 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	l.release_amount AS total_capital,l.loan_number,
   	l.interest_rate,
   	l.branch_id,
+  	l.customer_id AS client_id,
   	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name,
   	(SELECT client_number FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_number,
   	(SELECT name_kh FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_name_kh,
   	(SELECT name_en FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_name_en,
   	(SELECT phone FROM `ln_clientsaving` WHERE client_id = l.customer_id LIMIT 1) AS client_phone,
-  	l.customer_id AS client_id,
+  	(SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code = l.term_type ) term_type,
   	(SELECT curr_namekh FROM `ln_currency` WHERE id = l.currency_type LIMIT 1) AS currency_type,
   	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = l.user_id LIMIT 1) AS user_name
   	FROM
@@ -642,35 +643,6 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
   	$db=$this->getAdapter();
   	return $db->fetchRow($sql);
   }
-//   public function getClientGroupByMemberId($group_id){
-//   	$sql="SELECT lg.level,lg.date_release,lg.total_duration,lg.first_payment,
-//   	lg.pay_term,lg.payment_method,
-//   	lg.loan_type,
-//   	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =lg.branch_id LIMIT 1) as branch_name,
-//   	(SELECT co_khname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_khname,
-//   	(SELECT co_firstname FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS co_enname,
-//   	(SELECT displayby FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS displayby,
-//   	(SELECT tel FROM `ln_co` WHERE co_id =lg.co_id LIMIT 1) AS tel,
-//   	(SELECT client_number FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_number,
-//   	(SELECT phone FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_phone,
-//   	(SELECT name_kh FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_kh,
-//   	(SELECT name_en FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS client_name_en,
-//   	(SELECT displayby FROM `ln_client` WHERE client_id = lm.client_id LIMIT 1) AS displayclient,
-//   	lm.client_id,
-//   	(SELECT curr_namekh FROM `ln_currency` WHERE id = lm.currency_type limit 1) AS currency_type
-//   	,SUM(lm.total_capital) AS total_capital,lm.loan_number,
-//   	lm.interest_rate,lm.branch_id,
-//   	(SELECT CONCAT(last_name ,' ',first_name)  FROM `rms_users` WHERE id = lg.user_id LIMIT 1) AS user_name
-//   	FROM
-//   	`ln_loan_group` AS lg,`ln_loan_member` AS lm WHERE
-//   	lg.g_id =lm.group_id  ";
-//   	if(!empty($group_id)){
-//   		$sql.=" AND lm.group_id = $group_id";
-//   	}
-//   	$sql.=" GROUP BY lm.group_id";
-//   	$db=$this->getAdapter();
-//   	return $db->fetchRow($sql);
-//   }
   function getAllPaymentMethod($payment_id=null,$option = null){
   	$sql = "SELECT * FROM ln_payment_method WHERE status = 1 ";
   	if($payment_id!=null){

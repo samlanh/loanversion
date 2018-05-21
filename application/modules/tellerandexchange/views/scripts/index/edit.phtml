@@ -6,9 +6,10 @@
 	$row = $this->dataedit;
 ?>	
 <style>
-<!--
+
 	.panel{
-		height: 444px;
+		min-height: 444px;
+		border:1px solid #6464d6;
 	}
 	.tbtable{	
 		 text-align: center;
@@ -36,7 +37,7 @@
 	.special_cus{
 		color: RED;
 	}
--->
+
 </style>
 <form id='frm_add_exch' action="<?php echo $this->url(array('module'=>'tellerandexchange','controller'=>'index','action'=>'edit')); ?>" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 	<script type="dojo/method" event="onSubmit">			
@@ -58,7 +59,7 @@
 			<td width="48%" valign="top">	
 				<fieldset class="panel">
 					<legend><strong>ព៌ត័មាន ទាក់​ទង នឹង​ អត្រាប្តូរប្រាក់</strong></legend>			
-					<table class="tbtable" style="margin:10px auto; width: 90%;" cellspacing='0' border="1">									
+					<table class="tbtable" style="margin:10px auto; width: 90%;border-collapse: collapse;border:2px solid #d2d2d2;" border="2" cellspacing='0'>																		
 						<tr class="tbheader">
 							<th>និមិត្តសញ្ញា</th>
 							<th>ទិញចូល</th>

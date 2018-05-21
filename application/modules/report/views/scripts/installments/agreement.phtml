@@ -28,7 +28,7 @@ $data = $this->data;
 								margin-top: -5px !important;
 							}
 	    	 				.reff{ font-size: 16px !important; line-height:34px !important;}
-							tr td h2,p,pre,span{ font-size: 15px ; line-height:24px;}
+							tr td h2,p,pre,span{ font-size: 14px ; line-height:24px;}
 							#padding-left{
 							padding-left: 18px;
 							}
@@ -70,14 +70,16 @@ $data = $this->data;
 							span.border_bt.value {
 							    border-bottom: dashed 1px #000; padding: 0 10px;
 							}
+							td{line-height: 26px;}
+							
 						    </style>
 			    	<div class="pages-break">
 			        	<table width="100%" style="font-family:'Times New Roman','Khmer OS Battambang'; padding:0; margin:0; border:0px;" >
 			        	<tr>
 			                <td width="30%" valign="top"></td>
 			                <td width="40%" align="center" >
-			                	<span style=" line-height:34px; font-size:18px; text-decoration: underline; font-family:'Khmer OS Muol Light';">ព្រះរាជាណាចក្រកម្ពុជា <br /><span>ជាតិ សាសនា ព្រះមហាក្សត្រ</span></span><br>
-			               		<span style="text-align:center; line-height:34px; font-size:16px;font-family:'Khmer OS Muol Light';">កិច្ចសន្យាបង់រំលស់</span>
+			                	<span style=" line-height:34px; font-size:16px; text-decoration: underline; font-family:'Khmer OS Muol Light';">ព្រះរាជាណាចក្រកម្ពុជា <br /><span>ជាតិ សាសនា ព្រះមហាក្សត្រ</span></span><br>
+			               		<span style="text-align:center; line-height:34px;font-family:'Khmer OS Muol Light';">កិច្ចសន្យាបង់រំលស់</span>
 			                </td>
 			                <td width="30%" valign="top"></td>
 			             </tr> 
@@ -85,7 +87,7 @@ $data = $this->data;
 			             	<td colspan="3">
 			             		<p style="font-family:'Khmer OS Battambang','Times New Roman',; text-align:justify; line-height:24px; font-size:12px; font-weight: normal !important;">
 										<span style="width: 100%; display: block; line-height: 32px;"><span id="padding-left">ភាគី “ក” ម្ចាស់ហាង<strong><?php echo str_replace("ហាង", "", $sale['branch_nameen']);?></strong> ឈ្មោះ <strong>យុក សុខហួង</strong> មានទីតាំង ៖ <strong><?php echo $sale['br_address'];//echo str_replace("ទីតាំង", "", $data['branch-add-client']) ;?>។</strong>
-										និង ភាគី “ខ” អ្នកបង់រំលស់<span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>ឈ្មោះ <span class="value" style="min-width: 80px;"><strong><?php echo $sale['client_name_kh'];?></strong></span> ភេទ  <span class="value" style="min-width: 20px;"><?php echo $sex;?></span> អាយុ <span class="value" style="min-width: 20px;"><?php echo $age?></span>ឆ្នាំ ថ្ងៃខែឆ្នាំកំណើត៖  <span class="value" style="min-width: 20px;"><strong><?php echo date("d",strtotime($sale['dob']))." ".$month[date("m",strtotime($sale['dob']))]." ".date("Y",strtotime($sale['dob']));?></strong></span>។ កាន់អត្តសញ្ញាណប័ណ្ណលេខ៖ <span class="value" style="min-width: 60px;"><?php echo $sale['nation_id'];?></span>។
+										និង ភាគី “ខ” អ្នកបង់រំលស់<span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>ឈ្មោះ <span class="value" style="min-width: 80px;"><strong><?php echo $sale['client_name_kh'];?></strong></span> ភេទ  <span class="value" style="min-width: 20px;"><?php echo $sex;?></span> អាយុ <span class="value" style="min-width: 20px;"><?php echo $age?></span>ឆ្នាំ ថ្ងៃខែឆ្នាំកំណើត៖  <span class="value" style="min-width: 20px;"><strong><?php if(!empty($sale['dob'])){ echo date("d",strtotime($sale['dob']))." ".$month[date("m",strtotime($sale['dob']))]." ".date("Y",strtotime($sale['dob']));}?></strong></span>។ កាន់អត្តសញ្ញាណប័ណ្ណលេខ៖ <span class="value" style="min-width: 60px;"><?php echo $sale['nation_id'];?></span>។
 										អាសយដ្ឋានបច្ចុប្បន្ន ភូមិ <strong><span class="value" style="min-width: 60px;"><?php echo $sale['village_name'];?></span> ឃុំ/សង្កាត់ <span class="value" style="min-width: 60px;"><?php echo $sale['commune_name'];?></span> ស្រុក <span class="value" style="min-width: 60px;"><?php echo $sale['district_name'];?></span> ខេត្ត <span class="value" style="min-width: 60px;"><?php echo $sale['province_kh_name'];?></span></strong>។ ទូរស័ព្ទ៖ <span class="value" style="min-width: 60px;"><strong><?php echo $sale['phone'];?></strong></span>
 										</span>
 										</span>           		
@@ -93,7 +95,7 @@ $data = $this->data;
 				             			<span id="padding-left">ភាគី “ក” យល់ព្រមអោយ ភាគី “ខ” ខ្ចីប្រាក់បង់ <span class="value" style="min-width: 20px;"><?php echo $sale['catName'];?></span>ចំនួន <span class="value" style="min-width: 20px;font-size: 16px; !important;"><strong><?php echo $sale['balance']." $";?></strong></span> ។ ហើយ ភាគី “ខ” យល់ព្រម បង់រំលស់ តាមតារាងខាងក្រោម។
 										</span>
 										<p style="font-family:'Khmer OS Muol Light';font-weight:200;text-align: center;">បញ្ជាក់</p>					
-					             		<span style="width: 100%; display: block; line-height: 28px;">
+					             		<span style="width: 100%; display: block; line-height: 28px;margin-top: -15px;">
 					             			<table width="100%" border="0"> 
 											  <tr>
 												    <td align="justify" style="vertical-align:top; text-align:right;width:9%;
@@ -143,7 +145,7 @@ $data = $this->data;
 									         <td>&nbsp;</td>
 									         <td class="reff" style="width:23%;text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;white-space: nowrap;">ស្នាមមេដៃអ្នកធានា ភាគី“ខ”</td>
 									        <td>&nbsp;</td>
-									        <td class="reff" style="text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;">ស្នាមមេដៃ ភាគី“ក”</td>
+									        <td class="reff" style="text-align:center; font-family:'Khmer OS Muol Light';font-weight:200;">ហត្ថលេខា ភាគី“ក”</td>
 									   </tr>
 								</table>
 			             	</td>
