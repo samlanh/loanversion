@@ -181,7 +181,7 @@ fieldset{padding:10px;}
 					<td align="left"><?php echo $frm->getElement('last_payment');?></td>
 			    </tr>
 			     <tr>
-			    	<td><?php echo $tr->translate("យឺត")?></td>
+			    	<td><label id="latedaylabel"><?php echo $tr->translate("យឺត")?></label></td>
 					<td align="left"><?php echo $frm->getElement('amount_late');?></td>
 			    </tr>
 			</table>
@@ -1157,9 +1157,9 @@ function getdataPaymentToForm(data){//គណនាថ្ងៃយឺតអោយ
 		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
 	}
 	if(diffDays>0){
-		dijit.byId("amount_late").attr("value",diffDays)
+		dijit.byId("amount_late").attr("value",diffDays);
 	}else{
-		dijit.byId("amount_late").attr("value",0)
+		dijit.byId("amount_late").attr("value",0);
 	}
 	
 	dijit.byId('os_amount').attr('value',data.principle_after);
@@ -1199,7 +1199,12 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 				
 		var timeDiff = ( collect_date.getTime()-payment_date.getTime() );
 		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-		
+
+		if(diffDays>0){
+			dojo.byId('latedaylabel').innerHTML = '<?php echo $tr->translate("Number of days late paid")?>';
+		}else{
+			dojo.byId('latedaylabel').innerHTML = '<?php echo $tr->translate("Number of days prepaid")?>';
+		}
 		dijit.byId("amount_late").attr("value",diffDays);
 
 		var timeDiff = ( collect_date.getTime()-last_payment.getTime() );
