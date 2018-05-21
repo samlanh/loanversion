@@ -1,8 +1,9 @@
 <?php 
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate("Client List"));
+	echo $this->headTitle($tr->translate("CLIENT_LIST"));
 	$frm = $this->frm_search;
 	$frms=$this->frm_client;
+	$url_profile = $this->baseUrl()."/group/index/view/id/";
 ?>
 <form id="list" name="list" action="<?php echo $this->url(array('module'=>'group','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
 <table width="100%">
@@ -105,5 +106,33 @@ function filterCommune(){
 function filterVillage(){
 	id =dijit.byId('commune').get('value');
 	dijit.byId('village').query.commune_id = dijit.byId('commune').get('value');
+}
+
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+		
+			var m = "clicked: " + key;
+			 if(key=="profle"){
+				url='<?php echo $url_profile;?>';
+			}
+			gotoAction();
+			//window.console && console.log(m) || alert(m); 
+		},
+		items: {
+			"profle": {name: "<?php echo $tr->translate("PROFILE");?>", icon: "fa-user", accesskey: "c o p y"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
 }
 </script>
