@@ -8,6 +8,9 @@
 	if(!empty($rs['photo_name'])){
 		$photo=$rs['photo_name'];
 	}
+	
+	$key = new Application_Model_DbTable_DbKeycode();
+	$data =$key->getKeyCodeMiniInv(TRUE);
 ?>	
 <style>
 .border-cover {
@@ -85,7 +88,7 @@ label.value {
 						<td colspan="2"  valign="middle">
 							<img alt="" src="<?php echo $this->baseUrl()."/images/logo.jpg"?>" style="display: inline-block;margin-right: 10px;">
 							<div style=" display: inline-block;    vertical-align: top;">
-							<h2 style="font-size:14px;     line-height: 14px; font-weight: initial; font-family:'Khmer OS Muol Light';" ><?php echo $tr->translate("BRAND_TITLE");?></h2>
+							<h2 style="font-size:14px;     line-height: 14px; font-weight: initial; font-family:'Khmer OS Muol Light';" ><?php echo empty($data['client_company_name'])?"":$data['client_company_name'];?></h2>
 					   		<h2 style="font-size:14px;     line-height: 14px; font-weight: initial; font-family:'Times New Roman','Khmer OS Muol Light';">សាខា : <?php echo "(".$rs['branch_name'].")";?></h2>
 						</div>
 					   </td>

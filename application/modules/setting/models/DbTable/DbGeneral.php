@@ -35,6 +35,9 @@ class Setting_Model_DbTable_DbGeneral extends Zend_Db_Table_Abstract
 				$where=" keyName= 'logo'";
 				$this->update($arr, $where);
 			}
+			$arr = array('keyValue'=>$data['client_company_name'],);
+			$where=" keyName= 'client_company_name'";
+			$this->update($arr, $where);
 			
 			$arr = array('keyValue'=>$data['label_animation'],);
 			$where=" keyName= 'label_animation'";

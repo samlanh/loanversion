@@ -23,6 +23,7 @@ public function init()
 			}
 		}
 		$row =array();
+		$row['client_company_name'] = $db_gs->geLabelByKeyName('client_company_name');
 		$row['label_animation'] = $db_gs->geLabelByKeyName('label_animation');
 		$row['sms-warnning-kh'] = $db_gs->geLabelByKeyName('sms-warnning-kh');
 		$row['reciept_kh'] = $db_gs->geLabelByKeyName('reciept_kh');

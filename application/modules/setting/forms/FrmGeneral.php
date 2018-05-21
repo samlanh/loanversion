@@ -20,6 +20,13 @@ Class Setting_Form_FrmGeneral extends Zend_Dojo_Form {
 	public function FrmGeneral($data=null){
 		$request=Zend_Controller_Front::getInstance()->getRequest();
 		
+		$_client_company_name = new Zend_Dojo_Form_Element_TextBox('client_company_name');
+		$_client_company_name->setAttribs(array(
+				'dojoType'=>'dijit.form.TextBox',
+				'class'=>'fullside',
+				'placeholder'=>$this->tr->translate("Company Name")
+		));
+		
 		$_label_animation = new Zend_Dojo_Form_Element_TextBox('label_animation');
 		$_label_animation->setAttribs(array(
 				'dojoType'=>'dijit.form.TextBox',
@@ -137,6 +144,7 @@ Class Setting_Form_FrmGeneral extends Zend_Dojo_Form {
 				'placeholder'=>$this->tr->translate("Branch Address")
 		));
 		if($data!=null){
+			$_client_company_name->setValue($data['client_company_name']['keyValue']);
 			$_label_animation->setValue($data['label_animation']['keyValue']);
 			$_smsWarnning->setValue($data['sms-warnning-kh']['keyValue']);
 			$_reciept_kh->setValue($data['reciept_kh']['keyValue']);
@@ -159,6 +167,7 @@ Class Setting_Form_FrmGeneral extends Zend_Dojo_Form {
 			$_power_by->setValue($data['power_by']['keyValue']);
 		}
 		$this->addElements(array(
+				$_client_company_name,
 				$_label_animation,
 				$_smsWarnning,
 				$_reciept_kh,
