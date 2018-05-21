@@ -5,6 +5,7 @@
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	
 	$url_payment = $this->baseUrl()."/installment/payment/add/id/";
+	$url_reschedule = $this->baseUrl()."/installment/reschedule/add/id/";
 	$url_schedule = $this->baseUrl()."/report/installments/saleschedule/id/";
 	$url_agreement = $this->baseUrl()."/report/installments/agreement/id/";
 	$url_receipt = $this->baseUrl()."/report/installments/saleinvoice/id/";
@@ -80,6 +81,8 @@
 					url='<?php echo $url_schedule;?>';
 				}else if(key=="agreement"){
 					url='<?php echo $url_agreement;?>';
+				}else if(key=="reschedule"){
+					url='<?php echo $url_reschedule;?>';
 				}
 				gotoAction();
 				//window.console && console.log(m) || alert(m); 
@@ -89,6 +92,7 @@
 				"schedule": {name: "<?php echo $tr->translate("SCHEDULE_PAYMENT");?>", icon: "fa-calendar"},
 				"agreement": {name: "<?php echo $tr->translate("AGREEMENT");?>", icon: "fa-file-text"},
 				"receipt": {name: "<?php echo $tr->translate("PAYMENT_RECEIPT");?>", icon: "fa-print"},
+				"reschedule": {name: "<?php echo $tr->translate("REPAYMENTSCHEDULE");?>", icon: "fa-calendar"},
 			}
 		});
 	});

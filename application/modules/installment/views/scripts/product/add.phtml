@@ -77,7 +77,7 @@
 									</td>
 							    </tr>
 							    <tr>
-									<td colspan="2"><input type="button" onclick="addNewProLocation();" label="<?php echo $tr->translate("ADD_BRANCH")?>"  dojoType="dijit.form.Button"	 iconClass="dijitIconNewTask"/></td>
+									<td colspan="2"><input type="button" onclick="checkbranch();" label="<?php echo $tr->translate("ADD_BRANCH")?>"  dojoType="dijit.form.Button"	 iconClass="dijitIconNewTask"/></td>
 								</tr>
 							    <tr>
 									<td><?php echo $tr->translate("NOTE")?></td>
@@ -178,7 +178,8 @@ dojo.ready(function(){
 			
 	    }
 		}, "product_type");
-	addNewProLocation();
+	checkbranch();
+	
 });
 	index = 0;
 	function totalQty(index){
@@ -215,7 +216,7 @@ var no = 0;
 var title = 0;
 tmp = '';
 temp='';
-branch_opt = '<?php echo $this->rsbranch;?>';
+branch_opt = '<?php //echo $this->rsbranch;?>';
 function addNewProLocation(){
 		col++;no++;
 		template='';
@@ -245,6 +246,30 @@ function addNewProLocation(){
 		     parseContent: true,
 		});
 }
+var url_checkbranch = '<?php echo $this->url(array('module'=>'installment','controller'=>'product','action'=>'getlocation')); ?>';
+function checkbranch(){
+	loadingBlock();
+		dojo.xhrPost({
+			url:url_checkbranch,
+			form: dojo.byId("frm_add_tran"),
+			handleAs:"json",
+			load: function(data) {
+				
+				if(data==''){
+					alert('<?php echo $tr->translate("No More Branch Available");?>');
+					HideloadingBlock();
+					return false;
+				}
+				branch_opt = data;
+				addNewProLocation();
+				HideloadingBlock();
+				
+			},
+			error: function(err) {
+				 alert(err);
+			}
+		});
+  }
 function deleteRecord(index,type) {
 		var identity = $('#identity').val();
 		var arrays = identity.split(',');

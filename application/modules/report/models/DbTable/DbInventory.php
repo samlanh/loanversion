@@ -118,6 +118,7 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     		$s_search = str_replace(' ', '',$s_search);
     		$s_where[] = " REPLACE(s.`sale_no`,' ','')  LIKE '%{$s_search}%'";
     		$s_where[]= " s.invoice_no LIKE '%{$s_search}%'";
+    		$s_where[]= " s.duration LIKE '%{$s_search}%'";
     		$s_where[]= " s.color LIKE '%{$s_search}%'";
     		$s_where[]="  s.power LIKE '%{$s_search}%'";
     		$s_where[]= " s.engine LIKE '%{$s_search}%'";
@@ -133,6 +134,13 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
     	if(!empty($search['customer'])){
     		$sql.=" AND s.customer_id=".$search['customer'];
     	}
+    	if(($search['selling_type'])>0){
+    		$sql.= " AND s.selling_type=".$search['selling_type'];
+    	}
+    	if($search["product_type"]>0){
+    		$sql.=' AND p.product_type='.$search["product_type"];
+    	}
+    	
     	$dbp = new Application_Model_DbTable_DbGlobal();
     	$sql.=$dbp->getAccessPermission('branch_id');
     	
@@ -458,6 +466,9 @@ WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND
    		$s_where[] = " s.selling_price LIKE '%{$s_search}%'";
    		$s_where[] = " s.duration LIKE '%{$s_search}%'";
    		$where .=' AND ('.implode(' OR ',$s_where).')';
+   	}
+   	if($search["product_type"]>0){
+   		$where.=' AND (SELECT  inp.product_type FROM `ln_ins_product` AS inp WHERE inp.id = s.`product_id` LIMIT 1)='.$search["product_type"];
    	}
    	$dbp = new Application_Model_DbTable_DbGlobal();
    	$where.=$dbp->getAccessPermission('`s`.`branch_id`');

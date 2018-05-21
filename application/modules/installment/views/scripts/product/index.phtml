@@ -1,6 +1,7 @@
 <?php 
 	$frm = $this->formFilter;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$url_copy = $this->baseUrl()."/installment/product/copy/id/";
 ?>
 <script>
 	dojo.require("dijit.form.DateTextBox");
@@ -23,3 +24,32 @@
 	</table>
 </form>
 <?php echo $this->list; ?>
+<script>
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+		
+			var m = "clicked: " + key;
+			 if(key=="copy"){
+				url='<?php echo $url_copy;?>';
+			}
+			gotoAction();
+			//window.console && console.log(m) || alert(m); 
+		},
+		items: {
+			"copy": {name: "<?php echo $tr->translate("Copy");?>", icon: "copy", accesskey: "c o p y"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
+}
+</script>

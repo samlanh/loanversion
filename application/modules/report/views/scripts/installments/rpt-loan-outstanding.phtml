@@ -18,10 +18,19 @@
 				<td><?php echo $frm->getElement('branch_id');?></td>
 				<td><?php echo $frm->getElement('members');?></td>
 				<td><?php echo $frms->getElement('category');?></td>
-			    <td><?php echo $frm->getElement('start_date');?></td>
+			</tr>
+			<tr>
+	 			<td><select dojoType="dijit.form.FilteringSelect" class="fullside"  name="product_type" id="product_type" >
+	 					<option value="-1"><?php echo $tr->translate('PRODUCT_TYPE');?></option>
+	 					<?php if (!empty($this->producttype)) foreach ($this->producttype as $pt){?>
+	 					<option value="<?php echo $pt['id'];?>" <?php if ($this->search['product_type']==$pt['id']){ echo 'selected="selected"';}?>><?php echo $pt['name'];?></option>
+	 					<?php }?>
+	 				</select>
+	 			</td>
+	 			<td><?php echo $frm->getElement('start_date');?></td>
 				<td><?php echo $frm->getElement('end_date');?></td>
 				<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-			</tr>
+	 		</tr>
 		</table>
 </form>
 <div style=" width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">

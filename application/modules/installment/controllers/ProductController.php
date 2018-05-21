@@ -40,7 +40,7 @@ public function init()
 				'module'=>'installment','controller'=>'product','action'=>'edit',);
 	
 		$list = new Application_Form_Frmtable();
-		$this->view->list=$list->getCheckList(0, $columns, $rows,array('item_name'=>$link,'product_type'=>$link,'item_code'=>$link,'barcode'=>$link,'branch'=>$link));
+		$this->view->list=$list->getCheckList(10, $columns, $rows,array('item_name'=>$link,'product_type'=>$link,'item_code'=>$link,'barcode'=>$link,'branch'=>$link));
 		
     	$formFilter = new Installment_Form_FrmProduct();
     	$this->view->formFilter = $formFilter->add();
@@ -134,7 +134,54 @@ public function init()
 		$db = new Application_Model_GlobalClass();
 		$this->view->rsbranch = $db->getAllBranchOption();
 	}
+	public function copyAction()
+	{
+		$id = $this->getRequest()->getParam("id");
+		$db = new Installment_Model_DbTable_DbProduct();
+		if($this->getRequest()->isPost()){
+			try{
+				$post = $this->getRequest()->getPost();
+				$db->add($post);
+				if(isset($post["save_close"]))
+				{
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", '/installment/product');
+				}else{
+					Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS", '/installment/product/add');
+				}
+			}catch (Exception $e){
+				Application_Form_FrmMessage::messageError("INSERT_ERROR", $e->getMessage());
+			}
+		}
+		// 		print_r($db->getProductById($id));exit();
+		$this->view->rs_location = $db->getProductLocation($id);
+		$this->view->rspro =  $db->getProductById($id);
 	
+		$dbc = new Application_Model_GlobalClass();
+		$this->view->branch = $dbc->getAllBranchOption();
+			
+		$formCat = new Installment_Form_FrmCategory();
+		$frmCat = $formCat->cat();
+		$this->view->frmCat = $frmCat;
+		Application_Model_Decorator::removeAllDecorator($frmCat);
+			
+		$db = new Installment_Model_DbTable_DbProduct();
+		$row_cat = $db->getCategory();
+			
+		array_unshift($row_cat,array(
+				'id' => -1,
+				'name' => 'បន្ថែមថ្មី',
+		) );
+		$this->view->rs_cate=$row_cat;
+	
+		$row_protype = $db->getProducttype();
+		array_unshift($row_cat,array(
+				'id' => -1,
+				'name' => 'Add New',
+		) );
+		$this->view->rs_protype=$row_protype;
+		$db = new Application_Model_GlobalClass();
+		$this->view->rsbranch = $db->getAllBranchOption();
+	}
 	function getproductbycateAction(){
 		if($this->getRequest()->isPost()){
 			$post=$this->getRequest()->getPost();
@@ -168,6 +215,15 @@ public function init()
 				echo Zend_Json::encode($result);
 				exit();
 			}
+		}
+	}
+	function getlocationAction(){
+		if($this->getRequest()->isPost()){
+			$_data = $this->getRequest()->getPost();
+			$db = new Installment_Model_DbTable_DbProduct();
+			$Client = $db->getAllBranchOption($_data);
+			print_r(Zend_Json::encode($Client));
+			exit();
 		}
 	}
 }

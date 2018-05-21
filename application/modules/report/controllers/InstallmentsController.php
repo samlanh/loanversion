@@ -22,7 +22,10 @@ class Report_InstallmentsController extends Zend_Controller_Action {
     				'start_date'=> "",
     				'end_date'=>date('Y-m-d'),
     				'status'=>-1,
-    				'category'=>''
+    				'category'=>'',
+    				'selling_type'=>-1,
+    				'product_type'=>-1,
+    					
     			);
     		}
 		$row = $db->getSaleInventory($search);
@@ -32,7 +35,10 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 		$form=$form->searchSale();
 		Application_Model_Decorator::removeAllDecorator($form);
 		$this->view->form_search=$form;
-	
+		
+		$dbpro = new Installment_Model_DbTable_DbProduct();
+		$this->view->producttype = $dbpro->getProducttype();
+		
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	}
@@ -244,12 +250,17 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 					'category'=>-1,
 					'currency_type'=>-1,
 					'status_use'=>-1,
+					'product_type'=>-1,
 					'end_date'=>date('Y-m-d'));
 		}
 		$this->view->fordate = $search['end_date'];
+		$this->view->search = $search;
 		$this->view->outstandloan= $db->getAllOutstadingLoan($search);
 		$frm = new Loan_Form_FrmSearchLoan();
 	
+		$dbpro = new Installment_Model_DbTable_DbProduct();
+		$this->view->producttype = $dbpro->getProducttype();
+		
 		$key = new Application_Model_DbTable_DbKeycode();
 		$this->view->data=$key->getKeyCodeMiniInv(TRUE);
 	

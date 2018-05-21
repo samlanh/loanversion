@@ -80,7 +80,7 @@ dojo.require("dijit.form.Form");
 									</td>
 							    </tr>
 							    <tr>
-									<td colspan="2"><input type="button" onclick="addNewProLocation();" label="<?php echo $tr->translate("ADD_BRANCH")?>"  dojoType="dijit.form.Button"	 iconClass="dijitIconNewTask"/></td>
+									<td colspan="2"><input type="button" onclick="checkbranch();" label="<?php echo $tr->translate("ADD_BRANCH")?>"  dojoType="dijit.form.Button"	 iconClass="dijitIconNewTask"/></td>
 								</tr>
 							    <tr>
 									<td><?php echo $tr->translate("NOTE")?></td>
@@ -182,7 +182,8 @@ dojo.ready(function(){
 			
 	    }
 		}, "product_type");
-	 initailize();
+	checkbranch();
+	 //initailize();
 });
 	index = 0;
 	function totalQty(index){
@@ -199,7 +200,7 @@ var no = 0;
 var title = 0;
 tmp = '';
 temp='';
-branch_opt = '<?php echo $this->rsbranch;?>';
+branch_opt = '<?php //echo $this->rsbranch;?>';
 function addNewProLocation(){
 		col++;no++;
 		template='';
@@ -245,7 +246,7 @@ function initailize(){
 		title=1;
 	}
 		template+='<td width="47px"align="center"><img onclick="deleteRecord('+col+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
-		template+='<td width="50px" align="center"><select id="branch_id'+col+'" name="branch_id'+col+'" dojoType="dijit.form.FilteringSelect">'+branch_opt+'</select></td>';
+		template+='<td width="50px" align="center"><select id="branch_id'+col+'" name="branch_id'+col+'" readonly ="readonly" dojoType="dijit.form.FilteringSelect">'+branch_opt+'</select></td>';
 		template+='<td width="20%"><input dojoType="dijit.form.NumberTextBox" type="text" required="true" id="total_qty_'+col+'" name="total_qty_'+col+'" value="" /></td>';
 		template+='<td width="25%"><input type="text"  name="alert_qty'+col+'" class="fullside" id="alert_qty'+col+'" dojoType="dijit.form.NumberTextBox" /></td>';
 		template+='<td width="25%"><input type="text"  name="remark'+col+'" class="fullside" id="remark'+col+'" dojoType="dijit.form.TextBox" /><input type="hidden"  name="detailid'+col+'" class="fullside" id="detailid'+col+'" dojoType="dijit.form.TextBox" /></td>';
@@ -268,7 +269,36 @@ function initailize(){
 	dijit.byId('detailid'+col).attr('value','<?php echo $row['id']?>');
 	<?php } }?>
 }
-
+var first=1;
+var url_checkbranch = '<?php echo $this->url(array('module'=>'installment','controller'=>'product','action'=>'getlocation')); ?>';
+function checkbranch(){
+	loadingBlock();
+		dojo.xhrPost({
+			url:url_checkbranch,
+			form: dojo.byId("frm_add_tran"),
+			handleAs:"json",
+			load: function(data) {
+				
+				if(data==''){
+					alert('<?php echo $tr->translate("No More Branch Available");?>');
+					HideloadingBlock();
+					return false;
+				}
+				branch_opt = data;
+				if(first==1){
+					initailize();
+					first = 2;
+				}else{
+					addNewProLocation();
+				}
+				HideloadingBlock();
+				
+			},
+			error: function(err) {
+				 alert(err);
+			}
+		});
+  }
 function deleteRecord(index,type) {
 		var identity = $('#identity').val();
 		var arrays = identity.split(',');

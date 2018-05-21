@@ -43,8 +43,9 @@
 	<?php }?>
 	<?php if($module!='home'){?>
 	    <link rel="stylesheet" type="text/css" href="<?php echo $base_url;?>js/dojo-1.6.1/dijit/themes/<?php echo $them_style."/".$them_style?>.css" />
-        <script src="<?php echo $this->baseUrl()."/contextMenu/1.11.3/"?>jquery.min.js"></script>
-       <?php  } ?>
+   		<script src="<?php echo $this->baseUrl()."/contextMenu/1.11.3/"?>jquery.min.js"></script>
+    <?php  } ?>
+       
 	<!-- export library -->
 	<?php if($module=='report'){?>
 			 <script type="text/javascript" src="<?php echo $this->baseUrl();?>/tableexport/tableExport.js"></script>
@@ -212,22 +213,33 @@
            			</td>
             	</tr>
             </table>
+ <div class="overlay">
+	<div class="overlay-load">
+		<div class="overlay-msg">
+	    </div>
+	</div>
+</div>	
     </body>
 <style>
-    
-    </style>
+.overlay {display: none;position: absolute;width: 100%;height: 100%;top: 0px;left: 0px;background: #FCFCFC;z-index: 1001;opacity: .95;}
+.overlay-load {width: 350px;height: 100px;margin: auto;top: 0px;bottom: 0px;position: absolute;left: 0px;right: 0px;
+           border: solid 1px #060522;text-align: center;
+           background: #fff url("<?php echo $this->baseUrl()?>/images/loading.gif") 50% 25%;
+           background-repeat: no-repeat;          
+}
+.overlay-msg{margin-bottom: 10px;bottom: 0px;position: absolute;font-style: italic;color: rgb(19, 19, 19);} 
+</style>
 <iframe name=print_frame width=0 height=0 frameborder=0 src=about:blank></iframe>
 <script>
-		
 var url_changelang = '<?php echo $this->url(array('module'=>'default','controller'=>'index','action'=>'changelange'));?> ';
 function changeLange(lang){
-	dojo.xhrPost({
+	$.ajax({
 		url: url_changelang,
-	    content :{ 
+		type: "post",
+		data :{ 
 			    'lange':lang,
 		},	
-		handleAs:"json",
-		load: function(data) {
+		success: function(data){
 			location.reload();
 		},
 		error: function(err) {
@@ -235,6 +247,12 @@ function changeLange(lang){
 			
 		}
 	});
+}
+function loadingBlock(){
+    document.getElementsByClassName("overlay")[0].style.display="block";
+}
+function HideloadingBlock(){
+    document.getElementsByClassName("overlay")[0].style.display="none";
 }
 	</script>
 <?php if($module=='report' OR $module=='reports' AND $action!='index'){?>

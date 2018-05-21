@@ -270,4 +270,49 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 			ip.`location_id` =$branch_id AND p.`cate_id`=$cate_id";
 		return $db->fetchAll($sql);
 	}
+	
+	
+	public function getAllBranchOption($data){
+		$db = new Application_Model_DbTable_DbGlobal();
+// 		$session_user=new Zend_Session_Namespace('authloan');
+// 		$currentBranch = $session_user->branch_id;
+// 		$currentlevel = $session_user->level;
+// 		$branch = null;
+// 		if ($currentlevel!=1){
+// 			$branch =$currentBranch;
+// 		}
+		
+		$rows = $this->getAllBranchName($data);
+		$options = '';
+		if(!empty($rows))foreach($rows as $value){
+			$options .= '<option value="'.$value['br_id'].'" >'.htmlspecialchars($value['branch_namekh'], ENT_QUOTES).'</option>';
+		}
+		return $options;
+	}
+	public function getAllBranchName($data){
+		$db = $this->getAdapter();
+		$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+		$branchList="";
+		if (!empty($data['identity'])){
+			$ids = explode(",", $data['identity']);
+			foreach ($ids as $i){
+				if (empty($branchList)){ 
+					$branchList = $data['branch_id'.$i];
+				}else{
+					if (!empty($branchList)){
+						$branchList = $branchList.",".$data['branch_id'.$i];
+					}
+				}
+			}
+		}
+		$sql= "SELECT br_id,br_id AS id,branch_namekh as name,branch_namekh,
+		branch_nameen,br_address,branch_code,branch_tel,displayby
+		FROM `ln_branch` WHERE branch_namekh !=''";
+		if (!empty($branchList)){
+			$sql.=" AND br_id NOT IN ($branchList) ";
+		}
+		$row = $db->fetchAll($sql);
+		return $row;
+		
+	}
 }
