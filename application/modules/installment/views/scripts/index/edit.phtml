@@ -236,7 +236,7 @@
 				    border-bottom: dashed 1px #00f;
 				    min-width: 30px;
 				    display: inline-block;
-					line-height: 20px;
+					line-height: 9px;
 					text-align: center;
 				}
 				pre {
@@ -316,10 +316,55 @@
 						</tr>
 						<tr>
 							<td colspan="3" align="left"  style="line-height: 25px; font-size:14px; color: blue;">
-							បានលក់ជូន អតិថិជនឈ្មោះ<span class="labelBorderBottom" style="min-width: 50%;"><span class="labelValue" id="LBclientName"></span></span>ភេទ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="LBclientGender">&nbsp;</span></span>អាយុ​<span class="labelBorderBottom" style="min-width: 8%;"><span class="labelValue" id="LBclientAge">&nbsp;</span></span>
-							លេខអត្តសញ្ញាណប័ណ្ណ<span class="labelBorderBottom" style="min-width: 40%;"><span class="labelValue" id="LBclientNationID"></span></span>ភូមិ<span class="labelBorderBottom" style="min-width: 35%;"><span class="labelValue" id="LBclientVillage"></span></span>
-							ឃុំ<span class="labelBorderBottom" style="min-width: 30%;"><span class="labelValue" id="LBclientComune"></span></span>ស្រុក<span class="labelBorderBottom" style="min-width: 30%;"><span class="labelValue" id="LBclientDistrict"></span></span>ខេត្ត<span class="labelBorderBottom" style="min-width: 27.5%;"><span class="labelValue" id="LBclientProvince"></span></span>
-							លេខទូរស័ព្ទ<span class="labelBorderBottom" style="min-width: 87.5%;"><span class="labelValue" id="LBclientPhone"></span></span>
+								<table style="width:100%;  color:inherit; white-space: nowrap;">
+										<tr>
+											<td>បានលក់ជូន អតិថិជនឈ្មោះ</td>
+											<td width="60%" align="left"><span class="labelBorderBottom" style="min-width:100%;"><span class="labelValue" ><strong id="LBclientName"><?php //echo $rs['client_name_kh'];?></strong></span></span></td>
+											<td>&nbsp;ភេទ&nbsp;</td>
+											<td width="10%">​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" ><strong id="LBclientGender"><?php //echo $gender[$rs['sex']];?></strong>&nbsp;</span></span></td>
+											<td>&nbsp;អាយុ&nbsp;</td>
+											<td width="10%">
+											​<span class="labelBorderBottom" style="min-width: 100%;"><span class="labelValue" >&nbsp;<strong id="LBclientAge"><?php //echo @date("Y-m-d")-$rs['dob'];?></strong>&nbsp;</span></span>
+											</td>
+											<td>ឆ្នាំ</td>
+										</tr>
+									</table>
+									<table style="width:100%;  color:inherit; white-space: nowrap;">
+										<tr>
+											<td>
+											<span id="documenttype"></span><?php //echo $rs['document_type'];?>លេខ
+											</td>
+											<td width="15%">
+												<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" ><strong id="LBclientNationID"><?php //echo $rs['nation_id'];?></strong></span></span>
+											</td>
+											<td>ភូមិ</td>
+											<td width="20%">
+												<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" ><strong id="LBclientVillage"><?php //echo $rs['village_name'];?></strong></span></span>
+											</td>
+											<td>ឃុំ</td>
+											<td width="20%">
+												<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" ><strong id="LBclientComune"><?php //echo $rs['commune_name'];?></strong></span></span>
+											</td>
+											<td>ស្រុក</td>
+											<td width="20%">
+												<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" ><strong id="LBclientDistrict"><?php //echo $rs['district_name'];?></strong></span></span>
+											</td>
+											<td>ខេត្ត</td>
+											<td width="20%">
+												<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" ><strong id="LBclientProvince"><?php //echo $rs['province_kh_name'];?></strong></span></span>
+											</td>
+										</tr>
+									</table>
+									<table style="width:100%;  color:inherit; white-space: nowrap;">
+										<tr>
+											<td>
+											លេខទូរស័ព្ទ
+											</td>
+											<td width="90%">
+												<span class="labelBorderBottom" style="min-width:100%; text-align: left; "><span style="padding-left: 15px"></span><span class="labelValue" ><strong id="LBclientPhone"><?php //echo $rs['phone'];?></strong></span></span>
+											</td>
+										</tr>
+									</table>
 							</td>		
 						</tr>
 						<tr>
@@ -979,6 +1024,8 @@ function getClientInfo(){
 			dojo.byId('LBclientDistrict').innerHTML=data.districtKH;
 			dojo.byId('LBclientProvince').innerHTML=data.provinceKH;
 			dojo.byId('LBclientPhone').innerHTML=data.phone;
+			dojo.byId('documenttype').innerHTML=data.document_type;
+			dojo.byId('LBclientAge').innerHTML=data.ages;
 		},
 		error: function(err) {
 			alert(err);

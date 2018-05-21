@@ -1346,7 +1346,8 @@ public function getLoanInfo($id){//when repayment shedule
 			(SELECT c.commune_namekh FROM `ln_commune` AS c WHERE c.com_id = inClient.`com_id` LIMIT 1 ) AS communeKH,
 			(SELECT c.commune_name FROM `ln_commune` AS c WHERE c.com_id = inClient.`com_id` LIMIT 1 ) AS communeEM,
 			(SELECT v.village_namekh FROM `ln_village` AS v WHERE inClient.`village_id` = v.vill_id LIMIT 1) AS villageKH,
-			(SELECT v.village_name FROM `ln_village` AS v WHERE inClient.`village_id` = v.vill_id LIMIT 1) AS villageEN
+			(SELECT v.village_name FROM `ln_village` AS v WHERE inClient.`village_id` = v.vill_id LIMIT 1) AS villageEN,
+			(SELECT name_kh FROM `ln_view` WHERE TYPE = 23 AND id =inClient.client_d_type LIMIT 1) AS document_type
 			FROM $this->_name AS inClient
 			WHERE inClient.`client_id` =$client_id LIMIT 1";
     	$row = $db->fetchRow($sql);

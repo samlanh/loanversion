@@ -167,7 +167,7 @@ class Pawnshop_CustomerController extends Zend_Controller_Action {
 	}
 	function viewAction(){
 		$id = $this->getRequest()->getParam("id");
-		$db = new Group_Model_DbTable_DbClient();
+		$db = new Pawnshop_Model_DbTable_DbClient();
 		$this->view->client_list = $db->getClientDetailInfo($id);
 	}
 

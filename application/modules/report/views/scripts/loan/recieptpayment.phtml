@@ -164,7 +164,7 @@ $data = $this->data;
 											
 											<td class="lbtitlev">សម្គាល់</td>
 											<td colspan="5">
-												<span class="borderCo value" style="  min-height: 90px;">
+												<span class="borderCo value" style="  min-height: 85px;">
 													<label id="lbl_note">&nbsp;<?php echo $loanPayment['note'];?>&nbsp;</label>
 												</span>
 											</td>
@@ -179,7 +179,7 @@ $data = $this->data;
 													<td width="50%">ហត្ថលេខា និងឈ្មោះអតិថិជន</td>
 												</tr>
 												<tr>
-													<td colspan="2" style="height: 120px;"></td>
+													<td colspan="2" style="height: 100px;"></td>
 												</tr>
 												<tr>
 													<td><span class=" value" style="min-width: 100px;" id="CurrentUserLBL"><?php echo $loanPayment['user_name'];?></span></td>
@@ -191,14 +191,35 @@ $data = $this->data;
 									<tr>
 										<td colspan="8" class="bgBorderColor"></td>
 									</tr>
-									<tr style="line-height: 20px;font-size: 11px;">
+									<tr style="line-height: 30px;font-size: 16px;">
+											<td valign="top">
+												<span style="">អាសយដ្ឋាន</span>
+											</td>
+											<td colspan="5">
+												<span style="white-space: pre-line;font-size: 16px;"><?php echo $loanPayment['br_address'];?>
+												</span>
+											</td>
+										</tr>
+										<tr style="line-height: 30px;font-size: 16px;">
+											<td>
+												<span >លេខទំនាក់ទំនង</span>
+											</td>
+											<td colspan="5">
+												<span style="white-space: pre-line;font-size: 16px;"><?php
+													echo $loanPayment['branch_tel'];?></span>
+											</td>
+										</tr>
+										<!-- 
+										<tr style="line-height: 20px;font-size: 11px;">
 										<td valign="top">
 											<span style="text-decoration:underline;font-size: 14px;">បញ្ជាក់ ៖</span>
 										</td>
 										<td colspan="5">
-											<span style="white-space: pre-line;font-size: 13px;"><?php echo $data['comment'];?></span>
+											<span style="white-space: pre-line;font-size: 13px;"><?php //echo $data['comment'];?></span>
 										</td>
 									</tr>
+										 -->
+									
 								</table>
 								
 							</td>

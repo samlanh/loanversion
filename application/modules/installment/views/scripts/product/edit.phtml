@@ -63,6 +63,15 @@ dojo.require("dijit.form.Form");
 							  		<td ><strong><?php echo $tr->translate("ថ្លៃលក់")?></strong></td>
 									<td><input class="fullside" dojoType="dijit.form.NumberTextBox" required="true" id="selling_price" name="selling_price" value="<?php echo $rs['selling_price'];?>" type="text"></td>
 							    </tr>
+							    <tr>
+							  		<td ><?php echo $tr->translate("STATUS")?></td>
+									<td>
+										<select dojoType="dijit.form.FilteringSelect" class="fullside"  name="status" id="status" >
+						 					<option value="1" <?php if ($rs['status']==1){ echo 'selected="selected"';}?> ><?php echo $tr->translate('ACTIVE');?></option>
+						 					<option value="0" <?php if ($rs['status']==0){ echo 'selected="selected"';}?>><?php echo $tr->translate('DEACTIVE');?></option>
+						 				</select>
+									</td>
+							    </tr>
 						</table>
 					</fieldset>	
 				</td>

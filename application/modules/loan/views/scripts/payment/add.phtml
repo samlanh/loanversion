@@ -450,7 +450,7 @@ fieldset{padding:10px;}
 											
 											<td class="lbtitlev">សំគាល់</td>
 											<td colspan="5">
-												<span class="borderCo value" style="  min-height: 90px;">
+												<span class="borderCo value" style="  min-height: 85px;">
 													<label id="lbl_note">&nbsp;<?php //echo $loanPayment['note'];?>&nbsp;</label>
 												</span>
 											</td>
@@ -465,7 +465,7 @@ fieldset{padding:10px;}
 													<td width="50%">ហត្ថលេខា និងឈ្មោះអតិថិជន</td>
 												</tr>
 												<tr>
-													<td colspan="2" style="height: 120px;"></td>
+													<td colspan="2" style="height: 100px;"></td>
 												</tr>
 												<tr>
 													<td><span class=" value" style="min-width: 100px;" id="CurrentUserLBL"><?php echo $this->user_name;//echo $loanPayment['user_name'];?></span></td>
@@ -477,12 +477,22 @@ fieldset{padding:10px;}
 									<tr>
 										<td colspan="8" class="bgBorderColor"></td>
 									</tr>
-									<tr style="line-height: 20px;font-size: 11px;">
+									<tr style="line-height: 30px;font-size: 16px;">
 										<td valign="top">
-											<span style="text-decoration:underline;font-size: 14px;">បញ្ជាក់ ៖</span>
+											<span style="">អាសយដ្ឋាន</span>
 										</td>
 										<td colspan="5">
-											<span style="white-space: pre-line;font-size: 13px;"><?php echo $data['comment'];?></span>
+											<span id="brAddress" style="white-space: pre-line;font-size: 16px;"><?php //echo $loanPayment['br_address'];?>
+											</span>
+										</td>
+									</tr>
+									<tr style="line-height: 30px;font-size: 16px;">
+										<td>
+											<span >លេខទំនាក់ទំនង</span>
+										</td>
+										<td colspan="5">
+											<span id="brTel" style="white-space: pre-line;font-size: 16px;"><?php
+												//echo $loanPayment['branch_tel'];?></span>
 										</td>
 									</tr>
 								</table>
@@ -618,7 +628,7 @@ fieldset{padding:10px;}
 											
 											<td class="lbtitlev">សំគាល់</td>
 											<td colspan="5">
-												<span class="borderCo value" style="  min-height: 90px;">
+												<span class="borderCo value" style="  min-height: 85px;">
 													<label id="lbl_note1">&nbsp;<?php //echo $loanPayment['note'];?>&nbsp;</label>
 												</span>
 											</td>
@@ -633,7 +643,7 @@ fieldset{padding:10px;}
 													<td width="50%">ហត្ថលេខា និងឈ្មោះអតិថិជន</td>
 												</tr>
 												<tr>
-													<td colspan="2" style="height: 120px;"></td>
+													<td colspan="2" style="height: 100px;"></td>
 												</tr>
 												<tr>
 													<td><span class=" value" style="min-width: 100px;" id="CurrentUserLBL1"><?php echo $this->user_name;//echo $loanPayment['user_name'];?></span></td>
@@ -645,12 +655,22 @@ fieldset{padding:10px;}
 									<tr>
 										<td colspan="8" class="bgBorderColor"></td>
 									</tr>
-									<tr style="line-height: 20px;font-size: 11px;">
+									<tr style="line-height: 30px;font-size: 16px;">
 										<td valign="top">
-											<span style="text-decoration:underline;font-size: 14px;">បញ្ជាក់ ៖</span>
+											<span style="">អាសយដ្ឋាន</span>
 										</td>
 										<td colspan="5">
-											<span style="white-space: pre-line;font-size: 13px;"><?php echo $data['comment'];?></span>
+											<span id="brAddress1" style="white-space: pre-line;font-size: 16px;"><?php //echo $loanPayment['br_address'];?>
+											</span>
+										</td>
+									</tr>
+									<tr style="line-height: 30px;font-size: 16px;">
+										<td>
+											<span >លេខទំនាក់ទំនង</span>
+										</td>
+										<td colspan="5">
+											<span id="brTel1" style="white-space: pre-line;font-size: 16px;"><?php
+												//echo $loanPayment['branch_tel'];?></span>
 										</td>
 									</tr>
 								</table>
@@ -938,6 +958,7 @@ function filterLoanNumber(){
 }
 is_change=0;
 function filterClient(){
+	getbranchinfo();
 	branch_id = dijit.byId('branch_id').get('value');
 	dijit.byId('client_id').query.branch_id = branch_id;
 	dijit.byId('client_code').query.branch_id = branch_id;
@@ -963,6 +984,43 @@ function doPrint() {
     window.frames["print_frame"].window.focus();
     window.frames["print_frame"].window.print();
    // hideDialog();
+}
+var url_branchifo = '<?php echo $this->url(array('module'=>'other','controller'=>'branch','action'=>'getbranch')); ?>';
+var bchange = 1;
+function getbranchinfo(){
+	branch_id = dijit.byId('branch_id').get('value');
+	if(branch_id==''){
+		alert('Please Select Branch');
+		dijit.byId('branch_id').focus();
+		return false;
+	}
+	dojo.xhrPost({
+		url:url_branchifo,	
+		content:{ 
+			    'branch_id':branch_id,
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			//alert(data.phonebr);
+			if(bchange!=1){
+				dijit.byId('loan_number').reset();
+				dijit.byId('client_id').reset();
+				dijit.byId('client_code').reset();
+			}
+			dojo.byId('brAddress').innerHTML=data.br_address;
+			dojo.byId('brAddress1').innerHTML=data.br_address;
+			dojo.byId('brTel').innerHTML=data.branch_tel;
+			dojo.byId('brTel1').innerHTML=data.branch_tel;
+			bchange = 2;
+			//dojo.byId('brNameShop').innerHTML=data.branch_nameen;
+			//dojo.byId('brDescription').innerHTML=data.description;
+			
+			//dijit.byId('invoice_no').attr('value',data);
+		},
+		error: function(err) {
+			alert("eror receipt");
+		}
+	});
 }
 </script>
 <script type="text/javascript">

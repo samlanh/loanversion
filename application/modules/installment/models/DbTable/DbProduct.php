@@ -180,7 +180,7 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 	    			'selling_price'	=>  $data["selling_price"],
 	    			'user_id'		=>	$this->getUserId(),
 	    			'note'			=>	$data["description"],
-	//     			'status'		=>	$data["status"],
+	    			'status'		=>	$data["status"],
     		     );
     		
     		$where = $db->quoteInto("id=?", $data["id"]);
@@ -266,7 +266,7 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 			FROM `ln_ins_prolocation` AS ip,
 			`ln_ins_product` AS p
 			WHERE 
-			p.`id` = ip.`pro_id` AND
+			p.`id` = ip.`pro_id` AND p.status = 1 AND
 			ip.`location_id` =$branch_id AND p.`cate_id`=$cate_id";
 		return $db->fetchAll($sql);
 	}
@@ -307,7 +307,7 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 		}
 		$sql= "SELECT br_id,br_id AS id,branch_namekh as name,branch_namekh,
 		branch_nameen,br_address,branch_code,branch_tel,displayby
-		FROM `ln_branch` WHERE branch_namekh !=''";
+		FROM `ln_branch` WHERE branch_namekh !='' AND status=1 ";
 		if (!empty($branchList)){
 			$sql.=" AND br_id NOT IN ($branchList) ";
 		}

@@ -1821,5 +1821,11 @@ function checkDefaultDate($str_next,$next_payment,$amount_amount,$holiday_status
   	}
   	return $pre.$new_acc_no;
   }
+  
+  function getMonthInkhmer($month){
+  	$khmermonth = array("01"=>"មករា", "02"=>"កុម្ភៈ", "03"=>"មិនា", "04"=>"មេសា", "05"=>"ឧសភា", "06"=>"មិថុនា", "07"=>"កក្កដា","08"=>"សីហា", "09"=>"កញ្ញា", "10"=>"តុលា","11"=>"វិច្ឆិកា", "12"=>"ធ្នូ");
+  	$monthKH = empty($khmermonth[$month])?"":$khmermonth[$month];
+  	return $monthKH;
+  }
 }
 ?>

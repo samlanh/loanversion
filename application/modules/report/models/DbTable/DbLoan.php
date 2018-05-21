@@ -2074,7 +2074,11 @@ AND cl.client_id = $client_id )";
       }
       public function getLoanPaymentById($id){
       	$db = $this->getAdapter();
-      	$sql="SELECT v.* FROM v_getcollectmoney AS v WHERE v.status=1
+      	$sql="SELECT v.*,
+      	(SELECT `ln_branch`.`br_address` FROM `ln_branch` WHERE `ln_branch`.`br_id` = `v`.`branch_id` LIMIT 1) AS `br_address`,
+		(SELECT `ln_branch`.`branch_tel` FROM `ln_branch` WHERE `ln_branch`.`br_id` = `v`.`branch_id` LIMIT 1) AS `branch_tel`,
+   		(SELECT `ln_branch`.`branch_nameen` FROM `ln_branch` WHERE `ln_branch`.`br_id` = `v`.`branch_id` LIMIT 1) AS `branch_nameen`
+      	 FROM v_getcollectmoney AS v WHERE v.status=1
 		AND v.`id` = $id LIMIT 1";
       	return $db->fetchRow($sql);
       }

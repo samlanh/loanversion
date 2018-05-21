@@ -221,5 +221,25 @@ class Pawnshop_Model_DbTable_DbClient extends Zend_Db_Table_Abstract
 		}
 		return $db->fetchAll($sql);
 	}
+	public function getClientDetailInfo($id){
+		$db = $this->getAdapter();
+		$sql = "SELECT c.*,
+		(SELECT commune_namekh FROM `ln_commune` WHERE com_id = c.com_id   LIMIT 1) AS commune_name
+		,(SELECT district_namekh FROM `ln_district` AS ds WHERE dis_id = c.dis_id  LIMIT 1) AS district_name
+		,(SELECT province_kh_name FROM `ln_province` WHERE province_id= c.pro_id  LIMIT 1) AS province_en_name
+		,(SELECT village_namekh FROM `ln_village` WHERE vill_id = c.village_id  LIMIT 1) AS village_name ,
+		(SELECT branch_nameen FROM `ln_branch` WHERE br_id =c.branch_id LIMIT 1) AS branch_name ,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE = 5 AND key_code = c.sit_status) AS sit_status ,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE = 11 AND key_code =c.sex) AS sex,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE = 23 AND id =c.`client_d_type`) AS client_d_type ,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE = 23 AND id =c.`join_d_type`) AS join_d_type ,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE = 11 AND key_code =c.join_sex) AS join_sex ,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE = 23 AND key_code =c.`guarantor_d_type`) AS guarantor_d_type,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE = 11 AND key_code =c.guarantor_gender) AS guarantor_gender
+		 FROM `ln_clientsaving` AS c WHERE client_id =  ".$db->quote($id);
+		$sql.=" LIMIT 1 ";
+		$row=$db->fetchRow($sql);
+		return $row;
+	}
 }
 
