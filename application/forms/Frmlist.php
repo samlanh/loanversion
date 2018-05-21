@@ -209,7 +209,6 @@ class Application_Form_Frmlist //extends Zend_Controller_Action
   	}
   	</style>';
   $stringPagination.='<script>
-  	dojo.require("dojox.grid.DataGrid");
   	dojo.require("dijit.Dialog");
   	dojo.require("dojo.data.ItemFileWriteStore");
   	dojo.require("dojo.store.Memory");';

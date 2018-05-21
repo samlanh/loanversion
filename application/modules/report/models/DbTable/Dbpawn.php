@@ -11,6 +11,8 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 			  `l`.`release_amount`    AS `total_capital`,
 			  `l`.`interest_rate`  AS `interest_rate`,
 			  `l`.`level`          AS `loan_level`,
+			   l.admin_fee,
+			  (SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code =l.term_type ) term_type,
 			  `l`.`currency_type`  AS `curr_type`,
 			  `l`.`is_completed`   AS `is_completed`,
 			  `l`.`total_duration` AS `total_duration`,
@@ -209,7 +211,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 			   WHERE (`ln_currency`.`id` = `l`.`currency_type`)
 			   LIMIT 1) AS `currency_type`,
 			  (SELECT
-			     `ln_view`.`name_en`
+			     `ln_view`.`name_kh`
 			   FROM `ln_view`
 			   WHERE ((`ln_view`.`type` = 14)
 			          AND (`ln_view`.`key_code` = `l`.`term_type`))
@@ -985,6 +987,7 @@ public function getALLLoanPayoff($search=null){
 			  `l`.`total_duration`    AS `total_duration`,
 			  `l`.`date_release`      AS `date_release`,
 			  `l`.`date_line`         AS `date_line`,
+			  (SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code = term_type ) term_type,
 			  (SELECT
 			     `ln_currency`.`symbol`
 			   FROM `ln_currency`
@@ -1186,6 +1189,7 @@ public function getALLWritoff($search=null){
 				`l`.`total_duration` AS `total_duration`,
 				`l`.`date_release`   AS `date_release`,
 				`l`.`date_line`      AS `date_line`,
+				(SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code = term_type ) term_type,
 				`c`.`client_number` AS  `client_number`,
 				`c`.`name_en`  AS `client_name`,
 				`c`.`phone` AS `phone`,

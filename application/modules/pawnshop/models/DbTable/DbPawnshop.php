@@ -16,11 +16,12 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 
     	$db = $this->getAdapter();
     	$sql = " SELECT id,
-	    	(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch,
-	    	loan_number,
+	    		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch,
+	    		loan_number,
 	    		(SELECT name_kh FROM `ln_clientsaving` WHERE client_id = ln_pawnshop.customer_id LIMIT 1) AS client_name_kh,
 	    		receipt_num,CONCAT(release_amount,
 	    		(SELECT symbol FROM `ln_currency` WHERE id =ln_pawnshop.currency_type LIMIT 1)) AS currency_type,
+	    		admin_fee,
 	    		CONCAT(total_duration,(SELECT name_kh FROM `ln_view` WHERE type = 14 AND key_code = term_type )) term_type,
 				interest_rate,
 				(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=ln_pawnshop.product_id limit 1) as product_name,

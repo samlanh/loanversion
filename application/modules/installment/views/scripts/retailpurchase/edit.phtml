@@ -14,7 +14,6 @@ fieldset{  background:none;}
 		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dijit/Dialog"]);
    </script>
 <script type="text/javascript">
-	dojo.require('dojox.form.BusyButton');
 	dojo.require("dojo.NodeList-manipulate");
 	dojo.require("dijit.Dialog");
 	dojo.require("dojo.data.ItemFileWriteStore");  
@@ -23,33 +22,6 @@ fieldset{  background:none;}
 	var pro_cate_store  = getDataStorefromJSON('id','name',<?php print_r(Zend_Json::encode($this->cat_rows));?> );
 	var branch_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->bran_name));?> );
 	dojo.ready(function(){ 
-		/*
-		new dijit.form.FilteringSelect({
-		store: pro_store,
-		autoComplete: true,                        
-		id: "pro_id",
-		name: "pro_id",  
-		style:'height:40px !important',         
-		class: 'fullside',  
-		required:false,
-		placeHolder:"<?php //echo $tr->translate("SELECT_PRODUCT");?>",          
-		onChange: function() {  
-			pro_id   = dijit.byId('pro_id').get('value');
-			if(pro_id==-1){
-				branch = dijit.byId("branch").get("value");
-				if(branch>0){
-				 	$("#location_id").val(branch);
-					dijit.byId("pop_product").show();
-				}else{
-					alert("Please select branch !!! ");
-					dijit.byId("branch").focus();
-				}
-			}else{
-				addRow();
-			}
-		}
-	}, "pro_id");
-		*/
 		
 		new dijit.form.FilteringSelect({
 		store: branch_store,
@@ -109,13 +81,13 @@ fieldset{  background:none;}
 					<legend align="center"><strong><?php echo $tr->translate("ADD_PURCHASE");?>​</strong></legend>
 					<table style="margin: 0 auto;" cellspacing="5">
 							<tr style="display: none;">
-								<td><strong><?php //echo $tr->translate("OLD_SUPPLIER")?>:</strong></td>
+								<td><strong><?php //echo $tr->translate("OLD_SUPPLIER");?>:</strong></td>
 								<td><input type="checkbox" checked="checked" name="is_new_cu" id="is_new_cu" value="1" onClick="isNewCustomer()" >
 								<input type="hidden" dojoType="dijit.form.TextBox" name="id"  id="id" value="<?php echo $purchase['id'] ?>" class="fullside" />
 								</td>
 							</tr>
 							<tr>
-							   <td><?php echo $tr->translate("SUPPLIER_NAME")?>*</td>
+							   <td><?php echo $tr->translate("SUPPLIER_NAME");?>*</td>
 							   <td>
 							   		<span id="new_cu">
 							   			<input type="text" dojoType="dijit.form.ValidationTextBox" name="supplier_name"  id="supplier_name" value="" class="fullside" required="required">
@@ -132,7 +104,7 @@ fieldset{  background:none;}
 							   	</td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("SEX")?></td>
+								<td><?php echo $tr->translate("SEX");?></td>
 							  	<td>
 							  	<select class="fullside" id="sex" name="sex" dojoType="dijit.form.FilteringSelect" >
 							  		<?php foreach ($this->sex as $ss){?>
@@ -144,23 +116,23 @@ fieldset{  background:none;}
 							  </td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("AGE")?></td>
+								<td><?php echo $tr->translate("AGE");?></td>
 							  	<td><input type="text" dojoType="dijit.form.TextBox" name="age"  id="age" value="" class="fullside" ></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("JOB")?></td>
+								<td><?php echo $tr->translate("JOB");?></td>
 							  	<td><input type="text" dojoType="dijit.form.TextBox" name="occupation"  id="occupation" value="" class="fullside" ></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("Tel")?></td>
+								<td><?php echo $tr->translate("Tel");?></td>
 							  	<td><input type="text" dojoType="dijit.form.TextBox" name="phone"  id="phone" value="" class="fullside" ></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("EMAIL")?></td>
+								<td><?php echo $tr->translate("EMAIL");?></td>
 					   			<td><input type="text" dojoType="dijit.form.ValidationTextBox" value=""   id="email" name="email" class="fullside" /></td>
 					   		</tr>
 					   		<tr>	
-					   			<td><?php echo $tr->translate("ADDRESS")?></td>
+					   			<td><?php echo $tr->translate("ADDRESS");?></td>
 					   			<td><input type="text" dojoType="dijit.form.ValidationTextBox" value=""   id="address" name="address" class="fullside" /></td>
 							</tr>
 							<tr>
@@ -174,11 +146,11 @@ fieldset{  background:none;}
 						<legend align="center"><strong><?php echo $tr->translate("BUYER");?>​</strong></legend>
 						<table style="margin: 0 auto;" cellspacing="5">
 							<tr >
-								<td><strong><?php echo $tr->translate("OLD_BUYER")?>:</strong></td>
+								<td><strong><?php echo $tr->translate("OLD_BUYER");?>:</strong></td>
 								<td><input type="checkbox" checked="checked"  name="is_new_buy" id="is_new_buy" value="1" onClick="isNewBuyer()" ></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("BUYER_NAME")?></td>
+								<td><?php echo $tr->translate("BUYER_NAME");?>*</td>
 							    <td>
 							    	<span id="new_buyer">
 							    	<input type="text" dojoType="dijit.form.ValidationTextBox" name="buyerName"  id="buyerName" value="" class="fullside" required="required">
@@ -198,7 +170,7 @@ fieldset{  background:none;}
 								<td><input type="text" dojoType="dijit.form.TextBox"   name="buyOccupation"  id="buyOccupation" value="" class="fullside" ></td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("ADDRESS")?></td>
+								<td><?php echo $tr->translate("ADDRESS");?></td>
 								<td><input type="text" dojoType="dijit.form.TextBox"   name="buyAddress"  id="buyAddress" value="" class="fullside" ></td>
 							</tr>
 						</table>
@@ -207,7 +179,7 @@ fieldset{  background:none;}
 						<legend align="center"><strong><?php echo $tr->translate("ADD_PURCHASE");?>​</strong></legend>
 						<table style="margin: 0 auto;" cellspacing="5">
 							<tr>
-								<td><?php echo $tr->translate("BRANCH")?></td>
+								<td><?php echo $tr->translate("BRANCH");?>*</td>
 							    <td><input id="branch"/></td>
 							</tr>
 							<tr>
@@ -216,7 +188,7 @@ fieldset{  background:none;}
 								</td>
 							</tr>
 							<tr>
-								<td><?php echo $tr->translate("INVOICE_NO")?></td>
+								<td><?php echo $tr->translate("INVOICE_NO");?></td>
 								<td><input type="text" dojoType="dijit.form.TextBox"  readonly="readonly" name="purchase_no"  id="purchase_no" value="<?php echo $purchase['invoice_no'];;?>" class="fullside" ></td>
 							</tr>
 						</table>
@@ -255,7 +227,7 @@ fieldset{  background:none;}
 						 	</tr>
 							<tr>
 						 		<td><?php echo $tr->translate('PRICE');?></td>
-						 		<td><input dojoType="dijit.form.TextBox" class="fullside" name="price" id="price" value="<?php echo $pro['price'];?>" type="text"></td>
+						 		<td><input dojoType="dijit.form.NumberTextBox" class="fullside" name="price" id="price" value="<?php echo $pro['price'];?>" type="text"></td>
 						 	</tr>
 						 	<tr>
 						 		<td><strong><?php echo $tr->translate('ស្លាកលេខ');?></strong></td>
@@ -362,7 +334,7 @@ fieldset{  background:none;}
 						<legend align="center" ><?php echo $tr->translate("Add Product Category");?></legend>
 						<table style="margin: 0 auto; width: 95%;" cellspacing="5">
 							<tr>
-								<td style="width:100px"><?php echo $tr->translate("Name")?></td>
+								<td style="width:100px"><?php echo $tr->translate("Name");?></td>
 								<td><input class="fullside"  dojoType="dijit.form.ValidationTextBox" name="title" id="title" type="text" required="required" /></td>
 							</tr>
 							<tr>
@@ -577,7 +549,7 @@ function sumAmountDue() {
 		
 }
 var url_add_pro = '<?php echo $this->url(array('module'=>'accounting','controller'=>'retailpurchase','action'=>'add-product')); ?>';
-var product_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->product))?>);
+var product_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->product));?>);
 function addNewProduct(){
 	if(dijit.byId('frm_product').validate()){
 			dojo.xhrPost({

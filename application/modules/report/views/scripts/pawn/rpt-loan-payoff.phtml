@@ -141,7 +141,7 @@ table { page-break-inside:auto }
                		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["loan_level"];?></td>
                		<td style="font:bolder 11px Arial ;text-align: center;​">&nbsp;&nbsp;<?php echo number_format($rs["total_capital"],2).''.$rs['currency_type'];?></td>
                		<td style="font-size: 12px;text-align: center;">&nbsp;&nbsp;<?php echo $rs["interest_rate"];?>&nbsp;</td>
-               		<td style="font-size: 12px;text-align: center;">&nbsp;<?php echo $rs['total_duration'];?>&nbsp;</td>
+               		<td style="font-size: 12px;text-align: center;">&nbsp;<?php echo $rs['total_duration'].$rs['term_type'];?>&nbsp;</td>
                		<td style="font-size: 12px;text-align: center; white-space:nowrap; ">&nbsp;<?php echo date("d-m-Y",strtotime($rs["date_release"]));?>&nbsp;</td>
                		<td style="font-size: 12px;text-align: center; white-space:nowrap;">&nbsp;<?php echo date("d-m-Y",strtotime($rs["date_line"]));?>&nbsp;</td>
                		<td style="font-size: 10px;">&nbsp;&nbsp;<?php echo number_format( $rs["principal_amount"],2).' '.$rs['currency_type'];?></td>               		

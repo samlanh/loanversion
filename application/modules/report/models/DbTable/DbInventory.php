@@ -264,10 +264,9 @@ class Report_Model_DbTable_DbInventory extends Zend_Db_Table_Abstract
 		(SELECT c.name FROM `ln_ins_category` AS c WHERE c.id = p.`cate_id` LIMIT 1) AS categoryName,
 		(SELECT SUM(pd.`qty`) FROM `ln_ins_purchase_detail` AS pd,`ln_ins_purchase` AS pu WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND pu.`date` <='$to_date' GROUP BY pd.`pro_id` LIMIT 1) AS purchaseQty,
 		(SELECT SUM(pd.`amount`) FROM `ln_ins_purchase_detail` AS pd,`ln_ins_purchase` AS pu 
-WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='1' AND pu.`date` <='2018-05-09 23:59:59' GROUP BY pd.`pro_id` LIMIT 1) AS purchaseAmount,
+WHERE pu.`id`=pd.`po_id` AND pd.pro_id = p.`id` AND pu.`date` >='$from_date' AND pu.`date` <='$to_date' GROUP BY pd.`pro_id` LIMIT 1) AS purchaseAmount,
 		(SELECT COUNT(l.id) FROM `ln_ins_sales_install` AS l WHERE l.product_id = p.`id` AND l.`date_sold` >='$from_date' AND l.`date_sold` <='$to_date'  GROUP BY l.product_id LIMIT 1) AS stockOut,
-		(SELECT SUM(l.selling_price) FROM `ln_ins_sales_install` AS l WHERE l.product_id = p.`id` AND l.`date_sold` >='1' AND l.`date_sold` <='2018-05-09 23:59:59' 
-GROUP BY l.product_id LIMIT 1) AS stockOutAmount, 
+		(SELECT SUM(l.selling_price) FROM `ln_ins_sales_install` AS l WHERE l.product_id = p.`id` AND l.`date_sold` >='$from_date' AND l.`date_sold` <='$to_date' GROUP BY l.product_id LIMIT 1) AS stockOutAmount, 
 		p.*,
 		pl.`qty`,pl.`qty_warning` FROM 
 		`ln_ins_product` AS p,

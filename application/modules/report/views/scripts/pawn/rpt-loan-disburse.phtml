@@ -36,7 +36,7 @@ dojo.require("dijit.form.DateTextBox");
 	display: table-cell !important; 
 }
 </style>
-<div style="min-width:28cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
+<div style="min-width:33cm;min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.2cm">
 	<div id="divPrint" style="width: 100%;">
 	<style>
 			.style{
@@ -56,6 +56,11 @@ dojo.require("dijit.form.DateTextBox");
 			    color: #008;
 			    font-weight: 600;
 			}
+			.btn{
+				height: 40px;
+				min-width: 50px;	
+			}
+			
 	</style>
 		<table style="font-family: 'Khmer OS Content'; width:100%;">
 			<tr>
@@ -85,7 +90,8 @@ dojo.require("dijit.form.DateTextBox");
 		                    <th><?php echo $tr->translate("PAWN_CODE");?></th>
 		                    <th><?php echo $tr->translate("CLIENT_NO");?></th>
 		                    <th><?php echo $tr->translate("CUSTOMER_NAME");?></th>
-		                    <th><?php echo $tr->translate("LOAN_LEVEL");?></th>
+		                    <th><?php echo $tr->translate("LOAN_LEVEL");?></th>\
+		                    <th><?php echo $tr->translate("ADMIN_FEE");?></th>
 		                    <th><?php echo $tr->translate("PAWN_AMOUNT");?></th>
 		                    <th><?php echo $tr->translate("INTEREST RATE");?></th>
 		                    <th><?php echo $tr->translate("PAWNSHOP_DURATION");?></th>
@@ -122,9 +128,10 @@ dojo.require("dijit.form.DateTextBox");
 								<a target="_blank" title="click here to preview payment schedule" style="color:#000; text-decoration: none;" href="<?php echo $url_client."/id/".$row['id'];?>">&nbsp;<?php echo $row['client_khname']; ?></a>&nbsp;
 							</td>	
 							<td>&nbsp;<?php echo $row['loan_level'];?>&nbsp;</td>
+							<td>&nbsp;<?php echo $row['admin_fee'];?>&nbsp;</td>
 							<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
 							<td style="white-space:nowrap;">&nbsp;<?php echo $row['interest_rate'];?>&nbsp;</td>
-							<td>&nbsp;<?php echo number_format($row['total_duration'],0).$tr->translate("MONTH");;?>&nbsp;</td>
+							<td>&nbsp;<?php echo number_format($row['total_duration'],0).$row['term_type'];?>&nbsp;</td>
 							<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_release']));?>&nbsp;</td>
 							<td style="white-space:nowrap;" >&nbsp;<?php echo date('d/m/Y',strtotime($row['date_line']));?>&nbsp;</td>
 							<td style="white-space:nowrap;">&nbsp;<?php echo $row['product_name']; ?>&nbsp;</td>

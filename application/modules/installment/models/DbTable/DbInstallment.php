@@ -73,10 +73,13 @@ public function getAllSale($search,$reschedule =null){
 			$s_where[] = "REPLACE(l.invoice_no,' ','')  LIKE '%{$s_search}%'";
 			
 			$s_where[] = "REPLACE(l.power,' ','')  LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(l.color,' ','')  LIKE '%{$s_search}%'";
 			$s_where[] = "REPLACE(l.engine,' ','')  LIKE '%{$s_search}%'";
 			$s_where[] = "REPLACE(l.frame,' ','')  LIKE '%{$s_search}%'";
+			$s_where[] = "REPLACE(l.frame_no,' ','')  LIKE '%{$s_search}%'";
 			$s_where[] = "REPLACE(l.sell_remark,' ','')  LIKE '%{$s_search}%'";
 			$where .=' AND ('.implode(' OR ',$s_where).')';
+			
 		}
 		if($search['status']>-1){
 			$where.= " AND l.status = ".$search['status'];
@@ -134,11 +137,11 @@ public function addSaleInstallment($data){
 				'status'=>1,
 				'is_completed'=>($data['selling_type']==1)?1:0,
 				'selling_type'=>$data['selling_type'],
-				'payment_method'=>$data['repayment_method'],
+				'payment_method'=>($data['selling_type']==1)?0:$data['repayment_method'],
 				'interest_rate'=>$data['interest_rate'],
 				'first_payment'=>$data['first_payment'],
 				'date_line'=>$data['date_line'],
-				'duration'=>$data['duration'],
+				'duration'=>($data['selling_type']==1)?0:$data['duration'],
 				'user_id'=>$this->getUserId(),
 				'date_sold'=>$data['date_sold'],
 				'paid_date'=>$data['paid_date'],
@@ -400,11 +403,11 @@ function updateInstallmentById($data){
 				'status'=>1,
 				'selling_type'=>$data['selling_type'],
 				'is_completed'=>($data['selling_type']==1)?1:0,
-				'payment_method'=>$data['repayment_method'],
+				'payment_method'=>($data['selling_type']==1)?0:$data['repayment_method'],
+				'duration'=>($data['selling_type']==1)?0:$data['duration'],
 				'interest_rate'=>$data['interest_rate'],
 				'first_payment'=>$data['first_payment'],
 				'date_line'=>$data['date_line'],
-				'duration'=>$data['duration'],
 				'user_id'=>$this->getUserId(),
 				'date_sold'=>$data['date_sold'],
 		);

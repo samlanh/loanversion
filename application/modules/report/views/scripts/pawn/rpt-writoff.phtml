@@ -125,7 +125,7 @@ table { page-break-inside:auto }
 	               		<td style="font-size: 10px; max-width: 200px; white-space:normal;">&nbsp;&nbsp;<?php echo $rs["phone"];?><?php echo $rs['village_name'].",".$rs['village_name'].",".str_replace("Commune","",$rs['commune_name']).",".$rs['district_name'].",".$rs['province_en_name'];?></td>
 						<td style="font:bolder 12px Arial ;text-align: center;​">&nbsp;&nbsp;<?php echo number_format($rs["loan_amount"],2).''.$rs['currency_type'];?></td>
 	               		<td style="font-size: 12px;text-align: center;">&nbsp;&nbsp;<?php echo $rs["interest_rate"];?>&nbsp;</td>
-	               		<td style="font-size: 12px;text-align: center;">&nbsp;<?php echo $rs['total_duration'].$rs['termborrow'];//$rs['pay_term'];?>&nbsp;</td>
+	               		<td style="font-size: 12px;text-align: center;">&nbsp;<?php echo $rs['total_duration'].$rs['term_type'];//$rs['pay_term'];?>&nbsp;</td>
 	               		<td style="font-size: 12px;text-align: center; white-space:nowrap; ">&nbsp;<?php echo date("d-m-Y",strtotime($rs["date_release"]));?>&nbsp;</td>
 	               		<td style="font-size: 12px;text-align: center; white-space:nowrap;">&nbsp;<?php echo date("d-m-Y",strtotime($rs["date_line"]));?>&nbsp;</td>
 	               		<td ><?php echo $rs["product_name"];?></td>
