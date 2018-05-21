@@ -804,7 +804,8 @@ function showReciept(data){
 	document.getElementById('lbl_reciept_no').innerHTML = data.receipt_no;
 	document.getElementById('lbl_loan_number').innerHTML = data.loan_number;
 	document.getElementById('lbl_branch_id').innerHTML = data.branch_name;
-	document.getElementById('lbl_collect_date').innerHTML = noDate+"/"+monthNames[date.getMonth()]+"/"+year;
+	//document.getElementById('lbl_collect_date').innerHTML = noDate+"/"+monthNames[date.getMonth()]+"/"+year;
+	document.getElementById('lbl_collect_date').innerHTML = noDate+"/"+month+"/"+year;
 	document.getElementById('lbl_total_payment').innerHTML = dojo.number.format(data.total_paymentpaid,{places:2});
 	document.getElementById('lbl_note').innerHTML = data.note;
 	document.getElementById('lbl_amount_receive').innerHTML = dojo.number.format(data.interest_paid,{places:2});
@@ -818,7 +819,8 @@ function showReciept(data){
 	document.getElementById('lbl_reciept_no1').innerHTML = data.receipt_no;
 	document.getElementById('lbl_loan_number1').innerHTML = data.loan_number;
 	document.getElementById('lbl_branch_id1').innerHTML = data.branch_name;
-	document.getElementById('lbl_collect_date1').innerHTML = noDate+"/"+monthNames[date.getMonth()]+"/"+year;
+	//document.getElementById('lbl_collect_date1').innerHTML = noDate+"/"+monthNames[date.getMonth()]+"/"+year;
+	document.getElementById('lbl_collect_date1').innerHTML = noDate+"/"+month+"/"+year;
 	document.getElementById('lbl_total_payment1').innerHTML = dojo.number.format(data.total_paymentpaid,{places:2});
 	document.getElementById('lbl_note1').innerHTML = data.note;
 	document.getElementById('lbl_amount_receive1').innerHTML = dojo.number.format(data.interest_paid,{places:2});
