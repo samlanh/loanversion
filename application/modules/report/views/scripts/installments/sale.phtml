@@ -43,7 +43,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 }
 </style>
 <div style="width:100%; margin:0 auto;">
-	<div style=" min-width:29cm; min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.25cm;" >
+	<div style=" min-width:32cm; min-height:28cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.25cm;" >
 		<div id="divPrint">
 			<style>
 				.style{
@@ -66,6 +66,9 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 				a.repLink.btn {
 				    color: #008;
 				    font-weight: 600;
+				}
+				.btn {
+				    min-width: 50px;
 				}
 			</style>
 			<table width="100%" >
@@ -98,9 +101,11 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 				                    <th>&nbsp;<?php echo $tr->translate("CUSTOMER_CODE");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("CATEGORY");?>&nbsp;</th> 
-				                     <th>&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("ITEM_CODE");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("ITEM_NAME");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("Buy Type");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("PAMENT_METHOD");?>&nbsp;</th>
+				                    <th>&nbsp;<?php echo $tr->translate("INSTALLMENT_DURATION");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("SELLING_PRICE");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("PAYMENTED");?>&nbsp;</th>
 				                    <th>&nbsp;<?php echo $tr->translate("BALANCE");?>&nbsp;</th>
@@ -127,7 +132,7 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 			                    if ($location != $rs['branch_id']){
 			                    ?>
 			                     <tr class="style hover" style=" line-height:20px; ">
-			                     	<td colspan="13" align="center" style="font-weight: 600; "><?php echo $rs["branch_namekh"];?></td>
+			                     	<td colspan="15" align="center" style="font-weight: 600; "><?php echo $rs["branch_namekh"];?></td>
 			                     </tr>
 			                    <?php }$location = $rs['branch_id'];?>
 				                <tr class="style hover" style="line-height:20px; ">
@@ -139,6 +144,8 @@ echo $this->headTitle($tr->translate("Report Selling Installing"));
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["item_code"];?>&nbsp;</td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["item_name"];?>&nbsp;</td>
 				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["sellingTypeTitle"];?>&nbsp;</td>
+				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["paymentMethodTitle"];?>&nbsp;</td>
+				               		<td style="font-size: 12px;">&nbsp;&nbsp;<?php echo $rs["duration"].$tr->translate("MONTH");?>&nbsp;</td>
 				               		<td align="right">&nbsp;<?php echo number_format($rs["selling_price"],2);?>&nbsp;</td>
 				               		<td align="right">&nbsp;<?php echo number_format($rs["paid"],2);?>&nbsp;</td>
 				               		<td align="right">&nbsp;<?php echo number_format($rs["balance"],2);?>&nbsp;</td>

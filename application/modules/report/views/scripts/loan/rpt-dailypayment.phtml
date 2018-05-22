@@ -69,59 +69,25 @@ table { page-break-inside:auto }
 				$disburse_dollar = 0;$disburse_reil = 0;$disburse_bath = 0;
 				$saving_amountr = 0;$saving_amountd = 0;$saving_amountb = 0;
              ?>
-            <?php if(!empty($this->LoanFee_list)){?>
-            <table width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; font-size:10px;" cellspacing="0">
-            	<thead>
-            	<tr bgcolor="#ccc" class="style" align="center" style="floafont-weight:bold; background:#ccd9ff; line-height: 14px; font-size:10px; padding:5px 0px; ">
-                  <th><?php echo $tr->translate("NUM");?></th>
-                  <th><?php echo $tr->translate("BRANCH_NAME");?></th>
-                  <th style="padding:5px 0px;">&nbsp;<?php echo $tr->translate("LOAN_NO");?>&nbsp;</th>
-                  <th style="padding:5px 0px;">&nbsp;<?php echo $tr->translate("CLIENT_NUM");?>&nbsp;</th>
-                  <th style="padding:5px 0px;">&nbsp;<?php echo $tr->translate("CUSTOMER_NAME");?>&nbsp;</th>
-                  <th style="padding:5px 0px;"> &nbsp;<?php echo $tr->translate("RELEASE_DATE");?>&nbsp;</th>
-                  <th>&nbsp;<?php echo $tr->translate("LIFE_LOAN");?>&nbsp;</th>
-                  <th style="padding:5px 0px;">&nbsp;<?php echo $tr->translate("LOAN_AMOUNT");?>&nbsp;</th>
-                  <th><?php echo $tr->translate("AMIN_FEE");?></th>                    
-                  <th><?php echo $tr->translate("OTHER_FEE");?></th>
-                  <th style="padding:5px 0px;font-size: 8px;"><?php echo $tr->translate("FOR_LOAN_TYPE");?></th>
-                </tr>
-                </thead>
+            <?php if(!empty($this->LoanFee_list)){?><!-- កុំលុបព្រោះទុកបូកជាមួយនិងថ្លៃសេវាពេលចេញកម្ចី -->
                 <?php if(!empty($this->LoanFee_list)) foreach ($this->LoanFee_list as $key => $row){ ?>
                 <?php 
                 if($row['curr_type']==1){
 		               		$r1 = $r1+$row['admin_fee'];
 		               		$r2 = $r2+$row['other_fee'];
-		               		$disburse_reil=$disburse_reil+$row['total_capital'];
+// 		               		$disburse_reil=$disburse_reil+$row['total_capital'];
 		               }elseif($row['curr_type']==2){
 							$d1 = $d1+$row['admin_fee'];
 							$d2 = $d2+$row['other_fee'];
-							$disburse_dollar=$disburse_dollar+$row['total_capital'];
+// 							$disburse_dollar=$disburse_dollar+$row['total_capital'];
 		               }else{
 		               		$b1 = $b1+$row['admin_fee'];
 							$b2 = $b2+$row['other_fee'];
-							$disburse_bath=$disburse_bath+$row['total_capital'];
+// 							$disburse_bath=$disburse_bath+$row['total_capital'];
 		               }
 		         ?>
-                <tr class="styleover">
-               		<td align="center">&nbsp;<?php echo $key+1; ?>&nbsp;</td>
-               		<td >&nbsp;&nbsp;<?php echo $row["branch_name"];?></td>
-               		<td >&nbsp;&nbsp;<?php echo $row["loan_number"];?></td>
-					<td>&nbsp;<?php echo $row['client_number'];?>&nbsp;</td>
-					<td align="left" style="font-size:9px; line-height: 13px; white-space: nowrap;">&nbsp;<?php echo $row['client_khname']; ?>&nbsp;</td>
-					<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_release']));?>&nbsp;</td>
-					<td style="white-space: nowrap;">&nbsp;<?php echo date('d-m-Y',strtotime($row['date_line']));?>&nbsp;</td>
-					<td style="white-space:nowrap; text-align: right;">&nbsp;<?php echo number_format($row['total_capital'],2).' '.$row['currency_type']; ?>&nbsp;</td>
-               		<td >&nbsp;&nbsp;<?php echo number_format( $row["admin_fee"],2).' '.$row['currency_type'];?></td>               		
-               		<td >&nbsp;&nbsp;<?php echo number_format($row["other_fee"],2).' '.$row['currency_type'];?></td>
-               		<td style="font-size: 8px;">&nbsp;<?php 
-							if ($row['loantype']==1){echo 'indi';}
-							else {
-								echo 'group';
-							}
-							; ?>&nbsp;</td>
-                </tr>
                 <?php }?>
-            </table>
+            
             <?php }?>
             <strong style="font-family: 'Khmer OS Content';">តារាងប្រមូលប្រាក់ប្រចាំថ្ងៃ</strong> 
             <table  width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; " cellspacing="0">
@@ -214,8 +180,8 @@ table { page-break-inside:auto }
                     <th style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
                     <th style="padding:5px 0px;"><?php echo $tr->translate("DESCRIPTION");?></th>
                     <th style="padding:5px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></th>
-					<th style="padding:5px 0px;"><?php echo $tr->translate("Invoice No.");?></th>
-                    <th style="padding:5px 0px;"><?php echo $tr->translate("​AMT_PAY");?></th>
+					<th style="padding:5px 0px;"><?php echo $tr->translate("INVOICE_NO");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("TOTAL_AMOUNTS");?></th>
                     <th style="padding:5px 0px;"><?php echo $tr->translate("DATE");?></th>
                     <th style="padding:5px 0px;"><?php echo $tr->translate("NOTE");?></th>
                 </tr>
@@ -251,8 +217,8 @@ table { page-break-inside:auto }
                     <th style="padding:5px 0px;"><?php echo $tr->translate("BRANCH_NAME");?></th>
                     <th style="padding:5px 0px;"><?php echo $tr->translate("DESCRIPTION");?></th>
                     <th style="padding:5px 0px;"><?php echo $tr->translate("CURRENT_TYPE");?></th>
-					<th style="padding:5px 0px;"><?php echo $tr->translate("Invoice No.");?></th>
-                    <th style="padding:5px 0px;"><?php echo $tr->translate("​AMT_PAY");?></th>
+					<th style="padding:5px 0px;"><?php echo $tr->translate("INVOICE_NO");?></th>
+                    <th style="padding:5px 0px;"><?php echo $tr->translate("TOTAL_AMOUNTS");?></th>
                     <th style="padding:5px 0px;"><?php echo $tr->translate("DATE");?></th>
                     <th style="padding:5px 0px;"><?php echo $tr->translate("NOTE");?></th>
                 </tr>

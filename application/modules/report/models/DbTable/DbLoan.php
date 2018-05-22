@@ -746,13 +746,16 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$order = " GROUP BY curr_type ORDER BY currency_type";
       	return $db->fetchAll($sql.$where.$order);
       }
-    public function getALLLFee($search=null){
+    public function getALLLFee($search=null){//for daily payment clear 
       	$start_date = $search['start_date'];
       	$end_date = $search['end_date'];
     		
       	$db = $this->getAdapter();
-      	$sql = "SELECT  * FROM 
-      				v_loanreleased WHERE status = 1 ";
+      	$sql = "SELECT  SUM(admin_fee) AS admin_fee,
+						SUM(other_fee) AS other_fee,
+						curr_type
+      					 FROM 
+      				v_loanreleased WHERE status = 1 AND (admin_fee>0 OR other_fee>0) ";
 		$where ='';
       	if(!empty($search['advance_search'])){
       		$s_where = array();

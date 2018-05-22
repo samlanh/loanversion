@@ -202,6 +202,11 @@ class Report_InstallmentsController extends Zend_Controller_Action {
 					'end_date'=>date('Y-m-d'));
 		}
 		$this->view->loantotalcollect_list =$rs=$db->getALLInstallmentPayment($search);
+		
+		$db  = new Report_Model_DbTable_DbInventory();
+		$row = $db->getGeneralSaleInventory($search);
+		$this->view->sale = $row;
+		
 		$this->view->list_end_date = $search;
 	
 		$key = new Application_Model_DbTable_DbKeycode();

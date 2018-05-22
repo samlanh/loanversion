@@ -4,7 +4,7 @@ class Installment_Model_DbTable_DbPurchase extends Zend_Db_Table_Abstract
 {    
 	protected $_name = 'ln_ins_supplier';
     public function getUserId(){
-    	$session_user=new Zend_Session_Namespace('authstu');
+    	$session_user=new Zend_Session_Namespace('authloan');
     	return $session_user->user_id;    	 
     }
     function getAllSupPurchase($search=null){

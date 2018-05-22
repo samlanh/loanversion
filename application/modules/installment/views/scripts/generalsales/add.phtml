@@ -361,7 +361,6 @@ function getProductInfor(type=null){
 			dojo.html.set(dojo.byId("row"+data.newrowid),data.stringrow , {
 		     parseContent: true,
 			});
-			
 			if($("#identity").val()!='') {
 				var identity = $("#identity").val();
 				$("#identity").val(identity+','+data.newrowid);
@@ -397,7 +396,8 @@ function calCulateTotal(){
 		totalAmount = totalAmount+rowamount;
 	}
 	dijit.byId('total').attr('value',totalAmount.toFixed(2));
-	dijit.byId('balance').attr('value',totalAmount.toFixed(2));
+	dijit.byId('paid').attr('value',totalAmount.toFixed(2));
+	dijit.byId('balance').attr('value',0);
 }
 function calculateBalance(){
 	var total = dijit.byId('total').get('value');
