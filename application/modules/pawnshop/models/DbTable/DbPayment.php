@@ -216,7 +216,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     							'penelize_amount'	=> 0,//$rsloan['outstanding_after'],
     					);
     					$db->insert("ln_pawn_receipt_money_detail", $arr_money_detail);
-    					if($after_principal==0){
+    					if($after_principal==0 AND $after_interest==0){
     						$is_compleated_d=1;
     					}
     					$load_detail = array(
@@ -246,8 +246,9 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     		$this->_name="ln_pawn_receipt_money";
     		$where = $db->quoteInto("id=?", $receipt_id);
     		$this->update($arr, $where);
-    
+ 
     		$rs = $this->getRemainSchedule($data['loan_number']);
+    		
     		if(empty($rs)){//update ករណីបង់ចុងក្រោយ គឺ updatE ទៅជាដាច់
     			$arr = array(
     					'is_payoff'=> 1,//check here

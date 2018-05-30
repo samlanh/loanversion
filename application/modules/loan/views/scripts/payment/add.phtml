@@ -989,6 +989,7 @@ var url_branchifo = '<?php echo $this->url(array('module'=>'other','controller'=
 var bchange = 1;
 function getbranchinfo(){
 	branch_id = dijit.byId('branch_id').get('value');
+	
 	if(branch_id==''){
 		alert('Please Select Branch');
 		dijit.byId('branch_id').focus();
@@ -1001,24 +1002,20 @@ function getbranchinfo(){
 		},		    
 		handleAs:"json",
 		load: function(data) {
-			//alert(data.phonebr);
 			if(bchange!=1){
 				dijit.byId('loan_number').reset();
 				dijit.byId('client_id').reset();
 				dijit.byId('client_code').reset();
 			}
+			
 			dojo.byId('brAddress').innerHTML=data.br_address;
 			dojo.byId('brAddress1').innerHTML=data.br_address;
 			dojo.byId('brTel').innerHTML=data.branch_tel;
 			dojo.byId('brTel1').innerHTML=data.branch_tel;
 			bchange = 2;
-			//dojo.byId('brNameShop').innerHTML=data.branch_nameen;
-			//dojo.byId('brDescription').innerHTML=data.description;
-			
-			//dijit.byId('invoice_no').attr('value',data);
 		},
 		error: function(err) {
-			alert("eror receipt");
+			
 		}
 	});
 }
@@ -1108,7 +1105,7 @@ function getLaonPayment(type){//tab ទី1
 						    tem += '<td style="white-space: nowrap;">&nbsp;'+date_pay+'&nbsp;<input type="hidden" name="date_payment_'+inx+'" id="date_payment_'+inx+'" value="'+respone[i].date_payment+'" /><input type="hidden" name="last_pay_date'+inx+'" id="last_pay_date'+inx+'" value="'+respone[i].last_pay_date+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].outstanding_after)+' '+curr+'&nbsp;<input type="hidden" name="outstanding_'+inx+'" id="outstanding_'+inx+'" value="'+respone[i].outstanding_after+'" /></td>';
 						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].principle_after)+' '+curr+'&nbsp;<input type="hidden" name="principal_permonth_'+inx+'" id="principal_permonth_'+inx+'" value="'+respone[i].principle_after+'" /></td>';
-						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest_after)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+respone[i].total_interest_after+'" /></td>';
+						    tem += '<td>&nbsp;'+dojo.number.format(respone[i].total_interest_after)+' '+curr+'&nbsp;<input type="hidden" name="interest_'+inx+'" id="interest_'+inx+'" value="'+respone[i].total_interest_after+'" /><input type="hidden" name="interest_before'+inx+'" id="interest_before'+inx+'" value="'+respone[i].total_interest+'" /></td>';
 							tem += '<td>&nbsp;<label id="lb_penelize_'+inx+'">'+dojo.number.format(respone[i].penelize_service)+' '+curr+'</label>&nbsp;<input type="hidden" name="penelize_'+inx+'" id="penelize_'+inx+'" value="'+respone[i].penelize_service+'" /></td>';
 						    tem += '<td>&nbsp;<label id="lb_payment_'+inx+'">'+dojo.number.format(respone[i].total_payment_after)+' '+curr+'</label>&nbsp;<input type="hidden" name="total_payment_after_'+inx+'" id="total_payment_after_'+inx+'" value="'+respone[i].total_payment_after+'" /></td>';
 							
@@ -1288,7 +1285,7 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 			installment_no = dijit.byId("installment_no").get("value");
 			
 			if(installment_no<=4){
-				total_penalty=$("#interest_1").val();
+				total_penalty=$("#interest_before1").val();
 			}
 			
 		}else if(payOption==1 && total_latedate>0){

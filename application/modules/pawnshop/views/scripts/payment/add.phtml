@@ -697,12 +697,8 @@ function submitDataClose(){
 			alert('Please fill Recieve Amount');
 			dijit.byId('amount_receive').focus();
 		}else{
+			loading();
 			if(option_pay==2 || option_pay==3 || option_pay==4){
-				if(receive_amount<total_payments){
-					alert('You Can not paymnet in this option! Please Input Recieve Amount more than or squar Total Paymnet!');
-					dijit.byId('amount_receive').focus();
-				}else{
-					loading();
 					dojo.xhrPost({
 						url: url_submit,	
 						form: dojo.byId("frm_add_group_pay"),		    
@@ -714,9 +710,7 @@ function submitDataClose(){
 						error: function(e) {
 						}
 					});
-				}
 			}else{
-				loading();
 					dojo.xhrPost({
 						url: url_submit,	
 						form: dojo.byId("frm_add_group_pay"),		    

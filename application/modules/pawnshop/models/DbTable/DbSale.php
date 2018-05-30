@@ -187,6 +187,7 @@ class Pawnshop_Model_DbTable_DbSale extends Zend_Db_Table_Abstract
 		$sql="SELECT
 					ps.*,
 					(SELECT SUM(d.principle_after) FROM `ln_pawnshop_detail` AS d WHERE d. pawn_id= ps.id AND STATUS=1 AND d.is_completed=0 LIMIT 1)  AS total_principal,
+					(SELECT SUM(principal_paid) FROM `ln_pawn_receipt_money`  WHERE loan_id=ps.id AND status=1) AS principal_paid,
     				(SELECT COUNT(d.id) FROM `ln_pawnshop_detail` AS d WHERE d. pawn_id= ps.id AND STATUS=1 AND d.is_completed=0 LIMIT 1)  AS remaintimes
 				FROM
 					ln_pawnshop	as ps

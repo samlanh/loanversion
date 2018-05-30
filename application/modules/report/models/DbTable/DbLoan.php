@@ -310,7 +310,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
     		$where.=" AND co.`co_id` =".$search['co_id'];//before use collect by
     	}  
       	if(!empty($search['end_date'])){
-			$where.=" AND d.date_payment <= '$end_date'";
+			$where.=" AND d.date_payment <'$end_date'";
 		}
       	if($search['branch_id']>0){
       		$where.=" AND l.`branch_id` = ".$search['branch_id'];

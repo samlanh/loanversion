@@ -107,11 +107,8 @@ class Other_Model_DbTable_DbBranch extends Zend_Db_Table_Abstract
     
  function getBranchById($id){
     	$db = $this->getAdapter();
-    	$sql = "SELECT * FROM
-    	$this->_name ";
-    	$where = " WHERE `br_id`= $id" ;
-  
-   		return $db->fetchRow($sql.$where);
+    	$sql = "SELECT * FROM ln_branch WHERE `br_id`= $id" ;
+   		return $db->fetchRow($sql);
     }
     public static function getBranchCode(){
     	$db = new Application_Model_DbTable_DbGlobal();

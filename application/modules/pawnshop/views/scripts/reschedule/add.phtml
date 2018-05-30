@@ -922,8 +922,13 @@ function getProductDetail(pawn_id){
 			handleAs:"json",
 			load: function(data) {
 				if(data){
-					dijit.byId("outstandingloan").attr('value',data.total_principal);
-					dijit.byId("total_amount").attr('value',data.total_principal);
+					if (data.principal_paid == null){
+						data.principal_paid=0;
+					}
+
+					outstandingloan = parseFloat(data.release_amount) - parseFloat(data.principal_paid);
+					dijit.byId("outstandingloan").attr('value',outstandingloan);
+					dijit.byId("total_amount").attr('value',outstandingloan);
 					dijit.byId("period").attr('value',data.remaintimes);
 					dijit.byId("interest_rate").attr('value',data.interest_rate);
 					dijit.byId("currency_type").attr('value',data.currency_type);
@@ -937,7 +942,7 @@ function getProductDetail(pawn_id){
 				}
 			},
 			error: function(err) {
-				alert(err);
+				//alert(err);
 			}
 		});
 	}

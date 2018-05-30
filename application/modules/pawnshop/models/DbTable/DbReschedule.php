@@ -75,34 +75,34 @@ class Pawnshop_Model_DbTable_DbReschedule extends Zend_Db_Table_Abstract
     		$this->_name="ln_pawnshop";
     		$this->update($arr_update, $where);
     		
-    		$datagroup = array(
-    				'branch_id'=>$data['branch_id'],
-    				'pawnshop_id'=>$loan_id,
-    				'loan_number'=>$data['loan_code'],
-    				'level'=>$data['level'],
-    				'customer_id'=>$data['member'],
-    				'release_amount'=>$data['total_amount'],
-    				'date_release'=>$data['release_date'],
-    				'date_line'=>$data['date_line'],
-    				'create_date'=>date("Y-m-d"),
-    				'total_duration'=>$data['period'],
-    				'first_payment'=>$data['first_payment'],
-    				'payment_method'=>1,
-    				'holiday'=>2,
-    				'user_id'=>$this->getUserId(),
-    				'currency_type'=>$data['currency_type'],
-    				'release_amount'=>$data['total_amount'],//$data[''],
-    				'interest_rate'=>$data['interest_rate'],
-    				'status'=>1,
-    				'is_completed'=>0,
-    				'product_id'=>$data['product_id'],
-    				'est_amount'=>$data['estimatevalue'],
-    				'product_description'=>$data['description'],
-//     				'receipt_num'=>$data['receipt_num'],
+//     		$datagroup = array(
+//     				'branch_id'=>$data['branch_id'],
+//     				'pawnshop_id'=>$loan_id,
+//     				'loan_number'=>$data['loan_code'],
+//     				'level'=>$data['level'],
+//     				'customer_id'=>$data['member'],
+//     				'release_amount'=>$data['total_amount'],
+//     				'date_release'=>$data['release_date'],
+//     				'date_line'=>$data['date_line'],
+//     				'create_date'=>date("Y-m-d"),
+//     				'total_duration'=>$data['period'],
+//     				'first_payment'=>$data['first_payment'],
+//     				'payment_method'=>1,
+//     				'holiday'=>2,
+//     				'user_id'=>$this->getUserId(),
+//     				'currency_type'=>$data['currency_type'],
+//     				'release_amount'=>$data['total_amount'],//$data[''],
+//     				'interest_rate'=>$data['interest_rate'],
+//     				'status'=>1,
+//     				'is_completed'=>0,
+//     				'product_id'=>$data['product_id'],
+//     				'est_amount'=>$data['estimatevalue'],
+//     				'product_description'=>$data['description'],
+// //     				'receipt_num'=>$data['receipt_num'],
     				
-    		);
-    		$this->_name = 'ln_pawnshop_reschedule';
-    		 $this->insert($datagroup);//add group loan
+//     		);
+//     		$this->_name = 'ln_pawnshop';
+//     		$this->insert($datagroup);//add group loan
     		
     		
     		$session_transfer=new Zend_Session_Namespace();
