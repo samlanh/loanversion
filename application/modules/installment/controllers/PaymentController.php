@@ -68,6 +68,11 @@ class Installment_PaymentController extends Zend_Controller_Action {
 					Application_Form_FrmMessage::Sucessfull("Client no laon to pay!","/installment/payment/");
 				}else {
 					$db->addILPayment($_data);
+					if (isset($_data['save_new'])){
+						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/installment/payment/add");
+					}else{
+						Application_Form_FrmMessage::Sucessfull("INSERT_SUCCESS","/installment/payment/");
+					}
 				}
 			}catch (Exception $e) {
 				Application_Form_FrmMessage::message("INSERT_FAIL");
