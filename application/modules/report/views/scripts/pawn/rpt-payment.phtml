@@ -123,8 +123,7 @@
                 	$total_d=0;$total_b=0;$total_r=0;
                 ?>
                 <?php $is_set =0; if(!empty($this->loantotalcollect_list)) foreach ($this->loantotalcollect_list as $index => $rs){ ?>
-                
-               <?php 
+                <?php 
                $interest=0;
 			   $interest_amount=0;
                ?>
@@ -172,6 +171,21 @@
                		</td>
                 </tr>
                 <?php }?>
+                 <?php 
+                 	$r1=0; $b1=0;$d1=0;
+             	?>
+            	<!-- កុំលុបព្រោះទុកបូកជាមួយនិងថ្លៃសេវាពេលចេញកម្ចី -->
+                <?php if(!empty($this->LoanFee_list)) foreach ($this->LoanFee_list as $key => $row){ ?>
+                <?php 
+	                if($row['currency_type']==1){
+		               	$r1 = $r1+$row['admin_fee'];
+	               }elseif($row['currency_type']==2){
+						$d1 = $d1+$row['admin_fee'];
+	               }else{
+	               		$b1 = $b1+$row['admin_fee'];
+	               }
+		         ?>
+                <?php }?>
             </table>
             <br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:12px;" width="100%" cellspacing="0">
@@ -182,6 +196,7 @@
                     <th><?php echo $tr->translate("TOTAL_INTEREST");?></th>
                     <th><?php echo $tr->translate("TOTAL_PENILIZE_AMOUNT");?></th>
                     <th><?php echo $tr->translate("TOTAL_SERVICE_CHARGE");?></th>
+                    <th><?php echo $tr->translate("AMIN_FEE");?></th>
                     <th><?php echo $tr->translate("TOTAL");?></th>
                 </tr>
 				</thead>
@@ -191,7 +206,8 @@
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d2,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d3,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amt_d5,2);?>&nbsp;</td>
-                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1+$amt_d2+$amt_d3+$amt_d5,2);//$total_d?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($d1,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amt_d1+$amt_d2+$amt_d3+$amt_d5+$d1,2);//$total_d?>&nbsp;</td>
                 </tr>
                  <tr class="style" style=" line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
                     <td>&nbsp;<?php echo $tr->translate("REILS");?></td>
@@ -199,7 +215,8 @@
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_r2,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_r3,2);?>&nbsp;</td>
                     <td>&nbsp;&nbsp;<?php echo number_format($amn_r5,2);?>&nbsp;</td>
-                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r1+$amn_r2+$amn_r3+$amn_r5,2);//$total_r?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($r1,2);?>&nbsp;</td>
+                    <td>&nbsp;&nbsp;<?php echo number_format($amt_r1+$amn_r2+$amn_r3+$amn_r5+$r1,2);//$total_r?>&nbsp;</td>
                 </tr>
                  <tr class="style" style="line-height: 24px; font-size:9px;font-family: 'Khmer OS Content';">
                    <td>&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
@@ -207,7 +224,8 @@
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b2,2);?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b3,2);?>&nbsp;</td>
                    <td>&nbsp;&nbsp;<?php echo number_format($amn_b5,2);?>&nbsp;</td>
-                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b1+$amn_b2+$amn_b3+$amn_b5,2);//+$total_b?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($b1,2);?>&nbsp;</td>
+                   <td>&nbsp;&nbsp;<?php echo number_format($amn_b1+$amn_b2+$amn_b3+$amn_b5+$b1,2);//+$total_b?>&nbsp;</td>
                 </tr>
               </table>
               <br />

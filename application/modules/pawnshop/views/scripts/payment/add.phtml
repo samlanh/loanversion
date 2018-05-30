@@ -1017,7 +1017,7 @@ function getLaonPayment(type){//tab ទី1
 							is_set=1;
 					}
 							if(pay_option==1){
-								date = new Date(respone[i].date_payments);
+								date = new Date(respone[i].date_payment);
 								date_now = new Date();
 								a = date-date_now;
 								checked='';
@@ -1203,9 +1203,10 @@ function calculateTotal(index){//for គណនាប្រាក់ត្រូ�
 		dijit.byId("os_amount").attr("value",principal_permonth);
 		dijit.byId("total_interest").attr("value",interest);
 		dijit.byId("total_payment").attr("value",principal_permonth+interest+total_penalty);
+		
 		calTotal();
 	}catch(err){
-		alert("err"+err);
+		
 	}
 }
 function getAllLaonPayment(type){//tabl2 

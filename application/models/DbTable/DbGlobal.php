@@ -270,7 +270,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    	if(!empty($rows)){
    	if($option!=null){
    			foreach($rows as $rs){
-   				$options[$rs['co_id']]=$rs['co_firstname']." - ".$rs['co_khname'];}
+   				$options[$rs['co_id']]=$rs['co_khname'];}
    				return $options;
    		}
    	}
@@ -278,7 +278,7 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
    }
    public function getAllCoNameOnly(){
    	$db= $this->getAdapter();
-   	$sql = " SELECT co_id AS id, CONCAT(co_firstname,' - ',co_khname,' - ',co_code) AS name
+   	$sql = " SELECT co_id AS id, CONCAT(co_khname,' - ',co_code) AS name
    	  FROM ln_co WHERE STATUS=1 AND co_khname!='' AND `position_id`=1 ";
    	return $db->fetchAll($sql);
    }

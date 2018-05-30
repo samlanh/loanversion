@@ -49,9 +49,8 @@ fieldset{  background:none;}
 		}, "pro_id");
 		
 		new dijit.form.FilteringSelect({
-		store: branch_store,
-		autoComplete: true,                        
-		required: true,
+		store: branch_store,autoComplete: false,
+queryExpr: "*${0}*",
 		id: "branch",
 		name: "branch",           
 		class: "fullside", 
@@ -65,9 +64,8 @@ fieldset{  background:none;}
 		}, "branch");
 
 		new dijit.form.FilteringSelect({
-			store: pro_cate_store,
-			autoComplete: true,                        
-			required: true,                      
+			store: pro_cate_store,autoComplete: false,
+queryExpr: "*${0}*",                      
 		    id: "category_id",
 		    name: "category_id",  
 		    tabindex: "1",         

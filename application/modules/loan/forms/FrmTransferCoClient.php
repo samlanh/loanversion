@@ -75,7 +75,7 @@ Class Loan_Form_FrmTransferCoClient extends Zend_Dojo_Form {
 		$options_co =array(''=>"------Select From CO ------");
 		if (!empty($row_co))
 			foreach ($row_co AS $row_cos){
-			$options_co[$row_cos['co_id']] = $row_cos['co_firstname'];
+			$options_co[$row_cos['co_id']] = $row_cos['co_khname'];
 		}
 		$co_code->setMultiOptions($options_co);
 		$co_code->setValue($request->getParam('co_code'));

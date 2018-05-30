@@ -383,7 +383,6 @@ dojo.ready(function(){
 	try{
 	new dijit.form.FilteringSelect({
 	store: district_store,
-	autoComplete: true,
 	required: false,		           
 	name: "district",
 	id: "district",
@@ -400,7 +399,6 @@ dojo.ready(function(){
 	 
 	new dijit.form.FilteringSelect({
 	store: commune,
-	autoComplete: true,
 	required: false,		           
 	name: "commune",
 	id: "commune",
@@ -419,8 +417,7 @@ dojo.ready(function(){
 	 
 	new dijit.form.FilteringSelect({
 	store: village_store,
-	autoComplete: true,
-	required: false,		           
+	autoComplete: true,	           
 	name: "village",
 	id: "village",
 	searchAttr: "name",
@@ -434,8 +431,7 @@ dojo.ready(function(){
 	}, "village");
 
 	new dijit.form.FilteringSelect({
-		store: d_datastore,
-		autoComplete: true,          
+		store: d_datastore,       
 		required: false,		           
 		name: "client_d_type",
 		id: "client_d_type",
@@ -453,8 +449,7 @@ dojo.ready(function(){
 		}, "client_d_type");
 
 	new dijit.form.FilteringSelect({
-		store: d_datastore,
-		autoComplete: true,           
+		store: d_datastore,       
 		required: false,		           
 		name: "join_d_type",
 		id: "join_d_type",
@@ -473,7 +468,6 @@ dojo.ready(function(){
 
 	new dijit.form.FilteringSelect({
 		store: d_datastore,
-		autoComplete: true,
 		required: false,		           
 		name: "guarantor_d_type",
 		id: "guarantor_d_type",

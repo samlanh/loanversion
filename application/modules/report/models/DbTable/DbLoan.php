@@ -206,7 +206,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  (SELECT name_kh FROM ln_client WHERE client_id=m.client_id) AS client_name , 
 				  (SELECT branch_namekh FROM ln_branch WHERE br_id= m.branch_id LIMIT 1) AS branch_id ,
 				  (SELECT co_khname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id= m.group_id LIMIT 1) LIMIT 1) AS co,
-				  (SELECT co_firstname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id= m.group_id LIMIT 1) LIMIT 1) AS co_name
+				  (SELECT co_khname FROM ln_co WHERE co_id=(SELECT co_id FROM ln_loan_group WHERE g_id= m.group_id LIMIT 1) LIMIT 1) AS co_name
 				  FROM `ln_loanmember_funddetail` AS f ,`ln_loan_member` AS m WHERE m.member_id = f.member_id 
 				  AND f.is_completed=0 AND f.status=1 AND m.is_completed=0 ";
       	if(!empty($search['txtsearch'])){
@@ -310,7 +310,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
     		$where.=" AND co.`co_id` =".$search['co_id'];//before use collect by
     	}  
       	if(!empty($search['end_date'])){
-			$where.=" AND d.date_payment < '$end_date'";
+			$where.=" AND d.date_payment <= '$end_date'";
 		}
       	if($search['branch_id']>0){
       		$where.=" AND l.`branch_id` = ".$search['branch_id'];
@@ -323,7 +323,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$end_date = $search['end_date'];
       	$db = $this->getAdapter();
       	$sql="SELECT
-		      	CONCAT(`co_firstname`,' ',co.`co_lastname`) AS co_name ,
+		      	CONCAT(co_khname) AS co_name ,
 		      	b.branch_namekh,
 		      	co.`co_id`,
 		      	c.`client_number`,
@@ -614,7 +614,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  l.`loan_number`,
 				  (SELECT c.`phone` FROM ln_client AS c WHERE c.`client_id`=l.`customer_id`) AS phone,
 				  (SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=crm.`branch_id`) AS branch,
-				  (SELECT CONCAT(c.`co_code`,'-',c.`co_khname`,'-',c.`co_firstname`,' ',c.`co_lastname`) FROM ln_co AS c WHERE c.`co_id`=crm.`co_id`) AS co_name,
+				  (SELECT CONCAT(c.`co_code`,'-',c.`co_khname`) FROM ln_co AS c WHERE c.`co_id`=crm.`co_id`) AS co_name,
 				  (SELECT c.`client_number` FROM ln_client AS c WHERE c.`client_id`=l.`customer_id`) AS client_code,
 				  (SELECT c.`name_kh` FROM ln_client AS c WHERE c.`client_id`=l.`customer_id`) AS client_name,
 				  l.`loan_type`,
@@ -770,6 +770,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['branch_id']>0){
       		$where.=" AND `branch_id`= ".$search['branch_id'];
       	}
+      	if($search['co_id']>0){
+      		$where.=" AND `co_id`= ".$search['co_id'];
+      	}
+      	
       	if(!empty($search['start_date']) or !empty($search['end_date'])){
       		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
       	}
@@ -1112,7 +1116,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	$end_date = $search['end_date'];
       	$db = $this->getAdapter();
       	$sql="SELECT 
-				  CONCAT(co.`co_code`,',',co.`co_khname`,'-',co.`co_firstname`,' ',co.`co_lastname`) AS co_name ,
+				  CONCAT(co.`co_code`,',',co.`co_khname`) AS co_name ,
 				  b.branch_namekh,
 				  co.`co_id`,
 				  lm.`loan_number`,

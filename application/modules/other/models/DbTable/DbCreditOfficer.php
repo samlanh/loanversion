@@ -90,7 +90,7 @@ class Other_Model_DbTable_DbCreditOfficer extends Zend_Db_Table_Abstract
 	}
 	function getAllCreditOfficer($search=null){
 		$db = $this->getAdapter();
-		$sql = "SELECT co_id,co_code,co_khname,CONCAT(co_firstname,co_lastname) AS co_engname,national_id,address,
+		$sql = "SELECT co_id,co_code,co_khname,CONCAT(co_khname) AS co_engname,national_id,address,
 					tel,email,address,(SELECT name_kh FROM ln_view WHERE type=20 AND key_code=degree) AS degree,
 					(SELECT department_kh FROM ln_department WHERE id=department_id) AS department_id,
 					annual_lives,status FROM $this->_name WHERE 1";

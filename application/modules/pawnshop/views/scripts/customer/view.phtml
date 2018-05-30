@@ -123,10 +123,10 @@ label.value {
 						    			<label class="title">សញ្ជាតិ</label> : <label class="value"><?php  echo $rs['nationality'];?></label> <label class="title">ភេទ</label> : <label class="value"><?php echo $rs['sex'];?></label> <label class="title">មុខរបរ</label> : <label class="value"><?php echo $rs['job'];?></label>
 						    			</p>
 						    			<p class="padding-left">
-						    			<label class="title">ភេទ</label> : <label class="value"><?php echo $rs['sex'];?></label> <label class="title">ថ្ងៃ ខែ ឆ្នាំកំណើត</label> : <label class="value"><?php  echo date("d",strtotime($rs['dob']))." ".$dbg->getMonthInkhmer(date("m",strtotime($rs['dob'])))." ".date("Y",strtotime($rs['dob']));?></label> <label class="title">ស្ថានភាពគ្រួសារ</label> : <label class="value"><?php  echo $rs['sit_status'];?></label>
+						    			<label class="title">ភេទ</label> : <label class="value"><?php echo $rs['sex'];?></label> <label class="title">ថ្ងៃ ខែ ឆ្នាំកំណើត</label> : <label class="value"><?php if(!empty($rs['dob'])){  echo date("d",strtotime($rs['dob']))." ".$dbg->getMonthInkhmer(date("m",strtotime($rs['dob'])))." ".date("Y",strtotime($rs['dob'])); }?></label> <label class="title">ស្ថានភាពគ្រួសារ</label> : <label class="value"><?php  echo $rs['sit_status'];?></label>
 						    			</p>
 						    			<p class="padding-left">
-						    			<label class="title">ប្រភេទឯកសារ</label> : <label class="value"><?php echo $rs['client_d_type'];?></label> <label class="title">លេខសម្គាល់</label> : <label class="value"><?php echo $rs['nation_id'];?></label> <label class="title">ចុះថ្ងៃទី</label> : <label class="value"><?php echo date("d",strtotime($rs['id_issuedate']))." ".$dbg->getMonthInkhmer(date("m",strtotime($rs['id_issuedate'])))." ".date("Y",strtotime($rs['id_issuedate']));?></label>
+						    			<label class="title">ប្រភេទឯកសារ</label> : <label class="value"><?php echo $rs['client_d_type'];?></label> <label class="title">លេខសម្គាល់</label> : <label class="value"><?php echo $rs['nation_id'];?></label> <label class="title">ចុះថ្ងៃទី</label> : <label class="value"><?php if(!empty($rs['id_issuedate'])){ echo date("d",strtotime($rs['id_issuedate']))." ".$dbg->getMonthInkhmer(date("m",strtotime($rs['id_issuedate'])))." ".date("Y",strtotime($rs['id_issuedate'])); }?></label>
 						    			</p>
 						    			<p class="padding-left">
 						    			 <label class="title">ចេញដោយ</label> : <label class="value"><?php echo $rs['id_isseueby'];?></label> <label class="title">លេខទូរស័ព្ទ</label> : <label class="value"><?php echo $rs['phone'];?></label>
@@ -140,7 +140,7 @@ label.value {
 						    	<tr><td>&nbsp;</td></tr>
 						    	<tr>
 						    		<td style="font-size:14px; font-weight: initial; font-family:'Khmer OS Muol Light';">
-						    			II. ព័ត៌មានអ្នកទិញជាមួយ
+						    			II. ព័ត៌មានដៃគូ
 						    			<div class="border"></div>
 						    		</td>
 						    	</tr>
@@ -150,10 +150,10 @@ label.value {
 						    			<label class="title">ឈ្មោះ </label> : <label class="value"><?php echo $rs['join_with'];?></label> <label class="title">ភេទ</label> : <label class="value"><?php echo $rs['join_sex'];?></label> <label class="title">សញ្ជាតិ</label> : <label class="value"><?php echo $rs['join_nationality'];?></label>
 						    			</p>
 						    			<p class="padding-left">
-						    			<label class="title">ថ្ងៃ ខែ ឆ្នាំកំណើត </label> : <label class="value"><?php  echo date("d",strtotime($rs['dob_join_acc']))." ".$dbg->getMonthInkhmer(date("m",strtotime($rs['dob_join_acc'])))." ".date("Y",strtotime($rs['dob_join_acc']));?></label> <label class="title">ត្រូវជា</label> : <label class="value"><?php echo $rs['relate_with'];?></label> <label class="title">លេខទូរស័ព្ទ </label> : <label class="value"><?php echo $rs['join_tel'];?></label>
+						    			<label class="title">ថ្ងៃ ខែ ឆ្នាំកំណើត </label> : <label class="value"><?php if(!empty($rs['dob_join_acc'])){ echo date("d",strtotime($rs['dob_join_acc']))." ".$dbg->getMonthInkhmer(date("m",strtotime($rs['dob_join_acc'])))." ".date("Y",strtotime($rs['dob_join_acc'])); }?></label> <label class="title">ត្រូវជា</label> : <label class="value"><?php echo $rs['relate_with'];?></label> <label class="title">លេខទូរស័ព្ទ </label> : <label class="value"><?php echo $rs['join_tel'];?></label>
 						    			</p>
 						    			<p class="padding-left">
-						    			<label class="title">ប្រភេទឯកសារ</label> : <label class="value"><?php echo $rs['join_d_type'];?></label> <label class="title">លេខសម្គាល់ </label> : <label class="value"><?php echo $rs['join_nation_id'];?></label> <label class="title">ចុះថ្ងៃទី </label> : <label class="value"><?php  echo date("d",strtotime($rs['join_id_issuedate']))." ".$dbg->getMonthInkhmer(date("m",strtotime($rs['join_id_issuedate'])))." ".date("Y",strtotime($rs['join_id_issuedate']));?></label>
+						    			<label class="title">ប្រភេទឯកសារ</label> : <label class="value"><?php echo $rs['join_d_type'];?></label> <label class="title">លេខសម្គាល់ </label> : <label class="value"><?php echo $rs['join_nation_id'];?></label> <label class="title">ចុះថ្ងៃទី </label> : <label class="value"><?php  if(!empty($rs['join_id_issuedate'])){ echo date("d",strtotime($rs['join_id_issuedate']))." ".$dbg->getMonthInkhmer(date("m",strtotime($rs['join_id_issuedate'])))." ".date("Y",strtotime($rs['join_id_issuedate'])); }?></label>
 						    			</p>
 						    			<p class="padding-left">
 						    			 <label class="title">ចេញដោយ</label> : <label class="value"><?php echo $rs['join_id_isseueby'];?></label>
@@ -170,7 +170,7 @@ label.value {
 						    	<tr>
 						    		<td style="font-size:14px; font-weight:600;  font-family:'Khmer OS Battambang';">
 						    			<p class="padding-left">
-						    			<label class="title">ឈ្មោះ </label> : <label class="value"><?php echo $rs['guarantor_name']; ?></label> <label class="title">ភេទ</label> : <label class="value"><?php echo $rs['guarantor_gender'];?></label> <label class="title">ថ្ងៃ ខែ ឆ្នាំកំណើត</label> : <label class="value"><?php  echo date("d",strtotime($rs['dob_guarantor']))." ".$dbg->getMonthInkhmer(date("m",strtotime($rs['dob_guarantor'])))." ".date("Y",strtotime($rs['dob_guarantor']));?></label>
+						    			<label class="title">ឈ្មោះ </label> : <label class="value"><?php echo $rs['guarantor_name']; ?></label> <label class="title">ភេទ</label> : <label class="value"><?php echo $rs['guarantor_gender'];?></label> <label class="title">ថ្ងៃ ខែ ឆ្នាំកំណើត</label> : <label class="value"><?php if(!empty($rs['dob_guarantor'])){ echo date("d",strtotime($rs['dob_guarantor']))." ".$dbg->getMonthInkhmer(date("m",strtotime($rs['dob_guarantor'])))." ".date("Y",strtotime($rs['dob_guarantor'])); }?></label>
 						    			</p>
 						    			<p class="padding-left">
 						    			<label class="title">ត្រូវជា</label> : <label class="value"><?php echo $rs['guarantor_with'];?></label> <label class="title">ប្រភេទឯកសារ</label> : <label class="value"><?php echo $rs['guarantor_nationid'];?></label> <label class="title">លេខសម្គាល់</label> : <label class="value"><?php echo $rs['guarantor_nationid'];?></label> 

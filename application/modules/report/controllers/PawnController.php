@@ -82,6 +82,7 @@ function rptPaymentAction(){
 			'end_date'=>date('Y-m-d'));
 	}
 	$this->view->loantotalcollect_list =$rs=$db->getALLLoanPayment($search);
+	$this->view->LoanFee_list =$db->getALLLFee($search);
 	$this->view->list_end_date = $search;
 	
 	$key = new Application_Model_DbTable_DbKeycode();

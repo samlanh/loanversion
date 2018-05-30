@@ -44,6 +44,11 @@
      dijit.byId('to_co').focus();
      return false;
    	}
+	if(dijit.byId('formc_co').get('value')== dijit.byId('to_co').get('value')){
+		alert("can not transfer the same co");
+		dijit.byId('to_co').focus();
+		return false;
+	}
     dijit.byId("btn_save").set("disabled",true);
     dijit.byId("btn_save_close").set("disabled",true);
     return true;
@@ -58,7 +63,7 @@
 		<td width="33%;" valign="top">
 		<fieldset>
 		     <legend align="center"><strong><?php echo $tr->translate('BRANCH_INFO');?></strong></legend>
-			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+			<table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="10"  >
 			    <tr>
 					<td><?php echo $tr->translate("BRANCH_NAME")?></td>
 					<td><?php  echo $frm->getElement('branch_name');?></td>
@@ -81,7 +86,7 @@
 		<td width="33%;" valign="top">
 		<fieldset>
 		     <legend align="center"><strong><?php echo $tr->translate('CO_INFO');?></strong></legend>
-			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="5"  >
+			 <table style="margin: 0 auto; width: 100%;text-align: left;" cellspacing="10"  >
 			 	<tr>
 					<td><?php echo $tr->translate("TO_CO")?></td>
 					<td><?php  echo $frm->getElement('to_co_code');?></td>
@@ -100,6 +105,17 @@
 				</tr>
 			</table>
 		</fieldset>
+		</td>
+		<td>
+			<fieldset style="min-height: 153px;background: #f3feff;">
+		        <legend style="text-align: center;"><strong>សម្គាល់</strong></legend>
+		        	<span>&nbsp;រាល់ទិ&#8203;ន្នន័យទាំងអស់នឹងត្រូវបានផ្ទេរពី COចាស់មក CO ថ្មីដូចជា ៖</span>
+	        		<ul style="padding-left:5px;">
+			        	<li>១. ប្រាក់បានបង់ពីមុន ទាំងអស់</li>
+			        	<li>២. កម្ចីដែលបានទំលាក់ទាំងអស់</li>
+			        	<li>៣. តារាងកាលវិភាគដែលត្រូវបង់ ទាំងអស់</li>
+		        	</ul>
+            </fieldset>
 		</td>
 	</tr>
 	<tr>

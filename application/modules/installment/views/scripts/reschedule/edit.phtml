@@ -571,9 +571,8 @@ require(["dojo/ready"], function(ready){
 	  });
 	
 	new dijit.form.FilteringSelect({
-	store: client_store,
-	autoComplete: true,
-	required: true,		           
+	store: client_store,autoComplete: false,
+queryExpr: "*${0}*",		           
 	name: "member",
 	id: "member",
 	searchAttr: "name",

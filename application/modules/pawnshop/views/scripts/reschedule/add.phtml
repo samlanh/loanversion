@@ -810,9 +810,8 @@ require(["dojo/ready"], function(ready){
 	}, "customer_code");
 
 	new dijit.form.FilteringSelect({
-		store: product_store,
-		autoComplete: true,            
-		required: true,		           
+		store: product_store,autoComplete: false,
+queryExpr: "*${0}*",		           
 		name: "product_id",
 		id: "product_id",
 		searchAttr: "name",

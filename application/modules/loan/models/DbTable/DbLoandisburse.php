@@ -42,7 +42,7 @@ class Loan_Model_DbTable_DbLoandisburse extends Zend_Db_Table_Abstract
   	    (SELECT payment_nameen FROM `ln_payment_method` WHERE id = l.payment_method LIMIT 1) AS payment_method,
   	    CONCAT( l.total_duration,' ',(SELECT name_en FROM `ln_view` WHERE TYPE = 14 AND key_code =l.pay_term )),
         (SELECT zone_name FROM `ln_zone` WHERE zone_id=l.zone_id LIMIT 1) AS zone_name,
-        (SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_name,
+        (SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_name,
          l.status  FROM `ln_loan` AS l
 				WHERE l.status=1 AND loan_type =1 ";
     	if(!empty($search['adv_search'])){
@@ -96,7 +96,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
 	  		(l.loan_amount) AS total_capital,l.interest_rate,l.payment_method,
 	    	l.time_collect,
 	    	l.zone_id,
-	    	(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
+	    	(SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_enname,
 	    	l.status AS str ,l.status FROM `ln_loan` AS l
 			WHERE l.loan_type = $loan_type AND l.status=1 AND is_badloan=0 ";
     	if($is_newschedule!=null){
@@ -112,7 +112,7 @@ function getTranLoanByIdWithBranch($id,$loan_type =1,$is_newschedule=null){//gro
     	,(SELECT branch_nameen FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch_name
     	,l.level,
     	(SELECT name_kh FROM `ln_view` WHERE STATUS =1 AND TYPE=24 AND key_code=l.for_loantype) AS for_loantype
-    	,(SELECT co_firstname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_firstname
+    	,(SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_firstname
     	,(SELECT CONCAT(zone_name,'-',zone_num)AS dd FROM `ln_zone` WHERE zone_id = l.zone_id ) AS zone_name
     	,(SELECT name_en FROM `ln_view` WHERE STATUS =1 AND TYPE=14 AND key_code=l.pay_term) AS pay_term
     	,(SELECT name_en FROM `ln_view` WHERE STATUS =1 AND TYPE=14 AND key_code=l.collect_typeterm) AS collect_typeterm

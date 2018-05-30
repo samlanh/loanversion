@@ -10,21 +10,19 @@ fieldset{  background:none;}
 .red{ color: red; padding-left:5px;}
 </style>
 <script>
-		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dijit/Dialog"]);
-   </script>
+	require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dijit/Dialog"]);
+</script>
 <script type="text/javascript">
-	
 	dojo.require("dojo.NodeList-manipulate");
 	dojo.require("dijit.Dialog");
 	dojo.require("dojo.data.ItemFileWriteStore");  
-	
 	var pro_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->product));?> );
-	var pro_cate_store  = getDataStorefromJSON('id','name',<?php print_r(Zend_Json::encode($this->cat_rows));?> );
 	var branch_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->bran_name));?> );
 	dojo.ready(function(){ 
 		new dijit.form.FilteringSelect({
 			store: pro_store,
-			autoComplete: true,                        
+			autoComplete: false,
+			queryExpr: "*${0}*",                      
 			id: "pro_id",
 			name: "pro_id",  
 			style:'height:40px !important',         
@@ -43,6 +41,7 @@ fieldset{  background:none;}
 						dijit.byId("branch").focus();
 					}
 				}else{
+					if(pro_id==''){return false;}
 					addRow();
 				}
 			}
@@ -50,8 +49,8 @@ fieldset{  background:none;}
 		
 		new dijit.form.FilteringSelect({
 		store: branch_store,
-		autoComplete: true,                        
-		required: true,
+		autoComplete: false,
+		queryExpr: "*${0}*",
 		id: "branch",
 		name: "branch",           
 		class: "fullside", 
@@ -64,22 +63,6 @@ fieldset{  background:none;}
 			}
 		}, "branch");
 
-		new dijit.form.FilteringSelect({
-			store: pro_cate_store,
-			autoComplete: true,                        
-			required: true,                      
-		    id: "category_id",
-		    name: "category_id",  
-		    tabindex: "1",         
-		    class: 'fullside',  
-		    placeHolder:"<?php echo $tr->translate("SELECT_CATEGORY");?>​", 
-		    onChange: function() {          
-		    	category_id = dijit.byId('category_id').get('value');
-			    if(category_id==-1){
-			   		dijit.byId("popup_pro_cate").show();
-			    }
-		   }
-		}, "category_id");
 		isNewCustomer();
 	});	
 </script>
@@ -115,14 +98,13 @@ fieldset{  background:none;}
 							   			<input type="text" dojoType="dijit.form.ValidationTextBox" name="supplier_name"  id="supplier_name" value="" class="fullside" required="required">
 							   		</span>
 							   		<span id="old_cu">
-							   			<select dojoType='dijit.form.FilteringSelect'  id="sup_id" name="sup_id" onChange="getSuplierInfo();" class="fullside" required="false"​​  placeholder="ជ្រើសរើស ឈ្មោះអ្នកផ្គត់ផ្គង់">
+							   			<select dojoType='dijit.form.FilteringSelect' autoComplete="false" queryExpr="*${0}*", id="sup_id" name="sup_id" onChange="getSuplierInfo();" class="fullside" required="false"​​  placeholder="ជ្រើសរើស ឈ្មោះអ្នកផ្គត់ផ្គង់">
 								   			<option></option>
 								   			<?php if(!empty($this->sup_ids)) foreach($this->sup_ids As $rs_sup){?>
 								   			<option value="<?php echo $rs_sup['id'];?>"><?php echo $rs_sup['sup_name'];?></option>
 								   			<?php }?>
 							   			</select>
 							   		</span>
-							   		
 							   	</td>
 							</tr>
 							<tr>
@@ -190,99 +172,7 @@ fieldset{  background:none;}
 		  </tr>
 		</table>
 </form>
-<div class="dijitHidden">
-	<div data-dojo-type="dijit.Dialog" data-dojo-type="dijit.Dialog" id="pop_product" >
-		<form id='frm_product' dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-		<table  cellspacing="10" style="margin: 0 auto; width: 100%;">
-		<tr>
-			<td>
-			<fieldset>
-				<legend align="center"><strong><?php echo $tr->translate("ADD_PRODUCT");?></strong></legend>
-				<table style="margin: 0 auto; width: 100%;padding:10px;" cellspacing="7" >
-					<tr>
-						<td style="width: 160px"><?php echo $tr->translate("PRODUCT_NAME");?></td>
-						<td width="200px" ><input dojoType="dijit.form.ValidationTextBox"  class="fullside" id="product_name" value="" name="product_name"  type="text"​​ required="required"></td>
-						<td style="width: 160px"><?php echo $tr->translate("PRODUCT_CODE");?></td>
-						<td width="200px" ><input dojoType="dijit.form.TextBox"  class="fullside" id="product_code" value="<?php echo $this->pro_code;?>" name="product_code"  type="text"></td>
-					</tr>
-					<tr>
-						<td ><?php echo $tr->translate("PRODUCT_CATEGORY");?></td>
-						<td>
-							<input id="category_id" />
-						</td>
-						<td style="width: 160px"><?php echo $tr->translate("SELL_PRICE");?></td>
-						<td ><input dojoType="dijit.form.NumberTextBox"  class="fullside" id="pro_price" value="0" name="pro_price"  type="text" required="required"></td>
-					</tr>
-					<tr>
-						<td><?php echo $tr->translate("TYPE");?></td>
-						<td >
-							<select dojoType="dijit.form.FilteringSelect"   class="fullside" id="pro_type" name="pro_type" type="text">								
-								<option value="1" ><?php echo $tr->translate("Cut Stock");?></option>
-								<option value="2" ><?php echo $tr->translate("Cut Stock Later");?></option>
-							</select>
-						</td>
-						<td style="width: 160px"><?php echo $tr->translate("UNIT_COST");?></td>
-						<td ><input dojoType="dijit.form.NumberTextBox"  class="fullside" id="cost" value="0" name="cost"  type="text" required="required"></td>
-					</tr>
-					<tr>
-						<td><?php echo $tr->translate("DESCRIPTION");?></td>
-						<td >
-							<textarea class="fullside" tabindex="8" style=" height: 40px !important;" dojotype="" id="descript" name="descript"></textarea>
-						</td>
-						
-						<td style="width: 160px"><?php echo $tr->translate("STATUS");?></td>
-						<td>
-							<select dojoType="dijit.form.FilteringSelect"   class="fullside" id="p_status" name="p_status" type="text">								
-									<option value="1" ><?php echo $tr->translate("ACTIVE");?></option>
-									<option value="0" ><?php echo $tr->translate("DEACTIVE");?></option>
-							</select>
-						</td>
-						<input class="fullside" id="location_id" value="" name="location_id"  type="hidden" required="required">
-					</tr>
-					<tr>
-						<td colspan="4" align="center" style="padding-left:40px;">
-							<input iconClass="dijitIconClear" type="reset" value="clear" label="<?php echo $tr->translate('CLEAR');?>" dojoType="dijit.form.Button"/>
-							<input type="button" value="save_close" name="save_close" label="<?php echo $tr->translate('SAVE_CLOSE');?>" dojoType="dijit.form.Button" 
-								onclick="addNewProduct();" iconClass="dijitEditorIcon dijitEditorIconSave" />
-						</td>
-					</tr>
-				</table>	
-			</fieldset>		
-			</td>
-		</tr>
-	</table>
-		
-		</form>
-	</div>
-</div>
-<div class="dijitHidden">
-	<div data-dojo-type="dijit.Dialog" style="width:30%;" id="popup_pro_cate" >
-		<form style="background-color: buttonface; " id='frm_add_pro_cate' dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
-			<table cellspacing="10" width="100%" style="margin: 0 auto;">
-				<tr>
-					<td>
-						<fieldset style="background-color: buttonface;">
-						<legend align="center" ><?php echo $tr->translate("Add Product Category");?></legend>
-						<table style="margin: 0 auto; width: 95%;" cellspacing="5">
-							<tr>
-								<td style="width:100px"><?php echo $tr->translate("Name")?></td>
-								<td><input class="fullside"  dojoType="dijit.form.ValidationTextBox" name="title" id="title" type="text" required="required" /></td>
-							</tr>
-							<tr>
-								<td colspan="2" align="center">
-									<input iconClass="dijitIconUndo" type="button" value="close" label="Close" dojoType="dijit.form.Button" onclick="hideDialog();"/>
-									<input type="button" value="save" name="save" label="Save" dojoType="dijit.form.Button" 
-										iconClass="dijitEditorIcon dijitEditorIconSave" onclick="addProCate();"/>
-								</td>
-							</tr>
-						</table>
-						</fieldset>
-					</td>
-				</tr>
-			</table>
-		</form>
-	</div>
-</div>
+
 <script type="text/javascript">
 var template = '';
 var product_name = '<?php //echo $this->product; ?>';
@@ -310,7 +200,6 @@ function addRow() {
 			template+='<td width="47px" align="center"><img onclick="deleteRecord('+col+')" src="<?php echo $this->baseUrl();?>/images/Delete_16.png"></td>';
 			template+='<td width="15px" align="center"  >'+no+'</td>';
 			template+='<td width="20%">&nbsp;'+label_proname+'<input type="hidden" dojoType="dijit.form.TextBox" required="true" id="product_name_'+col+'" name="product_name_'+col+'" value="'+pro_id+'" /></td>';
-			//template+='<td><select style="width:100%;"  dojoType="dijit.form.FilteringSelect" id="product_name_'+col+'" name="product_name_'+col+'" onChange="sumAmountDue();">'+''+'</select></td>';			
 
 			template+='<td> <input type="text" required="true" name="qty_'+col+'" id="qty_'+col+'" dojoType="dijit.form.NumberTextBox" style="width:100%;" onKeyup="getTotalePricePro('+col+');sumAmountDue();"/></td>';
 			template+='<td> <input type="text" required="true" name="cost_'+col+'" id="cost_'+col+'" dojoType="dijit.form.NumberTextBox" style="width:100%;" onKeyup="getTotalePricePro('+col+');sumAmountDue();"/></td>';
@@ -366,7 +255,6 @@ function deleteRecord(index) {
 }
  
 function getTotalePricePro(row){
-	
 	qty_id=dijit.byId('qty_'+row).get('value');
 	cost_id=dijit.byId('cost_'+row).get('value');
 	amount=qty_id*cost_id;
@@ -416,50 +304,6 @@ function addNewProduct(){
 				}
 			});
 		}
-}
-var url_add_pro_cate = '<?php echo $this->url(array("module"=>"accounting","controller"=>"Product","action"=>"add-new-pro-cate")); ?>';
-function addProCate(){
-	if(dijit.byId('frm_add_pro_cate').validate()){
-	dojo.xhrPost({
-		url:url_add_pro_cate,
-		form: dojo.byId("frm_add_pro_cate"),
-		handleAs:"json",
-		load: function(data) {
-			var Itemmake = { 
-				     id: data,
-					 name: dijit.byId('title').get('value')
-				};
-		 	addDataToSelectbox(dijit.byId('category_id'), pro_cate_store, Itemmake, data);
-		    dijit.byId('frm_add_pro_cate').reset();
-		    dijit.byId("popup_pro_cate").hide();
-		},
-		error: function(err) {
-			alert(err);
-		}
-	});
-	}
-}
-var b_store  = getDataStorefromJSON('id','name',<?php print_r(Zend_Json::encode($this->branchopt));?> );
-var url_addbranch = '<?php echo $this->url(array('module'=>'global','controller'=>'branch','action'=>'addbranch')); ?>';
-	function addBranch(){
-		if(dijit.byId('frm_addbranch').validate()){
-		dojo.xhrPost({
-				url:url_addbranch,
-				form: dojo.byId("frm_addbranch"),
-				handleAs:"json",
-				load: function(data) {
-					var Itemmake = { 
-							 id: data,
-							 name: dijit.byId('branch_nameen').get('value')
-						   };
-			   addDataToSelectbox(dijit.byId('branch'), b_store, Itemmake, data);
-			   dijit.byId('frm_addbranch').reset();
-			   dijit.byId("popup_add_branch").hide();	
-			},
-			error: function(err) {
-			}
-	});
-}
 }
 function hideDialog(){
 	dijit.byId('frm_addbranch').reset();

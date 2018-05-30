@@ -59,7 +59,7 @@ class Report_Model_DbTable_DbloanCollect extends Zend_Db_Table_Abstract
 		try{
 			$sql="SELECT 
 					  b.`branch_namekh`,
-					  CONCAT(co.`co_code`, '-',co.`co_khname`,',',co.`co_firstname`,' ',co.`co_lastname`) AS co_name,
+					  CONCAT(co.`co_code`, '-',co.`co_khname`) AS co_name,
 					  c.`receipt_no`,
 					  c.`date_input`,
 					  c.`principal_amount`,

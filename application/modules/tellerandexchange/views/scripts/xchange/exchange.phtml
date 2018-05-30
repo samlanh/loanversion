@@ -539,8 +539,8 @@
 		 
 		new dijit.form.FilteringSelect({
 	        store: dojo.data.ObjectStore({objectStore: curency_type_data}),
-	        autoComplete: true,           
-	        required: true,
+			autoComplete: false,
+			queryExpr: "*${0}*",
 	        id: "to_amount_type",
 	        name: "to_amount_type",
 	        class: 'fullside',
@@ -589,7 +589,8 @@
 	    
 		new dijit.form.FilteringSelect({
 	        store: dojo.data.ObjectStore({objectStore: curency_type_data}),
-	        autoComplete: true,           
+	        autoComplete: false,
+		    queryExpr: "*${0}*",    
 	        required: true,
 	        id: "from_amount_type",
 	        name: "from_amount_type",

@@ -417,9 +417,8 @@
 		 });
 		 
 		new dijit.form.FilteringSelect({
-	        store: dojo.data.ObjectStore({objectStore: curency_type_data}),
-	        autoComplete: true,           
-	        required: true,
+	        store: dojo.data.ObjectStore({objectStore: curency_type_data}),autoComplete: false,
+queryExpr: "*${0}*",
 	        id: "to_amount_type",
 	        name: "to_amount_type",
 	        class: 'fullside',
@@ -469,9 +468,8 @@
 	    }, "to_amount_type");
 	    
 		new dijit.form.FilteringSelect({
-	        store: dojo.data.ObjectStore({objectStore: curency_type_data}),
-	        autoComplete: true,           
-	        required: true,
+	        store: dojo.data.ObjectStore({objectStore: curency_type_data}),autoComplete: false,
+queryExpr: "*${0}*",
 	        id: "from_amount_type",
 	        name: "from_amount_type",
 	        class: 'fullside',

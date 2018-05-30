@@ -172,7 +172,6 @@ dojo.ready(function(){
 	});
 	new dijit.form.FilteringSelect({
 	store: dojo.data.ObjectStore({objectStore: client_data}),
-	autoComplete: true,
 	query: {
 		branch_id: "<?php echo $this->branch_id;?>"
 	},            
@@ -194,7 +193,6 @@ dojo.ready(function(){
 	});
 	new dijit.form.FilteringSelect({
 	store: dojo.data.ObjectStore({objectStore: client_number}),
-	autoComplete: true,
 	query: {
 		branch_id: "<?php echo $this->branch_id;?>"
 	},            		           

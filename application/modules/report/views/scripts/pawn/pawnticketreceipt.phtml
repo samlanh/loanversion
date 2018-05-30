@@ -10,7 +10,12 @@ if ($pawnshop['curr_type']==2){
 }else if ($pawnshop['curr_type']==3){
 	$curType="បាត";
 }
-$interetPayment = ($pawnshop['total_capital'] * $pawnshop['interest_rate'])/100;
+	if($pawnshop['interest_type']==1){//percent
+		$interetPayment = ($pawnshop['total_capital'] * $pawnshop['interest_rate'])/100;
+	}else{
+		$interetPayment = $pawnshop['interest_rate'];
+	}
+	
 ?>
 <title><?php echo $tr->translate("PAWN TICKET RECEIPT");?></title>
 <script>
@@ -104,7 +109,7 @@ $interetPayment = ($pawnshop['total_capital'] * $pawnshop['interest_rate'])/100;
 													</tr>
 													<tr>
 														<td>&nbsp;អាត្រាការប្រាក់</td>
-														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_interest_rate"><?php echo $pawnshop['interest_rate'];?></label></strong></td>
+														<td class="lblvalue one khmerbold"><strong>&nbsp;<label id="lb_interest_rate"><?php echo ($pawnshop['interest_type']==2)?"ការប្រាក់ថេរ":$pawnshop['interest_rate'];?></label></strong></td>
 													</tr>
 													<tr>
 														<td>&nbsp;<strong>ការប្រាក់ត្រូវបង់</strong></td>

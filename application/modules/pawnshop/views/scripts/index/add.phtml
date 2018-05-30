@@ -835,7 +835,8 @@ require(["dojo/ready"], function(ready){
 	});
 	new dijit.form.FilteringSelect({
 	store: client_store,
-	autoComplete: true,
+	queryExpr: "*${0}*",
+	autoComplete: false,                     
 	query: {
 		branch_id: "-1"
 	},            
@@ -857,7 +858,8 @@ require(["dojo/ready"], function(ready){
 
 	new dijit.form.FilteringSelect({
 	store: client_number_store,
-	autoComplete: true,
+	queryExpr: "*${0}*",
+	autoComplete: false,                     
 	required: false,		           
 	name: "customer_code",
 	id: "customer_code",
@@ -874,9 +876,8 @@ require(["dojo/ready"], function(ready){
 	}, "customer_code");
 
 	new dijit.form.FilteringSelect({
-		store: product_store,
-		autoComplete: true,            
-		required: true,		           
+		store: product_store,autoComplete: false,
+queryExpr: "*${0}*",		           
 		name: "product_id",
 		id: "product_id",
 		searchAttr: "name",

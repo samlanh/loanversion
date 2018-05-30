@@ -24,9 +24,9 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 			  `c`.`phone` AS `phone`,
 			  `c`.`name_kh` AS `client_khname`,
 			  (SELECT
-			     `db_loannewversion`.`ln_branch`.`branch_namekh`
-			   FROM `db_loannewversion`.`ln_branch`
-			   WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
+			     `ln_branch`.`branch_namekh`
+			   FROM `ln_branch`
+			   WHERE (`ln_branch`.`br_id` = `l`.`branch_id`)
 			   LIMIT 1) AS `branch_name`,
 			  (SELECT
 			     `ln_currency`.`symbol`
@@ -44,7 +44,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 			   est_amount
 			 
 			FROM 
-				`db_loannewversion`.`ln_pawnshop` AS  `l`,
+				`ln_pawnshop` AS  `l`,
 				ln_clientsaving As c
 			WHERE (`l`.`status` = 1)
 			      AND `c`.`client_id` = `l`.`customer_id` ";
@@ -201,9 +201,9 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 			  `c`.`name_en`  AS `client_name`,
 			  `c`.`name_kh` AS `client_khname`,
 			  (SELECT
-			     `db_loannewversion`.`ln_branch`.`branch_namekh`
-			   FROM `db_loannewversion`.`ln_branch`
-			   WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
+			     `ln_branch`.`branch_namekh`
+			   FROM `ln_branch`
+			   WHERE (`ln_branch`.`br_id` = `l`.`branch_id`)
 			   LIMIT 1) AS `branch_name`,
 			  (SELECT
 			     `ln_currency`.`symbol`
@@ -226,7 +226,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 			          AND `l`.`id`=ln_pawn_receipt_money.loan_id)) AS `total_principaid`
 			 
 			FROM 
-				`db_loannewversion`.`ln_pawnshop` AS  `l`,
+				`ln_pawnshop` AS  `l`,
 				ln_clientsaving AS c
 			WHERE 
 				(`l`.`status` = 1)
@@ -815,7 +815,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				  l.`loan_number`,
 				  (SELECT c.`phone` FROM ln_client AS c WHERE c.`client_id`=l.`customer_id`) AS phone,
 				  (SELECT b.`branch_namekh` FROM `ln_branch` AS b WHERE b.`br_id`=crm.`branch_id`) AS branch,
-				  (SELECT CONCAT(c.`co_code`,'-',c.`co_khname`,'-',c.`co_firstname`,' ',c.`co_lastname`) FROM ln_co AS c WHERE c.`co_id`=crm.`co_id`) AS co_name,
+				  (SELECT CONCAT(c.`co_code`,'-',c.`co_khname`) FROM ln_co AS c WHERE c.`co_id`=crm.`co_id`) AS co_name,
 				  (SELECT c.`client_number` FROM ln_client AS c WHERE c.`client_id`=l.`customer_id`) AS client_code,
 				  (SELECT c.`name_kh` FROM ln_client AS c WHERE c.`client_id`=l.`customer_id`) AS client_name,
 				  l.`loan_type`,
@@ -927,17 +927,15 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       	$end_date = $search['end_date'];
     		
       	$db = $this->getAdapter();
-      	$sql = "SELECT  * FROM 
-      				v_loanreleased WHERE status = 1 ";
+      	$sql = "SELECT  SUM(admin_fee) AS admin_fee,
+						currency_type
+      					 FROM 
+      				ln_pawnshop WHERE status = 1 AND (admin_fee>0)";
 		$where ='';
       	if(!empty($search['advance_search'])){
       		$s_where = array();
       		$s_search = addslashes(trim($search['advance_search']));
       		$s_where[] = " loan_number LIKE '%{$s_search}%'";
-      		$s_where[] = " client_name LIKE '%{$s_search}%'";
-      		$s_where[] = " total_capital LIKE '%{$s_search}%'";
-      		$s_where[] = " admin_fee LIKE '%{$s_search}%'";
-      		$s_where[] = " other_fee LIKE '%{$s_search}%'";
       		$where .=' AND ('.implode(' OR ',$s_where).')';
       	}
       	if($search['branch_id']>0){
@@ -946,10 +944,11 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
       	if(!empty($search['start_date']) or !empty($search['end_date'])){
       		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
       	}
+      	
       	$dbp = new Application_Model_DbTable_DbGlobal();
       	$where.=$dbp->getAccessPermission('branch_id');
       	
-      	$order = " GROUP BY curr_type ORDER BY currency_type";
+      	$order = " GROUP BY currency_type ORDER BY currency_type";
       	return $db->fetchAll($sql.$where.$order);
       }
 public function getALLLoanPayoff($search=null){
@@ -1195,9 +1194,9 @@ public function getALLWritoff($search=null){
 				`c`.`phone` AS `phone`,
 				`c`.`name_kh` AS `client_khname`,
 				(SELECT
-				`db_loannewversion`.`ln_branch`.`branch_namekh`
-				FROM `db_loannewversion`.`ln_branch`
-				WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
+				`ln_branch`.`branch_namekh`
+				FROM `ln_branch`
+				WHERE (`ln_branch`.`br_id` = `l`.`branch_id`)
 				LIMIT 1) AS `branch_name`,
 				(SELECT
 				`ln_currency`.`symbol` FROM `ln_currency`
@@ -1219,7 +1218,7 @@ public function getALLWritoff($search=null){
 					d.date_dach,
 					d.note as note_dach	
 				FROM
-				`db_loannewversion`.`ln_pawnshop` AS  `l`,
+				`ln_pawnshop` AS  `l`,
 				ln_clientsaving AS c,
 				`ln_pawnshopdach` AS d
 				WHERE 
@@ -2390,6 +2389,7 @@ AND cl.client_id = $client_id )";
       	`l`.`customer_id`    AS `client_id`,
       	`l`.`release_amount`    AS `total_capital`,
       	`l`.`interest_rate`  AS `interest_rate`,
+      	 l.interest_type,
       	`l`.`level`          AS `loan_level`,
       	`l`.`currency_type`  AS `curr_type`,
       	`l`.`is_completed`   AS `is_completed`,
@@ -2403,24 +2403,24 @@ AND cl.client_id = $client_id )";
       	`c`.`phone` AS `phone`,
       	`c`.`name_kh` AS `client_khname`,
       	(SELECT
-      	`db_loannewversion`.`ln_branch`.`branch_namekh`
-      	FROM `db_loannewversion`.`ln_branch`
-      	WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
+      	`ln_branch`.`branch_namekh`
+      	FROM `ln_branch`
+      	WHERE (`ln_branch`.`br_id` = `l`.`branch_id`)
       	LIMIT 1) AS `branch_name`,
       	(SELECT
-      	`db_loannewversion`.`ln_branch`.`branch_nameen`
-      	FROM `db_loannewversion`.`ln_branch`
-      	WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
+      	`ln_branch`.`branch_nameen`
+      	FROM `ln_branch`
+      	WHERE (`ln_branch`.`br_id` = `l`.`branch_id`)
       	LIMIT 1) AS `branch_nameen`,
       	(SELECT
-      	`db_loannewversion`.`ln_branch`.`br_address`
-      	FROM `db_loannewversion`.`ln_branch`
-      	WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
+      	`ln_branch`.`br_address`
+      	FROM `ln_branch`
+      	WHERE (`ln_branch`.`br_id` = `l`.`branch_id`)
       	LIMIT 1) AS `br_address`,
       	(SELECT
-      	`db_loannewversion`.`ln_branch`.`branch_tel`
-      	FROM `db_loannewversion`.`ln_branch`
-      	WHERE (`db_loannewversion`.`ln_branch`.`br_id` = `l`.`branch_id`)
+      	`ln_branch`.`branch_tel`
+      	FROM `ln_branch`
+      	WHERE (`ln_branch`.`br_id` = `l`.`branch_id`)
       	LIMIT 1) AS `branch_tel`,
       	(SELECT
       	`ln_currency`.`symbol`
@@ -2439,7 +2439,7 @@ AND cl.client_id = $client_id )";
       	(SELECT CONCAT(u.last_name,' ',u.first_name) FROM `rms_users` AS u WHERE u.id = l.`user_id` LIMIT 1) AS user_name
       
       	FROM
-      	`db_loannewversion`.`ln_pawnshop` AS  `l`,
+      	`ln_pawnshop` AS  `l`,
       	ln_clientsaving As c
       	WHERE (`l`.`status` = 1)
       	AND `c`.`client_id` = `l`.`customer_id` AND `l`.`id` = $id";

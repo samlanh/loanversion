@@ -64,31 +64,26 @@ table { page-break-inside:auto }
         </td>
     </tr>
     <tr>
-    	<td id="exportExcel"><strong style="font-family: 'Khmer OS Content';">តារាងទំលាក់ទុនប្រចាំថ្ងៃ</strong>
+    	<td id="exportExcel">
              <?php $r1=0; $r2=0;$d1=0;$d2=0;$b1=0;$b2=0;
 				$disburse_dollar = 0;$disburse_reil = 0;$disburse_bath = 0;
 				$saving_amountr = 0;$saving_amountd = 0;$saving_amountb = 0;
              ?>
-            <?php if(!empty($this->LoanFee_list)){?><!-- កុំលុបព្រោះទុកបូកជាមួយនិងថ្លៃសេវាពេលចេញកម្ចី -->
+            	<!-- កុំលុបព្រោះទុកបូកជាមួយនិងថ្លៃសេវាពេលចេញកម្ចី -->
                 <?php if(!empty($this->LoanFee_list)) foreach ($this->LoanFee_list as $key => $row){ ?>
                 <?php 
-                if($row['curr_type']==1){
-		               		$r1 = $r1+$row['admin_fee'];
-		               		$r2 = $r2+$row['other_fee'];
-// 		               		$disburse_reil=$disburse_reil+$row['total_capital'];
-		               }elseif($row['curr_type']==2){
-							$d1 = $d1+$row['admin_fee'];
-							$d2 = $d2+$row['other_fee'];
-// 							$disburse_dollar=$disburse_dollar+$row['total_capital'];
-		               }else{
-		               		$b1 = $b1+$row['admin_fee'];
-							$b2 = $b2+$row['other_fee'];
-// 							$disburse_bath=$disburse_bath+$row['total_capital'];
-		               }
+	                if($row['curr_type']==1){
+		               	$r1 = $r1+$row['admin_fee'];
+		               	$r2 = $r2+$row['other_fee'];
+	               }elseif($row['curr_type']==2){
+						$d1 = $d1+$row['admin_fee'];
+						$d2 = $d2+$row['other_fee'];
+	               }else{
+	               		$b1 = $b1+$row['admin_fee'];
+						$b2 = $b2+$row['other_fee'];
+	               }
 		         ?>
                 <?php }?>
-            
-            <?php }?>
             <strong style="font-family: 'Khmer OS Content';">តារាងប្រមូលប្រាក់ប្រចាំថ្ងៃ</strong> 
             <table  width="100%" border="1" style="border-collapse:collapse; border:1px solid #000; " cellspacing="0">
 	                <thead>
@@ -106,23 +101,21 @@ table { page-break-inside:auto }
 	                    <th rowspan="2" align="center"><?php echo $tr->translate("INPUT_DATE");?></th>
 	                    <th rowspan="2" align="center"><?php echo $tr->translate("RECIEPT_NO");?></th>
 	                    <th rowspan="2" align="center"><?php echo $tr->translate("PAYMENT_OPTION");?></th>
-	                    <!-- <td rowspan="2"><?php //echo $tr->translate("BALANCE");?></td>-->
 	                </tr>
-					</thead>
 	                <tr class="style" style="white-space: nowrap;text-align: center; background:#ccd9ff; ">
 	                	<th><?php echo $tr->translate("PAID_PRINCIPAL");?></th>  
-	                	<?php if($level==1){?>                 
 	                    <th><?php echo $tr->translate("INTEREST");?></th>
-	                    <?php }?>
 	                    <th><?php echo $tr->translate("PENALIZE AMOUNT");?></th>
 	                    <th><?php echo $tr->translate("SERVICE CHARGE");?></th>	
 	                    <th><?php echo $tr->translate("TOTAL");?></th>
 	                </tr>
-                <?php $amt_r1 = 0; $amn_r2 = 0; $amn_r3 = 0;$amt_r4 = 0;$amn_r5 = 0;
-                	  $amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;
-                	 $amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;
-                	 $i=1;$oldloan_number='';
-                	 $total_d=0;$total_b=0;$total_r=0;
+	                </thead>
+                <?php 
+                    $amt_r1 = 0; $amn_r2 = 0; $amn_r3 = 0;$amt_r4 = 0;$amn_r5 = 0;
+                	$amt_d1 = 0;$amt_d2 = 0;$amt_d3 = 0;$amt_d4 = 0;$amt_d5 = 0;
+                	$amn_b1 = 0; $amn_b2 = 0; $amn_b3 = 0; $amn_b4 = 0;$amn_b5 = 0;
+                	$i=1;$oldloan_number='';
+                	$total_d=0;$total_b=0;$total_r=0;
                 ?>
                 <?php $is_set =0; if(!empty($this->loantotalcollect_list)) foreach ($this->loantotalcollect_list as $index => $rs){ ?>
                 

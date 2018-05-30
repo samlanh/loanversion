@@ -115,7 +115,7 @@ function rptLoanDisburseAction(){//release all loan
   	$this->view->date_show=$search['end_date'];
   	$this->view->list_end_date=$search;
   	$row = $dbs->getAllLnClient($search);
-  	$this->view->tran_schedule=$row;
+//   	$this->view->tran_schedule=$row;
   	
   	$this->view->loanlate_list =$db->getALLLoanlate($search);
   	 
