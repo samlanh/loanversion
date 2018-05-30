@@ -80,7 +80,7 @@ th{padding: 5px;}
 					<tr>
                 </thead>
                 <tr class="styleover" >
-               		<td>ចំណូល/Revenue</td>
+               		<td><strong>ចំណូល/Revenue</strong></td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;&nbsp;</td>
@@ -90,48 +90,76 @@ th{padding: 5px;}
                		<td>&nbsp;-&nbsp;ចំណូលពី ការប្រមូលការប្រាក់សរុប</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["interest_paidd"],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["interest_paidr"],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["interest_paidb"],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome["interest_paidr"],2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome["interest_paidb"],2);?></td>
                 </tr>
                  <tr class="styleover" >
                		<td>&nbsp;-&nbsp;ចំណូលពី ការផាកពិន័យសរុប</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["penalize_paidd"],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["penalize_paidr"],2);?></td>
-                	<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["penalize_paidb"],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome["penalize_paidr"],2);?></td>
+                	<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome["penalize_paidb"],2);?></td>
                 </tr>
                 <tr class="styleover" >
                		<td>&nbsp;-&nbsp;ចំណូលពី សេវាផ្សេងៗសរុប</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["service_paidd"],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["service_paidr"],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["service_paidb"],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome["service_paidr"],2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome["service_paidb"],2);?></td>
                 </tr>
                  <tr class="styleover" >
                		<td>&nbsp;-&nbsp;ចំណូលពី សេវារដ្ឋបាលសរុប</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["adminfee_d"]+$rsincome["other_feed"],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["adminfee_r"]+$rsincome["other_feer"],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome["adminfee_b"]+$rsincome["other_feeb"],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome["adminfee_r"]+$rsincome["other_feer"],2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome["adminfee_b"]+$rsincome["other_feeb"],2);?></td>
                 </tr>
                 <tr class="styleover" >
                		<td>&nbsp;-&nbsp;ចំណូលពី ផ្សេងៗសរុប</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['other_incomed'],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['other_incomer'],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['other_incomeb'],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['other_incomer'],2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['other_incomeb'],2);?></td>
+                </tr>
+                <tr class="styleover" >
+               		<td><strong>ចំណូលពីបញ្ចាំ</strong></td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;&nbsp;</td>
+                </tr>
+                <tr class="styleover" >
+               		<td>&nbsp;-&nbsp;ចំណូលពី ការប្រាក់សរុប</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['pawn_interestd'],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['pawn_interestr'],2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['pawn_interestb'],2);?></td>
+                </tr>
+                <tr class="styleover" >
+               		<td>&nbsp;-&nbsp;ចំណូលពី ការផាកពិន័យសរុប</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['pawn_penalized'],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['pawn_penalizer'],2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['pawn_penalizeb'],2);?></td>
+                </tr>
+                <tr class="styleover" >
+               		<td>&nbsp;-&nbsp;ចំណូលពី សេវារដ្ឋបាលសរុប</td>
+               		<td>&nbsp;&nbsp;</td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['pawn_servicefeed'],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['pawn_servicefeer'],2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['pawn_servicefeeb'],2);?></td>
                 </tr>
 				<tr class="styleover">
                		<td>&nbsp;&nbsp;<strong style="font-family:'Khmer MEF2';font-size: 16px;">ចំណូលសរុបរួមទាំងអស់</strong></td>
                		<td>&nbsp;&nbsp;</td>
                		<?php 
-	               		$incomed = $rsincome["interest_paidd"]+$rsincome["penalize_paidd"]+$rsincome["service_paidd"]+($rsincome["adminfee_d"]+$rsincome["other_feed"])+$rsincome['other_incomed'];
-	               		$incomer = $rsincome["interest_paidr"]+$rsincome["penalize_paidr"]+$rsincome["service_paidr"]+($rsincome["adminfee_r"]+$rsincome["other_feer"])+$rsincome['other_incomer'];
-	               		$incomeb = $rsincome["interest_paidb"]+$rsincome["penalize_paidb"]+$rsincome["service_paidb"]+($rsincome["adminfee_b"]+$rsincome["other_feeb"])+$rsincome['other_incomeb'];
+	               		$incomed = $rsincome["interest_paidd"]+$rsincome["penalize_paidd"]+$rsincome["service_paidd"]+($rsincome["adminfee_d"]+$rsincome["other_feed"])+$rsincome['other_incomed']+($rsincome['pawn_interestd']+$rsincome['pawn_penalized']+$rsincome['pawn_servicefeed']);
+	               		$incomer = $rsincome["interest_paidr"]+$rsincome["penalize_paidr"]+$rsincome["service_paidr"]+($rsincome["adminfee_r"]+$rsincome["other_feer"])+$rsincome['other_incomer']+($rsincome['pawn_interestr']+$rsincome['pawn_penalizer']+$rsincome['pawn_servicefeer']);
+	               		$incomeb = $rsincome["interest_paidb"]+$rsincome["penalize_paidb"]+$rsincome["service_paidb"]+($rsincome["adminfee_b"]+$rsincome["other_feeb"])+$rsincome['other_incomeb']+($rsincome['pawn_interestb']+$rsincome['pawn_penalizeb']+$rsincome['pawn_servicefeeb']);
                		?>
-               		<td><strong style="border-bottom: 1px double #000;font-family:'Arial'; ">&nbsp;$&nbsp;<?php echo number_format($incomed,2);?></strong></td>
-                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial'; ">&nbsp;$&nbsp;<?php echo number_format($incomer,2);?></strong></td>
-                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial'; ">&nbsp;$&nbsp;<?php echo number_format($incomeb,2);?></strong></td>
+               		<td><strong style="border-bottom: 1px double #000;font-family:'Arial','Khmer OS Battambang'; ">&nbsp;$&nbsp;<?php echo number_format($incomed,2);?></strong></td>
+                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial','Khmer OS Battambang'; ">&nbsp;៛&nbsp;<?php echo number_format($incomer,2);?></strong></td>
+                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial','Khmer OS Battambang'; ">&nbsp;฿&nbsp;<?php echo number_format($incomeb,2);?></strong></td>
                 </tr>
                  <tr class="styleover" >
                		<td>ចំណាយ/Expense</td>
@@ -144,22 +172,22 @@ th{padding: 5px;}
                		<td>&nbsp;-&nbsp;កម្ចីខូច/Loan Writeoff</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['badloan_d'],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['badloan_r'],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['badloan_b'],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['badloan_r'],2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['badloan_b'],2);?></td>
                 </tr>
                 <tr class="styleover" >
                		<td>&nbsp;-&nbsp;ចំណាយផ្សេងៗសរុប</td>
                		<td>&nbsp;&nbsp;</td>
                		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['expense_d'],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['expense_r'],2);?></td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['expense_b'],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['expense_r'],2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['expense_b'],2);?></td>
                 </tr>
                 <tr class="styleover">
                		<td>&nbsp;&nbsp;<strong style="font-family:'Khmer MEF2';font-size: 16px;">Net Income/Lost ចំណេញ/ខាត សរុប</strong></td>
                		<td>&nbsp;&nbsp;</td>
                		<td><strong style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;$&nbsp;<?php echo number_format($incomed-$rsincome['badloan_d']-$rsincome['expense_d'],2);?></strong></td>
-                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;$&nbsp;<?php echo number_format($incomer-$rsincome['badloan_r']-$rsincome['expense_r'],2);?></strong></td>
-                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;$&nbsp;<?php echo number_format($incomeb-$rsincome['badloan_b']-$rsincome['expense_b'],2);?></strong></td>
+                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial','Khmer OS Battambang';background:#ccc;padding:5px;">&nbsp;៛&nbsp;<?php echo number_format($incomer-$rsincome['badloan_r']-$rsincome['expense_r'],2);?></strong></td>
+                	<td><strong style="border-bottom: 1px double #000;font-family:'Arial';background:#ccc;padding:5px;">&nbsp;฿&nbsp;<?php echo number_format($incomeb-$rsincome['badloan_b']-$rsincome['expense_b'],2);?></strong></td>
                 </tr>
             </table>
             <br />

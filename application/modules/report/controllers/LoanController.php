@@ -962,6 +962,17 @@ function rptLoanTrasferzoneAction(){//release all loan
  			'badloan_r'=>0,
  			'badloan_b'=>0,
  			
+ 			//pawn income
+ 			'pawn_interestr'=>0,
+ 			'pawn_interestd'=>0,
+ 			'pawn_interestb'=>0,
+ 			'pawn_penalizer'=>0,
+ 			'pawn_penalized'=>0,
+ 			'pawn_penalizeb'=>0,
+ 			'pawn_servicefeer'=>0,
+ 			'pawn_servicefeed'=>0,
+ 			'pawn_servicefeeb'=>0,
+ 			
  		);
  	$incomecollect = $db->getLoanCollectIcome($search);
  	if(!empty($incomecollect)){
@@ -1008,6 +1019,23 @@ function rptLoanTrasferzoneAction(){//release all loan
  			}else{//bath
  				$income['other_incomeb']=$row['total_amount'];
  			}
+ 		}
+ 	}
+ 	//pawn income
+ 	$pawnshpincome = $db->incomePawnshop($search);
+ 	if (!empty($pawnshpincome)) foreach ($pawnshpincome as $pwin){
+ 		if($pwin['currency_type']==1){//riel
+ 			$income['pawn_interestr']=$pwin['total_interestpaid'];
+ 			$income['pawn_penalizer']=$pwin['total_penalizepaid'];
+ 			$income['pawn_servicefeer']=$pwin['total_servicepaid'];
+ 		}elseif($pwin['currency_type']==2){//dollar
+ 			$income['pawn_interestd']=$pwin['total_interestpaid'];
+ 			$income['pawn_penalized']=$pwin['total_penalizepaid'];
+ 			$income['pawn_servicefeed']=$pwin['total_servicepaid'];
+ 		}else{//bath
+ 			$income['pawn_interestb']=$pwin['total_interestpaid'];
+ 			$income['pawn_penalizeb']=$pwin['total_penalizepaid'];
+ 			$income['pawn_servicefeeb']=$pwin['total_servicepaid'];
  		}
  	}
  	

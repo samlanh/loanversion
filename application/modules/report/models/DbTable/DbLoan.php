@@ -2097,6 +2097,24 @@ AND cl.client_id = $client_id )";
       	FROM `v_xchange` AS v WHERE v.`id`=$id LIMIT 1";
       	return $db->fetchRow($sql);
       }	
-      
+      function incomePawnshop($search){
+      	$db = $this->getAdapter();
+      	$sql="SELECT
+			ROUND(SUM(r.`interest_paid`), 2)  AS total_interestpaid,
+			ROUND(SUM(r.`penalize_paid`), 2) AS total_penalizepaid,
+			ROUND(SUM(r.`service_paid`), 2) AS total_servicepaid,
+			r.`currency_type`
+			FROM `ln_pawn_receipt_money` AS r WHERE r.`status`=1
+			";
+      	$where="";
+      	if($search['currency_type']>0){
+      		$where.= " AND r.`currency_type` = ".$search['currency_type'];
+      	}
+      	if($search['branch_id']>0){
+      		$where.=" AND r.`branch_id`= ".$search['branch_id'];
+      	}
+      	$where.=" GROUP BY r.`currency_type`";
+      	return $db->fetchAll($sql.$where);
+      }
  }
 
