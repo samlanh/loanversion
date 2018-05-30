@@ -21,10 +21,10 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
 					pp.`loan_number`,
 					(SELECT c.`name_kh` FROM `ln_clientsaving` AS c WHERE c.`client_id`=cm.`client_id` AND client_type=1 LIMIT 1) AS client_name ,
 					cm.`receipt_no`,
-					cm.`principal_paid`,
-					cm.`interest_paid`,
-					cm.`penalize_paid`,
-					cm.`recieve_amount`,
+					CONCAT(cm.`principal_paid`,	(SELECT symbol FROM `ln_currency` WHERE id =cm.currency_type LIMIT 1)) as principal_paid,
+					CONCAT(cm.`interest_paid`,	(SELECT symbol FROM `ln_currency` WHERE id =cm.currency_type LIMIT 1)) as interest_paid,
+					CONCAT(cm.`penalize_paid`,	(SELECT symbol FROM `ln_currency` WHERE id =cm.currency_type LIMIT 1)) as penalize_paid,
+					CONCAT(cm.`recieve_amount`,	(SELECT symbol FROM `ln_currency` WHERE id =cm.currency_type LIMIT 1)) as recieve_amount,
 					cm.`date_pay`,
 					cm.`date_input`
 				FROM 

@@ -929,25 +929,41 @@ class Application_Model_DbTable_DbGlobal extends Zend_Db_Table_Abstract
  					$next_payment = date("Y-m-$default_day", strtotime("$next_payment $str_next"));//code here have problem
  				}
  			}else{//months
- 					if (date("m",strtotime($next_payment))==1){
- 						if ($default_day>28){
- 							$eses = date("Y",strtotime($next_payment));
- 							$eses = $eses."-02";
- 							$next_payment = date("Y-m-t",strtotime($eses));
- 						}else{
- 							$eses = date("Y",strtotime($next_payment));
- 							$eses = $eses."-02";
- 							$next_payment = date("Y-m-$default_day",strtotime($eses));
- 						}
+ 				if ($default_day==31){
+ 					$eses = date("Y-m",strtotime($next_payment));
+ 					if ($default_day!=date("d",strtotime($next_payment))){
+ 						$next_payment = date("Y-m-t",strtotime("$eses +0 month"));
  					}else{
- 						if ($default_day==31){
- 							$eses = date("Y",strtotime($next_payment));
- 							$eses = $eses."-".date("m",strtotime($next_payment));
- 							$next_payment = date("Y-m-t",strtotime("$eses +1 month"));
- 						}else{
- 							$next_payment = date("Y-m-$default_day",strtotime("$next_payment +1 month"));
- 						}
+ 						$next_payment = date("Y-m-t",strtotime("$eses +1 month"));
  					}
+ 				}else if ($default_day>28 AND date("m",strtotime($next_payment))==2){
+ 					$next_payment = date("Y-m-t",strtotime("$next_payment"));
+ 				}else{
+ 					if ($default_day!=date("d",strtotime($next_payment))){
+ 						$next_payment = date("Y-m-$default_day",strtotime("$next_payment +0 month"));
+ 					}else{
+ 						$next_payment = date("Y-m-$default_day",strtotime("$next_payment +1 month"));
+ 					}
+ 				}
+//  					if (date("m",strtotime($next_payment))==1){
+//  						if ($default_day>28){
+//  							$eses = date("Y",strtotime($next_payment));
+//  							$eses = $eses."-02";
+//  							$next_payment = date("Y-m-t",strtotime($eses));
+//  						}else{
+//  							$eses = date("Y",strtotime($next_payment));
+//  							$eses = $eses."-02";
+//  							$next_payment = date("Y-m-$default_day",strtotime($eses));
+//  						}
+//  					}else{
+//  						if ($default_day==31){
+//  							$eses = date("Y",strtotime($next_payment));
+//  							$eses = $eses."-".date("m",strtotime($next_payment));
+//  							$next_payment = date("Y-m-t",strtotime("$eses +1 month"));
+//  						}else{
+//  							$next_payment = date("Y-m-$default_day",strtotime("$next_payment +1 month"));
+//  						}
+//  					}
  				
  				/**/
 //  				if($default_day==31){
