@@ -18,7 +18,7 @@ fieldset{  background:none;}
 	dojo.require("dijit.Dialog");
 	dojo.require("dojo.data.ItemFileWriteStore");  
 	
-	var pro_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->product));?> );
+	var pro_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode(array()));//print_r(Zend_Json::encode($this->product));?> );
 	var pro_cate_store  = getDataStorefromJSON('id','name',<?php print_r(Zend_Json::encode($this->cat_rows));?> );
 	var branch_store  = getDataStorefromJSON('id','name', <?php print_r(Zend_Json::encode($this->bran_name));?> );
 	dojo.ready(function(){ 
@@ -27,21 +27,13 @@ fieldset{  background:none;}
 			autoComplete: true,                        
 			id: "pro_id",
 			name: "pro_id",  
-			style:'height:40px !important',         
 			class: 'fullside',  
 			required:false,
 			placeHolder:"<?php echo $tr->translate("SELECT_PRODUCT");?>",          
 			onChange: function() {  
 				pro_id   = dijit.byId('pro_id').get('value');
 				if(pro_id==-1){
-					branch = dijit.byId("branch").get("value");
-					if(branch>0){
-					 	$("#location_id").val(branch);
-						dijit.byId("pop_product").show();
-					}else{
-						alert("Please select branch !!! ");
-						dijit.byId("branch").focus();
-					}
+					 window.open('<?php echo $this->baseUrl()."/installment/product/add"?>', '_blank');
 				}else{
 					//addRow();
 				}
@@ -57,6 +49,7 @@ queryExpr: "*${0}*",
 		placeHolder:"<?php echo $tr->translate("SELECT_LOCATION");?>​",          
 		onChange: function() {  
 			branch_id = dijit.byId('branch').get('value');
+			getAllProduct();
 			if(branch_id==-1){
 				dijit.byId("popup_add_branch").show();
 				}
@@ -65,7 +58,7 @@ queryExpr: "*${0}*",
 
 		new dijit.form.FilteringSelect({
 			store: pro_cate_store,autoComplete: false,
-queryExpr: "*${0}*",                      
+			queryExpr: "*${0}*",                      
 		    id: "category_id",
 		    name: "category_id",  
 		    tabindex: "1",         
@@ -221,7 +214,9 @@ queryExpr: "*${0}*",
 						<table style="margin: 0 auto;" cellspacing="5">
 							<tr>
 								<td><?php echo $tr->translate("ITEM_NAME");?></td>
-								<td colspan="1"><input id="pro_id" name="pro_id" /></td>
+								<td colspan="1"><input  id="pro_id" name="pro_id" />
+								<input type="button" onclick="getAllProduct();" name="refresh" id="refresh" value="<?php echo $tr->translate('REFESH');?>" label="<?php echo $tr->translate('REFESH');?>"  dojoType="dijit.form.Button"  />
+								</td>
 							</tr>
 							<tr>
 						 		<td><?php echo $tr->translate('លេខតួ');?></td>
@@ -363,6 +358,29 @@ queryExpr: "*${0}*",
 	</div>
 </div>
 <script type="text/javascript">
+var url_getproduct = '<?php echo $this->url(array('module'=>'installment','controller'=>'product','action'=>'getproductbybranch')); ?>';
+function getAllProduct(){
+	branch_id = dijit.byId('branch').get('value');
+	if(branch_id<0 || branch_id==''){
+	      return false;
+	}
+	loadingBlock();
+	dojo.xhrPost({
+		url:url_getproduct,	
+		content:{ 
+		   'branch_id':branch_id
+		},		    
+		handleAs:"json",
+		load: function(data) {
+			pro_store  = getDataStorefromJSON('id','name', data);		
+		    dijit.byId('pro_id').set('store', pro_store);
+		    dijit.byId('pro_id').reset();
+		    HideloadingBlock();
+		},
+		error: function(err) {
+		}
+	});
+}
 var template = '';
 var product_name = '<?php //echo $this->product; ?>';
 var col = 0;

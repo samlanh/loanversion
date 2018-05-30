@@ -315,4 +315,16 @@ class Installment_Model_DbTable_DbProduct extends Zend_Db_Table_Abstract
 		return $row;
 		
 	}
+	public function getallProductbyBranch($data){
+		$branch_id = $data['branch_id'];
+		$db=$this->getAdapter();
+		// 		$sql = "SELECT id ,item_name AS name FROM `ln_ins_product` WHERE cate_id=".$cate_id;
+		$sql="SELECT p.id ,p.item_name AS name
+		FROM `ln_ins_prolocation` AS ip,
+		`ln_ins_product` AS p
+		WHERE
+		p.`id` = ip.`pro_id` AND p.status = 1 AND
+		ip.`location_id` =$branch_id ";
+		return $db->fetchAll($sql);
+	}
 }

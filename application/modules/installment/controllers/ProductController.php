@@ -226,5 +226,19 @@ public function init()
 			exit();
 		}
 	}
+	function getproductbybranchAction(){
+		if($this->getRequest()->isPost()){
+			$post=$this->getRequest()->getPost();
+			$db = new Installment_Model_DbTable_DbProduct();
+			// 			$result =$db->getallProductbycate($post['category_id']);
+			$result =$db->getallProductbyBranch($post);
+			array_unshift($result,array(
+					'id' => -1,
+					'name' => 'បន្ថែមថ្មី',
+			) );
+			print_r(Zend_Json::encode($result));
+			exit();
+		}
+	}
 }
 
