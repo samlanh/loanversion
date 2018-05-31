@@ -147,11 +147,13 @@ class Pawnshop_Model_DbTable_DbReschedule extends Zend_Db_Table_Abstract
     		$old_amount_day = 0;
     		$next_payment = $data['first_payment'];
     		$curr_type = $data['currency_type'];
-    		$str_next=" +1 month";
-    		$start_date = $data['release_date'];
-    		$from_date =  $data['release_date'];
-    		$borrow_term=30;//=1month
+    		
+    		
     		$dbtable = new Application_Model_DbTable_DbGlobal();
+    		$str_next = $dbtable->getNextDateById($data['payment_term'],2);
+			$start_date = $data['release_date'];
+			$from_date =  $data['release_date'];
+			$borrow_term = $dbtable->getSubDaysByPaymentTerm($data['payment_term'],null);//return amount day for payterm
     		
     		$this->_name='ln_pawnshop_detail';
     		for($i=1;$i<=$data['period'];$i++){
@@ -169,8 +171,21 @@ class Pawnshop_Model_DbTable_DbReschedule extends Zend_Db_Table_Abstract
     				$next_payment = $dbtable->checkFirstHoliday($next_payment,2);
     				$amount_day = $dbtable->CountDayByDate($start_date,$next_payment);
     			}
-    			$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;
-    				
+    			
+//     			$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;
+    			if($data['interest_type']==1){//interest by percentage
+    				$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*$amount_day;//by day or month check 30
+    				if($data['payment_term']==3){//for month
+    					$interest_paymonth = $data['total_amount']*($data['interest_rate']/100/$borrow_term)*30;//by day or month check 30
+    				}
+    			}else{//interest by fixed
+    				if($data['payment_term']==3){//for month
+    					$interest_paymonth = $data['interest_rate'];//*$amount_day/$borrow_term;//បើចង់គិតតាមថ្ងៃត្រូវបើកចំនុចនេះ
+    				}else{//day
+    					$interest_paymonth = $data['interest_rate']*$amount_day;//បើចង់គិតទាំងថ្ងៃឈប់ដែរ
+    				}
+    			}
+    			
     			$datapayment = array(
     					'pawn_id'=>$loan_id,
     					'outstanding'=>$remain_principal,
@@ -196,7 +211,9 @@ class Pawnshop_Model_DbTable_DbReschedule extends Zend_Db_Table_Abstract
     			$old_amount_day = 0;
     			$from_date=$next_payment;
     			if($i!=1){
-    				$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, 1,2,$data['first_payment']);
+    				if($data['payment_term']!=1){//for loan day
+						$next_payment = $dbtable->checkDefaultDate($str_next, $start_date, 1,2,$data['first_payment']);
+					}
     			}
     		}
     		$db->commit();

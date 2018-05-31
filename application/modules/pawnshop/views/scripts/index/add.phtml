@@ -896,7 +896,7 @@ require(["dojo/ready"], function(ready){
 
 	new dijit.form.FilteringSelect({
 		store: product_store,autoComplete: false,
-queryExpr: "*${0}*",		           
+		queryExpr: "*${0}*",		           
 		name: "product_id",
 		id: "product_id",
 		searchAttr: "name",
@@ -910,8 +910,7 @@ queryExpr: "*${0}*",
 	    }
 		}, "product_id");
 	});
-</script>
-<script type="text/javascript">
+
 function filterClient(){
 	branch_id = dijit.byId('branch_id').get('value');
 	dijit.byId('member').query.branch_id = branch_id;
@@ -998,20 +997,11 @@ function getReceiptbybranch(){
 		}
 	});
 }
-function showloantype(){
-}
 function calCulateAdminFee(){
 	p_income="<?php echo $this->setting['adminfee']?>";
 	t_admin=dijit.byId('total_amount').get('value');
 	adminfee=(p_income*(t_admin/100));
 	dijit.byId('admin_fee').attr('value',adminfee);
-}
-function CompareGraicePariod(){
-	
-}
-function chechPaymentMethod(){
-}
-function changeGraicePeroid(){
 }
 function clearTextBox(){
 	dijit.byId('member').set('value','');
@@ -1026,8 +1016,7 @@ function getClientInfo(type){
 		dijit.byId('customer_code').attr('value',customer_code);
 	}
 }
-</script>
-<script>
+
 function setFirstPaymentAndDateLine(pay_term,date_release,amount_date){
 	date_release=dijit.byId("release_date").get('value');
 	var a = new Date(date_release);
@@ -1071,8 +1060,7 @@ function calCulatePeriod(){
 		setFirstPaymentAndDateLine(pay_term,release_date,amount_date);		
     }
 }
-function CalculateWidthdraw(){
-}
+
 function getFirstPayment(){
 	amount_date = dijit.byId('period').get("value");
 	release_date = dijit.byId("release_date").get('value');

@@ -1,5 +1,5 @@
 <?php	
-	$this->headTitle('Add Pawn'); 
+	$this->headTitle('RESCHEDULE'); 
 	echo $this->headTitle();
 	$frm = $this->frm_loan;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
@@ -16,6 +16,13 @@
    <script>
 		require(["dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog"]);
    </script>
+<style>
+#table tr th{
+   	padding: 10px;
+    border: solid 1px #ccc8c8;
+        background: #e7ecf7;
+	}   
+</style>
 <form id='frm_add_tran' action="" 
 	dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 <script type="dojo/method" event="onSubmit">			
@@ -123,10 +130,18 @@
 					    	<td><?php echo $tr->translate("DESCRIPTION");?></td>
 							<td><?php echo $frm->getElement('noted');?></td>
 					    </tr>
-		                  <tr>
-			                    <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
-								<td><?php echo $frm->getElement('total_amount');?></td>
+	                  	<tr>
+		                    <td><strong><?php echo $tr->translate("LOAN_AMOUNT")?></strong></td>
+							<td><?php echo $frm->getElement('total_amount');?></td>
+	                   </tr>
+		                   <tr>
+			                	<td><?php echo $tr->translate("TERM_INSTALL")?></td>
+							   	<td><?php echo $frm->getElement('payment_term');?></td>
 		                   </tr>
+		                   <tr>
+                 		<td><?php echo $tr->translate("INTEREST_TYPE")?></td>
+						<td><?php echo $frm->getElement('interest_type');?></td>
+                   </tr>
 		                   <tr>
 		                	   <td><strong><?php echo $tr->translate("TERM_BORROW")?></strong></td>
 							   <td><?php echo $frm->getElement('period');?></td>
@@ -576,8 +591,15 @@ function addPreviewLoan(){
 						temp+='<th><?php echo $tr->translate("ការប្រាក់​");?></th>';
 						temp+='<th><?php echo $tr->translate("ត្រូវបង់សរុប​");?></th>';
 						 temp+='<th><?php echo $tr->translate("ចំនួន​ថ្ងៃ");?></th>';
+				var t_principal_permonth=0;
+				var t_total_payment=0;
+				var t_total_interest=0;
 				for(i=0;i<data.length;i++){
 			        r++;
+
+			        t_principal_permonth = parseFloat(t_principal_permonth)+parseFloat(data[i].principal_permonth);
+			        t_total_interest = parseFloat(t_total_interest) + parseFloat(data[i].total_interest);
+			        t_total_payment = parseFloat(t_total_payment) + parseFloat(data[i].total_payment);
 					    temp+='<tr><td align="center">'+r+'</td>';
 						d = new Date(data[i].date_name);
 						temp+='<td>'+getDayName(d.getDay())+'-'+data[i].date_payments+'</td>';
@@ -587,6 +609,12 @@ function addPreviewLoan(){
 						temp+='<td>'+dojo.number.format(data[i].total_payment,2)+'</td>';
 						temp+='<td>'+data[i].amount_day+'</td></tr>';
 				 }
+				temp+='<tr style=" background: #e7ecf7;"><td align="center"><?php echo $tr->translate("TOTAL");?></td>';
+				temp+='<td colspan="2"></td>';
+				temp+='<td><strong>'+dojo.number.format(t_principal_permonth,2)+'</strong></td>';
+				temp+='<td><strong>'+dojo.number.format(t_total_interest,2)+'</strong></td>';
+				temp+='<td><strong>'+dojo.number.format(t_total_payment,2)+'</strong></td>';
+				temp+='<td></td></tr>';
 				temp+='</table>';
 				dojo.byId('t_amountmoneytype').innerHTML = temp;
 				dijit.byId("lbl_schedule").show();
@@ -603,13 +631,30 @@ function addPreviewLoan(){
 function showReceipt(){
 	 dojo.byId("lb_receipt_no").innerHTML = dijit.byId("loan_code").get('value');
 	 dojo.byId("lb_loanamount").innerHTML = dijit.byId("total_amount").get('value')+' '+dijit.byId('currency_type').attr('displayedValue');
-	 dojo.byId("lb_interest_rate").innerHTML = dijit.byId("interest_rate").get('value')+ ' %';
+	 
 	 dojo.byId("lb_producttype").innerHTML = dijit.byId("product_id").attr('displayedValue')+" : "+$("#description").val();
 
+	 interest_type = dijit.byId('interest_type').get("value");
+	 
 	 total_amount = dijit.byId('total_amount').get("value");
 	 interest_rate = dijit.byId('interest_rate').get("value");
-	 total_interest= total_amount*interest_rate/100;
-	 dojo.byId("lb_total_interest").innerHTML = total_interest+' '+dijit.byId('currency_type').attr('displayedValue');;
+	 //total_interest= total_amount*interest_rate/100;
+	 total_interest = dijit.byId('interest_rate').get("value");
+	 if(interest_type==1){
+		interest_rate = dijit.byId('interest_rate').get("value")+ ' %';
+	 	total_interest= total_amount*total_interest/100;
+	 }else{
+		 interest_rate = dijit.byId('interest_type').attr('displayedValue');
+	 }
+	 
+	
+
+	 dojo.byId("lb_interest_rate").innerHTML = interest_rate;
+	 dojo.byId("lb_interest_rate1").innerHTML = interest_rate;
+	 
+	 dojo.byId("lb_total_interest").innerHTML = total_interest+' '+dijit.byId('currency_type').attr('displayedValue');
+	 dojo.byId("lb_total_interest1").innerHTML = total_interest+' '+dijit.byId('currency_type').attr('displayedValue');
+	 
 	 dojo.byId("lb_customername").innerHTML =dijit.byId('member').attr('displayedValue');
 	 dojo.byId("lb_start_date").innerHTML =dijit.byId("release_date").attr('displayedValue');
 	 dojo.byId("lb_period").innerHTML =dijit.byId("period").attr('displayedValue')+" ខែ";
@@ -618,9 +663,9 @@ function showReceipt(){
 
 	 dojo.byId("lb_receipt_no1").innerHTML = dijit.byId("loan_code").get('value');
 	 dojo.byId("lb_loanamount1").innerHTML = dijit.byId("total_amount").get('value')+' '+dijit.byId('currency_type').attr('displayedValue');
-	 dojo.byId("lb_interest_rate1").innerHTML = dijit.byId("interest_rate").get('value')+ ' %';
+	 
 	 dojo.byId("lb_producttype1").innerHTML = dijit.byId("product_id").attr('displayedValue')+" : "+$("#description").val();
-	 dojo.byId("lb_total_interest1").innerHTML = dijit.byId('interest_rate').get('value');
+	 
 	 dojo.byId("lb_customername1").innerHTML =dijit.byId('member').attr('displayedValue');
 	 dojo.byId("lb_start_date1").innerHTML =dijit.byId("release_date").attr('displayedValue');
 	 dojo.byId("lb_period1").innerHTML =dijit.byId("period").attr('displayedValue')+" ខែ";
@@ -811,7 +856,7 @@ require(["dojo/ready"], function(ready){
 
 	new dijit.form.FilteringSelect({
 		store: product_store,autoComplete: false,
-queryExpr: "*${0}*",		           
+		queryExpr: "*${0}*",		           
 		name: "product_id",
 		id: "product_id",
 		searchAttr: "name",
@@ -937,6 +982,9 @@ function getProductDetail(pawn_id){
 					dijit.byId("product_id").attr('value',data.product_id);
 					dijit.byId("description").attr('value',data.product_description);
 
+					dijit.byId("payment_term").attr('value',data.term_type);
+					dijit.byId("interest_type").attr('value',data.interest_type);
+					
 					dijit.byId("member").attr('value',data.customer_id);
 					dijit.byId("customer_code").attr('value',data.customer_id);
 				}
@@ -1021,8 +1069,14 @@ function getFirstPayment(){
 	amount_date = dijit.byId('period').get("value");
 	release_date = dijit.byId("release_date").get('value');
 	var a = new Date(release_date);
-	var month = a.getMonth()+1+1;
-
+	
+	pay_term = dijit.byId('payment_term').get("value");
+	if(pay_term==3){//month
+		var month = a.getMonth()+1+1;
+	}else if(pay_term==1){
+		a.setDate(a.getDate() + (1)); 
+		var month = a.getMonth() + 1;
+	}
 	mm = month%12;
 	var year = parseInt(month/12);
 	var dd = a.getDate();
