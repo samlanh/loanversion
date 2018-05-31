@@ -223,7 +223,7 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     				'currency_type'=>$data['currency_type'],
     				'release_amount'=>$data['total_amount'],//$data[''],
     				'interest_rate'=>$data['interest_rate'],
-    				'status'=>1,
+    				'status'=>$data['status_using'],
     				'is_completed'=>0,
     				'product_id'=>$data['product_id'],
     				'est_amount'=>$data['estimatevalue'],

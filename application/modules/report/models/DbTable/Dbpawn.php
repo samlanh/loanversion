@@ -363,6 +363,7 @@ class Report_Model_DbTable_Dbpawn extends Zend_Db_Table_Abstract
 				  d.`is_completed` = 0 
 				  AND l.`id` = d.`pawn_id` 
 				  AND l.`status` = 1 
+				  AND l.is_dach = 0
 				  AND d.`status`=1
 				  AND c.`client_id` = l.`customer_id` 
 				  AND b.`br_id`=l.branch_id ";
