@@ -17,6 +17,13 @@
 		require(["dijit/form/TextBox","dijit/form/DateTextBox","dijit/form/NumberTextBox","dojo/number","dijit/Dialog"]);
 		dojo.require("dojo.data.ItemFileWriteStore"); 
    </script>
+<<style>
+#table tr th{
+   	padding: 10px;
+    border: solid 1px #ccc8c8;
+        background: #e7ecf7;
+	}
+</style>
 <form id='frm_add_tran' action="" dojoType="dijit.form.Form" method="post" enctype="application/x-www-form-urlencoded">
 		<script type="dojo/method" event="onSubmit">			
 		if(this.validate()) {
@@ -924,7 +931,7 @@ function addPreviewLoan(){
 				document.getElementsByClassName("overlay")[0].style.display="none";
 				temp='';	fund_title=0;thead='';fund_title=0;
 				 		temp='<table class="collape tablesorter" style="font-size:13px; width:1000px !important; " id="table">'
-						temp+='<tr style="background:#bcd5f0;"><th><?php echo $tr->translate("NUM");?></th>';
+						temp+='<tr><th><?php echo $tr->translate("NUM");?></th>';
 						temp+='<th><?php echo $tr->translate("ថ្ងៃបង់ប្រាក់");?></th>';
 						temp+='<th><?php echo $tr->translate("ប្រាក់ដើមគ្រា");?></th>';
 						temp+='<th><?php echo $tr->translate("ប្រាក់ដើម");?></th>';
@@ -932,8 +939,16 @@ function addPreviewLoan(){
 						temp+='<th><?php echo $tr->translate("សរុប");?></th>';
 						temp+='<th><?php echo $tr->translate("ប្រាក់ដើមនៅសល់");?></th>';
 						temp+='<th><?php echo $tr->translate("ចំនួនថ្ងៃ");?></th></tr>';
+				var t_principal_permonth=0;
+				var t_total_payment=0;
+				var t_total_interest=0;
 				for(i=0;i<data.length;i++){
 			        r++;
+
+			        t_principal_permonth = parseFloat(t_principal_permonth)+parseFloat(data[i].principal_permonth);
+			        t_total_interest = parseFloat(t_total_interest) + parseFloat(data[i].total_interest);
+			        t_total_payment = parseFloat(t_total_payment) + parseFloat(data[i].total_payment);
+			        
 					    temp+='<tr><td align="center">'+r+'</td>';
 						var myDate = new Date(data[i].date_payment);
 						d = new Date(data[i].date_name);
@@ -945,6 +960,13 @@ function addPreviewLoan(){
 						temp+='<td><b>'+dojo.number.format((data[i].outstanding-data[i].principal_permonth),2)+'<b></td>';
 						temp+='<td>'+data[i].amount_day+'</td></tr>';
 				 }
+				temp+='<tr style=" background: #e7ecf7;"><td align="center"><?php echo $tr->translate("TOTAL");?></td>';
+				temp+='<td colspan="2"></td>';
+				temp+='<td><strong>'+dojo.number.format(t_principal_permonth,2)+'</strong></td>';
+				temp+='<td><strong>'+dojo.number.format(t_total_interest,2)+'</strong></td>';
+				temp+='<td><strong>'+dojo.number.format(t_total_payment,2)+'</strong></td>';
+				temp+='<td colspan="2"></td></tr>';
+				
 				temp+='</table>';
 				dojo.byId('t_amountmoneytype').innerHTML = temp;
 				dijit.byId("frm_client").show();
