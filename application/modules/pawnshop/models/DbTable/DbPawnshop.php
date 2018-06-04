@@ -13,7 +13,9 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	$from_date =(empty($search['start_date']))? '1': " date_release >= '".$search['start_date']." 00:00:00'";
     	$to_date = (empty($search['end_date']))? '1': " date_release <= '".$search['end_date']." 23:59:59'";
     	$where = " AND ".$from_date." AND ".$to_date;
-
+    	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+    	$complete = $tr->translate("COMPLETED");
+    	$not_complete = $tr->translate("Not Complete");
     	$db = $this->getAdapter();
     	$sql = " SELECT id,
 	    		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =branch_id LIMIT 1) AS branch,
@@ -27,6 +29,10 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
 				(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=ln_pawnshop.product_id limit 1) as product_name,
 				date_release,date_line,
     			(SELECT first_name FROM `rms_users` WHERE id=user_id LIMIT 1) As user_name,
+    			CASE    
+					WHEN  is_completed = 0 THEN '$not_complete'
+					WHEN  is_completed = 1 THEN '$complete'
+				END AS completed_status,
     			status
     		 FROM `ln_pawnshop` WHERE 1 ";
     	

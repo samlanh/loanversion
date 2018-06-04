@@ -30,7 +30,7 @@ class Pawnshop_IndexController extends Zend_Controller_Action {
 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
 			$list = new Application_Form_Frmtable();
 			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECEIPT","PAWN_AMOUNT","ADMIN_FEE","PAWNSHOP_DURATION",
-					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","BY_USER","STATUS");
+					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","BY_USER","COMPLETED","STATUS");
 			$link_info=array('module'=>'pawnshop','controller'=>'index','action'=>'edit',);
 
 			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array('branch'=>$link_info,'loan_number'=>$link_info,'receipt_num'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
