@@ -99,7 +99,8 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 			(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=s.product_id LIMIT 1) AS product_name,
 			(SELECT name_en FROM `ln_view` WHERE TYPE =14 AND s.term_type=key_code LIMIT 1) AS payTermEN,
     	(SELECT name_kh FROM `ln_view` WHERE TYPE =14 AND s.term_type=key_code LIMIT 1) AS payTermKH,
-			(SELECT first_name FROM `rms_users` WHERE id=user_id) AS user_name
+			(SELECT first_name FROM `rms_users` WHERE id=user_id) AS user_name,
+			s.`release_amount` - (SELECT SUM(rep.extra_loan) FROM `ln_pawnshop_reschedule` AS rep WHERE rep.pawnshop_id = s.`id` LIMIT 1) AS release_amount
 		 FROM $this->_name AS s
 		WHERE s.`id` = $pawnID LIMIT 1";
 		return $db->fetchRow($sql);

@@ -529,6 +529,13 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	$level  = $db->fetchOne($sql);
     	return ($level+1);
     }
+    function getLoanRescheduleLevel($client_id,$type){
+    	$db  = $this->getAdapter();
+    	$sql = " SELECT level FROM `ln_pawnshop_reschedule` WHERE status =1 AND pawnshop_id = $client_id ORDER BY level DESC LIMIT 1 ";
+    	$level  = $db->fetchOne($sql);
+    	$level = empty($level)?0:$level;
+    	return ($level+1);
+    }
     function getPawnIdByBranch($branch_id){
     	$db=$this->getAdapter();
     	$sql="select

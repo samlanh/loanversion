@@ -2108,6 +2108,10 @@ AND cl.client_id = $client_id )";
 			FROM `ln_pawn_receipt_money` AS r WHERE r.`status`=1
 			";
       	$where="";
+      	$from_date =(empty($search['start_date']))? '1': " r.`date_input` >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " r.`date_input` <= '".$search['end_date']." 23:59:59'";
+      	$where = " AND ".$from_date." AND ".$to_date;
+      	
       	if($search['currency_type']>0){
       		$where.= " AND r.`currency_type` = ".$search['currency_type'];
       	}

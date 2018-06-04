@@ -1,11 +1,12 @@
 <?php 
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
-	echo $this->headTitle($tr->translate("PAWN_SHOP"));
+	echo $this->headTitle($tr->translate("REPAYMENTSCHEDULE"));
 	$frm = $this->frm_search;
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
+	$url_agreement = $this->baseUrl()."/report/pawn/agreementextra/id/";
 ?>
 <script src="<?php echo $baseurl;?>/js/help.js"></script>
-<form id="list" name="list" action="<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'index')); ?>" dojoType="dijit.form.Form" method="post">
+<form id="list" name="list" action="" dojoType="dijit.form.Form" method="post">
    <table width="100%">
 	   <tr>  
 	        <td><?php echo $frm->getElement("adv_search");?></td>
@@ -82,4 +83,33 @@ require(["dojo/ready"], function(ready){
 		}
 	}, "member");
 });
+
+var row=0;
+var url="";
+$(function(){
+	$.contextMenu({
+		selector: '.context-menu-one', 
+		callback: function(key, options) {
+		
+			var m = "clicked: " + key;
+			if(key=="agreement"){
+				url='<?php echo $url_agreement;?>';
+			}
+			 
+			gotoAction();
+			//window.console && console.log(m) || alert(m); 
+		},
+		items: {
+			"agreement": {name: "<?php echo $tr->translate("AGREEMENT_EXTRA");?>", icon: "fa-file-text"},
+		}
+	});
+});
+function setrowdata(index){
+	row = index;
+}
+
+var recordid ='';
+function gotoAction(){
+	 window.open(url+row, '_blank');
+}
 </script>

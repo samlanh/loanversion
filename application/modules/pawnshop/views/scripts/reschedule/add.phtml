@@ -1,8 +1,8 @@
 <?php	
-	$this->headTitle('RESCHEDULE'); 
-	echo $this->headTitle();
 	$frm = $this->frm_loan;
 	$tr = Application_Form_FrmLanguages::getCurrentlanguage();
+	$this->headTitle($tr->translate("REPAYMENTSCHEDULE"));
+	echo $this->headTitle();
 	$baseurl =  Zend_Controller_Front::getInstance()->getBaseUrl();
 	$data = $this->data;
 ?>
@@ -70,7 +70,7 @@
 					   	    <td> <input id='loan_code' /></td>
 					    </tr>
 					    <tr>
-					    	<td><?php echo $tr->translate("LOAN_LEVEL")?></td>
+					    	<td><?php echo $tr->translate("RESCHEDULE_TIME")?></td>
 							<td><?php echo $frm->getElement('level');?></td>
 					    </tr>
 					    <tr>
@@ -538,14 +538,14 @@
 	</div>
 </div>
 <script type="text/javascript">	
-var getloan_level = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'get-loanlevel')); ?>';
-function getLoanLevel(client_id){
-	   if(client_id==''){
+var getloan_level = '<?php echo $this->url(array('module'=>'pawnshop','controller'=>'index','action'=>'get-loanlevelsch')); ?>';
+function getLoanLevel(loan_code){
+	   if(loan_code==''){
 		   return false;}
 		dojo.xhrPost({
 	    url: getloan_level,	
 	    content : { 
-	    	'client_id': client_id,
+	    	'loan_code': loan_code,
 	    	'type':1
 		},	    
 		handleAs:"json", 
@@ -779,7 +779,10 @@ require(["dojo/ready"], function(ready){
 		dijit.byId("customer_code").set('readOnly',true);
 		dijit.byId("product_id").set('readOnly',true);
 		
-
+		dijit.byId("payment_term").set('readOnly',true);
+		dijit.byId("interest_type").set('readOnly',true);
+		dijit.byId("level").set('readOnly',true);
+		
 		dojo.connect(dojo.byId("outstandingloan"), "onkeyup", function(evt){
 			deposit = dijit.byId("outstandingloan").get("value");
 			loan_fee = dijit.byId("extra_loan").get("value");
@@ -809,8 +812,10 @@ require(["dojo/ready"], function(ready){
 		onChange: function() {
 			loan_code = dijit.byId('loan_code').get('value');
 			if(loan_code>0){
+				getLoanLevel(loan_code);
 				getProductDetail(loan_code);
 			}
+			
 		}
 	}, "loan_code");
 	
@@ -830,7 +835,7 @@ require(["dojo/ready"], function(ready){
 		if(member==-1){
 			showPopupclient();
 		}else{
-			getLoanLevel(member);
+			
 			dijit.byId('customer_code').attr('value',member);
 		}
       }

@@ -8,41 +8,40 @@ class Pawnshop_RescheduleController extends Zend_Controller_Action {
 	}
 	private $sex=array(1=>'M',2=>'F');
 	public function indexAction(){
-		$this->_redirect("/pawnshop/reschedule/add");
-// 		try{
-// 		    if($this->getRequest()->isPost()){
-//  				$search = $this->getRequest()->getPost();
-//  			}
-// 			else{
-// 				$search = array(
-// 						'txt_search'=>'',
-// 						'members'=> -1,
-// 						'product_id' => -1,
-// 						'branch_id' => -1,
-// 						'co_id' => -1,
-// 						'status' => -1,
-// 						'currency_type'=>-1,
-// 						'start_date'=> date('Y-m-d'),
-// 						'end_date'=>date('Y-m-d'),);
-// 			}
-// 			$db = new Pawnshop_Model_DbTable_DbPawnshop();
-// 			$rs_rows= $db->getAllPawnshop($search);
-// 			$glClass = new Application_Model_GlobalClass();
-// 			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
-// 			$list = new Application_Form_Frmtable();
-// 			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","RECEIPT","PAWN_AMOUNT","TERM_BORROW",
-// 					"INTEREST RATE","PRODUCT_NAME","PAWN_DATE","PAWN_ENDDATE","STATUS");
+		try{
+		    if($this->getRequest()->isPost()){
+ 				$search = $this->getRequest()->getPost();
+ 			}
+			else{
+				$search = array(
+						'txt_search'=>'',
+						'members'=> -1,
+						'product_id' => -1,
+						'branch_id' => -1,
+						'co_id' => -1,
+						'status' => -1,
+						'currency_type'=>-1,
+						'start_date'=> date('Y-m-d'),
+						'end_date'=>date('Y-m-d'),);
+			}
+			$db = new Pawnshop_Model_DbTable_DbReschedule();
+			$rs_rows= $db->getAllPawnshop($search);
+			$glClass = new Application_Model_GlobalClass();
+			$rs_rows = $glClass->getImgActive($rs_rows, BASE_URL, true);
+			$list = new Application_Form_Frmtable();
+			$collumns = array("BRANCH_NAME","PAWN_CODE","CUSTOMER_NAME","OLD_PAWN_AMOUNT","MORE_LOAN","PAWN_AMOUNT",
+					"RESCHEDULE_TIME","PRODUCT_NAME","PAWNSHOP_DURATION","PAWN_DATE","PAWN_ENDDATE","DATE","STATUS");
 			
-// 			$link_info=array('module'=>'pawnshop','controller'=>'index','action'=>'edit',);
-// 			$this->view->list=$list->getCheckList(0, $collumns, $rs_rows,array('branch'=>$link_info,'loan_number'=>$link_info,'receipt_num'=>$link_info,'client_name_kh'=>$link_info,'client_name_en'=>$link_info,'total_capital'=>$link_info),0);
-// 		}catch (Exception $e){
-// 			Application_Form_FrmMessage::message("Application Error");
-// 			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
-// 		}	
-// 		$frm = new Pawnshop_Form_FrmPawnshop();
-// 		$frm = $frm->FrmAddLoan();
-// 		Application_Model_Decorator::removeAllDecorator($frm);
-// 		$this->view->frm_search = $frm;
+			$link_info=array('module'=>'pawnshop','controller'=>'index','action'=>'edit',);
+			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array(),0);
+		}catch (Exception $e){
+			Application_Form_FrmMessage::message("Application Error");
+			Application_Model_DbTable_DbUserLog::writeMessageError($e->getMessage());
+		}	
+		$frm = new Pawnshop_Form_FrmPawnshop();
+		$frm = $frm->FrmAddLoan();
+		Application_Model_Decorator::removeAllDecorator($frm);
+		$this->view->frm_search = $frm;
   }
   function addAction()
   {

@@ -169,6 +169,16 @@ function getLoanlevelAction(){
 	}
 	
 }
+function getLoanlevelschAction(){
+	if($this->getRequest()->isPost()){
+		$data = $this->getRequest()->getPost();
+		$db = new Pawnshop_Model_DbTable_DbPawnshop();
+		$row = $db->getLoanRescheduleLevel($data['loan_code'],$data['type']);
+		print_r(Zend_Json::encode($row));
+		exit();
+	}
+
+}
 public function getLoaninfoAction(){//from repayment schedule
 	if($this->getRequest()->isPost()){
 		$data=$this->getRequest()->getPost();
