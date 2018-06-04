@@ -622,10 +622,10 @@ function rptPaymentHistoryAction(){
  function agreementextraAction(){
  	$db = new Application_Model_DbTable_DbAgreement();
  	$id =$this->getRequest()->getParam('id');
- 	$row = $db->getPawnShopInfo($id);
+ 	$row = $db->getPawnShopRescheduleInfo($id);
  	$this->view->pawnShop = $row;
  	if(empty($row)){
- 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/report/pawn/rpt-loan-disburse');
+ 		Application_Form_FrmMessage::Sucessfull("RECORD_NOT_EXIST",'/pawnshop/reschedule');
  	}
  
  	$rs = $db->getClientPawnShopInfo($row['customer_id']);

@@ -105,5 +105,31 @@ class Application_Model_DbTable_DbAgreement extends Zend_Db_Table_Abstract
 		WHERE s.`id` = $pawnID LIMIT 1";
 		return $db->fetchRow($sql);
 	}
+	function getPawnShopRescheduleInfo($pawnRescheduleID){
+		$db = $this->getAdapter();
+		$sql="
+		SELECT
+		c.*,
+		(SELECT branch_namekh FROM `ln_branch` WHERE br_id =c.`branch_id` LIMIT 1) AS branch,
+		(SELECT branch_nameen FROM `ln_branch` WHERE br_id =c.`branch_id` LIMIT 1) AS branch_nameen,
+		(SELECT br_address FROM `ln_branch` WHERE br_id =c.`branch_id` LIMIT 1) AS br_address,
+		(SELECT branch_tel FROM `ln_branch` WHERE br_id =c.`branch_id` LIMIT 1) AS branch_tel,
+		s.`loan_number`,
+		(SELECT name_kh FROM `ln_clientsaving` WHERE client_id = s.customer_id LIMIT 1) AS client_name_kh,
+		(SELECT curr_namekh FROM `ln_currency` WHERE id = s.currency_type LIMIT 1) AS currencyType,
+		(SELECT product_kh FROM `ln_pawnshopproduct` WHERE id=s.product_id LIMIT 1) AS product_name,
+		(SELECT name_en FROM `ln_view` WHERE TYPE =14 AND s.term_type=key_code LIMIT 1) AS payTermEN,
+		(SELECT name_kh FROM `ln_view` WHERE TYPE =14 AND s.term_type=key_code LIMIT 1) AS payTermKH,
+		(SELECT first_name FROM `rms_users` WHERE id=c.user_id) AS user_name,
+		s.customer_id,
+		c.`level` AS reschdule_time,
+		(s.`release_amount`-c.`extra_loan`) as pawnbalancce
+		
+		 FROM `ln_pawnshop_reschedule` AS c,
+		`ln_pawnshop` AS s 
+		  WHERE s.`id` = c.`pawnshop_id` AND c.`id` = $pawnRescheduleID LIMIT 1
+		";
+		return $db->fetchRow($sql);
+	}
 }
 

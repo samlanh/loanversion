@@ -37,6 +37,9 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
     	
     	$db = $this->getAdapter();
     	//,'បោះពុម្ភ','Click Here'
+    	$tr= Application_Form_FrmLanguages::getCurrentlanguage();
+    	$complete = $tr->translate("COMPLETED");
+    	$not_complete = $tr->translate("Not Complete");
     	$sql=" SELECT l.id,
     	 (SELECT branch_namekh FROM `ln_branch` WHERE br_id =l.branch_id LIMIT 1) AS branch,
     	l.loan_number,
@@ -48,6 +51,10 @@ class Loan_Model_DbTable_DbLoanIL extends Zend_Db_Table_Abstract
         (SELECT zone_name FROM `ln_zone` WHERE zone_id=l.zone_id LIMIT 1) AS zone_name,
         (SELECT co_khname FROM `ln_co` WHERE co_id =l.co_id LIMIT 1) AS co_name,
         l.date_release,
+        CASE    
+		WHEN  l.is_completed = 0 THEN '$not_complete'
+		WHEN  l.is_completed = 1 THEN '$complete'
+		END AS completed_status,
          l.status  FROM `ln_loan` AS l
 				WHERE loan_type =1 ";
     	if(!empty($search['adv_search'])){
