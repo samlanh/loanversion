@@ -71,6 +71,11 @@ class Pawnshop_Model_DbTable_DbPawnshop extends Zend_Db_Table_Abstract
     	$where=" LIMIT 1 ";
     	return $this->getAdapter()->fetchRow($sql.$where);
     }
+    function getPawnshopDetailByIdHaspaid($id){
+    	$sql = " SELECT pd.*  FROM `ln_pawnshop_detail` AS pd WHERE pd.`is_completed`=1 AND pd.`pawn_id`= $id ";
+    	$where=" ORDER BY pd.`id` DESC LIMIT 1 ";
+    	return $this->getAdapter()->fetchRow($sql.$where);
+    }
     public function addPawnshop($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();

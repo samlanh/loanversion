@@ -110,6 +110,10 @@ public function editAction(){
 	$db_g = new Application_Model_DbTable_DbGlobal();
 	$id = $this->getRequest()->getParam('id');
 	$db = new Pawnshop_Model_DbTable_DbPawnshop();
+	$haspayment = $db->getPawnshopDetailByIdHaspaid($id);
+	if (!empty($haspayment)){
+		Application_Form_FrmMessage::Sucessfull("This pawn has some payment can not edit","/pawnshop");
+	}
 	$row = $db->getPawnshopById($id);
 	$this->view->rs = $row;
 	$frm = new Pawnshop_Form_FrmPawnshop();

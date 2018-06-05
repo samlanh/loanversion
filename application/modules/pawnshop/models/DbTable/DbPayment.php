@@ -53,6 +53,12 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     	$order = " ORDER BY id DESC ";
     	return $db->fetchAll($sql.$where.$order);
     }
+    function getCompleteScheduleByPawn($id){
+    	$db = $this->getAdapter();
+    	$sql="SELECT COUNT(pd.id) AS count_sch FROM `ln_pawnshop_detail` AS pd WHERE pd.`status`=1 AND pd.`is_completed`=1 AND pd.`pawn_id`=$id";
+    	return $db->fetchOne($sql);
+    }
+    
     public function addPawnpayment($data){
     	$db = $this->getAdapter();
     	$db->beginTransaction();
@@ -83,6 +89,7 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     		}elseif($amount_receive<$total_payment){
     			$is_compleated = 0;
     		}
+    		
     		$arr_client_pay = array(
     				'client_id'		=> $data['client_id'],
     				'receipt_no'		=> $reciept_no,
@@ -113,6 +120,36 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     		$this->_name = "ln_pawn_receipt_money";
     		$receipt_id = $this->insert($arr_client_pay);
     
+    		if($option_pay==3){
+    			if($data['amount_receive']>0){//ខ្ចីបន្ថែម
+    				$start_id = $this->getCompleteScheduleByPawn($data['loan_number']);
+    				$datapayment = array(
+    						'pawn_id'=>$data['loan_number'],
+    						'noted'=>$data['note'],//store note only
+    						'outstanding'=>0,//good
+    						'outstanding_after'=>0,//good
+    						'principal_permonth'=> $data['amount_receive'],//good
+    						'amount_paidprincipal'=> $data['amount_receive'],//good
+    						'principle_after'=> $data['amount_receive'],//good
+    						'total_interest'=>0,
+    						'total_interest_after'=>0,
+    						'total_payment'=>$data['amount_receive'],
+    						'total_payment_after'=>$data['amount_receive'],
+    						'date_payment'=>$data['collect_date'],//good
+    						'is_completed'=>1,
+    						'status'=>0,
+    						'amount_day'=>0,
+    						'is_extraloan'=>1,
+    						'installment_amount'=>$start_id+1,
+    						'payment_id'=>$receipt_id,
+    				);
+    				$this->_name="ln_pawnshop_detail";
+    				$this->insert($datapayment);
+    			}
+    		}
+    	
+    		
+    		
     		$date_collect = $data["collect_date"];
     		$identify = explode(',',$data['identity']);
     		$count_d = count($identify);
@@ -320,6 +357,11 @@ class Pawnshop_Model_DbTable_DbPayment extends Zend_Db_Table_Abstract
     		$this->_name = "ln_pawn_receipt_money_detail";
     		$where = " receipt_id = $id ";
     		$this->delete($where);
+    		
+    		$this->_name = "ln_pawnshop_detail";
+    		$where = " payment_id = $id ";
+    		$this->delete($where);
+    		
     		$db->commit();
     
     	}catch (Exception $e){

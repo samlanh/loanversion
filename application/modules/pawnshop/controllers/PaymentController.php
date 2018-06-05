@@ -37,8 +37,7 @@ class Pawnshop_PaymentController extends Zend_Controller_Action {
 				);
 			$link=array(
 					'module'=>'pawnshop','controller'=>'payment','action'=>'edit',);
-			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array(
-					'team_group'=>$link,'loan_number'=>$link,'client_name'=>$link,'receipt_no'=>$link,'branch'=>$link));
+			$this->view->list=$list->getCheckList(10, $collumns, $rs_rows,array());
 		}catch (Exception $e){
 			Application_Form_FrmMessage::message("Application Error");
 			echo $e->getMessage();
