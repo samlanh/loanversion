@@ -481,7 +481,7 @@ public function addILPayment($data){
 		    				
 		    				$db->insert("ln_client_receipt_money_detail", $arr_money_detail);
 		    				
-		    				if($after_principal==0 AND $data['payment_method']!=2){
+		    				if($after_principal==0 AND $data['payment_method']!=2 AND $data['payment_method']!=5){
 		    					$is_compleated_d=1;
 		    				}
 		    				$load_detail = array(
