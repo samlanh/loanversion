@@ -103,16 +103,16 @@ $tr= Application_Form_FrmLanguages::getCurrentlanguage();
 						 				</p>
 						 				<p style="text-align: left;">
 						 					<strong>ប្រការ១៖ចំនួនទឹកប្រាក់ផ្តល់ឲ្យខ្ចី</strong><br>
-						 					<strong>១.១</strong> អ្នកឲ្យខ្ចីយល់ព្រមផ្តល់ប្រាក់កម្ចីអោយទៅអ្នកខ្ចីចំនួន<span class="value border_bt" style="min-width: 120px;"><?php echo number_format($pawnShop['release_amount'],2)." ".$pawnShop['currencyType'];?></span>(ជាអក្សរ<span class="value border_bt" style="min-width: 110px;"><label id="loanInKhmerChar"></label><?php echo $pawnShop['currencyType'];?></span>)ដោយអ្នកខ្ចីយល់ព្រមទទួលនូវកម្ចីចំនួននេះតាមកិច្ចសន្យាខ្ចីបញ្ចាំនិងប្រាតិភោគ។
+						 					<strong>១.១</strong> អ្នកឲ្យខ្ចីយល់ព្រមផ្តល់ប្រាក់កម្ចីអោយទៅអ្នកខ្ចីចំនួន<span class="value border_bt" style="min-width: 120px;"><?php $release_amount=$pawnShop['release_amount']; if(!empty($pawnShop['extra_loan'])){ $release_amount = $release_amount -$pawnShop['extra_loan'];} echo number_format($release_amount,2)." ".$pawnShop['currencyType'];?></span>(ជាអក្សរ<span class="value border_bt" style="min-width: 110px;"><label id="loanInKhmerChar"></label><?php echo $pawnShop['currencyType'];?></span>)ដោយអ្នកខ្ចីយល់ព្រមទទួលនូវកម្ចីចំនួននេះតាមកិច្ចសន្យាខ្ចីបញ្ចាំនិងប្រាតិភោគ។
 						 				</p>
 						 				 <script>
-							 				a_sold ='<?php echo ($pawnShop['release_amount']) ?>';
+							 				a_sold ='<?php echo ($release_amount) ?>';
 											money_khmersold=read_money_in_khmer(a_sold);
 											
-											decimalmoney_khmersold='<?php echo substr(number_format($pawnShop['release_amount'],2),-2);?>';
+											decimalmoney_khmersold='<?php echo substr(number_format($release_amount,2),-2);?>';
 											str_centsold = 'សេន';
 											if(decimalmoney_khmersold>0){string_sold='និង';}else{string_sold="";str_cent_sold='';}
-											last_number_sold='<?php echo substr(number_format($pawnShop['release_amount'],2),-2);?>';
+											last_number_sold='<?php echo substr(number_format($release_amount,2),-2);?>';
 											
 											if(last_number_sold<=0){last_number_sold='';}
 											money_khmersold = money_khmersold+" "+string_sold+" "+read_in_khmer_from_10_to_99(decimalmoney_khmersold)+''+read_in_khmer_from_0_to_9(last_number_sold)+''+str_cent_sold;
