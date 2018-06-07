@@ -1,0 +1,57 @@
+.btn-group-vertical>.btn-group:after, 
+.btn-group-vertical>.btn-group:before, .btn-toolbar:after, .btn-toolbar:before, 
+.clearfix:after, .clearfix:before, .container-fluid:after, .container-fluid:before, 
+.container:after, .container:before, .dl-horizontal dd:after, 
+.dl-horizontal dd:before, .form-horizontal .form-group:after, 
+.form-group:before, .modal-footer:after, .modal-footer:before, .modal-header:after, .modal-header:before, .nav:after, .nav:before, .navbar-collapse:after, .navbar-collapse:before, .navbar-header:after, .navbar-header:before, .navbar:after, .navbar:before, .pager:after, .pager:before, .panel-body:after, .panel-body:before, .row:after, .row:before {
+    display: table;
+    content: " ";
+}
+.btn-group-vertical>.btn-group:after, .btn-toolbar:after, .clearfix:after,
+ .container-fluid:after, .container:after, .dl-horizontal dd:after,
+.form-group:after, .modal-footer:after, .modal-header:after, .nav:after, .navbar-collapse:after, 
+.navbar-header:after, .navbar:after, .pager:after, .panel-body:after, .row:after {
+    clear: both !important;
+}
+section.inputmask {
+    margin-bottom: 1.875rem;
+    border: solid 1px #eee;
+    box-shadow: 0px 4px 10px #a1a1a2b8;
+    /* min-height: 350px; */
+    background: #fff;
+}
+.border-botom {
+    border-bottom: solid 3px #615f5f;
+    margin-bottom: 12px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+label.control-label {
+    font-weight: initial;
+}
+.form-group .col-md-12, .form-group.col-sm-12, .form-group .col-xs-12,
+.form-group .col-md-11, .form-group.col-sm-11, .form-group .col-xs-11,
+.form-group .col-md-10, .form-group.col-sm-10, .form-group .col-xs-10,
+.form-group .col-md-9, .form-group.col-sm-9, .form-group .col-xs-9,
+.form-group .col-md-8, .form-group.col-sm-8, .form-group .col-xs-8,
+.form-group .col-md-7, .form-group.col-sm-7, .form-group .col-xs-7,
+.form-group .col-md-6, .form-group.col-sm-6, .form-group .col-xs-6,
+.form-group .col-md-5, .form-group.col-sm-5, .form-group .col-xs-5,
+.form-group .col-md-4, .form-group.col-sm-4, .form-group .col-xs-4,
+.form-group .col-md-3, .form-group .col-sm-3, .form-group.col-xs-3,
+.form-group .col-md-2, .form-group.col-sm-2, .form-group .col-xs-2 {
+    padding: 0;
+}
+.pd-0 {
+    padding: 0;
+}
+.title-blog {
+    border-bottom: solid 1px #e5e6e6;
+    color: #0f2a5b;
+    
+    font-style: italic;
+}
+.bold{
+	font-weight: 700 !important;
+}
