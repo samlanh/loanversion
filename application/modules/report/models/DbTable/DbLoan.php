@@ -2138,5 +2138,23 @@ AND cl.client_id = $client_id )";
       	$where.=" GROUP BY p.`currency_type`";
       	return $db->fetchAll($sql.$where);
       }
+      
+      function getAdminfeeloanByCO($coID,$currency_type,$search){
+      	$db = $this->getAdapter();
+      	$start_date = $search['start_date'];
+      	$end_date = $search['end_date'];
+      	
+      	$db = $this->getAdapter();
+      	$sql = "SELECT SUM(admin_fee) AS admin_fee,SUM(other_fee) AS other_fee,curr_type FROM
+      	v_loanreleased WHERE co_id = $coID AND curr_type =$currency_type";
+      	$where ='';
+      	if($search['branch_id']>0){
+      		$where.=" AND `branch_id`= ".$search['branch_id'];
+      	}
+      	if(!empty($search['start_date']) or !empty($search['end_date'])){
+      		$where.=" AND date_release BETWEEN '$start_date' AND '$end_date'";
+      	}
+      	return $db->fetchRow($sql.$where);
+      }
  }
 

@@ -4,6 +4,7 @@
 	$end_dat=$this->date_show;
 	$session_user=new Zend_Session_Namespace('authloan');
 	$level = $session_user->level;
+	$dbloan  = new Report_Model_DbTable_DbLoan();
 ?>
 <style>
 .hover:hover{ background: #ccc;}
@@ -122,9 +123,6 @@ $free_day=$key_code['value'];
 	        	$coamn_b3 = 0;
 	        	$coamn_b5 = 0;
 	        	
-	        	$coadminfeer = 0;
-	        	$coadminfeed = 0;
-	        	$coadminfeeb = 0;
 	        	
 	        	$cototal_b=0;
 	        	$cototal_d=0;
@@ -158,8 +156,17 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
 		               }
 		               
                ?>
-     <?php if($co_id!=$rs["co_id"]){ ?>
+     <?php if($co_id!=$rs["co_id"]){
+     	?>
      		 <?php if ($key>0){?>
+     		 <?php $adminfeer = $dbloan->getAdminfeeloanByCO($co_id, 1, $this->search);
+     		 		$adminfeed = $dbloan->getAdminfeeloanByCO($co_id, 2, $this->search);
+     		 		$adminfeeb = $dbloan->getAdminfeeloanByCO($co_id, 3, $this->search);
+     		 		
+     		 		$totalwithAdminr = $cototal_r +$adminfeer['admin_fee'];
+     		 		$totalwithAdmind = $cototal_d +$adminfeed['admin_fee'];
+     		 		$totalwithAdminb = $cototal_b +$adminfeeb['admin_fee'];
+     		 ?>
 				<tr class="style hover" style="font-family: 'Khmer OS Content';white-space: nowrap;background: #cadee3;">
 					<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php //echo $tr->translate("TOTAL");?>&nbsp;</td>
 					<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("TOTAL_COLLECT");?>&nbsp;</td>
@@ -169,20 +176,20 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
 				<tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
                 	<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
                 	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
-                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeer,2)." ៛";?>&nbsp;</td>
-                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithdminfeer,2)." ៛";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeer['admin_fee'],2)." ៛";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminr,2)." ៛";?>&nbsp;</td>
                 </tr>
                <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
                 	<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
                 	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
-                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeed,2)." $";?>&nbsp;</td>
-                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithadminfeed,2)." $";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeed['admin_fee'],2)." $";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdmind,2)." $";?>&nbsp;</td>
                 </tr>
                 <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
                 	<td colspan="2"  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
                 	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_b,2)." ฿";?>&nbsp;</td>
-                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeeb,2)." ฿";?>&nbsp;</td>
-                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithadminfeeb,2)." ฿";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeeb['admin_fee'],2)." ฿";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminb,2)." ฿";?>&nbsp;</td>
                 </tr>
                 <tr >
 					<td colspan="15" style=" border-left: solid 1px #fff; border-right: solid 1px #fff;">&nbsp;</td>
@@ -231,31 +238,32 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
 		               	$coamt_r2 = $coamt_r2+$rs['interest_paid'];
 		               	$coamt_r3 = $coamt_r3+$rs['penalize_paid'];
 		               	$coamt_r5 = $coamt_r5+$rs['service_paid'];
-		               	$coadminfeer = $coadminfeer + $rs['admin_fee'];
 		               	$cototal_r=$coamt_r1+$coamt_r2+$coamt_r3+$coamt_r5;
 		               	
-		               	$coaTotalWithdminfeer = $cototal_r +$coadminfeer;
 		               }elseif($rs['curr_type']==2){
 		               	$coamt_d1 = $coamt_d1+$rs['principal_paid'];
 		               	$coamt_d2 = $coamt_d2+$rs['interest_paid'];
 		               	$coamt_d3 = $coamt_d3+$rs['penalize_paid'];
 		               	$coamt_d5 = $coamt_d5+$rs['service_paid'];
-		               	$coadminfeed = $coadminfeed + $rs['admin_fee'];
 		               	$cototal_d=$coamt_d1+$coamt_d2+$coamt_d3+$coamt_d5;
 		               	
-		               	$coaTotalWithadminfeed = $cototal_d +$coadminfeed;
 		               }else{
 		               	$coamn_b1 = $coamn_b1+$rs['penalize_paid'];
 		               	$coamn_b2 = $coamn_b2+$rs['interest_paid'];
 		               	$coamn_b3 = $coamn_b3+$rs['penalize_paid'];
 		               	$coamn_b5 = $coamn_b5+$rs['service_paid'];
-		               	$coadminfeeb = $coadminfeeb + $rs['admin_fee'];
 		               	$cototal_b=$coamn_b1+$coamn_b2+$coamn_b3+$coamn_b5;
 		               	
-		               	$coaTotalWithadminfeeb = $cototal_b +$coadminfeeb;
 		               }?>
                
 <?php  }?>
+ 			<?php 	$adminfeer = $dbloan->getAdminfeeloanByCO($co_id, 1, $this->search);
+     		 		$adminfeed = $dbloan->getAdminfeeloanByCO($co_id, 2, $this->search);
+     		 		$adminfeeb = $dbloan->getAdminfeeloanByCO($co_id, 3, $this->search);
+     		 		$totalwithAdminr = $cototal_r +$adminfeer['admin_fee'];
+     		 		$totalwithAdmind = $cototal_d +$adminfeed['admin_fee'];
+     		 		$totalwithAdminb = $cototal_b +$adminfeeb['admin_fee'];
+     		 ?>
 				<tr class="style hover" style="font-family: 'Khmer OS Content';white-space: nowrap;background: #cadee3;">
 					<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php //echo $tr->translate("TOTAL");?>&nbsp;</td>
 					<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("TOTAL_COLLECT");?>&nbsp;</td>
@@ -265,20 +273,20 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
 				<tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
                 	<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
                 	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
-                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeer,2)." ៛";?>&nbsp;</td>
-                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithdminfeer,2)." ៛";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeer['admin_fee'],2)." ៛";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminr,2)." ៛";?>&nbsp;</td>
                 </tr>
                <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
                 	<td colspan="2"  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
                 	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
-                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeed,2)." $";?>&nbsp;</td>
-                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithadminfeed,2)." $";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeed['admin_fee'],2)." $";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdmind['admin_fee'],2)." $";?>&nbsp;</td>
                 </tr>
                 <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
                 	<td colspan="2"  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
                 	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_b,2)." ฿";?>&nbsp;</td>
-                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeeb,2)." ฿";?>&nbsp;</td>
-                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithadminfeeb,2)." ฿";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeeb['admin_fee'],2)." ฿";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminb,2)." ฿";?>&nbsp;</td>
                 </tr>
 </table><br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">

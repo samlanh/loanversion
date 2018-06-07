@@ -112,7 +112,7 @@ function rptLoanDisburseAction(){//release all loan
   				'status' => -1,);
   	}
   	$db  = new Report_Model_DbTable_DbLoan();
-  	$this->view->date_show=$search['end_date'];
+//   	$this->view->date_show=$search['end_date'];
   	$this->view->rsearch=$search;
 
   	$this->view->loanlate_list =$db->getALLLoanlate($search);
@@ -355,6 +355,7 @@ function rptLoanDisburseAction(){//release all loan
 	$this->view->LoanCollectionco_list =$db->getALLLoanCollectionco($search);
 	$this->view->date_show=$search['end_date'];
 	$this->view->start_date=$search['start_date'];
+	$this->view->search = $search;
   	$frm = new Loan_Form_FrmSearchGroupPayment();
   	$fm = $frm->AdvanceSearch();
   	Application_Model_Decorator::removeAllDecorator($fm);
