@@ -34,7 +34,7 @@
 <div id="divPrint">
 <style>
 .style{
-	line-height: 20px;font-size: 10px !important;
+	line-height: 20px;font-size: 12px !important;
 	font-family: 'Khmer OS Battambang';
 }
 table tr td ul li{list-style: none;line-height: 25px; font-weight: bold;}
@@ -67,12 +67,11 @@ $free_day=$key_code['value'];
                 	    <ul>
                 			<li style="text-align:center; font-size:16px; font-family:'Khmer MEF2'"><?php echo $tr->translate("BRAND_TITLE");?></li>
                 			<li style="text-align:center; font-size:13px; font-family:'Khmer MEF2'"><?php echo $tr->translate("REPORT_COLLECT_BY_CO");?></li>
-                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->date_show['start_date'])){?><?php echo date("D-d-M-Y",strtotime($this->start_date)).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->date_show));}?></li>
+                			<li style="text-align:center; font-size:13px;"><?php if(!empty($this->start_date)){?><?php echo date("D-d-M-Y",strtotime($this->start_date)).' '.$tr->translate('TO').' ';echo date("D-d-M-Y",strtotime($this->date_show));}?></li>
                 		</ul>
                 	</td>
                     <td width="20%"></td>
                 </tr> 
-               
             </table>
         </td>
     </tr>
@@ -80,33 +79,27 @@ $free_day=$key_code['value'];
 <div id="exportExcel">
 <table  width="100%" border="1" style="border-collapse:collapse; border: 1px solid #000;" cellspacing="0">
 		    <thead>
-		        <tr class="style" bgcolor="#ccc" align="center" style="font-weight:bold; line-height: 24px; background:#ccd9ff;  font-size:12px; white-space: nowrap; ">
-			      <td rowspan="2"><?php echo $tr->translate("NUM");?></th>
-	                    <th rowspan="2"><?php echo $tr->translate("BRANCH_NAME");?></th>
-	                    <th rowspan="2"><?php echo $tr->translate("LOAN_NO");?></th>	  
-	                    <th rowspan="2"><?php echo $tr->translate("CLIENT_NUM");?></th>                  
-	                    <th rowspan="2"><?php echo $tr->translate("CUSTOMER_NAME");?></th>
-	                    <th rowspan="2"><?php echo $tr->translate("INTEREST_RATE");?></th>
-	                    <?php 
-							$colspan=5;
-	                    if($level==1){$colspan=5;}?>
-	                    <th colspan="<?php echo $colspan;?>"><?php echo $tr->translate("TOTAL_PAYMENT");?></th>    
-	                    <th rowspan="2" style="white-space:nowrap; border-right:3px double black; "><?php echo $tr->translate("PAY_DATE");?></th>
-	                    <th rowspan="2"><?php echo $tr->translate("INPUT_DATE");?></th>
-	                    <th rowspan="2"><?php echo $tr->translate("RECIEPT_NO");?></th>
-	                    <!-- <th rowspan="2"><?php //echo $tr->translate("PAYMENTED");?></th> -->
-	                    <!--<th><?php //echo $tr->translate("RETURN_AMOUNT");?></th>-->
-	                    <th rowspan="2"><?php echo $tr->translate("BALANCE");?></th>
+		        <tr class="style" bgcolor="#ccc" align="center" style="text-align:center;font-weight:bold; line-height: 24px; background:#ccd9ff;  font-size:12px; white-space: nowrap; ">
+			     	 <th rowspan="2"><?php echo $tr->translate("NUM");?></th>
+	                 <th rowspan="2"><?php echo $tr->translate("BRANCH_NAME");?></th>
+	                 <th rowspan="2"><?php echo $tr->translate("LOAN_NO");?></th>	  
+	                 <th rowspan="2"><?php echo $tr->translate("CLIENT_NUM");?></th>                  
+	                 <th rowspan="2"><?php echo $tr->translate("CUSTOMER_NAME");?></th>
+	                 <th rowspan="2"><?php echo $tr->translate("INTEREST_RATE");?></th>
+	                 <?php $colspan=5; ?>
+	                 <th colspan="<?php echo $colspan;?>"><?php echo $tr->translate("TOTAL_PAYMENT");?></th>    
+	                 <th rowspan="2" style="white-space:nowrap; border-right:3px double black; "><?php echo $tr->translate("PAY_DATE");?></th>
+	                 <th rowspan="2"><?php echo $tr->translate("INPUT_DATE");?></th>
+	                 <th rowspan="2"><?php echo $tr->translate("RECIEPT_NO");?></th>
+	                 <th rowspan="2"><?php echo $tr->translate("BALANCE");?></th>
 			   	</tr>
-			   	<tr class="style"  bgcolor="#ccc" style="font-weight:bold; line-height: 24px; background:#ccd9ff;  font-size:12px; white-space: nowrap; ">
-	                	<td ><?php echo $tr->translate("PRINCIPLE");?></td>                   
-	                   <?php if($level==1){?>                 
-	                    <td><?php echo $tr->translate("INTEREST");?></td>
-	                    <?php }?>
-	                    <td><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
-	                    <td><?php echo $tr->translate("SERVICE CHARGE");?></td>
-	                    <td><?php echo $tr->translate("TOTAL");?></td>
-	                </tr>
+			   	<tr class="style"  bgcolor="#ccc" style="text-align:center;font-weight:bold; line-height: 24px; background:#ccd9ff;  font-size:12px; white-space: nowrap; ">
+	                <td><?php echo $tr->translate("PRINCIPLE");?></td>                   
+	                <td><?php echo $tr->translate("INTEREST");?></td>
+	                <td><?php echo $tr->translate("PENALIZE AMOUNT");?></td>
+	                <td><?php echo $tr->translate("SERVICE CHARGE");?></td>
+	                <td><?php echo $tr->translate("TOTAL");?></td>
+	             </tr>
 	        </thead>
 	        <?php 
 	        
@@ -159,12 +152,12 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
 					<td colspan="15" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
 				</tr>
 				<tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
-                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
+                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
                 	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
                 </tr>
                <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
-                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
-                	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." ៛";?>&nbsp;</td>
+                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
+                	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
                 </tr>
                 <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
                 	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
@@ -201,8 +194,6 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
                		<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["loan_number"];?></td>
                		<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["client_code"];?></td>
                		<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["client_name"];?></td>
-               		<!-- <td style="font-size: 10px; white-space: nowrap;"><?php //echo $rs["phone"];?></td> -->
-               		<!--<td style="font-size: 10px;"><?php //echo number_format( $rs["capital"],2).' '.$rs['currency_type'];?></td> -->
                		<td style="font-size: 12px;padding:0px 2px;"><?php echo $rs["interest_rate"];?></td>
                		<td style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($rs['principal_paid'],2).' '.$rs['currency_type'];?></td>  
                		<td style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($rs['interest_paid'],2).' '.$rs['currency_type'];?>&nbsp;</td>
@@ -239,12 +230,12 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
 					<td colspan="15" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
 				</tr>
 				<tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
-                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
+                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
                 	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
                 </tr>
                <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
-                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
-                	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." ៛";?>&nbsp;</td>
+                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
+                	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
                 </tr>
                 <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
                 	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>

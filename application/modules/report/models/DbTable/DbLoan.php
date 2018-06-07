@@ -656,9 +656,10 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  AND l.`customer_id`=crm.`client_id`
 				  and l.id = ld.loan_id
 				  and l.id = crm.loan_id ";
-      	$where ='';
+      	$from_date =(empty($search['start_date']))? '1': " crm.`date_input` >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " crm.`date_input` <= '".$search['end_date']." 23:59:59'";
+      	$where= " AND ".$from_date." AND ".$to_date;
       	if(!empty($search['advance_search'])){
-      		//print_r($search);
       		$s_where = array();
       		$s_search = addslashes(trim($search['advance_search']));
       		$s_where[] = " l.`loan_number` LIKE '%{$s_search}%'";
@@ -672,10 +673,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       	if($search['status']!=""){
       		$where.= " AND crm.status = ".$search['status'];
       	}
-      	 
-      	if(!empty($search['start_date']) or !empty($search['end_date'])){
-      		$where.=" AND crm.`date_input` BETWEEN '$start_date' AND '$end_date'";
-      	}
+      	
       	if($search['client_name']>0){
       		$where.=" AND crmd.`client_id`= ".$search['client_name'];
       	}
@@ -689,8 +687,8 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
       		$where.=" AND crm.`payment_option`= ".$search['paymnet_type'];
       	}
       	 
-      //	`d`.`crm_id`
       	$groupby="  GROUP BY crmd.`receipt_id` ORDER BY crm.`co_id` ASC , crm.`date_input` DESC ";
+      	
       	return $db->fetchAll($sql.$where.$groupby);
       }
       public function getALLLTotalFee($search=null){ // may Be Not use
