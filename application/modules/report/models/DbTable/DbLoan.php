@@ -621,6 +621,7 @@ class Report_Model_DbTable_DbLoan extends Zend_Db_Table_Abstract
 				  l.`loan_type`,
 				  l.`total_duration`,
 				  l.`time_collect`,
+				  l.`admin_fee`,
 				  l.`collect_typeterm`,
 				  l.`date_release`,
 				  l.`date_line`,
@@ -2117,6 +2118,24 @@ AND cl.client_id = $client_id )";
       		$where.=" AND r.`branch_id`= ".$search['branch_id'];
       	}
       	$where.=" GROUP BY r.`currency_type`";
+      	return $db->fetchAll($sql.$where);
+      }
+      function incomeAdminFeePawnshop($search){
+      	$db = $this->getAdapter();
+      	$sql="SELECT SUM(p.`admin_fee`) AS tAdminfee, p.`currency_type` FROM `ln_pawnshop` AS p WHERE p.`status`=1
+      	";
+      	$where="";
+      	$from_date =(empty($search['start_date']))? '1': " p.`create_date` >= '".$search['start_date']." 00:00:00'";
+      	$to_date = (empty($search['end_date']))? '1': " p.`create_date` <= '".$search['end_date']." 23:59:59'";
+      	$where = " AND ".$from_date." AND ".$to_date;
+      	 
+      	if($search['currency_type']>0){
+      		$where.= " AND p.`currency_type` = ".$search['currency_type'];
+      	}
+      	if($search['branch_id']>0){
+      		$where.=" AND p.`branch_id` = ".$search['branch_id'];
+      	}
+      	$where.=" GROUP BY p.`currency_type`";
       	return $db->fetchAll($sql.$where);
       }
  }

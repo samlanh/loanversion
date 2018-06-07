@@ -971,6 +971,9 @@ function rptLoanTrasferzoneAction(){//release all loan
  			'pawn_servicefeer'=>0,
  			'pawn_servicefeed'=>0,
  			'pawn_servicefeeb'=>0,
+ 			'pawn_adminfeer'=>0,
+ 			'pawn_adminfeed'=>0,
+ 			'pawn_adminfeeb'=>0,
  			
  		);
  	$incomecollect = $db->getLoanCollectIcome($search);
@@ -1035,6 +1038,18 @@ function rptLoanTrasferzoneAction(){//release all loan
  			$income['pawn_interestb']=$pwin['total_interestpaid'];
  			$income['pawn_penalizeb']=$pwin['total_penalizepaid'];
  			$income['pawn_servicefeeb']=$pwin['total_servicepaid'];
+ 		}
+ 	}
+ 	$adminfeePawn = $db->incomeAdminFeePawnshop($search);
+ 	if (!empty($adminfeePawn)){
+ 		foreach ($adminfeePawn as $pwin){
+	 		if($pwin['currency_type']==1){//riel
+	 			$income['pawn_adminfeer']=$pwin['tAdminfee'];
+	 		}elseif($pwin['currency_type']==2){//dollar
+	 			$income['pawn_adminfeed']=$pwin['tAdminfee'];
+	 		}else{//bath
+	 			$income['pawn_adminfeeb']=$pwin['tAdminfee'];
+	 		}
  		}
  	}
  	

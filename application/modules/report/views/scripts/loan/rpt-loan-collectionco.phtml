@@ -12,23 +12,27 @@
 <script>
      dojo.require("dijit.form.DateTextBox");
 </script>
-<form method="post">
-<table style="font-family: 'Khmer OS Content'; width:29cm;margin:0 auto;" >
-	  <tr>
-   			<td><?php echo $frm->getElement("advance_search");?></td>
-   			<td><?php echo $frm->getElement('branch_id');?></td>
-   			<td><?php echo $frm->getElement('client_name');?></td>
-   			<td><?php echo $frm->getElement('co_id');?></td>
-   	  </tr>
-   	 <tr>
-   	 		<td><?php echo $frm->getElement('paymnet_type');?></td>
-   			<td><?php echo $frm->getElement('start_date');?></td>
-   			<td><?php echo $frm->getElement('end_date');?></td>
-   			<td><?php echo $frm->getElement('status');?></td>
-   			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
-   	  </tr>
-</table>
-</form>
+<div style="width:100%; margin:0 auto; clear:both;">
+	<div style=" width:28cm;padding:0px 0.5cm">
+		<form method="post">
+			<table style="font-family: 'Khmer OS Content'; width:100%;" >
+				  <tr>
+			   			<td><?php echo $frm->getElement("advance_search");?></td>
+			   			<td><?php echo $frm->getElement('branch_id');?></td>
+			   			<td><?php echo $frm->getElement('client_name');?></td>
+			   			<td><?php echo $frm->getElement('co_id');?></td>
+			   	  </tr>
+			   	 <tr>
+			   	 		<td><?php echo $frm->getElement('paymnet_type');?></td>
+			   			<td><?php echo $frm->getElement('start_date');?></td>
+			   			<td><?php echo $frm->getElement('end_date');?></td>
+			   			<td><?php echo $frm->getElement('status');?></td>
+			   			<td><button iconclass="dijitIconSearch" dojoType="dijit.form.Button" showLabel="true" type="submit"><?php echo $tr->translate("SEARCH");?></button></td>
+			   	  </tr>
+			</table>
+		</form>
+	</div>
+</div>
 <div style="width:100%; margin:0 auto; clear:both;">
 <div style=" width:28cm;min-height:22cm; margin:0 auto; border: 1px dotted #ccc; padding:0px 0.5cm">
 <div id="divPrint">
@@ -118,9 +122,17 @@ $free_day=$key_code['value'];
 	        	$coamn_b3 = 0;
 	        	$coamn_b5 = 0;
 	        	
+	        	$coadminfeer = 0;
+	        	$coadminfeed = 0;
+	        	$coadminfeeb = 0;
+	        	
 	        	$cototal_b=0;
 	        	$cototal_d=0;
 	        	$cototal_r=0;
+	        	
+	        	$coaTotalWithdminfeer = 0;
+	        	$coaTotalWithadminfeed = 0;
+	        	$coaTotalWithadminfeeb = 0;
 	        ?>
 <?php 
 $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollectionco_list as $key => $rs){?>
@@ -149,19 +161,28 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
      <?php if($co_id!=$rs["co_id"]){ ?>
      		 <?php if ($key>0){?>
 				<tr class="style hover" style="font-family: 'Khmer OS Content';white-space: nowrap;background: #cadee3;">
-					<td colspan="15" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
+					<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php //echo $tr->translate("TOTAL");?>&nbsp;</td>
+					<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("TOTAL_COLLECT");?>&nbsp;</td>
+					<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("ADMIN_FEE");?>&nbsp;</td>
+					<td colspan="9" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
 				</tr>
 				<tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
-                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
-                	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeer,2)." ៛";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithdminfeer,2)." ៛";?>&nbsp;</td>
                 </tr>
                <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
-                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
-                	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeed,2)." $";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithadminfeed,2)." $";?>&nbsp;</td>
                 </tr>
                 <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
-                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
-                	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_b,2)." ฿";?>&nbsp;</td>
+                	<td colspan="2"  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_b,2)." ฿";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeeb,2)." ฿";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithadminfeeb,2)." ฿";?>&nbsp;</td>
                 </tr>
                 <tr >
 					<td colspan="15" style=" border-left: solid 1px #fff; border-right: solid 1px #fff;">&nbsp;</td>
@@ -210,36 +231,54 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
 		               	$coamt_r2 = $coamt_r2+$rs['interest_paid'];
 		               	$coamt_r3 = $coamt_r3+$rs['penalize_paid'];
 		               	$coamt_r5 = $coamt_r5+$rs['service_paid'];
+		               	$coadminfeer = $coadminfeer + $rs['admin_fee'];
 		               	$cototal_r=$coamt_r1+$coamt_r2+$coamt_r3+$coamt_r5;
+		               	
+		               	$coaTotalWithdminfeer = $cototal_r +$coadminfeer;
 		               }elseif($rs['curr_type']==2){
 		               	$coamt_d1 = $coamt_d1+$rs['principal_paid'];
 		               	$coamt_d2 = $coamt_d2+$rs['interest_paid'];
 		               	$coamt_d3 = $coamt_d3+$rs['penalize_paid'];
 		               	$coamt_d5 = $coamt_d5+$rs['service_paid'];
+		               	$coadminfeed = $coadminfeed + $rs['admin_fee'];
 		               	$cototal_d=$coamt_d1+$coamt_d2+$coamt_d3+$coamt_d5;
+		               	
+		               	$coaTotalWithadminfeed = $cototal_d +$coadminfeed;
 		               }else{
 		               	$coamn_b1 = $coamn_b1+$rs['penalize_paid'];
 		               	$coamn_b2 = $coamn_b2+$rs['interest_paid'];
 		               	$coamn_b3 = $coamn_b3+$rs['penalize_paid'];
 		               	$coamn_b5 = $coamn_b5+$rs['service_paid'];
+		               	$coadminfeeb = $coadminfeeb + $rs['admin_fee'];
 		               	$cototal_b=$coamn_b1+$coamn_b2+$coamn_b3+$coamn_b5;
+		               	
+		               	$coaTotalWithadminfeeb = $cototal_b +$coadminfeeb;
 		               }?>
                
 <?php  }?>
 				<tr class="style hover" style="font-family: 'Khmer OS Content';white-space: nowrap;background: #cadee3;">
-					<td colspan="15" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
+					<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php //echo $tr->translate("TOTAL");?>&nbsp;</td>
+					<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("TOTAL_COLLECT");?>&nbsp;</td>
+					<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("ADMIN_FEE");?>&nbsp;</td>
+					<td colspan="9" style="font-size: 12px;padding:0px 2px; font-weight: 700;">&nbsp;<?php echo $tr->translate("TOTAL");?>&nbsp;</td>
 				</tr>
 				<tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
-                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
-                	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("REILS");?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_r,2)." ៛";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeer,2)." ៛";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithdminfeer,2)." ៛";?>&nbsp;</td>
                 </tr>
                <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
-                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
-                	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
+                	<td colspan="2"  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("DOLLAR");?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_d,2)." $";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeed,2)." $";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithadminfeed,2)." $";?>&nbsp;</td>
                 </tr>
                 <tr class="style hover" style="font-family: 'Khmer OS Content'; white-space: nowrap;">
-                	<td  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
-                	<td colspan="13" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_b,2)." ฿";?>&nbsp;</td>
+                	<td colspan="2"  style="font-size: 12px;padding:0px 2px; font-weight: 700;" colspan="2">&nbsp;<?php echo $tr->translate("BATH");?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($cototal_b,2)." ฿";?>&nbsp;</td>
+                	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coadminfeeb,2)." ฿";?>&nbsp;</td>
+                	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($coaTotalWithadminfeeb,2)." ฿";?>&nbsp;</td>
                 </tr>
 </table><br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">

@@ -145,17 +145,17 @@ th{padding: 5px;}
                 <tr class="styleover" >
                		<td>&nbsp;-&nbsp;ចំណូលពី សេវារដ្ឋបាលសរុប</td>
                		<td>&nbsp;&nbsp;</td>
-               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['pawn_servicefeed'],2);?></td>
-               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['pawn_servicefeer'],2);?></td>
-               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['pawn_servicefeeb'],2);?></td>
+               		<td>&nbsp;$&nbsp;<?php echo number_format($rsincome['pawn_adminfeed'],2);?></td>
+               		<td>&nbsp;៛&nbsp;<?php echo number_format($rsincome['pawn_adminfeer'],2);?></td>
+               		<td>&nbsp;฿&nbsp;<?php echo number_format($rsincome['pawn_adminfeeb'],2);?></td>
                 </tr>
 				<tr class="styleover">
                		<td>&nbsp;&nbsp;<strong style="font-family:'Khmer MEF2';font-size: 16px;">ចំណូលសរុបរួមទាំងអស់</strong></td>
                		<td>&nbsp;&nbsp;</td>
                		<?php 
-	               		$incomed = $rsincome["interest_paidd"]+$rsincome["penalize_paidd"]+$rsincome["service_paidd"]+($rsincome["adminfee_d"]+$rsincome["other_feed"])+$rsincome['other_incomed']+($rsincome['pawn_interestd']+$rsincome['pawn_penalized']+$rsincome['pawn_servicefeed']);
-	               		$incomer = $rsincome["interest_paidr"]+$rsincome["penalize_paidr"]+$rsincome["service_paidr"]+($rsincome["adminfee_r"]+$rsincome["other_feer"])+$rsincome['other_incomer']+($rsincome['pawn_interestr']+$rsincome['pawn_penalizer']+$rsincome['pawn_servicefeer']);
-	               		$incomeb = $rsincome["interest_paidb"]+$rsincome["penalize_paidb"]+$rsincome["service_paidb"]+($rsincome["adminfee_b"]+$rsincome["other_feeb"])+$rsincome['other_incomeb']+($rsincome['pawn_interestb']+$rsincome['pawn_penalizeb']+$rsincome['pawn_servicefeeb']);
+	               		$incomed = $rsincome["interest_paidd"]+$rsincome["penalize_paidd"]+$rsincome["service_paidd"]+($rsincome["adminfee_d"]+$rsincome["other_feed"])+$rsincome['other_incomed']+($rsincome['pawn_interestd']+$rsincome['pawn_penalized']+$rsincome['pawn_adminfeed']);
+	               		$incomer = $rsincome["interest_paidr"]+$rsincome["penalize_paidr"]+$rsincome["service_paidr"]+($rsincome["adminfee_r"]+$rsincome["other_feer"])+$rsincome['other_incomer']+($rsincome['pawn_interestr']+$rsincome['pawn_penalizer']+$rsincome['pawn_adminfeer']);
+	               		$incomeb = $rsincome["interest_paidb"]+$rsincome["penalize_paidb"]+$rsincome["service_paidb"]+($rsincome["adminfee_b"]+$rsincome["other_feeb"])+$rsincome['other_incomeb']+($rsincome['pawn_interestb']+$rsincome['pawn_penalizeb']+$rsincome['pawn_adminfeeb']);
                		?>
                		<td><strong style="border-bottom: 1px double #000;font-family:'Arial','Khmer OS Battambang'; ">&nbsp;$&nbsp;<?php echo number_format($incomed,2);?></strong></td>
                 	<td><strong style="border-bottom: 1px double #000;font-family:'Arial','Khmer OS Battambang'; ">&nbsp;៛&nbsp;<?php echo number_format($incomer,2);?></strong></td>
