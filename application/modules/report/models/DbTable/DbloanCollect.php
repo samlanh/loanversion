@@ -12,7 +12,7 @@ class Report_Model_DbTable_DbloanCollect extends Zend_Db_Table_Abstract
     	$start_date = $search['start_date'];
    		$end_date = $search['end_date'];
     	$sql = "SELECT *,
-		(SELECT symbol FROM `ln_currency` WHERE id=v_newloancolect.currency_type LIMIT 1) AS currencyname
+			(SELECT symbol FROM `ln_currency` WHERE id=v_newloancolect.currency_type LIMIT 1) AS currencyname
     	 FROM 
     		v_newloancolect WHERE 1 ";
     	$where ='';

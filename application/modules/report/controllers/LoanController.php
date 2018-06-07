@@ -107,18 +107,18 @@ function rptLoanDisburseAction(){//release all loan
   				'branch_id'=>0,
   				'client_name'=>'',
   				'co_id'=>0,
-  				'start_date'=> date('Y-m-d'),
+  				'start_date'=>date('Y-m-d'),
   				'end_date'=>date('Y-m-d'),
   				'status' => -1,);
   	}
   	$db  = new Report_Model_DbTable_DbLoan();
   	$this->view->date_show=$search['end_date'];
-  	$this->view->list_end_date=$search;
-  	$row = $dbs->getAllLnClient($search);
-  	$this->view->tran_schedule=$row;
+  	$this->view->rsearch=$search;
+
   	$this->view->loanlate_list =$db->getALLLoanlate($search);
-  	 
-  	$this->view->list_end_dates = $search["end_date"];
+  	//$row = $dbs->getAllLnClient($search);
+  	// $this->view->tran_schedule=$row;
+  	
   	$frm = new Loan_Form_FrmSearchLoan();
   	$frm = $frm->AdvanceSearch();
   	Application_Model_Decorator::removeAllDecorator($frm);
