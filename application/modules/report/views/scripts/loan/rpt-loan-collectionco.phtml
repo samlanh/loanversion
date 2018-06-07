@@ -257,6 +257,7 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
 		               }?>
                
 <?php  }?>
+<?php if (!empty($co_id)){?>
  			<?php 	$adminfeer = $dbloan->getAdminfeeloanByCO($co_id, 1, $this->search);
      		 		$adminfeed = $dbloan->getAdminfeeloanByCO($co_id, 2, $this->search);
      		 		$adminfeeb = $dbloan->getAdminfeeloanByCO($co_id, 3, $this->search);
@@ -288,6 +289,7 @@ $is_set =0 ;if(!empty($this->LoanCollectionco_list)) foreach ($this->LoanCollect
                 	<td colspan="2" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($adminfeeb['admin_fee'],2)." ฿";?>&nbsp;</td>
                 	<td colspan="9" style="font-size: 12px;padding:0px 2px;">&nbsp;<?php echo number_format($totalwithAdminb,2)." ฿";?>&nbsp;</td>
                 </tr>
+                <?php }?>
 </table><br />
              <table border="1"​ style="border-collapse:collapse;border:1px solid #000; font-size:11px;" width="100%" cellspacing="0">
                 <thead>
